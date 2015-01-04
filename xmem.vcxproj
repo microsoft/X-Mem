@@ -1,0 +1,424 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{709CB7CE-0DA5-4F1A-A51B-EB032E275AAE}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectName>xmem</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\t-magott\Code\MemoryVariability\yammbt\src;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <IncludePath>src;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+      <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level2</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <PreprocessKeepComments>false</PreprocessKeepComments>
+      <AssemblerOutput>NoListing</AssemblerOutput>
+      <UseUnicodeForAssemblerListing>true</UseUnicodeForAssemblerListing>
+      <CompileAsManaged>false</CompileAsManaged>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <Version>1.0</Version>
+    </Link>
+    <MASM>
+      <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </MASM>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\benchmark\Benchmark.cpp" />
+    <ClCompile Include="src\benchmark\BenchmarkManager.cpp" />
+    <ClCompile Include="src\benchmark\benchmark_kernels\benchmark_kernels.cpp" />
+    <ClCompile Include="src\benchmark\ThroughputBenchmarkWorker.cpp" />
+    <ClCompile Include="src\common\common.cpp" />
+    <ClCompile Include="src\common\win\third_party\win_common_third_party.cpp" />
+    <ClCompile Include="src\config\Configurator.cpp" />
+    <ClCompile Include="src\benchmark\LatencyBenchmark.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\power\NativeDRAMPowerReader.cpp" />
+    <ClCompile Include="src\power\PowerReader.cpp" />
+    <ClCompile Include="src\thread\Runnable.cpp" />
+    <ClCompile Include="src\thread\Thread.cpp" />
+    <ClCompile Include="src\timers\win\QPCTimer.cpp" />
+    <ClCompile Include="src\common\win\win_common.cpp" />
+    <ClCompile Include="src\benchmark\ThroughputBenchmark.cpp" />
+    <ClCompile Include="src\timers\Timer.cpp" />
+    <ClCompile Include="src\timers\x86_64\TSCTimer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\benchmark\Benchmark.h" />
+    <ClInclude Include="src\benchmark\BenchmarkManager.h" />
+    <ClInclude Include="src\benchmark\benchmark_kernels\benchmark_kernels.h" />
+    <ClInclude Include="src\benchmark\ThroughputBenchmarkWorker.h" />
+    <ClInclude Include="src\common\common.h" />
+    <ClInclude Include="src\config\Configurator.h" />
+    <ClInclude Include="src\config\third_party\MyArg.h" />
+    <ClInclude Include="src\common\win\third_party\win_CPdhQuery.h" />
+    <ClInclude Include="src\benchmark\LatencyBenchmark.h" />
+    <ClInclude Include="src\config\third_party\ExampleArg.h" />
+    <ClInclude Include="src\power\NativeDRAMPowerReader.h" />
+    <ClInclude Include="src\config\third_party\optionparser.h" />
+    <ClInclude Include="src\power\PowerReader.h" />
+    <ClInclude Include="src\thread\Runnable.h" />
+    <ClInclude Include="src\thread\Thread.h" />
+    <ClInclude Include="src\timers\win\QPCTimer.h" />
+    <ClInclude Include="src\common\win\third_party\win_common_third_party.h" />
+    <ClInclude Include="src\common\win\win_common.h" />
+    <ClInclude Include="src\benchmark\ThroughputBenchmark.h" />
+    <ClInclude Include="src\timers\Timer.h" />
+    <ClInclude Include="src\timers\x86_64\TSCTimer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="doc\html\annotated.html" />
+    <None Include="doc\html\classes.html" />
+    <None Include="doc\html\classmembench_1_1_benchmark-members.html" />
+    <None Include="doc\html\classmembench_1_1_benchmark.html" />
+    <None Include="doc\html\classmembench_1_1_benchmark_manager-members.html" />
+    <None Include="doc\html\classmembench_1_1_benchmark_manager.html" />
+    <None Include="doc\html\classmembench_1_1_configurator-members.html" />
+    <None Include="doc\html\classmembench_1_1_configurator.html" />
+    <None Include="doc\html\classmembench_1_1_q_p_c_timer-members.html" />
+    <None Include="doc\html\classmembench_1_1_q_p_c_timer.html" />
+    <None Include="doc\html\classmembench_1_1_throughput_benchmark-members.html" />
+    <None Include="doc\html\classmembench_1_1_throughput_benchmark.html" />
+    <None Include="doc\html\classmembench_1_1_t_s_c_timer-members.html" />
+    <None Include="doc\html\classmembench_1_1_t_s_c_timer.html" />
+    <None Include="doc\html\classoption_1_1_option-members.html" />
+    <None Include="doc\html\classoption_1_1_option.html" />
+    <None Include="doc\html\classoption_1_1_parser-members.html" />
+    <None Include="doc\html\classoption_1_1_parser.html" />
+    <None Include="doc\html\classoption_1_1_parser_1_1_store_option_action-members.html" />
+    <None Include="doc\html\classoption_1_1_parser_1_1_store_option_action.html" />
+    <None Include="doc\html\classoption_1_1_print_usage_implementation_1_1_line_part_iterator-members.html" />
+    <None Include="doc\html\classoption_1_1_print_usage_implementation_1_1_line_part_iterator.html" />
+    <None Include="doc\html\classoption_1_1_print_usage_implementation_1_1_line_wrapper-members.html" />
+    <None Include="doc\html\classoption_1_1_print_usage_implementation_1_1_line_wrapper.html" />
+    <None Include="doc\html\classoption_1_1_stats_1_1_count_options_action-members.html" />
+    <None Include="doc\html\classoption_1_1_stats_1_1_count_options_action.html" />
+    <None Include="doc\html\common_8cpp.html" />
+    <None Include="doc\html\common_8h.html" />
+    <None Include="doc\html\common_8h_source.html" />
+    <None Include="doc\html\cpuinfo_8cpp.html" />
+    <None Include="doc\html\cpuinfo_8h.html" />
+    <None Include="doc\html\cpuinfo_8h_source.html" />
+    <None Include="doc\html\dir_116b48ea479403f73ed8ee1b8cd8f225.html" />
+    <None Include="doc\html\dir_68267d1309a1af8e8297ef4c3efbcdba.html" />
+    <None Include="doc\html\dir_f612f7bc9be841abebe3ba4e5be41e84.html" />
+    <None Include="doc\html\files.html" />
+    <None Include="doc\html\functions.html" />
+    <None Include="doc\html\functions_func.html" />
+    <None Include="doc\html\functions_rela.html" />
+    <None Include="doc\html\functions_type.html" />
+    <None Include="doc\html\functions_vars.html" />
+    <None Include="doc\html\globals.html" />
+    <None Include="doc\html\globals_defs.html" />
+    <None Include="doc\html\globals_func.html" />
+    <None Include="doc\html\hierarchy.html" />
+    <None Include="doc\html\index.html" />
+    <None Include="doc\html\main_8cpp.html" />
+    <None Include="doc\html\namespacemembench.html" />
+    <None Include="doc\html\namespacemembers.html" />
+    <None Include="doc\html\namespacemembers_enum.html" />
+    <None Include="doc\html\namespacemembers_eval.html" />
+    <None Include="doc\html\namespacemembers_func.html" />
+    <None Include="doc\html\namespacemembers_type.html" />
+    <None Include="doc\html\namespacemembers_vars.html" />
+    <None Include="doc\html\namespaceoption.html" />
+    <None Include="doc\html\namespaces.html" />
+    <None Include="doc\html\optionparser_8h.html" />
+    <None Include="doc\html\optionparser_8h_source.html" />
+    <None Include="doc\html\search\all_0.html" />
+    <None Include="doc\html\search\all_1.html" />
+    <None Include="doc\html\search\all_10.html" />
+    <None Include="doc\html\search\all_11.html" />
+    <None Include="doc\html\search\all_12.html" />
+    <None Include="doc\html\search\all_13.html" />
+    <None Include="doc\html\search\all_14.html" />
+    <None Include="doc\html\search\all_15.html" />
+    <None Include="doc\html\search\all_16.html" />
+    <None Include="doc\html\search\all_17.html" />
+    <None Include="doc\html\search\all_2.html" />
+    <None Include="doc\html\search\all_3.html" />
+    <None Include="doc\html\search\all_4.html" />
+    <None Include="doc\html\search\all_5.html" />
+    <None Include="doc\html\search\all_6.html" />
+    <None Include="doc\html\search\all_7.html" />
+    <None Include="doc\html\search\all_8.html" />
+    <None Include="doc\html\search\all_9.html" />
+    <None Include="doc\html\search\all_a.html" />
+    <None Include="doc\html\search\all_b.html" />
+    <None Include="doc\html\search\all_c.html" />
+    <None Include="doc\html\search\all_d.html" />
+    <None Include="doc\html\search\all_e.html" />
+    <None Include="doc\html\search\all_f.html" />
+    <None Include="doc\html\search\classes_0.html" />
+    <None Include="doc\html\search\classes_1.html" />
+    <None Include="doc\html\search\classes_2.html" />
+    <None Include="doc\html\search\classes_3.html" />
+    <None Include="doc\html\search\classes_4.html" />
+    <None Include="doc\html\search\classes_5.html" />
+    <None Include="doc\html\search\classes_6.html" />
+    <None Include="doc\html\search\classes_7.html" />
+    <None Include="doc\html\search\classes_8.html" />
+    <None Include="doc\html\search\classes_9.html" />
+    <None Include="doc\html\search\classes_a.html" />
+    <None Include="doc\html\search\classes_b.html" />
+    <None Include="doc\html\search\classes_c.html" />
+    <None Include="doc\html\search\defines_0.html" />
+    <None Include="doc\html\search\defines_1.html" />
+    <None Include="doc\html\search\defines_2.html" />
+    <None Include="doc\html\search\defines_3.html" />
+    <None Include="doc\html\search\defines_4.html" />
+    <None Include="doc\html\search\defines_5.html" />
+    <None Include="doc\html\search\defines_6.html" />
+    <None Include="doc\html\search\enums_0.html" />
+    <None Include="doc\html\search\enums_1.html" />
+    <None Include="doc\html\search\enums_2.html" />
+    <None Include="doc\html\search\enums_3.html" />
+    <None Include="doc\html\search\enums_4.html" />
+    <None Include="doc\html\search\enumvalues_0.html" />
+    <None Include="doc\html\search\enumvalues_1.html" />
+    <None Include="doc\html\search\enumvalues_2.html" />
+    <None Include="doc\html\search\enumvalues_3.html" />
+    <None Include="doc\html\search\enumvalues_4.html" />
+    <None Include="doc\html\search\enumvalues_5.html" />
+    <None Include="doc\html\search\enumvalues_6.html" />
+    <None Include="doc\html\search\enumvalues_7.html" />
+    <None Include="doc\html\search\enumvalues_8.html" />
+    <None Include="doc\html\search\enumvalues_9.html" />
+    <None Include="doc\html\search\files_0.html" />
+    <None Include="doc\html\search\files_1.html" />
+    <None Include="doc\html\search\files_2.html" />
+    <None Include="doc\html\search\files_3.html" />
+    <None Include="doc\html\search\files_4.html" />
+    <None Include="doc\html\search\files_5.html" />
+    <None Include="doc\html\search\functions_0.html" />
+    <None Include="doc\html\search\functions_1.html" />
+    <None Include="doc\html\search\functions_10.html" />
+    <None Include="doc\html\search\functions_11.html" />
+    <None Include="doc\html\search\functions_12.html" />
+    <None Include="doc\html\search\functions_13.html" />
+    <None Include="doc\html\search\functions_14.html" />
+    <None Include="doc\html\search\functions_2.html" />
+    <None Include="doc\html\search\functions_3.html" />
+    <None Include="doc\html\search\functions_4.html" />
+    <None Include="doc\html\search\functions_5.html" />
+    <None Include="doc\html\search\functions_6.html" />
+    <None Include="doc\html\search\functions_7.html" />
+    <None Include="doc\html\search\functions_8.html" />
+    <None Include="doc\html\search\functions_9.html" />
+    <None Include="doc\html\search\functions_a.html" />
+    <None Include="doc\html\search\functions_b.html" />
+    <None Include="doc\html\search\functions_c.html" />
+    <None Include="doc\html\search\functions_d.html" />
+    <None Include="doc\html\search\functions_e.html" />
+    <None Include="doc\html\search\functions_f.html" />
+    <None Include="doc\html\search\namespaces_0.html" />
+    <None Include="doc\html\search\namespaces_1.html" />
+    <None Include="doc\html\search\nomatches.html" />
+    <None Include="doc\html\search\related_0.html" />
+    <None Include="doc\html\search\typedefs_0.html" />
+    <None Include="doc\html\search\typedefs_1.html" />
+    <None Include="doc\html\search\typedefs_2.html" />
+    <None Include="doc\html\search\typedefs_3.html" />
+    <None Include="doc\html\search\variables_0.html" />
+    <None Include="doc\html\search\variables_1.html" />
+    <None Include="doc\html\search\variables_2.html" />
+    <None Include="doc\html\search\variables_3.html" />
+    <None Include="doc\html\search\variables_4.html" />
+    <None Include="doc\html\search\variables_5.html" />
+    <None Include="doc\html\search\variables_6.html" />
+    <None Include="doc\html\search\variables_7.html" />
+    <None Include="doc\html\search\variables_8.html" />
+    <None Include="doc\html\search\variables_9.html" />
+    <None Include="doc\html\search\variables_a.html" />
+    <None Include="doc\html\search\variables_b.html" />
+    <None Include="doc\html\search\variables_c.html" />
+    <None Include="doc\html\search\variables_d.html" />
+    <None Include="doc\html\search\variables_e.html" />
+    <None Include="doc\html\search\variables_f.html" />
+    <None Include="doc\html\structoption_1_1_arg-members.html" />
+    <None Include="doc\html\structoption_1_1_arg.html" />
+    <None Include="doc\html\structoption_1_1_descriptor-members.html" />
+    <None Include="doc\html\structoption_1_1_descriptor.html" />
+    <None Include="doc\html\structoption_1_1_my_arg-members.html" />
+    <None Include="doc\html\structoption_1_1_my_arg.html" />
+    <None Include="doc\html\structoption_1_1_parser_1_1_action-members.html" />
+    <None Include="doc\html\structoption_1_1_parser_1_1_action.html" />
+    <None Include="doc\html\structoption_1_1_print_usage_implementation-members.html" />
+    <None Include="doc\html\structoption_1_1_print_usage_implementation.html" />
+    <None Include="doc\html\structoption_1_1_print_usage_implementation_1_1_function_writer-members.html" />
+    <None Include="doc\html\structoption_1_1_print_usage_implementation_1_1_function_writer.html" />
+    <None Include="doc\html\structoption_1_1_print_usage_implementation_1_1_i_string_writer-members.html" />
+    <None Include="doc\html\structoption_1_1_print_usage_implementation_1_1_i_string_writer.html" />
+    <None Include="doc\html\structoption_1_1_print_usage_implementation_1_1_o_stream_writer-members.html" />
+    <None Include="doc\html\structoption_1_1_print_usage_implementation_1_1_o_stream_writer.html" />
+    <None Include="doc\html\structoption_1_1_print_usage_implementation_1_1_stream_writer-members.html" />
+    <None Include="doc\html\structoption_1_1_print_usage_implementation_1_1_stream_writer.html" />
+    <None Include="doc\html\structoption_1_1_print_usage_implementation_1_1_syscall_writer-members.html" />
+    <None Include="doc\html\structoption_1_1_print_usage_implementation_1_1_syscall_writer.html" />
+    <None Include="doc\html\structoption_1_1_print_usage_implementation_1_1_temporary_writer-members.html" />
+    <None Include="doc\html\structoption_1_1_print_usage_implementation_1_1_temporary_writer.html" />
+    <None Include="doc\html\structoption_1_1_stats-members.html" />
+    <None Include="doc\html\structoption_1_1_stats.html" />
+    <None Include="doc\html\_benchmark_8cpp.html" />
+    <None Include="doc\html\_benchmark_8h.html" />
+    <None Include="doc\html\_benchmark_8h_source.html" />
+    <None Include="doc\html\_benchmark_manager_8cpp.html" />
+    <None Include="doc\html\_benchmark_manager_8h.html" />
+    <None Include="doc\html\_benchmark_manager_8h_source.html" />
+    <None Include="doc\html\_configurator_8cpp.html" />
+    <None Include="doc\html\_configurator_8h.html" />
+    <None Include="doc\html\_configurator_8h_source.html" />
+    <None Include="doc\html\_my_arg_8h.html" />
+    <None Include="doc\html\_my_arg_8h_source.html" />
+    <None Include="doc\html\_q_p_c_timer_8cpp.html" />
+    <None Include="doc\html\_q_p_c_timer_8h.html" />
+    <None Include="doc\html\_q_p_c_timer_8h_source.html" />
+    <None Include="doc\html\_throughput_benchmark_8cpp.html" />
+    <None Include="doc\html\_throughput_benchmark_8h.html" />
+    <None Include="doc\html\_throughput_benchmark_8h_source.html" />
+    <None Include="doc\html\_t_s_c_timer_8cpp.html" />
+    <None Include="doc\html\_t_s_c_timer_8h.html" />
+    <None Include="doc\html\_t_s_c_timer_8h_source.html" />
+    <None Include="Doxyfile" />
+    <None Include="README" />
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="src\benchmark\benchmark_kernels\asm_dummy_forwSequentialLoop_Word256.asm" />
+    <MASM Include="src\benchmark\benchmark_kernels\asm_dummy_revSequentialLoop_Word256.asm" />
+    <MASM Include="src\benchmark\benchmark_kernels\asm_forwSequentialRead_Word256.asm">
+      <FileType>Document</FileType>
+    </MASM>
+    <MASM Include="src\benchmark\benchmark_kernels\asm_forwSequentialWrite_Word256.asm" />
+    <MASM Include="src\benchmark\benchmark_kernels\asm_revSequentialRead_Word256.asm" />
+    <MASM Include="src\benchmark\benchmark_kernels\asm_revSequentialWrite_Word256.asm" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  </ImportGroup>
+</Project>
