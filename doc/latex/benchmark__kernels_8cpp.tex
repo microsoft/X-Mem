@@ -1,0 +1,40 @@
+\hypertarget{benchmark__kernels_8cpp}{}\section{src/benchmark/benchmark\+\_\+kernels/benchmark\+\_\+kernels.cpp File Reference}
+\label{benchmark__kernels_8cpp}\index{src/benchmark/benchmark\+\_\+kernels/benchmark\+\_\+kernels.\+cpp@{src/benchmark/benchmark\+\_\+kernels/benchmark\+\_\+kernels.\+cpp}}
+
+
+Implementation file for benchmark kernel functions for doing the actual work we care about. \+:)  
+
+
+{\ttfamily \#include \char`\"{}benchmark\+\_\+kernels.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$common/common.\+h$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{benchmark__kernels_8cpp_ae5139dd120a619f3cba688b6c073ff06}{}int {\bfseries asm\+\_\+forw\+Sequential\+Read\+\_\+\+Word256} (Word256\+\_\+t $\ast$first\+\_\+word, Word256\+\_\+t $\ast$last\+\_\+word)\label{benchmark__kernels_8cpp_ae5139dd120a619f3cba688b6c073ff06}
+
+\item 
+\hypertarget{benchmark__kernels_8cpp_adae621fd2674d7b6242576084dd6d9e7}{}int {\bfseries asm\+\_\+rev\+Sequential\+Read\+\_\+\+Word256} (Word256\+\_\+t $\ast$last\+\_\+word, Word256\+\_\+t $\ast$first\+\_\+word)\label{benchmark__kernels_8cpp_adae621fd2674d7b6242576084dd6d9e7}
+
+\item 
+\hypertarget{benchmark__kernels_8cpp_a9164906a07ced3b2a54ba525a931a62a}{}int {\bfseries asm\+\_\+forw\+Sequential\+Write\+\_\+\+Word256} (Word256\+\_\+t $\ast$first\+\_\+word, Word256\+\_\+t $\ast$last\+\_\+word)\label{benchmark__kernels_8cpp_a9164906a07ced3b2a54ba525a931a62a}
+
+\item 
+\hypertarget{benchmark__kernels_8cpp_a87a0ed420ba9f860b9250fa8fb0916a8}{}int {\bfseries asm\+\_\+rev\+Sequential\+Write\+\_\+\+Word256} (Word256\+\_\+t $\ast$last\+\_\+word, Word256\+\_\+t $\ast$first\+\_\+word)\label{benchmark__kernels_8cpp_a87a0ed420ba9f860b9250fa8fb0916a8}
+
+\item 
+\hypertarget{benchmark__kernels_8cpp_a7de3c6cfccab63a573a99df927e66002}{}int {\bfseries asm\+\_\+dummy\+\_\+forw\+Sequential\+Loop\+\_\+\+Word256} (Word256\+\_\+t $\ast$first\+\_\+word, Word256\+\_\+t $\ast$last\+\_\+word)\label{benchmark__kernels_8cpp_a7de3c6cfccab63a573a99df927e66002}
+
+\item 
+\hypertarget{benchmark__kernels_8cpp_a35c17cab75723a4ca0d9f6ca457618e9}{}int {\bfseries asm\+\_\+dummy\+\_\+rev\+Sequential\+Loop\+\_\+\+Word256} (Word256\+\_\+t $\ast$first\+\_\+word, Word256\+\_\+t $\ast$last\+\_\+word)\label{benchmark__kernels_8cpp_a35c17cab75723a4ca0d9f6ca457618e9}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implementation file for benchmark kernel functions for doing the actual work we care about. \+:) 
+
+Optimization tricks include\+:
+\begin{DoxyItemize}
+\item U\+N\+R\+O\+L\+L macros to manual loop unrolling. This reduces the relative branch overhead of the loop. We don\textquotesingle{}t want to benchmark loops, we want to benchmark memory! But unrolling too much can hurt code size and instruction locality, potentially decreasing I-\/cache utilization and causing extra overheads. This is why we allow multiple unroll lengths at compile-\/time.
+\item volatile keyword to prevent compiler from optimizing the code and removing instructions that we need. The compiler is too smart for its own good! 
+\end{DoxyItemize}

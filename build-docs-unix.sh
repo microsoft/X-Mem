@@ -1,7 +1,8 @@
 #!/bin/bash
 
-doxygen Doxyfile
 orig_dir=`pwd`
-cd docs/latex
-make
+cp README.md src\README.md
+doxygen Doxyfile
+# cd docs/latex
+# make
 cd $orig_dir

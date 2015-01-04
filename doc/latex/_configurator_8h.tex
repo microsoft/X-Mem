@@ -1,0 +1,43 @@
+\hypertarget{_configurator_8h}{}\section{src/config/\+Configurator.h File Reference}
+\label{_configurator_8h}\index{src/config/\+Configurator.\+h@{src/config/\+Configurator.\+h}}
+
+
+Header file for the Configurator class and some helper data structures.  
+
+
+{\ttfamily \#include $<$common/common.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}third\+\_\+party/optionparser.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}third\+\_\+party/\+My\+Arg.\+h\char`\"{}}\\*
+{\ttfamily \#include $<$cstdint$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classxmem_1_1config_1_1_configurator}{xmem\+::config\+::\+Configurator}
+\begin{DoxyCompactList}\small\item\em Handles all user input interpretation and generates the necessary flags for running benchmarks. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{namespacexmem_1_1config_a4c72d8ae515abacb3dc138b46bd0aafe}{}enum {\bfseries option\+Index} \{ \\*
+{\bfseries U\+N\+K\+N\+O\+W\+N}, 
+{\bfseries H\+E\+L\+P}, 
+{\bfseries M\+E\+A\+S\+\_\+\+L\+A\+T\+E\+N\+C\+Y}, 
+{\bfseries M\+E\+A\+S\+\_\+\+T\+H\+R\+O\+U\+G\+H\+P\+U\+T}, 
+\\*
+{\bfseries W\+O\+R\+K\+I\+N\+G\+\_\+\+S\+E\+T\+\_\+\+S\+I\+Z\+E}, 
+{\bfseries I\+T\+E\+R\+A\+T\+I\+O\+N\+S}, 
+{\bfseries B\+A\+S\+E\+\_\+\+T\+E\+S\+T\+\_\+\+I\+N\+D\+E\+X}, 
+{\bfseries O\+U\+T\+P\+U\+T\+\_\+\+F\+I\+L\+E}
+ \}\label{namespacexmem_1_1config_a4c72d8ae515abacb3dc138b46bd0aafe}
+
+\begin{DoxyCompactList}\small\item\em Enumerates all possible types of command-\/line options. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const third\+\_\+party\+::\+Descriptor {\bfseries xmem\+::config\+::usage} \mbox{[}$\,$\mbox{]}
+\begin{DoxyCompactList}\small\item\em Command-\/line option descriptors as needed by stuff in $<$\hyperlink{optionparser_8h}{config/third\+\_\+party/optionparser.\+h}$>$. This is basically the help message content. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Header file for the Configurator class and some helper data structures. 
+

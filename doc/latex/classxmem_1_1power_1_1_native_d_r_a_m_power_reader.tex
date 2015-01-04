@@ -1,0 +1,67 @@
+\hypertarget{classxmem_1_1power_1_1_native_d_r_a_m_power_reader}{}\section{xmem\+:\+:power\+:\+:Native\+D\+R\+A\+M\+Power\+Reader Class Reference}
+\label{classxmem_1_1power_1_1_native_d_r_a_m_power_reader}\index{xmem\+::power\+::\+Native\+D\+R\+A\+M\+Power\+Reader@{xmem\+::power\+::\+Native\+D\+R\+A\+M\+Power\+Reader}}
+
+
+A class for measuring socket-\/level D\+R\+A\+M power from the O\+S performance counter interface.  
+
+
+
+
+{\ttfamily \#include $<$Native\+D\+R\+A\+M\+Power\+Reader.\+h$>$}
+
+Inheritance diagram for xmem\+:\+:power\+:\+:Native\+D\+R\+A\+M\+Power\+Reader\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classxmem_1_1power_1_1_native_d_r_a_m_power_reader}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classxmem_1_1power_1_1_native_d_r_a_m_power_reader_a825b2e2e2a92c1c31f7e252bb5402e32}{Native\+D\+R\+A\+M\+Power\+Reader} (uint32\+\_\+t counter\+\_\+cpu\+\_\+index, double sampling\+\_\+period, double power\+\_\+units, std\+::string \hyperlink{classxmem_1_1power_1_1_power_reader_ac0f465b044512502eb1824f18d60e3e6}{name}, int32\+\_\+t cpu\+\_\+affinity)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hypertarget{classxmem_1_1power_1_1_native_d_r_a_m_power_reader_a7b6049c41515c227cd23c815d60edb43}{}\hyperlink{classxmem_1_1power_1_1_native_d_r_a_m_power_reader_a7b6049c41515c227cd23c815d60edb43}{$\sim$\+Native\+D\+R\+A\+M\+Power\+Reader} ()\label{classxmem_1_1power_1_1_native_d_r_a_m_power_reader_a7b6049c41515c227cd23c815d60edb43}
+
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\hypertarget{classxmem_1_1power_1_1_native_d_r_a_m_power_reader_acf3e518e39c8b90f759c674a2c81d985}{}virtual void \hyperlink{classxmem_1_1power_1_1_native_d_r_a_m_power_reader_acf3e518e39c8b90f759c674a2c81d985}{run} ()\label{classxmem_1_1power_1_1_native_d_r_a_m_power_reader_acf3e518e39c8b90f759c674a2c81d985}
+
+\begin{DoxyCompactList}\small\item\em Starts measuring power at the rate implied by the sampling\+\_\+period passed in the constructor. Terminates when \hyperlink{classxmem_1_1power_1_1_power_reader_a5c28efc4aece34a5469d067a133920f4}{stop()} is called. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+A class for measuring socket-\/level D\+R\+A\+M power from the O\+S performance counter interface. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classxmem_1_1power_1_1_native_d_r_a_m_power_reader_a825b2e2e2a92c1c31f7e252bb5402e32}{}\index{xmem\+::power\+::\+Native\+D\+R\+A\+M\+Power\+Reader@{xmem\+::power\+::\+Native\+D\+R\+A\+M\+Power\+Reader}!Native\+D\+R\+A\+M\+Power\+Reader@{Native\+D\+R\+A\+M\+Power\+Reader}}
+\index{Native\+D\+R\+A\+M\+Power\+Reader@{Native\+D\+R\+A\+M\+Power\+Reader}!xmem\+::power\+::\+Native\+D\+R\+A\+M\+Power\+Reader@{xmem\+::power\+::\+Native\+D\+R\+A\+M\+Power\+Reader}}
+\subsubsection[{Native\+D\+R\+A\+M\+Power\+Reader}]{\setlength{\rightskip}{0pt plus 5cm}Native\+D\+R\+A\+M\+Power\+Reader\+::\+Native\+D\+R\+A\+M\+Power\+Reader (
+\begin{DoxyParamCaption}
+\item[{uint32\+\_\+t}]{counter\+\_\+cpu\+\_\+index, }
+\item[{double}]{sampling\+\_\+period, }
+\item[{double}]{power\+\_\+units, }
+\item[{std\+::string}]{name, }
+\item[{int32\+\_\+t}]{cpu\+\_\+affinity}
+\end{DoxyParamCaption}
+)}\label{classxmem_1_1power_1_1_native_d_r_a_m_power_reader_a825b2e2e2a92c1c31f7e252bb5402e32}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em counter\+\_\+cpu\+\_\+index} & Which C\+P\+U\textquotesingle{}s D\+R\+A\+M power counter to sample. A single hardware counter might be shared across different C\+P\+Us. \\
+\hline
+{\em sampling\+\_\+period} & The time between power samples in seconds. \\
+\hline
+{\em power\+\_\+units} & The power units for each sample in watts. \\
+\hline
+{\em cpu\+\_\+affinity} & The C\+P\+U affinity for this object\textquotesingle{}s \hyperlink{classxmem_1_1power_1_1_native_d_r_a_m_power_reader_acf3e518e39c8b90f759c674a2c81d985}{run()} method for any thread that calls it. If negative, no affinity preference. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/power/\hyperlink{_native_d_r_a_m_power_reader_8h}{Native\+D\+R\+A\+M\+Power\+Reader.\+h}\item 
+src/power/\hyperlink{_native_d_r_a_m_power_reader_8cpp}{Native\+D\+R\+A\+M\+Power\+Reader.\+cpp}\end{DoxyCompactItemize}

@@ -1,3 +1,9 @@
+# Microsoft build stuff
+x64/
+Release/
+Debug/
+*.suo
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -20,6 +26,12 @@ $RECYCLE.BIN/
 # =========================
 # Operating System Files
 # =========================
+
+# Windows
+# =========================
+
+# Temp files
+*~
 
 # OSX
 # =========================

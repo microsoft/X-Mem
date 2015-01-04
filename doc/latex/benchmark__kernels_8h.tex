@@ -1,0 +1,286 @@
+\hypertarget{benchmark__kernels_8h}{}\section{src/benchmark/benchmark\+\_\+kernels/benchmark\+\_\+kernels.h File Reference}
+\label{benchmark__kernels_8h}\index{src/benchmark/benchmark\+\_\+kernels/benchmark\+\_\+kernels.\+h@{src/benchmark/benchmark\+\_\+kernels/benchmark\+\_\+kernels.\+h}}
+
+
+Header file for benchmark kernel functions for doing the actual work we care about. \+:)  
+
+
+{\ttfamily \#include $<$cstdint$>$}\\*
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+chase\+Pointers} (uintptr\+\_\+t $\ast$, uintptr\+\_\+t $\ast$$\ast$, size\+\_\+t len)
+\begin{DoxyCompactList}\small\item\em Mimics the \+\_\+\+\_\+chase\+Pointers() method but doesn\textquotesingle{}t do the memory accesses. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::chase\+Pointers} (uintptr\+\_\+t $\ast$first\+\_\+address, uintptr\+\_\+t $\ast$$\ast$last\+\_\+touched\+\_\+address, size\+\_\+t len)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in random order by chasing pointers. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+empty} (void $\ast$, void $\ast$)
+\begin{DoxyCompactList}\small\item\em Does nothing. Used for measuring the time it takes just to call a benchmark routine via function pointer. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+forw\+Sequential\+Loop\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Used for measuring the time spent doing everything in forward sequential Word 32 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+forw\+Sequential\+Loop\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Used for measuring the time spent doing everything in forward sequential Word 64 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+forw\+Sequential\+Loop\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in forward sequential Word 128 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+forw\+Sequential\+Loop\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Used for measuring the time spent doing everything in forward sequential Word 256 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+rev\+Sequential\+Loop\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Used for measuring the time spent doing everything in reverse sequential Word 32 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+rev\+Sequential\+Loop\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Used for measuring the time spent doing everything in reverse sequential Word 64 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+rev\+Sequential\+Loop\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in reverse sequential Word 128 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+rev\+Sequential\+Loop\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Used for measuring the time spent doing everything in reverse sequential Word 256 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+forw\+Stride2\+Loop\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in forward 2-\/strided Word 32 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+forw\+Stride2\+Loop\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in forward 2-\/strided Word 64 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+forw\+Stride2\+Loop\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in forward 2-\/strided Word 128 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+forw\+Stride2\+Loop\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in forward 2-\/strided Word 256 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+rev\+Stride2\+Loop\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in reverse 2-\/strided Word 32 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+rev\+Stride2\+Loop\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in reverse 2-\/strided Word 64 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+rev\+Stride2\+Loop\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in reverse 2-\/strided Word 128 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+rev\+Stride2\+Loop\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in reverse 2-\/strided Word 256 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+forw\+Stride4\+Loop\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in forward 4-\/strided Word 32 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+forw\+Stride4\+Loop\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in forward 4-\/strided Word 64 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+forw\+Stride4\+Loop\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in forward 4-\/strided Word 128 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+forw\+Stride4\+Loop\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in forward 4-\/strided Word 256 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+rev\+Stride4\+Loop\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in reverse 4-\/strided Word 32 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+rev\+Stride4\+Loop\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in reverse 4-\/strided Word 64 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+rev\+Stride4\+Loop\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in reverse 4-\/strided Word 128 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+rev\+Stride4\+Loop\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in reverse 4-\/strided Word 256 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+forw\+Stride8\+Loop\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in forward 8-\/strided Word 32 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+forw\+Stride8\+Loop\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in forward 8-\/strided Word 64 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+forw\+Stride8\+Loop\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in forward 8-\/strided Word 128 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+forw\+Stride8\+Loop\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in forward 8-\/strided Word 256 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+rev\+Stride8\+Loop\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in reverse 8-\/strided Word 32 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+rev\+Stride8\+Loop\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in reverse 8-\/strided Word 64 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+rev\+Stride8\+Loop\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in reverse 8-\/strided Word 128 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+rev\+Stride8\+Loop\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in reverse 8-\/strided Word 256 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+forw\+Stride16\+Loop\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in forward 16-\/strided Word 32 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+forw\+Stride16\+Loop\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in forward 16-\/strided Word 64 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+forw\+Stride16\+Loop\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in forward 16-\/strided Word 128 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+forw\+Stride16\+Loop\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in forward 16-\/strided Word 256 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+rev\+Stride16\+Loop\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in reverse 16-\/strided Word 32 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+rev\+Stride16\+Loop\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in reverse 16-\/strided Word 64 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+rev\+Stride16\+Loop\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in reverse 16-\/strided Word 128 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+rev\+Stride16\+Loop\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in reverse 16-\/strided Word 256 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+random\+Loop\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in random Word 32 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+random\+Loop\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in random Word 64 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+random\+Loop\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in random Word 128 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::dummy\+\_\+random\+Loop\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Used for measuring the time spent doing everything in random Word 256 loops except for the memory access itself. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Sequential\+Read\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory forward sequentially, reading in 32-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Sequential\+Read\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory forward sequentially, reading in 64-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Sequential\+Read\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory forward sequentially, reading in 128-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Sequential\+Read\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory forward sequentially, reading in 256-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Sequential\+Read\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory reverse sequentially, reading in 32-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Sequential\+Read\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory reverse sequentially, reading in 64-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Sequential\+Read\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory reverse sequentially, reading in 128-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Sequential\+Read\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory reverse sequentially, reading in 256-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Sequential\+Write\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory forward sequentially, writing in 32-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Sequential\+Write\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory forward sequentially, writing in 64-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Sequential\+Write\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory forward sequentially, writing in 128-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Sequential\+Write\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory forward sequentially, writing in 256-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Sequential\+Write\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory reverse sequentially, writing in 32-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Sequential\+Write\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory reverse sequentially, writing in 64-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Sequential\+Write\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory reverse sequentially, writing in 128-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Sequential\+Write\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory reverse sequentially, writing in 256-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride2\+Read\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in forward strides of size 2, reading in 32-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride2\+Read\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in forward strides of size 2, reading in 64-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride2\+Read\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in forward strides of size 2, reading in 128-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride2\+Read\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in forward strides of size 2, reading in 256-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride2\+Read\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in reverse strides of size 2, reading in 32-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride2\+Read\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in reverse strides of size 2, reading in 64-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride2\+Read\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in reverse strides of size 2, reading in 128-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride2\+Read\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in reverse strides of size 2, reading in 256-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride2\+Write\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in forward strides of size 2, writing in 32-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride2\+Write\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in forward strides of size 2, writing in 64-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride2\+Write\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in forward strides of size 2, writing in 128-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride2\+Write\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in forward strides of size 2, writing in 256-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride2\+Write\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in reverse strides of size 2, writing in 32-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride2\+Write\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in reverse strides of size 2, writing in 64-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride2\+Write\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in reverse strides of size 2, writing in 128-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride2\+Write\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in reverse strides of size 2, writing in 256-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride4\+Read\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in forward strides of size 4, reading in 32-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride4\+Read\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in forward strides of size 4, reading in 64-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride4\+Read\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in forward strides of size 4, reading in 128-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride4\+Read\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in forward strides of size 4, reading in 256-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride4\+Read\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in reverse strides of size 4, reading in 32-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride4\+Read\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in reverse strides of size 4, reading in 64-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride4\+Read\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in reverse strides of size 4, reading in 128-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride4\+Read\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in reverse strides of size 4, reading in 256-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride4\+Write\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in forward strides of size 4, writing in 32-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride4\+Write\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in forward strides of size 4, writing in 64-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride4\+Write\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in forward strides of size 4, writing in 128-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride4\+Write\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in forward strides of size 4, writing in 256-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride4\+Write\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in reverse strides of size 4, writing in 32-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride4\+Write\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in reverse strides of size 4, writing in 64-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride4\+Write\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in reverse strides of size 4, writing in 128-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride4\+Write\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in reverse strides of size 4, writing in 256-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride8\+Read\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in forward strides of size 8, reading in 32-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride8\+Read\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in forward strides of size 8, reading in 64-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride8\+Read\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in forward strides of size 8, reading in 128-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride8\+Read\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in forward strides of size 8, reading in 256-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride8\+Read\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in reverse strides of size 8, reading in 32-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride8\+Read\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in reverse strides of size 8, reading in 64-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride8\+Read\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in reverse strides of size 8, reading in 128-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride8\+Read\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in reverse strides of size 8, reading in 256-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride8\+Write\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in forward strides of size 8, writing in 32-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride8\+Write\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in forward strides of size 8, writing in 64-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride8\+Write\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in forward strides of size 8, writing in 128-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride8\+Write\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in forward strides of size 8, writing in 256-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride8\+Write\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in reverse strides of size 8, writing in 32-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride8\+Write\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in reverse strides of size 8, writing in 64-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride8\+Write\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in reverse strides of size 8, writing in 128-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride8\+Write\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in reverse strides of size 8, writing in 256-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride16\+Read\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in forward strides of size 16, reading in 32-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride16\+Read\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in forward strides of size 16, reading in 64-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride16\+Read\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in forward strides of size 16, reading in 128-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride16\+Read\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in forward strides of size 16, reading in 256-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride16\+Read\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in reverse strides of size 16, reading in 32-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride16\+Read\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in reverse strides of size 16, reading in 64-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride16\+Read\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in reverse strides of size 16, reading in 128-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride16\+Read\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in reverse strides of size 16, reading in 256-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride16\+Write\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in forward strides of size 16, writing in 32-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride16\+Write\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in forward strides of size 16, writing in 64-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride16\+Write\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in forward strides of size 16, writing in 128-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::forw\+Stride16\+Write\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in forward strides of size 16, writing in 256-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride16\+Write\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in reverse strides of size 16, writing in 32-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride16\+Write\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em Walks over the allocated memory in reverse strides of size 16, writing in 64-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride16\+Write\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in reverse strides of size 16, writing in 128-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::rev\+Stride16\+Write\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in reverse strides of size 16, writing in 256-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::random\+Read\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in random order, reading in 32-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::random\+Read\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in random order, reading in 64-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::random\+Read\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in random order, reading in 128-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::random\+Read\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in random order, reading in 256-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::random\+Write\+\_\+\+Word32} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in random order, writing in 32-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::random\+Write\+\_\+\+Word64} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in random order, writing in 64-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::random\+Write\+\_\+\+Word128} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in random order, writing in 128-\/bit chunks. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::benchmark\+::benchmark\+\_\+kernels\+::random\+Write\+\_\+\+Word256} (void $\ast$start\+\_\+address, void $\ast$end\+\_\+address)
+\begin{DoxyCompactList}\small\item\em T\+O\+D\+O. Walks over the allocated memory in random order, writing in 256-\/bit chunks. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Header file for benchmark kernel functions for doing the actual work we care about. \+:) 
+

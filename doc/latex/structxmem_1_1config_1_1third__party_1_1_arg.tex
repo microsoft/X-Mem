@@ -1,0 +1,83 @@
+\hypertarget{structxmem_1_1config_1_1third__party_1_1_arg}{}\section{xmem\+:\+:config\+:\+:third\+\_\+party\+:\+:Arg Struct Reference}
+\label{structxmem_1_1config_1_1third__party_1_1_arg}\index{xmem\+::config\+::third\+\_\+party\+::\+Arg@{xmem\+::config\+::third\+\_\+party\+::\+Arg}}
+
+
+Functions for checking the validity of option arguments.  
+
+
+
+
+{\ttfamily \#include $<$optionparser.\+h$>$}
+
+Inheritance diagram for xmem\+:\+:config\+:\+:third\+\_\+party\+:\+:Arg\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{structxmem_1_1config_1_1third__party_1_1_arg}
+\end{center}
+\end{figure}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{structxmem_1_1config_1_1third__party_1_1_arg_afdfd4a0adea72c759ec04bf5feaf3ec0}{}static Arg\+Status \hyperlink{structxmem_1_1config_1_1third__party_1_1_arg_afdfd4a0adea72c759ec04bf5feaf3ec0}{None} (const \hyperlink{classxmem_1_1config_1_1third__party_1_1_option}{Option} \&, bool)\label{structxmem_1_1config_1_1third__party_1_1_arg_afdfd4a0adea72c759ec04bf5feaf3ec0}
+
+\begin{DoxyCompactList}\small\item\em For options that don\textquotesingle{}t take an argument\+: Returns A\+R\+G\+\_\+\+N\+O\+N\+E. \end{DoxyCompactList}\item 
+\hypertarget{structxmem_1_1config_1_1third__party_1_1_arg_a842eb05bf9c4581b082613f044691d89}{}static Arg\+Status \hyperlink{structxmem_1_1config_1_1third__party_1_1_arg_a842eb05bf9c4581b082613f044691d89}{Optional} (const \hyperlink{classxmem_1_1config_1_1third__party_1_1_option}{Option} \&option, bool)\label{structxmem_1_1config_1_1third__party_1_1_arg_a842eb05bf9c4581b082613f044691d89}
+
+\begin{DoxyCompactList}\small\item\em Returns A\+R\+G\+\_\+\+O\+K if the argument is attached and A\+R\+G\+\_\+\+I\+G\+N\+O\+R\+E otherwise. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Functions for checking the validity of option arguments. 
+
+The following example code can serve as starting place for writing your own more complex Check\+Arg functions\+: 
+\begin{DoxyCode}
+\textcolor{keyword}{struct }Arg: \textcolor{keyword}{public} option::Arg
+\{
+  \textcolor{keyword}{static} \textcolor{keywordtype}{void} printError(\textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg1, \textcolor{keyword}{const} option::Option& opt, \textcolor{keyword}{const} \textcolor{keywordtype}{char}* msg2)
+  \{
+    fprintf(stderr, \textcolor{stringliteral}{"ERROR: %s"}, msg1);
+    fwrite(opt.name, opt.namelen, 1, stderr);
+    fprintf(stderr, \textcolor{stringliteral}{"%s"}, msg2);
+  \}
+
+  \textcolor{keyword}{static} option::ArgStatus Unknown(\textcolor{keyword}{const} option::Option& option, \textcolor{keywordtype}{bool} msg)
+  \{
+    \textcolor{keywordflow}{if} (msg) printError(\textcolor{stringliteral}{"Unknown option '"}, option, \textcolor{stringliteral}{"'\(\backslash\)n"});
+    \textcolor{keywordflow}{return} option::ARG\_ILLEGAL;
+  \}
+
+  \textcolor{keyword}{static} option::ArgStatus Required(\textcolor{keyword}{const} option::Option& option, \textcolor{keywordtype}{bool} msg)
+  \{
+    \textcolor{keywordflow}{if} (option.arg != 0)
+      \textcolor{keywordflow}{return} option::ARG\_OK;
+
+    \textcolor{keywordflow}{if} (msg) printError(\textcolor{stringliteral}{"Option '"}, option, \textcolor{stringliteral}{"' requires an argument\(\backslash\)n"});
+    \textcolor{keywordflow}{return} option::ARG\_ILLEGAL;
+  \}
+
+  \textcolor{keyword}{static} option::ArgStatus NonEmpty(\textcolor{keyword}{const} option::Option& option, \textcolor{keywordtype}{bool} msg)
+  \{
+    \textcolor{keywordflow}{if} (option.arg != 0 && option.arg[0] != 0)
+      \textcolor{keywordflow}{return} option::ARG\_OK;
+
+    \textcolor{keywordflow}{if} (msg) printError(\textcolor{stringliteral}{"Option '"}, option, \textcolor{stringliteral}{"' requires a non-empty argument\(\backslash\)n"});
+    \textcolor{keywordflow}{return} option::ARG\_ILLEGAL;
+  \}
+
+  \textcolor{keyword}{static} option::ArgStatus Numeric(\textcolor{keyword}{const} option::Option& option, \textcolor{keywordtype}{bool} msg)
+  \{
+    \textcolor{keywordtype}{char}* endptr = 0;
+    \textcolor{keywordflow}{if} (option.arg != 0 && strtol(option.arg, &endptr, 10))\{\};
+    \textcolor{keywordflow}{if} (endptr != option.arg && *endptr == 0)
+      \textcolor{keywordflow}{return} option::ARG\_OK;
+
+    \textcolor{keywordflow}{if} (msg) printError(\textcolor{stringliteral}{"Option '"}, option, \textcolor{stringliteral}{"' requires a numeric argument\(\backslash\)n"});
+    \textcolor{keywordflow}{return} option::ARG\_ILLEGAL;
+  \}
+\};
+\end{DoxyCode}
+ 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/config/third\+\_\+party/\hyperlink{optionparser_8h}{optionparser.\+h}\end{DoxyCompactItemize}

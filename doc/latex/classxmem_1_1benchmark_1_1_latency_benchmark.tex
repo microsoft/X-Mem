@@ -1,0 +1,106 @@
+\hypertarget{classxmem_1_1benchmark_1_1_latency_benchmark}{}\section{xmem\+:\+:benchmark\+:\+:Latency\+Benchmark Class Reference}
+\label{classxmem_1_1benchmark_1_1_latency_benchmark}\index{xmem\+::benchmark\+::\+Latency\+Benchmark@{xmem\+::benchmark\+::\+Latency\+Benchmark}}
+
+
+A type of benchmark that measures memory latency via random pointer chasing. T\+O\+D\+O\+: loaded latency tests.  
+
+
+
+
+{\ttfamily \#include $<$Latency\+Benchmark.\+h$>$}
+
+Inheritance diagram for xmem\+:\+:benchmark\+:\+:Latency\+Benchmark\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classxmem_1_1benchmark_1_1_latency_benchmark}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classxmem_1_1benchmark_1_1_latency_benchmark_aac378764f476152456a39c9eb1e06c29}{}typedef int32\+\_\+t($\ast$ {\bfseries Latency\+Bench\+Function}) (uintptr\+\_\+t $\ast$, uintptr\+\_\+t $\ast$$\ast$, size\+\_\+t)\label{classxmem_1_1benchmark_1_1_latency_benchmark_aac378764f476152456a39c9eb1e06c29}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classxmem_1_1benchmark_1_1_latency_benchmark_a485434e0f506427b28073a2a3e287e21}{Latency\+Benchmark} (void $\ast$mem\+\_\+array, size\+\_\+t len, uint32\+\_\+t iterations, uint32\+\_\+t cpu\+\_\+node, uint32\+\_\+t mem\+\_\+node, uint32\+\_\+t num\+\_\+worker\+\_\+threads, std\+::string name, \hyperlink{classxmem_1_1timers_1_1_timer}{xmem\+::timers\+::\+Timer} $\ast$timer, std\+::vector$<$ \hyperlink{classxmem_1_1power_1_1_power_reader}{xmem\+::power\+::\+Power\+Reader} $\ast$ $>$ dram\+\_\+power\+\_\+readers)
+\item 
+virtual bool \hyperlink{classxmem_1_1benchmark_1_1_latency_benchmark_ab68c299bf41fb30f9be597ff79188139}{run} ()
+\begin{DoxyCompactList}\small\item\em Runs the benchmark. \end{DoxyCompactList}\item 
+\hypertarget{classxmem_1_1benchmark_1_1_latency_benchmark_a2714dfbf9be2eef8ac4089ad610db651}{}virtual void \hyperlink{classxmem_1_1benchmark_1_1_latency_benchmark_a2714dfbf9be2eef8ac4089ad610db651}{report\+\_\+benchmark\+\_\+info} ()\label{classxmem_1_1benchmark_1_1_latency_benchmark_a2714dfbf9be2eef8ac4089ad610db651}
+
+\begin{DoxyCompactList}\small\item\em Outputs the benchmark configuration to the console. \end{DoxyCompactList}\item 
+\hypertarget{classxmem_1_1benchmark_1_1_latency_benchmark_ae16f89eb9f413734989ef8c51ec3e066}{}virtual void \hyperlink{classxmem_1_1benchmark_1_1_latency_benchmark_ae16f89eb9f413734989ef8c51ec3e066}{report\+\_\+results} ()\label{classxmem_1_1benchmark_1_1_latency_benchmark_ae16f89eb9f413734989ef8c51ec3e066}
+
+\begin{DoxyCompactList}\small\item\em Outputs a report of the benchmark results to the console if \hyperlink{classxmem_1_1benchmark_1_1_latency_benchmark_ab68c299bf41fb30f9be597ff79188139}{run()} returned true. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+A type of benchmark that measures memory latency via random pointer chasing. T\+O\+D\+O\+: loaded latency tests. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classxmem_1_1benchmark_1_1_latency_benchmark_a485434e0f506427b28073a2a3e287e21}{}\index{xmem\+::benchmark\+::\+Latency\+Benchmark@{xmem\+::benchmark\+::\+Latency\+Benchmark}!Latency\+Benchmark@{Latency\+Benchmark}}
+\index{Latency\+Benchmark@{Latency\+Benchmark}!xmem\+::benchmark\+::\+Latency\+Benchmark@{xmem\+::benchmark\+::\+Latency\+Benchmark}}
+\subsubsection[{Latency\+Benchmark}]{\setlength{\rightskip}{0pt plus 5cm}Latency\+Benchmark\+::\+Latency\+Benchmark (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{mem\+\_\+array, }
+\item[{size\+\_\+t}]{len, }
+\item[{uint32\+\_\+t}]{iterations, }
+\item[{uint32\+\_\+t}]{cpu\+\_\+node, }
+\item[{uint32\+\_\+t}]{mem\+\_\+node, }
+\item[{uint32\+\_\+t}]{num\+\_\+worker\+\_\+threads, }
+\item[{std\+::string}]{name, }
+\item[{{\bf xmem\+::timers\+::\+Timer} $\ast$}]{timer, }
+\item[{std\+::vector$<$ {\bf xmem\+::power\+::\+Power\+Reader} $\ast$ $>$}]{dram\+\_\+power\+\_\+readers}
+\end{DoxyParamCaption}
+)}\label{classxmem_1_1benchmark_1_1_latency_benchmark_a485434e0f506427b28073a2a3e287e21}
+Constructor. 
+\begin{DoxyParams}{Parameters}
+{\em mem\+\_\+array} & a pointer to a contiguous chunk of memory that has been allocated for benchmarking among the worker threads. This should be aligned to a 256-\/bit boundary and should be the working set size times number of threads large. \\
+\hline
+{\em len} & Length of the raw\+\_\+mem\+\_\+array in bytes. This should be a multiple of 4 K\+B pages. \\
+\hline
+{\em iterations} & Number of iterations (passes) to do of the complete benchmark. \\
+\hline
+{\em cpu\+\_\+node} & the logical C\+P\+U N\+U\+M\+A node to use in the benchmark \\
+\hline
+{\em mem\+\_\+node} & the logical memory N\+U\+M\+A node used in the benchmark \\
+\hline
+{\em num\+\_\+worker\+\_\+threads} & number of worker threads to use in the benchmark \\
+\hline
+{\em name} & name of the benchmark to use when reporting \\
+\hline
+{\em timer} & pointer to an existing Timer object \\
+\hline
+{\em dram\+\_\+power\+\_\+readers} & vector of pointers to Power\+Reader objects for measuring D\+R\+A\+M power \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classxmem_1_1benchmark_1_1_latency_benchmark_ab68c299bf41fb30f9be597ff79188139}{}\index{xmem\+::benchmark\+::\+Latency\+Benchmark@{xmem\+::benchmark\+::\+Latency\+Benchmark}!run@{run}}
+\index{run@{run}!xmem\+::benchmark\+::\+Latency\+Benchmark@{xmem\+::benchmark\+::\+Latency\+Benchmark}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}bool Latency\+Benchmark\+::run (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{classxmem_1_1benchmark_1_1_latency_benchmark_ab68c299bf41fb30f9be597ff79188139}
+
+
+Runs the benchmark. 
+
+\begin{DoxyReturn}{Returns}
+True on success. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classxmem_1_1benchmark_1_1_benchmark_aa0dbe60e525457770c835c6c72a0be6a}{xmem\+::benchmark\+::\+Benchmark}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/benchmark/\hyperlink{_latency_benchmark_8h}{Latency\+Benchmark.\+h}\item 
+src/benchmark/\hyperlink{_latency_benchmark_8cpp}{Latency\+Benchmark.\+cpp}\end{DoxyCompactItemize}

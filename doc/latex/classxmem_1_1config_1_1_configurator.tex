@@ -1,0 +1,185 @@
+\hypertarget{classxmem_1_1config_1_1_configurator}{}\section{xmem\+:\+:config\+:\+:Configurator Class Reference}
+\label{classxmem_1_1config_1_1_configurator}\index{xmem\+::config\+::\+Configurator@{xmem\+::config\+::\+Configurator}}
+
+
+Handles all user input interpretation and generates the necessary flags for running benchmarks.  
+
+
+
+
+{\ttfamily \#include $<$Configurator.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classxmem_1_1config_1_1_configurator_a8ae41e8976253affae2b905cb7ca2389}{}\hyperlink{classxmem_1_1config_1_1_configurator_a8ae41e8976253affae2b905cb7ca2389}{Configurator} ()\label{classxmem_1_1config_1_1_configurator_a8ae41e8976253affae2b905cb7ca2389}
+
+\begin{DoxyCompactList}\small\item\em Default constructor. A default configuration is set. You will want to run \hyperlink{classxmem_1_1config_1_1_configurator_acd25216c6c3db19dd68a5f2ec9b0a061}{configure\+From\+Input()} most likely. \end{DoxyCompactList}\item 
+\hyperlink{classxmem_1_1config_1_1_configurator_ab687c798957f36943f2af563fd67f402}{Configurator} (bool run\+Latency, bool run\+Throughput, size\+\_\+t working\+\_\+set\+\_\+size, uint32\+\_\+t iterations\+\_\+per\+\_\+test, std\+::string filename, bool use\+\_\+output\+\_\+file)
+\begin{DoxyCompactList}\small\item\em Specialized constructor for when you don\textquotesingle{}t want to get config from input, and you want to pass it in directly. \end{DoxyCompactList}\item 
+int \hyperlink{classxmem_1_1config_1_1_configurator_acd25216c6c3db19dd68a5f2ec9b0a061}{configure\+From\+Input} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\begin{DoxyCompactList}\small\item\em Configures the tool based on user\textquotesingle{}s command-\/line inputs. \end{DoxyCompactList}\item 
+bool \hyperlink{classxmem_1_1config_1_1_configurator_abb15795a835f9d17205d442120b720a9}{latency\+Test\+Selected} ()
+\begin{DoxyCompactList}\small\item\em Indicates if the latency test has been selected. \end{DoxyCompactList}\item 
+bool \hyperlink{classxmem_1_1config_1_1_configurator_a21bfd5b3c29b32223ea59e08aebcfe8c}{throughput\+Test\+Selected} ()
+\begin{DoxyCompactList}\small\item\em Indicates if the throughput test has been selected. \end{DoxyCompactList}\item 
+size\+\_\+t \hyperlink{classxmem_1_1config_1_1_configurator_ad237760f0e0f76add3693bded410d749}{get\+Working\+Set\+Size} ()
+\begin{DoxyCompactList}\small\item\em Gets the working set size in bytes for each worker thread, if applicable. \end{DoxyCompactList}\item 
+uint32\+\_\+t \hyperlink{classxmem_1_1config_1_1_configurator_a0cae90ae39a85c42b884f59c983ddb98}{get\+Iterations\+Per\+Test} ()
+\begin{DoxyCompactList}\small\item\em Gets the number of iterations that should be run of each benchmark. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{classxmem_1_1config_1_1_configurator_ad05eaa100414599543085778ca75ff64}{get\+Output\+Filename} ()
+\begin{DoxyCompactList}\small\item\em Gets the output filename to use, if applicable. \end{DoxyCompactList}\item 
+bool \hyperlink{classxmem_1_1config_1_1_configurator_a10a655ca8cea9e4d1f65e3f907a858a1}{use\+Output\+File} ()
+\begin{DoxyCompactList}\small\item\em Determines whether to generate an output C\+S\+V file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Handles all user input interpretation and generates the necessary flags for running benchmarks. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classxmem_1_1config_1_1_configurator_ab687c798957f36943f2af563fd67f402}{}\index{xmem\+::config\+::\+Configurator@{xmem\+::config\+::\+Configurator}!Configurator@{Configurator}}
+\index{Configurator@{Configurator}!xmem\+::config\+::\+Configurator@{xmem\+::config\+::\+Configurator}}
+\subsubsection[{Configurator}]{\setlength{\rightskip}{0pt plus 5cm}Configurator\+::\+Configurator (
+\begin{DoxyParamCaption}
+\item[{bool}]{run\+Latency, }
+\item[{bool}]{run\+Throughput, }
+\item[{size\+\_\+t}]{working\+\_\+set\+\_\+size, }
+\item[{uint32\+\_\+t}]{iterations\+\_\+per\+\_\+test, }
+\item[{std\+::string}]{filename, }
+\item[{bool}]{use\+\_\+output\+\_\+file}
+\end{DoxyParamCaption}
+)}\label{classxmem_1_1config_1_1_configurator_ab687c798957f36943f2af563fd67f402}
+
+
+Specialized constructor for when you don\textquotesingle{}t want to get config from input, and you want to pass it in directly. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em run\+Latency} & Indicates latency benchmarks should be run. \\
+\hline
+{\em run\+Throughput} & Indicates throughput benchmarks should be run. \\
+\hline
+{\em working\+\_\+set\+\_\+size} & The total size of memory to test in all benchmarks, in bytes. This M\+U\+S\+T be a multiple of 4\+K\+B pages. \\
+\hline
+{\em iterations\+\_\+per\+\_\+test} & For each unique benchmark test, this is the number of times to repeat it. \\
+\hline
+{\em filename} & Output filename to use. \\
+\hline
+{\em use\+\_\+output\+\_\+file} & If true, use the provided output filename. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classxmem_1_1config_1_1_configurator_acd25216c6c3db19dd68a5f2ec9b0a061}{}\index{xmem\+::config\+::\+Configurator@{xmem\+::config\+::\+Configurator}!configure\+From\+Input@{configure\+From\+Input}}
+\index{configure\+From\+Input@{configure\+From\+Input}!xmem\+::config\+::\+Configurator@{xmem\+::config\+::\+Configurator}}
+\subsubsection[{configure\+From\+Input}]{\setlength{\rightskip}{0pt plus 5cm}int Configurator\+::configure\+From\+Input (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}\label{classxmem_1_1config_1_1_configurator_acd25216c6c3db19dd68a5f2ec9b0a061}
+
+
+Configures the tool based on user\textquotesingle{}s command-\/line inputs. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & The argc from \hyperlink{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main()}. \\
+\hline
+{\em argv} & The argv from \hyperlink{main_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main()}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 on success. 
+\end{DoxyReturn}
+\hypertarget{classxmem_1_1config_1_1_configurator_a0cae90ae39a85c42b884f59c983ddb98}{}\index{xmem\+::config\+::\+Configurator@{xmem\+::config\+::\+Configurator}!get\+Iterations\+Per\+Test@{get\+Iterations\+Per\+Test}}
+\index{get\+Iterations\+Per\+Test@{get\+Iterations\+Per\+Test}!xmem\+::config\+::\+Configurator@{xmem\+::config\+::\+Configurator}}
+\subsubsection[{get\+Iterations\+Per\+Test}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t xmem\+::config\+::\+Configurator\+::get\+Iterations\+Per\+Test (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classxmem_1_1config_1_1_configurator_a0cae90ae39a85c42b884f59c983ddb98}
+
+
+Gets the number of iterations that should be run of each benchmark. 
+
+\begin{DoxyReturn}{Returns}
+The iterations for each test. 
+\end{DoxyReturn}
+\hypertarget{classxmem_1_1config_1_1_configurator_ad05eaa100414599543085778ca75ff64}{}\index{xmem\+::config\+::\+Configurator@{xmem\+::config\+::\+Configurator}!get\+Output\+Filename@{get\+Output\+Filename}}
+\index{get\+Output\+Filename@{get\+Output\+Filename}!xmem\+::config\+::\+Configurator@{xmem\+::config\+::\+Configurator}}
+\subsubsection[{get\+Output\+Filename}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string xmem\+::config\+::\+Configurator\+::get\+Output\+Filename (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classxmem_1_1config_1_1_configurator_ad05eaa100414599543085778ca75ff64}
+
+
+Gets the output filename to use, if applicable. 
+
+\begin{DoxyReturn}{Returns}
+The output filename to use if \hyperlink{classxmem_1_1config_1_1_configurator_a10a655ca8cea9e4d1f65e3f907a858a1}{use\+Output\+File()} returns true. Otherwise return value is \char`\"{}\char`\"{}. 
+\end{DoxyReturn}
+\hypertarget{classxmem_1_1config_1_1_configurator_ad237760f0e0f76add3693bded410d749}{}\index{xmem\+::config\+::\+Configurator@{xmem\+::config\+::\+Configurator}!get\+Working\+Set\+Size@{get\+Working\+Set\+Size}}
+\index{get\+Working\+Set\+Size@{get\+Working\+Set\+Size}!xmem\+::config\+::\+Configurator@{xmem\+::config\+::\+Configurator}}
+\subsubsection[{get\+Working\+Set\+Size}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t xmem\+::config\+::\+Configurator\+::get\+Working\+Set\+Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classxmem_1_1config_1_1_configurator_ad237760f0e0f76add3693bded410d749}
+
+
+Gets the working set size in bytes for each worker thread, if applicable. 
+
+\begin{DoxyReturn}{Returns}
+The working set size in bytes. 
+\end{DoxyReturn}
+\hypertarget{classxmem_1_1config_1_1_configurator_abb15795a835f9d17205d442120b720a9}{}\index{xmem\+::config\+::\+Configurator@{xmem\+::config\+::\+Configurator}!latency\+Test\+Selected@{latency\+Test\+Selected}}
+\index{latency\+Test\+Selected@{latency\+Test\+Selected}!xmem\+::config\+::\+Configurator@{xmem\+::config\+::\+Configurator}}
+\subsubsection[{latency\+Test\+Selected}]{\setlength{\rightskip}{0pt plus 5cm}bool xmem\+::config\+::\+Configurator\+::latency\+Test\+Selected (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classxmem_1_1config_1_1_configurator_abb15795a835f9d17205d442120b720a9}
+
+
+Indicates if the latency test has been selected. 
+
+\begin{DoxyReturn}{Returns}
+True if the latency test has been selected to run. 
+\end{DoxyReturn}
+\hypertarget{classxmem_1_1config_1_1_configurator_a21bfd5b3c29b32223ea59e08aebcfe8c}{}\index{xmem\+::config\+::\+Configurator@{xmem\+::config\+::\+Configurator}!throughput\+Test\+Selected@{throughput\+Test\+Selected}}
+\index{throughput\+Test\+Selected@{throughput\+Test\+Selected}!xmem\+::config\+::\+Configurator@{xmem\+::config\+::\+Configurator}}
+\subsubsection[{throughput\+Test\+Selected}]{\setlength{\rightskip}{0pt plus 5cm}bool xmem\+::config\+::\+Configurator\+::throughput\+Test\+Selected (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classxmem_1_1config_1_1_configurator_a21bfd5b3c29b32223ea59e08aebcfe8c}
+
+
+Indicates if the throughput test has been selected. 
+
+\begin{DoxyReturn}{Returns}
+True if the throughput test has been selected to run. 
+\end{DoxyReturn}
+\hypertarget{classxmem_1_1config_1_1_configurator_a10a655ca8cea9e4d1f65e3f907a858a1}{}\index{xmem\+::config\+::\+Configurator@{xmem\+::config\+::\+Configurator}!use\+Output\+File@{use\+Output\+File}}
+\index{use\+Output\+File@{use\+Output\+File}!xmem\+::config\+::\+Configurator@{xmem\+::config\+::\+Configurator}}
+\subsubsection[{use\+Output\+File}]{\setlength{\rightskip}{0pt plus 5cm}bool xmem\+::config\+::\+Configurator\+::use\+Output\+File (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\label{classxmem_1_1config_1_1_configurator_a10a655ca8cea9e4d1f65e3f907a858a1}
+
+
+Determines whether to generate an output C\+S\+V file. 
+
+\begin{DoxyReturn}{Returns}
+True if an output file should be used. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/config/\hyperlink{_configurator_8h}{Configurator.\+h}\item 
+src/config/\hyperlink{_configurator_8cpp}{Configurator.\+cpp}\end{DoxyCompactItemize}
