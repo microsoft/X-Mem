@@ -48,7 +48,7 @@ namespace xmem {
 #ifdef _WIN32
 
 #ifdef _M_IX86 //Intel x86
-#define INTEL_X86
+#define ARCH_INTEL_X86
 #endif
 
 #ifdef _M_X64 //Intel x86-64
@@ -136,7 +136,7 @@ namespace xmem {
 #define MULTITHREADING_ENABLE /**< RECOMMENDED ENABLED. Use multiple threads for benchmarks wherever applicable. Note that power measurement is always done with multiple threads separate from the benchmarking threads, regardless if this option is set or not. */
 
 //Which timer to use in the benchmarks. Only one may be selected!
-//#define USE_QPC_TIMER /**< RECOMMENDED ENABLED. Use the Windows QueryPerformanceCounter timer API. This is a safe bet as it is more platform-agnostic and has fewer quirks, but it has lower resolution than the TSC timer. */
+//#define USE_QPC_TIMER /**< RECOMMENDED ENABLED. WINDOWS ONLY. Use the Windows QueryPerformanceCounter timer API. This is a safe bet as it is more hardware-agnostic and has fewer quirks, but it has lower resolution than the TSC timer. */
 #define USE_TSC_TIMER /**< RECOMMENDED DISABLED. Use the Intel Time Stamp Counter native hardware timer. Only use this if you know what you are doing. */
 
 #define USE_LARGE_PAGES /**< RECOMMENDED ENABLED. Allocate memory using large pages rather than small normal pages. In general, this is highly recommended, as the TLB can skew benchmark results for DRAM. */
@@ -201,6 +201,10 @@ namespace xmem {
 
 
 //Compile-time options checks
+#if defined(USE_QPC_TIMER) && !defined(_WIN32)
+#error USE_QPC_TIMER may only be defined for a Windows system!
+#endif 
+
 #if !defined(USE_QPC_TIMER) && !defined(USE_TSC_TIMER)
 #error One type of timer must be selected!
 #endif

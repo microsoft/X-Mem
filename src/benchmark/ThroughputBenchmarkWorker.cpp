@@ -37,8 +37,12 @@
 #if defined(ARCH_INTEL_X86_64) && defined(USE_TSC_TIMER)
 #include <timers/x86_64/TSCTimer.h>
 #endif
-#if defined(_WIN32) && defined(USE_QPC_TIMER)
+#ifdef _WIN32
+#ifdef USE_QPC_TIMER
 #include <timers/win/QPCTimer.h>
+#endif
+#else
+#error Windows is the only supported OS at this time.
 #endif
 
 using namespace xmem::benchmark;

@@ -352,22 +352,22 @@
     <None Include="README" />
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="src\benchmark\benchmark_kernels\asm_dummy_forwSequentialLoop_Word256.asm">
+    <MASM Include="src\benchmark\benchmark_kernels\win\x86-64\asm_dummy_forwSequentialLoop_Word256.asm">
       <Filter>Source Files</Filter>
     </MASM>
-    <MASM Include="src\benchmark\benchmark_kernels\asm_dummy_revSequentialLoop_Word256.asm">
+    <MASM Include="src\benchmark\benchmark_kernels\win\x86-64\asm_dummy_revSequentialLoop_Word256.asm">
       <Filter>Source Files</Filter>
     </MASM>
-    <MASM Include="src\benchmark\benchmark_kernels\asm_forwSequentialRead_Word256.asm">
+    <MASM Include="src\benchmark\benchmark_kernels\win\x86-64\asm_forwSequentialRead_Word256.asm">
       <Filter>Source Files</Filter>
     </MASM>
-    <MASM Include="src\benchmark\benchmark_kernels\asm_forwSequentialWrite_Word256.asm">
+    <MASM Include="src\benchmark\benchmark_kernels\win\x86-64\asm_forwSequentialWrite_Word256.asm">
       <Filter>Source Files</Filter>
     </MASM>
-    <MASM Include="src\benchmark\benchmark_kernels\asm_revSequentialRead_Word256.asm">
+    <MASM Include="src\benchmark\benchmark_kernels\win\x86-64\asm_revSequentialRead_Word256.asm">
       <Filter>Source Files</Filter>
     </MASM>
-    <MASM Include="src\benchmark\benchmark_kernels\asm_revSequentialWrite_Word256.asm">
+    <MASM Include="src\benchmark\benchmark_kernels\win\x86-64\asm_revSequentialWrite_Word256.asm">
       <Filter>Source Files</Filter>
     </MASM>
   </ItemGroup>

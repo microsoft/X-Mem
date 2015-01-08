@@ -3,6 +3,8 @@ x64/
 Release/
 Debug/
 *.suo
+*.sdf
+*.opensdf
 
 # Windows image file caches
 Thumbs.db

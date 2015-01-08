@@ -36,8 +36,12 @@
 #if defined(ARCH_INTEL_X86_64) && defined(USE_TSC_TIMER)
 #include <timers/x86_64/TSCTimer.h>
 #endif
-#if defined(_WIN32) && defined(USE_QPC_TIMER)
+#ifdef _WIN32
+#if defined(USE_QPC_TIMER)
 #include <timers/win/QPCTimer.h>
+#endif
+#else
+#error Windows is the only supported OS at this time.
 #endif
 #include <power/PowerReader.h>
 #include <thread/Thread.h>
@@ -48,7 +52,7 @@
 #include <string>
 #include <vector>
 #ifdef _WIN32
-#include <intrin.h>
+#include <intrin.h> //For intrinsics. TODO: can this be removed? probably not needed here.
 #else
 #error Windows is the only supported OS at this time.
 #endif

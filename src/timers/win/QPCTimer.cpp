@@ -34,7 +34,7 @@
 #ifdef _WIN32
 #include <windows.h>
 #else
-#error Windows is the only supported OS at this time.
+#error Windows is the only supported OS for the QPCTimer class.
 #endif
 
 using namespace xmem::timers::win;
@@ -50,7 +50,7 @@ QPCTimer::QPCTimer() :
 	QueryPerformanceFrequency(&tmp);
 	_ticks_per_sec = tmp.QuadPart;
 #else
-#error Windows is the only supported OS at this time.
+#error Windows is the only supported OS for the QPCTimer class.
 #endif
 	_ns_per_tick = (1/(double)(_ticks_per_sec)) * 1e9;
 }
@@ -59,7 +59,7 @@ void QPCTimer::start() {
 #ifdef _WIN32
 	QueryPerformanceCounter(&__start_tick);
 #else
-#error Windows is the only supported OS at this time.
+#error Windows is the only supported OS for the QPCTimer class.
 #endif
 }
 
@@ -68,7 +68,7 @@ uint64_t QPCTimer::stop() {
 	QueryPerformanceCounter(&__stop_tick);
 	return (__stop_tick.QuadPart - __start_tick.QuadPart); 
 #else
-#error Windows is the only supported OS at this time.
+#error Windows is the only supported OS for the QPCTimer class.
 #endif
 }
 

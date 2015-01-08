@@ -35,12 +35,6 @@
 #include <thread/Runnable.h>
 
 //Libraries
-#ifdef _WIN32
-#include <windows.h>
-#else
-#error Windows is the only supported OS at this time.
-#endif
-
 #include <cstdint>
 #include <vector>
 

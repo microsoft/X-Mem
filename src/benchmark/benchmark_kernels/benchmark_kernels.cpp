@@ -84,8 +84,8 @@ int32_t xmem::benchmark::benchmark_kernels::chasePointers(uintptr_t* first_addre
  ***********************************************************************
  ***********************************************************************/
 
+#ifdef _WIN32
 //Hand-coded assembly functions for the SSE2/AVX benchmark routines that I could not implement using VC++ intrinsics
-
 extern "C" int asm_forwSequentialRead_Word256(Word256_t* first_word, Word256_t* last_word);
 extern "C" int asm_revSequentialRead_Word256(Word256_t* last_word, Word256_t* first_word);
 extern "C" int asm_forwSequentialWrite_Word256(Word256_t* first_word, Word256_t* last_word);
@@ -93,6 +93,9 @@ extern "C" int asm_revSequentialWrite_Word256(Word256_t* last_word, Word256_t* f
 
 extern "C" int asm_dummy_forwSequentialLoop_Word256(Word256_t* first_word, Word256_t* last_word);
 extern "C" int asm_dummy_revSequentialLoop_Word256(Word256_t* first_word, Word256_t* last_word);
+#else
+#error Windows is the only supported OS at this time.
+#endif
 
 /* --------------------- DUMMY BENCHMARK ROUTINES --------------------------- */
 
@@ -125,8 +128,12 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwSequentialLoop_Word128(voi
 }
 
 int32_t xmem::benchmark::benchmark_kernels::dummy_forwSequentialLoop_Word256(void* start_address, void* end_address) {
+#ifdef _WIN32
 	//This is hand-coded in assembler! We call it as a global C function.
 	return asm_dummy_forwSequentialLoop_Word256(static_cast<Word256_t*>(start_address), static_cast<Word256_t*>(end_address));
+#else
+#error Windows is the only supported OS at this time.
+#endif
 }
 
 int32_t xmem::benchmark::benchmark_kernels::dummy_revSequentialLoop_Word32(void* start_address, void* end_address) { 
@@ -152,8 +159,12 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revSequentialLoop_Word128(void
 }
 
 int32_t xmem::benchmark::benchmark_kernels::dummy_revSequentialLoop_Word256(void* start_address, void* end_address) {
+#ifdef _WIN32
 	//This is hand-coded in assembler! We call it as a global C function.
 	return asm_dummy_revSequentialLoop_Word256(static_cast<Word256_t*>(end_address), static_cast<Word256_t*>(start_address));
+#else
+#error Windows is the only supported OS at this time.
+#endif
 }
 		
 /* ------------ STRIDE 2 LOOP --------------*/
@@ -346,12 +357,16 @@ int32_t xmem::benchmark::benchmark_kernels::forwSequentialRead_Word128(void* sta
 	return 0;
 }
 
-//VC++ compiler does not support inline assembly in x86-64. And the compiler optimizes away these SSE instructions unless I use volatile.
-//But I can't use volatile Word256_t* because it is incompatible with _mm_load_si256(). 
-//Fortunately, I implemented the routine as a wrapper around a hand-coded assembler C function.
 int32_t xmem::benchmark::benchmark_kernels::forwSequentialRead_Word256(void* start_address, void* end_address) { 
+#ifdef _WIN32
+	//VC++ compiler does not support inline assembly in x86-64. And the compiler optimizes away these SSE instructions unless I use volatile.
+	//But I can't use volatile Word256_t* because it is incompatible with _mm_load_si256(). 
+	//Fortunately, I implemented the routine as a wrapper around a hand-coded assembler C function.
 	//This is hand-coded in assembler! We call it as a global C function.
 	return asm_forwSequentialRead_Word256(static_cast<Word256_t*>(start_address), static_cast<Word256_t*>(end_address));
+#else
+#error Windows is the only supported OS at this time.
+#endif
 }
 
 int32_t xmem::benchmark::benchmark_kernels::revSequentialRead_Word32(void* start_address, void* end_address) { 
@@ -374,12 +389,16 @@ int32_t xmem::benchmark::benchmark_kernels::revSequentialRead_Word128(void* star
 	return 0;
 }
 
-//VC++ compiler does not support inline assembly in x86-64. And the compiler optimizes away these SSE instructions unless I use volatile.
-//But I can't use volatile Word256_t* because it is incompatible with _mm_load_si256(). 
-//Fortunately, I implemented the routine as a wrapper around a hand-coded assembler C function.
 int32_t xmem::benchmark::benchmark_kernels::revSequentialRead_Word256(void* start_address, void* end_address) {
+#ifdef _WIN32
+	//VC++ compiler does not support inline assembly in x86-64. And the compiler optimizes away these SSE instructions unless I use volatile.
+	//But I can't use volatile Word256_t* because it is incompatible with _mm_load_si256(). 
+	//Fortunately, I implemented the routine as a wrapper around a hand-coded assembler C function.
 	//This is hand-coded in assembler! We call it as a global C function.
 	return asm_revSequentialRead_Word256(static_cast<Word256_t*>(end_address), static_cast<Word256_t*>(start_address));
+#else
+#error Windows is the only supported OS at this time.
+#endif
 }
 
 /* ------------ SEQUENTIAL WRITE --------------*/
@@ -404,12 +423,16 @@ int32_t xmem::benchmark::benchmark_kernels::forwSequentialWrite_Word128(void* st
 	return 0;
 }
 
-//VC++ compiler does not support inline assembly in x86-64. And the compiler optimizes away these SSE instructions unless I use volatile.
-//But I can't use volatile Word256_t* because it is incompatible with _mm_load_si256(). 
-//Fortunately, I implemented the routine as a wrapper around a hand-coded assembler C function.
 int32_t xmem::benchmark::benchmark_kernels::forwSequentialWrite_Word256(void* start_address, void* end_address) {
+#ifdef _WIN32
+	//VC++ compiler does not support inline assembly in x86-64. And the compiler optimizes away these SSE instructions unless I use volatile.
+	//But I can't use volatile Word256_t* because it is incompatible with _mm_load_si256(). 
+	//Fortunately, I implemented the routine as a wrapper around a hand-coded assembler C function.
 	//This is hand-coded in assembler! We call it as a global C function.
 	return asm_forwSequentialWrite_Word256(static_cast<Word256_t*>(start_address), static_cast<Word256_t*>(end_address));
+#else
+#error Windows is the only supported OS at this time.
+#endif
 }
 
 int32_t xmem::benchmark::benchmark_kernels::revSequentialWrite_Word32(void* start_address, void* end_address) {
@@ -432,12 +455,16 @@ int32_t xmem::benchmark::benchmark_kernels::revSequentialWrite_Word128(void* sta
 	return 0;
 }
 
-//VC++ compiler does not support inline assembly in x86-64. And the compiler optimizes away these SSE instructions unless I use volatile.
-//But I can't use volatile Word256_t* because it is incompatible with _mm_load_si256(). 
-//Fortunately, I implemented the routine as a wrapper around a hand-coded assembler C function.
 int32_t xmem::benchmark::benchmark_kernels::revSequentialWrite_Word256(void* start_address, void* end_address) {
+#ifdef _WIN32
+	//VC++ compiler does not support inline assembly in x86-64. And the compiler optimizes away these SSE instructions unless I use volatile.
+	//But I can't use volatile Word256_t* because it is incompatible with _mm_load_si256(). 
+	//Fortunately, I implemented the routine as a wrapper around a hand-coded assembler C function.
 	//This is hand-coded in assembler! We call it as a global C function.
 	return asm_revSequentialWrite_Word256(static_cast<Word256_t*>(end_address), static_cast<Word256_t*>(start_address));
+#else
+#error Windows is the only supported OS at this time.
+#endif
 }
 
 /* ------------ STRIDE 2 READ --------------*/

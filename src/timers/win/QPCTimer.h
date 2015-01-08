@@ -38,7 +38,7 @@
 #ifdef _WIN32
 #include <Windows.h>
 #else
-#error Windows is the only supported OS at this time.
+#error Windows is the only supported OS for the QPCTimer class.
 #endif
 
 namespace xmem {
@@ -71,7 +71,7 @@ namespace xmem {
 				LARGE_INTEGER __start_tick; /**< The timer tick when start() was last called. */
 				LARGE_INTEGER __stop_tick; /**< The timer tick when stop() was last called. */
 #else
-#error Windows is the only supported OS at this time.
+#error Windows is the only supported OS for the QPCTimer class.
 #endif
 			};
 
