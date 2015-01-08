@@ -1,11 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"classxmem_1_1benchmark_1_1_benchmark.html#ae97857f36cabdbe76eb00142835f7881":[1,0,0,0,0,30],
-"classxmem_1_1benchmark_1_1_benchmark.html#af1a72e70f81c91f7c004ae01b2353288":[1,0,0,0,0,39],
-"classxmem_1_1benchmark_1_1_benchmark_manager.html":[1,0,0,0,1],
-"classxmem_1_1benchmark_1_1_benchmark_manager.html#a1990c0e85b05764d7819b6903d495ee1":[1,0,0,0,1,0],
-"classxmem_1_1benchmark_1_1_benchmark_manager.html#a47b21d3d8a1e1be93e7efd35a3374b0c":[1,0,0,0,1,4],
-"classxmem_1_1benchmark_1_1_benchmark_manager.html#a7b7f4694586af20262d2f3ebe3750d86":[1,0,0,0,1,2],
 "classxmem_1_1benchmark_1_1_benchmark_manager.html#ab1540ca105b7e3c4f5fe96aeb59cc649":[1,0,0,0,1,1],
 "classxmem_1_1benchmark_1_1_benchmark_manager.html#ac515058049ec46df410e4e8e7d858019":[1,0,0,0,1,3],
 "classxmem_1_1benchmark_1_1_latency_benchmark.html":[1,0,0,0,2],
@@ -249,5 +243,11 @@ var NAVTREEINDEX1 =
 "common_8h.html#ad0adcf4f3921d92e20a0dc9c0f097c62":[2,0,0,1,2,59],
 "common_8h.html#ad208f076662399779d8903891345d281":[2,0,0,1,2,26],
 "common_8h.html#ad3063193011749b91a7ba67b9f602f09":[2,0,0,1,2,39],
-"common_8h.html#ad98a88265227cb074ebe4145c963720f":[2,0,0,1,2,17]
+"common_8h.html#ad98a88265227cb074ebe4145c963720f":[2,0,0,1,2,17],
+"common_8h.html#ae0ed34948e547adba1d6efbd83710773":[2,0,0,1,2,11],
+"common_8h.html#ae217141faeaa0c34054a93ba0f0b9405":[2,0,0,1,2,62],
+"common_8h.html#ae31dfa7b0b1ea01e5c9a3eb57e0b79f9":[2,0,0,1,2,28],
+"common_8h.html#ae4611abd91dffbc6ffd38364a4ad76a3":[2,0,0,1,2,37],
+"common_8h.html#af03875531565f8fabc19bc85d0e5ff6d":[2,0,0,1,2,54],
+"common_8h.html#af385a088239530ad1923a913910cf6d7":[2,0,0,1,2,36]
 };
