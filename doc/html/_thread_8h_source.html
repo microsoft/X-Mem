@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.9"/>
-<title>X-Mem: src/thread/Thread.h Source File</title>
+<title>X-Mem: src/include/Thread.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">X-Mem
-   &#160;<span id="projectnumber">1.01</span>
+   &#160;<span id="projectnumber">1.02</span>
    </div>
    <div id="projectbrief">The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power.</div>
   </td>
@@ -139,7 +139,7 @@ $(document).ready(function(){initNavTree('_thread_8h_source.html','');});
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;cstdint&gt;</span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">//Headers</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_runnable_8h.html">Runnable.h</a>&quot;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_runnable_8h.html">include/Runnable.h</a>&gt;</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacexmem.html">xmem</a> {</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">namespace </span>thread {</div>
@@ -204,7 +204,7 @@ $(document).ready(function(){initNavTree('_thread_8h_source.html','');});
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="classxmem_1_1thread_1_1_runnable_html"><div class="ttname"><a href="classxmem_1_1thread_1_1_runnable.html">xmem::thread::Runnable</a></div><div class="ttdoc">A base class for any object that implements a thread-safe run() function for use by Thread objects...</div><div class="ttdef"><b>Definition:</b> Runnable.h:46</div></div>
 <div class="ttc" id="classxmem_1_1thread_1_1_thread_html_ab5c96a075727d5ffbec86213517a1795"><div class="ttname"><a href="classxmem_1_1thread_1_1_thread.html#ab5c96a075727d5ffbec86213517a1795">xmem::thread::Thread::isThreadSuspended</a></div><div class="ttdeci">bool isThreadSuspended()</div><div class="ttdef"><b>Definition:</b> Thread.cpp:162</div></div>
-<div class="ttc" id="namespacexmem_html"><div class="ttname"><a href="namespacexmem.html">xmem</a></div><div class="ttdef"><b>Definition:</b> Benchmark.h:60</div></div>
+<div class="ttc" id="namespacexmem_html"><div class="ttname"><a href="namespacexmem.html">xmem</a></div><div class="ttdef"><b>Definition:</b> common.cpp:47</div></div>
 <div class="ttc" id="classxmem_1_1thread_1_1_thread_html_a0cb4d94dd3f3d885794ce596a5198595"><div class="ttname"><a href="classxmem_1_1thread_1_1_thread.html#a0cb4d94dd3f3d885794ce596a5198595">xmem::thread::Thread::getTarget</a></div><div class="ttdeci">Runnable * getTarget()</div><div class="ttdef"><b>Definition:</b> Thread.cpp:170</div></div>
 <div class="ttc" id="classxmem_1_1thread_1_1_thread_html_a6a5f80bf0bca5ea5b18246aa2b1af250"><div class="ttname"><a href="classxmem_1_1thread_1_1_thread.html#a6a5f80bf0bca5ea5b18246aa2b1af250">xmem::thread::Thread::created</a></div><div class="ttdeci">bool created()</div><div class="ttdef"><b>Definition:</b> Thread.cpp:158</div></div>
 <div class="ttc" id="classxmem_1_1thread_1_1_thread_html_a5d52b4357af2956e10fd72d80d540cf1"><div class="ttname"><a href="classxmem_1_1thread_1_1_thread.html#a5d52b4357af2956e10fd72d80d540cf1">xmem::thread::Thread::cancel</a></div><div class="ttdeci">bool cancel()</div><div class="ttdef"><b>Definition:</b> Thread.cpp:130</div></div>
@@ -226,8 +226,8 @@ $(document).ready(function(){initNavTree('_thread_8h_source.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_bfedb72b9d87795234454f6223b9ab1e.html">thread</a></li><li class="navelem"><a class="el" href="_thread_8h.html">Thread.h</a></li>
-    <li class="footer">Generated on Wed Jan 7 2015 20:57:16 for X-Mem by
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_b0856f6b0d80ccb263b2f415c91f9e17.html">include</a></li><li class="navelem"><a class="el" href="_thread_8h.html">Thread.h</a></li>
+    <li class="footer">Generated on Fri Jan 9 2015 13:18:42 for X-Mem by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9 </li>
   </ul>

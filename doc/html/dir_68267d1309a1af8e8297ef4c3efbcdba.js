@@ -1,10 +1,20 @@
 var dir_68267d1309a1af8e8297ef4c3efbcdba =
 [
-    [ "benchmark", "dir_e7ebcb9b067f42e96b6aa92c053707aa.html", "dir_e7ebcb9b067f42e96b6aa92c053707aa" ],
-    [ "common", "dir_fdedb0aba14d44ce9d99bc100e026e6a.html", "dir_fdedb0aba14d44ce9d99bc100e026e6a" ],
-    [ "config", "dir_7e83d1792d529f4aa7126ac7e0b3b699.html", "dir_7e83d1792d529f4aa7126ac7e0b3b699" ],
-    [ "power", "dir_74c51feede9763246476d18de5c76811.html", "dir_74c51feede9763246476d18de5c76811" ],
-    [ "thread", "dir_bfedb72b9d87795234454f6223b9ab1e.html", "dir_bfedb72b9d87795234454f6223b9ab1e" ],
-    [ "timers", "dir_c96ad356dc0c95ca962f2a9cb8ae0a48.html", "dir_c96ad356dc0c95ca962f2a9cb8ae0a48" ],
-    [ "main.cpp", "main_8cpp.html", "main_8cpp" ]
+    [ "include", "dir_b0856f6b0d80ccb263b2f415c91f9e17.html", "dir_b0856f6b0d80ccb263b2f415c91f9e17" ],
+    [ "win", "dir_eb5d3bab00593f4dc0fdba717f05a49b.html", "dir_eb5d3bab00593f4dc0fdba717f05a49b" ],
+    [ "x86_64", "dir_a96088b88de3a7dbd3bdec17898c4607.html", "dir_a96088b88de3a7dbd3bdec17898c4607" ],
+    [ "Benchmark.cpp", "_benchmark_8cpp.html", null ],
+    [ "benchmark_kernels.cpp", "benchmark__kernels_8cpp.html", null ],
+    [ "BenchmarkManager.cpp", "_benchmark_manager_8cpp.html", null ],
+    [ "common.cpp", "common_8cpp.html", "common_8cpp" ],
+    [ "Configurator.cpp", "_configurator_8cpp.html", null ],
+    [ "LatencyBenchmark.cpp", "_latency_benchmark_8cpp.html", null ],
+    [ "main.cpp", "main_8cpp.html", "main_8cpp" ],
+    [ "NativeDRAMPowerReader.cpp", "_native_d_r_a_m_power_reader_8cpp.html", null ],
+    [ "PowerReader.cpp", "_power_reader_8cpp.html", null ],
+    [ "Runnable.cpp", "_runnable_8cpp.html", null ],
+    [ "Thread.cpp", "_thread_8cpp.html", null ],
+    [ "ThroughputBenchmark.cpp", "_throughput_benchmark_8cpp.html", null ],
+    [ "ThroughputBenchmarkWorker.cpp", "_throughput_benchmark_worker_8cpp.html", null ],
+    [ "Timer.cpp", "_timer_8cpp.html", null ]
 ];

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.9"/>
-<title>X-Mem: src/benchmark/BenchmarkManager.h Source File</title>
+<title>X-Mem: src/include/BenchmarkManager.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">X-Mem
-   &#160;<span id="projectnumber">1.01</span>
+   &#160;<span id="projectnumber">1.02</span>
    </div>
    <div id="projectbrief">The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power.</div>
   </td>
@@ -136,12 +136,12 @@ $(document).ready(function(){initNavTree('_benchmark_manager_8h_source.html','')
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#define __BENCHMARK_MANAGER_H</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">//Headers</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="common_8h.html">common/common.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_timer_8h.html">timers/Timer.h</a>&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_native_d_r_a_m_power_reader_8h.html">power/NativeDRAMPowerReader.h</a>&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_benchmark_8h.html">Benchmark.h</a>&quot;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_throughput_benchmark_8h.html">ThroughputBenchmark.h</a>&quot;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_latency_benchmark_8h.html">LatencyBenchmark.h</a>&quot;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="common_8h.html">include/common.h</a>&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_timer_8h.html">include/Timer.h</a>&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_native_d_r_a_m_power_reader_8h.html">include/NativeDRAMPowerReader.h</a>&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_benchmark_8h.html">include/Benchmark.h</a>&gt;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_throughput_benchmark_8h.html">include/ThroughputBenchmark.h</a>&gt;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_latency_benchmark_8h.html">include/LatencyBenchmark.h</a>&gt;</span></div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">//Libraries</span></div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#include &lt;cstdint&gt;</span></div>
@@ -194,7 +194,7 @@ $(document).ready(function(){initNavTree('_benchmark_manager_8h_source.html','')
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;};</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="namespacexmem_html"><div class="ttname"><a href="namespacexmem.html">xmem</a></div><div class="ttdef"><b>Definition:</b> Benchmark.h:60</div></div>
+<div class="ttc" id="namespacexmem_html"><div class="ttname"><a href="namespacexmem.html">xmem</a></div><div class="ttdef"><b>Definition:</b> common.cpp:47</div></div>
 <div class="ttc" id="classxmem_1_1benchmark_1_1_benchmark_manager_html_a47b21d3d8a1e1be93e7efd35a3374b0c"><div class="ttname"><a href="classxmem_1_1benchmark_1_1_benchmark_manager.html#a47b21d3d8a1e1be93e7efd35a3374b0c">xmem::benchmark::BenchmarkManager::runThroughputBenchmarks</a></div><div class="ttdeci">bool runThroughputBenchmarks()</div><div class="ttdoc">Runs the throughput benchmarks. </div><div class="ttdef"><b>Definition:</b> BenchmarkManager.cpp:141</div></div>
 <div class="ttc" id="_timer_8h_html"><div class="ttname"><a href="_timer_8h.html">Timer.h</a></div><div class="ttdoc">Header file for the Timer class. </div></div>
 <div class="ttc" id="_benchmark_8h_html"><div class="ttname"><a href="_benchmark_8h.html">Benchmark.h</a></div><div class="ttdoc">Header file for the Benchmark class. </div></div>
@@ -213,8 +213,8 @@ $(document).ready(function(){initNavTree('_benchmark_manager_8h_source.html','')
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_e7ebcb9b067f42e96b6aa92c053707aa.html">benchmark</a></li><li class="navelem"><a class="el" href="_benchmark_manager_8h.html">BenchmarkManager.h</a></li>
-    <li class="footer">Generated on Wed Jan 7 2015 20:57:16 for X-Mem by
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_b0856f6b0d80ccb263b2f415c91f9e17.html">include</a></li><li class="navelem"><a class="el" href="_benchmark_manager_8h.html">BenchmarkManager.h</a></li>
+    <li class="footer">Generated on Fri Jan 9 2015 13:18:42 for X-Mem by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9 </li>
   </ul>

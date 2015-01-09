@@ -18,120 +18,120 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\benchmark\BenchmarkManager.cpp">
+    <ClCompile Include="src\Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\benchmark\LatencyBenchmark.cpp">
+    <ClCompile Include="src\Configurator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\benchmark\ThroughputBenchmark.cpp">
+    <ClCompile Include="src\common.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\power\NativeDRAMPowerReader.cpp">
+    <ClCompile Include="src\BenchmarkManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\power\PowerReader.cpp">
+    <ClCompile Include="src\Benchmark.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\config\Configurator.cpp">
+    <ClCompile Include="src\LatencyBenchmark.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\timers\win\QPCTimer.cpp">
+    <ClCompile Include="src\ThroughputBenchmark.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\timers\Timer.cpp">
+    <ClCompile Include="src\ThroughputBenchmarkWorker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\common\common.cpp">
+    <ClCompile Include="src\Runnable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\common\win\win_common.cpp">
+    <ClCompile Include="src\Thread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\common\win\third_party\win_common_third_party.cpp">
+    <ClCompile Include="src\NativeDRAMPowerReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\thread\Thread.cpp">
+    <ClCompile Include="src\PowerReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\thread\Runnable.cpp">
+    <ClCompile Include="src\win\QPCTimer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\benchmark\ThroughputBenchmarkWorker.cpp">
+    <ClCompile Include="src\x86_64\TSCTimer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\benchmark\benchmark_kernels\benchmark_kernels.cpp">
+    <ClCompile Include="src\win\win_common.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\benchmark\Benchmark.cpp">
+    <ClCompile Include="src\win\win_common_third_party.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\timers\x86_64\TSCTimer.cpp">
+    <ClCompile Include="src\benchmark_kernels.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\benchmark\Benchmark.h">
+    <ClInclude Include="src\include\Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\benchmark\BenchmarkManager.h">
+    <ClInclude Include="src\include\Configurator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\benchmark\LatencyBenchmark.h">
+    <ClInclude Include="src\include\common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\benchmark\ThroughputBenchmark.h">
+    <ClInclude Include="src\include\Benchmark.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\power\NativeDRAMPowerReader.h">
+    <ClInclude Include="src\include\BenchmarkManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\power\PowerReader.h">
+    <ClInclude Include="src\include\LatencyBenchmark.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\config\Configurator.h">
+    <ClInclude Include="src\include\ThroughputBenchmark.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\config\third_party\ExampleArg.h">
+    <ClInclude Include="src\include\ThroughputBenchmarkWorker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\config\third_party\MyArg.h">
+    <ClInclude Include="src\include\Runnable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\config\third_party\optionparser.h">
+    <ClInclude Include="src\include\Thread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\timers\win\QPCTimer.h">
+    <ClInclude Include="src\include\NativeDRAMPowerReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\timers\Timer.h">
+    <ClInclude Include="src\include\PowerReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\common\win\third_party\win_CPdhQuery.h">
+    <ClInclude Include="src\include\win\QPCTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\common\win\win_common.h">
+    <ClInclude Include="src\include\x86_64\TSCTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\common\win\third_party\win_common_third_party.h">
+    <ClInclude Include="src\include\optionparser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\common\common.h">
+    <ClInclude Include="src\include\MyArg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\thread\Thread.h">
+    <ClInclude Include="src\include\ExampleArg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\thread\Runnable.h">
+    <ClInclude Include="src\include\win\win_common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\benchmark\ThroughputBenchmarkWorker.h">
+    <ClInclude Include="src\include\win\win_CPdhQuery.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\benchmark\benchmark_kernels\benchmark_kernels.h">
+    <ClInclude Include="src\include\win\win_common_third_party.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\timers\x86_64\TSCTimer.h">
+    <ClInclude Include="src\include\benchmark_kernels.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -352,22 +352,22 @@
     <None Include="README" />
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="src\benchmark\benchmark_kernels\win\x86-64\asm_dummy_forwSequentialLoop_Word256.asm">
+    <MASM Include="src\win\x86_64\asm_dummy_forwSequentialLoop_Word256.asm">
       <Filter>Source Files</Filter>
     </MASM>
-    <MASM Include="src\benchmark\benchmark_kernels\win\x86-64\asm_dummy_revSequentialLoop_Word256.asm">
+    <MASM Include="src\win\x86_64\asm_dummy_revSequentialLoop_Word256.asm">
       <Filter>Source Files</Filter>
     </MASM>
-    <MASM Include="src\benchmark\benchmark_kernels\win\x86-64\asm_forwSequentialRead_Word256.asm">
+    <MASM Include="src\win\x86_64\asm_forwSequentialRead_Word256.asm">
       <Filter>Source Files</Filter>
     </MASM>
-    <MASM Include="src\benchmark\benchmark_kernels\win\x86-64\asm_forwSequentialWrite_Word256.asm">
+    <MASM Include="src\win\x86_64\asm_forwSequentialWrite_Word256.asm">
       <Filter>Source Files</Filter>
     </MASM>
-    <MASM Include="src\benchmark\benchmark_kernels\win\x86-64\asm_revSequentialRead_Word256.asm">
+    <MASM Include="src\win\x86_64\asm_revSequentialRead_Word256.asm">
       <Filter>Source Files</Filter>
     </MASM>
-    <MASM Include="src\benchmark\benchmark_kernels\win\x86-64\asm_revSequentialWrite_Word256.asm">
+    <MASM Include="src\win\x86_64\asm_revSequentialWrite_Word256.asm">
       <Filter>Source Files</Filter>
     </MASM>
   </ItemGroup>
