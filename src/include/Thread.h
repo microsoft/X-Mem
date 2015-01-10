@@ -36,6 +36,10 @@
 //Libraries
 #include <cstdint>
 
+#ifdef __unix__
+#include <pthread.h>
+#endif
+
 namespace xmem {
 	namespace thread {
 		/**
@@ -55,31 +59,18 @@ namespace xmem {
 				~Thread();
 
 				/**
-				 * Creates the thread if the target Runnable is valid, but does not start running it.
-				 * @returns true if the thread was successfully created.
-				 */
-				bool create();
-
-				/**
-				 * Starts the thread immediately if the thread has been created. This invokes the run() method in the Runnable target that was passed in the constructor.
-				 * @returns true if the thread was successfully started.
-				 */
-				bool start();
-				
-				/**
 				 * Creates and starts the thread immediately if the target Runnable is valid. This invokes the run() method in the Runnable target that was passed in the constructor.
 				 * @returns true if the thread was successfully created and started.
 				 */
 				bool create_and_start();
 
 				/**
-				 * Blocks the calling thread until the worker thread managed by this object terminates.
+				 * Blocks the calling thread until the worker thread managed by this object terminates. For simplicity, this does not support a timeout due to pthreads incompatibility with the Windows threading API.
 				 * If the worker thread has already terminated, returns immediately.
 				 * If the worker has not yet started, returns immediately.
-				 * @param timeout timeout in milliseconds to wait for the thread. If 0, does not wait at all. If negative, waits indefinitely.
-				 * @returns true if the worker thread terminated successfully, false otherwise or if join() was not called legally.
+				 * @returns true if the worker thread terminated successfully, false otherwise.
 				 */
-				bool join(int32_t timeout);
+				bool join();
 
 				/**
 				 * Cancels the worker thread immediately. This should only be done in emergencies, as it is effectively killed and undefined behavior might occur.
@@ -128,15 +119,32 @@ namespace xmem {
 				Runnable* getTarget();
 
 			private:
+#ifdef _WIN32
+				/**
+				 * Creates the thread if the target Runnable is valid, but does not start running it.
+				 * @returns true if the thread was successfully created.
+				 */
+				bool __create();
+#endif
 
 #ifdef _WIN32
 				/**
-				 * Invokes the run() method on the __target Runnable object. This launchpad function is necessary to play nice with Windows threading API.
-				 * @param target_runnable_object pointer to the target Runnable object. This needs to be a generic pointer to make Windows API happy.
+				 * Starts the thread immediately if the thread has been created. This invokes the run() method in the Runnable target that was passed in the constructor.
+				 * @returns true if the thread was successfully started.
 				 */
+				bool __start();
+#endif
+				
+
+				/**
+				 * Invokes the run() method on the __target Runnable object.
+				 * @param target_runnable_object pointer to the target Runnable object. This needs to be a generic pointer to keep APIs happy.
+				 */
+#ifdef _WIN32
 				static DWORD WINAPI __run_launchpad(void* target_runnable_object);
-#else
-#error Windows is the only supported OS at this time.
+#endif
+#ifdef __unix__
+				static int32_t __run_launchpad(void* target_runnable_object);
 #endif
 
 				Runnable* __target; /**< The object connecting a run() method which operates in a thread-safe manner. */
@@ -146,11 +154,17 @@ namespace xmem {
 				bool __suspended; /**< If true, the OS thread is suspended. */
 				bool __running; /**< If true, the OS thread is running. */
 				int32_t __thread_exit_code; /**< Contains the thread's exit status code. If it has not yet exited, this should be 0 (normal condition). */
-				uint32_t __thread_id; /**< The OS thread ID. */
+
 #ifdef _WIN32
-				HANDLE __thread_handle; /**< A handle to the OS thread. */
-#else
-#error Windows is the only supported OS at this time.
+				uint32_t __thread_id; /**< The OS thread ID. */
+#endif
+
+				/** A handle to the OS thread. */
+#ifdef _WIN32
+				HANDLE __thread_handle;
+#endif
+#ifdef __unix__
+				pthread_t __thread_handle;
 #endif
 		};
 	};

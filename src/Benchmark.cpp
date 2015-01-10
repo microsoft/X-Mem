@@ -180,15 +180,10 @@ bool Benchmark::_start_power_threads() {
 			success = false;
 		}
 		else {
-			_dram_power_threads[i]->create();
-		}
-	}
-
-	//Start the power threads
-	for (uint32_t i = 0; i < _dram_power_threads.size(); i++) {
-		if (_dram_power_threads[i] != NULL && !_dram_power_threads[i]->start()) {
-			std::cerr << "WARNING: Failed to start a DRAM power measurement thread." << std::endl;
+			if (!_dram_power_threads[i]->create_and_start()) //Create and start the power threads
+			std::cerr << "WARNING: Failed to create and start a DRAM power measurement thread." << std::endl;
 			success = false;
+
 		}
 	}
 
@@ -210,7 +205,7 @@ bool Benchmark::_stop_power_threads() {
 
 	//Wait for all worker threads to complete now that they were signaled to stop
 	for (uint32_t i = 0; i < _dram_power_threads.size(); i++) {
-		if (_dram_power_threads[i] != NULL && !_dram_power_threads[i]->join(DEFAULT_THREAD_JOIN_TIMEOUT)) { //Give 3 seconds maximum to terminate each power thread.
+		if (_dram_power_threads[i] != NULL && !_dram_power_threads[i]->join()) { //Give 3 seconds maximum to terminate each power thread.
 			std::cerr << "WARNING: A power measurement thread did not complete on time as expected! Forcing the thread to stop." << std::endl;
 			if (!_dram_power_threads[i]->cancel())
 				std::cerr << "WARNING: Failed to force stop a power measurement thread. Its behavior may be unpredictable." << std::endl;

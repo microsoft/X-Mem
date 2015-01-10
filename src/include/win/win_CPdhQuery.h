@@ -7,6 +7,8 @@
 #ifndef __WIN_CPDHQUERY_H
 #define __WIN_CPDHQUERY_H
 
+#ifdef _WIN32
+
 //Headers
 #include <win/win_common_third_party.h>
 
@@ -218,5 +220,7 @@ namespace xmem {
 		};
 	};
 };
+
+#endif
 
 #endif
