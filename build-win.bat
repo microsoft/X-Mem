@@ -6,13 +6,16 @@ echo Building X-Mem for WINDOWS...
 
 :: Clean build
 echo Cleaning build...
-MSBuild /t:Clean
-rmdir /S /Q x64
+call scons -c -f SConstruct_win
+::MSBuild /t:Clean
+rmdir /S /Q build\win
 
 :: Build
 echo Building...
-MSBuild
+call scons -f SConstruct_win
+::MSBuild
 
 :: Copy executable
-copy x64\Release\xmem.exe .
+copy build\win\release\xmem.exe .
+
 echo Done! The executable is at the top of the project tree: xmem.exe

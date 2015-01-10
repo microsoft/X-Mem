@@ -2,9 +2,13 @@
 x64/
 Release/
 Debug/
+vc120.pdb
 *.suo
 *.sdf
 *.opensdf
+
+# SCons build stuff
+.sconsign.dblite
 
 # Windows image file caches
 Thumbs.db
