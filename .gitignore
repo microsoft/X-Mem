@@ -9,6 +9,7 @@ vc120.pdb
 
 # SCons build stuff
 .sconsign.dblite
+build/
 
 # Windows image file caches
 Thumbs.db
