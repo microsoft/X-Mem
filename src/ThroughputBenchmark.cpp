@@ -912,16 +912,15 @@ bool ThroughputBenchmark::__run_core() {
 											)
 							);
 			worker_threads.push_back(new thread::Thread(workers[t]));
-			worker_threads[t]->create();
 		}
 
 		//Start worker threads! gogogo
 		for (uint32_t t = 0; t < _num_worker_threads; t++)
-			worker_threads[t]->start();
+			worker_threads[t]->create_and_start();
 
 		//Wait for all threads to complete
 		for (uint32_t t = 0; t < _num_worker_threads; t++)
-			if (!worker_threads[t]->join(DEFAULT_THREAD_JOIN_TIMEOUT))
+			if (!worker_threads[t]->join())
 				std::cerr << "WARNING: A worker thread failed to complete by the expected time!" << std::endl;
 
 		//Compute throughput achieved with all workers

@@ -176,14 +176,14 @@ bool Benchmark::_start_power_threads() {
 		}
 		_dram_power_threads.push_back(mythread);
 		if (mythread == NULL) {
-			std::cerr << "WARNING: Failed to create a DRAM power measurement thread." << std::endl;
+			std::cerr << "WARNING: Failed to allocate a DRAM power measurement thread." << std::endl;
 			success = false;
 		}
 		else {
-			if (!_dram_power_threads[i]->create_and_start()) //Create and start the power threads
-			std::cerr << "WARNING: Failed to create and start a DRAM power measurement thread." << std::endl;
-			success = false;
-
+			if (!_dram_power_threads[i]->create_and_start()) { //Create and start the power threads
+				std::cerr << "WARNING: Failed to create and start a DRAM power measurement thread." << std::endl;
+				success = false;
+			}
 		}
 	}
 

@@ -4,14 +4,7 @@
 
 echo Building X-Mem for WINDOWS...
 
-:: Clean build
-echo Cleaning build...
-call scons -c -f SConstruct_win
-::MSBuild /t:Clean
-rmdir /S /Q build\win
-
 :: Build
-echo Building...
 call scons -f SConstruct_win
 ::MSBuild
 
