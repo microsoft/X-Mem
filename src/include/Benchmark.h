@@ -51,6 +51,10 @@
 #include <string>
 #include <vector>
 
+#ifdef _WIN32
+#include <intrin.h>
+#endif
+
 namespace xmem {
 	namespace benchmark {
 		/**

@@ -33,7 +33,14 @@
 //Libraries
 #include <cstdint>
 #include <cstddef>
+
+#ifdef _WIN32
+#include <intrin.h>
+#endif
+
+#ifdef __unix__
 #include <immintrin.h>
+#endif
 
 namespace xmem {
 	namespace common {

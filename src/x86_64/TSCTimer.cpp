@@ -40,6 +40,10 @@
 #error Windows is the only supported OS at this time.
 #endif
 
+#ifdef __unix__
+#include <immintrin.h>
+#endif
+
 using namespace xmem::timers::x86_64;
 
 TSCTimer::TSCTimer() :

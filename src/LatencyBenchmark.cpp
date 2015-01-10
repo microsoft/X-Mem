@@ -43,7 +43,7 @@
 #include <time.h>
 #ifdef _WIN32
 #include <windows.h>
-#include <intrin.h>
+//#include <intrin.h>
 #include <processthreadsapi.h>
 #else
 #error Windows is the only supported OS at this time.

@@ -13,6 +13,7 @@
 //Libraries
 #include <cstdint>
 #include <stdio.h>
+#include <cstdlib>
 
 namespace xmem {
 	namespace config {

@@ -111,7 +111,7 @@ bool Runnable::_acquireLock(int32_t timeout) {
 			return false;
 		}
 	} else {
-#ifdef _Win32
+#ifdef _WIN32
 		reason = WaitForSingleObject(_mutex, timeout);
 		if (reason == WAIT_OBJECT_0) //success
 #endif
