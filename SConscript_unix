@@ -14,7 +14,6 @@ env.Append(CPPPATH = ['src/include', '/usr/include'])
 
 # List all C++ source files
 sources = [
-	Glob('src/win/x86_64/*.asm'), # FIXME: These files are actually not needed on Unix
 	Glob('src/*.cpp'), 
 	Glob('src/win/*.cpp'),
 	Glob('src/x86_64/*.cpp')
