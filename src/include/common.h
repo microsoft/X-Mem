@@ -33,12 +33,7 @@
 //Libraries
 #include <cstdint>
 #include <cstddef>
-#ifdef _WIN32
-#include <windows.h> 
-#include <intrin.h>
-#else
-#error Windows is the only supported OS at this time.
-#endif
+#include <immintrin.h>
 
 namespace xmem {
 	namespace common {
@@ -321,12 +316,8 @@ namespace xmem {
 		typedef uint64_t Word64_t;
 #endif
 #ifdef ARCH_INTEL_X86_64_AVX
-#ifdef _WIN32
 		typedef __m128i Word128_t;
 		typedef __m256i Word256_t;
-#else
-#error Windows is the only supported OS at this time.
-#endif
 #endif
 		/**
 		 * @brief Memory access patterns are broadly categorized by sequential or random-access.

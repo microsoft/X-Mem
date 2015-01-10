@@ -32,10 +32,13 @@
 
 //Libraries
 #include <cstdint>
+
 #ifdef _WIN32
 #include <windows.h>
-#else
-#error Windows is the only supported OS at this time.
+#endif
+
+#ifdef __unix__
+#include <pthread.h>
 #endif
 
 namespace xmem {
@@ -73,11 +76,15 @@ namespace xmem {
 				 * @returns true on success. If not successful, the lock is either still held or the call was illegal (e.g., releasing a lock that was never acquired).
 				 */
 				bool _releaseLock();
-
+				
+				/** A handle to the OS native Windows mutex, i.e., the locking mechanism. Outside the constructor, this should only be accessed via _acquireLock() and _releaseLock(). */
 #ifdef _WIN32
-				HANDLE _mutex; /**< A handle to the OS mutex, i.e., the locking mechanism. Outside the constructor, this should only be accessed via _acquireLock() and _releaseLock(). */
-#else
-#error Windows is the only supported OS at this time.
+				HANDLE _mutex; 
+#endif
+
+#ifdef __unix__
+				/** A handle to the OS pthreads mutex, i.e., the locking mechanism. Outside the constructor, this should only be accessed via _acquireLock() and _releaseLock(). */
+				pthread_mutex_t _mutex; 
 #endif
 		};
 	};

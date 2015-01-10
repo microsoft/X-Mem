@@ -33,16 +33,15 @@
 //Headers
 #include <common.h>
 #include <Timer.h>
+
 #if defined(ARCH_INTEL_X86_64) && defined(USE_TSC_TIMER)
 #include <x86_64/TSCTimer.h>
 #endif
-#ifdef _WIN32
-#if defined(USE_QPC_TIMER)
+
+#if defined(_WIN32) && defined(USE_QPC_TIMER)
 #include <win/QPCTimer.h>
 #endif
-#else
-#error Windows is the only supported OS at this time.
-#endif
+
 #include <PowerReader.h>
 #include <Thread.h>
 #include <Runnable.h>
@@ -51,11 +50,6 @@
 #include <cstdint>
 #include <string>
 #include <vector>
-#ifdef _WIN32
-#include <intrin.h> //For intrinsics. TODO: can this be removed? probably not needed here.
-#else
-#error Windows is the only supported OS at this time.
-#endif
 
 namespace xmem {
 	namespace benchmark {
