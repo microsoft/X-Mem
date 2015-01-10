@@ -28,12 +28,12 @@
  */
 
 //Headers
-#include <include/common.h>
+#include <common.h>
 #if defined(ARCH_INTEL_X86_64) && defined(USE_TSC_TIMER)
-#include <include/x86_64/TSCTimer.h>
+#include <x86_64/TSCTimer.h>
 #endif
 #if defined(_WIN32) && defined(USE_QPC_TIMER)
-#include <include/win/QPCTimer.h>
+#include <win/QPCTimer.h>
 #endif
 
 //Libraries

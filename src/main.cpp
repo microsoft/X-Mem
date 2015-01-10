@@ -34,11 +34,11 @@
 
 
 //Headers
-#include <include/common.h>
-#include <include/win/win_common.h>
-#include <include/win/win_common_third_party.h>
-#include <include/Configurator.h>
-#include <include/BenchmarkManager.h>
+#include <common.h>
+#include <win/win_common.h>
+#include <win/win_common_third_party.h>
+#include <Configurator.h>
+#include <BenchmarkManager.h>
 
 //Libraries
 #include <iostream>

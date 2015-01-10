@@ -28,12 +28,12 @@
  */
 
 //Headers
-#include <include/LatencyBenchmark.h>
-#include <include/common.h>
+#include <LatencyBenchmark.h>
+#include <common.h>
 #if defined(ARCH_INTEL_X86_64) && defined(USE_TSC_TIMER)
-#include <include/x86_64/TSCTimer.h>
+#include <x86_64/TSCTimer.h>
 #endif
-#include <include/benchmark_kernels.h>
+#include <benchmark_kernels.h>
 
 //Libraries
 #include <iostream>

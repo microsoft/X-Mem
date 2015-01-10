@@ -28,8 +28,8 @@
  */
 
 //Headers
-#include <include/PowerReader.h>
-#include <include/common.h>
+#include <PowerReader.h>
+#include <common.h>
 
 //Libraries
 #include <cstdint>

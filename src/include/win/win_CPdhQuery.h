@@ -8,7 +8,7 @@
 #define __WIN_CPDHQUERY_H
 
 //Headers
-#include <include/win/win_common_third_party.h>
+#include <win/win_common_third_party.h>
 
 //Libraries
 #include <windows.h>

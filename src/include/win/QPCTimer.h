@@ -31,7 +31,7 @@
 #define __QPCTIMER_H
 
 //Headers
-#include <include/Timer.h>
+#include <Timer.h>
 
 //Libraries
 #include <cstdint>

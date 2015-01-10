@@ -31,12 +31,13 @@
 #define __POWER_READER_H
 
 //Headers
-#include <include/common.h>
-#include <include/Runnable.h>
+#include <common.h>
+#include <Runnable.h>
 
 //Libraries
 #include <cstdint>
 #include <vector>
+#include <string>
 
 namespace xmem {
 	namespace power {

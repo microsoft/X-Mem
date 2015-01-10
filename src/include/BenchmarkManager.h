@@ -31,12 +31,12 @@
 #define __BENCHMARK_MANAGER_H
 
 //Headers
-#include <include/common.h>
-#include <include/Timer.h>
-#include <include/NativeDRAMPowerReader.h>
-#include <include/Benchmark.h>
-#include <include/ThroughputBenchmark.h>
-#include <include/LatencyBenchmark.h>
+#include <common.h>
+#include <Timer.h>
+#include <NativeDRAMPowerReader.h>
+#include <Benchmark.h>
+#include <ThroughputBenchmark.h>
+#include <LatencyBenchmark.h>
 
 //Libraries
 #include <cstdint>

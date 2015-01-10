@@ -31,8 +31,8 @@
 #define __TSCTIMER_H
 
 //Headers
-#include <include/common.h>
-#include <include/Timer.h>
+#include <common.h>
+#include <Timer.h>
 
 //Libraries
 #include <cstdint>

@@ -31,21 +31,21 @@
 #define __BENCHMARK_H
 
 //Headers
-#include <include/common.h>
-#include <include/Timer.h>
+#include <common.h>
+#include <Timer.h>
 #if defined(ARCH_INTEL_X86_64) && defined(USE_TSC_TIMER)
-#include <include/x86_64/TSCTimer.h>
+#include <x86_64/TSCTimer.h>
 #endif
 #ifdef _WIN32
 #if defined(USE_QPC_TIMER)
-#include <include/win/QPCTimer.h>
+#include <win/QPCTimer.h>
 #endif
 #else
 #error Windows is the only supported OS at this time.
 #endif
-#include <include/PowerReader.h>
-#include <include/Thread.h>
-#include <include/Runnable.h>
+#include <PowerReader.h>
+#include <Thread.h>
+#include <Runnable.h>
 
 //Libraries
 #include <cstdint>

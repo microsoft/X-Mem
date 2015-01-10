@@ -36,8 +36,8 @@
  */
 
 //Headers
-#include <include/benchmark_kernels.h>
-#include <include/common.h>
+#include <benchmark_kernels.h>
+#include <common.h>
 
 using namespace xmem::common;
 using namespace xmem::benchmark::benchmark_kernels;

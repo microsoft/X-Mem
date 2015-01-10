@@ -27,7 +27,7 @@
  * @brief Implementation file for the Timer class.
  */
 
-#include <include/Timer.h>
+#include <Timer.h>
 
 using namespace xmem::timers;
 

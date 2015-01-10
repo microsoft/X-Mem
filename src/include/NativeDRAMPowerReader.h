@@ -31,10 +31,10 @@
 #define __NATIVE_DRAM_POWER_READER_H
 
 //Headers
-#include <include/common.h>
-#include <include/PowerReader.h>
-#include <include/Runnable.h>
-#include <include/win/win_CPdhQuery.h>
+#include <common.h>
+#include <PowerReader.h>
+#include <Runnable.h>
+#include <win/win_CPdhQuery.h>
 
 //Libraries
 #include <cstdint>

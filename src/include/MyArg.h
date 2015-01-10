@@ -7,9 +7,12 @@
 #ifndef __MY_ARG_H
 #define __MY_ARG_H
 
+//Headers
+#include <ExampleArg.h>
+
+//Libraries
 #include <cstdint>
 #include <stdio.h>
-#include <include/ExampleArg.h>
 
 namespace xmem {
 	namespace config {

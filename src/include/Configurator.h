@@ -31,9 +31,9 @@
 #define __CONFIGURATOR_H
 
 //Headers
-#include <include/common.h>
-#include <include/optionparser.h>
-#include <include/MyArg.h>
+#include <common.h>
+#include <optionparser.h>
+#include <MyArg.h>
 
 //Libraries
 #include <cstdint>

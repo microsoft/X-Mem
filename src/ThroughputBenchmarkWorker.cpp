@@ -28,15 +28,15 @@
  */
 
 //Headers
-#include <include/ThroughputBenchmarkWorker.h>
-#include <include/benchmark_kernels.h>
-#include <include/common.h>
+#include <ThroughputBenchmarkWorker.h>
+#include <benchmark_kernels.h>
+#include <common.h>
 #if defined(ARCH_INTEL_X86_64) && defined(USE_TSC_TIMER)
-#include <include/x86_64/TSCTimer.h>
+#include <x86_64/TSCTimer.h>
 #endif
 #ifdef _WIN32
 #ifdef USE_QPC_TIMER
-#include <include/win/QPCTimer.h>
+#include <win/QPCTimer.h>
 #endif
 #else
 #error Windows is the only supported OS at this time.

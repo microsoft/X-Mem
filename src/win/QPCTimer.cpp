@@ -28,7 +28,7 @@
  */
 
 //Headers
-#include <include/win/QPCTimer.h>
+#include <win/QPCTimer.h>
 
 //Libraries
 #ifdef _WIN32

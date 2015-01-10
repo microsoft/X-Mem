@@ -27,6 +27,9 @@
  * @brief Implementation file for the Thread class.
  */
 
+//Headers
+#include <Thread.h>
+
 //Libraries
 #include <stdlib.h>
 #include <iostream>
@@ -35,9 +38,6 @@
 #else
 #error Windows is the only supported OS at this time.
 #endif
-
-//Headers
-#include <include/Thread.h>
 
 using namespace xmem::thread;
 

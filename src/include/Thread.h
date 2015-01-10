@@ -30,11 +30,11 @@
 #ifndef __THREAD_H
 #define __THREAD_H
 
+//Headers
+#include <Runnable.h>
+
 //Libraries
 #include <cstdint>
-
-//Headers
-#include <include/Runnable.h>
 
 namespace xmem {
 	namespace thread {

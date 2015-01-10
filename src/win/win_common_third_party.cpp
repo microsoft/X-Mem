@@ -5,9 +5,9 @@
  */
 
 //Headers
-#include <include/win/win_common_third_party.h>
-#include <include/common.h>
-#include <include/win/win_common.h>
+#include <win/win_common_third_party.h>
+#include <common.h>
+#include <win/win_common.h>
 
 //Libraries
 #include <iostream>

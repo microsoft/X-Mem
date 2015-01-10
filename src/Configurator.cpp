@@ -28,10 +28,10 @@
  */
 
 //Headers
-#include <include/Configurator.h>
-#include <include/common.h>
-#include <include/optionparser.h>
-#include <include/MyArg.h>
+#include <Configurator.h>
+#include <common.h>
+#include <optionparser.h>
+#include <MyArg.h>
 
 //Libraries
 #include <cstdint>

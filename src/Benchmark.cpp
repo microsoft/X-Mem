@@ -28,9 +28,9 @@
  */
 
 //Headers
-#include <include/Benchmark.h>
-#include <include/common.h>
-#include <include/PowerReader.h>
+#include <Benchmark.h>
+#include <common.h>
+#include <PowerReader.h>
 
 //Libraries
 #include <cstdint>

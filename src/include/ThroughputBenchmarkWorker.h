@@ -31,8 +31,8 @@
 #define __THROUGHPUT_BENCHMARK_WORKER_H
 
 //Headers
-#include <include/Runnable.h>
-#include <include/common.h>
+#include <Runnable.h>
+#include <common.h>
 
 //Libraries
 #include <cstdint>

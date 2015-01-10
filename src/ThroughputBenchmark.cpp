@@ -28,12 +28,12 @@
  */
 
 //Headers
-#include <include/ThroughputBenchmark.h>
-#include <include/common.h>
-#include <include/ThroughputBenchmarkWorker.h>
-#include <include/benchmark_kernels.h>
-#include <include/Thread.h>
-#include <include/Runnable.h>
+#include <ThroughputBenchmark.h>
+#include <common.h>
+#include <ThroughputBenchmarkWorker.h>
+#include <benchmark_kernels.h>
+#include <Thread.h>
+#include <Runnable.h>
 
 //Libraries
 #include <iostream>

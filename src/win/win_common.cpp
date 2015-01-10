@@ -28,8 +28,8 @@
  */
 
 //Headers
-#include <include/common.h>
-#include <include/win/win_common.h>
+#include <common.h>
+#include <win/win_common.h>
 
 //Libraries
 #include <windows.h>

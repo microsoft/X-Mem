@@ -7,9 +7,12 @@
 #ifndef __EXAMPLE_ARG_H
 #define __EXAMPLE_ARG_H
 
+//Headers
+#include <optionparser.h> 
+
+//Libraries
 #include <cstdint>
 #include <stdio.h>
-#include <include/optionparser.h> 
 
 namespace xmem {
 	namespace config {

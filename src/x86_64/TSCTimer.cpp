@@ -28,7 +28,7 @@
  */
 
 //Headers
-#include <include/x86_64/TSCTimer.h>
+#include <x86_64/TSCTimer.h>
 
 #ifdef ARCH_INTEL_X86_64
 

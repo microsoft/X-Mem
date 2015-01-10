@@ -32,6 +32,7 @@
 
 //Libraries
 #include <cstdint>
+#include <cstddef>
 #ifdef _WIN32
 #include <windows.h> 
 #include <intrin.h>
@@ -42,9 +43,13 @@
 namespace xmem {
 	namespace common {
 
-#define VERSION 1.02
+#define VERSION 1.03
 
-//Convert platform-specific preprocessor flags for architecture to xmem-specific constants
+#if !defined(_WIN32) && !defined(__unix__)
+#error Neither Windows or Unix build environments were detected!
+#endif
+
+//Windows: convert platform-specific preprocessor flags for architecture to xmem-specific constants
 #ifdef _WIN32
 
 #ifdef _M_IX86 //Intel x86
@@ -72,6 +77,39 @@ namespace xmem {
 #endif
 
 #ifdef _M_ARM //ARM architecture
+#define ARCH_ARM
+#endif
+
+#endif
+
+//Unix: convert platform-specific preprocessor flags for architecture to xmem-specific constants
+#ifdef __unix__
+
+#ifdef __i386__ //Intel x86
+#define ARCH_INTEL_X86
+#endif
+
+#ifdef __x86_64__ //Intel x86-64
+#define ARCH_INTEL_X86_64
+#endif
+
+#ifdef __SSE2__ //Intel x86-64 SSE2 extensions
+#define ARCH_INTEL_X86_64_SSE2
+#endif
+
+#ifdef __AVX__ //Intel x86-64 AVX extensions
+#define ARCH_INTEL_X86_64_AVX
+#endif
+
+#ifdef __AVX2__ //Intel x86-64 AVX2 extensions
+#define ARCH_INTEL_X86_64_AVX2
+#endif
+
+#ifdef __amd64__ //AMD64
+#define ARCH_AMD64
+#endif
+
+#ifdef __arm__ //ARM architecture
 #define ARCH_ARM
 #endif
 

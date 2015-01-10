@@ -28,9 +28,9 @@
  */
 
 //Headers
-#include <include/BenchmarkManager.h>
-#include <include/common.h>
-#include <include/win/win_common_third_party.h>
+#include <BenchmarkManager.h>
+#include <common.h>
+#include <win/win_common_third_party.h>
 
 //Libraries
 #include <cstdint>

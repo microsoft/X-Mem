@@ -28,10 +28,10 @@
  */
 
 //Headers
-#include <include/NativeDRAMPowerReader.h>
-#include <include/common.h>
+#include <NativeDRAMPowerReader.h>
+#include <common.h>
 #ifdef _WIN32
-#include <include/win/win_CPdhQuery.h>
+#include <win/win_CPdhQuery.h>
 #else
 #error Windows is the only supported OS at this time.
 #endif
