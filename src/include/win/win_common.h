@@ -45,7 +45,7 @@ namespace xmem {
 };
 
 #else
-#error Windows is the only supported OS at this time.
+#error This file should only be included in Windows builds.
 #endif
 
 #endif

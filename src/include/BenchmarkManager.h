@@ -33,7 +33,7 @@
 //Headers
 #include <common.h>
 #include <Timer.h>
-#include <NativeDRAMPowerReader.h>
+#include <PowerReader.h>
 #include <Benchmark.h>
 #include <ThroughputBenchmark.h>
 #include <LatencyBenchmark.h>

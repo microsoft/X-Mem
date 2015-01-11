@@ -31,6 +31,7 @@
 #include <BenchmarkManager.h>
 #include <common.h>
 #include <win/win_common_third_party.h>
+#include <win/WindowsDRAMPowerReader.h>
 
 //Libraries
 #include <cstdint>
@@ -76,9 +77,9 @@ BenchmarkManager::BenchmarkManager(size_t working_set_size, uint32_t iterations_
 		//FIXME: this is a bandaid for when the system is -really- NUMA, but has UMA emulation in hardware. In such a case, the number of physical packages may exceed number of NUMA nodes, but there are still
 		//two physical "nodes" of DRAM power to measure. On Windows, need a way of picking a CPU core from a physical processor package rather than from a NUMA node! Maybe this exists and I need to search harder. :)
 		if (i >= __num_numa_nodes) 
-			__dram_power_readers.push_back(new power::NativeDRAMPowerReader((g_num_logical_cpus / g_num_physical_packages)*i+2, POWER_SAMPLING_PERIOD_SEC, 1, power_obj_name, (g_num_logical_cpus / g_num_physical_packages)*i+2)); //Measure using 3rd logical CPU in the node. FIXME: this is a bandaid. not always going to work if there aren't at least 3 logical CPUs in any node!!
+			__dram_power_readers.push_back(new power::win::WindowsDRAMPowerReader((g_num_logical_cpus / g_num_physical_packages)*i+2, POWER_SAMPLING_PERIOD_SEC, 1, power_obj_name, (g_num_logical_cpus / g_num_physical_packages)*i+2)); //Measure using 3rd logical CPU in the node. FIXME: this is a bandaid. not always going to work if there aren't at least 3 logical CPUs in any node!!
 		else //Normal condition, # NUMA nodes equals # physical processor packages which is likely in most reasonable scenarios.
-			__dram_power_readers.push_back(new power::NativeDRAMPowerReader(cpu_id_in_numa_node(i,2), POWER_SAMPLING_PERIOD_SEC, 1, power_obj_name, cpu_id_in_numa_node(i,2))); //Measure using 3rd logical CPU in the node. FIXME: this is a bandaid. not always going to work if there aren't at least 3 logical CPUs in any node!!
+			__dram_power_readers.push_back(new power::win::WindowsDRAMPowerReader(cpu_id_in_numa_node(i,2), POWER_SAMPLING_PERIOD_SEC, 1, power_obj_name, cpu_id_in_numa_node(i,2))); //Measure using 3rd logical CPU in the node. FIXME: this is a bandaid. not always going to work if there aren't at least 3 logical CPUs in any node!!
 	}
 
 	//Build working memory regions

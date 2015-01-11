@@ -221,6 +221,8 @@ namespace xmem {
 	};
 };
 
+#else
+#error This file should only be included in Windows builds.
 #endif
 
 #endif

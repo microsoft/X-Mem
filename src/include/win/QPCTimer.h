@@ -30,16 +30,14 @@
 #ifndef __QPCTIMER_H
 #define __QPCTIMER_H
 
+#ifdef _WIN32
+
 //Headers
 #include <Timer.h>
 
 //Libraries
 #include <cstdint>
-#ifdef _WIN32
 #include <Windows.h>
-#else
-#error Windows is the only supported OS for the QPCTimer class.
-#endif
 
 namespace xmem {
 	namespace timers {
@@ -67,12 +65,8 @@ namespace xmem {
 				virtual uint64_t stop();
 
 			private:
-#ifdef _WIN32
 				LARGE_INTEGER __start_tick; /**< The timer tick when start() was last called. */
 				LARGE_INTEGER __stop_tick; /**< The timer tick when stop() was last called. */
-#else
-#error Windows is the only supported OS for the QPCTimer class.
-#endif
 			};
 
 			/**
@@ -83,5 +77,9 @@ namespace xmem {
 		};
 	};
 };
+
+#else
+#error This file should only be included in Windows builds.
+#endif
 
 #endif

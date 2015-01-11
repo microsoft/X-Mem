@@ -4,6 +4,8 @@
  * @brief Implementation file for some third-party helper code for working with Windows APIs.
  */
 
+#ifdef _WIN32
+
 //Headers
 #include <win/win_common_third_party.h>
 #include <common.h>
@@ -248,3 +250,7 @@ double xmem::common::win::third_party::DumpMapValue(std::map<std::tstring, doubl
 		return itr->second;
 	return 0;
 }
+
+#else
+#error This file should only be used in Windows builds.
+#endif

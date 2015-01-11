@@ -30,14 +30,14 @@
 #ifndef __TSCTIMER_H
 #define __TSCTIMER_H
 
+#ifdef ARCH_INTEL_X86_64
+
 //Headers
 #include <common.h>
 #include <Timer.h>
 
 //Libraries
 #include <cstdint>
-
-#ifdef ARCH_INTEL_X86_64
 
 namespace xmem {
 	namespace timers {
@@ -98,5 +98,8 @@ namespace xmem {
 	};
 };
 
+#else
+#error This file should only be included in Intel x86_64 builds.
 #endif
+
 #endif

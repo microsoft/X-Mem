@@ -27,10 +27,10 @@
  * @brief Implementation file for the TSCTimer class as well as some C-style functions for working with the TSC timer hardware directly.
  */
 
+#ifdef ARCH_INTEL_X86_64
+
 //Headers
 #include <x86_64/TSCTimer.h>
-
-#ifdef ARCH_INTEL_X86_64
 
 //Libraries
 #ifdef _WIN32
@@ -94,4 +94,6 @@ uint64_t xmem::timers::x86_64::stop_tsc_timer() {
 #endif
 }
 
+#else
+#error This file should only be used in Intel x86_64 builds.
 #endif

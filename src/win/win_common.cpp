@@ -27,14 +27,14 @@
  * @brief Implementation file for some common Windows helper stuff.
  */
 
+#ifdef _WIN32
+
 //Headers
 #include <common.h>
 #include <win/win_common.h>
 
 //Libraries
 #include <windows.h>
-
-#ifdef _WIN32
 
 using namespace xmem::common::win;
 
@@ -55,5 +55,5 @@ bool xmem::common::win::config_page_size() {
 }
 
 #else 
-#error Windows is the only supported OS at this time.
+#error This file should only be used in Windows builds.
 #endif
