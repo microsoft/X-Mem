@@ -89,6 +89,9 @@ LatencyBenchmark::LatencyBenchmark(
 	__dummy_fptr = &dummy_chasePointers;
 }
 
+LatencyBenchmark::~LatencyBenchmark() {
+}
+
 void LatencyBenchmark::report_benchmark_info() {
 	std::cout << "CPU NUMA Node: " << _cpu_node << std::endl;
 	std::cout << "Memory NUMA Node: " << _mem_node << std::endl;
@@ -167,7 +170,7 @@ bool LatencyBenchmark::__run_core() {
 		bool iter_warning = false;
 #ifdef USE_TIME_BASED_BENCHMARKS
 		uint64_t accesses_per_pass = LATENCY_BENCHMARK_UNROLL_LENGTH;
-		uint64_t ticks = 0, target_ticks = 0, p = 0, p2 = 0;
+		uint64_t ticks = 0, target_ticks = 0, p = 0;
 		
 		target_ticks = _timer->get_ticks_per_sec() * BENCHMARK_DURATION_SEC; //Rough target run duration in seconds 
 

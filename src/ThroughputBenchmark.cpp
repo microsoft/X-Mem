@@ -774,6 +774,9 @@ ThroughputBenchmark::ThroughputBenchmark(
 	}
 }
 
+ThroughputBenchmark::~ThroughputBenchmark() {
+}
+
 void ThroughputBenchmark::report_benchmark_info() {
 	std::cout << "CPU NUMA Node: " << _cpu_node << std::endl;
 	std::cout << "Memory NUMA Node: " << _mem_node << std::endl;

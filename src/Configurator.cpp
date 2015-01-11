@@ -147,7 +147,7 @@ int Configurator::configureFromInput(int argc, char* argv[]) {
 #endif
 #ifndef USE_LARGE_PAGES
 #ifdef VERBOSE
-	std::cout << __working_set_size << " B == " << __working_set_size / KB  << " KB == " << __working_set_size / MB << " MB (" << __working_set_size/(PAGE_SIZE) << " pages)" << std::endl;	
+	std::cout << __working_set_size << " B == " << __working_set_size / KB  << " KB == " << __working_set_size / MB << " MB (" << __working_set_size/(xmem::common::g_page_size) << " pages)" << std::endl;	
 #endif
 #else
 	size_t num_large_pages = 0;

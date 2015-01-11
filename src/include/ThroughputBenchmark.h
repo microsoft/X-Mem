@@ -83,6 +83,11 @@ namespace xmem {
 			);
 
 			/**
+			 * @brief Destructor.
+			 */
+			virtual ~ThroughputBenchmark();
+
+			/**
 			 * @brief Runs the benchmark.
 			 * @returns true on success
 			 */

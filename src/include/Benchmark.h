@@ -98,7 +98,7 @@ namespace xmem {
 			/**
 			 * @brief Destructor.
 			 */
-			~Benchmark();
+			virtual ~Benchmark();
 
 			/**
 			 * @brief Runs the benchmark.

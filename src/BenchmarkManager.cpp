@@ -30,8 +30,11 @@
 //Headers
 #include <BenchmarkManager.h>
 #include <common.h>
+
+#ifdef _WIN32
 #include <win/win_common_third_party.h>
 #include <win/WindowsDRAMPowerReader.h>
+#endif
 
 //Libraries
 #include <cstdint>
@@ -39,10 +42,13 @@
 #include <iostream>
 #include <sstream>
 #include <assert.h>
+
 #ifdef _WIN32
 #include <windows.h>
-#else
-#error Windows is the only supported OS at this time.
+#endif
+
+#ifdef __unix__
+#include <numa.h>
 #endif
 
 using namespace xmem::benchmark;
@@ -56,8 +62,8 @@ BenchmarkManager::BenchmarkManager(size_t working_set_size, uint32_t iterations_
 	__mem_array_lens(),
 	__tp_benchmarks(),
 	__lat_benchmarks(),
-	__timer(),
 	__dram_power_readers(),
+	__timer(),
 	__output_to_file(output_to_file),
 	__results_filename(results_filename),
 	__results_file(),
@@ -74,12 +80,15 @@ BenchmarkManager::BenchmarkManager(size_t working_set_size, uint32_t iterations_
 	for (uint32_t i = 0; i < g_num_physical_packages; i++) { //FIXME: this assumes that each physical package has a DRAM power measurement capability
 		std::string power_obj_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Socket " << i << " DRAM"))->str();
 		
+		//TODO: Implement derived PowerReaders for Unix systems.
 		//FIXME: this is a bandaid for when the system is -really- NUMA, but has UMA emulation in hardware. In such a case, the number of physical packages may exceed number of NUMA nodes, but there are still
 		//two physical "nodes" of DRAM power to measure. On Windows, need a way of picking a CPU core from a physical processor package rather than from a NUMA node! Maybe this exists and I need to search harder. :)
+#ifdef _WIN32
 		if (i >= __num_numa_nodes) 
 			__dram_power_readers.push_back(new power::win::WindowsDRAMPowerReader((g_num_logical_cpus / g_num_physical_packages)*i+2, POWER_SAMPLING_PERIOD_SEC, 1, power_obj_name, (g_num_logical_cpus / g_num_physical_packages)*i+2)); //Measure using 3rd logical CPU in the node. FIXME: this is a bandaid. not always going to work if there aren't at least 3 logical CPUs in any node!!
 		else //Normal condition, # NUMA nodes equals # physical processor packages which is likely in most reasonable scenarios.
 			__dram_power_readers.push_back(new power::win::WindowsDRAMPowerReader(cpu_id_in_numa_node(i,2), POWER_SAMPLING_PERIOD_SEC, 1, power_obj_name, cpu_id_in_numa_node(i,2))); //Measure using 3rd logical CPU in the node. FIXME: this is a bandaid. not always going to work if there aren't at least 3 logical CPUs in any node!!
+#endif
 	}
 
 	//Build working memory regions
@@ -122,8 +131,9 @@ BenchmarkManager::~BenchmarkManager() {
 		if (__mem_arrays[i] != nullptr)
 #ifdef _WIN32
 			VirtualFreeEx(GetCurrentProcess(), __mem_arrays[i], 0, MEM_RELEASE); //windows API
-#else
-#error Windows is the only supported OS at this time.
+#endif
+#ifdef __unix__
+			numa_free(__mem_arrays[i], __mem_array_lens[i]); //Unix API
 #endif
 	//Close results file
 	if (__results_file.is_open())
@@ -280,14 +290,18 @@ void BenchmarkManager::__setupWorkingSets(size_t working_set_size) {
 
 	for (uint32_t numa_node = 0; numa_node < __benchmark_num_numa_nodes; numa_node++) {
 		size_t allocation_size = 0, remainder = 0;
+
+#ifdef USE_LARGE_PAGES
+		//For large pages, working set size could be less than a single large page. So let's allocate the right amount of memory, which is the working set size rounded up to nearest large page, which could be more than we actually use.
+		if (__num_worker_threads * working_set_size < g_large_page_size)
+			allocation_size = g_large_page_size;
+		else { 
+			remainder = (__num_worker_threads * working_set_size) % g_large_page_size;
+			allocation_size = (__num_worker_threads * working_set_size) + remainder;
+		}
+		
 #ifdef _WIN32
-#ifndef USE_LARGE_PAGES
-		allocation_size = __num_worker_threads * working_set_size + PAGE_SIZE;
-		//Under normal (not large-page) operation, working set size is a multiple of regular pages.
-		__mem_arrays[numa_node] = VirtualAllocExNuma(GetCurrentProcess(), NULL, allocation_size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE, numa_node); //Windows NUMA allocation. Make the allocation one page bigger than necessary so that we can do alignment.
-#else
 		//Make sure we have necessary privileges
-#ifdef _WIN32
 		HANDLE hToken;
 		if (!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken)) {
 			std::cerr << "FATAL: Failed to open process token to adjust privileges! Did you remember to run in Administrator mode?" << std::endl;
@@ -298,22 +312,23 @@ void BenchmarkManager::__setupWorkingSets(size_t working_set_size) {
 			exit(-1);
 		}
 		CloseHandle(hToken);
-#else
-#error Windows is the only supported OS at this time.
-#endif
-
-		//For large pages, working set size could be less than a single large page. So let's allocate the right amount of memory, which is the working set size rounded up to nearest large page, which could be more than we actually use.
-		if (__num_worker_threads * working_set_size < g_large_page_size)
-			allocation_size = g_large_page_size;
-		else { 
-			remainder = (__num_worker_threads * working_set_size) % g_large_page_size;
-			allocation_size = (__num_worker_threads * working_set_size) + remainder;
-		}
-
+		
 		__mem_arrays[numa_node] = VirtualAllocExNuma(GetCurrentProcess(), NULL, allocation_size, MEM_COMMIT | MEM_RESERVE | MEM_LARGE_PAGES, PAGE_READWRITE, numa_node); //Windows NUMA allocation. Make the allocation one page bigger than necessary so that we can do alignment.
-#endif
 #else
-#error Windows is the only supported OS at this time.
+#error USE_LARGE_PAGES compile-time option is currently supported only on Windows systems.
+#endif
+
+
+#else //Non-large pages (nominal case)
+		//Under normal (not large-page) operation, working set size is a multiple of regular pages.
+		allocation_size = __num_worker_threads * working_set_size + g_page_size; 
+#ifdef _WIN32
+		__mem_arrays[numa_node] = VirtualAllocExNuma(GetCurrentProcess(), NULL, allocation_size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE, numa_node); //Windows NUMA allocation. Make the allocation one page bigger than necessary so that we can do alignment.
+#endif
+#ifdef __unix__
+		__mem_arrays[numa_node] = numa_alloc_onnode(allocation_size, numa_node);
+#endif
+
 #endif
 		
 		if (__mem_arrays[numa_node] != nullptr)

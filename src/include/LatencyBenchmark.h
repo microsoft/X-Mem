@@ -74,6 +74,11 @@ namespace xmem {
 				xmem::timers::Timer *timer,
 				std::vector<xmem::power::PowerReader*> dram_power_readers
 			);
+			
+			/**
+			 * @brief Destructor.
+			 */
+			virtual ~LatencyBenchmark();
 
 			/**
 			 * @brief Runs the benchmark.
