@@ -30,10 +30,12 @@
 #ifndef __TSCTIMER_H
 #define __TSCTIMER_H
 
+//Headers
+#include <common.h>
+
 #ifdef ARCH_INTEL_X86_64
 
 //Headers
-#include <common.h>
 #include <Timer.h>
 
 //Libraries

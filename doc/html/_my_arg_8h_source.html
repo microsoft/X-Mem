@@ -32,7 +32,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">X-Mem
-   &#160;<span id="projectnumber">1.02</span>
+   &#160;<span id="projectnumber">1.03.01</span>
    </div>
    <div id="projectbrief">The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power.</div>
   </td>
@@ -113,75 +113,79 @@ $(document).ready(function(){initNavTree('_my_arg_8h_source.html','');});
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifndef __MY_ARG_H</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define __MY_ARG_H</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;cstdint&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_example_arg_8h.html">include/ExampleArg.h</a>&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacexmem.html">xmem</a> {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keyword">namespace </span>config {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keyword">namespace </span>third_party {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">//Headers</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_example_arg_8h.html">ExampleArg.h</a>&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">//Libraries</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;cstdlib&gt;</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classxmem_1_1config_1_1third__party_1_1_my_arg.html">   18</a></span>&#160;            <span class="keyword">class </span><a class="code" href="classxmem_1_1config_1_1third__party_1_1_my_arg.html">MyArg</a> : <span class="keyword">public</span> <a class="code" href="classxmem_1_1config_1_1third__party_1_1_example_arg.html">ExampleArg</a></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            {</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="classxmem_1_1config_1_1third__party_1_1_my_arg.html#aa96164ec393fdb12b359e33ee48e3c64">   24</a></span>&#160;                <span class="keyword">static</span> ArgStatus <a class="code" href="classxmem_1_1config_1_1third__party_1_1_my_arg.html#aa96164ec393fdb12b359e33ee48e3c64">Integer</a>(<span class="keyword">const</span> <a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html">Option</a>&amp; option, <span class="keywordtype">bool</span> msg) {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                    <span class="keywordtype">char</span>* endptr = 0;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                    <span class="keywordflow">if</span> (option.<a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html#a409f63d66d900e594dd86bcdfa9fd86a">arg</a> != 0 &amp;&amp; strtol(option.<a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html#a409f63d66d900e594dd86bcdfa9fd86a">arg</a>, &amp;endptr, 10)) {};</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                    <span class="keywordflow">if</span> (endptr != option.<a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html#a409f63d66d900e594dd86bcdfa9fd86a">arg</a> &amp;&amp; *endptr == 0)</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                        <span class="keywordflow">return</span> ARG_OK;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                    <span class="keywordflow">if</span> (msg)</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                        printError(<span class="stringliteral">&quot;Option &#39;&quot;</span>, option, <span class="stringliteral">&quot;&#39; requires an integer argument\n&quot;</span>);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                    <span class="keywordflow">return</span> ARG_ILLEGAL;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                }</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="classxmem_1_1config_1_1third__party_1_1_my_arg.html#a51af9350382f12100b5bd6b554c3bcf5">   38</a></span>&#160;                <span class="keyword">static</span> ArgStatus <a class="code" href="classxmem_1_1config_1_1third__party_1_1_my_arg.html#a51af9350382f12100b5bd6b554c3bcf5">NonnegativeInteger</a>(<span class="keyword">const</span> <a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html">Option</a>&amp; option, <span class="keywordtype">bool</span> msg) {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                    <span class="keywordtype">char</span>* endptr = 0;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                    int64_t tmp = -1;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                    <span class="keywordflow">if</span> (option.<a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html#a409f63d66d900e594dd86bcdfa9fd86a">arg</a> != 0)</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                        tmp = strtol(option.<a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html#a409f63d66d900e594dd86bcdfa9fd86a">arg</a>, &amp;endptr, 10);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                    <span class="keywordflow">if</span> (endptr != option.<a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html#a409f63d66d900e594dd86bcdfa9fd86a">arg</a> &amp;&amp; *endptr == 0 &amp;&amp; tmp &gt;= 0)</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                        <span class="keywordflow">return</span> ARG_OK;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                    <span class="keywordflow">if</span> (msg)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                        printError(<span class="stringliteral">&quot;Option &#39;&quot;</span>, option, <span class="stringliteral">&quot;&#39; requires a non-negative integer argument\n&quot;</span>);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                    <span class="keywordflow">return</span> ARG_ILLEGAL;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                }</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="classxmem_1_1config_1_1third__party_1_1_my_arg.html#ad022660b254db34b578eb5b3fc9782a7">   54</a></span>&#160;                <span class="keyword">static</span> ArgStatus <a class="code" href="classxmem_1_1config_1_1third__party_1_1_my_arg.html#ad022660b254db34b578eb5b3fc9782a7">PositiveInteger</a>(<span class="keyword">const</span> <a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html">Option</a>&amp; option, <span class="keywordtype">bool</span> msg) {</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                    <span class="keywordtype">char</span>* endptr = 0;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                    int64_t tmp = -1;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                    <span class="keywordflow">if</span> (option.<a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html#a409f63d66d900e594dd86bcdfa9fd86a">arg</a> != 0)</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                        tmp = strtol(option.<a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html#a409f63d66d900e594dd86bcdfa9fd86a">arg</a>, &amp;endptr, 10);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                    <span class="keywordflow">if</span> (endptr != option.<a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html#a409f63d66d900e594dd86bcdfa9fd86a">arg</a> &amp;&amp; *endptr == 0 &amp;&amp; tmp &gt; 0)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                        <span class="keywordflow">return</span> ARG_OK;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                    <span class="keywordflow">if</span> (msg)</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                        printError(<span class="stringliteral">&quot;Option &#39;&quot;</span>, option, <span class="stringliteral">&quot;&#39; requires a positive integer argument\n&quot;</span>);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                    <span class="keywordflow">return</span> ARG_ILLEGAL;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            };</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        };</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    };</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;};</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="classxmem_1_1config_1_1third__party_1_1_my_arg_html_ad022660b254db34b578eb5b3fc9782a7"><div class="ttname"><a href="classxmem_1_1config_1_1third__party_1_1_my_arg.html#ad022660b254db34b578eb5b3fc9782a7">xmem::config::third_party::MyArg::PositiveInteger</a></div><div class="ttdeci">static ArgStatus PositiveInteger(const Option &amp;option, bool msg)</div><div class="ttdoc">Checks an option that it is a positive integer. </div><div class="ttdef"><b>Definition:</b> MyArg.h:54</div></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacexmem.html">xmem</a> {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">namespace </span>config {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keyword">namespace </span>third_party {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classxmem_1_1config_1_1third__party_1_1_my_arg.html">   22</a></span>&#160;            <span class="keyword">class </span><a class="code" href="classxmem_1_1config_1_1third__party_1_1_my_arg.html">MyArg</a> : <span class="keyword">public</span> <a class="code" href="classxmem_1_1config_1_1third__party_1_1_example_arg.html">ExampleArg</a></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classxmem_1_1config_1_1third__party_1_1_my_arg.html#aa96164ec393fdb12b359e33ee48e3c64">   28</a></span>&#160;                <span class="keyword">static</span> ArgStatus <a class="code" href="classxmem_1_1config_1_1third__party_1_1_my_arg.html#aa96164ec393fdb12b359e33ee48e3c64">Integer</a>(<span class="keyword">const</span> <a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html">Option</a>&amp; option, <span class="keywordtype">bool</span> msg) {</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                    <span class="keywordtype">char</span>* endptr = 0;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                    <span class="keywordflow">if</span> (option.<a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html#a409f63d66d900e594dd86bcdfa9fd86a">arg</a> != 0 &amp;&amp; strtol(option.<a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html#a409f63d66d900e594dd86bcdfa9fd86a">arg</a>, &amp;endptr, 10)) {};</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                    <span class="keywordflow">if</span> (endptr != option.<a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html#a409f63d66d900e594dd86bcdfa9fd86a">arg</a> &amp;&amp; *endptr == 0)</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                        <span class="keywordflow">return</span> ARG_OK;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                    <span class="keywordflow">if</span> (msg)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                        printError(<span class="stringliteral">&quot;Option &#39;&quot;</span>, option, <span class="stringliteral">&quot;&#39; requires an integer argument\n&quot;</span>);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                    <span class="keywordflow">return</span> ARG_ILLEGAL;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                }</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="classxmem_1_1config_1_1third__party_1_1_my_arg.html#a51af9350382f12100b5bd6b554c3bcf5">   42</a></span>&#160;                <span class="keyword">static</span> ArgStatus <a class="code" href="classxmem_1_1config_1_1third__party_1_1_my_arg.html#a51af9350382f12100b5bd6b554c3bcf5">NonnegativeInteger</a>(<span class="keyword">const</span> <a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html">Option</a>&amp; option, <span class="keywordtype">bool</span> msg) {</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                    <span class="keywordtype">char</span>* endptr = 0;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                    int64_t tmp = -1;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                    <span class="keywordflow">if</span> (option.<a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html#a409f63d66d900e594dd86bcdfa9fd86a">arg</a> != 0)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                        tmp = strtol(option.<a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html#a409f63d66d900e594dd86bcdfa9fd86a">arg</a>, &amp;endptr, 10);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                    <span class="keywordflow">if</span> (endptr != option.<a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html#a409f63d66d900e594dd86bcdfa9fd86a">arg</a> &amp;&amp; *endptr == 0 &amp;&amp; tmp &gt;= 0)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                        <span class="keywordflow">return</span> ARG_OK;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                    <span class="keywordflow">if</span> (msg)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                        printError(<span class="stringliteral">&quot;Option &#39;&quot;</span>, option, <span class="stringliteral">&quot;&#39; requires a non-negative integer argument\n&quot;</span>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                    <span class="keywordflow">return</span> ARG_ILLEGAL;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="classxmem_1_1config_1_1third__party_1_1_my_arg.html#ad022660b254db34b578eb5b3fc9782a7">   58</a></span>&#160;                <span class="keyword">static</span> ArgStatus <a class="code" href="classxmem_1_1config_1_1third__party_1_1_my_arg.html#ad022660b254db34b578eb5b3fc9782a7">PositiveInteger</a>(<span class="keyword">const</span> <a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html">Option</a>&amp; option, <span class="keywordtype">bool</span> msg) {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                    <span class="keywordtype">char</span>* endptr = 0;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                    int64_t tmp = -1;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                    <span class="keywordflow">if</span> (option.<a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html#a409f63d66d900e594dd86bcdfa9fd86a">arg</a> != 0)</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                        tmp = strtol(option.<a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html#a409f63d66d900e594dd86bcdfa9fd86a">arg</a>, &amp;endptr, 10);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                    <span class="keywordflow">if</span> (endptr != option.<a class="code" href="classxmem_1_1config_1_1third__party_1_1_option.html#a409f63d66d900e594dd86bcdfa9fd86a">arg</a> &amp;&amp; *endptr == 0 &amp;&amp; tmp &gt; 0)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                        <span class="keywordflow">return</span> ARG_OK;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                    <span class="keywordflow">if</span> (msg)</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                        printError(<span class="stringliteral">&quot;Option &#39;&quot;</span>, option, <span class="stringliteral">&quot;&#39; requires a positive integer argument\n&quot;</span>);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                    <span class="keywordflow">return</span> ARG_ILLEGAL;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                }</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            };</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        };</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    };</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;};</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="classxmem_1_1config_1_1third__party_1_1_my_arg_html_ad022660b254db34b578eb5b3fc9782a7"><div class="ttname"><a href="classxmem_1_1config_1_1third__party_1_1_my_arg.html#ad022660b254db34b578eb5b3fc9782a7">xmem::config::third_party::MyArg::PositiveInteger</a></div><div class="ttdeci">static ArgStatus PositiveInteger(const Option &amp;option, bool msg)</div><div class="ttdoc">Checks an option that it is a positive integer. </div><div class="ttdef"><b>Definition:</b> MyArg.h:58</div></div>
 <div class="ttc" id="namespacexmem_html"><div class="ttname"><a href="namespacexmem.html">xmem</a></div><div class="ttdef"><b>Definition:</b> common.cpp:47</div></div>
 <div class="ttc" id="classxmem_1_1config_1_1third__party_1_1_option_html_a409f63d66d900e594dd86bcdfa9fd86a"><div class="ttname"><a href="classxmem_1_1config_1_1third__party_1_1_option.html#a409f63d66d900e594dd86bcdfa9fd86a">xmem::config::third_party::Option::arg</a></div><div class="ttdeci">const char * arg</div><div class="ttdoc">Pointer to this Option&#39;s argument (if any). </div><div class="ttdef"><b>Definition:</b> optionparser.h:482</div></div>
-<div class="ttc" id="classxmem_1_1config_1_1third__party_1_1_example_arg_html"><div class="ttname"><a href="classxmem_1_1config_1_1third__party_1_1_example_arg.html">xmem::config::third_party::ExampleArg</a></div><div class="ttdef"><b>Definition:</b> ExampleArg.h:18</div></div>
+<div class="ttc" id="classxmem_1_1config_1_1third__party_1_1_example_arg_html"><div class="ttname"><a href="classxmem_1_1config_1_1third__party_1_1_example_arg.html">xmem::config::third_party::ExampleArg</a></div><div class="ttdef"><b>Definition:</b> ExampleArg.h:21</div></div>
 <div class="ttc" id="_example_arg_8h_html"><div class="ttname"><a href="_example_arg_8h.html">ExampleArg.h</a></div><div class="ttdoc">Slightly-modified third-party code related to OptionParser. </div></div>
-<div class="ttc" id="classxmem_1_1config_1_1third__party_1_1_my_arg_html_aa96164ec393fdb12b359e33ee48e3c64"><div class="ttname"><a href="classxmem_1_1config_1_1third__party_1_1_my_arg.html#aa96164ec393fdb12b359e33ee48e3c64">xmem::config::third_party::MyArg::Integer</a></div><div class="ttdeci">static ArgStatus Integer(const Option &amp;option, bool msg)</div><div class="ttdoc">Checks an option that it is an integer. </div><div class="ttdef"><b>Definition:</b> MyArg.h:24</div></div>
-<div class="ttc" id="classxmem_1_1config_1_1third__party_1_1_my_arg_html"><div class="ttname"><a href="classxmem_1_1config_1_1third__party_1_1_my_arg.html">xmem::config::third_party::MyArg</a></div><div class="ttdef"><b>Definition:</b> MyArg.h:18</div></div>
+<div class="ttc" id="classxmem_1_1config_1_1third__party_1_1_my_arg_html_aa96164ec393fdb12b359e33ee48e3c64"><div class="ttname"><a href="classxmem_1_1config_1_1third__party_1_1_my_arg.html#aa96164ec393fdb12b359e33ee48e3c64">xmem::config::third_party::MyArg::Integer</a></div><div class="ttdeci">static ArgStatus Integer(const Option &amp;option, bool msg)</div><div class="ttdoc">Checks an option that it is an integer. </div><div class="ttdef"><b>Definition:</b> MyArg.h:28</div></div>
+<div class="ttc" id="classxmem_1_1config_1_1third__party_1_1_my_arg_html"><div class="ttname"><a href="classxmem_1_1config_1_1third__party_1_1_my_arg.html">xmem::config::third_party::MyArg</a></div><div class="ttdef"><b>Definition:</b> MyArg.h:22</div></div>
 <div class="ttc" id="classxmem_1_1config_1_1third__party_1_1_option_html"><div class="ttname"><a href="classxmem_1_1config_1_1third__party_1_1_option.html">xmem::config::third_party::Option</a></div><div class="ttdoc">A parsed option from the command line together with its argument if it has one. </div><div class="ttdef"><b>Definition:</b> optionparser.h:435</div></div>
-<div class="ttc" id="classxmem_1_1config_1_1third__party_1_1_my_arg_html_a51af9350382f12100b5bd6b554c3bcf5"><div class="ttname"><a href="classxmem_1_1config_1_1third__party_1_1_my_arg.html#a51af9350382f12100b5bd6b554c3bcf5">xmem::config::third_party::MyArg::NonnegativeInteger</a></div><div class="ttdeci">static ArgStatus NonnegativeInteger(const Option &amp;option, bool msg)</div><div class="ttdoc">Checks an option that it is a nonnegative integer. </div><div class="ttdef"><b>Definition:</b> MyArg.h:38</div></div>
+<div class="ttc" id="classxmem_1_1config_1_1third__party_1_1_my_arg_html_a51af9350382f12100b5bd6b554c3bcf5"><div class="ttname"><a href="classxmem_1_1config_1_1third__party_1_1_my_arg.html#a51af9350382f12100b5bd6b554c3bcf5">xmem::config::third_party::MyArg::NonnegativeInteger</a></div><div class="ttdeci">static ArgStatus NonnegativeInteger(const Option &amp;option, bool msg)</div><div class="ttdoc">Checks an option that it is a nonnegative integer. </div><div class="ttdef"><b>Definition:</b> MyArg.h:42</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_b0856f6b0d80ccb263b2f415c91f9e17.html">include</a></li><li class="navelem"><a class="el" href="_my_arg_8h.html">MyArg.h</a></li>
-    <li class="footer">Generated on Fri Jan 9 2015 13:18:42 for X-Mem by
+    <li class="footer">Generated on Sat Jan 10 2015 17:43:01 for X-Mem by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9 </li>
   </ul>

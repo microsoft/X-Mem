@@ -8,13 +8,6 @@ var annotated =
         [ "ThroughputBenchmark", "classxmem_1_1benchmark_1_1_throughput_benchmark.html", "classxmem_1_1benchmark_1_1_throughput_benchmark" ],
         [ "ThroughputBenchmarkWorker", "classxmem_1_1benchmark_1_1_throughput_benchmark_worker.html", "classxmem_1_1benchmark_1_1_throughput_benchmark_worker" ]
       ] ],
-      [ "common", null, [
-        [ "win", null, [
-          [ "third_party", null, [
-            [ "CPdhQuery", "classxmem_1_1common_1_1win_1_1third__party_1_1_c_pdh_query.html", "classxmem_1_1common_1_1win_1_1third__party_1_1_c_pdh_query" ]
-          ] ]
-        ] ]
-      ] ],
       [ "config", null, [
         [ "third_party", null, [
           [ "Arg", "structxmem_1_1config_1_1third__party_1_1_arg.html", null ],
@@ -29,7 +22,6 @@ var annotated =
         [ "Configurator", "classxmem_1_1config_1_1_configurator.html", "classxmem_1_1config_1_1_configurator" ]
       ] ],
       [ "power", null, [
-        [ "NativeDRAMPowerReader", "classxmem_1_1power_1_1_native_d_r_a_m_power_reader.html", "classxmem_1_1power_1_1_native_d_r_a_m_power_reader" ],
         [ "PowerReader", "classxmem_1_1power_1_1_power_reader.html", "classxmem_1_1power_1_1_power_reader" ]
       ] ],
       [ "thread", null, [
@@ -37,9 +29,6 @@ var annotated =
         [ "Thread", "classxmem_1_1thread_1_1_thread.html", "classxmem_1_1thread_1_1_thread" ]
       ] ],
       [ "timers", null, [
-        [ "win", null, [
-          [ "QPCTimer", "classxmem_1_1timers_1_1win_1_1_q_p_c_timer.html", "classxmem_1_1timers_1_1win_1_1_q_p_c_timer" ]
-        ] ],
         [ "Timer", "classxmem_1_1timers_1_1_timer.html", "classxmem_1_1timers_1_1_timer" ]
       ] ]
     ] ]

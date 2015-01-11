@@ -10,10 +10,9 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "Configurator.cpp", "_configurator_8cpp.html", null ],
     [ "LatencyBenchmark.cpp", "_latency_benchmark_8cpp.html", null ],
     [ "main.cpp", "main_8cpp.html", "main_8cpp" ],
-    [ "NativeDRAMPowerReader.cpp", "_native_d_r_a_m_power_reader_8cpp.html", null ],
     [ "PowerReader.cpp", "_power_reader_8cpp.html", null ],
-    [ "Runnable.cpp", "_runnable_8cpp.html", null ],
-    [ "Thread.cpp", "_thread_8cpp.html", null ],
+    [ "Runnable.cpp", "_runnable_8cpp.html", "_runnable_8cpp" ],
+    [ "Thread.cpp", "_thread_8cpp.html", "_thread_8cpp" ],
     [ "ThroughputBenchmark.cpp", "_throughput_benchmark_8cpp.html", null ],
     [ "ThroughputBenchmarkWorker.cpp", "_throughput_benchmark_worker_8cpp.html", null ],
     [ "Timer.cpp", "_timer_8cpp.html", null ]

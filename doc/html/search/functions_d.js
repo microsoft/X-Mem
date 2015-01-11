@@ -1,7 +1,6 @@
 var searchData=
 [
   ['name',['name',['../classxmem_1_1power_1_1_power_reader.html#ac0f465b044512502eb1824f18d60e3e6',1,'xmem::power::PowerReader']]],
-  ['nativedrampowerreader',['NativeDRAMPowerReader',['../classxmem_1_1power_1_1_native_d_r_a_m_power_reader.html#a825b2e2e2a92c1c31f7e252bb5402e32',1,'xmem::power::NativeDRAMPowerReader']]],
   ['next',['next',['../classxmem_1_1config_1_1third__party_1_1_option.html#af9c5d2de03863bbcdc05a1d6771f1f36',1,'xmem::config::third_party::Option::next()'],['../classxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_line_part_iterator.html#a2cfb0a3892f66533af06c7bf6753efc3',1,'xmem::config::third_party::PrintUsageImplementation::LinePartIterator::next()']]],
   ['nextrow',['nextRow',['../classxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_line_part_iterator.html#aeb2cc4042743a09f1c38cc1180fa79e9',1,'xmem::config::third_party::PrintUsageImplementation::LinePartIterator']]],
   ['nexttable',['nextTable',['../classxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_line_part_iterator.html#a8c9cebd37c34729868760e6b85d00230',1,'xmem::config::third_party::PrintUsageImplementation::LinePartIterator']]],

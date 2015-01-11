@@ -32,7 +32,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">X-Mem
-   &#160;<span id="projectnumber">1.02</span>
+   &#160;<span id="projectnumber">1.03</span>
    </div>
    <div id="projectbrief">The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power.</div>
   </td>
@@ -136,10 +136,10 @@ $(document).ready(function(){initNavTree('_native_d_r_a_m_power_reader_8h_source
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#define __NATIVE_DRAM_POWER_READER_H</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">//Headers</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="common_8h.html">include/common.h</a>&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_power_reader_8h.html">include/PowerReader.h</a>&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_runnable_8h.html">include/Runnable.h</a>&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="win___c_pdh_query_8h.html">include/win/win_CPdhQuery.h</a>&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="common_8h.html">common.h</a>&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_power_reader_8h.html">PowerReader.h</a>&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_runnable_8h.html">Runnable.h</a>&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="win___c_pdh_query_8h.html">win/win_CPdhQuery.h</a>&gt;</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment">//Libraries</span></div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#include &lt;cstdint&gt;</span></div>
@@ -160,7 +160,7 @@ $(document).ready(function(){initNavTree('_native_d_r_a_m_power_reader_8h_source
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            uint32_t __counter_cpu_index; </div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#ifdef _WIN32</span></div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            std::string __perf_counter_name; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            <a class="code" href="classxmem_1_1common_1_1win_1_1third__party_1_1_c_pdh_query.html">xmem::common::win::third_party::CPdhQuery</a>* __pdhQuery; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            xmem::common::win::third_party::CPdhQuery* __pdhQuery; </div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor">#else</span></div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#error Windows is the only supported OS at this time.</span></div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#endif</span></div>
@@ -175,10 +175,9 @@ $(document).ready(function(){initNavTree('_native_d_r_a_m_power_reader_8h_source
 <div class="ttc" id="_power_reader_8h_html"><div class="ttname"><a href="_power_reader_8h.html">PowerReader.h</a></div><div class="ttdoc">Header file for the PowerReader class. </div></div>
 <div class="ttc" id="win___c_pdh_query_8h_html"><div class="ttname"><a href="win___c_pdh_query_8h.html">win_CPdhQuery.h</a></div><div class="ttdoc">Header and implementation file for some third-party code for measuring Windows OS-exposed performance...</div></div>
 <div class="ttc" id="_runnable_8h_html"><div class="ttname"><a href="_runnable_8h.html">Runnable.h</a></div><div class="ttdoc">Header file for the Runnable class. </div></div>
-<div class="ttc" id="classxmem_1_1power_1_1_power_reader_html"><div class="ttname"><a href="classxmem_1_1power_1_1_power_reader.html">xmem::power::PowerReader</a></div><div class="ttdoc">An abstract base class for measuring power from an arbitrary source. This class is runnable using a w...</div><div class="ttdef"><b>Definition:</b> PowerReader.h:46</div></div>
+<div class="ttc" id="classxmem_1_1power_1_1_power_reader_html"><div class="ttname"><a href="classxmem_1_1power_1_1_power_reader.html">xmem::power::PowerReader</a></div><div class="ttdoc">An abstract base class for measuring power from an arbitrary source. This class is runnable using a w...</div><div class="ttdef"><b>Definition:</b> PowerReader.h:47</div></div>
 <div class="ttc" id="classxmem_1_1power_1_1_native_d_r_a_m_power_reader_html"><div class="ttname"><a href="classxmem_1_1power_1_1_native_d_r_a_m_power_reader.html">xmem::power::NativeDRAMPowerReader</a></div><div class="ttdoc">A class for measuring socket-level DRAM power from the OS performance counter interface. </div><div class="ttdef"><b>Definition:</b> NativeDRAMPowerReader.h:49</div></div>
 <div class="ttc" id="classxmem_1_1power_1_1_native_d_r_a_m_power_reader_html_acf3e518e39c8b90f759c674a2c81d985"><div class="ttname"><a href="classxmem_1_1power_1_1_native_d_r_a_m_power_reader.html#acf3e518e39c8b90f759c674a2c81d985">xmem::power::NativeDRAMPowerReader::run</a></div><div class="ttdeci">virtual void run()</div><div class="ttdoc">Starts measuring power at the rate implied by the sampling_period passed in the constructor. Terminates when stop() is called. </div><div class="ttdef"><b>Definition:</b> NativeDRAMPowerReader.cpp:80</div></div>
-<div class="ttc" id="classxmem_1_1common_1_1win_1_1third__party_1_1_c_pdh_query_html"><div class="ttname"><a href="classxmem_1_1common_1_1win_1_1third__party_1_1_c_pdh_query.html">xmem::common::win::third_party::CPdhQuery</a></div><div class="ttdoc">A third-party class for querying performance counter data from Windows. </div><div class="ttdef"><b>Definition:</b> win_CPdhQuery.h:37</div></div>
 <div class="ttc" id="common_8h_html"><div class="ttname"><a href="common_8h.html">common.h</a></div><div class="ttdoc">Header file for common preprocessor definitions, macros, functions, and global constants. </div></div>
 <div class="ttc" id="classxmem_1_1power_1_1_power_reader_html_ac0f465b044512502eb1824f18d60e3e6"><div class="ttname"><a href="classxmem_1_1power_1_1_power_reader.html#ac0f465b044512502eb1824f18d60e3e6">xmem::power::PowerReader::name</a></div><div class="ttdeci">std::string name()</div><div class="ttdoc">Gets the name of this object. </div><div class="ttdef"><b>Definition:</b> PowerReader.cpp:172</div></div>
 </div><!-- fragment --></div><!-- contents -->
@@ -187,7 +186,7 @@ $(document).ready(function(){initNavTree('_native_d_r_a_m_power_reader_8h_source
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_b0856f6b0d80ccb263b2f415c91f9e17.html">include</a></li><li class="navelem"><a class="el" href="_native_d_r_a_m_power_reader_8h.html">NativeDRAMPowerReader.h</a></li>
-    <li class="footer">Generated on Fri Jan 9 2015 13:18:42 for X-Mem by
+    <li class="footer">Generated on Sat Jan 10 2015 13:36:56 for X-Mem by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9 </li>
   </ul>

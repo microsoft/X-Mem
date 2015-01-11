@@ -20,9 +20,6 @@ var dir_b0856f6b0d80ccb263b2f415c91f9e17 =
     [ "MyArg.h", "_my_arg_8h.html", [
       [ "MyArg", "classxmem_1_1config_1_1third__party_1_1_my_arg.html", null ]
     ] ],
-    [ "NativeDRAMPowerReader.h", "_native_d_r_a_m_power_reader_8h.html", [
-      [ "NativeDRAMPowerReader", "classxmem_1_1power_1_1_native_d_r_a_m_power_reader.html", "classxmem_1_1power_1_1_native_d_r_a_m_power_reader" ]
-    ] ],
     [ "optionparser.h", "optionparser_8h.html", "optionparser_8h" ],
     [ "PowerReader.h", "_power_reader_8h.html", [
       [ "PowerReader", "classxmem_1_1power_1_1_power_reader.html", "classxmem_1_1power_1_1_power_reader" ]

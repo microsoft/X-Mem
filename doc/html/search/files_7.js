@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['powerreader_2ecpp',['PowerReader.cpp',['../_power_reader_8cpp.html',1,'']]],
-  ['powerreader_2eh',['PowerReader.h',['../_power_reader_8h.html',1,'']]]
+  ['qpctimer_2ecpp',['QPCTimer.cpp',['../_q_p_c_timer_8cpp.html',1,'']]],
+  ['qpctimer_2eh',['QPCTimer.h',['../_q_p_c_timer_8h.html',1,'']]]
 ];

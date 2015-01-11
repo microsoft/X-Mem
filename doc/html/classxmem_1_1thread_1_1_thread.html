@@ -32,7 +32,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">X-Mem
-   &#160;<span id="projectnumber">1.02</span>
+   &#160;<span id="projectnumber">1.03.01</span>
    </div>
    <div id="projectbrief">The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power.</div>
   </td>
@@ -126,14 +126,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a3248f8f92c293da9c20b78f443e61d76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a37d9edd3a1a776cbc27dedff949c9726"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classxmem_1_1thread_1_1_thread.html#a37d9edd3a1a776cbc27dedff949c9726">~Thread</a> ()</td></tr>
 <tr class="separator:a37d9edd3a1a776cbc27dedff949c9726"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a205afc741b86116bba9356b620a71cdf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classxmem_1_1thread_1_1_thread.html#a205afc741b86116bba9356b620a71cdf">create</a> ()</td></tr>
-<tr class="separator:a205afc741b86116bba9356b620a71cdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6142aac30e463bd99d703743f559d40"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classxmem_1_1thread_1_1_thread.html#ac6142aac30e463bd99d703743f559d40">start</a> ()</td></tr>
-<tr class="separator:ac6142aac30e463bd99d703743f559d40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7550e894f4a83043fe4a4e93aee2def6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classxmem_1_1thread_1_1_thread.html#a7550e894f4a83043fe4a4e93aee2def6">create_and_start</a> ()</td></tr>
 <tr class="separator:a7550e894f4a83043fe4a4e93aee2def6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab1515cbc6982541f5327ff71a8d97a45"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classxmem_1_1thread_1_1_thread.html#ab1515cbc6982541f5327ff71a8d97a45">join</a> (int32_t timeout)</td></tr>
-<tr class="separator:ab1515cbc6982541f5327ff71a8d97a45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d767b9746588b8be5f274f4da454b08"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classxmem_1_1thread_1_1_thread.html#a6d767b9746588b8be5f274f4da454b08">join</a> ()</td></tr>
+<tr class="separator:a6d767b9746588b8be5f274f4da454b08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d52b4357af2956e10fd72d80d540cf1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classxmem_1_1thread_1_1_thread.html#a5d52b4357af2956e10fd72d80d540cf1">cancel</a> ()</td></tr>
 <tr class="separator:a5d52b4357af2956e10fd72d80d540cf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6557774d3e8cf0bd92e8ba372cd23b85"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classxmem_1_1thread_1_1_thread.html#a6557774d3e8cf0bd92e8ba372cd23b85">getExitCode</a> ()</td></tr>
@@ -224,22 +220,6 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>true if the thread completed, regardless of the manner in which it terminated. Returns false if it has not been started. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a205afc741b86116bba9356b620a71cdf"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Thread::create </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Creates the thread if the target <a class="el" href="classxmem_1_1thread_1_1_runnable.html" title="A base class for any object that implements a thread-safe run() function for use by Thread objects...">Runnable</a> is valid, but does not start running it. </p><dl class="section return"><dt>Returns</dt><dd>true if the thread was successfully created. </dd></dl>
 
 </div>
 </div>
@@ -339,42 +319,19 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ab1515cbc6982541f5327ff71a8d97a45"></a>
+<a class="anchor" id="a6d767b9746588b8be5f274f4da454b08"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">bool Thread::join </td>
           <td>(</td>
-          <td class="paramtype">int32_t&#160;</td>
-          <td class="paramname"><em>timeout</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Blocks the calling thread until the worker thread managed by this object terminates. If the worker thread has already terminated, returns immediately. If the worker has not yet started, returns immediately. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">timeout</td><td>timeout in milliseconds to wait for the thread. If 0, does not wait at all. If negative, waits indefinitely. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if the worker thread terminated successfully, false otherwise or if <a class="el" href="classxmem_1_1thread_1_1_thread.html#ab1515cbc6982541f5327ff71a8d97a45">join()</a> was not called legally. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ac6142aac30e463bd99d703743f559d40"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Thread::start </td>
-          <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Starts the thread immediately if the thread has been created. This invokes the run() method in the <a class="el" href="classxmem_1_1thread_1_1_runnable.html" title="A base class for any object that implements a thread-safe run() function for use by Thread objects...">Runnable</a> target that was passed in the constructor. </p><dl class="section return"><dt>Returns</dt><dd>true if the thread was successfully started. </dd></dl>
+<p>Blocks the calling thread until the worker thread managed by this object terminates. For simplicity, this does not support a timeout due to pthreads incompatibility with the Windows threading API. If the worker thread has already terminated, returns immediately. If the worker has not yet started, returns immediately. </p><dl class="section return"><dt>Returns</dt><dd>true if the worker thread terminated successfully, false otherwise. </dd></dl>
 
 </div>
 </div>
@@ -420,7 +377,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>xmem</b></li><li class="navelem"><b>thread</b></li><li class="navelem"><a class="el" href="classxmem_1_1thread_1_1_thread.html">Thread</a></li>
-    <li class="footer">Generated on Fri Jan 9 2015 13:18:55 for X-Mem by
+    <li class="footer">Generated on Sat Jan 10 2015 17:43:12 for X-Mem by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9 </li>
   </ul>
