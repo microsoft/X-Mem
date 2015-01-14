@@ -8,6 +8,10 @@ The flexible open-source research tool for characterizing memory hierarchy throu
 
 Originally authored by Mark Gottscho (Email: <mgottscho@ucla.edu>) as a Summer 2014 intern at Microsoft Research, Redmond, WA.
 
+This project is under active development. Stay tuned for more updates.
+
+PROJECT REVISION DATE: January 14, 2015.
+
 ------------------------------------------------------------------------------------------------------------
 LICENSE
 ------------------------------------------------------------------------------------------------------------
@@ -76,13 +80,20 @@ For feature requests, please refer to the contact information at the end of this
 RUNTIME PREREQUISITES
 ------------------------------------------------------------------------------------------------------------
 
-There are certain runtime prerequisites in order for the software to run correctly: 
+There are a few runtime prerequisites in order for the software to run correctly.
+
+HARDWARE:
 
 - Intel x86-64 CPU. RECOMMENDED: Recent CPU with SSE2 and AVX extended instruction sets for improved throughput benchmarking capabilities.
-- Microsoft Windows 64-bit. Tested with Windows Server 2012 R2 and Windows 8.1.
+
+WINDOWS:
+
+- Microsoft Windows 64-bit, 8.0 or later, Server 2012 or later.
 - Microsoft Visual C++ 2013 Redistributables (64-bit)
 
-These prerequisites may be eased with future versions of the software.
+UNIX/LINUX:
+
+- TBD
 
 ------------------------------------------------------------------------------------------------------------
 INSTALLATION
@@ -134,11 +145,47 @@ Examples:
 BUILDING FROM SOURCE
 ------------------------------------------------------------------------------------------------------------
 
-Before building the source, enable and disable the relevant compile-time options in src/common/common.h, under the section "User-configurable compilation configuration". Please read the comments by each #define statement to understand the context of each option.
+Before building the source, enable and disable the relevant compile-time options in src/include/common.h, under the section "User-configurable compilation configuration". Please read the comments by each #define statement to understand the context of each option.
 
-After you have set the desired compile-time options, build the source. On Windows, running build-win.bat should suffice. On Unix, run build-unix.sh. The source can also be built using your favored IDE of choice. Visual C++ 2013 project and solution files have been provided to allow out-of-the-box builds with Visual Studio 2013 on Windows platforms.
+After you have set the desired compile-time options, build the source. On Windows, running build-win.bat should suffice. On Unix, run build-unix.sh.
 
-Make sure you build the code in "Release" mode. Do not include debug capabilities as it can dramatically affect performance of the benchmarks, leading to pessimistic results.
+If you customize your build, make sure you use the "Release" mode for your OS. Do not include debug capabilities as it can dramatically affect performance of the benchmarks, leading to pessimistic results.
+
+------------------------------------------------------------------------------------------------------------
+BUILD PREREQUISITES
+------------------------------------------------------------------------------------------------------------
+
+There are a few software build prerequisites, depending on your platform.
+
+WINDOWS:
+
+- Any version of Visual Studio 2013 64-bit (also known as version 12.0).
+- Python 2.7. You can obtain it at <http://www.python.org>.
+- SCons build system. You can obtain it at <http://www.scons.org>. Build tested with SCons 2.3.4.
+
+UNIX/LINUX:
+
+- gcc with support for the C++11 standard. Tested with gcc version 4.8.2 on Ubuntu 14.04 LTS for x86-64.
+- Python 2.7. You can obtain it at <http://www.python.org>. On Ubuntu systems, you can install using "sudo apt-get install python2.7". You may need some other Python 2.7 packages as well.
+- SCons build system. You can obtain it at <http://www.scons.org>. On Ubuntu systems, you can install using "sudo apt-get install scons". Build tested with SCons 2.3.4.
+
+------------------------------------------------------------------------------------------------------------
+DOCUMENTATION BUILD PREREQUISITES
+------------------------------------------------------------------------------------------------------------
+
+The following tools are only needed for automatically regenerating source code documentation with HTML and PDF.
+
+WINDOWS:
+
+- doxygen tool. You can obtain it at <http://www.stack.nl/~dimitri/doxygen>.
+- LaTeX distribution. You can get a Windows distribution at <http://www.miktex.org>.
+- make for Windows. You can obtain it at <http://gnuwin32.sourceforge.net/packages/make.htm>. You will have to manually add it to your Windows path.
+
+UNIX/LINUX:
+
+- doxygen tool. You can obtain it at <http://www.stack.nl/~dimitri/doxygen>. On Ubuntu systems, you can install with "sudo apt-get install doxygen".
+- LaTeX distribution. On Ubuntu systems, LaTeX distributed with doxygen should actually be sufficient. You can install with "sudo apt-get install doxygen-latex".
+- make. This should be included on any Unix/Linux system.
 
 ------------------------------------------------------------------------------------------------------------
 SOURCE CODE DOCUMENTATION
@@ -153,7 +200,7 @@ VERSION CONTROL
 This project is under version control using git. Its master repository is hosted at <https://github.com/Microsoft/X-Mem.git>.
 
 ------------------------------------------------------------------------------------------------------------
-CONTACT AND FEEDBACK
+CONTACT, FEEDBACK, AND BUG REPORTS
 ------------------------------------------------------------------------------------------------------------
 
 For questions, comments, criticism, bug reports, and other feedback for this software, please contact Mark Gottscho via email at <mgottscho@ucla.edu> or via web at <http://www.seas.ucla.edu/~gottscho>.
@@ -164,4 +211,4 @@ For inquiries about this work while conducted at Microsoft, please contact Dr. M
 ACKNOWLEDGMENT
 ------------------------------------------------------------------------------------------------------------
 
-The author would like to thank Dr. Mohammed Shoaib of Microsoft Research and Dr. Sriram Govindan of Microsoft for their mentorship in the creation of this software. Further thanks to Dr. Bikash Sharma, Mark Santaniello, Mike Andrewartha, and Laura Caulfield of Microsoft for their contributions, feedback, and assistance. Finally, thank you to Dr. Jie Liu of Microsoft Research, Dr. Badriddine Khessib and Dr. Kushagra Vaid of Microsoft, and Prof. Puneet Gupta of UCLA for giving me the opportunity to create this work.
+Mark Gottscho would like to thank Dr. Mohammed Shoaib of Microsoft Research and Dr. Sriram Govindan of Microsoft for their mentorship in the creation of this software. Further thanks to Dr. Bikash Sharma, Mark Santaniello, Mike Andrewartha, and Laura Caulfield of Microsoft for their contributions, feedback, and assistance. Finally, thank you to Dr. Jie Liu of Microsoft Research, Dr. Badriddine Khessib and Dr. Kushagra Vaid of Microsoft, and Prof. Puneet Gupta of UCLA for giving me the opportunity to create this work.

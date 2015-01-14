@@ -105,7 +105,9 @@ $(document).ready(function(){initNavTree('md_src__r_e_a_d_m_e.html','');});
 <div class="contents">
 <div class="textblock"><h2>X-Mem: Extensible Memory Benchmarking Tool v1.03.01 </h2>
 <p>The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power.</p>
-<p>Originally authored by Mark Gottscho (Email: <a href="#" onclick="location.href='mai'+'lto:'+'mgo'+'tt'+'sch'+'o@'+'ucl'+'a.'+'edu'; return false;">mgott<span style="display: none;">.nosp@m.</span>scho<span style="display: none;">.nosp@m.</span>@ucla<span style="display: none;">.nosp@m.</span>.edu</a>) as a Summer 2014 intern at Microsoft Research, Redmond, WA. </p><hr/>
+<p>Originally authored by Mark Gottscho (Email: <a href="#" onclick="location.href='mai'+'lto:'+'mgo'+'tt'+'sch'+'o@'+'ucl'+'a.'+'edu'; return false;">mgott<span style="display: none;">.nosp@m.</span>scho<span style="display: none;">.nosp@m.</span>@ucla<span style="display: none;">.nosp@m.</span>.edu</a>) as a Summer 2014 intern at Microsoft Research, Redmond, WA.</p>
+<p>This project is under active development. Stay tuned for more updates.</p>
+<p>PROJECT REVISION DATE: January 14, 2015. </p><hr/>
  <h2>LICENSE </h2>
 <p>The MIT License (MIT)</p>
 <p>Copyright (c) 2014 Microsoft</p>
@@ -146,14 +148,22 @@ $(document).ready(function(){initNavTree('md_src__r_e_a_d_m_e.html','');});
 </ul>
 <p>For feature requests, please refer to the contact information at the end of this README. </p><hr/>
  <h2>RUNTIME PREREQUISITES </h2>
-<p>There are certain runtime prerequisites in order for the software to run correctly:</p>
+<p>There are a few runtime prerequisites in order for the software to run correctly.</p>
+<p>HARDWARE:</p>
 <ul>
 <li>Intel x86-64 CPU. RECOMMENDED: Recent CPU with SSE2 and AVX extended instruction sets for improved throughput benchmarking capabilities.</li>
-<li>Microsoft Windows 64-bit. Tested with Windows Server 2012 R2 and Windows 8.1.</li>
+</ul>
+<p>WINDOWS:</p>
+<ul>
+<li>Microsoft Windows 64-bit, 8.0 or later, Server 2012 or later.</li>
 <li>Microsoft Visual C++ 2013 Redistributables (64-bit)</li>
 </ul>
-<p>These prerequisites may be eased with future versions of the software. </p><hr/>
+<p>UNIX/LINUX:</p>
+<ul>
+<li>TBD <hr/>
  <h2>INSTALLATION </h2>
+</li>
+</ul>
 <p>The only file that is needed to run is xmem.exe. It has no other dependencies aside from the system prerequisites listed above. </p><hr/>
  <h2>USAGE </h2>
 <p>NOTE: On Windows, make sure you run X-Mem with Administrator privileges. This is needed in order to:</p><ul>
@@ -187,24 +197,54 @@ xmem -t
 xmem -t --latency -n10 -w524288 -f results.csv -i 101
 </pre><hr/>
  <h2>BUILDING FROM SOURCE </h2>
-<p>Before building the source, enable and disable the relevant compile-time options in src/common/common.h, under the section "User-configurable compilation configuration". Please read the comments by each #define statement to understand the context of each option.</p>
-<p>After you have set the desired compile-time options, build the source. On Windows, running build-win.bat should suffice. On Unix, run build-unix.sh. The source can also be built using your favored IDE of choice. Visual C++ 2013 project and solution files have been provided to allow out-of-the-box builds with Visual Studio 2013 on Windows platforms.</p>
-<p>Make sure you build the code in "Release" mode. Do not include debug capabilities as it can dramatically affect performance of the benchmarks, leading to pessimistic results. </p><hr/>
+<p>Before building the source, enable and disable the relevant compile-time options in <a class="el" href="common_8h.html" title="Header file for common preprocessor definitions, macros, functions, and global constants. ">src/include/common.h</a>, under the section "User-configurable compilation configuration". Please read the comments by each #define statement to understand the context of each option.</p>
+<p>After you have set the desired compile-time options, build the source. On Windows, running build-win.bat should suffice. On Unix, run build-unix.sh.</p>
+<p>If you customize your build, make sure you use the "Release" mode for your OS. Do not include debug capabilities as it can dramatically affect performance of the benchmarks, leading to pessimistic results. </p><hr/>
+ <h2>BUILD PREREQUISITES </h2>
+<p>There are a few software build prerequisites, depending on your platform.</p>
+<p>WINDOWS:</p>
+<ul>
+<li>Any version of Visual Studio 2013 64-bit (also known as version 12.0).</li>
+<li>Python 2.7. You can obtain it at <a href="http://www.python.org">http://www.python.org</a>.</li>
+<li>SCons build system. You can obtain it at <a href="http://www.scons.org">http://www.scons.org</a>. Build tested with SCons 2.3.4.</li>
+</ul>
+<p>UNIX/LINUX:</p>
+<ul>
+<li>gcc with support for the C++11 standard. Tested with gcc version 4.8.2 on Ubuntu 14.04 LTS for x86-64.</li>
+<li>Python 2.7. You can obtain it at <a href="http://www.python.org">http://www.python.org</a>. On Ubuntu systems, you can install using "sudo apt-get install python2.7". You may need some other Python 2.7 packages as well.</li>
+<li>SCons build system. You can obtain it at <a href="http://www.scons.org">http://www.scons.org</a>. On Ubuntu systems, you can install using "sudo apt-get install scons". Build tested with SCons 2.3.4. <hr/>
+ <h2>DOCUMENTATION BUILD PREREQUISITES </h2>
+</li>
+</ul>
+<p>The following tools are only needed for automatically regenerating source code documentation with HTML and PDF.</p>
+<p>WINDOWS:</p>
+<ul>
+<li>doxygen tool. You can obtain it at <a href="http://www.stack.nl/~dimitri/doxygen">http://www.stack.nl/~dimitri/doxygen</a>.</li>
+<li>LaTeX distribution. You can get a Windows distribution at <a href="http://www.miktex.org">http://www.miktex.org</a>.</li>
+<li>make for Windows. You can obtain it at <a href="http://gnuwin32.sourceforge.net/packages/make.htm">http://gnuwin32.sourceforge.net/packages/make.htm</a>. You will have to manually add it to your Windows path.</li>
+</ul>
+<p>UNIX/LINUX:</p>
+<ul>
+<li>doxygen tool. You can obtain it at <a href="http://www.stack.nl/~dimitri/doxygen">http://www.stack.nl/~dimitri/doxygen</a>. On Ubuntu systems, you can install with "sudo apt-get install doxygen".</li>
+<li>LaTeX distribution. On Ubuntu systems, LaTeX distributed with doxygen should actually be sufficient. You can install with "sudo apt-get install doxygen-latex".</li>
+<li>make. This should be included on any Unix/Linux system. <hr/>
  <h2>SOURCE CODE DOCUMENTATION </h2>
+</li>
+</ul>
 <p>The tool comes with built-in Doxygen comments in the source code, which can be used to generate both HTML and LaTeX &ndash;&gt; PDF documentation. Documentation is maintained under the doc/ subdirectory. To build documentation after modifying the source, run build-docs-win.bat on Windows, or build-docs-unix.sh on Unix systems. Note that Doxygen and a LaTeX distribution must be installed on the system. </p><hr/>
  <h2>VERSION CONTROL </h2>
 <p>This project is under version control using git. Its master repository is hosted at <a href="https://github.com/Microsoft/X-Mem.git">https://github.com/Microsoft/X-Mem.git</a>. </p><hr/>
- <h2>CONTACT AND FEEDBACK </h2>
+ <h2>CONTACT, FEEDBACK, AND BUG REPORTS </h2>
 <p>For questions, comments, criticism, bug reports, and other feedback for this software, please contact Mark Gottscho via email at <a href="#" onclick="location.href='mai'+'lto:'+'mgo'+'tt'+'sch'+'o@'+'ucl'+'a.'+'edu'; return false;">mgott<span style="display: none;">.nosp@m.</span>scho<span style="display: none;">.nosp@m.</span>@ucla<span style="display: none;">.nosp@m.</span>.edu</a> or via web at <a href="http://www.seas.ucla.edu/~gottscho">http://www.seas.ucla.edu/~gottscho</a>.</p>
 <p>For inquiries about this work while conducted at Microsoft, please contact Dr. Mohammed Shoaib at <a href="#" onclick="location.href='mai'+'lto:'+'moh'+'am'+'med'+'.s'+'hoa'+'ib'+'@mi'+'cr'+'oso'+'ft'+'.co'+'m'; return false;">moham<span style="display: none;">.nosp@m.</span>med.<span style="display: none;">.nosp@m.</span>shoai<span style="display: none;">.nosp@m.</span>b@mi<span style="display: none;">.nosp@m.</span>croso<span style="display: none;">.nosp@m.</span>ft.c<span style="display: none;">.nosp@m.</span>om</a> or Dr. Sriram Govindan at <a href="#" onclick="location.href='mai'+'lto:'+'srg'+'ov'+'in@'+'mi'+'cro'+'so'+'ft.'+'co'+'m'; return false;">srgov<span style="display: none;">.nosp@m.</span>in@m<span style="display: none;">.nosp@m.</span>icros<span style="display: none;">.nosp@m.</span>oft.<span style="display: none;">.nosp@m.</span>com</a>. </p><hr/>
  <h2>ACKNOWLEDGMENT </h2>
-<p>The author would like to thank Dr. Mohammed Shoaib of Microsoft Research and Dr. Sriram Govindan of Microsoft for their mentorship in the creation of this software. Further thanks to Dr. Bikash Sharma, Mark Santaniello, Mike Andrewartha, and Laura Caulfield of Microsoft for their contributions, feedback, and assistance. Finally, thank you to Dr. Jie Liu of Microsoft Research, Dr. Badriddine Khessib and Dr. Kushagra Vaid of Microsoft, and Prof. Puneet Gupta of UCLA for giving me the opportunity to create this work. </p>
+<p>Mark Gottscho would like to thank Dr. Mohammed Shoaib of Microsoft Research and Dr. Sriram Govindan of Microsoft for their mentorship in the creation of this software. Further thanks to Dr. Bikash Sharma, Mark Santaniello, Mike Andrewartha, and Laura Caulfield of Microsoft for their contributions, feedback, and assistance. Finally, thank you to Dr. Jie Liu of Microsoft Research, Dr. Badriddine Khessib and Dr. Kushagra Vaid of Microsoft, and Prof. Puneet Gupta of UCLA for giving me the opportunity to create this work. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Jan 10 2015 17:43:02 for X-Mem by
+    <li class="footer">Generated on Wed Jan 14 2015 11:18:32 for X-Mem by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9 </li>
   </ul>

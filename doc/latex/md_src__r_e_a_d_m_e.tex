@@ -2,7 +2,11 @@
 
 The flexible open-\/source research tool for characterizing memory hierarchy throughput, latency, and power.
 
-Originally authored by Mark Gottscho (Email\+: \href{mailto:mgottscho@ucla.edu}{\tt mgottscho@ucla.\+edu}) as a Summer 2014 intern at Microsoft Research, Redmond, W\+A. 
+Originally authored by Mark Gottscho (Email\+: \href{mailto:mgottscho@ucla.edu}{\tt mgottscho@ucla.\+edu}) as a Summer 2014 intern at Microsoft Research, Redmond, W\+A.
+
+This project is under active development. Stay tuned for more updates.
+
+P\+R\+O\+J\+E\+C\+T R\+E\+V\+I\+S\+I\+O\+N D\+A\+T\+E\+: January 14, 2015. 
 
  \subsection*{L\+I\+C\+E\+N\+S\+E }
 
@@ -66,18 +70,31 @@ For feature requests, please refer to the contact information at the end of this
 
  \subsection*{R\+U\+N\+T\+I\+M\+E P\+R\+E\+R\+E\+Q\+U\+I\+S\+I\+T\+E\+S }
 
-There are certain runtime prerequisites in order for the software to run correctly\+:
+There are a few runtime prerequisites in order for the software to run correctly.
+
+H\+A\+R\+D\+W\+A\+R\+E\+:
 
 
 \begin{DoxyItemize}
 \item Intel x86-\/64 C\+P\+U. R\+E\+C\+O\+M\+M\+E\+N\+D\+E\+D\+: Recent C\+P\+U with S\+S\+E2 and A\+V\+X extended instruction sets for improved throughput benchmarking capabilities.
-\item Microsoft Windows 64-\/bit. Tested with Windows Server 2012 R2 and Windows 8.\+1.
+\end{DoxyItemize}
+
+W\+I\+N\+D\+O\+W\+S\+:
+
+
+\begin{DoxyItemize}
+\item Microsoft Windows 64-\/bit, 8.\+0 or later, Server 2012 or later.
 \item Microsoft Visual C++ 2013 Redistributables (64-\/bit)
 \end{DoxyItemize}
 
-These prerequisites may be eased with future versions of the software. 
+U\+N\+I\+X/\+L\+I\+N\+U\+X\+:
+
+
+\begin{DoxyItemize}
+\item T\+B\+D 
 
  \subsection*{I\+N\+S\+T\+A\+L\+L\+A\+T\+I\+O\+N }
+\end{DoxyItemize}
 
 The only file that is needed to run is xmem.\+exe. It has no other dependencies aside from the system prerequisites listed above. 
 
@@ -125,13 +142,57 @@ xmem -t --latency -n10 -w524288 -f results.csv -i 101
 
  \subsection*{B\+U\+I\+L\+D\+I\+N\+G F\+R\+O\+M S\+O\+U\+R\+C\+E }
 
-Before building the source, enable and disable the relevant compile-\/time options in src/common/common.\+h, under the section \char`\"{}\+User-\/configurable compilation configuration\char`\"{}. Please read the comments by each \#define statement to understand the context of each option.
+Before building the source, enable and disable the relevant compile-\/time options in \hyperlink{common_8h}{src/include/common.\+h}, under the section \char`\"{}\+User-\/configurable compilation configuration\char`\"{}. Please read the comments by each \#define statement to understand the context of each option.
 
-After you have set the desired compile-\/time options, build the source. On Windows, running build-\/win.\+bat should suffice. On Unix, run build-\/unix.\+sh. The source can also be built using your favored I\+D\+E of choice. Visual C++ 2013 project and solution files have been provided to allow out-\/of-\/the-\/box builds with Visual Studio 2013 on Windows platforms.
+After you have set the desired compile-\/time options, build the source. On Windows, running build-\/win.\+bat should suffice. On Unix, run build-\/unix.\+sh.
 
-Make sure you build the code in \char`\"{}\+Release\char`\"{} mode. Do not include debug capabilities as it can dramatically affect performance of the benchmarks, leading to pessimistic results. 
+If you customize your build, make sure you use the \char`\"{}\+Release\char`\"{} mode for your O\+S. Do not include debug capabilities as it can dramatically affect performance of the benchmarks, leading to pessimistic results. 
+
+ \subsection*{B\+U\+I\+L\+D P\+R\+E\+R\+E\+Q\+U\+I\+S\+I\+T\+E\+S }
+
+There are a few software build prerequisites, depending on your platform.
+
+W\+I\+N\+D\+O\+W\+S\+:
+
+
+\begin{DoxyItemize}
+\item Any version of Visual Studio 2013 64-\/bit (also known as version 12.\+0).
+\item Python 2.\+7. You can obtain it at \href{http://www.python.org}{\tt http\+://www.\+python.\+org}.
+\item S\+Cons build system. You can obtain it at \href{http://www.scons.org}{\tt http\+://www.\+scons.\+org}. Build tested with S\+Cons 2.\+3.\+4.
+\end{DoxyItemize}
+
+U\+N\+I\+X/\+L\+I\+N\+U\+X\+:
+
+
+\begin{DoxyItemize}
+\item gcc with support for the C++11 standard. Tested with gcc version 4.\+8.\+2 on Ubuntu 14.\+04 L\+T\+S for x86-\/64.
+\item Python 2.\+7. You can obtain it at \href{http://www.python.org}{\tt http\+://www.\+python.\+org}. On Ubuntu systems, you can install using \char`\"{}sudo apt-\/get install python2.\+7\char`\"{}. You may need some other Python 2.\+7 packages as well.
+\item S\+Cons build system. You can obtain it at \href{http://www.scons.org}{\tt http\+://www.\+scons.\+org}. On Ubuntu systems, you can install using \char`\"{}sudo apt-\/get install scons\char`\"{}. Build tested with S\+Cons 2.\+3.\+4. 
+
+ \subsection*{D\+O\+C\+U\+M\+E\+N\+T\+A\+T\+I\+O\+N B\+U\+I\+L\+D P\+R\+E\+R\+E\+Q\+U\+I\+S\+I\+T\+E\+S }
+\end{DoxyItemize}
+
+The following tools are only needed for automatically regenerating source code documentation with H\+T\+M\+L and P\+D\+F.
+
+W\+I\+N\+D\+O\+W\+S\+:
+
+
+\begin{DoxyItemize}
+\item doxygen tool. You can obtain it at \href{http://www.stack.nl/~dimitri/doxygen}{\tt http\+://www.\+stack.\+nl/$\sim$dimitri/doxygen}.
+\item La\+Te\+X distribution. You can get a Windows distribution at \href{http://www.miktex.org}{\tt http\+://www.\+miktex.\+org}.
+\item make for Windows. You can obtain it at \href{http://gnuwin32.sourceforge.net/packages/make.htm}{\tt http\+://gnuwin32.\+sourceforge.\+net/packages/make.\+htm}. You will have to manually add it to your Windows path.
+\end{DoxyItemize}
+
+U\+N\+I\+X/\+L\+I\+N\+U\+X\+:
+
+
+\begin{DoxyItemize}
+\item doxygen tool. You can obtain it at \href{http://www.stack.nl/~dimitri/doxygen}{\tt http\+://www.\+stack.\+nl/$\sim$dimitri/doxygen}. On Ubuntu systems, you can install with \char`\"{}sudo apt-\/get install doxygen\char`\"{}.
+\item La\+Te\+X distribution. On Ubuntu systems, La\+Te\+X distributed with doxygen should actually be sufficient. You can install with \char`\"{}sudo apt-\/get install doxygen-\/latex\char`\"{}.
+\item make. This should be included on any Unix/\+Linux system. 
 
  \subsection*{S\+O\+U\+R\+C\+E C\+O\+D\+E D\+O\+C\+U\+M\+E\+N\+T\+A\+T\+I\+O\+N }
+\end{DoxyItemize}
 
 The tool comes with built-\/in Doxygen comments in the source code, which can be used to generate both H\+T\+M\+L and La\+Te\+X --$>$ P\+D\+F documentation. Documentation is maintained under the doc/ subdirectory. To build documentation after modifying the source, run build-\/docs-\/win.\+bat on Windows, or build-\/docs-\/unix.\+sh on Unix systems. Note that Doxygen and a La\+Te\+X distribution must be installed on the system. 
 
@@ -139,7 +200,7 @@ The tool comes with built-\/in Doxygen comments in the source code, which can be
 
 This project is under version control using git. Its master repository is hosted at \href{https://github.com/Microsoft/X-Mem.git}{\tt https\+://github.\+com/\+Microsoft/\+X-\/\+Mem.\+git}. 
 
- \subsection*{C\+O\+N\+T\+A\+C\+T A\+N\+D F\+E\+E\+D\+B\+A\+C\+K }
+ \subsection*{C\+O\+N\+T\+A\+C\+T, F\+E\+E\+D\+B\+A\+C\+K, A\+N\+D B\+U\+G R\+E\+P\+O\+R\+T\+S }
 
 For questions, comments, criticism, bug reports, and other feedback for this software, please contact Mark Gottscho via email at \href{mailto:mgottscho@ucla.edu}{\tt mgottscho@ucla.\+edu} or via web at \href{http://www.seas.ucla.edu/~gottscho}{\tt http\+://www.\+seas.\+ucla.\+edu/$\sim$gottscho}.
 
@@ -147,4 +208,4 @@ For inquiries about this work while conducted at Microsoft, please contact Dr. M
 
  \subsection*{A\+C\+K\+N\+O\+W\+L\+E\+D\+G\+M\+E\+N\+T }
 
-The author would like to thank Dr. Mohammed Shoaib of Microsoft Research and Dr. Sriram Govindan of Microsoft for their mentorship in the creation of this software. Further thanks to Dr. Bikash Sharma, Mark Santaniello, Mike Andrewartha, and Laura Caulfield of Microsoft for their contributions, feedback, and assistance. Finally, thank you to Dr. Jie Liu of Microsoft Research, Dr. Badriddine Khessib and Dr. Kushagra Vaid of Microsoft, and Prof. Puneet Gupta of U\+C\+L\+A for giving me the opportunity to create this work. 
+Mark Gottscho would like to thank Dr. Mohammed Shoaib of Microsoft Research and Dr. Sriram Govindan of Microsoft for their mentorship in the creation of this software. Further thanks to Dr. Bikash Sharma, Mark Santaniello, Mike Andrewartha, and Laura Caulfield of Microsoft for their contributions, feedback, and assistance. Finally, thank you to Dr. Jie Liu of Microsoft Research, Dr. Badriddine Khessib and Dr. Kushagra Vaid of Microsoft, and Prof. Puneet Gupta of U\+C\+L\+A for giving me the opportunity to create this work. 

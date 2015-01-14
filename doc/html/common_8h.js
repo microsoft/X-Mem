@@ -37,7 +37,6 @@ var common_8h =
     [ "UNROLL8", "common_8h.html#ac196ab0d6d9139d48c12244e0ea4860c", null ],
     [ "UNROLL8192", "common_8h.html#a86546f251a6144cde216715bea88f2e7", null ],
     [ "USE_ALL_NUMA_NODES", "common_8h.html#af385a088239530ad1923a913910cf6d7", null ],
-    [ "USE_LARGE_PAGES", "common_8h.html#ae4611abd91dffbc6ffd38364a4ad76a3", null ],
     [ "USE_LATENCY_BENCHMARK_RANDOM_SHUFFLE_PATTERN", "common_8h.html#a8f4fb47b4e3458225f2a4951fc985ad5", null ],
     [ "USE_THROUGHPUT_FORW_STRIDE_1", "common_8h.html#ad3063193011749b91a7ba67b9f602f09", null ],
     [ "USE_THROUGHPUT_READS", "common_8h.html#aa47fd82834cc7a8a1b606135a01b22b9", null ],

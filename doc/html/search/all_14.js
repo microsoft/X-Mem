@@ -1,7 +1,6 @@
 var searchData=
 [
   ['use_5fall_5fnuma_5fnodes',['USE_ALL_NUMA_NODES',['../common_8h.html#af385a088239530ad1923a913910cf6d7',1,'common.h']]],
-  ['use_5flarge_5fpages',['USE_LARGE_PAGES',['../common_8h.html#ae4611abd91dffbc6ffd38364a4ad76a3',1,'common.h']]],
   ['use_5flatency_5fbenchmark_5frandom_5fshuffle_5fpattern',['USE_LATENCY_BENCHMARK_RANDOM_SHUFFLE_PATTERN',['../common_8h.html#a8f4fb47b4e3458225f2a4951fc985ad5',1,'common.h']]],
   ['use_5fthroughput_5fforw_5fstride_5f1',['USE_THROUGHPUT_FORW_STRIDE_1',['../common_8h.html#ad3063193011749b91a7ba67b9f602f09',1,'common.h']]],
   ['use_5fthroughput_5freads',['USE_THROUGHPUT_READS',['../common_8h.html#aa47fd82834cc7a8a1b606135a01b22b9',1,'common.h']]],
