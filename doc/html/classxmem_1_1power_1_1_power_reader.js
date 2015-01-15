@@ -1,0 +1,27 @@
+var classxmem_1_1power_1_1_power_reader =
+[
+    [ "PowerReader", "classxmem_1_1power_1_1_power_reader.html#abae158275e32689c1c69a90b8962959b", null ],
+    [ "~PowerReader", "classxmem_1_1power_1_1_power_reader.html#ae3c8c415135bfa4b3ba150c2d9b931a3", null ],
+    [ "calculateMetrics", "classxmem_1_1power_1_1_power_reader.html#a953d6b42a83c8c0b709aa49b994c6803", null ],
+    [ "clear", "classxmem_1_1power_1_1_power_reader.html#a17b206d91ad607dc6fbcd4f2e0f66684", null ],
+    [ "clear_and_reset", "classxmem_1_1power_1_1_power_reader.html#a6377973eed59cd99bcb475c17e5cb0f2", null ],
+    [ "getAveragePower", "classxmem_1_1power_1_1_power_reader.html#a2b20b7e6a22dad732cdb166d90fcfe98", null ],
+    [ "getLastSample", "classxmem_1_1power_1_1_power_reader.html#a0025b83ec146f206257690ef27323141", null ],
+    [ "getNumSamples", "classxmem_1_1power_1_1_power_reader.html#af35118b0e7d408679497f84aa0f6397e", null ],
+    [ "getPeakPower", "classxmem_1_1power_1_1_power_reader.html#ae530d62676bd3b3115815b0f4592a0d6", null ],
+    [ "getPowerTrace", "classxmem_1_1power_1_1_power_reader.html#af41f0300055c2ec45785cc4e77864a7d", null ],
+    [ "getPowerUnits", "classxmem_1_1power_1_1_power_reader.html#a951b1ddd8a39df60b2668548e7529064", null ],
+    [ "getSamplingPeriod", "classxmem_1_1power_1_1_power_reader.html#a833084fa298a654a7cf589723483399c", null ],
+    [ "name", "classxmem_1_1power_1_1_power_reader.html#ac0f465b044512502eb1824f18d60e3e6", null ],
+    [ "run", "classxmem_1_1power_1_1_power_reader.html#ad8286b3727efbcb0ff5049c6594d126a", null ],
+    [ "stop", "classxmem_1_1power_1_1_power_reader.html#a5c28efc4aece34a5469d067a133920f4", null ],
+    [ "_average_power", "classxmem_1_1power_1_1_power_reader.html#a1ad637b79a21519c20f9dda64fc1b908", null ],
+    [ "_cpu_affinity", "classxmem_1_1power_1_1_power_reader.html#a0f95e6c4e8caa6db8de3fcf78509e887", null ],
+    [ "_name", "classxmem_1_1power_1_1_power_reader.html#a85791da354d03c0a0f7ca4cf38b89e4c", null ],
+    [ "_num_samples", "classxmem_1_1power_1_1_power_reader.html#a296a8d15083e01e33590cbcd836aa07b", null ],
+    [ "_peak_power", "classxmem_1_1power_1_1_power_reader.html#a0bfe4f56c143f3febb404d85558e45fa", null ],
+    [ "_power_trace", "classxmem_1_1power_1_1_power_reader.html#ac8ad4bada42912ece1cbb0769dbe3b4d", null ],
+    [ "_power_units", "classxmem_1_1power_1_1_power_reader.html#a2835c933bd4807d6b3133a521dd76641", null ],
+    [ "_sampling_period", "classxmem_1_1power_1_1_power_reader.html#a1c7d9b505d3c94347c43437a568e5948", null ],
+    [ "_stop_signal", "classxmem_1_1power_1_1_power_reader.html#a1c0c890279f3f2b7eb41ab3e5889bf2e", null ]
+];

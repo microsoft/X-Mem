@@ -1,0 +1,190 @@
+\hypertarget{classxmem_1_1benchmark_1_1_throughput_benchmark_worker}{}\section{xmem\+:\+:benchmark\+:\+:Throughput\+Benchmark\+Worker Class Reference}
+\label{classxmem_1_1benchmark_1_1_throughput_benchmark_worker}\index{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker@{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}}
+
+
+Helper multithreading-\/friendly class to do the core throughput benchmark.  
+
+
+
+
+{\ttfamily \#include $<$Throughput\+Benchmark\+Worker.\+h$>$}
+
+Inheritance diagram for xmem\+:\+:benchmark\+:\+:Throughput\+Benchmark\+Worker\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classxmem_1_1benchmark_1_1_throughput_benchmark_worker}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_a4604cb1fd7108eb9d56007bfb3c6e54f}{}typedef int32\+\_\+t($\ast$ {\bfseries Bench\+Function}) (void $\ast$, void $\ast$)\label{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_a4604cb1fd7108eb9d56007bfb3c6e54f}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_a271c77940bc7cb45fcc395d3ed14361c}{Throughput\+Benchmark\+Worker} (void $\ast$mem\+\_\+array, size\+\_\+t len, Bench\+Function bench\+\_\+fptr, Bench\+Function dummy\+\_\+fptr, uint32\+\_\+t cpu\+\_\+affinity)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\hypertarget{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_a021aae8513f5da78e04ba711e308b705}{}\hyperlink{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_a021aae8513f5da78e04ba711e308b705}{$\sim$\+Throughput\+Benchmark\+Worker} ()\label{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_a021aae8513f5da78e04ba711e308b705}
+
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\hypertarget{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_afb71dd763f55504ddabcabb24e0d6834}{}virtual void \hyperlink{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_afb71dd763f55504ddabcabb24e0d6834}{run} ()\label{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_afb71dd763f55504ddabcabb24e0d6834}
+
+\begin{DoxyCompactList}\small\item\em Thread-\/safe worker method. \end{DoxyCompactList}\item 
+size\+\_\+t \hyperlink{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_a65dfa53d591ebf85ee3d1dfdd7c98f20}{get\+Len} ()
+\begin{DoxyCompactList}\small\item\em Gets the length of the memory region used by this worker. \end{DoxyCompactList}\item 
+uint64\+\_\+t \hyperlink{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_aa3c3f95c0dd92e82391135cc57e1ab1f}{get\+Bytes\+Per\+Pass} ()
+\begin{DoxyCompactList}\small\item\em Gets the number of bytes used in each pass of the benchmark by this worker. \end{DoxyCompactList}\item 
+uint64\+\_\+t \hyperlink{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_afc7a394e6a04e4fe72d82db3ca47cd62}{get\+Passes} ()
+\begin{DoxyCompactList}\small\item\em Gets the number of passes for this worker. \end{DoxyCompactList}\item 
+uint64\+\_\+t \hyperlink{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_acf9ec8195f85292cc744b89b3ab0e6cc}{get\+Elapsed\+Ticks} ()
+\begin{DoxyCompactList}\small\item\em Gets the elapsed ticks for this worker on the core benchmark kernel. \end{DoxyCompactList}\item 
+uint64\+\_\+t \hyperlink{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_a301d7c1f0f7400a9f4a8a4be66969319}{get\+Elapsed\+Dummy\+Ticks} ()
+\begin{DoxyCompactList}\small\item\em Gets the elapsed ticks for this worker on the dummy version of the core benchmark kernel. \end{DoxyCompactList}\item 
+uint64\+\_\+t \hyperlink{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_aac1a7f68313e877f4f73d212d00d5289}{get\+Adjusted\+Ticks} ()
+\begin{DoxyCompactList}\small\item\em Gets the adjusted ticks for this worker. This is elapsed ticks minus elapsed dummy ticks. \end{DoxyCompactList}\item 
+bool \hyperlink{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_af44781eee1ae525ce94ec83da6e7595e}{had\+Warning} ()
+\begin{DoxyCompactList}\small\item\em Indicates whether worker\textquotesingle{}s results may be questionable/inaccurate/invalid. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Helper multithreading-\/friendly class to do the core throughput benchmark. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_a271c77940bc7cb45fcc395d3ed14361c}{}\index{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker@{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}!Throughput\+Benchmark\+Worker@{Throughput\+Benchmark\+Worker}}
+\index{Throughput\+Benchmark\+Worker@{Throughput\+Benchmark\+Worker}!xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker@{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}}
+\subsubsection[{Throughput\+Benchmark\+Worker}]{\setlength{\rightskip}{0pt plus 5cm}Throughput\+Benchmark\+Worker\+::\+Throughput\+Benchmark\+Worker (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{mem\+\_\+array, }
+\item[{size\+\_\+t}]{len, }
+\item[{Bench\+Function}]{bench\+\_\+fptr, }
+\item[{Bench\+Function}]{dummy\+\_\+fptr, }
+\item[{uint32\+\_\+t}]{cpu\+\_\+affinity}
+\end{DoxyParamCaption}
+)}\label{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_a271c77940bc7cb45fcc395d3ed14361c}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mem\+\_\+array} & Pointer to the memory region to use by this worker. \\
+\hline
+{\em len} & Length of the memory region to use by this worker. \\
+\hline
+{\em bench\+\_\+fptr} & Pointer to the core benchmark kernel to use. \\
+\hline
+{\em dummy\+\_\+fptr} & Pointer to the dummy version of the core benchmark kernel to use. \\
+\hline
+{\em cpu\+\_\+affinity} & Logical C\+P\+U identifier to lock this worker\textquotesingle{}s thread to. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_aac1a7f68313e877f4f73d212d00d5289}{}\index{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker@{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}!get\+Adjusted\+Ticks@{get\+Adjusted\+Ticks}}
+\index{get\+Adjusted\+Ticks@{get\+Adjusted\+Ticks}!xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker@{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}}
+\subsubsection[{get\+Adjusted\+Ticks}]{\setlength{\rightskip}{0pt plus 5cm}uint64\+\_\+t Throughput\+Benchmark\+Worker\+::get\+Adjusted\+Ticks (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_aac1a7f68313e877f4f73d212d00d5289}
+
+
+Gets the adjusted ticks for this worker. This is elapsed ticks minus elapsed dummy ticks. 
+
+\begin{DoxyReturn}{Returns}
+The adjusted ticks for this worker. 
+\end{DoxyReturn}
+\hypertarget{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_aa3c3f95c0dd92e82391135cc57e1ab1f}{}\index{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker@{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}!get\+Bytes\+Per\+Pass@{get\+Bytes\+Per\+Pass}}
+\index{get\+Bytes\+Per\+Pass@{get\+Bytes\+Per\+Pass}!xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker@{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}}
+\subsubsection[{get\+Bytes\+Per\+Pass}]{\setlength{\rightskip}{0pt plus 5cm}uint64\+\_\+t Throughput\+Benchmark\+Worker\+::get\+Bytes\+Per\+Pass (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_aa3c3f95c0dd92e82391135cc57e1ab1f}
+
+
+Gets the number of bytes used in each pass of the benchmark by this worker. 
+
+\begin{DoxyReturn}{Returns}
+Number of bytes in each pass. 
+\end{DoxyReturn}
+\hypertarget{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_a301d7c1f0f7400a9f4a8a4be66969319}{}\index{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker@{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}!get\+Elapsed\+Dummy\+Ticks@{get\+Elapsed\+Dummy\+Ticks}}
+\index{get\+Elapsed\+Dummy\+Ticks@{get\+Elapsed\+Dummy\+Ticks}!xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker@{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}}
+\subsubsection[{get\+Elapsed\+Dummy\+Ticks}]{\setlength{\rightskip}{0pt plus 5cm}uint64\+\_\+t Throughput\+Benchmark\+Worker\+::get\+Elapsed\+Dummy\+Ticks (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_a301d7c1f0f7400a9f4a8a4be66969319}
+
+
+Gets the elapsed ticks for this worker on the dummy version of the core benchmark kernel. 
+
+\begin{DoxyReturn}{Returns}
+The number of elapsed dummy ticks. 
+\end{DoxyReturn}
+\hypertarget{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_acf9ec8195f85292cc744b89b3ab0e6cc}{}\index{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker@{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}!get\+Elapsed\+Ticks@{get\+Elapsed\+Ticks}}
+\index{get\+Elapsed\+Ticks@{get\+Elapsed\+Ticks}!xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker@{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}}
+\subsubsection[{get\+Elapsed\+Ticks}]{\setlength{\rightskip}{0pt plus 5cm}uint64\+\_\+t Throughput\+Benchmark\+Worker\+::get\+Elapsed\+Ticks (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_acf9ec8195f85292cc744b89b3ab0e6cc}
+
+
+Gets the elapsed ticks for this worker on the core benchmark kernel. 
+
+\begin{DoxyReturn}{Returns}
+The number of elapsed ticks. 
+\end{DoxyReturn}
+\hypertarget{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_a65dfa53d591ebf85ee3d1dfdd7c98f20}{}\index{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker@{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}!get\+Len@{get\+Len}}
+\index{get\+Len@{get\+Len}!xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker@{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}}
+\subsubsection[{get\+Len}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t Throughput\+Benchmark\+Worker\+::get\+Len (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_a65dfa53d591ebf85ee3d1dfdd7c98f20}
+
+
+Gets the length of the memory region used by this worker. 
+
+\begin{DoxyReturn}{Returns}
+Length of memory region in bytes. 
+\end{DoxyReturn}
+\hypertarget{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_afc7a394e6a04e4fe72d82db3ca47cd62}{}\index{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker@{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}!get\+Passes@{get\+Passes}}
+\index{get\+Passes@{get\+Passes}!xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker@{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}}
+\subsubsection[{get\+Passes}]{\setlength{\rightskip}{0pt plus 5cm}uint64\+\_\+t Throughput\+Benchmark\+Worker\+::get\+Passes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_afc7a394e6a04e4fe72d82db3ca47cd62}
+
+
+Gets the number of passes for this worker. 
+
+\begin{DoxyReturn}{Returns}
+The number of passes. 
+\end{DoxyReturn}
+\hypertarget{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_af44781eee1ae525ce94ec83da6e7595e}{}\index{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker@{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}!had\+Warning@{had\+Warning}}
+\index{had\+Warning@{had\+Warning}!xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker@{xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}}
+\subsubsection[{had\+Warning}]{\setlength{\rightskip}{0pt plus 5cm}bool Throughput\+Benchmark\+Worker\+::had\+Warning (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{classxmem_1_1benchmark_1_1_throughput_benchmark_worker_af44781eee1ae525ce94ec83da6e7595e}
+
+
+Indicates whether worker\textquotesingle{}s results may be questionable/inaccurate/invalid. 
+
+\begin{DoxyReturn}{Returns}
+True if the worker\textquotesingle{}s results had a warning. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/include/\hyperlink{_throughput_benchmark_worker_8h}{Throughput\+Benchmark\+Worker.\+h}\item 
+src/\hyperlink{_throughput_benchmark_worker_8cpp}{Throughput\+Benchmark\+Worker.\+cpp}\end{DoxyCompactItemize}

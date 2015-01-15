@@ -1,3 +1,16 @@
+# Microsoft build stuff
+x64/
+Release/
+Debug/
+vc120.pdb
+*.suo
+*.sdf
+*.opensdf
+
+# SCons build stuff
+.sconsign.dblite
+build/
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -20,6 +33,12 @@ $RECYCLE.BIN/
 # =========================
 # Operating System Files
 # =========================
+
+# Windows
+# =========================
+
+# Temp files
+*~
 
 # OSX
 # =========================
