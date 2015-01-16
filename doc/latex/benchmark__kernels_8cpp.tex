@@ -1,19 +1,18 @@
-\hypertarget{benchmark__kernels_8cpp}{}\section{src/benchmark\+\_\+kernels.cpp File Reference}
-\label{benchmark__kernels_8cpp}\index{src/benchmark\+\_\+kernels.\+cpp@{src/benchmark\+\_\+kernels.\+cpp}}
+\hypertarget{benchmark__kernels_8cpp}{\section{src/benchmark\-\_\-kernels.cpp File Reference}
+\label{benchmark__kernels_8cpp}\index{src/benchmark\-\_\-kernels.\-cpp@{src/benchmark\-\_\-kernels.\-cpp}}
+}
 
 
-Implementation file for benchmark kernel functions for doing the actual work we care about. \+:)  
+Implementation file for benchmark kernel functions for doing the actual work we care about. \-:)  
 
 
-{\ttfamily \#include $<$benchmark\+\_\+kernels.\+h$>$}\\*
-{\ttfamily \#include $<$common.\+h$>$}\\*
+{\ttfamily \#include $<$benchmark\-\_\-kernels.\-h$>$}\\*
+{\ttfamily \#include $<$common.\-h$>$}\\*
 
 
 \subsection{Detailed Description}
-Implementation file for benchmark kernel functions for doing the actual work we care about. \+:) 
-
-Optimization tricks include\+:
+Implementation file for benchmark kernel functions for doing the actual work we care about. \-:) Optimization tricks include\-:
 \begin{DoxyItemize}
-\item U\+N\+R\+O\+L\+L macros to manual loop unrolling. This reduces the relative branch overhead of the loop. We don\textquotesingle{}t want to benchmark loops, we want to benchmark memory! But unrolling too much can hurt code size and instruction locality, potentially decreasing I-\/cache utilization and causing extra overheads. This is why we allow multiple unroll lengths at compile-\/time.
+\item U\-N\-R\-O\-L\-L macros to manual loop unrolling. This reduces the relative branch overhead of the loop. We don't want to benchmark loops, we want to benchmark memory! But unrolling too much can hurt code size and instruction locality, potentially decreasing I-\/cache utilization and causing extra overheads. This is why we allow multiple unroll lengths at compile-\/time.
 \item volatile keyword to prevent compiler from optimizing the code and removing instructions that we need. The compiler is too smart for its own good! 
 \end{DoxyItemize}

@@ -41,12 +41,15 @@
 #include <random>
 #include <assert.h>
 #include <time.h>
+
 #ifdef _WIN32
 #include <windows.h>
 //#include <intrin.h>
 #include <processthreadsapi.h>
-#else
-#error Windows is the only supported OS at this time.
+#endif
+
+#ifdef __unix__
+#include <unistd.h> //for nice()
 #endif
 
 using namespace xmem::benchmark;
@@ -128,8 +131,10 @@ bool LatencyBenchmark::__run_core() {
 	DWORD originalPriority = GetThreadPriority(GetCurrentThread());
 	SetPriorityClass(GetCurrentProcess(), 0x80); //HIGH_PRIORITY_CLASS
 	SetThreadPriority(GetCurrentThread(), 15); //THREAD_PRIORITY_TIME_CRITICAL
-#else
-	#error Windows is the only supported OS at this time.
+#endif
+#ifdef __unix__
+	if (nice(-20) == EPERM) //Increase priority to maximum. This will require admin privileges and thus can fail. Note that this doesn't necessarily improve performance as Linux is still using a round-robin scheduler by default.
+		std::cerr << "WARNING: Failed to increase Linux thread scheduling priority using \"nice\" value of -20. This probably happened because you ran X-Mem without administrator privileges." << std::endl;
 #endif
 
 	//Number of pointers followed per call of __chasePointers()
@@ -263,8 +268,10 @@ bool LatencyBenchmark::__run_core() {
 #ifdef _WIN32
 	SetPriorityClass(GetCurrentProcess(), originalPriorityClass);
 	SetThreadPriority(GetCurrentThread(), originalPriority);
-#else
-#error Windows is the only supported OS at this time.
+#endif
+#ifdef __unix__
+	if (nice(0) == EPERM) //Set priority to nominal. Note that this doesn't necessarily affect performance as Linux is still using a round-robin scheduler by default.
+		std::cerr << "WARNING: Failed to set Linux thread scheduling priority using default \"nice\" value of 0. This shouldn\'t have happened." << std::endl;
 #endif
 
 	//Run metadata

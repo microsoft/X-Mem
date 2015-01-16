@@ -68,7 +68,7 @@ namespace xmem {
 				/**
 				 * @brief Destructor.
 				 */
-				~ThroughputBenchmarkWorker();
+				virtual ~ThroughputBenchmarkWorker();
 
 				/**
 				 * @brief Thread-safe worker method.

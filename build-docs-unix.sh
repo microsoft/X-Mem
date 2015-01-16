@@ -5,8 +5,9 @@
 echo Building X-Mem documentation via UNIX...
 
 orig_dir=`pwd`
-cp README.md src\README.md
+cp README.md src/README.md
 doxygen Doxyfile
-cd docs/latex
+cd doc/latex
 make
+cp refman.pdf $orig_dir/X-Mem_Developer_Manual.pdf
 cd $orig_dir

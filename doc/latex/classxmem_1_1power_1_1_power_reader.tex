@@ -1,5 +1,6 @@
-\hypertarget{classxmem_1_1power_1_1_power_reader}{}\section{xmem\+:\+:power\+:\+:Power\+Reader Class Reference}
-\label{classxmem_1_1power_1_1_power_reader}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
+\hypertarget{classxmem_1_1power_1_1_power_reader}{\section{xmem\-:\-:power\-:\-:Power\-Reader Class Reference}
+\label{classxmem_1_1power_1_1_power_reader}\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}}
+}
 
 
 An abstract base class for measuring power from an arbitrary source. This class is runnable using a worker thread.  
@@ -7,9 +8,9 @@ An abstract base class for measuring power from an arbitrary source. This class 
 
 
 
-{\ttfamily \#include $<$Power\+Reader.\+h$>$}
+{\ttfamily \#include $<$Power\-Reader.\-h$>$}
 
-Inheritance diagram for xmem\+:\+:power\+:\+:Power\+Reader\+:\begin{figure}[H]
+Inheritance diagram for xmem\-:\-:power\-:\-:Power\-Reader\-:\begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[height=2.000000cm]{classxmem_1_1power_1_1_power_reader}
@@ -18,58 +19,58 @@ Inheritance diagram for xmem\+:\+:power\+:\+:Power\+Reader\+:\begin{figure}[H]
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classxmem_1_1power_1_1_power_reader_abae158275e32689c1c69a90b8962959b}{Power\+Reader} (double sampling\+\_\+period, double power\+\_\+units, std\+::string \hyperlink{classxmem_1_1power_1_1_power_reader_ac0f465b044512502eb1824f18d60e3e6}{name}, int32\+\_\+t cpu\+\_\+affinity)
+\hyperlink{classxmem_1_1power_1_1_power_reader_abae158275e32689c1c69a90b8962959b}{Power\-Reader} (double sampling\-\_\-period, double power\-\_\-units, std\-::string \hyperlink{classxmem_1_1power_1_1_power_reader_ac0f465b044512502eb1824f18d60e3e6}{name}, int32\-\_\-t cpu\-\_\-affinity)
 \begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
-\hypertarget{classxmem_1_1power_1_1_power_reader_ae3c8c415135bfa4b3ba150c2d9b931a3}{}\hyperlink{classxmem_1_1power_1_1_power_reader_ae3c8c415135bfa4b3ba150c2d9b931a3}{$\sim$\+Power\+Reader} ()\label{classxmem_1_1power_1_1_power_reader_ae3c8c415135bfa4b3ba150c2d9b931a3}
+\hypertarget{classxmem_1_1power_1_1_power_reader_ae3c8c415135bfa4b3ba150c2d9b931a3}{\hyperlink{classxmem_1_1power_1_1_power_reader_ae3c8c415135bfa4b3ba150c2d9b931a3}{$\sim$\-Power\-Reader} ()}\label{classxmem_1_1power_1_1_power_reader_ae3c8c415135bfa4b3ba150c2d9b931a3}
 
 \begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
-\hypertarget{classxmem_1_1power_1_1_power_reader_ad8286b3727efbcb0ff5049c6594d126a}{}virtual void \hyperlink{classxmem_1_1power_1_1_power_reader_ad8286b3727efbcb0ff5049c6594d126a}{run} ()=0\label{classxmem_1_1power_1_1_power_reader_ad8286b3727efbcb0ff5049c6594d126a}
+\hypertarget{classxmem_1_1power_1_1_power_reader_ad8286b3727efbcb0ff5049c6594d126a}{virtual void \hyperlink{classxmem_1_1power_1_1_power_reader_ad8286b3727efbcb0ff5049c6594d126a}{run} ()=0}\label{classxmem_1_1power_1_1_power_reader_ad8286b3727efbcb0ff5049c6594d126a}
 
-\begin{DoxyCompactList}\small\item\em Starts measuring power at the rate implied by the sampling\+\_\+period passed in the constructor. Call \hyperlink{classxmem_1_1power_1_1_power_reader_a5c28efc4aece34a5469d067a133920f4}{stop()} to indicate to stop measuring. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Starts measuring power at the rate implied by the sampling\-\_\-period passed in the constructor. Call \hyperlink{classxmem_1_1power_1_1_power_reader_a5c28efc4aece34a5469d067a133920f4}{stop()} to indicate to stop measuring. \end{DoxyCompactList}\item 
 bool \hyperlink{classxmem_1_1power_1_1_power_reader_a5c28efc4aece34a5469d067a133920f4}{stop} ()
 \begin{DoxyCompactList}\small\item\em Signals to stop measuring power. This is a non-\/blocking call and return does not indicate the measurement has actually stopped. \end{DoxyCompactList}\item 
-bool \hyperlink{classxmem_1_1power_1_1_power_reader_a953d6b42a83c8c0b709aa49b994c6803}{calculate\+Metrics} ()
+bool \hyperlink{classxmem_1_1power_1_1_power_reader_a953d6b42a83c8c0b709aa49b994c6803}{calculate\-Metrics} ()
 \begin{DoxyCompactList}\small\item\em Calculates the relevant metrics. \end{DoxyCompactList}\item 
 bool \hyperlink{classxmem_1_1power_1_1_power_reader_a17b206d91ad607dc6fbcd4f2e0f66684}{clear} ()
 \begin{DoxyCompactList}\small\item\em Clears the stored power data. \end{DoxyCompactList}\item 
-bool \hyperlink{classxmem_1_1power_1_1_power_reader_a6377973eed59cd99bcb475c17e5cb0f2}{clear\+\_\+and\+\_\+reset} ()
+bool \hyperlink{classxmem_1_1power_1_1_power_reader_a6377973eed59cd99bcb475c17e5cb0f2}{clear\-\_\-and\-\_\-reset} ()
 \begin{DoxyCompactList}\small\item\em Clears the stored power data and resets state so that a new thread can be used with this object. \end{DoxyCompactList}\item 
-std\+::vector$<$ double $>$ \hyperlink{classxmem_1_1power_1_1_power_reader_af41f0300055c2ec45785cc4e77864a7d}{get\+Power\+Trace} ()
+std\-::vector$<$ double $>$ \hyperlink{classxmem_1_1power_1_1_power_reader_af41f0300055c2ec45785cc4e77864a7d}{get\-Power\-Trace} ()
 \begin{DoxyCompactList}\small\item\em Gets the power trace. \end{DoxyCompactList}\item 
-double \hyperlink{classxmem_1_1power_1_1_power_reader_a2b20b7e6a22dad732cdb166d90fcfe98}{get\+Average\+Power} ()
+double \hyperlink{classxmem_1_1power_1_1_power_reader_a2b20b7e6a22dad732cdb166d90fcfe98}{get\-Average\-Power} ()
 \begin{DoxyCompactList}\small\item\em Gets the average power. \end{DoxyCompactList}\item 
-double \hyperlink{classxmem_1_1power_1_1_power_reader_ae530d62676bd3b3115815b0f4592a0d6}{get\+Peak\+Power} ()
+double \hyperlink{classxmem_1_1power_1_1_power_reader_ae530d62676bd3b3115815b0f4592a0d6}{get\-Peak\-Power} ()
 \begin{DoxyCompactList}\small\item\em Gets the peak power. \end{DoxyCompactList}\item 
-double \hyperlink{classxmem_1_1power_1_1_power_reader_a0025b83ec146f206257690ef27323141}{get\+Last\+Sample} ()
+double \hyperlink{classxmem_1_1power_1_1_power_reader_a0025b83ec146f206257690ef27323141}{get\-Last\-Sample} ()
 \begin{DoxyCompactList}\small\item\em Gets the last sample. \end{DoxyCompactList}\item 
-double \hyperlink{classxmem_1_1power_1_1_power_reader_a833084fa298a654a7cf589723483399c}{get\+Sampling\+Period} ()
+double \hyperlink{classxmem_1_1power_1_1_power_reader_a833084fa298a654a7cf589723483399c}{get\-Sampling\-Period} ()
 \begin{DoxyCompactList}\small\item\em Gets the sampling period. \end{DoxyCompactList}\item 
-double \hyperlink{classxmem_1_1power_1_1_power_reader_a951b1ddd8a39df60b2668548e7529064}{get\+Power\+Units} ()
+double \hyperlink{classxmem_1_1power_1_1_power_reader_a951b1ddd8a39df60b2668548e7529064}{get\-Power\-Units} ()
 \begin{DoxyCompactList}\small\item\em Gets the units of samples in watts. \end{DoxyCompactList}\item 
-size\+\_\+t \hyperlink{classxmem_1_1power_1_1_power_reader_af35118b0e7d408679497f84aa0f6397e}{get\+Num\+Samples} ()
+size\-\_\-t \hyperlink{classxmem_1_1power_1_1_power_reader_af35118b0e7d408679497f84aa0f6397e}{get\-Num\-Samples} ()
 \begin{DoxyCompactList}\small\item\em Gets the number of samples collected. \end{DoxyCompactList}\item 
-std\+::string \hyperlink{classxmem_1_1power_1_1_power_reader_ac0f465b044512502eb1824f18d60e3e6}{name} ()
+std\-::string \hyperlink{classxmem_1_1power_1_1_power_reader_ac0f465b044512502eb1824f18d60e3e6}{name} ()
 \begin{DoxyCompactList}\small\item\em Gets the name of this object. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
-double \hyperlink{classxmem_1_1power_1_1_power_reader_a1c7d9b505d3c94347c43437a568e5948}{\+\_\+sampling\+\_\+period}
+double \hyperlink{classxmem_1_1power_1_1_power_reader_a1c7d9b505d3c94347c43437a568e5948}{\-\_\-sampling\-\_\-period}
 \item 
-double \hyperlink{classxmem_1_1power_1_1_power_reader_a2835c933bd4807d6b3133a521dd76641}{\+\_\+power\+\_\+units}
+double \hyperlink{classxmem_1_1power_1_1_power_reader_a2835c933bd4807d6b3133a521dd76641}{\-\_\-power\-\_\-units}
 \item 
-std\+::string \hyperlink{classxmem_1_1power_1_1_power_reader_a85791da354d03c0a0f7ca4cf38b89e4c}{\+\_\+name}
+std\-::string \hyperlink{classxmem_1_1power_1_1_power_reader_a85791da354d03c0a0f7ca4cf38b89e4c}{\-\_\-name}
 \item 
-bool \hyperlink{classxmem_1_1power_1_1_power_reader_a1c0c890279f3f2b7eb41ab3e5889bf2e}{\+\_\+stop\+\_\+signal}
+bool \hyperlink{classxmem_1_1power_1_1_power_reader_a1c0c890279f3f2b7eb41ab3e5889bf2e}{\-\_\-stop\-\_\-signal}
 \item 
-std\+::vector$<$ double $>$ \hyperlink{classxmem_1_1power_1_1_power_reader_ac8ad4bada42912ece1cbb0769dbe3b4d}{\+\_\+power\+\_\+trace}
+std\-::vector$<$ double $>$ \hyperlink{classxmem_1_1power_1_1_power_reader_ac8ad4bada42912ece1cbb0769dbe3b4d}{\-\_\-power\-\_\-trace}
 \item 
-double \hyperlink{classxmem_1_1power_1_1_power_reader_a1ad637b79a21519c20f9dda64fc1b908}{\+\_\+average\+\_\+power}
+double \hyperlink{classxmem_1_1power_1_1_power_reader_a1ad637b79a21519c20f9dda64fc1b908}{\-\_\-average\-\_\-power}
 \item 
-double \hyperlink{classxmem_1_1power_1_1_power_reader_a0bfe4f56c143f3febb404d85558e45fa}{\+\_\+peak\+\_\+power}
+double \hyperlink{classxmem_1_1power_1_1_power_reader_a0bfe4f56c143f3febb404d85558e45fa}{\-\_\-peak\-\_\-power}
 \item 
-size\+\_\+t \hyperlink{classxmem_1_1power_1_1_power_reader_a296a8d15083e01e33590cbcd836aa07b}{\+\_\+num\+\_\+samples}
+size\-\_\-t \hyperlink{classxmem_1_1power_1_1_power_reader_a296a8d15083e01e33590cbcd836aa07b}{\-\_\-num\-\_\-samples}
 \item 
-int32\+\_\+t \hyperlink{classxmem_1_1power_1_1_power_reader_a0f95e6c4e8caa6db8de3fcf78509e887}{\+\_\+cpu\+\_\+affinity}
+int32\-\_\-t \hyperlink{classxmem_1_1power_1_1_power_reader_a0f95e6c4e8caa6db8de3fcf78509e887}{\-\_\-cpu\-\_\-affinity}
 \end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
@@ -78,41 +79,41 @@ int32\+\_\+t \hyperlink{classxmem_1_1power_1_1_power_reader_a0f95e6c4e8caa6db8de
 An abstract base class for measuring power from an arbitrary source. This class is runnable using a worker thread. 
 
 \subsection{Constructor \& Destructor Documentation}
-\hypertarget{classxmem_1_1power_1_1_power_reader_abae158275e32689c1c69a90b8962959b}{}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}!Power\+Reader@{Power\+Reader}}
-\index{Power\+Reader@{Power\+Reader}!xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
-\subsubsection[{Power\+Reader}]{\setlength{\rightskip}{0pt plus 5cm}Power\+Reader\+::\+Power\+Reader (
+\hypertarget{classxmem_1_1power_1_1_power_reader_abae158275e32689c1c69a90b8962959b}{\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}!Power\-Reader@{Power\-Reader}}
+\index{Power\-Reader@{Power\-Reader}!xmem::power::PowerReader@{xmem\-::power\-::\-Power\-Reader}}
+\subsubsection[{Power\-Reader}]{\setlength{\rightskip}{0pt plus 5cm}Power\-Reader\-::\-Power\-Reader (
 \begin{DoxyParamCaption}
-\item[{double}]{sampling\+\_\+period, }
-\item[{double}]{power\+\_\+units, }
-\item[{std\+::string}]{name, }
-\item[{int32\+\_\+t}]{cpu\+\_\+affinity}
+\item[{double}]{sampling\-\_\-period, }
+\item[{double}]{power\-\_\-units, }
+\item[{std\-::string}]{name, }
+\item[{int32\-\_\-t}]{cpu\-\_\-affinity}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1power_1_1_power_reader_abae158275e32689c1c69a90b8962959b}
+)}}\label{classxmem_1_1power_1_1_power_reader_abae158275e32689c1c69a90b8962959b}
 
 
 Constructor. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em sampling\+\_\+period} & The time between power samples in seconds. \\
+{\em sampling\-\_\-period} & The time between power samples in seconds. \\
 \hline
-{\em power\+\_\+units} & The power units for each sample in watts. \\
+{\em power\-\_\-units} & The power units for each sample in watts. \\
 \hline
 {\em name} & The human-\/friendly name of this object. \\
 \hline
-{\em cpu\+\_\+affinity} & The logical C\+P\+U to be used by the thread calling this object\textquotesingle{}s \hyperlink{classxmem_1_1power_1_1_power_reader_ad8286b3727efbcb0ff5049c6594d126a}{run()} method. If negative, any C\+P\+U is O\+K (no affinity). \\
+{\em cpu\-\_\-affinity} & The logical C\-P\-U to be used by the thread calling this object's \hyperlink{classxmem_1_1power_1_1_power_reader_ad8286b3727efbcb0ff5049c6594d126a}{run()} method. If negative, any C\-P\-U is O\-K (no affinity). \\
 \hline
 \end{DoxyParams}
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classxmem_1_1power_1_1_power_reader_a953d6b42a83c8c0b709aa49b994c6803}{}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}!calculate\+Metrics@{calculate\+Metrics}}
-\index{calculate\+Metrics@{calculate\+Metrics}!xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
-\subsubsection[{calculate\+Metrics}]{\setlength{\rightskip}{0pt plus 5cm}bool Power\+Reader\+::calculate\+Metrics (
+\hypertarget{classxmem_1_1power_1_1_power_reader_a953d6b42a83c8c0b709aa49b994c6803}{\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}!calculate\-Metrics@{calculate\-Metrics}}
+\index{calculate\-Metrics@{calculate\-Metrics}!xmem::power::PowerReader@{xmem\-::power\-::\-Power\-Reader}}
+\subsubsection[{calculate\-Metrics}]{\setlength{\rightskip}{0pt plus 5cm}bool Power\-Reader\-::calculate\-Metrics (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1power_1_1_power_reader_a953d6b42a83c8c0b709aa49b994c6803}
+)}}\label{classxmem_1_1power_1_1_power_reader_a953d6b42a83c8c0b709aa49b994c6803}
 
 
 Calculates the relevant metrics. 
@@ -120,13 +121,13 @@ Calculates the relevant metrics.
 \begin{DoxyReturn}{Returns}
 True on success. 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1power_1_1_power_reader_a17b206d91ad607dc6fbcd4f2e0f66684}{}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}!clear@{clear}}
-\index{clear@{clear}!xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
-\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}bool Power\+Reader\+::clear (
+\hypertarget{classxmem_1_1power_1_1_power_reader_a17b206d91ad607dc6fbcd4f2e0f66684}{\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}!clear@{clear}}
+\index{clear@{clear}!xmem::power::PowerReader@{xmem\-::power\-::\-Power\-Reader}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}bool Power\-Reader\-::clear (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1power_1_1_power_reader_a17b206d91ad607dc6fbcd4f2e0f66684}
+)}}\label{classxmem_1_1power_1_1_power_reader_a17b206d91ad607dc6fbcd4f2e0f66684}
 
 
 Clears the stored power data. 
@@ -134,13 +135,13 @@ Clears the stored power data.
 \begin{DoxyReturn}{Returns}
 True on success. 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1power_1_1_power_reader_a6377973eed59cd99bcb475c17e5cb0f2}{}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}!clear\+\_\+and\+\_\+reset@{clear\+\_\+and\+\_\+reset}}
-\index{clear\+\_\+and\+\_\+reset@{clear\+\_\+and\+\_\+reset}!xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
-\subsubsection[{clear\+\_\+and\+\_\+reset}]{\setlength{\rightskip}{0pt plus 5cm}bool Power\+Reader\+::clear\+\_\+and\+\_\+reset (
+\hypertarget{classxmem_1_1power_1_1_power_reader_a6377973eed59cd99bcb475c17e5cb0f2}{\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}!clear\-\_\-and\-\_\-reset@{clear\-\_\-and\-\_\-reset}}
+\index{clear\-\_\-and\-\_\-reset@{clear\-\_\-and\-\_\-reset}!xmem::power::PowerReader@{xmem\-::power\-::\-Power\-Reader}}
+\subsubsection[{clear\-\_\-and\-\_\-reset}]{\setlength{\rightskip}{0pt plus 5cm}bool Power\-Reader\-::clear\-\_\-and\-\_\-reset (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1power_1_1_power_reader_a6377973eed59cd99bcb475c17e5cb0f2}
+)}}\label{classxmem_1_1power_1_1_power_reader_a6377973eed59cd99bcb475c17e5cb0f2}
 
 
 Clears the stored power data and resets state so that a new thread can be used with this object. 
@@ -148,13 +149,13 @@ Clears the stored power data and resets state so that a new thread can be used w
 \begin{DoxyReturn}{Returns}
 True on success. 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1power_1_1_power_reader_a2b20b7e6a22dad732cdb166d90fcfe98}{}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}!get\+Average\+Power@{get\+Average\+Power}}
-\index{get\+Average\+Power@{get\+Average\+Power}!xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
-\subsubsection[{get\+Average\+Power}]{\setlength{\rightskip}{0pt plus 5cm}double Power\+Reader\+::get\+Average\+Power (
+\hypertarget{classxmem_1_1power_1_1_power_reader_a2b20b7e6a22dad732cdb166d90fcfe98}{\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}!get\-Average\-Power@{get\-Average\-Power}}
+\index{get\-Average\-Power@{get\-Average\-Power}!xmem::power::PowerReader@{xmem\-::power\-::\-Power\-Reader}}
+\subsubsection[{get\-Average\-Power}]{\setlength{\rightskip}{0pt plus 5cm}double Power\-Reader\-::get\-Average\-Power (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1power_1_1_power_reader_a2b20b7e6a22dad732cdb166d90fcfe98}
+)}}\label{classxmem_1_1power_1_1_power_reader_a2b20b7e6a22dad732cdb166d90fcfe98}
 
 
 Gets the average power. 
@@ -162,13 +163,13 @@ Gets the average power.
 \begin{DoxyReturn}{Returns}
 The average power from the measurements. If no data was collected, returns 0. 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1power_1_1_power_reader_a0025b83ec146f206257690ef27323141}{}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}!get\+Last\+Sample@{get\+Last\+Sample}}
-\index{get\+Last\+Sample@{get\+Last\+Sample}!xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
-\subsubsection[{get\+Last\+Sample}]{\setlength{\rightskip}{0pt plus 5cm}double Power\+Reader\+::get\+Last\+Sample (
+\hypertarget{classxmem_1_1power_1_1_power_reader_a0025b83ec146f206257690ef27323141}{\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}!get\-Last\-Sample@{get\-Last\-Sample}}
+\index{get\-Last\-Sample@{get\-Last\-Sample}!xmem::power::PowerReader@{xmem\-::power\-::\-Power\-Reader}}
+\subsubsection[{get\-Last\-Sample}]{\setlength{\rightskip}{0pt plus 5cm}double Power\-Reader\-::get\-Last\-Sample (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1power_1_1_power_reader_a0025b83ec146f206257690ef27323141}
+)}}\label{classxmem_1_1power_1_1_power_reader_a0025b83ec146f206257690ef27323141}
 
 
 Gets the last sample. 
@@ -176,13 +177,13 @@ Gets the last sample.
 \begin{DoxyReturn}{Returns}
 The last power sample measured. 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1power_1_1_power_reader_af35118b0e7d408679497f84aa0f6397e}{}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}!get\+Num\+Samples@{get\+Num\+Samples}}
-\index{get\+Num\+Samples@{get\+Num\+Samples}!xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
-\subsubsection[{get\+Num\+Samples}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t Power\+Reader\+::get\+Num\+Samples (
+\hypertarget{classxmem_1_1power_1_1_power_reader_af35118b0e7d408679497f84aa0f6397e}{\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}!get\-Num\-Samples@{get\-Num\-Samples}}
+\index{get\-Num\-Samples@{get\-Num\-Samples}!xmem::power::PowerReader@{xmem\-::power\-::\-Power\-Reader}}
+\subsubsection[{get\-Num\-Samples}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t Power\-Reader\-::get\-Num\-Samples (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1power_1_1_power_reader_af35118b0e7d408679497f84aa0f6397e}
+)}}\label{classxmem_1_1power_1_1_power_reader_af35118b0e7d408679497f84aa0f6397e}
 
 
 Gets the number of samples collected. 
@@ -190,13 +191,13 @@ Gets the number of samples collected.
 \begin{DoxyReturn}{Returns}
 Number of samples collected. 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1power_1_1_power_reader_ae530d62676bd3b3115815b0f4592a0d6}{}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}!get\+Peak\+Power@{get\+Peak\+Power}}
-\index{get\+Peak\+Power@{get\+Peak\+Power}!xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
-\subsubsection[{get\+Peak\+Power}]{\setlength{\rightskip}{0pt plus 5cm}double Power\+Reader\+::get\+Peak\+Power (
+\hypertarget{classxmem_1_1power_1_1_power_reader_ae530d62676bd3b3115815b0f4592a0d6}{\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}!get\-Peak\-Power@{get\-Peak\-Power}}
+\index{get\-Peak\-Power@{get\-Peak\-Power}!xmem::power::PowerReader@{xmem\-::power\-::\-Power\-Reader}}
+\subsubsection[{get\-Peak\-Power}]{\setlength{\rightskip}{0pt plus 5cm}double Power\-Reader\-::get\-Peak\-Power (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1power_1_1_power_reader_ae530d62676bd3b3115815b0f4592a0d6}
+)}}\label{classxmem_1_1power_1_1_power_reader_ae530d62676bd3b3115815b0f4592a0d6}
 
 
 Gets the peak power. 
@@ -204,13 +205,13 @@ Gets the peak power.
 \begin{DoxyReturn}{Returns}
 The peak power sample from the measurements. If no data was collected, returns 0. 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1power_1_1_power_reader_af41f0300055c2ec45785cc4e77864a7d}{}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}!get\+Power\+Trace@{get\+Power\+Trace}}
-\index{get\+Power\+Trace@{get\+Power\+Trace}!xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
-\subsubsection[{get\+Power\+Trace}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$ double $>$ Power\+Reader\+::get\+Power\+Trace (
+\hypertarget{classxmem_1_1power_1_1_power_reader_af41f0300055c2ec45785cc4e77864a7d}{\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}!get\-Power\-Trace@{get\-Power\-Trace}}
+\index{get\-Power\-Trace@{get\-Power\-Trace}!xmem::power::PowerReader@{xmem\-::power\-::\-Power\-Reader}}
+\subsubsection[{get\-Power\-Trace}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ double $>$ Power\-Reader\-::get\-Power\-Trace (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1power_1_1_power_reader_af41f0300055c2ec45785cc4e77864a7d}
+)}}\label{classxmem_1_1power_1_1_power_reader_af41f0300055c2ec45785cc4e77864a7d}
 
 
 Gets the power trace. 
@@ -218,13 +219,13 @@ Gets the power trace.
 \begin{DoxyReturn}{Returns}
 The measured power trace in a vector. If no data was collected, the vector will be empty. 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1power_1_1_power_reader_a951b1ddd8a39df60b2668548e7529064}{}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}!get\+Power\+Units@{get\+Power\+Units}}
-\index{get\+Power\+Units@{get\+Power\+Units}!xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
-\subsubsection[{get\+Power\+Units}]{\setlength{\rightskip}{0pt plus 5cm}double Power\+Reader\+::get\+Power\+Units (
+\hypertarget{classxmem_1_1power_1_1_power_reader_a951b1ddd8a39df60b2668548e7529064}{\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}!get\-Power\-Units@{get\-Power\-Units}}
+\index{get\-Power\-Units@{get\-Power\-Units}!xmem::power::PowerReader@{xmem\-::power\-::\-Power\-Reader}}
+\subsubsection[{get\-Power\-Units}]{\setlength{\rightskip}{0pt plus 5cm}double Power\-Reader\-::get\-Power\-Units (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1power_1_1_power_reader_a951b1ddd8a39df60b2668548e7529064}
+)}}\label{classxmem_1_1power_1_1_power_reader_a951b1ddd8a39df60b2668548e7529064}
 
 
 Gets the units of samples in watts. 
@@ -232,13 +233,13 @@ Gets the units of samples in watts.
 \begin{DoxyReturn}{Returns}
 The power units for each measurement sample in watts. For example, if each measurement is in milliwatts, then this returns 1e-\/3. 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1power_1_1_power_reader_a833084fa298a654a7cf589723483399c}{}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}!get\+Sampling\+Period@{get\+Sampling\+Period}}
-\index{get\+Sampling\+Period@{get\+Sampling\+Period}!xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
-\subsubsection[{get\+Sampling\+Period}]{\setlength{\rightskip}{0pt plus 5cm}double Power\+Reader\+::get\+Sampling\+Period (
+\hypertarget{classxmem_1_1power_1_1_power_reader_a833084fa298a654a7cf589723483399c}{\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}!get\-Sampling\-Period@{get\-Sampling\-Period}}
+\index{get\-Sampling\-Period@{get\-Sampling\-Period}!xmem::power::PowerReader@{xmem\-::power\-::\-Power\-Reader}}
+\subsubsection[{get\-Sampling\-Period}]{\setlength{\rightskip}{0pt plus 5cm}double Power\-Reader\-::get\-Sampling\-Period (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1power_1_1_power_reader_a833084fa298a654a7cf589723483399c}
+)}}\label{classxmem_1_1power_1_1_power_reader_a833084fa298a654a7cf589723483399c}
 
 
 Gets the sampling period. 
@@ -246,27 +247,27 @@ Gets the sampling period.
 \begin{DoxyReturn}{Returns}
 The sampling period of the measurements in seconds. 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1power_1_1_power_reader_ac0f465b044512502eb1824f18d60e3e6}{}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}!name@{name}}
-\index{name@{name}!xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
-\subsubsection[{name}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Power\+Reader\+::name (
+\hypertarget{classxmem_1_1power_1_1_power_reader_ac0f465b044512502eb1824f18d60e3e6}{\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}!name@{name}}
+\index{name@{name}!xmem::power::PowerReader@{xmem\-::power\-::\-Power\-Reader}}
+\subsubsection[{name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Power\-Reader\-::name (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1power_1_1_power_reader_ac0f465b044512502eb1824f18d60e3e6}
+)}}\label{classxmem_1_1power_1_1_power_reader_ac0f465b044512502eb1824f18d60e3e6}
 
 
 Gets the name of this object. 
 
 \begin{DoxyReturn}{Returns}
-The human-\/friendly name of this \hyperlink{classxmem_1_1power_1_1_power_reader}{Power\+Reader}. 
+The human-\/friendly name of this \hyperlink{classxmem_1_1power_1_1_power_reader}{Power\-Reader}. 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1power_1_1_power_reader_a5c28efc4aece34a5469d067a133920f4}{}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}!stop@{stop}}
-\index{stop@{stop}!xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
-\subsubsection[{stop}]{\setlength{\rightskip}{0pt plus 5cm}bool Power\+Reader\+::stop (
+\hypertarget{classxmem_1_1power_1_1_power_reader_a5c28efc4aece34a5469d067a133920f4}{\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}!stop@{stop}}
+\index{stop@{stop}!xmem::power::PowerReader@{xmem\-::power\-::\-Power\-Reader}}
+\subsubsection[{stop}]{\setlength{\rightskip}{0pt plus 5cm}bool Power\-Reader\-::stop (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1power_1_1_power_reader_a5c28efc4aece34a5469d067a133920f4}
+)}}\label{classxmem_1_1power_1_1_power_reader_a5c28efc4aece34a5469d067a133920f4}
 
 
 Signals to stop measuring power. This is a non-\/blocking call and return does not indicate the measurement has actually stopped. 
@@ -277,36 +278,36 @@ True if it successfully signaled a stop.
 
 
 \subsection{Member Data Documentation}
-\hypertarget{classxmem_1_1power_1_1_power_reader_a1ad637b79a21519c20f9dda64fc1b908}{}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}!\+\_\+average\+\_\+power@{\+\_\+average\+\_\+power}}
-\index{\+\_\+average\+\_\+power@{\+\_\+average\+\_\+power}!xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
-\subsubsection[{\+\_\+average\+\_\+power}]{\setlength{\rightskip}{0pt plus 5cm}double xmem\+::power\+::\+Power\+Reader\+::\+\_\+average\+\_\+power\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1power_1_1_power_reader_a1ad637b79a21519c20f9dda64fc1b908}
-The average power. \hypertarget{classxmem_1_1power_1_1_power_reader_a0f95e6c4e8caa6db8de3fcf78509e887}{}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}!\+\_\+cpu\+\_\+affinity@{\+\_\+cpu\+\_\+affinity}}
-\index{\+\_\+cpu\+\_\+affinity@{\+\_\+cpu\+\_\+affinity}!xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
-\subsubsection[{\+\_\+cpu\+\_\+affinity}]{\setlength{\rightskip}{0pt plus 5cm}int32\+\_\+t xmem\+::power\+::\+Power\+Reader\+::\+\_\+cpu\+\_\+affinity\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1power_1_1_power_reader_a0f95e6c4e8caa6db8de3fcf78509e887}
-C\+P\+U affinity for any thread using this object\textquotesingle{}s \hyperlink{classxmem_1_1power_1_1_power_reader_ad8286b3727efbcb0ff5049c6594d126a}{run()} method. If negative, no affinity preference. \hypertarget{classxmem_1_1power_1_1_power_reader_a85791da354d03c0a0f7ca4cf38b89e4c}{}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}!\+\_\+name@{\+\_\+name}}
-\index{\+\_\+name@{\+\_\+name}!xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
-\subsubsection[{\+\_\+name}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string xmem\+::power\+::\+Power\+Reader\+::\+\_\+name\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1power_1_1_power_reader_a85791da354d03c0a0f7ca4cf38b89e4c}
-Name of this object. \hypertarget{classxmem_1_1power_1_1_power_reader_a296a8d15083e01e33590cbcd836aa07b}{}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}!\+\_\+num\+\_\+samples@{\+\_\+num\+\_\+samples}}
-\index{\+\_\+num\+\_\+samples@{\+\_\+num\+\_\+samples}!xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
-\subsubsection[{\+\_\+num\+\_\+samples}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t xmem\+::power\+::\+Power\+Reader\+::\+\_\+num\+\_\+samples\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1power_1_1_power_reader_a296a8d15083e01e33590cbcd836aa07b}
-The number of samples collected. \hypertarget{classxmem_1_1power_1_1_power_reader_a0bfe4f56c143f3febb404d85558e45fa}{}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}!\+\_\+peak\+\_\+power@{\+\_\+peak\+\_\+power}}
-\index{\+\_\+peak\+\_\+power@{\+\_\+peak\+\_\+power}!xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
-\subsubsection[{\+\_\+peak\+\_\+power}]{\setlength{\rightskip}{0pt plus 5cm}double xmem\+::power\+::\+Power\+Reader\+::\+\_\+peak\+\_\+power\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1power_1_1_power_reader_a0bfe4f56c143f3febb404d85558e45fa}
-The peak power observed. \hypertarget{classxmem_1_1power_1_1_power_reader_ac8ad4bada42912ece1cbb0769dbe3b4d}{}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}!\+\_\+power\+\_\+trace@{\+\_\+power\+\_\+trace}}
-\index{\+\_\+power\+\_\+trace@{\+\_\+power\+\_\+trace}!xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
-\subsubsection[{\+\_\+power\+\_\+trace}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$double$>$ xmem\+::power\+::\+Power\+Reader\+::\+\_\+power\+\_\+trace\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1power_1_1_power_reader_ac8ad4bada42912ece1cbb0769dbe3b4d}
-The time-\/ordered list of power samples. The first index is the oldest measurement. \hypertarget{classxmem_1_1power_1_1_power_reader_a2835c933bd4807d6b3133a521dd76641}{}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}!\+\_\+power\+\_\+units@{\+\_\+power\+\_\+units}}
-\index{\+\_\+power\+\_\+units@{\+\_\+power\+\_\+units}!xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
-\subsubsection[{\+\_\+power\+\_\+units}]{\setlength{\rightskip}{0pt plus 5cm}double xmem\+::power\+::\+Power\+Reader\+::\+\_\+power\+\_\+units\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1power_1_1_power_reader_a2835c933bd4807d6b3133a521dd76641}
-Power units in watts. \hypertarget{classxmem_1_1power_1_1_power_reader_a1c7d9b505d3c94347c43437a568e5948}{}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}!\+\_\+sampling\+\_\+period@{\+\_\+sampling\+\_\+period}}
-\index{\+\_\+sampling\+\_\+period@{\+\_\+sampling\+\_\+period}!xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
-\subsubsection[{\+\_\+sampling\+\_\+period}]{\setlength{\rightskip}{0pt plus 5cm}double xmem\+::power\+::\+Power\+Reader\+::\+\_\+sampling\+\_\+period\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1power_1_1_power_reader_a1c7d9b505d3c94347c43437a568e5948}
-Power sampling period in seconds. \hypertarget{classxmem_1_1power_1_1_power_reader_a1c0c890279f3f2b7eb41ab3e5889bf2e}{}\index{xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}!\+\_\+stop\+\_\+signal@{\+\_\+stop\+\_\+signal}}
-\index{\+\_\+stop\+\_\+signal@{\+\_\+stop\+\_\+signal}!xmem\+::power\+::\+Power\+Reader@{xmem\+::power\+::\+Power\+Reader}}
-\subsubsection[{\+\_\+stop\+\_\+signal}]{\setlength{\rightskip}{0pt plus 5cm}bool xmem\+::power\+::\+Power\+Reader\+::\+\_\+stop\+\_\+signal\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1power_1_1_power_reader_a1c0c890279f3f2b7eb41ab3e5889bf2e}
+\hypertarget{classxmem_1_1power_1_1_power_reader_a1ad637b79a21519c20f9dda64fc1b908}{\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}!\-\_\-average\-\_\-power@{\-\_\-average\-\_\-power}}
+\index{\-\_\-average\-\_\-power@{\-\_\-average\-\_\-power}!xmem::power::PowerReader@{xmem\-::power\-::\-Power\-Reader}}
+\subsubsection[{\-\_\-average\-\_\-power}]{\setlength{\rightskip}{0pt plus 5cm}double xmem\-::power\-::\-Power\-Reader\-::\-\_\-average\-\_\-power\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1power_1_1_power_reader_a1ad637b79a21519c20f9dda64fc1b908}
+The average power. \hypertarget{classxmem_1_1power_1_1_power_reader_a0f95e6c4e8caa6db8de3fcf78509e887}{\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}!\-\_\-cpu\-\_\-affinity@{\-\_\-cpu\-\_\-affinity}}
+\index{\-\_\-cpu\-\_\-affinity@{\-\_\-cpu\-\_\-affinity}!xmem::power::PowerReader@{xmem\-::power\-::\-Power\-Reader}}
+\subsubsection[{\-\_\-cpu\-\_\-affinity}]{\setlength{\rightskip}{0pt plus 5cm}int32\-\_\-t xmem\-::power\-::\-Power\-Reader\-::\-\_\-cpu\-\_\-affinity\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1power_1_1_power_reader_a0f95e6c4e8caa6db8de3fcf78509e887}
+C\-P\-U affinity for any thread using this object's \hyperlink{classxmem_1_1power_1_1_power_reader_ad8286b3727efbcb0ff5049c6594d126a}{run()} method. If negative, no affinity preference. \hypertarget{classxmem_1_1power_1_1_power_reader_a85791da354d03c0a0f7ca4cf38b89e4c}{\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}!\-\_\-name@{\-\_\-name}}
+\index{\-\_\-name@{\-\_\-name}!xmem::power::PowerReader@{xmem\-::power\-::\-Power\-Reader}}
+\subsubsection[{\-\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string xmem\-::power\-::\-Power\-Reader\-::\-\_\-name\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1power_1_1_power_reader_a85791da354d03c0a0f7ca4cf38b89e4c}
+Name of this object. \hypertarget{classxmem_1_1power_1_1_power_reader_a296a8d15083e01e33590cbcd836aa07b}{\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}!\-\_\-num\-\_\-samples@{\-\_\-num\-\_\-samples}}
+\index{\-\_\-num\-\_\-samples@{\-\_\-num\-\_\-samples}!xmem::power::PowerReader@{xmem\-::power\-::\-Power\-Reader}}
+\subsubsection[{\-\_\-num\-\_\-samples}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t xmem\-::power\-::\-Power\-Reader\-::\-\_\-num\-\_\-samples\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1power_1_1_power_reader_a296a8d15083e01e33590cbcd836aa07b}
+The number of samples collected. \hypertarget{classxmem_1_1power_1_1_power_reader_a0bfe4f56c143f3febb404d85558e45fa}{\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}!\-\_\-peak\-\_\-power@{\-\_\-peak\-\_\-power}}
+\index{\-\_\-peak\-\_\-power@{\-\_\-peak\-\_\-power}!xmem::power::PowerReader@{xmem\-::power\-::\-Power\-Reader}}
+\subsubsection[{\-\_\-peak\-\_\-power}]{\setlength{\rightskip}{0pt plus 5cm}double xmem\-::power\-::\-Power\-Reader\-::\-\_\-peak\-\_\-power\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1power_1_1_power_reader_a0bfe4f56c143f3febb404d85558e45fa}
+The peak power observed. \hypertarget{classxmem_1_1power_1_1_power_reader_ac8ad4bada42912ece1cbb0769dbe3b4d}{\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}!\-\_\-power\-\_\-trace@{\-\_\-power\-\_\-trace}}
+\index{\-\_\-power\-\_\-trace@{\-\_\-power\-\_\-trace}!xmem::power::PowerReader@{xmem\-::power\-::\-Power\-Reader}}
+\subsubsection[{\-\_\-power\-\_\-trace}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$double$>$ xmem\-::power\-::\-Power\-Reader\-::\-\_\-power\-\_\-trace\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1power_1_1_power_reader_ac8ad4bada42912ece1cbb0769dbe3b4d}
+The time-\/ordered list of power samples. The first index is the oldest measurement. \hypertarget{classxmem_1_1power_1_1_power_reader_a2835c933bd4807d6b3133a521dd76641}{\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}!\-\_\-power\-\_\-units@{\-\_\-power\-\_\-units}}
+\index{\-\_\-power\-\_\-units@{\-\_\-power\-\_\-units}!xmem::power::PowerReader@{xmem\-::power\-::\-Power\-Reader}}
+\subsubsection[{\-\_\-power\-\_\-units}]{\setlength{\rightskip}{0pt plus 5cm}double xmem\-::power\-::\-Power\-Reader\-::\-\_\-power\-\_\-units\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1power_1_1_power_reader_a2835c933bd4807d6b3133a521dd76641}
+Power units in watts. \hypertarget{classxmem_1_1power_1_1_power_reader_a1c7d9b505d3c94347c43437a568e5948}{\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}!\-\_\-sampling\-\_\-period@{\-\_\-sampling\-\_\-period}}
+\index{\-\_\-sampling\-\_\-period@{\-\_\-sampling\-\_\-period}!xmem::power::PowerReader@{xmem\-::power\-::\-Power\-Reader}}
+\subsubsection[{\-\_\-sampling\-\_\-period}]{\setlength{\rightskip}{0pt plus 5cm}double xmem\-::power\-::\-Power\-Reader\-::\-\_\-sampling\-\_\-period\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1power_1_1_power_reader_a1c7d9b505d3c94347c43437a568e5948}
+Power sampling period in seconds. \hypertarget{classxmem_1_1power_1_1_power_reader_a1c0c890279f3f2b7eb41ab3e5889bf2e}{\index{xmem\-::power\-::\-Power\-Reader@{xmem\-::power\-::\-Power\-Reader}!\-\_\-stop\-\_\-signal@{\-\_\-stop\-\_\-signal}}
+\index{\-\_\-stop\-\_\-signal@{\-\_\-stop\-\_\-signal}!xmem::power::PowerReader@{xmem\-::power\-::\-Power\-Reader}}
+\subsubsection[{\-\_\-stop\-\_\-signal}]{\setlength{\rightskip}{0pt plus 5cm}bool xmem\-::power\-::\-Power\-Reader\-::\-\_\-stop\-\_\-signal\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1power_1_1_power_reader_a1c0c890279f3f2b7eb41ab3e5889bf2e}
 When true, the \hyperlink{classxmem_1_1power_1_1_power_reader_ad8286b3727efbcb0ff5049c6594d126a}{run()} function should finish after the current sample iteration it is working on. 
 
-The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-src/include/\hyperlink{_power_reader_8h}{Power\+Reader.\+h}\item 
-src/\hyperlink{_power_reader_8cpp}{Power\+Reader.\+cpp}\end{DoxyCompactItemize}
+src/include/\hyperlink{_power_reader_8h}{Power\-Reader.\-h}\item 
+src/\hyperlink{_power_reader_8cpp}{Power\-Reader.\-cpp}\end{DoxyCompactItemize}

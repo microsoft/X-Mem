@@ -289,9 +289,10 @@ void BenchmarkManager::__setupWorkingSets(size_t working_set_size) {
 	__mem_array_lens.resize(__benchmark_num_numa_nodes);
 
 	for (uint32_t numa_node = 0; numa_node < __benchmark_num_numa_nodes; numa_node++) {
-		size_t allocation_size = 0, remainder = 0;
+		size_t allocation_size = 0;
 
 #ifdef USE_LARGE_PAGES
+		size_t remainder = 0;
 		//For large pages, working set size could be less than a single large page. So let's allocate the right amount of memory, which is the working set size rounded up to nearest large page, which could be more than we actually use.
 		if (__num_worker_threads * working_set_size < g_large_page_size)
 			allocation_size = g_large_page_size;

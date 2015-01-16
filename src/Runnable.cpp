@@ -118,7 +118,7 @@ bool Runnable::_acquireLock(int32_t timeout) {
 #ifdef __unix
 		struct timespec t;
 		t.tv_sec = static_cast<time_t>(timeout/1000);
-		t.tv_nsec = static_cast<time>t>((timeout % 1000) * 1e6);
+		t.tv_nsec = static_cast<time_t>((timeout % 1000) * 1e6);
 		reason = pthread_mutex_timedlock(&_mutex, &t);
 		if (!reason) //success
 #endif

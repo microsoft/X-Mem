@@ -87,7 +87,6 @@ bool Thread::create_and_start() {
 		return true;
 	}
 	return false;
-
 #endif
 }
 
@@ -109,7 +108,11 @@ bool Thread::join() {
 #endif
 
 #ifdef __unix__
-	int32_t failure = pthread_join(__thread_handle, static_cast<void**>(&__thread_exit_code));
+	void* exit_pointer = NULL;
+	int32_t failure = pthread_join(__thread_handle, &exit_pointer);
+	if (exit_pointer)
+		__thread_exit_code = *(static_cast<int32_t*>(exit_pointer));
+
 	if (!failure) {
 		__running = false;
 		__suspended = false;
@@ -202,15 +205,26 @@ bool Thread::__start() {
 #endif
 
 #ifdef _WIN32
-DWORD  Thread::__run_launchpad(void* target_runnable_object) {
-#endif
-#ifdef __unix__
-int32_t Thread::__run_launchpad(void* target_runnable_object) {
-#endif
+DWORD Thread::__run_launchpad(void* target_runnable_object) {
 	if (target_runnable_object != NULL) {
 		Runnable* target = static_cast<Runnable*>(target_runnable_object);
 		target->run();
 		return 0;
-	} else
-		return 1;
+	}
+	return 1;
 }
+#endif
+
+#ifdef __unix__
+void* Thread::__run_launchpad(void* target_runnable_object) {
+	int32_t* thread_retval = new int32_t;
+	*thread_retval = 1;
+	if (target_runnable_object != NULL) {
+		Runnable* target = static_cast<Runnable*>(target_runnable_object);
+		target->run();
+		*thread_retval = 0;
+		return static_cast<void*>(thread_retval);
+	}
+	return static_cast<void*>(thread_retval);
+}
+#endif

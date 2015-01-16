@@ -1,6 +1,6 @@
 var classxmem_1_1benchmark_1_1_throughput_benchmark_worker =
 [
-    [ "BenchFunction", "classxmem_1_1benchmark_1_1_throughput_benchmark_worker.html#a4604cb1fd7108eb9d56007bfb3c6e54f", null ],
+    [ "BenchFunction", "classxmem_1_1benchmark_1_1_throughput_benchmark_worker.html#ae94fcc9ea97a599065ef51d864f392c5", null ],
     [ "ThroughputBenchmarkWorker", "classxmem_1_1benchmark_1_1_throughput_benchmark_worker.html#a271c77940bc7cb45fcc395d3ed14361c", null ],
     [ "~ThroughputBenchmarkWorker", "classxmem_1_1benchmark_1_1_throughput_benchmark_worker.html#a021aae8513f5da78e04ba711e308b705", null ],
     [ "getAdjustedTicks", "classxmem_1_1benchmark_1_1_throughput_benchmark_worker.html#aac1a7f68313e877f4f73d212d00d5289", null ],

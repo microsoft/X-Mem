@@ -144,7 +144,7 @@ namespace xmem {
 				static DWORD WINAPI __run_launchpad(void* target_runnable_object);
 #endif
 #ifdef __unix__
-				static int32_t __run_launchpad(void* target_runnable_object);
+				static void* __run_launchpad(void* target_runnable_object);
 #endif
 
 				Runnable* __target; /**< The object connecting a run() method which operates in a thread-safe manner. */

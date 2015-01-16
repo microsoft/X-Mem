@@ -1,5 +1,6 @@
-\hypertarget{structxmem_1_1config_1_1third__party_1_1_descriptor}{}\section{xmem\+:\+:config\+:\+:third\+\_\+party\+:\+:Descriptor Struct Reference}
-\label{structxmem_1_1config_1_1third__party_1_1_descriptor}\index{xmem\+::config\+::third\+\_\+party\+::\+Descriptor@{xmem\+::config\+::third\+\_\+party\+::\+Descriptor}}
+\hypertarget{structxmem_1_1config_1_1third__party_1_1_descriptor}{\section{xmem\-:\-:config\-:\-:third\-\_\-party\-:\-:Descriptor Struct Reference}
+\label{structxmem_1_1config_1_1third__party_1_1_descriptor}\index{xmem\-::config\-::third\-\_\-party\-::\-Descriptor@{xmem\-::config\-::third\-\_\-party\-::\-Descriptor}}
+}
 
 
 Describes an option, its help text (usage) and how it should be parsed.  
@@ -7,20 +8,20 @@ Describes an option, its help text (usage) and how it should be parsed.
 
 
 
-{\ttfamily \#include $<$optionparser.\+h$>$}
+{\ttfamily \#include $<$optionparser.\-h$>$}
 
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
 const unsigned \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_aacf3d44f35c61f22be65da078f60734b}{index}
-\begin{DoxyCompactList}\small\item\em Index of this option\textquotesingle{}s linked list in the array filled in by the parser. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Index of this option's linked list in the array filled in by the parser. \end{DoxyCompactList}\item 
 const int \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a4b9e9a5c9b08ef575ea4f603c54bff63}{type}
 \begin{DoxyCompactList}\small\item\em Used to distinguish between options with the same \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_aacf3d44f35c61f22be65da078f60734b}{index}. See \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_aacf3d44f35c61f22be65da078f60734b}{index} for details. \end{DoxyCompactList}\item 
 const char $\ast$const \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_ac2dfb6bb8ca2f4aabf964a910cf0d59b}{shortopt}
 \begin{DoxyCompactList}\small\item\em Each char in this string will be accepted as a short option character. \end{DoxyCompactList}\item 
 const char $\ast$const \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a7246a4bfc669f68bb406dece398be7bb}{longopt}
 \begin{DoxyCompactList}\small\item\em The long option name (without the leading {\ttfamily --} ). \end{DoxyCompactList}\item 
-const Check\+Arg \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a65b39f8d61de820bb5001d590e7dea5d}{check\+\_\+arg}
+const Check\-Arg \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a65b39f8d61de820bb5001d590e7dea5d}{check\-\_\-arg}
 \begin{DoxyCompactList}\small\item\em For each option that matches \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_ac2dfb6bb8ca2f4aabf964a910cf0d59b}{shortopt} or \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a7246a4bfc669f68bb406dece398be7bb}{longopt} this function will be called to check a potential argument to the option. \end{DoxyCompactList}\item 
 const char $\ast$ \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a099340907003981132a053856dac0eaa}{help}
 \begin{DoxyCompactList}\small\item\em The usage text associated with the options in this \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor}{Descriptor}. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -29,9 +30,9 @@ const char $\ast$ \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor
 \subsection{Detailed Description}
 Describes an option, its help text (usage) and how it should be parsed. 
 
-The main input when constructing an option\+::\+Parser is an array of Descriptors.
+The main input when constructing an option\-::\-Parser is an array of Descriptors.
 
-\begin{DoxyParagraph}{Example\+:}
+\begin{DoxyParagraph}{Example\-:}
 
 \begin{DoxyCode}
 \textcolor{keyword}{enum} OptionIndex \{CREATE, ...\};
@@ -53,83 +54,83 @@ The main input when constructing an option\+::\+Parser is an array of Descriptor
 
 
 \subsection{Member Data Documentation}
-\hypertarget{structxmem_1_1config_1_1third__party_1_1_descriptor_a65b39f8d61de820bb5001d590e7dea5d}{}\index{xmem\+::config\+::third\+\_\+party\+::\+Descriptor@{xmem\+::config\+::third\+\_\+party\+::\+Descriptor}!check\+\_\+arg@{check\+\_\+arg}}
-\index{check\+\_\+arg@{check\+\_\+arg}!xmem\+::config\+::third\+\_\+party\+::\+Descriptor@{xmem\+::config\+::third\+\_\+party\+::\+Descriptor}}
-\subsubsection[{check\+\_\+arg}]{\setlength{\rightskip}{0pt plus 5cm}const Check\+Arg xmem\+::config\+::third\+\_\+party\+::\+Descriptor\+::check\+\_\+arg}\label{structxmem_1_1config_1_1third__party_1_1_descriptor_a65b39f8d61de820bb5001d590e7dea5d}
+\hypertarget{structxmem_1_1config_1_1third__party_1_1_descriptor_a65b39f8d61de820bb5001d590e7dea5d}{\index{xmem\-::config\-::third\-\_\-party\-::\-Descriptor@{xmem\-::config\-::third\-\_\-party\-::\-Descriptor}!check\-\_\-arg@{check\-\_\-arg}}
+\index{check\-\_\-arg@{check\-\_\-arg}!xmem::config::third_party::Descriptor@{xmem\-::config\-::third\-\_\-party\-::\-Descriptor}}
+\subsubsection[{check\-\_\-arg}]{\setlength{\rightskip}{0pt plus 5cm}const Check\-Arg xmem\-::config\-::third\-\_\-party\-::\-Descriptor\-::check\-\_\-arg}}\label{structxmem_1_1config_1_1third__party_1_1_descriptor_a65b39f8d61de820bb5001d590e7dea5d}
 
 
 For each option that matches \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_ac2dfb6bb8ca2f4aabf964a910cf0d59b}{shortopt} or \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a7246a4bfc669f68bb406dece398be7bb}{longopt} this function will be called to check a potential argument to the option. 
 
-This function will be called even if there is no potential argument. In that case it will be passed {\ttfamily N\+U\+L\+L} as {\ttfamily arg} parameter. Do not confuse this with the empty string.
+This function will be called even if there is no potential argument. In that case it will be passed {\ttfamily N\-U\-L\-L} as {\ttfamily arg} parameter. Do not confuse this with the empty string.
 
-See Check\+Arg for more information. \hypertarget{structxmem_1_1config_1_1third__party_1_1_descriptor_a099340907003981132a053856dac0eaa}{}\index{xmem\+::config\+::third\+\_\+party\+::\+Descriptor@{xmem\+::config\+::third\+\_\+party\+::\+Descriptor}!help@{help}}
-\index{help@{help}!xmem\+::config\+::third\+\_\+party\+::\+Descriptor@{xmem\+::config\+::third\+\_\+party\+::\+Descriptor}}
-\subsubsection[{help}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ xmem\+::config\+::third\+\_\+party\+::\+Descriptor\+::help}\label{structxmem_1_1config_1_1third__party_1_1_descriptor_a099340907003981132a053856dac0eaa}
+See Check\-Arg for more information. \hypertarget{structxmem_1_1config_1_1third__party_1_1_descriptor_a099340907003981132a053856dac0eaa}{\index{xmem\-::config\-::third\-\_\-party\-::\-Descriptor@{xmem\-::config\-::third\-\_\-party\-::\-Descriptor}!help@{help}}
+\index{help@{help}!xmem::config::third_party::Descriptor@{xmem\-::config\-::third\-\_\-party\-::\-Descriptor}}
+\subsubsection[{help}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ xmem\-::config\-::third\-\_\-party\-::\-Descriptor\-::help}}\label{structxmem_1_1config_1_1third__party_1_1_descriptor_a099340907003981132a053856dac0eaa}
 
 
 The usage text associated with the options in this \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor}{Descriptor}. 
 
-You can use option\+::print\+Usage() to format your usage message based on the {\ttfamily help} texts. You can use dummy Descriptors where \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_ac2dfb6bb8ca2f4aabf964a910cf0d59b}{shortopt} and \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a7246a4bfc669f68bb406dece398be7bb}{longopt} are both the empty string to add text to the usage that is not related to a specific option.
+You can use option\-::print\-Usage() to format your usage message based on the {\ttfamily help} texts. You can use dummy Descriptors where \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_ac2dfb6bb8ca2f4aabf964a910cf0d59b}{shortopt} and \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a7246a4bfc669f68bb406dece398be7bb}{longopt} are both the empty string to add text to the usage that is not related to a specific option.
 
-See option\+::print\+Usage() for special formatting characters you can use in {\ttfamily help} to get a column layout.
+See option\-::print\-Usage() for special formatting characters you can use in {\ttfamily help} to get a column layout.
 
 \begin{DoxyAttention}{Attention}
-Must be U\+T\+F-\/8-\/encoded. If your compiler supports C++11 you can use the \char`\"{}u8\char`\"{} prefix to make sure string literals are properly encoded. 
+Must be U\-T\-F-\/8-\/encoded. If your compiler supports C++11 you can use the \char`\"{}u8\char`\"{} prefix to make sure string literals are properly encoded. 
 \end{DoxyAttention}
-\hypertarget{structxmem_1_1config_1_1third__party_1_1_descriptor_aacf3d44f35c61f22be65da078f60734b}{}\index{xmem\+::config\+::third\+\_\+party\+::\+Descriptor@{xmem\+::config\+::third\+\_\+party\+::\+Descriptor}!index@{index}}
-\index{index@{index}!xmem\+::config\+::third\+\_\+party\+::\+Descriptor@{xmem\+::config\+::third\+\_\+party\+::\+Descriptor}}
-\subsubsection[{index}]{\setlength{\rightskip}{0pt plus 5cm}const unsigned xmem\+::config\+::third\+\_\+party\+::\+Descriptor\+::index}\label{structxmem_1_1config_1_1third__party_1_1_descriptor_aacf3d44f35c61f22be65da078f60734b}
+\hypertarget{structxmem_1_1config_1_1third__party_1_1_descriptor_aacf3d44f35c61f22be65da078f60734b}{\index{xmem\-::config\-::third\-\_\-party\-::\-Descriptor@{xmem\-::config\-::third\-\_\-party\-::\-Descriptor}!index@{index}}
+\index{index@{index}!xmem::config::third_party::Descriptor@{xmem\-::config\-::third\-\_\-party\-::\-Descriptor}}
+\subsubsection[{index}]{\setlength{\rightskip}{0pt plus 5cm}const unsigned xmem\-::config\-::third\-\_\-party\-::\-Descriptor\-::index}}\label{structxmem_1_1config_1_1third__party_1_1_descriptor_aacf3d44f35c61f22be65da078f60734b}
 
 
-Index of this option\textquotesingle{}s linked list in the array filled in by the parser. 
+Index of this option's linked list in the array filled in by the parser. 
 
 Command line options whose Descriptors have the same index will end up in the same linked list in the order in which they appear on the command line. If you have multiple long option aliases that refer to the same option, give their descriptors the same {\ttfamily index}.
 
-If you have options that mean exactly opposite things (e.\+g. {\ttfamily --enable-\/foo} and {\ttfamily --disable-\/foo} ), you should also give them the same {\ttfamily index}, but distinguish them through different values for \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a4b9e9a5c9b08ef575ea4f603c54bff63}{type}. That way they end up in the same list and you can just take the last element of the list and use its type. This way you get the usual behaviour where switches later on the command line override earlier ones without having to code it manually.
+If you have options that mean exactly opposite things (e.\-g. {\ttfamily --enable-\/foo} and {\ttfamily --disable-\/foo} ), you should also give them the same {\ttfamily index}, but distinguish them through different values for \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a4b9e9a5c9b08ef575ea4f603c54bff63}{type}. That way they end up in the same list and you can just take the last element of the list and use its type. This way you get the usual behaviour where switches later on the command line override earlier ones without having to code it manually.
 
-\begin{DoxyParagraph}{Tip\+:}
+\begin{DoxyParagraph}{Tip\-:}
 Use an enum rather than plain ints for better readability, as shown in the example at \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor}{Descriptor}. 
 \end{DoxyParagraph}
-\hypertarget{structxmem_1_1config_1_1third__party_1_1_descriptor_a7246a4bfc669f68bb406dece398be7bb}{}\index{xmem\+::config\+::third\+\_\+party\+::\+Descriptor@{xmem\+::config\+::third\+\_\+party\+::\+Descriptor}!longopt@{longopt}}
-\index{longopt@{longopt}!xmem\+::config\+::third\+\_\+party\+::\+Descriptor@{xmem\+::config\+::third\+\_\+party\+::\+Descriptor}}
-\subsubsection[{longopt}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ const xmem\+::config\+::third\+\_\+party\+::\+Descriptor\+::longopt}\label{structxmem_1_1config_1_1third__party_1_1_descriptor_a7246a4bfc669f68bb406dece398be7bb}
+\hypertarget{structxmem_1_1config_1_1third__party_1_1_descriptor_a7246a4bfc669f68bb406dece398be7bb}{\index{xmem\-::config\-::third\-\_\-party\-::\-Descriptor@{xmem\-::config\-::third\-\_\-party\-::\-Descriptor}!longopt@{longopt}}
+\index{longopt@{longopt}!xmem::config::third_party::Descriptor@{xmem\-::config\-::third\-\_\-party\-::\-Descriptor}}
+\subsubsection[{longopt}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ const xmem\-::config\-::third\-\_\-party\-::\-Descriptor\-::longopt}}\label{structxmem_1_1config_1_1third__party_1_1_descriptor_a7246a4bfc669f68bb406dece398be7bb}
 
 
 The long option name (without the leading {\ttfamily --} ). 
 
-If this \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor}{Descriptor} should not have a long option name, use the empty string \char`\"{}\char`\"{}. N\+U\+L\+L is not permitted here!
+If this \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor}{Descriptor} should not have a long option name, use the empty string \char`\"{}\char`\"{}. N\-U\-L\-L is not permitted here!
 
-While \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_ac2dfb6bb8ca2f4aabf964a910cf0d59b}{shortopt} allows multiple short option characters, each \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor}{Descriptor} can have only a single long option name. If you have multiple long option names referring to the same option use separate Descriptors that have the same \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_aacf3d44f35c61f22be65da078f60734b}{index} and \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a4b9e9a5c9b08ef575ea4f603c54bff63}{type}. You may repeat short option characters in such an alias \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor}{Descriptor} but there\textquotesingle{}s no need to.
+While \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_ac2dfb6bb8ca2f4aabf964a910cf0d59b}{shortopt} allows multiple short option characters, each \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor}{Descriptor} can have only a single long option name. If you have multiple long option names referring to the same option use separate Descriptors that have the same \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_aacf3d44f35c61f22be65da078f60734b}{index} and \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a4b9e9a5c9b08ef575ea4f603c54bff63}{type}. You may repeat short option characters in such an alias \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor}{Descriptor} but there's no need to.
 
-\begin{DoxyParagraph}{Dummy Descriptors\+:}
+\begin{DoxyParagraph}{Dummy Descriptors\-:}
 You can use dummy Descriptors with an empty string for both \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_ac2dfb6bb8ca2f4aabf964a910cf0d59b}{shortopt} and \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a7246a4bfc669f68bb406dece398be7bb}{longopt} to add text to the usage that is not related to a specific option. See \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a099340907003981132a053856dac0eaa}{help}. The first dummy \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor}{Descriptor} will be used for unknown options (see below).
 \end{DoxyParagraph}
-\begin{DoxyParagraph}{Unknown Option Descriptor\+:}
-The first dummy \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor}{Descriptor} in the list of Descriptors, whose \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_ac2dfb6bb8ca2f4aabf964a910cf0d59b}{shortopt} and \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a7246a4bfc669f68bb406dece398be7bb}{longopt} are both the empty string, will be used as the \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor}{Descriptor} for unknown options. An unknown option is a string in the argument vector that is not a lone minus {\ttfamily \textquotesingle{}-\/\textquotesingle{}} but starts with a minus character and does not match any \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor}{Descriptor}\textquotesingle{}s \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_ac2dfb6bb8ca2f4aabf964a910cf0d59b}{shortopt} or \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a7246a4bfc669f68bb406dece398be7bb}{longopt}. ~\newline
-Note that the dummy descriptor\textquotesingle{}s \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a65b39f8d61de820bb5001d590e7dea5d}{check\+\_\+arg} function {\itshape will} be called and its return value will be evaluated as usual. I.\+e. if it returns A\+R\+G\+\_\+\+I\+L\+L\+E\+G\+A\+L the parsing will be aborted with {\ttfamily \hyperlink{classxmem_1_1config_1_1third__party_1_1_parser_a2c9fddb12fd9e4c735677e831afee138}{Parser\+::error()}==true}. ~\newline
-if {\ttfamily check\+\_\+arg} does not return A\+R\+G\+\_\+\+I\+L\+L\+E\+G\+A\+L the descriptor\textquotesingle{}s \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_aacf3d44f35c61f22be65da078f60734b}{index} {\itshape will} be used to pick the linked list into which to put the unknown option. ~\newline
+\begin{DoxyParagraph}{Unknown Option Descriptor\-:}
+The first dummy \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor}{Descriptor} in the list of Descriptors, whose \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_ac2dfb6bb8ca2f4aabf964a910cf0d59b}{shortopt} and \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a7246a4bfc669f68bb406dece398be7bb}{longopt} are both the empty string, will be used as the \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor}{Descriptor} for unknown options. An unknown option is a string in the argument vector that is not a lone minus {\ttfamily '-\/'} but starts with a minus character and does not match any \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor}{Descriptor}'s \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_ac2dfb6bb8ca2f4aabf964a910cf0d59b}{shortopt} or \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a7246a4bfc669f68bb406dece398be7bb}{longopt}. \par
+Note that the dummy descriptor's \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a65b39f8d61de820bb5001d590e7dea5d}{check\-\_\-arg} function {\itshape will} be called and its return value will be evaluated as usual. I.\-e. if it returns A\-R\-G\-\_\-\-I\-L\-L\-E\-G\-A\-L the parsing will be aborted with {\ttfamily \hyperlink{classxmem_1_1config_1_1third__party_1_1_parser_a2c9fddb12fd9e4c735677e831afee138}{Parser\-::error()}==true}. \par
+if {\ttfamily check\-\_\-arg} does not return A\-R\-G\-\_\-\-I\-L\-L\-E\-G\-A\-L the descriptor's \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_aacf3d44f35c61f22be65da078f60734b}{index} {\itshape will} be used to pick the linked list into which to put the unknown option. \par
 If there is no dummy descriptor, unknown options will be dropped silently. 
 \end{DoxyParagraph}
-\hypertarget{structxmem_1_1config_1_1third__party_1_1_descriptor_ac2dfb6bb8ca2f4aabf964a910cf0d59b}{}\index{xmem\+::config\+::third\+\_\+party\+::\+Descriptor@{xmem\+::config\+::third\+\_\+party\+::\+Descriptor}!shortopt@{shortopt}}
-\index{shortopt@{shortopt}!xmem\+::config\+::third\+\_\+party\+::\+Descriptor@{xmem\+::config\+::third\+\_\+party\+::\+Descriptor}}
-\subsubsection[{shortopt}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ const xmem\+::config\+::third\+\_\+party\+::\+Descriptor\+::shortopt}\label{structxmem_1_1config_1_1third__party_1_1_descriptor_ac2dfb6bb8ca2f4aabf964a910cf0d59b}
+\hypertarget{structxmem_1_1config_1_1third__party_1_1_descriptor_ac2dfb6bb8ca2f4aabf964a910cf0d59b}{\index{xmem\-::config\-::third\-\_\-party\-::\-Descriptor@{xmem\-::config\-::third\-\_\-party\-::\-Descriptor}!shortopt@{shortopt}}
+\index{shortopt@{shortopt}!xmem::config::third_party::Descriptor@{xmem\-::config\-::third\-\_\-party\-::\-Descriptor}}
+\subsubsection[{shortopt}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ const xmem\-::config\-::third\-\_\-party\-::\-Descriptor\-::shortopt}}\label{structxmem_1_1config_1_1third__party_1_1_descriptor_ac2dfb6bb8ca2f4aabf964a910cf0d59b}
 
 
 Each char in this string will be accepted as a short option character. 
 
-The string must not include the minus character {\ttfamily \textquotesingle{}-\/\textquotesingle{}} or you\textquotesingle{}ll get undefined behaviour.
+The string must not include the minus character {\ttfamily '-\/'} or you'll get undefined behaviour.
 
-If this \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor}{Descriptor} should not have short option characters, use the empty string \char`\"{}\char`\"{}. N\+U\+L\+L is not permitted here!
+If this \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor}{Descriptor} should not have short option characters, use the empty string \char`\"{}\char`\"{}. N\-U\-L\-L is not permitted here!
 
-See \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a7246a4bfc669f68bb406dece398be7bb}{longopt} for more information. \hypertarget{structxmem_1_1config_1_1third__party_1_1_descriptor_a4b9e9a5c9b08ef575ea4f603c54bff63}{}\index{xmem\+::config\+::third\+\_\+party\+::\+Descriptor@{xmem\+::config\+::third\+\_\+party\+::\+Descriptor}!type@{type}}
-\index{type@{type}!xmem\+::config\+::third\+\_\+party\+::\+Descriptor@{xmem\+::config\+::third\+\_\+party\+::\+Descriptor}}
-\subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}const int xmem\+::config\+::third\+\_\+party\+::\+Descriptor\+::type}\label{structxmem_1_1config_1_1third__party_1_1_descriptor_a4b9e9a5c9b08ef575ea4f603c54bff63}
+See \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_a7246a4bfc669f68bb406dece398be7bb}{longopt} for more information. \hypertarget{structxmem_1_1config_1_1third__party_1_1_descriptor_a4b9e9a5c9b08ef575ea4f603c54bff63}{\index{xmem\-::config\-::third\-\_\-party\-::\-Descriptor@{xmem\-::config\-::third\-\_\-party\-::\-Descriptor}!type@{type}}
+\index{type@{type}!xmem::config::third_party::Descriptor@{xmem\-::config\-::third\-\_\-party\-::\-Descriptor}}
+\subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}const int xmem\-::config\-::third\-\_\-party\-::\-Descriptor\-::type}}\label{structxmem_1_1config_1_1third__party_1_1_descriptor_a4b9e9a5c9b08ef575ea4f603c54bff63}
 
 
 Used to distinguish between options with the same \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_aacf3d44f35c61f22be65da078f60734b}{index}. See \hyperlink{structxmem_1_1config_1_1third__party_1_1_descriptor_aacf3d44f35c61f22be65da078f60734b}{index} for details. 
 
 It is recommended that you use an enum rather than a plain int to make your code more readable. 
 
-The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+The documentation for this struct was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-src/include/\hyperlink{optionparser_8h}{optionparser.\+h}\end{DoxyCompactItemize}
+src/include/\hyperlink{optionparser_8h}{optionparser.\-h}\end{DoxyCompactItemize}

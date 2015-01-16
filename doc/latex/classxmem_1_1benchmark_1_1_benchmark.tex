@@ -1,5 +1,6 @@
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark}{}\section{xmem\+:\+:benchmark\+:\+:Benchmark Class Reference}
-\label{classxmem_1_1benchmark_1_1_benchmark}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark}{\section{xmem\-:\-:benchmark\-:\-:Benchmark Class Reference}
+\label{classxmem_1_1benchmark_1_1_benchmark}\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+}
 
 
 Flexible abstract class for any memory benchmark.  
@@ -7,9 +8,9 @@ Flexible abstract class for any memory benchmark.
 
 
 
-{\ttfamily \#include $<$Benchmark.\+h$>$}
+{\ttfamily \#include $<$Benchmark.\-h$>$}
 
-Inheritance diagram for xmem\+:\+:benchmark\+:\+:Benchmark\+:\begin{figure}[H]
+Inheritance diagram for xmem\-:\-:benchmark\-:\-:Benchmark\-:\begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[height=2.000000cm]{classxmem_1_1benchmark_1_1_benchmark}
@@ -18,95 +19,97 @@ Inheritance diagram for xmem\+:\+:benchmark\+:\+:Benchmark\+:\begin{figure}[H]
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classxmem_1_1benchmark_1_1_benchmark_a6eda9023866fc80e334d7d8d2a220817}{Benchmark} (void $\ast$mem\+\_\+array, size\+\_\+t len, uint32\+\_\+t iterations, xmem\+::common\+::chunk\+\_\+size\+\_\+t chunk\+\_\+size, uint32\+\_\+t cpu\+\_\+node, uint32\+\_\+t mem\+\_\+node, uint32\+\_\+t num\+\_\+worker\+\_\+threads, std\+::string name, \hyperlink{classxmem_1_1timers_1_1_timer}{xmem\+::timers\+::\+Timer} $\ast$timer, std\+::vector$<$ \hyperlink{classxmem_1_1power_1_1_power_reader}{xmem\+::power\+::\+Power\+Reader} $\ast$ $>$ dram\+\_\+power\+\_\+readers)
+\hyperlink{classxmem_1_1benchmark_1_1_benchmark_a6eda9023866fc80e334d7d8d2a220817}{Benchmark} (void $\ast$mem\-\_\-array, size\-\_\-t len, uint32\-\_\-t iterations, xmem\-::common\-::chunk\-\_\-size\-\_\-t chunk\-\_\-size, uint32\-\_\-t cpu\-\_\-node, uint32\-\_\-t mem\-\_\-node, uint32\-\_\-t num\-\_\-worker\-\_\-threads, std\-::string name, \hyperlink{classxmem_1_1timers_1_1_timer}{xmem\-::timers\-::\-Timer} $\ast$timer, std\-::vector$<$ \hyperlink{classxmem_1_1power_1_1_power_reader}{xmem\-::power\-::\-Power\-Reader} $\ast$ $>$ dram\-\_\-power\-\_\-readers)
 \begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a20476e07f09e2b20ed3e9a7f13a570e6}{}virtual \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a20476e07f09e2b20ed3e9a7f13a570e6}{$\sim$\+Benchmark} ()\label{classxmem_1_1benchmark_1_1_benchmark_a20476e07f09e2b20ed3e9a7f13a570e6}
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a20476e07f09e2b20ed3e9a7f13a570e6}{virtual \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a20476e07f09e2b20ed3e9a7f13a570e6}{$\sim$\-Benchmark} ()}\label{classxmem_1_1benchmark_1_1_benchmark_a20476e07f09e2b20ed3e9a7f13a570e6}
 
 \begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
 virtual bool \hyperlink{classxmem_1_1benchmark_1_1_benchmark_aa0dbe60e525457770c835c6c72a0be6a}{run} ()=0
 \begin{DoxyCompactList}\small\item\em Runs the benchmark. \end{DoxyCompactList}\item 
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark_ae788ccb9d65f543b1bc59f963ec5f2e2}{}virtual void \hyperlink{classxmem_1_1benchmark_1_1_benchmark_ae788ccb9d65f543b1bc59f963ec5f2e2}{report\+\_\+benchmark\+\_\+info} ()=0\label{classxmem_1_1benchmark_1_1_benchmark_ae788ccb9d65f543b1bc59f963ec5f2e2}
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark_ae788ccb9d65f543b1bc59f963ec5f2e2}{virtual void \hyperlink{classxmem_1_1benchmark_1_1_benchmark_ae788ccb9d65f543b1bc59f963ec5f2e2}{report\-\_\-benchmark\-\_\-info} ()=0}\label{classxmem_1_1benchmark_1_1_benchmark_ae788ccb9d65f543b1bc59f963ec5f2e2}
 
 \begin{DoxyCompactList}\small\item\em Reports benchmark configuration details to the console. \end{DoxyCompactList}\item 
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark_ad9b74db44f972909dcba85dd32cef0a3}{}virtual void \hyperlink{classxmem_1_1benchmark_1_1_benchmark_ad9b74db44f972909dcba85dd32cef0a3}{report\+\_\+results} ()=0\label{classxmem_1_1benchmark_1_1_benchmark_ad9b74db44f972909dcba85dd32cef0a3}
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark_ad9b74db44f972909dcba85dd32cef0a3}{virtual void \hyperlink{classxmem_1_1benchmark_1_1_benchmark_ad9b74db44f972909dcba85dd32cef0a3}{report\-\_\-results} ()=0}\label{classxmem_1_1benchmark_1_1_benchmark_ad9b74db44f972909dcba85dd32cef0a3}
 
 \begin{DoxyCompactList}\small\item\em Reports results to the console. \end{DoxyCompactList}\item 
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a3cd60d59ac20e06f89cd3b4777bda5c7}{}void \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a3cd60d59ac20e06f89cd3b4777bda5c7}{report\+\_\+power\+\_\+results} ()\label{classxmem_1_1benchmark_1_1_benchmark_a3cd60d59ac20e06f89cd3b4777bda5c7}
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a3cd60d59ac20e06f89cd3b4777bda5c7}{void \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a3cd60d59ac20e06f89cd3b4777bda5c7}{report\-\_\-power\-\_\-results} ()}\label{classxmem_1_1benchmark_1_1_benchmark_a3cd60d59ac20e06f89cd3b4777bda5c7}
 
 \begin{DoxyCompactList}\small\item\em Reports power measurement results to the console. \end{DoxyCompactList}\item 
-bool \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a5b08d817dd61666037957a3e23861512}{is\+Valid} ()
+bool \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a5b08d817dd61666037957a3e23861512}{is\-Valid} ()
 \begin{DoxyCompactList}\small\item\em Checks to see that the object is in a valid state. \end{DoxyCompactList}\item 
-bool \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a41afaa57de8ef2c66d31a41fa5f100c8}{has\+Run} ()
+bool \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a41afaa57de8ef2c66d31a41fa5f100c8}{has\-Run} ()
 \begin{DoxyCompactList}\small\item\em Checks to see if the benchmark has run. \end{DoxyCompactList}\item 
-double \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a8bd36816a1414eaf488a6b63ba407200}{get\+Metric\+On\+Iter} (uint32\+\_\+t iter)
+double \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a8bd36816a1414eaf488a6b63ba407200}{get\-Metric\-On\-Iter} (uint32\-\_\-t iter)
 \begin{DoxyCompactList}\small\item\em Extracts the metric of interest for a given iteration. Units are interpreted by the inheriting class. \end{DoxyCompactList}\item 
-double \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a0beee3c5527e78ddb180ff20fe299e64}{get\+Average\+Metric} ()
+double \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a0beee3c5527e78ddb180ff20fe299e64}{get\-Average\-Metric} ()
 \begin{DoxyCompactList}\small\item\em Gets the average benchmark metric across all iterations. \end{DoxyCompactList}\item 
-double \hyperlink{classxmem_1_1benchmark_1_1_benchmark_aade8f8ba1268de6e112c222932b4224d}{get\+Average\+D\+R\+A\+M\+Power} (uint32\+\_\+t socket\+\_\+id)
-\begin{DoxyCompactList}\small\item\em Gets the average D\+R\+A\+M power over the benchmark. \end{DoxyCompactList}\item 
-double \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a511908c2bd9bb5fa17d4b255a711636c}{get\+Peak\+D\+R\+A\+M\+Power} (uint32\+\_\+t socket\+\_\+id)
-\begin{DoxyCompactList}\small\item\em Gets the peak D\+R\+A\+M power over the benchmark. \end{DoxyCompactList}\item 
-size\+\_\+t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a3ca2577e4d2179710691c4aec7f93828}{get\+Len} ()
+double \hyperlink{classxmem_1_1benchmark_1_1_benchmark_aade8f8ba1268de6e112c222932b4224d}{get\-Average\-D\-R\-A\-M\-Power} (uint32\-\_\-t socket\-\_\-id)
+\begin{DoxyCompactList}\small\item\em Gets the average D\-R\-A\-M power over the benchmark. \end{DoxyCompactList}\item 
+double \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a511908c2bd9bb5fa17d4b255a711636c}{get\-Peak\-D\-R\-A\-M\-Power} (uint32\-\_\-t socket\-\_\-id)
+\begin{DoxyCompactList}\small\item\em Gets the peak D\-R\-A\-M power over the benchmark. \end{DoxyCompactList}\item 
+size\-\_\-t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a3ca2577e4d2179710691c4aec7f93828}{get\-Len} ()
 \begin{DoxyCompactList}\small\item\em Gets the length of the memory region in bytes. This is not necessarily the \char`\"{}working set size\char`\"{} depending on multithreading configuration. \end{DoxyCompactList}\item 
-uint32\+\_\+t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a9fc7c775d0e29b22c8656e6e5bc10a48}{get\+Iterations} ()
+uint32\-\_\-t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a9fc7c775d0e29b22c8656e6e5bc10a48}{get\-Iterations} ()
 \begin{DoxyCompactList}\small\item\em Gets the number of iterations for this benchmark. \end{DoxyCompactList}\item 
-xmem\+::common\+::chunk\+\_\+size\+\_\+t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a434d6f97172982afdd16d3bde30e895f}{get\+Chunk\+Size} ()
+xmem\-::common\-::chunk\-\_\-size\-\_\-t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a434d6f97172982afdd16d3bde30e895f}{get\-Chunk\-Size} ()
 \begin{DoxyCompactList}\small\item\em Gets the width of memory access used in this benchmark. \end{DoxyCompactList}\item 
-uint32\+\_\+t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_ad9e17919d6a8dd474495f3d7f0d05a29}{get\+C\+P\+U\+Node} ()
-\begin{DoxyCompactList}\small\item\em Gets the C\+P\+U N\+U\+M\+A node used in this benchmark. \end{DoxyCompactList}\item 
-uint32\+\_\+t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a35254c617874da5ccf8818692bdd0fe1}{get\+Mem\+Node} ()
-\begin{DoxyCompactList}\small\item\em Gets the memory N\+U\+M\+A node used in this benchmark. \end{DoxyCompactList}\item 
-uint32\+\_\+t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_ad38e0629d25ae4177d4915f1aafd65f1}{get\+Num\+Threads} ()
+uint32\-\_\-t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_ad9e17919d6a8dd474495f3d7f0d05a29}{get\-C\-P\-U\-Node} ()
+\begin{DoxyCompactList}\small\item\em Gets the C\-P\-U N\-U\-M\-A node used in this benchmark. \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a35254c617874da5ccf8818692bdd0fe1}{get\-Mem\-Node} ()
+\begin{DoxyCompactList}\small\item\em Gets the memory N\-U\-M\-A node used in this benchmark. \end{DoxyCompactList}\item 
+uint32\-\_\-t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_ad38e0629d25ae4177d4915f1aafd65f1}{get\-Num\-Threads} ()
 \begin{DoxyCompactList}\small\item\em Gets the number of worker threads used in this benchmark. \end{DoxyCompactList}\item 
-std\+::string \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a18883dec146e768436c35946d40ab659}{get\+Name} ()
+std\-::string \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a18883dec146e768436c35946d40ab659}{get\-Name} ()
 \begin{DoxyCompactList}\small\item\em Gets the human-\/friendly name of this benchmark. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-bool \hyperlink{classxmem_1_1benchmark_1_1_benchmark_aaab5c124256e59540e061533323c64d7}{\+\_\+start\+\_\+power\+\_\+threads} ()
-\begin{DoxyCompactList}\small\item\em Starts the D\+R\+A\+M power measurement threads. \end{DoxyCompactList}\item 
-bool \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a1c485c6f7fb6bbde588220d12129fa8e}{\+\_\+stop\+\_\+power\+\_\+threads} ()
-\begin{DoxyCompactList}\small\item\em Stops the D\+R\+A\+M power measurement threads. This is a blocking call. \end{DoxyCompactList}\end{DoxyCompactItemize}
+bool \hyperlink{classxmem_1_1benchmark_1_1_benchmark_aaab5c124256e59540e061533323c64d7}{\-\_\-start\-\_\-power\-\_\-threads} ()
+\begin{DoxyCompactList}\small\item\em Starts the D\-R\-A\-M power measurement threads. \end{DoxyCompactList}\item 
+bool \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a1c485c6f7fb6bbde588220d12129fa8e}{\-\_\-stop\-\_\-power\-\_\-threads} ()
+\begin{DoxyCompactList}\small\item\em Stops the D\-R\-A\-M power measurement threads. This is a blocking call. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
-void $\ast$ \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a134705051be06902b276f5c21d435ed0}{\+\_\+mem\+\_\+array}
+void $\ast$ \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a134705051be06902b276f5c21d435ed0}{\-\_\-mem\-\_\-array}
 \item 
-size\+\_\+t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_ae97857f36cabdbe76eb00142835f7881}{\+\_\+len}
+size\-\_\-t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_ae97857f36cabdbe76eb00142835f7881}{\-\_\-len}
 \item 
-uint32\+\_\+t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a968403a473a3a4f713f4e73aa0757727}{\+\_\+iterations}
+uint32\-\_\-t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a968403a473a3a4f713f4e73aa0757727}{\-\_\-iterations}
 \item 
-xmem\+::common\+::chunk\+\_\+size\+\_\+t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_ae01156a2db05a6e3f7928a7433688f56}{\+\_\+chunk\+\_\+size}
+xmem\-::common\-::chunk\-\_\-size\-\_\-t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_ae01156a2db05a6e3f7928a7433688f56}{\-\_\-chunk\-\_\-size}
 \item 
-size\+\_\+t $\ast$ \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a1001cb321d8d655a71d435f5a06fdd3a}{\+\_\+indices}
+size\-\_\-t $\ast$ \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a1001cb321d8d655a71d435f5a06fdd3a}{\-\_\-indices}
 \item 
-uint32\+\_\+t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_ab840cb1f53439eeeb6bdce7cd1eed78b}{\+\_\+cpu\+\_\+node}
+uint32\-\_\-t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_ab840cb1f53439eeeb6bdce7cd1eed78b}{\-\_\-cpu\-\_\-node}
 \item 
-uint32\+\_\+t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a8489553bc6539a9b19db72e9f6ca9a9e}{\+\_\+mem\+\_\+node}
+uint32\-\_\-t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a8489553bc6539a9b19db72e9f6ca9a9e}{\-\_\-mem\-\_\-node}
 \item 
-uint32\+\_\+t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_acb55cafc77a1b53ea9910d1be4306970}{\+\_\+num\+\_\+worker\+\_\+threads}
+uint32\-\_\-t \hyperlink{classxmem_1_1benchmark_1_1_benchmark_acb55cafc77a1b53ea9910d1be4306970}{\-\_\-num\-\_\-worker\-\_\-threads}
 \item 
-\hyperlink{classxmem_1_1timers_1_1_timer}{xmem\+::timers\+::\+Timer} $\ast$ \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a673c700cb58ec0bc922f36d95dab12c9}{\+\_\+timer}
+\hyperlink{classxmem_1_1timers_1_1_timer}{xmem\-::timers\-::\-Timer} $\ast$ \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a673c700cb58ec0bc922f36d95dab12c9}{\-\_\-timer}
 \item 
-std\+::vector$<$ \hyperlink{classxmem_1_1power_1_1_power_reader}{xmem\+::power\+::\+Power\+Reader} $\ast$ $>$ \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a6d4445364d9b6f17ec78be6c8cf253f1}{\+\_\+dram\+\_\+power\+\_\+readers}
+std\-::vector\\*
+$<$ \hyperlink{classxmem_1_1power_1_1_power_reader}{xmem\-::power\-::\-Power\-Reader} $\ast$ $>$ \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a6d4445364d9b6f17ec78be6c8cf253f1}{\-\_\-dram\-\_\-power\-\_\-readers}
 \item 
-std\+::vector$<$ \hyperlink{classxmem_1_1thread_1_1_thread}{xmem\+::thread\+::\+Thread} $\ast$ $>$ \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a7aa95682a12f8fe4262b1fffb088d6ac}{\+\_\+dram\+\_\+power\+\_\+threads}
+std\-::vector\\*
+$<$ \hyperlink{classxmem_1_1thread_1_1_thread}{xmem\-::thread\-::\-Thread} $\ast$ $>$ \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a7aa95682a12f8fe4262b1fffb088d6ac}{\-\_\-dram\-\_\-power\-\_\-threads}
 \item 
-std\+::vector$<$ double $>$ \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a179b20d5ac798c140650aa82e3658273}{\+\_\+average\+\_\+dram\+\_\+power\+\_\+socket}
+std\-::vector$<$ double $>$ \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a179b20d5ac798c140650aa82e3658273}{\-\_\-average\-\_\-dram\-\_\-power\-\_\-socket}
 \item 
-std\+::vector$<$ double $>$ \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a4da600693ba1df4fb69c1304b23b2cde}{\+\_\+peak\+\_\+dram\+\_\+power\+\_\+socket}
+std\-::vector$<$ double $>$ \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a4da600693ba1df4fb69c1304b23b2cde}{\-\_\-peak\-\_\-dram\-\_\-power\-\_\-socket}
 \item 
-bool \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a7caa584aa404d7751b781fd16c111fd0}{\+\_\+has\+Run}
+bool \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a7caa584aa404d7751b781fd16c111fd0}{\-\_\-has\-Run}
 \item 
-std\+::vector$<$ double $>$ \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a1c3ef60ba77f151cc4d5b4b77d2deefa}{\+\_\+metric\+On\+Iter}
+std\-::vector$<$ double $>$ \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a1c3ef60ba77f151cc4d5b4b77d2deefa}{\-\_\-metric\-On\-Iter}
 \item 
-double \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a303386b7b243e39f2ca9a041ae819162}{\+\_\+average\+Metric}
+double \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a303386b7b243e39f2ca9a041ae819162}{\-\_\-average\-Metric}
 \item 
-std\+::string \hyperlink{classxmem_1_1benchmark_1_1_benchmark_ab9653ef73e0f1ca01e08286bdb35e4a6}{\+\_\+name}
+std\-::string \hyperlink{classxmem_1_1benchmark_1_1_benchmark_ab9653ef73e0f1ca01e08286bdb35e4a6}{\-\_\-name}
 \item 
-bool \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a87e133558776380738354191ec5e6560}{\+\_\+obj\+\_\+valid}
+bool \hyperlink{classxmem_1_1benchmark_1_1_benchmark_a87e133558776380738354191ec5e6560}{\-\_\-obj\-\_\-valid}
 \item 
-bool \hyperlink{classxmem_1_1benchmark_1_1_benchmark_af1a72e70f81c91f7c004ae01b2353288}{\+\_\+warning}
+bool \hyperlink{classxmem_1_1benchmark_1_1_benchmark_af1a72e70f81c91f7c004ae01b2353288}{\-\_\-warning}
 \end{DoxyCompactItemize}
 
 
@@ -116,103 +119,103 @@ Flexible abstract class for any memory benchmark.
 This class provides a generic interface for interacting with a benchmark. All benchmarks should be derived from this class. 
 
 \subsection{Constructor \& Destructor Documentation}
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a6eda9023866fc80e334d7d8d2a220817}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!Benchmark@{Benchmark}}
-\index{Benchmark@{Benchmark}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{Benchmark}]{\setlength{\rightskip}{0pt plus 5cm}Benchmark\+::\+Benchmark (
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a6eda9023866fc80e334d7d8d2a220817}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!Benchmark@{Benchmark}}
+\index{Benchmark@{Benchmark}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{Benchmark}]{\setlength{\rightskip}{0pt plus 5cm}Benchmark\-::\-Benchmark (
 \begin{DoxyParamCaption}
-\item[{void $\ast$}]{mem\+\_\+array, }
-\item[{size\+\_\+t}]{len, }
-\item[{uint32\+\_\+t}]{iterations, }
-\item[{xmem\+::common\+::chunk\+\_\+size\+\_\+t}]{chunk\+\_\+size, }
-\item[{uint32\+\_\+t}]{cpu\+\_\+node, }
-\item[{uint32\+\_\+t}]{mem\+\_\+node, }
-\item[{uint32\+\_\+t}]{num\+\_\+worker\+\_\+threads, }
-\item[{std\+::string}]{name, }
-\item[{{\bf xmem\+::timers\+::\+Timer} $\ast$}]{timer, }
-\item[{std\+::vector$<$ {\bf xmem\+::power\+::\+Power\+Reader} $\ast$ $>$}]{dram\+\_\+power\+\_\+readers}
+\item[{void $\ast$}]{mem\-\_\-array, }
+\item[{size\-\_\-t}]{len, }
+\item[{uint32\-\_\-t}]{iterations, }
+\item[{xmem\-::common\-::chunk\-\_\-size\-\_\-t}]{chunk\-\_\-size, }
+\item[{uint32\-\_\-t}]{cpu\-\_\-node, }
+\item[{uint32\-\_\-t}]{mem\-\_\-node, }
+\item[{uint32\-\_\-t}]{num\-\_\-worker\-\_\-threads, }
+\item[{std\-::string}]{name, }
+\item[{{\bf xmem\-::timers\-::\-Timer} $\ast$}]{timer, }
+\item[{std\-::vector$<$ {\bf xmem\-::power\-::\-Power\-Reader} $\ast$ $>$}]{dram\-\_\-power\-\_\-readers}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1benchmark_1_1_benchmark_a6eda9023866fc80e334d7d8d2a220817}
+)}}\label{classxmem_1_1benchmark_1_1_benchmark_a6eda9023866fc80e334d7d8d2a220817}
 
 
 Constructor. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em mem\+\_\+array} & a pointer to a contiguous chunk of memory that has been allocated for benchmarking among the worker threads. This should be aligned to a 256-\/bit boundary and should be the working set size times number of threads large. \\
+{\em mem\-\_\-array} & a pointer to a contiguous chunk of memory that has been allocated for benchmarking among the worker threads. This should be aligned to a 256-\/bit boundary and should be the working set size times number of threads large. \\
 \hline
-{\em len} & Length of the raw\+\_\+mem\+\_\+array in bytes. This should be a multiple of 4 K\+B pages. \\
+{\em len} & Length of the raw\-\_\-mem\-\_\-array in bytes. This should be a multiple of 4 K\-B pages. \\
 \hline
 {\em iterations} & Number of iterations to do of the complete benchmark, to average out results. \\
 \hline
-{\em passes\+\_\+per\+\_\+iteration} & Number of passes to do in each iteration, to ensure timed section of code is \char`\"{}long enough\char`\"{}. \\
+{\em passes\-\_\-per\-\_\-iteration} & Number of passes to do in each iteration, to ensure timed section of code is \char`\"{}long enough\char`\"{}. \\
 \hline
-{\em chunk\+\_\+size} & encoded size of an individual memory access. \\
+{\em chunk\-\_\-size} & encoded size of an individual memory access. \\
 \hline
-{\em cpu\+\_\+node} & the logical C\+P\+U N\+U\+M\+A node to use for the benchmark \\
+{\em cpu\-\_\-node} & the logical C\-P\-U N\-U\-M\-A node to use for the benchmark \\
 \hline
-{\em mem\+\_\+node} & the logical memory N\+U\+M\+A node used in the benchmark \\
+{\em mem\-\_\-node} & the logical memory N\-U\-M\-A node used in the benchmark \\
 \hline
-{\em num\+\_\+worker\+\_\+threads} & number of worker threads to use in the benchmark \\
+{\em num\-\_\-worker\-\_\-threads} & number of worker threads to use in the benchmark \\
 \hline
 {\em name} & name of the benchmark to use when reporting \\
 \hline
 {\em timer} & pointer to an existing Timer \\
 \hline
-{\em dram\+\_\+power\+\_\+readers} & vector of pointers to Power\+Reader objects for measuring D\+R\+A\+M power \\
+{\em dram\-\_\-power\-\_\-readers} & vector of pointers to Power\-Reader objects for measuring D\-R\-A\-M power \\
 \hline
 \end{DoxyParams}
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark_aaab5c124256e59540e061533323c64d7}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!\+\_\+start\+\_\+power\+\_\+threads@{\+\_\+start\+\_\+power\+\_\+threads}}
-\index{\+\_\+start\+\_\+power\+\_\+threads@{\+\_\+start\+\_\+power\+\_\+threads}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{\+\_\+start\+\_\+power\+\_\+threads}]{\setlength{\rightskip}{0pt plus 5cm}bool Benchmark\+::\+\_\+start\+\_\+power\+\_\+threads (
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark_aaab5c124256e59540e061533323c64d7}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!\-\_\-start\-\_\-power\-\_\-threads@{\-\_\-start\-\_\-power\-\_\-threads}}
+\index{\-\_\-start\-\_\-power\-\_\-threads@{\-\_\-start\-\_\-power\-\_\-threads}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{\-\_\-start\-\_\-power\-\_\-threads}]{\setlength{\rightskip}{0pt plus 5cm}bool Benchmark\-::\-\_\-start\-\_\-power\-\_\-threads (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1benchmark_1_1_benchmark_aaab5c124256e59540e061533323c64d7}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1benchmark_1_1_benchmark_aaab5c124256e59540e061533323c64d7}
 
 
-Starts the D\+R\+A\+M power measurement threads. 
+Starts the D\-R\-A\-M power measurement threads. 
 
 \begin{DoxyReturn}{Returns}
 true on success 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a1c485c6f7fb6bbde588220d12129fa8e}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!\+\_\+stop\+\_\+power\+\_\+threads@{\+\_\+stop\+\_\+power\+\_\+threads}}
-\index{\+\_\+stop\+\_\+power\+\_\+threads@{\+\_\+stop\+\_\+power\+\_\+threads}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{\+\_\+stop\+\_\+power\+\_\+threads}]{\setlength{\rightskip}{0pt plus 5cm}bool Benchmark\+::\+\_\+stop\+\_\+power\+\_\+threads (
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a1c485c6f7fb6bbde588220d12129fa8e}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!\-\_\-stop\-\_\-power\-\_\-threads@{\-\_\-stop\-\_\-power\-\_\-threads}}
+\index{\-\_\-stop\-\_\-power\-\_\-threads@{\-\_\-stop\-\_\-power\-\_\-threads}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{\-\_\-stop\-\_\-power\-\_\-threads}]{\setlength{\rightskip}{0pt plus 5cm}bool Benchmark\-::\-\_\-stop\-\_\-power\-\_\-threads (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1benchmark_1_1_benchmark_a1c485c6f7fb6bbde588220d12129fa8e}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1benchmark_1_1_benchmark_a1c485c6f7fb6bbde588220d12129fa8e}
 
 
-Stops the D\+R\+A\+M power measurement threads. This is a blocking call. 
+Stops the D\-R\-A\-M power measurement threads. This is a blocking call. 
 
 \begin{DoxyReturn}{Returns}
 true on success 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark_aade8f8ba1268de6e112c222932b4224d}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!get\+Average\+D\+R\+A\+M\+Power@{get\+Average\+D\+R\+A\+M\+Power}}
-\index{get\+Average\+D\+R\+A\+M\+Power@{get\+Average\+D\+R\+A\+M\+Power}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{get\+Average\+D\+R\+A\+M\+Power}]{\setlength{\rightskip}{0pt plus 5cm}double Benchmark\+::get\+Average\+D\+R\+A\+M\+Power (
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark_aade8f8ba1268de6e112c222932b4224d}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!get\-Average\-D\-R\-A\-M\-Power@{get\-Average\-D\-R\-A\-M\-Power}}
+\index{get\-Average\-D\-R\-A\-M\-Power@{get\-Average\-D\-R\-A\-M\-Power}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{get\-Average\-D\-R\-A\-M\-Power}]{\setlength{\rightskip}{0pt plus 5cm}double Benchmark\-::get\-Average\-D\-R\-A\-M\-Power (
 \begin{DoxyParamCaption}
-\item[{uint32\+\_\+t}]{socket\+\_\+id}
+\item[{uint32\-\_\-t}]{socket\-\_\-id}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1benchmark_1_1_benchmark_aade8f8ba1268de6e112c222932b4224d}
+)}}\label{classxmem_1_1benchmark_1_1_benchmark_aade8f8ba1268de6e112c222932b4224d}
 
 
-Gets the average D\+R\+A\+M power over the benchmark. 
+Gets the average D\-R\-A\-M power over the benchmark. 
 
 \begin{DoxyReturn}{Returns}
-The average D\+R\+A\+M power for a given socket in watts, or 0 if the data does not exist (power was unable to be collected or the benchmark has not run). 
+The average D\-R\-A\-M power for a given socket in watts, or 0 if the data does not exist (power was unable to be collected or the benchmark has not run). 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a0beee3c5527e78ddb180ff20fe299e64}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!get\+Average\+Metric@{get\+Average\+Metric}}
-\index{get\+Average\+Metric@{get\+Average\+Metric}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{get\+Average\+Metric}]{\setlength{\rightskip}{0pt plus 5cm}double Benchmark\+::get\+Average\+Metric (
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a0beee3c5527e78ddb180ff20fe299e64}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!get\-Average\-Metric@{get\-Average\-Metric}}
+\index{get\-Average\-Metric@{get\-Average\-Metric}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{get\-Average\-Metric}]{\setlength{\rightskip}{0pt plus 5cm}double Benchmark\-::get\-Average\-Metric (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1benchmark_1_1_benchmark_a0beee3c5527e78ddb180ff20fe299e64}
+)}}\label{classxmem_1_1benchmark_1_1_benchmark_a0beee3c5527e78ddb180ff20fe299e64}
 
 
 Gets the average benchmark metric across all iterations. 
@@ -220,13 +223,13 @@ Gets the average benchmark metric across all iterations.
 \begin{DoxyReturn}{Returns}
 The average metric. 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a434d6f97172982afdd16d3bde30e895f}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!get\+Chunk\+Size@{get\+Chunk\+Size}}
-\index{get\+Chunk\+Size@{get\+Chunk\+Size}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{get\+Chunk\+Size}]{\setlength{\rightskip}{0pt plus 5cm}xmem\+::common\+::chunk\+\_\+size\+\_\+t Benchmark\+::get\+Chunk\+Size (
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a434d6f97172982afdd16d3bde30e895f}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!get\-Chunk\-Size@{get\-Chunk\-Size}}
+\index{get\-Chunk\-Size@{get\-Chunk\-Size}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{get\-Chunk\-Size}]{\setlength{\rightskip}{0pt plus 5cm}xmem\-::common\-::chunk\-\_\-size\-\_\-t Benchmark\-::get\-Chunk\-Size (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1benchmark_1_1_benchmark_a434d6f97172982afdd16d3bde30e895f}
+)}}\label{classxmem_1_1benchmark_1_1_benchmark_a434d6f97172982afdd16d3bde30e895f}
 
 
 Gets the width of memory access used in this benchmark. 
@@ -234,27 +237,27 @@ Gets the width of memory access used in this benchmark.
 \begin{DoxyReturn}{Returns}
 The chunk size for this benchmark. 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark_ad9e17919d6a8dd474495f3d7f0d05a29}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!get\+C\+P\+U\+Node@{get\+C\+P\+U\+Node}}
-\index{get\+C\+P\+U\+Node@{get\+C\+P\+U\+Node}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{get\+C\+P\+U\+Node}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t Benchmark\+::get\+C\+P\+U\+Node (
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark_ad9e17919d6a8dd474495f3d7f0d05a29}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!get\-C\-P\-U\-Node@{get\-C\-P\-U\-Node}}
+\index{get\-C\-P\-U\-Node@{get\-C\-P\-U\-Node}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{get\-C\-P\-U\-Node}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t Benchmark\-::get\-C\-P\-U\-Node (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1benchmark_1_1_benchmark_ad9e17919d6a8dd474495f3d7f0d05a29}
+)}}\label{classxmem_1_1benchmark_1_1_benchmark_ad9e17919d6a8dd474495f3d7f0d05a29}
 
 
-Gets the C\+P\+U N\+U\+M\+A node used in this benchmark. 
+Gets the C\-P\-U N\-U\-M\-A node used in this benchmark. 
 
 \begin{DoxyReturn}{Returns}
-The N\+U\+M\+A C\+P\+U node used in this benchmark. 
+The N\-U\-M\-A C\-P\-U node used in this benchmark. 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a9fc7c775d0e29b22c8656e6e5bc10a48}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!get\+Iterations@{get\+Iterations}}
-\index{get\+Iterations@{get\+Iterations}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{get\+Iterations}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t Benchmark\+::get\+Iterations (
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a9fc7c775d0e29b22c8656e6e5bc10a48}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!get\-Iterations@{get\-Iterations}}
+\index{get\-Iterations@{get\-Iterations}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{get\-Iterations}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t Benchmark\-::get\-Iterations (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1benchmark_1_1_benchmark_a9fc7c775d0e29b22c8656e6e5bc10a48}
+)}}\label{classxmem_1_1benchmark_1_1_benchmark_a9fc7c775d0e29b22c8656e6e5bc10a48}
 
 
 Gets the number of iterations for this benchmark. 
@@ -262,13 +265,13 @@ Gets the number of iterations for this benchmark.
 \begin{DoxyReturn}{Returns}
 The number of iterations for this benchmark. 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a3ca2577e4d2179710691c4aec7f93828}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!get\+Len@{get\+Len}}
-\index{get\+Len@{get\+Len}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{get\+Len}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t Benchmark\+::get\+Len (
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a3ca2577e4d2179710691c4aec7f93828}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!get\-Len@{get\-Len}}
+\index{get\-Len@{get\-Len}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{get\-Len}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t Benchmark\-::get\-Len (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1benchmark_1_1_benchmark_a3ca2577e4d2179710691c4aec7f93828}
+)}}\label{classxmem_1_1benchmark_1_1_benchmark_a3ca2577e4d2179710691c4aec7f93828}
 
 
 Gets the length of the memory region in bytes. This is not necessarily the \char`\"{}working set size\char`\"{} depending on multithreading configuration. 
@@ -276,27 +279,27 @@ Gets the length of the memory region in bytes. This is not necessarily the \char
 \begin{DoxyReturn}{Returns}
 Length of the memory region in bytes. 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a35254c617874da5ccf8818692bdd0fe1}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!get\+Mem\+Node@{get\+Mem\+Node}}
-\index{get\+Mem\+Node@{get\+Mem\+Node}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{get\+Mem\+Node}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t Benchmark\+::get\+Mem\+Node (
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a35254c617874da5ccf8818692bdd0fe1}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!get\-Mem\-Node@{get\-Mem\-Node}}
+\index{get\-Mem\-Node@{get\-Mem\-Node}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{get\-Mem\-Node}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t Benchmark\-::get\-Mem\-Node (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1benchmark_1_1_benchmark_a35254c617874da5ccf8818692bdd0fe1}
+)}}\label{classxmem_1_1benchmark_1_1_benchmark_a35254c617874da5ccf8818692bdd0fe1}
 
 
-Gets the memory N\+U\+M\+A node used in this benchmark. 
+Gets the memory N\-U\-M\-A node used in this benchmark. 
 
 \begin{DoxyReturn}{Returns}
-The N\+U\+M\+A memory node used in this benchmark. 
+The N\-U\-M\-A memory node used in this benchmark. 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a8bd36816a1414eaf488a6b63ba407200}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!get\+Metric\+On\+Iter@{get\+Metric\+On\+Iter}}
-\index{get\+Metric\+On\+Iter@{get\+Metric\+On\+Iter}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{get\+Metric\+On\+Iter}]{\setlength{\rightskip}{0pt plus 5cm}double Benchmark\+::get\+Metric\+On\+Iter (
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a8bd36816a1414eaf488a6b63ba407200}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!get\-Metric\-On\-Iter@{get\-Metric\-On\-Iter}}
+\index{get\-Metric\-On\-Iter@{get\-Metric\-On\-Iter}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{get\-Metric\-On\-Iter}]{\setlength{\rightskip}{0pt plus 5cm}double Benchmark\-::get\-Metric\-On\-Iter (
 \begin{DoxyParamCaption}
-\item[{uint32\+\_\+t}]{iter}
+\item[{uint32\-\_\-t}]{iter}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1benchmark_1_1_benchmark_a8bd36816a1414eaf488a6b63ba407200}
+)}}\label{classxmem_1_1benchmark_1_1_benchmark_a8bd36816a1414eaf488a6b63ba407200}
 
 
 Extracts the metric of interest for a given iteration. Units are interpreted by the inheriting class. 
@@ -309,13 +312,13 @@ Extracts the metric of interest for a given iteration. Units are interpreted by 
 \begin{DoxyReturn}{Returns}
 The metric on the iteration specified by the input. 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a18883dec146e768436c35946d40ab659}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!get\+Name@{get\+Name}}
-\index{get\+Name@{get\+Name}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{get\+Name}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Benchmark\+::get\+Name (
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a18883dec146e768436c35946d40ab659}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!get\-Name@{get\-Name}}
+\index{get\-Name@{get\-Name}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{get\-Name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Benchmark\-::get\-Name (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1benchmark_1_1_benchmark_a18883dec146e768436c35946d40ab659}
+)}}\label{classxmem_1_1benchmark_1_1_benchmark_a18883dec146e768436c35946d40ab659}
 
 
 Gets the human-\/friendly name of this benchmark. 
@@ -323,13 +326,13 @@ Gets the human-\/friendly name of this benchmark.
 \begin{DoxyReturn}{Returns}
 The benchmark test name. 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark_ad38e0629d25ae4177d4915f1aafd65f1}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!get\+Num\+Threads@{get\+Num\+Threads}}
-\index{get\+Num\+Threads@{get\+Num\+Threads}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{get\+Num\+Threads}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t Benchmark\+::get\+Num\+Threads (
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark_ad38e0629d25ae4177d4915f1aafd65f1}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!get\-Num\-Threads@{get\-Num\-Threads}}
+\index{get\-Num\-Threads@{get\-Num\-Threads}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{get\-Num\-Threads}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t Benchmark\-::get\-Num\-Threads (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1benchmark_1_1_benchmark_ad38e0629d25ae4177d4915f1aafd65f1}
+)}}\label{classxmem_1_1benchmark_1_1_benchmark_ad38e0629d25ae4177d4915f1aafd65f1}
 
 
 Gets the number of worker threads used in this benchmark. 
@@ -337,27 +340,27 @@ Gets the number of worker threads used in this benchmark.
 \begin{DoxyReturn}{Returns}
 The number of worker threads used in this benchmark. 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a511908c2bd9bb5fa17d4b255a711636c}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!get\+Peak\+D\+R\+A\+M\+Power@{get\+Peak\+D\+R\+A\+M\+Power}}
-\index{get\+Peak\+D\+R\+A\+M\+Power@{get\+Peak\+D\+R\+A\+M\+Power}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{get\+Peak\+D\+R\+A\+M\+Power}]{\setlength{\rightskip}{0pt plus 5cm}double Benchmark\+::get\+Peak\+D\+R\+A\+M\+Power (
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a511908c2bd9bb5fa17d4b255a711636c}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!get\-Peak\-D\-R\-A\-M\-Power@{get\-Peak\-D\-R\-A\-M\-Power}}
+\index{get\-Peak\-D\-R\-A\-M\-Power@{get\-Peak\-D\-R\-A\-M\-Power}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{get\-Peak\-D\-R\-A\-M\-Power}]{\setlength{\rightskip}{0pt plus 5cm}double Benchmark\-::get\-Peak\-D\-R\-A\-M\-Power (
 \begin{DoxyParamCaption}
-\item[{uint32\+\_\+t}]{socket\+\_\+id}
+\item[{uint32\-\_\-t}]{socket\-\_\-id}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1benchmark_1_1_benchmark_a511908c2bd9bb5fa17d4b255a711636c}
+)}}\label{classxmem_1_1benchmark_1_1_benchmark_a511908c2bd9bb5fa17d4b255a711636c}
 
 
-Gets the peak D\+R\+A\+M power over the benchmark. 
+Gets the peak D\-R\-A\-M power over the benchmark. 
 
 \begin{DoxyReturn}{Returns}
-The peak D\+R\+A\+M power for a given socket in watts, or 0 if the data does not exist (power was unable to be collected or the benchmark has not run). 
+The peak D\-R\-A\-M power for a given socket in watts, or 0 if the data does not exist (power was unable to be collected or the benchmark has not run). 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a41afaa57de8ef2c66d31a41fa5f100c8}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!has\+Run@{has\+Run}}
-\index{has\+Run@{has\+Run}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{has\+Run}]{\setlength{\rightskip}{0pt plus 5cm}bool Benchmark\+::has\+Run (
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a41afaa57de8ef2c66d31a41fa5f100c8}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!has\-Run@{has\-Run}}
+\index{has\-Run@{has\-Run}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{has\-Run}]{\setlength{\rightskip}{0pt plus 5cm}bool Benchmark\-::has\-Run (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1benchmark_1_1_benchmark_a41afaa57de8ef2c66d31a41fa5f100c8}
+)}}\label{classxmem_1_1benchmark_1_1_benchmark_a41afaa57de8ef2c66d31a41fa5f100c8}
 
 
 Checks to see if the benchmark has run. 
@@ -365,13 +368,13 @@ Checks to see if the benchmark has run.
 \begin{DoxyReturn}{Returns}
 True if \hyperlink{classxmem_1_1benchmark_1_1_benchmark_aa0dbe60e525457770c835c6c72a0be6a}{run()} has already completed successfully. 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a5b08d817dd61666037957a3e23861512}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!is\+Valid@{is\+Valid}}
-\index{is\+Valid@{is\+Valid}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{is\+Valid}]{\setlength{\rightskip}{0pt plus 5cm}bool Benchmark\+::is\+Valid (
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a5b08d817dd61666037957a3e23861512}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!is\-Valid@{is\-Valid}}
+\index{is\-Valid@{is\-Valid}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{is\-Valid}]{\setlength{\rightskip}{0pt plus 5cm}bool Benchmark\-::is\-Valid (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)}\label{classxmem_1_1benchmark_1_1_benchmark_a5b08d817dd61666037957a3e23861512}
+)}}\label{classxmem_1_1benchmark_1_1_benchmark_a5b08d817dd61666037957a3e23861512}
 
 
 Checks to see that the object is in a valid state. 
@@ -379,13 +382,13 @@ Checks to see that the object is in a valid state.
 \begin{DoxyReturn}{Returns}
 True if the object was constructed correctly and can be used. 
 \end{DoxyReturn}
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark_aa0dbe60e525457770c835c6c72a0be6a}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!run@{run}}
-\index{run@{run}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool xmem\+::benchmark\+::\+Benchmark\+::run (
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark_aa0dbe60e525457770c835c6c72a0be6a}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!run@{run}}
+\index{run@{run}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool xmem\-::benchmark\-::\-Benchmark\-::run (
 \begin{DoxyParamCaption}
 {}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [pure virtual]}}\label{classxmem_1_1benchmark_1_1_benchmark_aa0dbe60e525457770c835c6c72a0be6a}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classxmem_1_1benchmark_1_1_benchmark_aa0dbe60e525457770c835c6c72a0be6a}
 
 
 Runs the benchmark. 
@@ -395,71 +398,71 @@ true on benchmark success
 \end{DoxyReturn}
 
 
-Implemented in \hyperlink{classxmem_1_1benchmark_1_1_throughput_benchmark_a9f113e51d980830582148eb05c8810a3}{xmem\+::benchmark\+::\+Throughput\+Benchmark}, and \hyperlink{classxmem_1_1benchmark_1_1_latency_benchmark_ab68c299bf41fb30f9be597ff79188139}{xmem\+::benchmark\+::\+Latency\+Benchmark}.
+Implemented in \hyperlink{classxmem_1_1benchmark_1_1_throughput_benchmark_a9f113e51d980830582148eb05c8810a3}{xmem\-::benchmark\-::\-Throughput\-Benchmark}, and \hyperlink{classxmem_1_1benchmark_1_1_latency_benchmark_ab68c299bf41fb30f9be597ff79188139}{xmem\-::benchmark\-::\-Latency\-Benchmark}.
 
 
 
 \subsection{Member Data Documentation}
-\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a179b20d5ac798c140650aa82e3658273}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!\+\_\+average\+\_\+dram\+\_\+power\+\_\+socket@{\+\_\+average\+\_\+dram\+\_\+power\+\_\+socket}}
-\index{\+\_\+average\+\_\+dram\+\_\+power\+\_\+socket@{\+\_\+average\+\_\+dram\+\_\+power\+\_\+socket}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{\+\_\+average\+\_\+dram\+\_\+power\+\_\+socket}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$double$>$ xmem\+::benchmark\+::\+Benchmark\+::\+\_\+average\+\_\+dram\+\_\+power\+\_\+socket\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1benchmark_1_1_benchmark_a179b20d5ac798c140650aa82e3658273}
-The average D\+R\+A\+M power in this benchmark, per socket. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a303386b7b243e39f2ca9a041ae819162}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!\+\_\+average\+Metric@{\+\_\+average\+Metric}}
-\index{\+\_\+average\+Metric@{\+\_\+average\+Metric}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{\+\_\+average\+Metric}]{\setlength{\rightskip}{0pt plus 5cm}double xmem\+::benchmark\+::\+Benchmark\+::\+\_\+average\+Metric\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1benchmark_1_1_benchmark_a303386b7b243e39f2ca9a041ae819162}
-Average metric over all iterations. Unit-\/less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_ae01156a2db05a6e3f7928a7433688f56}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!\+\_\+chunk\+\_\+size@{\+\_\+chunk\+\_\+size}}
-\index{\+\_\+chunk\+\_\+size@{\+\_\+chunk\+\_\+size}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{\+\_\+chunk\+\_\+size}]{\setlength{\rightskip}{0pt plus 5cm}xmem\+::common\+::chunk\+\_\+size\+\_\+t xmem\+::benchmark\+::\+Benchmark\+::\+\_\+chunk\+\_\+size\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1benchmark_1_1_benchmark_ae01156a2db05a6e3f7928a7433688f56}
-Chunk size of memory accesses in this benchmark. T\+O\+D\+O\+: Move this to \hyperlink{_throughput_benchmark_8h}{Throughput\+Benchmark.\+h}, as it does not apply in all situations, e.\+g. in \hyperlink{classxmem_1_1benchmark_1_1_latency_benchmark}{Latency\+Benchmark}. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_ab840cb1f53439eeeb6bdce7cd1eed78b}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!\+\_\+cpu\+\_\+node@{\+\_\+cpu\+\_\+node}}
-\index{\+\_\+cpu\+\_\+node@{\+\_\+cpu\+\_\+node}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{\+\_\+cpu\+\_\+node}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t xmem\+::benchmark\+::\+Benchmark\+::\+\_\+cpu\+\_\+node\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1benchmark_1_1_benchmark_ab840cb1f53439eeeb6bdce7cd1eed78b}
-The C\+P\+U N\+U\+M\+A node used in this benchmark. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a6d4445364d9b6f17ec78be6c8cf253f1}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!\+\_\+dram\+\_\+power\+\_\+readers@{\+\_\+dram\+\_\+power\+\_\+readers}}
-\index{\+\_\+dram\+\_\+power\+\_\+readers@{\+\_\+dram\+\_\+power\+\_\+readers}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{\+\_\+dram\+\_\+power\+\_\+readers}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf xmem\+::power\+::\+Power\+Reader}$\ast$$>$ xmem\+::benchmark\+::\+Benchmark\+::\+\_\+dram\+\_\+power\+\_\+readers\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1benchmark_1_1_benchmark_a6d4445364d9b6f17ec78be6c8cf253f1}
-The power reading objects for measuring D\+R\+A\+M power on a per-\/socket basis during the benchmark. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a7aa95682a12f8fe4262b1fffb088d6ac}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!\+\_\+dram\+\_\+power\+\_\+threads@{\+\_\+dram\+\_\+power\+\_\+threads}}
-\index{\+\_\+dram\+\_\+power\+\_\+threads@{\+\_\+dram\+\_\+power\+\_\+threads}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{\+\_\+dram\+\_\+power\+\_\+threads}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<${\bf xmem\+::thread\+::\+Thread}$\ast$$>$ xmem\+::benchmark\+::\+Benchmark\+::\+\_\+dram\+\_\+power\+\_\+threads\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1benchmark_1_1_benchmark_a7aa95682a12f8fe4262b1fffb088d6ac}
-The power reading threads for measuring D\+R\+A\+M power on a per-\/socket basis during the benchmark. These work with the D\+R\+A\+M power readers. Although they are worker threads, they are not counted as the \char`\"{}official\char`\"{} benchmarking worker threads. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a7caa584aa404d7751b781fd16c111fd0}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!\+\_\+has\+Run@{\+\_\+has\+Run}}
-\index{\+\_\+has\+Run@{\+\_\+has\+Run}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{\+\_\+has\+Run}]{\setlength{\rightskip}{0pt plus 5cm}bool xmem\+::benchmark\+::\+Benchmark\+::\+\_\+has\+Run\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1benchmark_1_1_benchmark_a7caa584aa404d7751b781fd16c111fd0}
-Indicates whether the benchmark has run. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a1001cb321d8d655a71d435f5a06fdd3a}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!\+\_\+indices@{\+\_\+indices}}
-\index{\+\_\+indices@{\+\_\+indices}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{\+\_\+indices}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t$\ast$ xmem\+::benchmark\+::\+Benchmark\+::\+\_\+indices\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1benchmark_1_1_benchmark_a1001cb321d8d655a71d435f5a06fdd3a}
-Pointer to a list of indices. This is for indirect memory addressing. Currently unused. T\+O\+D\+O\+: Remove this entirely? \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a968403a473a3a4f713f4e73aa0757727}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!\+\_\+iterations@{\+\_\+iterations}}
-\index{\+\_\+iterations@{\+\_\+iterations}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{\+\_\+iterations}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t xmem\+::benchmark\+::\+Benchmark\+::\+\_\+iterations\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1benchmark_1_1_benchmark_a968403a473a3a4f713f4e73aa0757727}
-Number of iterations used in this benchmark. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_ae97857f36cabdbe76eb00142835f7881}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!\+\_\+len@{\+\_\+len}}
-\index{\+\_\+len@{\+\_\+len}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{\+\_\+len}]{\setlength{\rightskip}{0pt plus 5cm}size\+\_\+t xmem\+::benchmark\+::\+Benchmark\+::\+\_\+len\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1benchmark_1_1_benchmark_ae97857f36cabdbe76eb00142835f7881}
-Length of the memory region in bytes. This is not the working set size per thread! \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a134705051be06902b276f5c21d435ed0}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!\+\_\+mem\+\_\+array@{\+\_\+mem\+\_\+array}}
-\index{\+\_\+mem\+\_\+array@{\+\_\+mem\+\_\+array}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{\+\_\+mem\+\_\+array}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ xmem\+::benchmark\+::\+Benchmark\+::\+\_\+mem\+\_\+array\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1benchmark_1_1_benchmark_a134705051be06902b276f5c21d435ed0}
-Pointer to the memory region to use in this benchmark. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a8489553bc6539a9b19db72e9f6ca9a9e}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!\+\_\+mem\+\_\+node@{\+\_\+mem\+\_\+node}}
-\index{\+\_\+mem\+\_\+node@{\+\_\+mem\+\_\+node}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{\+\_\+mem\+\_\+node}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t xmem\+::benchmark\+::\+Benchmark\+::\+\_\+mem\+\_\+node\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1benchmark_1_1_benchmark_a8489553bc6539a9b19db72e9f6ca9a9e}
-The memory N\+U\+M\+A node used in this benchmark. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a1c3ef60ba77f151cc4d5b4b77d2deefa}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!\+\_\+metric\+On\+Iter@{\+\_\+metric\+On\+Iter}}
-\index{\+\_\+metric\+On\+Iter@{\+\_\+metric\+On\+Iter}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{\+\_\+metric\+On\+Iter}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$double$>$ xmem\+::benchmark\+::\+Benchmark\+::\+\_\+metric\+On\+Iter\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1benchmark_1_1_benchmark_a1c3ef60ba77f151cc4d5b4b77d2deefa}
-Metrics for each iteration of the benchmark. Unit-\/less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_ab9653ef73e0f1ca01e08286bdb35e4a6}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!\+\_\+name@{\+\_\+name}}
-\index{\+\_\+name@{\+\_\+name}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{\+\_\+name}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string xmem\+::benchmark\+::\+Benchmark\+::\+\_\+name\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1benchmark_1_1_benchmark_ab9653ef73e0f1ca01e08286bdb35e4a6}
-Name of this benchmark. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_acb55cafc77a1b53ea9910d1be4306970}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!\+\_\+num\+\_\+worker\+\_\+threads@{\+\_\+num\+\_\+worker\+\_\+threads}}
-\index{\+\_\+num\+\_\+worker\+\_\+threads@{\+\_\+num\+\_\+worker\+\_\+threads}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{\+\_\+num\+\_\+worker\+\_\+threads}]{\setlength{\rightskip}{0pt plus 5cm}uint32\+\_\+t xmem\+::benchmark\+::\+Benchmark\+::\+\_\+num\+\_\+worker\+\_\+threads\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1benchmark_1_1_benchmark_acb55cafc77a1b53ea9910d1be4306970}
-The number of worker threads used in this benchmark. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a87e133558776380738354191ec5e6560}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!\+\_\+obj\+\_\+valid@{\+\_\+obj\+\_\+valid}}
-\index{\+\_\+obj\+\_\+valid@{\+\_\+obj\+\_\+valid}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{\+\_\+obj\+\_\+valid}]{\setlength{\rightskip}{0pt plus 5cm}bool xmem\+::benchmark\+::\+Benchmark\+::\+\_\+obj\+\_\+valid\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1benchmark_1_1_benchmark_a87e133558776380738354191ec5e6560}
-Indicates whether this benchmark object is valid. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a4da600693ba1df4fb69c1304b23b2cde}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!\+\_\+peak\+\_\+dram\+\_\+power\+\_\+socket@{\+\_\+peak\+\_\+dram\+\_\+power\+\_\+socket}}
-\index{\+\_\+peak\+\_\+dram\+\_\+power\+\_\+socket@{\+\_\+peak\+\_\+dram\+\_\+power\+\_\+socket}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{\+\_\+peak\+\_\+dram\+\_\+power\+\_\+socket}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$double$>$ xmem\+::benchmark\+::\+Benchmark\+::\+\_\+peak\+\_\+dram\+\_\+power\+\_\+socket\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1benchmark_1_1_benchmark_a4da600693ba1df4fb69c1304b23b2cde}
-The peak D\+R\+A\+M power in this benchmark, per socket. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a673c700cb58ec0bc922f36d95dab12c9}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!\+\_\+timer@{\+\_\+timer}}
-\index{\+\_\+timer@{\+\_\+timer}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{\+\_\+timer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf xmem\+::timers\+::\+Timer}$\ast$ xmem\+::benchmark\+::\+Benchmark\+::\+\_\+timer\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1benchmark_1_1_benchmark_a673c700cb58ec0bc922f36d95dab12c9}
-The reference timer for this benchmark. T\+O\+D\+O\+: Remove this. It isn\textquotesingle{}t thread safe anyway, so workers don\textquotesingle{}t use it. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_af1a72e70f81c91f7c004ae01b2353288}{}\index{xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}!\+\_\+warning@{\+\_\+warning}}
-\index{\+\_\+warning@{\+\_\+warning}!xmem\+::benchmark\+::\+Benchmark@{xmem\+::benchmark\+::\+Benchmark}}
-\subsubsection[{\+\_\+warning}]{\setlength{\rightskip}{0pt plus 5cm}bool xmem\+::benchmark\+::\+Benchmark\+::\+\_\+warning\hspace{0.3cm}{\ttfamily [protected]}}\label{classxmem_1_1benchmark_1_1_benchmark_af1a72e70f81c91f7c004ae01b2353288}
+\hypertarget{classxmem_1_1benchmark_1_1_benchmark_a179b20d5ac798c140650aa82e3658273}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!\-\_\-average\-\_\-dram\-\_\-power\-\_\-socket@{\-\_\-average\-\_\-dram\-\_\-power\-\_\-socket}}
+\index{\-\_\-average\-\_\-dram\-\_\-power\-\_\-socket@{\-\_\-average\-\_\-dram\-\_\-power\-\_\-socket}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{\-\_\-average\-\_\-dram\-\_\-power\-\_\-socket}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$double$>$ xmem\-::benchmark\-::\-Benchmark\-::\-\_\-average\-\_\-dram\-\_\-power\-\_\-socket\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1benchmark_1_1_benchmark_a179b20d5ac798c140650aa82e3658273}
+The average D\-R\-A\-M power in this benchmark, per socket. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a303386b7b243e39f2ca9a041ae819162}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!\-\_\-average\-Metric@{\-\_\-average\-Metric}}
+\index{\-\_\-average\-Metric@{\-\_\-average\-Metric}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{\-\_\-average\-Metric}]{\setlength{\rightskip}{0pt plus 5cm}double xmem\-::benchmark\-::\-Benchmark\-::\-\_\-average\-Metric\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1benchmark_1_1_benchmark_a303386b7b243e39f2ca9a041ae819162}
+Average metric over all iterations. Unit-\/less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_ae01156a2db05a6e3f7928a7433688f56}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!\-\_\-chunk\-\_\-size@{\-\_\-chunk\-\_\-size}}
+\index{\-\_\-chunk\-\_\-size@{\-\_\-chunk\-\_\-size}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{\-\_\-chunk\-\_\-size}]{\setlength{\rightskip}{0pt plus 5cm}xmem\-::common\-::chunk\-\_\-size\-\_\-t xmem\-::benchmark\-::\-Benchmark\-::\-\_\-chunk\-\_\-size\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1benchmark_1_1_benchmark_ae01156a2db05a6e3f7928a7433688f56}
+Chunk size of memory accesses in this benchmark. T\-O\-D\-O\-: Move this to \hyperlink{_throughput_benchmark_8h}{Throughput\-Benchmark.\-h}, as it does not apply in all situations, e.\-g. in \hyperlink{classxmem_1_1benchmark_1_1_latency_benchmark}{Latency\-Benchmark}. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_ab840cb1f53439eeeb6bdce7cd1eed78b}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!\-\_\-cpu\-\_\-node@{\-\_\-cpu\-\_\-node}}
+\index{\-\_\-cpu\-\_\-node@{\-\_\-cpu\-\_\-node}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{\-\_\-cpu\-\_\-node}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t xmem\-::benchmark\-::\-Benchmark\-::\-\_\-cpu\-\_\-node\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1benchmark_1_1_benchmark_ab840cb1f53439eeeb6bdce7cd1eed78b}
+The C\-P\-U N\-U\-M\-A node used in this benchmark. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a6d4445364d9b6f17ec78be6c8cf253f1}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!\-\_\-dram\-\_\-power\-\_\-readers@{\-\_\-dram\-\_\-power\-\_\-readers}}
+\index{\-\_\-dram\-\_\-power\-\_\-readers@{\-\_\-dram\-\_\-power\-\_\-readers}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{\-\_\-dram\-\_\-power\-\_\-readers}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<${\bf xmem\-::power\-::\-Power\-Reader}$\ast$$>$ xmem\-::benchmark\-::\-Benchmark\-::\-\_\-dram\-\_\-power\-\_\-readers\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1benchmark_1_1_benchmark_a6d4445364d9b6f17ec78be6c8cf253f1}
+The power reading objects for measuring D\-R\-A\-M power on a per-\/socket basis during the benchmark. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a7aa95682a12f8fe4262b1fffb088d6ac}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!\-\_\-dram\-\_\-power\-\_\-threads@{\-\_\-dram\-\_\-power\-\_\-threads}}
+\index{\-\_\-dram\-\_\-power\-\_\-threads@{\-\_\-dram\-\_\-power\-\_\-threads}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{\-\_\-dram\-\_\-power\-\_\-threads}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<${\bf xmem\-::thread\-::\-Thread}$\ast$$>$ xmem\-::benchmark\-::\-Benchmark\-::\-\_\-dram\-\_\-power\-\_\-threads\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1benchmark_1_1_benchmark_a7aa95682a12f8fe4262b1fffb088d6ac}
+The power reading threads for measuring D\-R\-A\-M power on a per-\/socket basis during the benchmark. These work with the D\-R\-A\-M power readers. Although they are worker threads, they are not counted as the \char`\"{}official\char`\"{} benchmarking worker threads. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a7caa584aa404d7751b781fd16c111fd0}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!\-\_\-has\-Run@{\-\_\-has\-Run}}
+\index{\-\_\-has\-Run@{\-\_\-has\-Run}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{\-\_\-has\-Run}]{\setlength{\rightskip}{0pt plus 5cm}bool xmem\-::benchmark\-::\-Benchmark\-::\-\_\-has\-Run\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1benchmark_1_1_benchmark_a7caa584aa404d7751b781fd16c111fd0}
+Indicates whether the benchmark has run. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a1001cb321d8d655a71d435f5a06fdd3a}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!\-\_\-indices@{\-\_\-indices}}
+\index{\-\_\-indices@{\-\_\-indices}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{\-\_\-indices}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t$\ast$ xmem\-::benchmark\-::\-Benchmark\-::\-\_\-indices\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1benchmark_1_1_benchmark_a1001cb321d8d655a71d435f5a06fdd3a}
+Pointer to a list of indices. This is for indirect memory addressing. Currently unused. T\-O\-D\-O\-: Remove this entirely? \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a968403a473a3a4f713f4e73aa0757727}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!\-\_\-iterations@{\-\_\-iterations}}
+\index{\-\_\-iterations@{\-\_\-iterations}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{\-\_\-iterations}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t xmem\-::benchmark\-::\-Benchmark\-::\-\_\-iterations\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1benchmark_1_1_benchmark_a968403a473a3a4f713f4e73aa0757727}
+Number of iterations used in this benchmark. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_ae97857f36cabdbe76eb00142835f7881}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!\-\_\-len@{\-\_\-len}}
+\index{\-\_\-len@{\-\_\-len}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{\-\_\-len}]{\setlength{\rightskip}{0pt plus 5cm}size\-\_\-t xmem\-::benchmark\-::\-Benchmark\-::\-\_\-len\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1benchmark_1_1_benchmark_ae97857f36cabdbe76eb00142835f7881}
+Length of the memory region in bytes. This is not the working set size per thread! \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a134705051be06902b276f5c21d435ed0}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!\-\_\-mem\-\_\-array@{\-\_\-mem\-\_\-array}}
+\index{\-\_\-mem\-\_\-array@{\-\_\-mem\-\_\-array}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{\-\_\-mem\-\_\-array}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ xmem\-::benchmark\-::\-Benchmark\-::\-\_\-mem\-\_\-array\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1benchmark_1_1_benchmark_a134705051be06902b276f5c21d435ed0}
+Pointer to the memory region to use in this benchmark. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a8489553bc6539a9b19db72e9f6ca9a9e}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!\-\_\-mem\-\_\-node@{\-\_\-mem\-\_\-node}}
+\index{\-\_\-mem\-\_\-node@{\-\_\-mem\-\_\-node}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{\-\_\-mem\-\_\-node}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t xmem\-::benchmark\-::\-Benchmark\-::\-\_\-mem\-\_\-node\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1benchmark_1_1_benchmark_a8489553bc6539a9b19db72e9f6ca9a9e}
+The memory N\-U\-M\-A node used in this benchmark. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a1c3ef60ba77f151cc4d5b4b77d2deefa}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!\-\_\-metric\-On\-Iter@{\-\_\-metric\-On\-Iter}}
+\index{\-\_\-metric\-On\-Iter@{\-\_\-metric\-On\-Iter}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{\-\_\-metric\-On\-Iter}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$double$>$ xmem\-::benchmark\-::\-Benchmark\-::\-\_\-metric\-On\-Iter\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1benchmark_1_1_benchmark_a1c3ef60ba77f151cc4d5b4b77d2deefa}
+Metrics for each iteration of the benchmark. Unit-\/less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_ab9653ef73e0f1ca01e08286bdb35e4a6}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!\-\_\-name@{\-\_\-name}}
+\index{\-\_\-name@{\-\_\-name}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{\-\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string xmem\-::benchmark\-::\-Benchmark\-::\-\_\-name\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1benchmark_1_1_benchmark_ab9653ef73e0f1ca01e08286bdb35e4a6}
+Name of this benchmark. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_acb55cafc77a1b53ea9910d1be4306970}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!\-\_\-num\-\_\-worker\-\_\-threads@{\-\_\-num\-\_\-worker\-\_\-threads}}
+\index{\-\_\-num\-\_\-worker\-\_\-threads@{\-\_\-num\-\_\-worker\-\_\-threads}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{\-\_\-num\-\_\-worker\-\_\-threads}]{\setlength{\rightskip}{0pt plus 5cm}uint32\-\_\-t xmem\-::benchmark\-::\-Benchmark\-::\-\_\-num\-\_\-worker\-\_\-threads\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1benchmark_1_1_benchmark_acb55cafc77a1b53ea9910d1be4306970}
+The number of worker threads used in this benchmark. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a87e133558776380738354191ec5e6560}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!\-\_\-obj\-\_\-valid@{\-\_\-obj\-\_\-valid}}
+\index{\-\_\-obj\-\_\-valid@{\-\_\-obj\-\_\-valid}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{\-\_\-obj\-\_\-valid}]{\setlength{\rightskip}{0pt plus 5cm}bool xmem\-::benchmark\-::\-Benchmark\-::\-\_\-obj\-\_\-valid\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1benchmark_1_1_benchmark_a87e133558776380738354191ec5e6560}
+Indicates whether this benchmark object is valid. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a4da600693ba1df4fb69c1304b23b2cde}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!\-\_\-peak\-\_\-dram\-\_\-power\-\_\-socket@{\-\_\-peak\-\_\-dram\-\_\-power\-\_\-socket}}
+\index{\-\_\-peak\-\_\-dram\-\_\-power\-\_\-socket@{\-\_\-peak\-\_\-dram\-\_\-power\-\_\-socket}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{\-\_\-peak\-\_\-dram\-\_\-power\-\_\-socket}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$double$>$ xmem\-::benchmark\-::\-Benchmark\-::\-\_\-peak\-\_\-dram\-\_\-power\-\_\-socket\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1benchmark_1_1_benchmark_a4da600693ba1df4fb69c1304b23b2cde}
+The peak D\-R\-A\-M power in this benchmark, per socket. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_a673c700cb58ec0bc922f36d95dab12c9}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!\-\_\-timer@{\-\_\-timer}}
+\index{\-\_\-timer@{\-\_\-timer}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{\-\_\-timer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf xmem\-::timers\-::\-Timer}$\ast$ xmem\-::benchmark\-::\-Benchmark\-::\-\_\-timer\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1benchmark_1_1_benchmark_a673c700cb58ec0bc922f36d95dab12c9}
+The reference timer for this benchmark. T\-O\-D\-O\-: Remove this. It isn't thread safe anyway, so workers don't use it. \hypertarget{classxmem_1_1benchmark_1_1_benchmark_af1a72e70f81c91f7c004ae01b2353288}{\index{xmem\-::benchmark\-::\-Benchmark@{xmem\-::benchmark\-::\-Benchmark}!\-\_\-warning@{\-\_\-warning}}
+\index{\-\_\-warning@{\-\_\-warning}!xmem::benchmark::Benchmark@{xmem\-::benchmark\-::\-Benchmark}}
+\subsubsection[{\-\_\-warning}]{\setlength{\rightskip}{0pt plus 5cm}bool xmem\-::benchmark\-::\-Benchmark\-::\-\_\-warning\hspace{0.3cm}{\ttfamily [protected]}}}\label{classxmem_1_1benchmark_1_1_benchmark_af1a72e70f81c91f7c004ae01b2353288}
 Indicates whether the benchmarks results might be clearly questionable/inaccurate/incorrect due to a variety of factors. 
 
-The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-src/include/\hyperlink{_benchmark_8h}{Benchmark.\+h}\item 
-src/\hyperlink{_benchmark_8cpp}{Benchmark.\+cpp}\end{DoxyCompactItemize}
+src/include/\hyperlink{_benchmark_8h}{Benchmark.\-h}\item 
+src/\hyperlink{_benchmark_8cpp}{Benchmark.\-cpp}\end{DoxyCompactItemize}

@@ -1,6 +1,6 @@
 var classxmem_1_1benchmark_1_1_throughput_benchmark =
 [
-    [ "ThroughputBenchFunction", "classxmem_1_1benchmark_1_1_throughput_benchmark.html#a21095b46866ebe68c75c3be14471a7b5", null ],
+    [ "ThroughputBenchFunction", "classxmem_1_1benchmark_1_1_throughput_benchmark.html#a75983bee8799b756b32ea68cb7a9bcb1", null ],
     [ "ThroughputBenchmark", "classxmem_1_1benchmark_1_1_throughput_benchmark.html#a7f6fcc030500ebd3aed37d7eacea68dc", null ],
     [ "~ThroughputBenchmark", "classxmem_1_1benchmark_1_1_throughput_benchmark.html#ad4adc2b57b501862bfa415c4adfdef7e", null ],
     [ "getPatternMode", "classxmem_1_1benchmark_1_1_throughput_benchmark.html#a2c7dc699b2ae013edd9de871778dff7b", null ],
