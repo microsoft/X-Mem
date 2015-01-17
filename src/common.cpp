@@ -365,8 +365,8 @@ int32_t xmem::common::cpu_id_in_numa_node(uint32_t numa_node, uint32_t cpu_in_no
 		}
 	}
 
-	return cpu_id;
 #endif
+	return cpu_id;
 }
 	
 size_t xmem::common::compute_number_of_passes(size_t working_set_size_KB) {
