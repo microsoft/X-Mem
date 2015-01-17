@@ -38,10 +38,15 @@
 
 //Libraries
 #include <iostream>
+
 #ifdef _WIN32
 #include <windows.h>
-#else
-#error Windows is the only supported OS at this time.
+#endif
+
+#ifdef __unix__
+#include <unistd.h>
+#include <pthread.h>
+#include <numa.h>
 #endif
 
 namespace xmem {
@@ -282,8 +287,14 @@ bool xmem::common::lock_thread_to_cpu(uint32_t cpu_id) {
 			return false;
 	}
 	return true;
-#else
-#error Windows is the only supported OS at this time.
+#endif
+#ifdef __unix__
+	cpu_set_t cpus;
+	CPU_ZERO(&cpus);
+	CPU_SET(static_cast<int32_t>(cpu_id), &cpus);
+
+	pthread_t tid = pthread_self();
+	return (!pthread_setaffinity_np(tid, sizeof(cpu_set_t), &cpus));
 #endif
 }
 
@@ -299,20 +310,32 @@ bool xmem::common::unlock_thread_to_cpu() {
 			return false;
 	}
 	return true;
-#else
-#error Windows is the only supported OS at this time.
+#endif
+#ifdef __unix__
+	pthread_t tid = pthread_self();
+	cpu_set_t cpus;
+	CPU_ZERO(&cpus);
+
+	if (pthread_getaffinity_np(tid, sizeof(cpu_set_t), &cpus)) //failure
+		return false;
+	
+	int32_t total_num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
+	for (int32_t c = 0; c < total_num_cpus; c++)
+		CPU_SET(c, &cpus);
+
+	return (!pthread_setaffinity_np(tid, sizeof(cpu_set_t), &cpus));
 #endif
 }
 		
 int32_t xmem::common::cpu_id_in_numa_node(uint32_t numa_node, uint32_t cpu_in_node) {
 	int32_t cpu_id = -1;
+	uint32_t rank_in_node = 0;
 #ifdef _WIN32
 	uint64_t processorMask = 0;
 	GetNumaNodeProcessorMask(numa_node, &processorMask);
 	//Select Nth CPU in the node
 	uint32_t shifts = 0;
 	uint64_t shiftmask = processorMask;
-	uint32_t rank_in_node = 0;
 	bool done = false;
 	while (!done && shifts < sizeof(shiftmask)*8) {
 		if ((shiftmask & 0x1) == 0x1) { //current CPU is in the NUMA node
@@ -325,9 +348,24 @@ int32_t xmem::common::cpu_id_in_numa_node(uint32_t numa_node, uint32_t cpu_in_no
 		shiftmask = shiftmask >> 1; //shift right by one to examine next CPU
 		shifts++;
 	}
+#endif
+#ifdef __unix__
+	struct bitmask bm;
+	if (numa_node_to_cpus(static_cast<int32_t>(numa_node), &bm)) //error
+		return -1;
+	
+	//Select Nth CPU in the node
+	for (uint64_t i = 0; i < bm.size; i++) {
+		if (numa_bitmask_isbitset(&bm, i)) {
+			if (cpu_in_node == rank_in_node) { //found the CPU of interest in the NUMA node
+				cpu_id = i;
+				return cpu_id;
+			}
+			rank_in_node++;
+		}
+	}
+
 	return cpu_id;
-#else
-#error Windows is the only supported OS at this time.
 #endif
 }
 	

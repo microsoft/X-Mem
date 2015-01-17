@@ -142,15 +142,15 @@ namespace xmem {
 		protected:
 			/////
 			//ONLY ACCESS THESE WHILE HOLDING THIS OBJECT'S LOCK FOR THREAD SAFETY
-			double _sampling_period; /**< Power sampling period in seconds. */
+			bool _stop_signal; /**< When true, the run() function should finish after the current sample iteration it is working on. */
 			double _power_units; /**< Power units in watts. */
 			std::string _name; /**< Name of this object. */
-			bool _stop_signal; /**< When true, the run() function should finish after the current sample iteration it is working on. */
+			int32_t _cpu_affinity; /**< CPU affinity for any thread using this object's run() method. If negative, no affinity preference. */
 			std::vector<double> _power_trace; /**< The time-ordered list of power samples. The first index is the oldest measurement. */
 			double _average_power; /**< The average power. */
 			double _peak_power; /**< The peak power observed. */
 			size_t _num_samples; /**< The number of samples collected. */
-			int32_t _cpu_affinity; /**< CPU affinity for any thread using this object's run() method. If negative, no affinity preference. */
+			double _sampling_period; /**< Power sampling period in seconds. */
 			//
 			/////
 		};

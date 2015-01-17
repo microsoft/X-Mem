@@ -45,7 +45,7 @@
 namespace xmem {
 	namespace common {
 
-#define VERSION "1.03.02"
+#define VERSION "1.04"
 
 #if !defined(_WIN32) && !defined(__unix__)
 #error Neither Windows or Unix build environments were detected!

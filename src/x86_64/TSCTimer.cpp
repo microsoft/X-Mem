@@ -34,12 +34,13 @@
 #ifdef _WIN32
 #include <windows.h> 
 #include <intrin.h>
-#else
-#error Windows is the only supported OS at this time.
 #endif
 
 #ifdef __unix__
 #include <immintrin.h>
+#include <time.h>
+#include <cpuid.h>
+#include <x86intrin.h>
 #endif
 
 using namespace xmem::timers::x86_64;
@@ -52,8 +53,12 @@ TSCTimer::TSCTimer() :
 	start();
 #ifdef _WIN32
 	Sleep(1000);
-#else
-#error Windows is the only supported OS at this time.
+#endif
+#ifdef __unix__
+	struct timespec duration, remainder;
+	duration.tv_sec = 1;
+	duration.tv_nsec = 0;
+	nanosleep(&duration, &remainder);
 #endif
 	_ticks_per_sec = stop();
 	_ns_per_tick = 1/((double)(_ticks_per_sec)) * 1e9;
@@ -73,21 +78,26 @@ uint64_t xmem::timers::x86_64::start_tsc_timer() {
 #ifdef _WIN32
 	int32_t dontcare[4];
 	__cpuid(dontcare, 0); //Serializing instruction. This forces all previous instructions to finish
-	return __rdtsc(); //Get clock tick
-#else
-#error Windows is the only supported OS at this time.
 #endif
+#ifdef __unix__
+	int32_t dc0, dc1, dc2, dc3, dc4;
+	__cpuid(dc0, dc1, dc2, dc3, dc4); //Serializing instruction. This forces all previous instructions to finish
+#endif
+	return __rdtsc(); //Get clock tick
 }
 
 uint64_t xmem::timers::x86_64::stop_tsc_timer() {
-#ifdef _WIN32
-	uint32_t filler;
-	int32_t dontcare[4];
 	uint64_t tick;
+	uint32_t filler;
+#ifdef _WIN32
+	int32_t dontcare[4];
 	tick = __rdtscp(&filler); //Get clock tick. This is a partially serializing instruction. All previous instructions must finish
 	__cpuid(dontcare, 0); //Fully serializing instruction. We do this to prevent later instructions from being moved inside the timed section
-	return tick;
-#else
-#error Windows is the only supported OS at this time.
 #endif
+#ifdef __unix__
+	int32_t dc0, dc1, dc2, dc3, dc4;
+	tick = __rdtscp(&filler); //Get clock tick. This is a partially serializing instruction. All previous instructions must finish
+	__cpuid(dc0, dc1, dc2, dc3, dc4); //Serializing instruction. This forces all previous instructions to finish
+#endif
+	return tick;
 }

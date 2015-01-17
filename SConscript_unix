@@ -11,12 +11,11 @@ env = Environment()
 # LINUX
 env.Append(CPPFLAGS = '-Wall -g -O3 -std=c++11 -mavx')
 env.Append(CPPPATH = ['src/include', '/usr/include'])
-env.Append(LDFLAGS = ['-lnuma', '-lpthreads'])
+env.Append(LIBS = ['pthread', 'numa'])
 
 # List all C++ source files
 sources = [
 	Glob('src/*.cpp'), 
-	Glob('src/win/*.cpp'),
 	Glob('src/x86_64/*.cpp')
 ]
 

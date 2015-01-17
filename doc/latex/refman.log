@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.10)  16 JAN 2015 15:50
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.10)  16 JAN 2015 18:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2041,473 +2041,473 @@ Underfull \hbox (badness 10000) in paragraph at lines 9--17
  []
 
 ) (./benchmark__kernels_8h.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--10
+Underfull \hbox (badness 10000) in paragraph at lines 9--11
 
  []
 
 
-Underfull \hbox (badness 772) in paragraph at lines 19--20
+Underfull \hbox (badness 772) in paragraph at lines 20--21
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-forw-Sequential-Loop-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n
 /10 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 772) in paragraph at lines 21--22
+Underfull \hbox (badness 772) in paragraph at lines 22--23
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-forw-Sequential-Loop-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n
 /10 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 [69]
-Underfull \hbox (badness 3250) in paragraph at lines 27--28
+Underfull \hbox (badness 3250) in paragraph at lines 28--29
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-rev-Sequential-Loop-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/
 10 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 3250) in paragraph at lines 29--30
+Underfull \hbox (badness 3250) in paragraph at lines 30--31
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-rev-Sequential-Loop-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/
 10 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 892) in paragraph at lines 31--32
+Underfull \hbox (badness 892) in paragraph at lines 32--33
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-rev-Sequential-Loop-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n
 /10 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 892) in paragraph at lines 33--34
+Underfull \hbox (badness 892) in paragraph at lines 34--35
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-rev-Sequential-Loop-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n
 /10 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 35--36
+Underfull \hbox (badness 10000) in paragraph at lines 36--37
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-forw-Stride2-Loop-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
  ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 37--38
+Underfull \hbox (badness 10000) in paragraph at lines 38--39
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-forw-Stride2-Loop-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
  ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 7451) in paragraph at lines 39--40
+Underfull \hbox (badness 7451) in paragraph at lines 40--41
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-forw-Stride2-Loop-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/1
 0 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 7451) in paragraph at lines 41--42
+Underfull \hbox (badness 7451) in paragraph at lines 42--43
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-forw-Stride2-Loop-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/1
 0 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 43--44
+Underfull \hbox (badness 10000) in paragraph at lines 44--45
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-rev-Stride2-Loop-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 
 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 45--46
+Underfull \hbox (badness 10000) in paragraph at lines 46--47
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-rev-Stride2-Loop-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 
 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 47--48
+Underfull \hbox (badness 10000) in paragraph at lines 48--49
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-rev-Stride2-Loop-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
  ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 49--50
+Underfull \hbox (badness 10000) in paragraph at lines 50--51
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-rev-Stride2-Loop-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
  ^^C$\T1/phv/m/n/10 start-_-
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 51--52
+[70]
+Underfull \hbox (badness 10000) in paragraph at lines 52--53
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-forw-Stride4-Loop-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
  ^^C$\T1/phv/m/n/10 start-_-
  []
 
-[70]
-Underfull \hbox (badness 10000) in paragraph at lines 53--54
+
+Underfull \hbox (badness 10000) in paragraph at lines 54--55
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-forw-Stride4-Loop-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
  ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 7451) in paragraph at lines 55--56
+Underfull \hbox (badness 7451) in paragraph at lines 56--57
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-forw-Stride4-Loop-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/1
 0 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 7451) in paragraph at lines 57--58
+Underfull \hbox (badness 7451) in paragraph at lines 58--59
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-forw-Stride4-Loop-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/1
 0 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 59--60
+Underfull \hbox (badness 10000) in paragraph at lines 60--61
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-rev-Stride4-Loop-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 
 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 61--62
+Underfull \hbox (badness 10000) in paragraph at lines 62--63
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-rev-Stride4-Loop-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 
 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 63--64
+Underfull \hbox (badness 10000) in paragraph at lines 64--65
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-rev-Stride4-Loop-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
  ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 65--66
+Underfull \hbox (badness 10000) in paragraph at lines 66--67
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-rev-Stride4-Loop-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
  ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 67--68
+Underfull \hbox (badness 10000) in paragraph at lines 68--69
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-forw-Stride8-Loop-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
  ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 69--70
+Underfull \hbox (badness 10000) in paragraph at lines 70--71
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-forw-Stride8-Loop-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
  ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 7451) in paragraph at lines 71--72
+Underfull \hbox (badness 7451) in paragraph at lines 72--73
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-forw-Stride8-Loop-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/1
 0 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 7451) in paragraph at lines 73--74
+Underfull \hbox (badness 7451) in paragraph at lines 74--75
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-forw-Stride8-Loop-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/1
 0 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 75--76
+Underfull \hbox (badness 10000) in paragraph at lines 76--77
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-rev-Stride8-Loop-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 
 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 77--78
+Underfull \hbox (badness 10000) in paragraph at lines 78--79
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-rev-Stride8-Loop-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 
 ^^C$\T1/phv/m/n/10 start-_-
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 79--80
+[71]
+Underfull \hbox (badness 10000) in paragraph at lines 80--81
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-rev-Stride8-Loop-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
  ^^C$\T1/phv/m/n/10 start-_-
  []
 
-[71]
-Underfull \hbox (badness 10000) in paragraph at lines 81--82
+
+Underfull \hbox (badness 10000) in paragraph at lines 82--83
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-rev-Stride8-Loop-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
  ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 7451) in paragraph at lines 83--84
+Underfull \hbox (badness 7451) in paragraph at lines 84--85
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-forw-Stride16-Loop-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/1
 0 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 7451) in paragraph at lines 85--86
+Underfull \hbox (badness 7451) in paragraph at lines 86--87
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-forw-Stride16-Loop-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/1
 0 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 2951) in paragraph at lines 87--88
+Underfull \hbox (badness 2951) in paragraph at lines 88--89
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-forw-Stride16-Loop-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/
 10 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 2951) in paragraph at lines 89--90
+Underfull \hbox (badness 2951) in paragraph at lines 90--91
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-forw-Stride16-Loop-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/
 10 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 91--92
+Underfull \hbox (badness 10000) in paragraph at lines 92--93
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-rev-Stride16-Loop-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
  ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 93--94
+Underfull \hbox (badness 10000) in paragraph at lines 94--95
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-rev-Stride16-Loop-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
  ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 7981) in paragraph at lines 95--96
+Underfull \hbox (badness 7981) in paragraph at lines 96--97
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-rev-Stride16-Loop-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/1
 0 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 7981) in paragraph at lines 97--98
+Underfull \hbox (badness 7981) in paragraph at lines 98--99
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-rev-Stride16-Loop-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/1
 0 ^^C$\T1/phv/m/n/10 start-_-
  []
 
 
-Underfull \hbox (badness 760) in paragraph at lines 99--100
+Underfull \hbox (badness 760) in paragraph at lines 100--101
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-random-Loop-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\
 T1/phv/m/n/10 start-_-address,
  []
 
 
-Underfull \hbox (badness 760) in paragraph at lines 101--102
+Underfull \hbox (badness 760) in paragraph at lines 102--103
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::dummy-_-random-Loop-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\
 T1/phv/m/n/10 start-_-address,
  []
 
-
-Underfull \hbox (badness 3179) in paragraph at lines 107--108
+[72]
+Underfull \hbox (badness 3179) in paragraph at lines 108--109
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::forw-Sequential-Read-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$
 \T1/phv/m/n/10 start-_-address,
  []
 
-[72]
-Underfull \hbox (badness 3179) in paragraph at lines 109--110
+
+Underfull \hbox (badness 3179) in paragraph at lines 110--111
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::forw-Sequential-Read-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$
 \T1/phv/m/n/10 start-_-address,
  []
 
 
-Underfull \hbox (badness 866) in paragraph at lines 111--112
+Underfull \hbox (badness 866) in paragraph at lines 112--113
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::forw-Sequential-Read-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C
 $\T1/phv/m/n/10 start-_-address,
  []
 
 
-Underfull \hbox (badness 866) in paragraph at lines 113--114
+Underfull \hbox (badness 866) in paragraph at lines 114--115
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::forw-Sequential-Read-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C
 $\T1/phv/m/n/10 start-_-address,
  []
 
 
-Underfull \hbox (badness 3492) in paragraph at lines 119--120
+Underfull \hbox (badness 3492) in paragraph at lines 120--121
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::rev-Sequential-Read-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$
 \T1/phv/m/n/10 start-_-address,
  []
 
 
-Underfull \hbox (badness 3492) in paragraph at lines 121--122
+Underfull \hbox (badness 3492) in paragraph at lines 122--123
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::rev-Sequential-Read-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$
 \T1/phv/m/n/10 start-_-address,
  []
 
 
-Underfull \hbox (badness 2865) in paragraph at lines 123--124
+Underfull \hbox (badness 2865) in paragraph at lines 124--125
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::forw-Sequential-Write-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C
 $\T1/phv/m/n/10 start-_-address,
  []
 
 
-Underfull \hbox (badness 2865) in paragraph at lines 125--126
+Underfull \hbox (badness 2865) in paragraph at lines 126--127
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::forw-Sequential-Write-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C
 $\T1/phv/m/n/10 start-_-address,
  []
 
 
-Underfull \hbox (badness 3148) in paragraph at lines 135--136
+Underfull \hbox (badness 3148) in paragraph at lines 136--137
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::rev-Sequential-Write-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C
 $\T1/phv/m/n/10 start-_-address,
  []
 
 
-Underfull \hbox (badness 3148) in paragraph at lines 137--138
+Underfull \hbox (badness 3148) in paragraph at lines 138--139
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::rev-Sequential-Write-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C
 $\T1/phv/m/n/10 start-_-address,
  []
 
 [73]
-Underfull \hbox (badness 1558) in paragraph at lines 147--148
+Underfull \hbox (badness 1558) in paragraph at lines 148--149
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::rev-Stride2-Read-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1/
 phv/m/n/10 start-_-address, void
  []
 
 
-Underfull \hbox (badness 1558) in paragraph at lines 149--150
+Underfull \hbox (badness 1558) in paragraph at lines 150--151
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::rev-Stride2-Read-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1/
 phv/m/n/10 start-_-address, void
  []
 
 
-Underfull \hbox (badness 1418) in paragraph at lines 163--164
+Underfull \hbox (badness 1418) in paragraph at lines 164--165
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::rev-Stride2-Write-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1
 /phv/m/n/10 start-_-address, void
  []
 
 
-Underfull \hbox (badness 1418) in paragraph at lines 165--166
+Underfull \hbox (badness 1418) in paragraph at lines 166--167
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::rev-Stride2-Write-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1
 /phv/m/n/10 start-_-address, void
  []
 
-
-Underfull \hbox (badness 1558) in paragraph at lines 179--180
+[74]
+Underfull \hbox (badness 1558) in paragraph at lines 180--181
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::rev-Stride4-Read-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1/
 phv/m/n/10 start-_-address, void
  []
 
-[74]
-Underfull \hbox (badness 1558) in paragraph at lines 181--182
+
+Underfull \hbox (badness 1558) in paragraph at lines 182--183
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::rev-Stride4-Read-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1/
 phv/m/n/10 start-_-address, void
  []
 
 
-Underfull \hbox (badness 1418) in paragraph at lines 195--196
+Underfull \hbox (badness 1418) in paragraph at lines 196--197
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::rev-Stride4-Write-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1
 /phv/m/n/10 start-_-address, void
  []
 
 
-Underfull \hbox (badness 1418) in paragraph at lines 197--198
+Underfull \hbox (badness 1418) in paragraph at lines 198--199
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::rev-Stride4-Write-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1
 /phv/m/n/10 start-_-address, void
  []
 
 
-Underfull \hbox (badness 1558) in paragraph at lines 211--212
+Underfull \hbox (badness 1558) in paragraph at lines 212--213
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::rev-Stride8-Read-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1/
 phv/m/n/10 start-_-address, void
  []
 
 
-Underfull \hbox (badness 1558) in paragraph at lines 213--214
+Underfull \hbox (badness 1558) in paragraph at lines 214--215
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::rev-Stride8-Read-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1/
 phv/m/n/10 start-_-address, void
  []
 
 [75]
-Underfull \hbox (badness 1418) in paragraph at lines 227--228
+Underfull \hbox (badness 1418) in paragraph at lines 228--229
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::rev-Stride8-Write-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1
 /phv/m/n/10 start-_-address, void
  []
 
 
-Underfull \hbox (badness 1418) in paragraph at lines 229--230
+Underfull \hbox (badness 1418) in paragraph at lines 230--231
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::rev-Stride8-Write-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1
 /phv/m/n/10 start-_-address, void
  []
 
 [76]
-Underfull \hbox (badness 4013) in paragraph at lines 271--272
+Underfull \hbox (badness 4013) in paragraph at lines 272--273
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::random-Read-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1/phv/
 m/n/10 start-_-address, void
  []
 
 
-Underfull \hbox (badness 4013) in paragraph at lines 273--274
+Underfull \hbox (badness 4013) in paragraph at lines 274--275
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::random-Read-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1/phv/
 m/n/10 start-_-address, void
  []
 
 
-Underfull \hbox (badness 3746) in paragraph at lines 279--280
+Underfull \hbox (badness 3746) in paragraph at lines 280--281
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::random-Write-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1/phv
 /m/n/10 start-_-address, void
  []
 
 
-Underfull \hbox (badness 3746) in paragraph at lines 281--282
+Underfull \hbox (badness 3746) in paragraph at lines 282--283
 []\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
 s-::random-Write-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1/phv
 /m/n/10 start-_-address, void
  []
 
-) (./_benchmark_manager_8h.tex [77]
+[77]) (./_benchmark_manager_8h.tex
 Underfull \hbox (badness 10000) in paragraph at lines 9--18
 
  []
@@ -2625,7 +2625,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 9--17
  []
 
 ) (./main_8cpp.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--15
+Underfull \hbox (badness 10000) in paragraph at lines 9--13
 
  []
 
@@ -2833,7 +2833,7 @@ exlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8ac.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/urw/helvetic/uhvbo8ac.pfb></usr/share/texlive/texmf-dist/fon
 ts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw
 /helvetic/uhvro8a.pfb>
-Output written on refman.pdf (112 pages, 487430 bytes).
+Output written on refman.pdf (112 pages, 487539 bytes).
 PDF statistics:
  4344 PDF objects out of 5155 (max. 8388607)
  4141 compressed objects within 42 object streams
