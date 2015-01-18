@@ -52,10 +52,17 @@
 namespace xmem {
 	namespace common {
 		size_t g_page_size; /**< Default page size on the system, in bytes. */
+#ifdef USE_LARGE_PAGES
 		size_t g_large_page_size; /**< Large page size on the system, in bytes. */
+#endif
 		uint32_t g_num_nodes; /**< Number of NUMA nodes in the system. */
-		uint32_t g_num_logical_cpus; /**< Number of logical CPU cores in the system. */
+		uint32_t g_num_logical_cpus; /**< Number of logical CPU cores in the system. This may be different than physical CPUs, e.g. Intel hyperthreading. */
+		uint32_t g_num_physical_cpus; /**< Number of physical CPU cores in the system. */
 		uint32_t g_num_physical_packages; /**< Number of physical CPU packages in the system. Generally this is the same as number of NUMA nodes, unless UMA emulation is done in hardware. */
+		uint32_t g_total_l1_caches; /**< Total number of L1 caches in the system. */
+		uint32_t g_total_l2_caches; /**< Total number of L2 caches in the system. */
+		uint32_t g_total_l3_caches; /**< Total number of L3 caches in the system. */
+		uint32_t g_total_l4_caches; /**< Total number of L4 caches in the system. */
 		uint32_t g_starting_test_index; /**< Numeric identifier for the first benchmark test. */
 		uint32_t g_test_index; /**< Numeric identifier for the current benchmark test. */
 	};
@@ -109,6 +116,9 @@ void xmem::common::print_compile_time_options() {
 #endif
 #ifdef _WIN64
 	std::cout << "Win64" << std::endl;
+#endif
+#ifdef __unix__
+	std::cout << "Unix" << std::endl;
 #endif
 #ifdef ARCH_INTEL_X86
 	std::cout << "ARCH_INTEL_X86" << std::endl;
@@ -381,4 +391,70 @@ size_t xmem::common::compute_number_of_passes(size_t working_set_size_KB) {
 	if (passes < 1)
 		passes = 1;
 	return passes;
+}
+
+int32_t xmem::common::query_sys_info() {
+#ifdef VERBOSE
+	std::cout << std::endl;
+	std::cout << "Initializing default system information...";
+#endif
+	//Initialize to defaults.
+	g_num_nodes = DEFAULT_NUM_NODES;
+	g_num_physical_packages = DEFAULT_NUM_PHYSICAL_PACKAGES;
+	g_num_physical_cpus = DEFAULT_NUM_PHYSICAL_CPUS;
+	g_num_logical_cpus = DEFAULT_NUM_LOGICAL_CPUS;
+	g_total_l1_caches = DEFAULT_NUM_L1_CACHES;
+	g_total_l2_caches = DEFAULT_NUM_L2_CACHES;
+	g_total_l3_caches = DEFAULT_NUM_L3_CACHES;
+	g_total_l4_caches = DEFAULT_NUM_L4_CACHES;
+	g_page_size = DEFAULT_PAGE_SIZE;
+#ifdef USE_LARGE_PAGES
+	g_large_page_size = DEFAULT_LARGE_PAGE_SIZE; 
+#endif
+
+#ifdef VERBOSE
+	std::cout << "done" << std::endl;
+	std::cout << "Querying system information...";
+#endif
+
+#ifdef _WIN32
+//TODO: refactor from win_common_third_party.cpp
+#endif
+
+#ifdef __unix__
+	//Check that NUMA is available.
+	if (numa_available() == -1) {
+		std::cout << "FATAL: NUMA API is not available on this system." << std::endl;
+		exit(-1);
+	}
+
+	g_num_nodes = numa_max_node()+1;
+	g_num_physical_packages = g_num_nodes; //FIXME: this is totally a bandaid	
+	g_num_logical_cpus = sysconf(_SC_NPROCESSORS_ONLN); //FIXME: this isn't really portable -- requires glibc extensions to sysconf()
+	g_num_physical_cpus = g_num_logical_cpus / 2; //FIXME: this is totally a bandaid and assumes something like Intel HyperThreading
+	g_total_l1_caches = g_num_physical_cpus; //FIXME: this is totally a bandaid
+	g_total_l2_caches = g_num_physical_cpus; //FIXME: this is totally a bandaid
+	g_total_l3_caches = 1; //FIXME: this is totally a bandaid
+	g_total_l4_caches = 0; //FIXME: this is totally a bandaid
+	g_page_size = static_cast<uint64_t>(sysconf(_SC_PAGESIZE));
+#ifdef USE_LARGE_PAGES
+	//g_large_page_size = //FIXME: implement
+#endif
+#endif
+
+#ifdef VERBOSE
+	std::cout << "done" << std::endl;
+	std::cout << "Number of NUMA nodes: " << g_num_nodes << std::endl;
+	std::cout << "Number of physical processor packages: " << g_num_physical_packages << std::endl;
+	std::cout << "Number of physical processor cores: " << g_num_physical_cpus << std::endl;
+	std::cout << "Number of logical processor cores: " << g_num_logical_cpus << std::endl;
+	std::cout << "Number of processor L1/L2/L3/L4 caches: " << g_total_l1_caches << "/" << g_total_l2_caches << "/" << g_total_l3_caches << "/" << g_total_l4_caches << std::endl; 
+#ifdef USE_LARGE_PAGES
+	std::cout << "(Large) page size to be used for benchmarks: " << g_large_page_size << " B" << std::endl;
+#else
+	std::cout << "(Regular) page size to be used for benchmarks: " << g_page_size << " B" << std::endl;
+#endif
+#endif
+
+	return 0;
 }

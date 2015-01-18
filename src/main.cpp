@@ -39,7 +39,7 @@
 #include <BenchmarkManager.h>
 
 #ifdef _WIN32
-//FIXME
+//FIXME. Clean this up.
 #include <win/win_common.h>
 #include <win/win_common_third_party.h>
 #endif
@@ -60,13 +60,16 @@ int main(int argc, char* argv[]) {
 	common::print_compile_time_options();
 #endif
 
+//FIXME. Clean this up.
 #ifdef _WIN32
-	//FIXME
 	if (common::win::third_party::query_sys_info()) {
+#endif
+#ifdef __unix__
+	if (common::query_sys_info()) {
+#endif
 		std::cerr << "ERROR occurred while querying CPU information." << std::endl;
 		return -1;
 	}
-#endif
 
 	config::Configurator config;
 	bool configSuccess = !config.configureFromInput(argc, argv);
