@@ -1,8 +1,15 @@
 var common_8h =
 [
     [ "BENCHMARK_DURATION_SEC", "common_8h.html#a99f183a29ff70efd094401faa20f1804", null ],
-    [ "DEFAULT_NUM_CPUS", "common_8h.html#a9f5390a25c5dbc825fa35cd4c71f3b76", null ],
+    [ "DEFAULT_LARGE_PAGE_SIZE", "common_8h.html#a2dd7d3e112c6becc2e3b462dbfe7d847", null ],
+    [ "DEFAULT_NUM_L1_CACHES", "common_8h.html#acfb61ec227e63068da8a5dcfca99be13", null ],
+    [ "DEFAULT_NUM_L2_CACHES", "common_8h.html#ae7314114e15294742d1c98bc01a66111", null ],
+    [ "DEFAULT_NUM_L3_CACHES", "common_8h.html#a6249570ec188525d29f21ac48f406920", null ],
+    [ "DEFAULT_NUM_L4_CACHES", "common_8h.html#a35cbfd7168eb66a48435562aac6cac46", null ],
+    [ "DEFAULT_NUM_LOGICAL_CPUS", "common_8h.html#a056f574fb1cc32b63311f603bde40a9b", null ],
     [ "DEFAULT_NUM_NODES", "common_8h.html#a4e7fb19b2931b6a49d4aa701ec32b3be", null ],
+    [ "DEFAULT_NUM_PHYSICAL_CPUS", "common_8h.html#a9092e152410a9938e5a00d8c62b92726", null ],
+    [ "DEFAULT_NUM_PHYSICAL_PACKAGES", "common_8h.html#a0fafeebfd17d763165528aa8c0788460", null ],
     [ "DEFAULT_PAGE_SIZE", "common_8h.html#aa2f776dcebe2f31589b20e618ebe94fd", null ],
     [ "DEFAULT_THREAD_JOIN_TIMEOUT", "common_8h.html#a03c7f857881677d0f9963bf09c1ac1fb", null ],
     [ "DEFAULT_WORKING_SET_SIZE", "common_8h.html#a6c5d03c7c32e3cabfb28f04a9a352c96", null ],
@@ -67,8 +74,10 @@ var common_8h =
     [ "print_compile_time_options", "common_8h.html#afe4cd43741d3ac8124c9bb58f17c0245", null ],
     [ "print_types_report", "common_8h.html#a5a4dc0f9f350da2e3c591f4c722d6e32", null ],
     [ "print_welcome_message", "common_8h.html#ac68e38f9ad9283c245f567715f887811", null ],
+    [ "query_sys_info", "common_8h.html#a2e7af90e4cc57276acc66e3e8ae07672", null ],
     [ "test_thread_affinities", "common_8h.html#ad0adcf4f3921d92e20a0dc9c0f097c62", null ],
     [ "test_timers", "common_8h.html#a39350e85b7ccfd4750c2b099c5e7bbc7", null ],
     [ "unlock_thread_to_cpu", "common_8h.html#a3a0a66cbc6fffc70a9227fcf5544d4b0", null ],
-    [ "unlock_thread_to_numa_node", "common_8h.html#ae217141faeaa0c34054a93ba0f0b9405", null ]
+    [ "unlock_thread_to_numa_node", "common_8h.html#ae217141faeaa0c34054a93ba0f0b9405", null ],
+    [ "g_large_page_size", "common_8h.html#a07dea368489acf172355b2ee6c4c2845", null ]
 ];

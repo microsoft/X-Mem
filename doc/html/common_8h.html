@@ -107,7 +107,8 @@ $(document).ready(function(){initNavTree('common_8h.html','');});
 <a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">common.h File Reference</div>  </div>
 </div><!--header-->
@@ -152,14 +153,28 @@ Macros</h2></td></tr>
 <tr class="memitem:a468c1dfde4c885eeffa6a887176fde3e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a468c1dfde4c885eeffa6a887176fde3e"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>GB_4</b>&#160;&#160;&#160;4294967296</td></tr>
 <tr class="separator:a468c1dfde4c885eeffa6a887176fde3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2f776dcebe2f31589b20e618ebe94fd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#aa2f776dcebe2f31589b20e618ebe94fd">DEFAULT_PAGE_SIZE</a>&#160;&#160;&#160;4096</td></tr>
+<tr class="memitem:aa2f776dcebe2f31589b20e618ebe94fd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#aa2f776dcebe2f31589b20e618ebe94fd">DEFAULT_PAGE_SIZE</a>&#160;&#160;&#160;4*KB</td></tr>
 <tr class="separator:aa2f776dcebe2f31589b20e618ebe94fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2dd7d3e112c6becc2e3b462dbfe7d847"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a2dd7d3e112c6becc2e3b462dbfe7d847">DEFAULT_LARGE_PAGE_SIZE</a>&#160;&#160;&#160;2*MB</td></tr>
+<tr class="separator:a2dd7d3e112c6becc2e3b462dbfe7d847"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c5d03c7c32e3cabfb28f04a9a352c96"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a6c5d03c7c32e3cabfb28f04a9a352c96">DEFAULT_WORKING_SET_SIZE</a>&#160;&#160;&#160;<a class="el" href="common_8h.html#aa2f776dcebe2f31589b20e618ebe94fd">DEFAULT_PAGE_SIZE</a></td></tr>
 <tr class="separator:a6c5d03c7c32e3cabfb28f04a9a352c96"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f5390a25c5dbc825fa35cd4c71f3b76"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a9f5390a25c5dbc825fa35cd4c71f3b76">DEFAULT_NUM_CPUS</a>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:a9f5390a25c5dbc825fa35cd4c71f3b76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e7fb19b2931b6a49d4aa701ec32b3be"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a4e7fb19b2931b6a49d4aa701ec32b3be">DEFAULT_NUM_NODES</a>&#160;&#160;&#160;1</td></tr>
 <tr class="separator:a4e7fb19b2931b6a49d4aa701ec32b3be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fafeebfd17d763165528aa8c0788460"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a0fafeebfd17d763165528aa8c0788460">DEFAULT_NUM_PHYSICAL_PACKAGES</a>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:a0fafeebfd17d763165528aa8c0788460"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9092e152410a9938e5a00d8c62b92726"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a9092e152410a9938e5a00d8c62b92726">DEFAULT_NUM_PHYSICAL_CPUS</a>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:a9092e152410a9938e5a00d8c62b92726"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a056f574fb1cc32b63311f603bde40a9b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a056f574fb1cc32b63311f603bde40a9b">DEFAULT_NUM_LOGICAL_CPUS</a>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:a056f574fb1cc32b63311f603bde40a9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfb61ec227e63068da8a5dcfca99be13"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#acfb61ec227e63068da8a5dcfca99be13">DEFAULT_NUM_L1_CACHES</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:acfb61ec227e63068da8a5dcfca99be13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7314114e15294742d1c98bc01a66111"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#ae7314114e15294742d1c98bc01a66111">DEFAULT_NUM_L2_CACHES</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:ae7314114e15294742d1c98bc01a66111"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6249570ec188525d29f21ac48f406920"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a6249570ec188525d29f21ac48f406920">DEFAULT_NUM_L3_CACHES</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a6249570ec188525d29f21ac48f406920"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35cbfd7168eb66a48435562aac6cac46"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a35cbfd7168eb66a48435562aac6cac46">DEFAULT_NUM_L4_CACHES</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a35cbfd7168eb66a48435562aac6cac46"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03c7f857881677d0f9963bf09c1ac1fb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#a03c7f857881677d0f9963bf09c1ac1fb">DEFAULT_THREAD_JOIN_TIMEOUT</a>&#160;&#160;&#160;600000</td></tr>
 <tr class="separator:a03c7f857881677d0f9963bf09c1ac1fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5f7f52bc6db8a5cc03578dc95c8f81f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html#ab5f7f52bc6db8a5cc03578dc95c8f81f">MIN_ELAPSED_TICKS</a>&#160;&#160;&#160;10000</td></tr>
@@ -308,6 +323,15 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>xmem::common::test_th
 <tr class="memitem:a5738746e40a4d313aca95d5b240ebd83"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><b>xmem::common::config_page_size</b> ()</td></tr>
 <tr class="memdesc:a5738746e40a4d313aca95d5b240ebd83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queries the page sizes from the system and sets relevant global variables.  <a href="#a5738746e40a4d313aca95d5b240ebd83">More...</a><br/></td></tr>
 <tr class="separator:a5738746e40a4d313aca95d5b240ebd83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e7af90e4cc57276acc66e3e8ae07672"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>xmem::common::query_sys_info</b> ()</td></tr>
+<tr class="memdesc:a2e7af90e4cc57276acc66e3e8ae07672"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets up global variables based on system information at runtime.  <a href="#a2e7af90e4cc57276acc66e3e8ae07672">More...</a><br/></td></tr>
+<tr class="separator:a2e7af90e4cc57276acc66e3e8ae07672"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a07dea368489acf172355b2ee6c4c2845"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a07dea368489acf172355b2ee6c4c2845"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>xmem::common::g_large_page_size</b></td></tr>
+<tr class="separator:a07dea368489acf172355b2ee6c4c2845"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Header file for common preprocessor definitions, macros, functions, and global constants. </p>
@@ -325,12 +349,77 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>xmem::common::test_th
 
 </div>
 </div>
-<a class="anchor" id="a9f5390a25c5dbc825fa35cd4c71f3b76"></a>
+<a class="anchor" id="a2dd7d3e112c6becc2e3b462dbfe7d847"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DEFAULT_NUM_CPUS&#160;&#160;&#160;1</td>
+          <td class="memname">#define DEFAULT_LARGE_PAGE_SIZE&#160;&#160;&#160;2*MB</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Default platform large page size in bytes. This generally should not be relied on, but is a failsafe. </p>
+
+</div>
+</div>
+<a class="anchor" id="acfb61ec227e63068da8a5dcfca99be13"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEFAULT_NUM_L1_CACHES&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Default number of L1 caches. </p>
+
+</div>
+</div>
+<a class="anchor" id="ae7314114e15294742d1c98bc01a66111"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEFAULT_NUM_L2_CACHES&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Default number of L2 caches. </p>
+
+</div>
+</div>
+<a class="anchor" id="a6249570ec188525d29f21ac48f406920"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEFAULT_NUM_L3_CACHES&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Default number of L3 caches. </p>
+
+</div>
+</div>
+<a class="anchor" id="a35cbfd7168eb66a48435562aac6cac46"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEFAULT_NUM_L4_CACHES&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Default number of L4 caches. </p>
+
+</div>
+</div>
+<a class="anchor" id="a056f574fb1cc32b63311f603bde40a9b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEFAULT_NUM_LOGICAL_CPUS&#160;&#160;&#160;1</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -351,12 +440,38 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>xmem::common::test_th
 
 </div>
 </div>
+<a class="anchor" id="a9092e152410a9938e5a00d8c62b92726"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEFAULT_NUM_PHYSICAL_CPUS&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Default number of physical CPU cores. </p>
+
+</div>
+</div>
+<a class="anchor" id="a0fafeebfd17d763165528aa8c0788460"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEFAULT_NUM_PHYSICAL_PACKAGES&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Default number of physical packages. </p>
+
+</div>
+</div>
 <a class="anchor" id="aa2f776dcebe2f31589b20e618ebe94fd"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DEFAULT_PAGE_SIZE&#160;&#160;&#160;4096</td>
+          <td class="memname">#define DEFAULT_PAGE_SIZE&#160;&#160;&#160;4*KB</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -373,7 +488,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>xmem::common::test_th
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Default number of milliseconds to wait for a thread to join. Negative values mean indefinite wait. </p>
+<p>Default number of milliseconds to wait for a thread to join. Negative values mean indefinite wait. TODO: remove this </p>
 
 </div>
 </div>
@@ -578,7 +693,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>xmem::common::test_th
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_b0856f6b0d80ccb263b2f415c91f9e17.html">include</a></li><li class="navelem"><a class="el" href="common_8h.html">common.h</a></li>
-    <li class="footer">Generated on Fri Jan 16 2015 18:19:59 for X-Mem by
+    <li class="footer">Generated on Sat Jan 17 2015 16:24:07 for X-Mem by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

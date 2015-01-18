@@ -147,20 +147,18 @@
     \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
 		\hyperpage{46}
   \item {common.\discretionary {-}{}{}h}
-    \subitem {D\discretionary {-}{}{}E\discretionary {-}{}{}F\discretionary {-}{}{}A\discretionary {-}{}{}U\discretionary {-}{}{}L\discretionary {-}{}{}T\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}U\discretionary {-}{}{}M\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}C\discretionary {-}{}{}P\discretionary {-}{}{}U\discretionary {-}{}{}S}, 
-		\hyperpage{80}
     \subitem {D\discretionary {-}{}{}E\discretionary {-}{}{}F\discretionary {-}{}{}A\discretionary {-}{}{}U\discretionary {-}{}{}L\discretionary {-}{}{}T\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}U\discretionary {-}{}{}M\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}O\discretionary {-}{}{}D\discretionary {-}{}{}E\discretionary {-}{}{}S}, 
-		\hyperpage{80}
+		\hyperpage{81}
     \subitem {D\discretionary {-}{}{}E\discretionary {-}{}{}F\discretionary {-}{}{}A\discretionary {-}{}{}U\discretionary {-}{}{}L\discretionary {-}{}{}T\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}P\discretionary {-}{}{}A\discretionary {-}{}{}G\discretionary {-}{}{}E\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}S\discretionary {-}{}{}I\discretionary {-}{}{}Z\discretionary {-}{}{}E}, 
-		\hyperpage{80}
+		\hyperpage{81}
     \subitem {M\discretionary {-}{}{}I\discretionary {-}{}{}N\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}E\discretionary {-}{}{}L\discretionary {-}{}{}A\discretionary {-}{}{}P\discretionary {-}{}{}S\discretionary {-}{}{}E\discretionary {-}{}{}D\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}C\discretionary {-}{}{}K\discretionary {-}{}{}S}, 
-		\hyperpage{81}
+		\hyperpage{82}
     \subitem {U\discretionary {-}{}{}S\discretionary {-}{}{}E\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}A\discretionary {-}{}{}L\discretionary {-}{}{}L\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}U\discretionary {-}{}{}M\discretionary {-}{}{}A\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}O\discretionary {-}{}{}D\discretionary {-}{}{}E\discretionary {-}{}{}S}, 
-		\hyperpage{81}
+		\hyperpage{82}
     \subitem {U\discretionary {-}{}{}S\discretionary {-}{}{}E\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}T\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}M\discretionary {-}{}{}E\discretionary {-}{}{}R}, 
-		\hyperpage{82}
+		\hyperpage{83}
     \subitem {V\discretionary {-}{}{}E\discretionary {-}{}{}R\discretionary {-}{}{}B\discretionary {-}{}{}O\discretionary {-}{}{}S\discretionary {-}{}{}E}, 
-		\hyperpage{82}
+		\hyperpage{83}
   \item {completed}
     \subitem {xmem\discretionary {-}{}{}::thread\discretionary {-}{}{}::\discretionary {-}{}{}Thread}, 
 		\hyperpage{57}
@@ -185,12 +183,10 @@
 
   \indexspace
 
-  \item {D\discretionary {-}{}{}E\discretionary {-}{}{}F\discretionary {-}{}{}A\discretionary {-}{}{}U\discretionary {-}{}{}L\discretionary {-}{}{}T\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}U\discretionary {-}{}{}M\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}C\discretionary {-}{}{}P\discretionary {-}{}{}U\discretionary {-}{}{}S}
-    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{80}
   \item {D\discretionary {-}{}{}E\discretionary {-}{}{}F\discretionary {-}{}{}A\discretionary {-}{}{}U\discretionary {-}{}{}L\discretionary {-}{}{}T\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}U\discretionary {-}{}{}M\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}O\discretionary {-}{}{}D\discretionary {-}{}{}E\discretionary {-}{}{}S}
-    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{80}
+    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{81}
   \item {D\discretionary {-}{}{}E\discretionary {-}{}{}F\discretionary {-}{}{}A\discretionary {-}{}{}U\discretionary {-}{}{}L\discretionary {-}{}{}T\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}P\discretionary {-}{}{}A\discretionary {-}{}{}G\discretionary {-}{}{}E\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}S\discretionary {-}{}{}I\discretionary {-}{}{}Z\discretionary {-}{}{}E}
-    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{80}
+    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{81}
   \item {desc}
     \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Option}, 
 		\hyperpage{39}
@@ -379,9 +375,9 @@
   \indexspace
 
   \item {M\discretionary {-}{}{}I\discretionary {-}{}{}N\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}E\discretionary {-}{}{}L\discretionary {-}{}{}A\discretionary {-}{}{}P\discretionary {-}{}{}S\discretionary {-}{}{}E\discretionary {-}{}{}D\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}C\discretionary {-}{}{}K\discretionary {-}{}{}S}
-    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{81}
+    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{82}
   \item {M\discretionary {-}{}{}U\discretionary {-}{}{}L\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}T\discretionary {-}{}{}H\discretionary {-}{}{}R\discretionary {-}{}{}E\discretionary {-}{}{}A\discretionary {-}{}{}D\discretionary {-}{}{}I\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}E\discretionary {-}{}{}N\discretionary {-}{}{}A\discretionary {-}{}{}B\discretionary {-}{}{}L\discretionary {-}{}{}E}
-    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{81}
+    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{82}
 
   \indexspace
 
@@ -494,19 +490,19 @@
   \item {src/\discretionary {-}{}{}Configurator.\discretionary {-}{}{}cpp}, 
 		\hyperpage{68}
   \item {src/\discretionary {-}{}{}Latency\discretionary {-}{}{}Benchmark.\discretionary {-}{}{}cpp}, 
-		\hyperpage{91}
+		\hyperpage{92}
   \item {src/\discretionary {-}{}{}Power\discretionary {-}{}{}Reader.\discretionary {-}{}{}cpp}, 
-		\hyperpage{92}
+		\hyperpage{93}
   \item {src/\discretionary {-}{}{}Runnable.\discretionary {-}{}{}cpp}, 
-		\hyperpage{92}
+		\hyperpage{93}
   \item {src/\discretionary {-}{}{}Thread.\discretionary {-}{}{}cpp}, 
-		\hyperpage{92}
+		\hyperpage{93}
   \item {src/\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark.\discretionary {-}{}{}cpp}, 
-		\hyperpage{93}
+		\hyperpage{94}
   \item {src/\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Worker.\discretionary {-}{}{}cpp}, 
-		\hyperpage{93}
+		\hyperpage{94}
   \item {src/\discretionary {-}{}{}Timer.\discretionary {-}{}{}cpp}, 
-		\hyperpage{93}
+		\hyperpage{94}
   \item {src/benchmark\discretionary {-}{}{}\_\discretionary {-}{}{}kernels.\discretionary {-}{}{}cpp}, 
 		\hyperpage{67}
   \item {src/common.\discretionary {-}{}{}cpp}, \hyperpage{68}
@@ -515,53 +511,53 @@
   \item {src/include/\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Manager.\discretionary {-}{}{}h}, 
 		\hyperpage{78}
   \item {src/include/\discretionary {-}{}{}Configurator.\discretionary {-}{}{}h}, 
-		\hyperpage{82}
+		\hyperpage{83}
   \item {src/include/\discretionary {-}{}{}Example\discretionary {-}{}{}Arg.\discretionary {-}{}{}h}, 
-		\hyperpage{83}
+		\hyperpage{84}
   \item {src/include/\discretionary {-}{}{}Latency\discretionary {-}{}{}Benchmark.\discretionary {-}{}{}h}, 
-		\hyperpage{83}
+		\hyperpage{84}
   \item {src/include/\discretionary {-}{}{}My\discretionary {-}{}{}Arg.\discretionary {-}{}{}h}, 
-		\hyperpage{83}
+		\hyperpage{84}
   \item {src/include/\discretionary {-}{}{}Power\discretionary {-}{}{}Reader.\discretionary {-}{}{}h}, 
-		\hyperpage{87}
+		\hyperpage{88}
   \item {src/include/\discretionary {-}{}{}Runnable.\discretionary {-}{}{}h}, 
-		\hyperpage{88}
+		\hyperpage{89}
   \item {src/include/\discretionary {-}{}{}Thread.\discretionary {-}{}{}h}, 
-		\hyperpage{88}
+		\hyperpage{89}
   \item {src/include/\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark.\discretionary {-}{}{}h}, 
-		\hyperpage{88}
+		\hyperpage{89}
   \item {src/include/\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Worker.\discretionary {-}{}{}h}, 
-		\hyperpage{89}
+		\hyperpage{90}
   \item {src/include/\discretionary {-}{}{}Timer.\discretionary {-}{}{}h}, 
-		\hyperpage{89}
+		\hyperpage{90}
   \item {src/include/benchmark\discretionary {-}{}{}\_\discretionary {-}{}{}kernels.\discretionary {-}{}{}h}, 
 		\hyperpage{69}
   \item {src/include/common.\discretionary {-}{}{}h}, \hyperpage{78}
   \item {src/include/optionparser.\discretionary {-}{}{}h}, 
-		\hyperpage{84}
+		\hyperpage{85}
   \item {src/include/win/\discretionary {-}{}{}Q\discretionary {-}{}{}P\discretionary {-}{}{}C\discretionary {-}{}{}Timer.\discretionary {-}{}{}h}, 
 		\hyperpage{90}
   \item {src/include/win/\discretionary {-}{}{}Windows\discretionary {-}{}{}D\discretionary {-}{}{}R\discretionary {-}{}{}A\discretionary {-}{}{}M\discretionary {-}{}{}Power\discretionary {-}{}{}Reader.\discretionary {-}{}{}h}, 
-		\hyperpage{90}
+		\hyperpage{91}
   \item {src/include/win/win\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}C\discretionary {-}{}{}Pdh\discretionary {-}{}{}Query.\discretionary {-}{}{}h}, 
-		\hyperpage{90}
+		\hyperpage{91}
   \item {src/include/win/win\discretionary {-}{}{}\_\discretionary {-}{}{}common.\discretionary {-}{}{}h}, 
-		\hyperpage{90}
+		\hyperpage{91}
   \item {src/include/win/win\discretionary {-}{}{}\_\discretionary {-}{}{}common\discretionary {-}{}{}\_\discretionary {-}{}{}third\discretionary {-}{}{}\_\discretionary {-}{}{}party.\discretionary {-}{}{}h}, 
-		\hyperpage{90}
+		\hyperpage{91}
   \item {src/include/x86\discretionary {-}{}{}\_\discretionary {-}{}{}64/\discretionary {-}{}{}T\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}Timer.\discretionary {-}{}{}h}, 
 		\hyperpage{91}
-  \item {src/main.\discretionary {-}{}{}cpp}, \hyperpage{91}
+  \item {src/main.\discretionary {-}{}{}cpp}, \hyperpage{92}
   \item {src/win/\discretionary {-}{}{}Q\discretionary {-}{}{}P\discretionary {-}{}{}C\discretionary {-}{}{}Timer.\discretionary {-}{}{}cpp}, 
-		\hyperpage{93}
+		\hyperpage{94}
   \item {src/win/\discretionary {-}{}{}Windows\discretionary {-}{}{}D\discretionary {-}{}{}R\discretionary {-}{}{}A\discretionary {-}{}{}M\discretionary {-}{}{}Power\discretionary {-}{}{}Reader.\discretionary {-}{}{}cpp}, 
-		\hyperpage{94}
+		\hyperpage{95}
   \item {src/win/win\discretionary {-}{}{}\_\discretionary {-}{}{}common.\discretionary {-}{}{}cpp}, 
-		\hyperpage{94}
+		\hyperpage{95}
   \item {src/win/win\discretionary {-}{}{}\_\discretionary {-}{}{}common\discretionary {-}{}{}\_\discretionary {-}{}{}third\discretionary {-}{}{}\_\discretionary {-}{}{}party.\discretionary {-}{}{}cpp}, 
-		\hyperpage{94}
+		\hyperpage{95}
   \item {src/x86\discretionary {-}{}{}\_\discretionary {-}{}{}64/\discretionary {-}{}{}T\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}Timer.\discretionary {-}{}{}cpp}, 
-		\hyperpage{94}
+		\hyperpage{95}
   \item {started}
     \subitem {xmem\discretionary {-}{}{}::thread\discretionary {-}{}{}::\discretionary {-}{}{}Thread}, 
 		\hyperpage{58}
@@ -603,11 +599,11 @@
   \indexspace
 
   \item {U\discretionary {-}{}{}S\discretionary {-}{}{}E\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}A\discretionary {-}{}{}L\discretionary {-}{}{}L\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}U\discretionary {-}{}{}M\discretionary {-}{}{}A\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}O\discretionary {-}{}{}D\discretionary {-}{}{}E\discretionary {-}{}{}S}
-    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{81}
-  \item {U\discretionary {-}{}{}S\discretionary {-}{}{}E\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}T\discretionary {-}{}{}H\discretionary {-}{}{}R\discretionary {-}{}{}O\discretionary {-}{}{}U\discretionary {-}{}{}G\discretionary {-}{}{}H\discretionary {-}{}{}P\discretionary {-}{}{}U\discretionary {-}{}{}T\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}R\discretionary {-}{}{}E\discretionary {-}{}{}A\discretionary {-}{}{}D\discretionary {-}{}{}S}
-    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{81}
-  \item {U\discretionary {-}{}{}S\discretionary {-}{}{}E\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}T\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}M\discretionary {-}{}{}E\discretionary {-}{}{}R}
     \subitem {common.\discretionary {-}{}{}h}, \hyperpage{82}
+  \item {U\discretionary {-}{}{}S\discretionary {-}{}{}E\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}T\discretionary {-}{}{}H\discretionary {-}{}{}R\discretionary {-}{}{}O\discretionary {-}{}{}U\discretionary {-}{}{}G\discretionary {-}{}{}H\discretionary {-}{}{}P\discretionary {-}{}{}U\discretionary {-}{}{}T\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}R\discretionary {-}{}{}E\discretionary {-}{}{}A\discretionary {-}{}{}D\discretionary {-}{}{}S}
+    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{82}
+  \item {U\discretionary {-}{}{}S\discretionary {-}{}{}E\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}T\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}M\discretionary {-}{}{}E\discretionary {-}{}{}R}
+    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{83}
   \item {use\discretionary {-}{}{}Output\discretionary {-}{}{}File}
     \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::\discretionary {-}{}{}Configurator}, 
 		\hyperpage{26}
@@ -615,7 +611,7 @@
   \indexspace
 
   \item {V\discretionary {-}{}{}E\discretionary {-}{}{}R\discretionary {-}{}{}B\discretionary {-}{}{}O\discretionary {-}{}{}S\discretionary {-}{}{}E}
-    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{82}
+    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{83}
   \item {valid\discretionary {-}{}{}Target}
     \subitem {xmem\discretionary {-}{}{}::thread\discretionary {-}{}{}::\discretionary {-}{}{}Thread}, 
 		\hyperpage{58}

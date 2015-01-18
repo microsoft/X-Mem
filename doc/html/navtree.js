@@ -27,7 +27,7 @@ var NAVTREEINDEX =
 [
 ".html",
 "classxmem_1_1benchmark_1_1_latency_benchmark.html#a2714dfbf9be2eef8ac4089ad610db651",
-"functions_g.html"
+"dir_b0856f6b0d80ccb263b2f415c91f9e17.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
