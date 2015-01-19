@@ -10,14 +10,14 @@ var annotated =
       ] ],
       [ "config", null, [
         [ "third_party", null, [
+          [ "Arg", "structxmem_1_1config_1_1third__party_1_1_arg.html", null ],
+          [ "Descriptor", "structxmem_1_1config_1_1third__party_1_1_descriptor.html", "structxmem_1_1config_1_1third__party_1_1_descriptor" ],
           [ "ExampleArg", "classxmem_1_1config_1_1third__party_1_1_example_arg.html", null ],
           [ "MyArg", "classxmem_1_1config_1_1third__party_1_1_my_arg.html", null ],
-          [ "Descriptor", "structxmem_1_1config_1_1third__party_1_1_descriptor.html", "structxmem_1_1config_1_1third__party_1_1_descriptor" ],
           [ "Option", "classxmem_1_1config_1_1third__party_1_1_option.html", "classxmem_1_1config_1_1third__party_1_1_option" ],
-          [ "Arg", "structxmem_1_1config_1_1third__party_1_1_arg.html", null ],
-          [ "Stats", "structxmem_1_1config_1_1third__party_1_1_stats.html", "structxmem_1_1config_1_1third__party_1_1_stats" ],
           [ "Parser", "classxmem_1_1config_1_1third__party_1_1_parser.html", "classxmem_1_1config_1_1third__party_1_1_parser" ],
-          [ "PrintUsageImplementation", "structxmem_1_1config_1_1third__party_1_1_print_usage_implementation.html", "structxmem_1_1config_1_1third__party_1_1_print_usage_implementation" ]
+          [ "PrintUsageImplementation", "structxmem_1_1config_1_1third__party_1_1_print_usage_implementation.html", "structxmem_1_1config_1_1third__party_1_1_print_usage_implementation" ],
+          [ "Stats", "structxmem_1_1config_1_1third__party_1_1_stats.html", "structxmem_1_1config_1_1third__party_1_1_stats" ]
         ] ],
         [ "Configurator", "classxmem_1_1config_1_1_configurator.html", "classxmem_1_1config_1_1_configurator" ]
       ] ],

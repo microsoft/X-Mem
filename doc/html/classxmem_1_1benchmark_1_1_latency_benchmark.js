@@ -1,6 +1,6 @@
 var classxmem_1_1benchmark_1_1_latency_benchmark =
 [
-    [ "LatencyBenchFunction", "classxmem_1_1benchmark_1_1_latency_benchmark.html#ae4df565b90bf168e9492cd859d104388", null ],
+    [ "LatencyBenchFunction", "classxmem_1_1benchmark_1_1_latency_benchmark.html#aac378764f476152456a39c9eb1e06c29", null ],
     [ "LatencyBenchmark", "classxmem_1_1benchmark_1_1_latency_benchmark.html#a485434e0f506427b28073a2a3e287e21", null ],
     [ "~LatencyBenchmark", "classxmem_1_1benchmark_1_1_latency_benchmark.html#a39da6c4e2374ad96a939c87a4e8b8453", null ],
     [ "report_benchmark_info", "classxmem_1_1benchmark_1_1_latency_benchmark.html#a2714dfbf9be2eef8ac4089ad610db651", null ],

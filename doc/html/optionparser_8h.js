@@ -17,7 +17,7 @@ var optionparser_8h =
     [ "StreamWriter", "structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_stream_writer.html", "structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_stream_writer" ],
     [ "LinePartIterator", "classxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_line_part_iterator.html", "classxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_line_part_iterator" ],
     [ "LineWrapper", "classxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_line_wrapper.html", "classxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_line_wrapper" ],
-    [ "CheckArg", "optionparser_8h.html#aa799a50d6a010d2a26395a55a2ad16cb", null ],
+    [ "CheckArg", "optionparser_8h.html#ae402b45901ecf129cf6d7ffb37b66070", null ],
     [ "ArgStatus", "optionparser_8h.html#a7d2f653a1cd72fe0a52d281209e25137", [
       [ "ARG_NONE", "optionparser_8h.html#a7d2f653a1cd72fe0a52d281209e25137a08fcf3939863be00e6d3f159bb9cd00a", null ],
       [ "ARG_OK", "optionparser_8h.html#a7d2f653a1cd72fe0a52d281209e25137aa4f827861af86fafa6b79fcf088c1290", null ],

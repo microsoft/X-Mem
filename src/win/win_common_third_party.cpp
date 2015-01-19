@@ -9,7 +9,6 @@
 //Headers
 #include <win/win_common_third_party.h>
 #include <common.h>
-#include <win/win_common.h>
 
 //Libraries
 #include <iostream>
@@ -86,7 +85,7 @@ DWORD xmem::common::win::third_party::CountSetBits(ULONG_PTR bitMask)
 	return bitSetCount;
 }
 
-int32_t xmem::common::win::third_party::query_sys_info()
+/*int32_t xmem::common::win::third_party::query_sys_info()
 {
 #ifdef VERBOSE
 	std::cout << std::endl;
@@ -232,6 +231,7 @@ int32_t xmem::common::win::third_party::query_sys_info()
 	
 	return 0;
 }
+*/
 
 void xmem::common::win::third_party::DumpMap(std::map<std::tstring, double> const &m)
 {

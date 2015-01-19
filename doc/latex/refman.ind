@@ -1,912 +1,784 @@
 \begin{theindex}
 
-  \item {$\sim $\discretionary {-}{}{}Thread}
-    \subitem {xmem\discretionary {-}{}{}::thread\discretionary {-}{}{}::\discretionary {-}{}{}Thread}, 
-		\hyperpage{56}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}acquire\discretionary {-}{}{}Lock}
-    \subitem {xmem\discretionary {-}{}{}::thread\discretionary {-}{}{}::\discretionary {-}{}{}Runnable}, 
-		\hyperpage{50}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}average\discretionary {-}{}{}Metric}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{21}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}average\discretionary {-}{}{}\_\discretionary {-}{}{}dram\discretionary {-}{}{}\_\discretionary {-}{}{}power\discretionary {-}{}{}\_\discretionary {-}{}{}socket}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{21}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}average\discretionary {-}{}{}\_\discretionary {-}{}{}power}
-    \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{48}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}chunk\discretionary {-}{}{}\_\discretionary {-}{}{}size}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{21}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}cpu\discretionary {-}{}{}\_\discretionary {-}{}{}affinity}
-    \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{48}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}cpu\discretionary {-}{}{}\_\discretionary {-}{}{}node}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{21}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}dram\discretionary {-}{}{}\_\discretionary {-}{}{}power\discretionary {-}{}{}\_\discretionary {-}{}{}readers}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{21}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}dram\discretionary {-}{}{}\_\discretionary {-}{}{}power\discretionary {-}{}{}\_\discretionary {-}{}{}threads}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{21}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}has\discretionary {-}{}{}Run}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{21}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}indices}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{21}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}iterations}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{21}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}len}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{22}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}mem\discretionary {-}{}{}\_\discretionary {-}{}{}array}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{22}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}mem\discretionary {-}{}{}\_\discretionary {-}{}{}node}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{22}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}metric\discretionary {-}{}{}On\discretionary {-}{}{}Iter}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{22}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}name}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{22}
-    \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{48}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}ns\discretionary {-}{}{}\_\discretionary {-}{}{}per\discretionary {-}{}{}\_\discretionary {-}{}{}tick}
-    \subitem {xmem\discretionary {-}{}{}::timers\discretionary {-}{}{}::\discretionary {-}{}{}Timer}, 
-		\hyperpage{65}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}num\discretionary {-}{}{}\_\discretionary {-}{}{}samples}
-    \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{48}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}num\discretionary {-}{}{}\_\discretionary {-}{}{}worker\discretionary {-}{}{}\_\discretionary {-}{}{}threads}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{22}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}obj\discretionary {-}{}{}\_\discretionary {-}{}{}valid}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{22}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}peak\discretionary {-}{}{}\_\discretionary {-}{}{}dram\discretionary {-}{}{}\_\discretionary {-}{}{}power\discretionary {-}{}{}\_\discretionary {-}{}{}socket}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{22}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}peak\discretionary {-}{}{}\_\discretionary {-}{}{}power}
-    \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{48}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}power\discretionary {-}{}{}\_\discretionary {-}{}{}trace}
-    \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{48}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}power\discretionary {-}{}{}\_\discretionary {-}{}{}units}
-    \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{48}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}release\discretionary {-}{}{}Lock}
-    \subitem {xmem\discretionary {-}{}{}::thread\discretionary {-}{}{}::\discretionary {-}{}{}Runnable}, 
-		\hyperpage{51}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}sampling\discretionary {-}{}{}\_\discretionary {-}{}{}period}
-    \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{49}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}start\discretionary {-}{}{}\_\discretionary {-}{}{}power\discretionary {-}{}{}\_\discretionary {-}{}{}threads}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{17}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}stop\discretionary {-}{}{}\_\discretionary {-}{}{}power\discretionary {-}{}{}\_\discretionary {-}{}{}threads}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{17}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}stop\discretionary {-}{}{}\_\discretionary {-}{}{}signal}
-    \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{49}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}ticks\discretionary {-}{}{}\_\discretionary {-}{}{}per\discretionary {-}{}{}\_\discretionary {-}{}{}sec}
-    \subitem {xmem\discretionary {-}{}{}::timers\discretionary {-}{}{}::\discretionary {-}{}{}Timer}, 
-		\hyperpage{65}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}timer}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{22}
-  \item {\discretionary {-}{}{}\_\discretionary {-}{}{}warning}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{22}
+  \item {\+\_\+acquire\+Lock}
+    \subitem {xmem\+::thread\+::\+Runnable}, \hyperpage{50}
+  \item {\+\_\+average\+Metric}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{21}
+  \item {\+\_\+average\+\_\+dram\+\_\+power\+\_\+socket}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{21}
+  \item {\+\_\+average\+\_\+power}
+    \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{48}
+  \item {\+\_\+chunk\+\_\+size}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{21}
+  \item {\+\_\+cpu\+\_\+affinity}
+    \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{48}
+  \item {\+\_\+cpu\+\_\+node}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{21}
+  \item {\+\_\+dram\+\_\+power\+\_\+readers}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{21}
+  \item {\+\_\+dram\+\_\+power\+\_\+threads}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{21}
+  \item {\+\_\+has\+Run}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{21}
+  \item {\+\_\+indices}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{21}
+  \item {\+\_\+iterations}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{21}
+  \item {\+\_\+len}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{22}
+  \item {\+\_\+mem\+\_\+array}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{22}
+  \item {\+\_\+mem\+\_\+node}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{22}
+  \item {\+\_\+metric\+On\+Iter}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{22}
+  \item {\+\_\+name}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{22}
+    \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{48}
+  \item {\+\_\+ns\+\_\+per\+\_\+tick}
+    \subitem {xmem\+::timers\+::\+Timer}, \hyperpage{65}
+  \item {\+\_\+num\+\_\+samples}
+    \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{48}
+  \item {\+\_\+num\+\_\+worker\+\_\+threads}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{22}
+  \item {\+\_\+obj\+\_\+valid}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{22}
+  \item {\+\_\+peak\+\_\+dram\+\_\+power\+\_\+socket}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{22}
+  \item {\+\_\+peak\+\_\+power}
+    \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{48}
+  \item {\+\_\+power\+\_\+trace}
+    \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{48}
+  \item {\+\_\+power\+\_\+units}
+    \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{48}
+  \item {\+\_\+release\+Lock}
+    \subitem {xmem\+::thread\+::\+Runnable}, \hyperpage{51}
+  \item {\+\_\+sampling\+\_\+period}
+    \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{49}
+  \item {\+\_\+start\+\_\+power\+\_\+threads}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{17}
+  \item {\+\_\+stop\+\_\+power\+\_\+threads}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{17}
+  \item {\+\_\+stop\+\_\+signal}
+    \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{49}
+  \item {\+\_\+ticks\+\_\+per\+\_\+sec}
+    \subitem {xmem\+::timers\+::\+Timer}, \hyperpage{65}
+  \item {\+\_\+timer}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{22}
+  \item {\+\_\+warning}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{22}
+  \item {$\sim$\+Thread}
+    \subitem {xmem\+::thread\+::\+Thread}, \hyperpage{56}
 
   \indexspace
 
   \item {add}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Stats}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Stats}, 
 		\hyperpage{52}
   \item {append}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Option}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Option}, 
 		\hyperpage{36}
   \item {arg}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Option}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Option}, 
 		\hyperpage{39}
 
   \indexspace
 
+  \item {B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+D\+U\+R\+A\+T\+I\+O\+N\+\_\+\+S\+E\+C}
+    \subitem {common.\+h}, \hyperpage{81}
   \item {Benchmark}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{17}
-  \item {Benchmark\discretionary {-}{}{}Manager}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Manager}, 
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{17}
+  \item {Benchmark\+Manager}
+    \subitem {xmem\+::benchmark\+::\+Benchmark\+Manager}, 
 		\hyperpage{23}
-  \item {buffer\discretionary {-}{}{}\_\discretionary {-}{}{}max}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Stats}, 
+  \item {buffer\+\_\+max}
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Stats}, 
 		\hyperpage{53}
 
   \indexspace
 
-  \item {calculate\discretionary {-}{}{}Metrics}
-    \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{46}
+  \item {calculate\+Metrics}
+    \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{46}
   \item {cancel}
-    \subitem {xmem\discretionary {-}{}{}::thread\discretionary {-}{}{}::\discretionary {-}{}{}Thread}, 
-		\hyperpage{57}
-  \item {check\discretionary {-}{}{}\_\discretionary {-}{}{}arg}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Descriptor}, 
+    \subitem {xmem\+::thread\+::\+Thread}, \hyperpage{57}
+  \item {check\+\_\+arg}
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Descriptor}, 
 		\hyperpage{28}
   \item {clear}
-    \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{46}
-  \item {clear\discretionary {-}{}{}\_\discretionary {-}{}{}and\discretionary {-}{}{}\_\discretionary {-}{}{}reset}
-    \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{46}
-  \item {common.\discretionary {-}{}{}h}
-    \subitem {D\discretionary {-}{}{}E\discretionary {-}{}{}F\discretionary {-}{}{}A\discretionary {-}{}{}U\discretionary {-}{}{}L\discretionary {-}{}{}T\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}U\discretionary {-}{}{}M\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}O\discretionary {-}{}{}D\discretionary {-}{}{}E\discretionary {-}{}{}S}, 
+    \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{46}
+  \item {clear\+\_\+and\+\_\+reset}
+    \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{46}
+  \item {common.\+h}
+    \subitem {B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+D\+U\+R\+A\+T\+I\+O\+N\+\_\+\+S\+E\+C}, 
 		\hyperpage{81}
-    \subitem {D\discretionary {-}{}{}E\discretionary {-}{}{}F\discretionary {-}{}{}A\discretionary {-}{}{}U\discretionary {-}{}{}L\discretionary {-}{}{}T\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}P\discretionary {-}{}{}A\discretionary {-}{}{}G\discretionary {-}{}{}E\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}S\discretionary {-}{}{}I\discretionary {-}{}{}Z\discretionary {-}{}{}E}, 
+    \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+L\+A\+R\+G\+E\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}, 
 		\hyperpage{81}
-    \subitem {M\discretionary {-}{}{}I\discretionary {-}{}{}N\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}E\discretionary {-}{}{}L\discretionary {-}{}{}A\discretionary {-}{}{}P\discretionary {-}{}{}S\discretionary {-}{}{}E\discretionary {-}{}{}D\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}C\discretionary {-}{}{}K\discretionary {-}{}{}S}, 
+    \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L1\+\_\+\+C\+A\+C\+H\+E\+S}, 
+		\hyperpage{81}
+    \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L2\+\_\+\+C\+A\+C\+H\+E\+S}, 
+		\hyperpage{81}
+    \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L3\+\_\+\+C\+A\+C\+H\+E\+S}, 
+		\hyperpage{81}
+    \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L4\+\_\+\+C\+A\+C\+H\+E\+S}, 
+		\hyperpage{81}
+    \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L\+O\+G\+I\+C\+A\+L\+\_\+\+C\+P\+U\+S}, 
+		\hyperpage{81}
+    \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+N\+O\+D\+E\+S}, 
+		\hyperpage{81}
+    \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+P\+H\+Y\+S\+I\+C\+A\+L\+\_\+\+C\+P\+U\+S}, 
+		\hyperpage{81}
+    \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+P\+H\+Y\+S\+I\+C\+A\+L\+\_\+\+P\+A\+C\+K\+A\+G\+E\+S}, 
+		\hyperpage{81}
+    \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}, 
+		\hyperpage{81}
+    \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+J\+O\+I\+N\+\_\+\+T\+I\+M\+E\+O\+U\+T}, 
+		\hyperpage{81}
+    \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+W\+O\+R\+K\+I\+N\+G\+\_\+\+S\+E\+T\+\_\+\+S\+I\+Z\+E}, 
+		\hyperpage{81}
+    \subitem {L\+A\+T\+E\+N\+C\+Y\+\_\+\+B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+U\+N\+R\+O\+L\+L\+\_\+\+L\+E\+N\+G\+T\+H}, 
 		\hyperpage{82}
-    \subitem {U\discretionary {-}{}{}S\discretionary {-}{}{}E\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}A\discretionary {-}{}{}L\discretionary {-}{}{}L\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}U\discretionary {-}{}{}M\discretionary {-}{}{}A\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}O\discretionary {-}{}{}D\discretionary {-}{}{}E\discretionary {-}{}{}S}, 
+    \subitem {M\+I\+N\+\_\+\+E\+L\+A\+P\+S\+E\+D\+\_\+\+T\+I\+C\+K\+S}, 
 		\hyperpage{82}
-    \subitem {U\discretionary {-}{}{}S\discretionary {-}{}{}E\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}T\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}M\discretionary {-}{}{}E\discretionary {-}{}{}R}, 
+    \subitem {M\+U\+L\+T\+I\+T\+H\+R\+E\+A\+D\+I\+N\+G\+\_\+\+E\+N\+A\+B\+L\+E}, 
+		\hyperpage{82}
+    \subitem {P\+O\+W\+E\+R\+\_\+\+S\+A\+M\+P\+L\+I\+N\+G\+\_\+\+P\+E\+R\+I\+O\+D\+\_\+\+S\+E\+C}, 
+		\hyperpage{82}
+    \subitem {T\+H\+R\+O\+U\+G\+H\+P\+U\+T\+\_\+\+B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+B\+Y\+T\+E\+S\+\_\+\+P\+E\+R\+\_\+\+P\+A\+S\+S}, 
+		\hyperpage{82}
+    \subitem {U\+S\+E\+\_\+\+A\+L\+L\+\_\+\+N\+U\+M\+A\+\_\+\+N\+O\+D\+E\+S}, 
+		\hyperpage{82}
+    \subitem {U\+S\+E\+\_\+\+L\+A\+T\+E\+N\+C\+Y\+\_\+\+B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+R\+A\+N\+D\+O\+M\+\_\+\+S\+H\+U\+F\+F\+L\+E\+\_\+\+P\+A\+T\+T\+E\+R\+N}, 
+		\hyperpage{82}
+    \subitem {U\+S\+E\+\_\+\+T\+H\+R\+O\+U\+G\+H\+P\+U\+T\+\_\+\+F\+O\+R\+W\+\_\+\+S\+T\+R\+I\+D\+E\+\_\+1}, 
+		\hyperpage{82}
+    \subitem {U\+S\+E\+\_\+\+T\+H\+R\+O\+U\+G\+H\+P\+U\+T\+\_\+\+R\+E\+A\+D\+S}, 
+		\hyperpage{82}
+    \subitem {U\+S\+E\+\_\+\+T\+H\+R\+O\+U\+G\+H\+P\+U\+T\+\_\+\+S\+E\+Q\+U\+E\+N\+T\+I\+A\+L\+\_\+\+P\+A\+T\+T\+E\+R\+N}, 
+		\hyperpage{82}
+    \subitem {U\+S\+E\+\_\+\+T\+H\+R\+O\+U\+G\+H\+P\+U\+T\+\_\+\+W\+R\+I\+T\+E\+S}, 
+		\hyperpage{82}
+    \subitem {U\+S\+E\+\_\+\+T\+I\+M\+E\+\_\+\+B\+A\+S\+E\+D\+\_\+\+B\+E\+N\+C\+H\+M\+A\+R\+K\+S}, 
 		\hyperpage{83}
-    \subitem {V\discretionary {-}{}{}E\discretionary {-}{}{}R\discretionary {-}{}{}B\discretionary {-}{}{}O\discretionary {-}{}{}S\discretionary {-}{}{}E}, 
+    \subitem {U\+S\+E\+\_\+\+T\+S\+C\+\_\+\+T\+I\+M\+E\+R}, 
 		\hyperpage{83}
+    \subitem {V\+E\+R\+B\+O\+S\+E}, \hyperpage{83}
   \item {completed}
-    \subitem {xmem\discretionary {-}{}{}::thread\discretionary {-}{}{}::\discretionary {-}{}{}Thread}, 
-		\hyperpage{57}
+    \subitem {xmem\+::thread\+::\+Thread}, \hyperpage{57}
   \item {Configurator}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::\discretionary {-}{}{}Configurator}, 
-		\hyperpage{25}
-  \item {configure\discretionary {-}{}{}From\discretionary {-}{}{}Input}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::\discretionary {-}{}{}Configurator}, 
-		\hyperpage{25}
+    \subitem {xmem\+::config\+::\+Configurator}, \hyperpage{25}
+  \item {configure\+From\+Input}
+    \subitem {xmem\+::config\+::\+Configurator}, \hyperpage{25}
   \item {count}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Option}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Option}, 
 		\hyperpage{36}
-  \item {Count\discretionary {-}{}{}Options\discretionary {-}{}{}Action}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Stats\discretionary {-}{}{}::\discretionary {-}{}{}Count\discretionary {-}{}{}Options\discretionary {-}{}{}Action}, 
+  \item {Count\+Options\+Action}
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Stats\+::\+Count\+Options\+Action}, 
 		\hyperpage{26}
-  \item {create\discretionary {-}{}{}\_\discretionary {-}{}{}and\discretionary {-}{}{}\_\discretionary {-}{}{}start}
-    \subitem {xmem\discretionary {-}{}{}::thread\discretionary {-}{}{}::\discretionary {-}{}{}Thread}, 
-		\hyperpage{57}
+  \item {create\+\_\+and\+\_\+start}
+    \subitem {xmem\+::thread\+::\+Thread}, \hyperpage{57}
   \item {created}
-    \subitem {xmem\discretionary {-}{}{}::thread\discretionary {-}{}{}::\discretionary {-}{}{}Thread}, 
-		\hyperpage{57}
+    \subitem {xmem\+::thread\+::\+Thread}, \hyperpage{57}
 
   \indexspace
 
-  \item {D\discretionary {-}{}{}E\discretionary {-}{}{}F\discretionary {-}{}{}A\discretionary {-}{}{}U\discretionary {-}{}{}L\discretionary {-}{}{}T\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}U\discretionary {-}{}{}M\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}O\discretionary {-}{}{}D\discretionary {-}{}{}E\discretionary {-}{}{}S}
-    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{81}
-  \item {D\discretionary {-}{}{}E\discretionary {-}{}{}F\discretionary {-}{}{}A\discretionary {-}{}{}U\discretionary {-}{}{}L\discretionary {-}{}{}T\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}P\discretionary {-}{}{}A\discretionary {-}{}{}G\discretionary {-}{}{}E\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}S\discretionary {-}{}{}I\discretionary {-}{}{}Z\discretionary {-}{}{}E}
-    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{81}
+  \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+L\+A\+R\+G\+E\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}
+    \subitem {common.\+h}, \hyperpage{81}
+  \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L1\+\_\+\+C\+A\+C\+H\+E\+S}
+    \subitem {common.\+h}, \hyperpage{81}
+  \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L2\+\_\+\+C\+A\+C\+H\+E\+S}
+    \subitem {common.\+h}, \hyperpage{81}
+  \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L3\+\_\+\+C\+A\+C\+H\+E\+S}
+    \subitem {common.\+h}, \hyperpage{81}
+  \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L4\+\_\+\+C\+A\+C\+H\+E\+S}
+    \subitem {common.\+h}, \hyperpage{81}
+  \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L\+O\+G\+I\+C\+A\+L\+\_\+\+C\+P\+U\+S}
+    \subitem {common.\+h}, \hyperpage{81}
+  \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+N\+O\+D\+E\+S}
+    \subitem {common.\+h}, \hyperpage{81}
+  \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+P\+H\+Y\+S\+I\+C\+A\+L\+\_\+\+C\+P\+U\+S}
+    \subitem {common.\+h}, \hyperpage{81}
+  \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+P\+H\+Y\+S\+I\+C\+A\+L\+\_\+\+P\+A\+C\+K\+A\+G\+E\+S}
+    \subitem {common.\+h}, \hyperpage{81}
+  \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}
+    \subitem {common.\+h}, \hyperpage{81}
+  \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+J\+O\+I\+N\+\_\+\+T\+I\+M\+E\+O\+U\+T}
+    \subitem {common.\+h}, \hyperpage{81}
+  \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+W\+O\+R\+K\+I\+N\+G\+\_\+\+S\+E\+T\+\_\+\+S\+I\+Z\+E}
+    \subitem {common.\+h}, \hyperpage{81}
   \item {desc}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Option}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Option}, 
 		\hyperpage{39}
 
   \indexspace
 
   \item {error}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Parser}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Parser}, 
 		\hyperpage{43}
 
   \indexspace
 
   \item {finished}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Parser\discretionary {-}{}{}::\discretionary {-}{}{}Action}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Parser\+::\+Action}, 
 		\hyperpage{13}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Parser\discretionary {-}{}{}::\discretionary {-}{}{}Store\discretionary {-}{}{}Option\discretionary {-}{}{}Action}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Parser\+::\+Store\+Option\+Action}, 
 		\hyperpage{54}
   \item {first}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Option}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Option}, 
 		\hyperpage{36}
 
   \indexspace
 
-  \item {get\discretionary {-}{}{}\_\discretionary {-}{}{}ns\discretionary {-}{}{}\_\discretionary {-}{}{}per\discretionary {-}{}{}\_\discretionary {-}{}{}tick}
-    \subitem {xmem\discretionary {-}{}{}::timers\discretionary {-}{}{}::\discretionary {-}{}{}Timer}, 
-		\hyperpage{65}
-  \item {get\discretionary {-}{}{}\_\discretionary {-}{}{}ticks\discretionary {-}{}{}\_\discretionary {-}{}{}per\discretionary {-}{}{}\_\discretionary {-}{}{}sec}
-    \subitem {xmem\discretionary {-}{}{}::timers\discretionary {-}{}{}::\discretionary {-}{}{}Timer}, 
-		\hyperpage{65}
-  \item {get\discretionary {-}{}{}Adjusted\discretionary {-}{}{}Ticks}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Worker}, 
+  \item {get\+\_\+ns\+\_\+per\+\_\+tick}
+    \subitem {xmem\+::timers\+::\+Timer}, \hyperpage{65}
+  \item {get\+\_\+ticks\+\_\+per\+\_\+sec}
+    \subitem {xmem\+::timers\+::\+Timer}, \hyperpage{65}
+  \item {get\+Adjusted\+Ticks}
+    \subitem {xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}, 
 		\hyperpage{63}
-  \item {get\discretionary {-}{}{}Average\discretionary {-}{}{}D\discretionary {-}{}{}R\discretionary {-}{}{}A\discretionary {-}{}{}M\discretionary {-}{}{}Power}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{17}
-  \item {get\discretionary {-}{}{}Average\discretionary {-}{}{}Metric}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{18}
-  \item {get\discretionary {-}{}{}Average\discretionary {-}{}{}Power}
-    \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{47}
-  \item {get\discretionary {-}{}{}Bytes\discretionary {-}{}{}Per\discretionary {-}{}{}Pass}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Worker}, 
+  \item {get\+Average\+D\+R\+A\+M\+Power}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{17}
+  \item {get\+Average\+Metric}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{18}
+  \item {get\+Average\+Power}
+    \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{47}
+  \item {get\+Bytes\+Per\+Pass}
+    \subitem {xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}, 
 		\hyperpage{63}
-  \item {get\discretionary {-}{}{}C\discretionary {-}{}{}P\discretionary {-}{}{}U\discretionary {-}{}{}Node}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{18}
-  \item {get\discretionary {-}{}{}Chunk\discretionary {-}{}{}Size}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{18}
-  \item {get\discretionary {-}{}{}Elapsed\discretionary {-}{}{}Dummy\discretionary {-}{}{}Ticks}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Worker}, 
+  \item {get\+C\+P\+U\+Node}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{18}
+  \item {get\+Chunk\+Size}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{18}
+  \item {get\+Elapsed\+Dummy\+Ticks}
+    \subitem {xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}, 
 		\hyperpage{63}
-  \item {get\discretionary {-}{}{}Elapsed\discretionary {-}{}{}Ticks}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Worker}, 
+  \item {get\+Elapsed\+Ticks}
+    \subitem {xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}, 
 		\hyperpage{63}
-  \item {get\discretionary {-}{}{}Exit\discretionary {-}{}{}Code}
-    \subitem {xmem\discretionary {-}{}{}::thread\discretionary {-}{}{}::\discretionary {-}{}{}Thread}, 
-		\hyperpage{57}
-  \item {get\discretionary {-}{}{}Iterations}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{18}
-  \item {get\discretionary {-}{}{}Iterations\discretionary {-}{}{}Per\discretionary {-}{}{}Test}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::\discretionary {-}{}{}Configurator}, 
-		\hyperpage{25}
-  \item {get\discretionary {-}{}{}Last\discretionary {-}{}{}Sample}
-    \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{47}
-  \item {get\discretionary {-}{}{}Len}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{18}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Worker}, 
+  \item {get\+Exit\+Code}
+    \subitem {xmem\+::thread\+::\+Thread}, \hyperpage{57}
+  \item {get\+Iterations}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{18}
+  \item {get\+Iterations\+Per\+Test}
+    \subitem {xmem\+::config\+::\+Configurator}, \hyperpage{25}
+  \item {get\+Last\+Sample}
+    \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{47}
+  \item {get\+Len}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{18}
+    \subitem {xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}, 
 		\hyperpage{63}
-  \item {get\discretionary {-}{}{}Mem\discretionary {-}{}{}Node}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{18}
-  \item {get\discretionary {-}{}{}Metric\discretionary {-}{}{}On\discretionary {-}{}{}Iter}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{18}
-  \item {get\discretionary {-}{}{}Name}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{20}
-  \item {get\discretionary {-}{}{}Num\discretionary {-}{}{}Samples}
-    \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{47}
-  \item {get\discretionary {-}{}{}Num\discretionary {-}{}{}Threads}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{20}
-  \item {get\discretionary {-}{}{}Output\discretionary {-}{}{}Filename}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::\discretionary {-}{}{}Configurator}, 
-		\hyperpage{25}
-  \item {get\discretionary {-}{}{}Passes}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Worker}, 
+  \item {get\+Mem\+Node}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{18}
+  \item {get\+Metric\+On\+Iter}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{18}
+  \item {get\+Name}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{20}
+  \item {get\+Num\+Samples}
+    \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{47}
+  \item {get\+Num\+Threads}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{20}
+  \item {get\+Output\+Filename}
+    \subitem {xmem\+::config\+::\+Configurator}, \hyperpage{25}
+  \item {get\+Passes}
+    \subitem {xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}, 
 		\hyperpage{63}
-  \item {get\discretionary {-}{}{}Pattern\discretionary {-}{}{}Mode}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark}, 
+  \item {get\+Pattern\+Mode}
+    \subitem {xmem\+::benchmark\+::\+Throughput\+Benchmark}, 
 		\hyperpage{60}
-  \item {get\discretionary {-}{}{}Peak\discretionary {-}{}{}D\discretionary {-}{}{}R\discretionary {-}{}{}A\discretionary {-}{}{}M\discretionary {-}{}{}Power}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{20}
-  \item {get\discretionary {-}{}{}Peak\discretionary {-}{}{}Power}
-    \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{47}
-  \item {get\discretionary {-}{}{}Power\discretionary {-}{}{}Trace}
-    \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{47}
-  \item {get\discretionary {-}{}{}Power\discretionary {-}{}{}Units}
-    \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{47}
-  \item {get\discretionary {-}{}{}R\discretionary {-}{}{}W\discretionary {-}{}{}Mode}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark}, 
+  \item {get\+Peak\+D\+R\+A\+M\+Power}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{20}
+  \item {get\+Peak\+Power}
+    \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{47}
+  \item {get\+Power\+Trace}
+    \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{47}
+  \item {get\+Power\+Units}
+    \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{47}
+  \item {get\+R\+W\+Mode}
+    \subitem {xmem\+::benchmark\+::\+Throughput\+Benchmark}, 
 		\hyperpage{60}
-  \item {get\discretionary {-}{}{}Sampling\discretionary {-}{}{}Period}
-    \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{47}
-  \item {get\discretionary {-}{}{}Stride\discretionary {-}{}{}Size}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark}, 
+  \item {get\+Sampling\+Period}
+    \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{47}
+  \item {get\+Stride\+Size}
+    \subitem {xmem\+::benchmark\+::\+Throughput\+Benchmark}, 
 		\hyperpage{60}
-  \item {get\discretionary {-}{}{}Target}
-    \subitem {xmem\discretionary {-}{}{}::thread\discretionary {-}{}{}::\discretionary {-}{}{}Thread}, 
-		\hyperpage{57}
-  \item {get\discretionary {-}{}{}Working\discretionary {-}{}{}Set\discretionary {-}{}{}Size}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::\discretionary {-}{}{}Configurator}, 
-		\hyperpage{25}
+  \item {get\+Target}
+    \subitem {xmem\+::thread\+::\+Thread}, \hyperpage{57}
+  \item {get\+Working\+Set\+Size}
+    \subitem {xmem\+::config\+::\+Configurator}, \hyperpage{25}
 
   \indexspace
 
-  \item {had\discretionary {-}{}{}Warning}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Worker}, 
+  \item {had\+Warning}
+    \subitem {xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}, 
 		\hyperpage{64}
-  \item {has\discretionary {-}{}{}Run}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{20}
+  \item {has\+Run}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{20}
   \item {help}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Descriptor}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Descriptor}, 
 		\hyperpage{28}
 
   \indexspace
 
   \item {index}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Descriptor}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Descriptor}, 
 		\hyperpage{28}
-  \item {is\discretionary {-}{}{}First}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Option}, 
+  \item {is\+First}
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Option}, 
 		\hyperpage{37}
-  \item {is\discretionary {-}{}{}Last}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Option}, 
+  \item {is\+Last}
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Option}, 
 		\hyperpage{37}
-  \item {is\discretionary {-}{}{}Thread\discretionary {-}{}{}Running}
-    \subitem {xmem\discretionary {-}{}{}::thread\discretionary {-}{}{}::\discretionary {-}{}{}Thread}, 
-		\hyperpage{57}
-  \item {is\discretionary {-}{}{}Thread\discretionary {-}{}{}Suspended}
-    \subitem {xmem\discretionary {-}{}{}::thread\discretionary {-}{}{}::\discretionary {-}{}{}Thread}, 
-		\hyperpage{57}
-  \item {is\discretionary {-}{}{}Valid}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{20}
-  \item {is\discretionary {-}{}{}Wide\discretionary {-}{}{}Char}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Print\discretionary {-}{}{}Usage\discretionary {-}{}{}Implementation}, 
+  \item {is\+Thread\+Running}
+    \subitem {xmem\+::thread\+::\+Thread}, \hyperpage{57}
+  \item {is\+Thread\+Suspended}
+    \subitem {xmem\+::thread\+::\+Thread}, \hyperpage{57}
+  \item {is\+Valid}
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{20}
+  \item {is\+Wide\+Char}
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Print\+Usage\+Implementation}, 
 		\hyperpage{49}
 
   \indexspace
 
   \item {join}
-    \subitem {xmem\discretionary {-}{}{}::thread\discretionary {-}{}{}::\discretionary {-}{}{}Thread}, 
-		\hyperpage{58}
+    \subitem {xmem\+::thread\+::\+Thread}, \hyperpage{58}
 
   \indexspace
 
+  \item {L\+A\+T\+E\+N\+C\+Y\+\_\+\+B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+U\+N\+R\+O\+L\+L\+\_\+\+L\+E\+N\+G\+T\+H}
+    \subitem {common.\+h}, \hyperpage{82}
   \item {last}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Option}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Option}, 
 		\hyperpage{37}
-  \item {Latency\discretionary {-}{}{}Benchmark}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Latency\discretionary {-}{}{}Benchmark}, 
+  \item {Latency\+Benchmark}
+    \subitem {xmem\+::benchmark\+::\+Latency\+Benchmark}, 
 		\hyperpage{31}
-  \item {latency\discretionary {-}{}{}Test\discretionary {-}{}{}Selected}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::\discretionary {-}{}{}Configurator}, 
-		\hyperpage{25}
-  \item {Line\discretionary {-}{}{}Wrapper}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Print\discretionary {-}{}{}Usage\discretionary {-}{}{}Implementation\discretionary {-}{}{}::\discretionary {-}{}{}Line\discretionary {-}{}{}Wrapper}, 
+  \item {latency\+Test\+Selected}
+    \subitem {xmem\+::config\+::\+Configurator}, \hyperpage{25}
+  \item {Line\+Wrapper}
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Print\+Usage\+Implementation\+::\+Line\+Wrapper}, 
 		\hyperpage{33}
   \item {longopt}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Descriptor}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Descriptor}, 
 		\hyperpage{28}
 
   \indexspace
 
-  \item {M\discretionary {-}{}{}I\discretionary {-}{}{}N\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}E\discretionary {-}{}{}L\discretionary {-}{}{}A\discretionary {-}{}{}P\discretionary {-}{}{}S\discretionary {-}{}{}E\discretionary {-}{}{}D\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}C\discretionary {-}{}{}K\discretionary {-}{}{}S}
-    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{82}
-  \item {M\discretionary {-}{}{}U\discretionary {-}{}{}L\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}T\discretionary {-}{}{}H\discretionary {-}{}{}R\discretionary {-}{}{}E\discretionary {-}{}{}A\discretionary {-}{}{}D\discretionary {-}{}{}I\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}E\discretionary {-}{}{}N\discretionary {-}{}{}A\discretionary {-}{}{}B\discretionary {-}{}{}L\discretionary {-}{}{}E}
-    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{82}
+  \item {M\+I\+N\+\_\+\+E\+L\+A\+P\+S\+E\+D\+\_\+\+T\+I\+C\+K\+S}
+    \subitem {common.\+h}, \hyperpage{82}
+  \item {M\+U\+L\+T\+I\+T\+H\+R\+E\+A\+D\+I\+N\+G\+\_\+\+E\+N\+A\+B\+L\+E}
+    \subitem {common.\+h}, \hyperpage{82}
 
   \indexspace
 
   \item {name}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Option}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Option}, 
 		\hyperpage{39}
-    \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{48}
+    \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{48}
   \item {namelen}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Option}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Option}, 
 		\hyperpage{39}
   \item {next}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Option}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Option}, 
 		\hyperpage{37}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Print\discretionary {-}{}{}Usage\discretionary {-}{}{}Implementation\discretionary {-}{}{}::\discretionary {-}{}{}Line\discretionary {-}{}{}Part\discretionary {-}{}{}Iterator}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Print\+Usage\+Implementation\+::\+Line\+Part\+Iterator}, 
 		\hyperpage{33}
-  \item {next\discretionary {-}{}{}Row}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Print\discretionary {-}{}{}Usage\discretionary {-}{}{}Implementation\discretionary {-}{}{}::\discretionary {-}{}{}Line\discretionary {-}{}{}Part\discretionary {-}{}{}Iterator}, 
+  \item {next\+Row}
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Print\+Usage\+Implementation\+::\+Line\+Part\+Iterator}, 
 		\hyperpage{33}
-  \item {next\discretionary {-}{}{}Table}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Print\discretionary {-}{}{}Usage\discretionary {-}{}{}Implementation\discretionary {-}{}{}::\discretionary {-}{}{}Line\discretionary {-}{}{}Part\discretionary {-}{}{}Iterator}, 
+  \item {next\+Table}
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Print\+Usage\+Implementation\+::\+Line\+Part\+Iterator}, 
 		\hyperpage{33}
   \item {nextwrap}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Option}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Option}, 
 		\hyperpage{37}
-  \item {non\discretionary {-}{}{}Options}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Parser}, 
+  \item {non\+Options}
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Parser}, 
 		\hyperpage{43}
-  \item {non\discretionary {-}{}{}Options\discretionary {-}{}{}Count}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Parser}, 
+  \item {non\+Options\+Count}
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Parser}, 
 		\hyperpage{43}
 
   \indexspace
 
-  \item {operator const Option $\ast $}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Option}, 
+  \item {operator const Option $\ast$}
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Option}, 
 		\hyperpage{37}
-  \item {operator Option $\ast $}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Option}, 
+  \item {operator Option $\ast$}
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Option}, 
 		\hyperpage{38}
   \item {operator=}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Option}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Option}, 
 		\hyperpage{38}
   \item {Option}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Option}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Option}, 
 		\hyperpage{36}
-  \item {options\discretionary {-}{}{}\_\discretionary {-}{}{}max}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Stats}, 
+  \item {options\+\_\+max}
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Stats}, 
 		\hyperpage{53}
-  \item {options\discretionary {-}{}{}Count}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Parser}, 
+  \item {options\+Count}
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Parser}, 
 		\hyperpage{43}
 
   \indexspace
 
+  \item {P\+O\+W\+E\+R\+\_\+\+S\+A\+M\+P\+L\+I\+N\+G\+\_\+\+P\+E\+R\+I\+O\+D\+\_\+\+S\+E\+C}
+    \subitem {common.\+h}, \hyperpage{82}
   \item {parse}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Parser}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Parser}, 
 		\hyperpage{44}
   \item {Parser}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Parser}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Parser}, 
 		\hyperpage{42}
   \item {perform}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Parser\discretionary {-}{}{}::\discretionary {-}{}{}Action}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Parser\+::\+Action}, 
 		\hyperpage{13}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Parser\discretionary {-}{}{}::\discretionary {-}{}{}Store\discretionary {-}{}{}Option\discretionary {-}{}{}Action}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Parser\+::\+Store\+Option\+Action}, 
 		\hyperpage{54}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Stats\discretionary {-}{}{}::\discretionary {-}{}{}Count\discretionary {-}{}{}Options\discretionary {-}{}{}Action}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Stats\+::\+Count\+Options\+Action}, 
 		\hyperpage{27}
-  \item {Power\discretionary {-}{}{}Reader}
-    \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{46}
+  \item {Power\+Reader}
+    \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{46}
   \item {prev}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Option}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Option}, 
 		\hyperpage{38}
   \item {prevwrap}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Option}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Option}, 
 		\hyperpage{38}
   \item {process}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Print\discretionary {-}{}{}Usage\discretionary {-}{}{}Implementation\discretionary {-}{}{}::\discretionary {-}{}{}Line\discretionary {-}{}{}Wrapper}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Print\+Usage\+Implementation\+::\+Line\+Wrapper}, 
 		\hyperpage{34}
 
   \indexspace
 
   \item {run}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{20}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Latency\discretionary {-}{}{}Benchmark}, 
+    \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{20}
+    \subitem {xmem\+::benchmark\+::\+Latency\+Benchmark}, 
 		\hyperpage{32}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark}, 
+    \subitem {xmem\+::benchmark\+::\+Throughput\+Benchmark}, 
 		\hyperpage{60}
-  \item {run\discretionary {-}{}{}All}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Manager}, 
+  \item {run\+All}
+    \subitem {xmem\+::benchmark\+::\+Benchmark\+Manager}, 
 		\hyperpage{23}
-  \item {run\discretionary {-}{}{}Latency\discretionary {-}{}{}Benchmarks}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Manager}, 
+  \item {run\+Latency\+Benchmarks}
+    \subitem {xmem\+::benchmark\+::\+Benchmark\+Manager}, 
 		\hyperpage{23}
-  \item {run\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmarks}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Manager}, 
+  \item {run\+Throughput\+Benchmarks}
+    \subitem {xmem\+::benchmark\+::\+Benchmark\+Manager}, 
 		\hyperpage{24}
 
   \indexspace
 
   \item {shortopt}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Descriptor}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Descriptor}, 
 		\hyperpage{29}
-  \item {src/\discretionary {-}{}{}Benchmark.\discretionary {-}{}{}cpp}, 
-		\hyperpage{67}
-  \item {src/\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Manager.\discretionary {-}{}{}cpp}, 
-		\hyperpage{68}
-  \item {src/\discretionary {-}{}{}Configurator.\discretionary {-}{}{}cpp}, 
-		\hyperpage{68}
-  \item {src/\discretionary {-}{}{}Latency\discretionary {-}{}{}Benchmark.\discretionary {-}{}{}cpp}, 
-		\hyperpage{91}
-  \item {src/\discretionary {-}{}{}Power\discretionary {-}{}{}Reader.\discretionary {-}{}{}cpp}, 
-		\hyperpage{92}
-  \item {src/\discretionary {-}{}{}Runnable.\discretionary {-}{}{}cpp}, 
-		\hyperpage{93}
-  \item {src/\discretionary {-}{}{}Thread.\discretionary {-}{}{}cpp}, 
-		\hyperpage{93}
-  \item {src/\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark.\discretionary {-}{}{}cpp}, 
-		\hyperpage{93}
-  \item {src/\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Worker.\discretionary {-}{}{}cpp}, 
-		\hyperpage{94}
-  \item {src/\discretionary {-}{}{}Timer.\discretionary {-}{}{}cpp}, 
-		\hyperpage{94}
-  \item {src/benchmark\discretionary {-}{}{}\_\discretionary {-}{}{}kernels.\discretionary {-}{}{}cpp}, 
-		\hyperpage{67}
-  \item {src/common.\discretionary {-}{}{}cpp}, \hyperpage{68}
-  \item {src/include/\discretionary {-}{}{}Benchmark.\discretionary {-}{}{}h}, 
-		\hyperpage{69}
-  \item {src/include/\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Manager.\discretionary {-}{}{}h}, 
-		\hyperpage{78}
-  \item {src/include/\discretionary {-}{}{}Configurator.\discretionary {-}{}{}h}, 
-		\hyperpage{83}
-  \item {src/include/\discretionary {-}{}{}Example\discretionary {-}{}{}Arg.\discretionary {-}{}{}h}, 
-		\hyperpage{84}
-  \item {src/include/\discretionary {-}{}{}Latency\discretionary {-}{}{}Benchmark.\discretionary {-}{}{}h}, 
-		\hyperpage{84}
-  \item {src/include/\discretionary {-}{}{}My\discretionary {-}{}{}Arg.\discretionary {-}{}{}h}, 
-		\hyperpage{84}
-  \item {src/include/\discretionary {-}{}{}Power\discretionary {-}{}{}Reader.\discretionary {-}{}{}h}, 
-		\hyperpage{88}
-  \item {src/include/\discretionary {-}{}{}Runnable.\discretionary {-}{}{}h}, 
-		\hyperpage{89}
-  \item {src/include/\discretionary {-}{}{}Thread.\discretionary {-}{}{}h}, 
-		\hyperpage{89}
-  \item {src/include/\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark.\discretionary {-}{}{}h}, 
-		\hyperpage{89}
-  \item {src/include/\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Worker.\discretionary {-}{}{}h}, 
+  \item {src/\+Benchmark.\+cpp}, \hyperpage{67}
+  \item {src/\+Benchmark\+Manager.\+cpp}, \hyperpage{68}
+  \item {src/\+Configurator.\+cpp}, \hyperpage{68}
+  \item {src/\+Latency\+Benchmark.\+cpp}, \hyperpage{91}
+  \item {src/\+Power\+Reader.\+cpp}, \hyperpage{92}
+  \item {src/\+Runnable.\+cpp}, \hyperpage{93}
+  \item {src/\+Thread.\+cpp}, \hyperpage{93}
+  \item {src/\+Throughput\+Benchmark.\+cpp}, \hyperpage{93}
+  \item {src/\+Throughput\+Benchmark\+Worker.\+cpp}, \hyperpage{94}
+  \item {src/\+Timer.\+cpp}, \hyperpage{94}
+  \item {src/benchmark\+\_\+kernels.\+cpp}, \hyperpage{67}
+  \item {src/common.\+cpp}, \hyperpage{68}
+  \item {src/include/\+Benchmark.\+h}, \hyperpage{69}
+  \item {src/include/\+Benchmark\+Manager.\+h}, \hyperpage{78}
+  \item {src/include/\+Configurator.\+h}, \hyperpage{83}
+  \item {src/include/\+Example\+Arg.\+h}, \hyperpage{84}
+  \item {src/include/\+Latency\+Benchmark.\+h}, \hyperpage{84}
+  \item {src/include/\+My\+Arg.\+h}, \hyperpage{84}
+  \item {src/include/\+Power\+Reader.\+h}, \hyperpage{88}
+  \item {src/include/\+Runnable.\+h}, \hyperpage{89}
+  \item {src/include/\+Thread.\+h}, \hyperpage{89}
+  \item {src/include/\+Throughput\+Benchmark.\+h}, \hyperpage{89}
+  \item {src/include/\+Throughput\+Benchmark\+Worker.\+h}, 
 		\hyperpage{90}
-  \item {src/include/\discretionary {-}{}{}Timer.\discretionary {-}{}{}h}, 
-		\hyperpage{90}
-  \item {src/include/benchmark\discretionary {-}{}{}\_\discretionary {-}{}{}kernels.\discretionary {-}{}{}h}, 
-		\hyperpage{69}
-  \item {src/include/common.\discretionary {-}{}{}h}, \hyperpage{78}
-  \item {src/include/optionparser.\discretionary {-}{}{}h}, 
-		\hyperpage{85}
-  \item {src/include/win/\discretionary {-}{}{}Q\discretionary {-}{}{}P\discretionary {-}{}{}C\discretionary {-}{}{}Timer.\discretionary {-}{}{}h}, 
-		\hyperpage{90}
-  \item {src/include/win/\discretionary {-}{}{}Windows\discretionary {-}{}{}D\discretionary {-}{}{}R\discretionary {-}{}{}A\discretionary {-}{}{}M\discretionary {-}{}{}Power\discretionary {-}{}{}Reader.\discretionary {-}{}{}h}, 
+  \item {src/include/\+Timer.\+h}, \hyperpage{90}
+  \item {src/include/benchmark\+\_\+kernels.\+h}, \hyperpage{69}
+  \item {src/include/common.\+h}, \hyperpage{78}
+  \item {src/include/optionparser.\+h}, \hyperpage{85}
+  \item {src/include/win/\+Q\+P\+C\+Timer.\+h}, \hyperpage{90}
+  \item {src/include/win/\+Windows\+D\+R\+A\+M\+Power\+Reader.\+h}, 
 		\hyperpage{91}
-  \item {src/include/win/win\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}C\discretionary {-}{}{}Pdh\discretionary {-}{}{}Query.\discretionary {-}{}{}h}, 
+  \item {src/include/win/win\+\_\+\+C\+Pdh\+Query.\+h}, \hyperpage{91}
+  \item {src/include/win/win\+\_\+common\+\_\+third\+\_\+party.\+h}, 
 		\hyperpage{91}
-  \item {src/include/win/win\discretionary {-}{}{}\_\discretionary {-}{}{}common\discretionary {-}{}{}\_\discretionary {-}{}{}third\discretionary {-}{}{}\_\discretionary {-}{}{}party.\discretionary {-}{}{}h}, 
-		\hyperpage{91}
-  \item {src/include/x86\discretionary {-}{}{}\_\discretionary {-}{}{}64/\discretionary {-}{}{}T\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}Timer.\discretionary {-}{}{}h}, 
-		\hyperpage{91}
-  \item {src/main.\discretionary {-}{}{}cpp}, \hyperpage{92}
-  \item {src/win/\discretionary {-}{}{}Q\discretionary {-}{}{}P\discretionary {-}{}{}C\discretionary {-}{}{}Timer.\discretionary {-}{}{}cpp}, 
-		\hyperpage{94}
-  \item {src/win/\discretionary {-}{}{}Windows\discretionary {-}{}{}D\discretionary {-}{}{}R\discretionary {-}{}{}A\discretionary {-}{}{}M\discretionary {-}{}{}Power\discretionary {-}{}{}Reader.\discretionary {-}{}{}cpp}, 
+  \item {src/include/x86\+\_\+64/\+T\+S\+C\+Timer.\+h}, \hyperpage{91}
+  \item {src/main.\+cpp}, \hyperpage{92}
+  \item {src/win/\+Q\+P\+C\+Timer.\+cpp}, \hyperpage{94}
+  \item {src/win/\+Windows\+D\+R\+A\+M\+Power\+Reader.\+cpp}, 
 		\hyperpage{95}
-  \item {src/win/win\discretionary {-}{}{}\_\discretionary {-}{}{}common\discretionary {-}{}{}\_\discretionary {-}{}{}third\discretionary {-}{}{}\_\discretionary {-}{}{}party.\discretionary {-}{}{}cpp}, 
+  \item {src/win/win\+\_\+common\+\_\+third\+\_\+party.\+cpp}, 
 		\hyperpage{94}
-  \item {src/x86\discretionary {-}{}{}\_\discretionary {-}{}{}64/\discretionary {-}{}{}T\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}Timer.\discretionary {-}{}{}cpp}, 
-		\hyperpage{95}
+  \item {src/x86\+\_\+64/\+T\+S\+C\+Timer.\+cpp}, \hyperpage{95}
   \item {started}
-    \subitem {xmem\discretionary {-}{}{}::thread\discretionary {-}{}{}::\discretionary {-}{}{}Thread}, 
-		\hyperpage{58}
+    \subitem {xmem\+::thread\+::\+Thread}, \hyperpage{58}
   \item {Stats}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Stats}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Stats}, 
 		\hyperpage{52}
   \item {stop}
-    \subitem {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{48}
-    \subitem {xmem\discretionary {-}{}{}::timers\discretionary {-}{}{}::\discretionary {-}{}{}Timer}, 
-		\hyperpage{65}
-  \item {stop\discretionary {-}{}{}\_\discretionary {-}{}{}in\discretionary {-}{}{}\_\discretionary {-}{}{}ns}
-    \subitem {xmem\discretionary {-}{}{}::timers\discretionary {-}{}{}::\discretionary {-}{}{}Timer}, 
-		\hyperpage{65}
-  \item {Store\discretionary {-}{}{}Option\discretionary {-}{}{}Action}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Parser\discretionary {-}{}{}::\discretionary {-}{}{}Store\discretionary {-}{}{}Option\discretionary {-}{}{}Action}, 
+    \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{48}
+    \subitem {xmem\+::timers\+::\+Timer}, \hyperpage{65}
+  \item {stop\+\_\+in\+\_\+ns}
+    \subitem {xmem\+::timers\+::\+Timer}, \hyperpage{65}
+  \item {Store\+Option\+Action}
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Parser\+::\+Store\+Option\+Action}, 
 		\hyperpage{53}
 
   \indexspace
 
+  \item {T\+H\+R\+O\+U\+G\+H\+P\+U\+T\+\_\+\+B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+B\+Y\+T\+E\+S\+\_\+\+P\+E\+R\+\_\+\+P\+A\+S\+S}
+    \subitem {common.\+h}, \hyperpage{82}
   \item {Thread}
-    \subitem {xmem\discretionary {-}{}{}::thread\discretionary {-}{}{}::\discretionary {-}{}{}Thread}, 
-		\hyperpage{56}
-  \item {Throughput\discretionary {-}{}{}Benchmark}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark}, 
+    \subitem {xmem\+::thread\+::\+Thread}, \hyperpage{56}
+  \item {Throughput\+Benchmark}
+    \subitem {xmem\+::benchmark\+::\+Throughput\+Benchmark}, 
 		\hyperpage{59}
-  \item {Throughput\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Worker}
-    \subitem {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Worker}, 
+  \item {Throughput\+Benchmark\+Worker}
+    \subitem {xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}, 
 		\hyperpage{62}
-  \item {throughput\discretionary {-}{}{}Test\discretionary {-}{}{}Selected}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::\discretionary {-}{}{}Configurator}, 
-		\hyperpage{26}
+  \item {throughput\+Test\+Selected}
+    \subitem {xmem\+::config\+::\+Configurator}, \hyperpage{26}
   \item {type}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Descriptor}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Descriptor}, 
 		\hyperpage{29}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Option}, 
+    \subitem {xmem\+::config\+::third\+\_\+party\+::\+Option}, 
 		\hyperpage{38}
 
   \indexspace
 
-  \item {U\discretionary {-}{}{}S\discretionary {-}{}{}E\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}A\discretionary {-}{}{}L\discretionary {-}{}{}L\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}U\discretionary {-}{}{}M\discretionary {-}{}{}A\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}N\discretionary {-}{}{}O\discretionary {-}{}{}D\discretionary {-}{}{}E\discretionary {-}{}{}S}
-    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{82}
-  \item {U\discretionary {-}{}{}S\discretionary {-}{}{}E\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}T\discretionary {-}{}{}H\discretionary {-}{}{}R\discretionary {-}{}{}O\discretionary {-}{}{}U\discretionary {-}{}{}G\discretionary {-}{}{}H\discretionary {-}{}{}P\discretionary {-}{}{}U\discretionary {-}{}{}T\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}R\discretionary {-}{}{}E\discretionary {-}{}{}A\discretionary {-}{}{}D\discretionary {-}{}{}S}
-    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{82}
-  \item {U\discretionary {-}{}{}S\discretionary {-}{}{}E\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}T\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}T\discretionary {-}{}{}I\discretionary {-}{}{}M\discretionary {-}{}{}E\discretionary {-}{}{}R}
-    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{83}
-  \item {use\discretionary {-}{}{}Output\discretionary {-}{}{}File}
-    \subitem {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::\discretionary {-}{}{}Configurator}, 
-		\hyperpage{26}
+  \item {U\+S\+E\+\_\+\+A\+L\+L\+\_\+\+N\+U\+M\+A\+\_\+\+N\+O\+D\+E\+S}
+    \subitem {common.\+h}, \hyperpage{82}
+  \item {U\+S\+E\+\_\+\+L\+A\+T\+E\+N\+C\+Y\+\_\+\+B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+R\+A\+N\+D\+O\+M\+\_\+\+S\+H\+U\+F\+F\+L\+E\+\_\+\+P\+A\+T\+T\+E\+R\+N}
+    \subitem {common.\+h}, \hyperpage{82}
+  \item {U\+S\+E\+\_\+\+T\+H\+R\+O\+U\+G\+H\+P\+U\+T\+\_\+\+F\+O\+R\+W\+\_\+\+S\+T\+R\+I\+D\+E\+\_\+1}
+    \subitem {common.\+h}, \hyperpage{82}
+  \item {U\+S\+E\+\_\+\+T\+H\+R\+O\+U\+G\+H\+P\+U\+T\+\_\+\+R\+E\+A\+D\+S}
+    \subitem {common.\+h}, \hyperpage{82}
+  \item {U\+S\+E\+\_\+\+T\+H\+R\+O\+U\+G\+H\+P\+U\+T\+\_\+\+S\+E\+Q\+U\+E\+N\+T\+I\+A\+L\+\_\+\+P\+A\+T\+T\+E\+R\+N}
+    \subitem {common.\+h}, \hyperpage{82}
+  \item {U\+S\+E\+\_\+\+T\+H\+R\+O\+U\+G\+H\+P\+U\+T\+\_\+\+W\+R\+I\+T\+E\+S}
+    \subitem {common.\+h}, \hyperpage{82}
+  \item {U\+S\+E\+\_\+\+T\+I\+M\+E\+\_\+\+B\+A\+S\+E\+D\+\_\+\+B\+E\+N\+C\+H\+M\+A\+R\+K\+S}
+    \subitem {common.\+h}, \hyperpage{83}
+  \item {U\+S\+E\+\_\+\+T\+S\+C\+\_\+\+T\+I\+M\+E\+R}
+    \subitem {common.\+h}, \hyperpage{83}
+  \item {use\+Output\+File}
+    \subitem {xmem\+::config\+::\+Configurator}, \hyperpage{26}
 
   \indexspace
 
-  \item {V\discretionary {-}{}{}E\discretionary {-}{}{}R\discretionary {-}{}{}B\discretionary {-}{}{}O\discretionary {-}{}{}S\discretionary {-}{}{}E}
-    \subitem {common.\discretionary {-}{}{}h}, \hyperpage{83}
-  \item {valid\discretionary {-}{}{}Target}
-    \subitem {xmem\discretionary {-}{}{}::thread\discretionary {-}{}{}::\discretionary {-}{}{}Thread}, 
-		\hyperpage{58}
+  \item {V\+E\+R\+B\+O\+S\+E}
+    \subitem {common.\+h}, \hyperpage{83}
+  \item {valid\+Target}
+    \subitem {xmem\+::thread\+::\+Thread}, \hyperpage{58}
 
   \indexspace
 
-  \item {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{15}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}average\discretionary {-}{}{}Metric}, 
+  \item {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{15}
+    \subitem {\+\_\+average\+Metric}, \hyperpage{21}
+    \subitem {\+\_\+average\+\_\+dram\+\_\+power\+\_\+socket}, 
 		\hyperpage{21}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}average\discretionary {-}{}{}\_\discretionary {-}{}{}dram\discretionary {-}{}{}\_\discretionary {-}{}{}power\discretionary {-}{}{}\_\discretionary {-}{}{}socket}, 
-		\hyperpage{21}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}chunk\discretionary {-}{}{}\_\discretionary {-}{}{}size}, 
-		\hyperpage{21}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}cpu\discretionary {-}{}{}\_\discretionary {-}{}{}node}, 
-		\hyperpage{21}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}dram\discretionary {-}{}{}\_\discretionary {-}{}{}power\discretionary {-}{}{}\_\discretionary {-}{}{}readers}, 
-		\hyperpage{21}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}dram\discretionary {-}{}{}\_\discretionary {-}{}{}power\discretionary {-}{}{}\_\discretionary {-}{}{}threads}, 
-		\hyperpage{21}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}has\discretionary {-}{}{}Run}, 
-		\hyperpage{21}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}indices}, 
-		\hyperpage{21}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}iterations}, 
-		\hyperpage{21}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}len}, 
+    \subitem {\+\_\+chunk\+\_\+size}, \hyperpage{21}
+    \subitem {\+\_\+cpu\+\_\+node}, \hyperpage{21}
+    \subitem {\+\_\+dram\+\_\+power\+\_\+readers}, \hyperpage{21}
+    \subitem {\+\_\+dram\+\_\+power\+\_\+threads}, \hyperpage{21}
+    \subitem {\+\_\+has\+Run}, \hyperpage{21}
+    \subitem {\+\_\+indices}, \hyperpage{21}
+    \subitem {\+\_\+iterations}, \hyperpage{21}
+    \subitem {\+\_\+len}, \hyperpage{22}
+    \subitem {\+\_\+mem\+\_\+array}, \hyperpage{22}
+    \subitem {\+\_\+mem\+\_\+node}, \hyperpage{22}
+    \subitem {\+\_\+metric\+On\+Iter}, \hyperpage{22}
+    \subitem {\+\_\+name}, \hyperpage{22}
+    \subitem {\+\_\+num\+\_\+worker\+\_\+threads}, \hyperpage{22}
+    \subitem {\+\_\+obj\+\_\+valid}, \hyperpage{22}
+    \subitem {\+\_\+peak\+\_\+dram\+\_\+power\+\_\+socket}, 
 		\hyperpage{22}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}mem\discretionary {-}{}{}\_\discretionary {-}{}{}array}, 
-		\hyperpage{22}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}mem\discretionary {-}{}{}\_\discretionary {-}{}{}node}, 
-		\hyperpage{22}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}metric\discretionary {-}{}{}On\discretionary {-}{}{}Iter}, 
-		\hyperpage{22}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}name}, 
-		\hyperpage{22}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}num\discretionary {-}{}{}\_\discretionary {-}{}{}worker\discretionary {-}{}{}\_\discretionary {-}{}{}threads}, 
-		\hyperpage{22}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}obj\discretionary {-}{}{}\_\discretionary {-}{}{}valid}, 
-		\hyperpage{22}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}peak\discretionary {-}{}{}\_\discretionary {-}{}{}dram\discretionary {-}{}{}\_\discretionary {-}{}{}power\discretionary {-}{}{}\_\discretionary {-}{}{}socket}, 
-		\hyperpage{22}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}start\discretionary {-}{}{}\_\discretionary {-}{}{}power\discretionary {-}{}{}\_\discretionary {-}{}{}threads}, 
-		\hyperpage{17}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}stop\discretionary {-}{}{}\_\discretionary {-}{}{}power\discretionary {-}{}{}\_\discretionary {-}{}{}threads}, 
-		\hyperpage{17}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}timer}, 
-		\hyperpage{22}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}warning}, 
-		\hyperpage{22}
+    \subitem {\+\_\+start\+\_\+power\+\_\+threads}, \hyperpage{17}
+    \subitem {\+\_\+stop\+\_\+power\+\_\+threads}, \hyperpage{17}
+    \subitem {\+\_\+timer}, \hyperpage{22}
+    \subitem {\+\_\+warning}, \hyperpage{22}
     \subitem {Benchmark}, \hyperpage{17}
-    \subitem {get\discretionary {-}{}{}Average\discretionary {-}{}{}D\discretionary {-}{}{}R\discretionary {-}{}{}A\discretionary {-}{}{}M\discretionary {-}{}{}Power}, 
-		\hyperpage{17}
-    \subitem {get\discretionary {-}{}{}Average\discretionary {-}{}{}Metric}, 
-		\hyperpage{18}
-    \subitem {get\discretionary {-}{}{}C\discretionary {-}{}{}P\discretionary {-}{}{}U\discretionary {-}{}{}Node}, 
-		\hyperpage{18}
-    \subitem {get\discretionary {-}{}{}Chunk\discretionary {-}{}{}Size}, 
-		\hyperpage{18}
-    \subitem {get\discretionary {-}{}{}Iterations}, \hyperpage{18}
-    \subitem {get\discretionary {-}{}{}Len}, \hyperpage{18}
-    \subitem {get\discretionary {-}{}{}Mem\discretionary {-}{}{}Node}, 
-		\hyperpage{18}
-    \subitem {get\discretionary {-}{}{}Metric\discretionary {-}{}{}On\discretionary {-}{}{}Iter}, 
-		\hyperpage{18}
-    \subitem {get\discretionary {-}{}{}Name}, \hyperpage{20}
-    \subitem {get\discretionary {-}{}{}Num\discretionary {-}{}{}Threads}, 
-		\hyperpage{20}
-    \subitem {get\discretionary {-}{}{}Peak\discretionary {-}{}{}D\discretionary {-}{}{}R\discretionary {-}{}{}A\discretionary {-}{}{}M\discretionary {-}{}{}Power}, 
-		\hyperpage{20}
-    \subitem {has\discretionary {-}{}{}Run}, \hyperpage{20}
-    \subitem {is\discretionary {-}{}{}Valid}, \hyperpage{20}
+    \subitem {get\+Average\+D\+R\+A\+M\+Power}, \hyperpage{17}
+    \subitem {get\+Average\+Metric}, \hyperpage{18}
+    \subitem {get\+C\+P\+U\+Node}, \hyperpage{18}
+    \subitem {get\+Chunk\+Size}, \hyperpage{18}
+    \subitem {get\+Iterations}, \hyperpage{18}
+    \subitem {get\+Len}, \hyperpage{18}
+    \subitem {get\+Mem\+Node}, \hyperpage{18}
+    \subitem {get\+Metric\+On\+Iter}, \hyperpage{18}
+    \subitem {get\+Name}, \hyperpage{20}
+    \subitem {get\+Num\+Threads}, \hyperpage{20}
+    \subitem {get\+Peak\+D\+R\+A\+M\+Power}, \hyperpage{20}
+    \subitem {has\+Run}, \hyperpage{20}
+    \subitem {is\+Valid}, \hyperpage{20}
     \subitem {run}, \hyperpage{20}
-  \item {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Manager}, 
-		\hyperpage{23}
-    \subitem {Benchmark\discretionary {-}{}{}Manager}, \hyperpage{23}
-    \subitem {run\discretionary {-}{}{}All}, \hyperpage{23}
-    \subitem {run\discretionary {-}{}{}Latency\discretionary {-}{}{}Benchmarks}, 
-		\hyperpage{23}
-    \subitem {run\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmarks}, 
-		\hyperpage{24}
-  \item {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Latency\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{30}
-    \subitem {Latency\discretionary {-}{}{}Benchmark}, \hyperpage{31}
+  \item {xmem\+::benchmark\+::\+Benchmark\+Manager}, \hyperpage{23}
+    \subitem {Benchmark\+Manager}, \hyperpage{23}
+    \subitem {run\+All}, \hyperpage{23}
+    \subitem {run\+Latency\+Benchmarks}, \hyperpage{23}
+    \subitem {run\+Throughput\+Benchmarks}, \hyperpage{24}
+  \item {xmem\+::benchmark\+::\+Latency\+Benchmark}, \hyperpage{30}
+    \subitem {Latency\+Benchmark}, \hyperpage{31}
     \subitem {run}, \hyperpage{32}
-  \item {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{58}
-    \subitem {get\discretionary {-}{}{}Pattern\discretionary {-}{}{}Mode}, 
-		\hyperpage{60}
-    \subitem {get\discretionary {-}{}{}R\discretionary {-}{}{}W\discretionary {-}{}{}Mode}, 
-		\hyperpage{60}
-    \subitem {get\discretionary {-}{}{}Stride\discretionary {-}{}{}Size}, 
-		\hyperpage{60}
+  \item {xmem\+::benchmark\+::\+Throughput\+Benchmark}, \hyperpage{58}
+    \subitem {get\+Pattern\+Mode}, \hyperpage{60}
+    \subitem {get\+R\+W\+Mode}, \hyperpage{60}
+    \subitem {get\+Stride\+Size}, \hyperpage{60}
     \subitem {run}, \hyperpage{60}
-    \subitem {Throughput\discretionary {-}{}{}Benchmark}, 
-		\hyperpage{59}
-  \item {xmem\discretionary {-}{}{}::benchmark\discretionary {-}{}{}::\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Worker}, 
+    \subitem {Throughput\+Benchmark}, \hyperpage{59}
+  \item {xmem\+::benchmark\+::\+Throughput\+Benchmark\+Worker}, 
 		\hyperpage{61}
-    \subitem {get\discretionary {-}{}{}Adjusted\discretionary {-}{}{}Ticks}, 
-		\hyperpage{63}
-    \subitem {get\discretionary {-}{}{}Bytes\discretionary {-}{}{}Per\discretionary {-}{}{}Pass}, 
-		\hyperpage{63}
-    \subitem {get\discretionary {-}{}{}Elapsed\discretionary {-}{}{}Dummy\discretionary {-}{}{}Ticks}, 
-		\hyperpage{63}
-    \subitem {get\discretionary {-}{}{}Elapsed\discretionary {-}{}{}Ticks}, 
-		\hyperpage{63}
-    \subitem {get\discretionary {-}{}{}Len}, \hyperpage{63}
-    \subitem {get\discretionary {-}{}{}Passes}, \hyperpage{63}
-    \subitem {had\discretionary {-}{}{}Warning}, \hyperpage{64}
-    \subitem {Throughput\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Worker}, 
-		\hyperpage{62}
-  \item {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::\discretionary {-}{}{}Configurator}, 
-		\hyperpage{24}
+    \subitem {get\+Adjusted\+Ticks}, \hyperpage{63}
+    \subitem {get\+Bytes\+Per\+Pass}, \hyperpage{63}
+    \subitem {get\+Elapsed\+Dummy\+Ticks}, \hyperpage{63}
+    \subitem {get\+Elapsed\+Ticks}, \hyperpage{63}
+    \subitem {get\+Len}, \hyperpage{63}
+    \subitem {get\+Passes}, \hyperpage{63}
+    \subitem {had\+Warning}, \hyperpage{64}
+    \subitem {Throughput\+Benchmark\+Worker}, \hyperpage{62}
+  \item {xmem\+::config\+::\+Configurator}, \hyperpage{24}
     \subitem {Configurator}, \hyperpage{25}
-    \subitem {configure\discretionary {-}{}{}From\discretionary {-}{}{}Input}, 
-		\hyperpage{25}
-    \subitem {get\discretionary {-}{}{}Iterations\discretionary {-}{}{}Per\discretionary {-}{}{}Test}, 
-		\hyperpage{25}
-    \subitem {get\discretionary {-}{}{}Output\discretionary {-}{}{}Filename}, 
-		\hyperpage{25}
-    \subitem {get\discretionary {-}{}{}Working\discretionary {-}{}{}Set\discretionary {-}{}{}Size}, 
-		\hyperpage{25}
-    \subitem {latency\discretionary {-}{}{}Test\discretionary {-}{}{}Selected}, 
-		\hyperpage{25}
-    \subitem {throughput\discretionary {-}{}{}Test\discretionary {-}{}{}Selected}, 
-		\hyperpage{26}
-    \subitem {use\discretionary {-}{}{}Output\discretionary {-}{}{}File}, 
-		\hyperpage{26}
-  \item {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Arg}, 
-		\hyperpage{14}
-  \item {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Descriptor}, 
+    \subitem {configure\+From\+Input}, \hyperpage{25}
+    \subitem {get\+Iterations\+Per\+Test}, \hyperpage{25}
+    \subitem {get\+Output\+Filename}, \hyperpage{25}
+    \subitem {get\+Working\+Set\+Size}, \hyperpage{25}
+    \subitem {latency\+Test\+Selected}, \hyperpage{25}
+    \subitem {throughput\+Test\+Selected}, \hyperpage{26}
+    \subitem {use\+Output\+File}, \hyperpage{26}
+  \item {xmem\+::config\+::third\+\_\+party\+::\+Arg}, \hyperpage{14}
+  \item {xmem\+::config\+::third\+\_\+party\+::\+Descriptor}, 
 		\hyperpage{27}
-    \subitem {check\discretionary {-}{}{}\_\discretionary {-}{}{}arg}, 
-		\hyperpage{28}
+    \subitem {check\+\_\+arg}, \hyperpage{28}
     \subitem {help}, \hyperpage{28}
     \subitem {index}, \hyperpage{28}
     \subitem {longopt}, \hyperpage{28}
     \subitem {shortopt}, \hyperpage{29}
     \subitem {type}, \hyperpage{29}
-  \item {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Example\discretionary {-}{}{}Arg}, 
+  \item {xmem\+::config\+::third\+\_\+party\+::\+Example\+Arg}, 
 		\hyperpage{29}
-  \item {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}My\discretionary {-}{}{}Arg}, 
+  \item {xmem\+::config\+::third\+\_\+party\+::\+My\+Arg}, 
 		\hyperpage{34}
-  \item {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Option}, 
+  \item {xmem\+::config\+::third\+\_\+party\+::\+Option}, 
 		\hyperpage{34}
     \subitem {append}, \hyperpage{36}
     \subitem {arg}, \hyperpage{39}
     \subitem {count}, \hyperpage{36}
     \subitem {desc}, \hyperpage{39}
     \subitem {first}, \hyperpage{36}
-    \subitem {is\discretionary {-}{}{}First}, \hyperpage{37}
-    \subitem {is\discretionary {-}{}{}Last}, \hyperpage{37}
+    \subitem {is\+First}, \hyperpage{37}
+    \subitem {is\+Last}, \hyperpage{37}
     \subitem {last}, \hyperpage{37}
     \subitem {name}, \hyperpage{39}
     \subitem {namelen}, \hyperpage{39}
     \subitem {next}, \hyperpage{37}
     \subitem {nextwrap}, \hyperpage{37}
-    \subitem {operator const Option $\ast $}, \hyperpage{37}
-    \subitem {operator Option $\ast $}, \hyperpage{38}
+    \subitem {operator const Option $\ast$}, \hyperpage{37}
+    \subitem {operator Option $\ast$}, \hyperpage{38}
     \subitem {operator=}, \hyperpage{38}
     \subitem {Option}, \hyperpage{36}
     \subitem {prev}, \hyperpage{38}
     \subitem {prevwrap}, \hyperpage{38}
     \subitem {type}, \hyperpage{38}
-  \item {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Parser}, 
+  \item {xmem\+::config\+::third\+\_\+party\+::\+Parser}, 
 		\hyperpage{40}
     \subitem {error}, \hyperpage{43}
-    \subitem {non\discretionary {-}{}{}Options}, \hyperpage{43}
-    \subitem {non\discretionary {-}{}{}Options\discretionary {-}{}{}Count}, 
-		\hyperpage{43}
-    \subitem {options\discretionary {-}{}{}Count}, \hyperpage{43}
+    \subitem {non\+Options}, \hyperpage{43}
+    \subitem {non\+Options\+Count}, \hyperpage{43}
+    \subitem {options\+Count}, \hyperpage{43}
     \subitem {parse}, \hyperpage{44}
     \subitem {Parser}, \hyperpage{42}
-  \item {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Parser\discretionary {-}{}{}::\discretionary {-}{}{}Action}, 
+  \item {xmem\+::config\+::third\+\_\+party\+::\+Parser\+::\+Action}, 
 		\hyperpage{13}
     \subitem {finished}, \hyperpage{13}
     \subitem {perform}, \hyperpage{13}
-  \item {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Parser\discretionary {-}{}{}::\discretionary {-}{}{}Store\discretionary {-}{}{}Option\discretionary {-}{}{}Action}, 
+  \item {xmem\+::config\+::third\+\_\+party\+::\+Parser\+::\+Store\+Option\+Action}, 
 		\hyperpage{53}
     \subitem {finished}, \hyperpage{54}
     \subitem {perform}, \hyperpage{54}
-    \subitem {Store\discretionary {-}{}{}Option\discretionary {-}{}{}Action}, 
-		\hyperpage{53}
-  \item {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Print\discretionary {-}{}{}Usage\discretionary {-}{}{}Implementation}, 
+    \subitem {Store\+Option\+Action}, \hyperpage{53}
+  \item {xmem\+::config\+::third\+\_\+party\+::\+Print\+Usage\+Implementation}, 
 		\hyperpage{49}
-    \subitem {is\discretionary {-}{}{}Wide\discretionary {-}{}{}Char}, 
-		\hyperpage{49}
-  \item {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Print\discretionary {-}{}{}Usage\discretionary {-}{}{}Implementation\discretionary {-}{}{}::\discretionary {-}{}{}Function\discretionary {-}{}{}Writer$<$ Function $>$}, 
+    \subitem {is\+Wide\+Char}, \hyperpage{49}
+  \item {xmem\+::config\+::third\+\_\+party\+::\+Print\+Usage\+Implementation\+::\+Function\+Writer$<$ Function $>$}, 
 		\hyperpage{30}
-  \item {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Print\discretionary {-}{}{}Usage\discretionary {-}{}{}Implementation\discretionary {-}{}{}::\discretionary {-}{}{}I\discretionary {-}{}{}String\discretionary {-}{}{}Writer}, 
+  \item {xmem\+::config\+::third\+\_\+party\+::\+Print\+Usage\+Implementation\+::\+I\+String\+Writer}, 
 		\hyperpage{30}
-  \item {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Print\discretionary {-}{}{}Usage\discretionary {-}{}{}Implementation\discretionary {-}{}{}::\discretionary {-}{}{}Line\discretionary {-}{}{}Part\discretionary {-}{}{}Iterator}, 
+  \item {xmem\+::config\+::third\+\_\+party\+::\+Print\+Usage\+Implementation\+::\+Line\+Part\+Iterator}, 
 		\hyperpage{32}
     \subitem {next}, \hyperpage{33}
-    \subitem {next\discretionary {-}{}{}Row}, \hyperpage{33}
-    \subitem {next\discretionary {-}{}{}Table}, \hyperpage{33}
-  \item {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Print\discretionary {-}{}{}Usage\discretionary {-}{}{}Implementation\discretionary {-}{}{}::\discretionary {-}{}{}Line\discretionary {-}{}{}Wrapper}, 
+    \subitem {next\+Row}, \hyperpage{33}
+    \subitem {next\+Table}, \hyperpage{33}
+  \item {xmem\+::config\+::third\+\_\+party\+::\+Print\+Usage\+Implementation\+::\+Line\+Wrapper}, 
 		\hyperpage{33}
-    \subitem {Line\discretionary {-}{}{}Wrapper}, \hyperpage{33}
+    \subitem {Line\+Wrapper}, \hyperpage{33}
     \subitem {process}, \hyperpage{34}
-  \item {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Print\discretionary {-}{}{}Usage\discretionary {-}{}{}Implementation\discretionary {-}{}{}::\discretionary {-}{}{}O\discretionary {-}{}{}Stream\discretionary {-}{}{}Writer$<$ O\discretionary {-}{}{}Stream $>$}, 
+  \item {xmem\+::config\+::third\+\_\+party\+::\+Print\+Usage\+Implementation\+::\+O\+Stream\+Writer$<$ O\+Stream $>$}, 
 		\hyperpage{40}
-  \item {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Print\discretionary {-}{}{}Usage\discretionary {-}{}{}Implementation\discretionary {-}{}{}::\discretionary {-}{}{}Stream\discretionary {-}{}{}Writer$<$ Function, Stream $>$}, 
+  \item {xmem\+::config\+::third\+\_\+party\+::\+Print\+Usage\+Implementation\+::\+Stream\+Writer$<$ Function, Stream $>$}, 
 		\hyperpage{54}
-  \item {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Print\discretionary {-}{}{}Usage\discretionary {-}{}{}Implementation\discretionary {-}{}{}::\discretionary {-}{}{}Syscall\discretionary {-}{}{}Writer$<$ Syscall $>$}, 
+  \item {xmem\+::config\+::third\+\_\+party\+::\+Print\+Usage\+Implementation\+::\+Syscall\+Writer$<$ Syscall $>$}, 
 		\hyperpage{55}
-  \item {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Print\discretionary {-}{}{}Usage\discretionary {-}{}{}Implementation\discretionary {-}{}{}::\discretionary {-}{}{}Temporary\discretionary {-}{}{}Writer$<$ Temporary $>$}, 
+  \item {xmem\+::config\+::third\+\_\+party\+::\+Print\+Usage\+Implementation\+::\+Temporary\+Writer$<$ Temporary $>$}, 
 		\hyperpage{55}
-  \item {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Stats}, 
-		\hyperpage{51}
+  \item {xmem\+::config\+::third\+\_\+party\+::\+Stats}, \hyperpage{51}
     \subitem {add}, \hyperpage{52}
-    \subitem {buffer\discretionary {-}{}{}\_\discretionary {-}{}{}max}, 
-		\hyperpage{53}
-    \subitem {options\discretionary {-}{}{}\_\discretionary {-}{}{}max}, 
-		\hyperpage{53}
+    \subitem {buffer\+\_\+max}, \hyperpage{53}
+    \subitem {options\+\_\+max}, \hyperpage{53}
     \subitem {Stats}, \hyperpage{52}
-  \item {xmem\discretionary {-}{}{}::config\discretionary {-}{}{}::third\discretionary {-}{}{}\_\discretionary {-}{}{}party\discretionary {-}{}{}::\discretionary {-}{}{}Stats\discretionary {-}{}{}::\discretionary {-}{}{}Count\discretionary {-}{}{}Options\discretionary {-}{}{}Action}, 
+  \item {xmem\+::config\+::third\+\_\+party\+::\+Stats\+::\+Count\+Options\+Action}, 
 		\hyperpage{26}
-    \subitem {Count\discretionary {-}{}{}Options\discretionary {-}{}{}Action}, 
-		\hyperpage{26}
+    \subitem {Count\+Options\+Action}, \hyperpage{26}
     \subitem {perform}, \hyperpage{27}
-  \item {xmem\discretionary {-}{}{}::power\discretionary {-}{}{}::\discretionary {-}{}{}Power\discretionary {-}{}{}Reader}, 
-		\hyperpage{45}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}average\discretionary {-}{}{}\_\discretionary {-}{}{}power}, 
-		\hyperpage{48}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}cpu\discretionary {-}{}{}\_\discretionary {-}{}{}affinity}, 
-		\hyperpage{48}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}name}, 
-		\hyperpage{48}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}num\discretionary {-}{}{}\_\discretionary {-}{}{}samples}, 
-		\hyperpage{48}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}peak\discretionary {-}{}{}\_\discretionary {-}{}{}power}, 
-		\hyperpage{48}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}power\discretionary {-}{}{}\_\discretionary {-}{}{}trace}, 
-		\hyperpage{48}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}power\discretionary {-}{}{}\_\discretionary {-}{}{}units}, 
-		\hyperpage{48}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}sampling\discretionary {-}{}{}\_\discretionary {-}{}{}period}, 
-		\hyperpage{49}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}stop\discretionary {-}{}{}\_\discretionary {-}{}{}signal}, 
-		\hyperpage{49}
-    \subitem {calculate\discretionary {-}{}{}Metrics}, \hyperpage{46}
+  \item {xmem\+::power\+::\+Power\+Reader}, \hyperpage{45}
+    \subitem {\+\_\+average\+\_\+power}, \hyperpage{48}
+    \subitem {\+\_\+cpu\+\_\+affinity}, \hyperpage{48}
+    \subitem {\+\_\+name}, \hyperpage{48}
+    \subitem {\+\_\+num\+\_\+samples}, \hyperpage{48}
+    \subitem {\+\_\+peak\+\_\+power}, \hyperpage{48}
+    \subitem {\+\_\+power\+\_\+trace}, \hyperpage{48}
+    \subitem {\+\_\+power\+\_\+units}, \hyperpage{48}
+    \subitem {\+\_\+sampling\+\_\+period}, \hyperpage{49}
+    \subitem {\+\_\+stop\+\_\+signal}, \hyperpage{49}
+    \subitem {calculate\+Metrics}, \hyperpage{46}
     \subitem {clear}, \hyperpage{46}
-    \subitem {clear\discretionary {-}{}{}\_\discretionary {-}{}{}and\discretionary {-}{}{}\_\discretionary {-}{}{}reset}, 
-		\hyperpage{46}
-    \subitem {get\discretionary {-}{}{}Average\discretionary {-}{}{}Power}, 
-		\hyperpage{47}
-    \subitem {get\discretionary {-}{}{}Last\discretionary {-}{}{}Sample}, 
-		\hyperpage{47}
-    \subitem {get\discretionary {-}{}{}Num\discretionary {-}{}{}Samples}, 
-		\hyperpage{47}
-    \subitem {get\discretionary {-}{}{}Peak\discretionary {-}{}{}Power}, 
-		\hyperpage{47}
-    \subitem {get\discretionary {-}{}{}Power\discretionary {-}{}{}Trace}, 
-		\hyperpage{47}
-    \subitem {get\discretionary {-}{}{}Power\discretionary {-}{}{}Units}, 
-		\hyperpage{47}
-    \subitem {get\discretionary {-}{}{}Sampling\discretionary {-}{}{}Period}, 
-		\hyperpage{47}
+    \subitem {clear\+\_\+and\+\_\+reset}, \hyperpage{46}
+    \subitem {get\+Average\+Power}, \hyperpage{47}
+    \subitem {get\+Last\+Sample}, \hyperpage{47}
+    \subitem {get\+Num\+Samples}, \hyperpage{47}
+    \subitem {get\+Peak\+Power}, \hyperpage{47}
+    \subitem {get\+Power\+Trace}, \hyperpage{47}
+    \subitem {get\+Power\+Units}, \hyperpage{47}
+    \subitem {get\+Sampling\+Period}, \hyperpage{47}
     \subitem {name}, \hyperpage{48}
-    \subitem {Power\discretionary {-}{}{}Reader}, \hyperpage{46}
+    \subitem {Power\+Reader}, \hyperpage{46}
     \subitem {stop}, \hyperpage{48}
-  \item {xmem\discretionary {-}{}{}::thread\discretionary {-}{}{}::\discretionary {-}{}{}Runnable}, 
-		\hyperpage{50}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}acquire\discretionary {-}{}{}Lock}, 
-		\hyperpage{50}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}release\discretionary {-}{}{}Lock}, 
-		\hyperpage{51}
-  \item {xmem\discretionary {-}{}{}::thread\discretionary {-}{}{}::\discretionary {-}{}{}Thread}, 
-		\hyperpage{56}
-    \subitem {$\sim $\discretionary {-}{}{}Thread}, \hyperpage{56}
+  \item {xmem\+::thread\+::\+Runnable}, \hyperpage{50}
+    \subitem {\+\_\+acquire\+Lock}, \hyperpage{50}
+    \subitem {\+\_\+release\+Lock}, \hyperpage{51}
+  \item {xmem\+::thread\+::\+Thread}, \hyperpage{56}
+    \subitem {$\sim$\+Thread}, \hyperpage{56}
     \subitem {cancel}, \hyperpage{57}
     \subitem {completed}, \hyperpage{57}
-    \subitem {create\discretionary {-}{}{}\_\discretionary {-}{}{}and\discretionary {-}{}{}\_\discretionary {-}{}{}start}, 
-		\hyperpage{57}
+    \subitem {create\+\_\+and\+\_\+start}, \hyperpage{57}
     \subitem {created}, \hyperpage{57}
-    \subitem {get\discretionary {-}{}{}Exit\discretionary {-}{}{}Code}, 
-		\hyperpage{57}
-    \subitem {get\discretionary {-}{}{}Target}, \hyperpage{57}
-    \subitem {is\discretionary {-}{}{}Thread\discretionary {-}{}{}Running}, 
-		\hyperpage{57}
-    \subitem {is\discretionary {-}{}{}Thread\discretionary {-}{}{}Suspended}, 
-		\hyperpage{57}
+    \subitem {get\+Exit\+Code}, \hyperpage{57}
+    \subitem {get\+Target}, \hyperpage{57}
+    \subitem {is\+Thread\+Running}, \hyperpage{57}
+    \subitem {is\+Thread\+Suspended}, \hyperpage{57}
     \subitem {join}, \hyperpage{58}
     \subitem {started}, \hyperpage{58}
     \subitem {Thread}, \hyperpage{56}
-    \subitem {valid\discretionary {-}{}{}Target}, \hyperpage{58}
-  \item {xmem\discretionary {-}{}{}::timers\discretionary {-}{}{}::\discretionary {-}{}{}Timer}, 
-		\hyperpage{64}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}ns\discretionary {-}{}{}\_\discretionary {-}{}{}per\discretionary {-}{}{}\_\discretionary {-}{}{}tick}, 
-		\hyperpage{65}
-    \subitem {\discretionary {-}{}{}\_\discretionary {-}{}{}ticks\discretionary {-}{}{}\_\discretionary {-}{}{}per\discretionary {-}{}{}\_\discretionary {-}{}{}sec}, 
-		\hyperpage{65}
-    \subitem {get\discretionary {-}{}{}\_\discretionary {-}{}{}ns\discretionary {-}{}{}\_\discretionary {-}{}{}per\discretionary {-}{}{}\_\discretionary {-}{}{}tick}, 
-		\hyperpage{65}
-    \subitem {get\discretionary {-}{}{}\_\discretionary {-}{}{}ticks\discretionary {-}{}{}\_\discretionary {-}{}{}per\discretionary {-}{}{}\_\discretionary {-}{}{}sec}, 
-		\hyperpage{65}
+    \subitem {valid\+Target}, \hyperpage{58}
+  \item {xmem\+::timers\+::\+Timer}, \hyperpage{64}
+    \subitem {\+\_\+ns\+\_\+per\+\_\+tick}, \hyperpage{65}
+    \subitem {\+\_\+ticks\+\_\+per\+\_\+sec}, \hyperpage{65}
+    \subitem {get\+\_\+ns\+\_\+per\+\_\+tick}, \hyperpage{65}
+    \subitem {get\+\_\+ticks\+\_\+per\+\_\+sec}, \hyperpage{65}
     \subitem {stop}, \hyperpage{65}
-    \subitem {stop\discretionary {-}{}{}\_\discretionary {-}{}{}in\discretionary {-}{}{}\_\discretionary {-}{}{}ns}, 
-		\hyperpage{65}
+    \subitem {stop\+\_\+in\+\_\+ns}, \hyperpage{65}
 
 \end{theindex}

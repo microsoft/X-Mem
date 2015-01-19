@@ -1,14 +1,21 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.1.10)  18 JAN 2015 18:19
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.1.10)  18 JAN 2015 19:10
 entering extended mode
- restricted \write18 enabled.
- %&-line parsing enabled.
 **refman
-(./refman.tex
+(C:\Users\Mark\X-Mem\doc\latex\refman.tex
 LaTeX2e <2011/06/27>
-Babel <3.9h> and hyphenation patterns for 2 languages loaded.
-(/usr/share/texlive/texmf-dist/tex/latex/base/book.cls
+Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
+abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
+croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, ga
+lician, german, german-x-2013-05-26, greek, gujarati, hindi, hungarian, iceland
+ic, indonesian, interlingua, irish, italian, kannada, kurmanji, latin, latvian,
+ lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerman, n
+german-x-2013-05-26, nynorsk, oriya, panjabi, pinyin, polish, portuguese, roman
+ian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, swissgerm
+an, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, usengl
+ishmax, welsh, loaded.
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\book.cls"
 Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
-(/usr/share/texlive/texmf-dist/tex/latex/base/bk10.clo
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\bk10.clo"
 File: bk10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count79
@@ -24,7 +31,11 @@ File: bk10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 )
-(/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\fixltx2e.sty"
+Package: fixltx2e 2006/09/13 v1.1m fixes to LaTeX
+LaTeX Info: Redefining \em on input line 420.
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\calc.sty"
 Package: calc 2007/08/22 v4.3 Infix arithmetic (KKT,FJ)
 \calc@Acount=\count88
 \calc@Bcount=\count89
@@ -36,13 +47,14 @@ LaTeX Info: Redefining \setlength on input line 76.
 LaTeX Info: Redefining \addtolength on input line 77.
 \calc@Ccount=\count90
 \calc@Cskip=\skip45
-) (./doxygen.sty
+)
+(C:\Users\Mark\X-Mem\doc\latex\doxygen.sty
 Package: doxygen 
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/alltt.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\alltt.sty"
 Package: alltt 1997/06/16 v2.0g defines alltt environment
 )
-(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\array.sty"
 Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
 \col@sep=\dimen105
 \extrarowheight=\dimen106
@@ -50,7 +62,7 @@ Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
 \extratabsurround=\skip46
 \backup@length=\skip47
 )
-(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\float\float.sty"
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count91
 \float@exts=\toks15
@@ -58,35 +70,35 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@everytoks=\toks16
 \@floatcapt=\box27
 )
-(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ifthen.sty"
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
-(/usr/share/texlive/texmf-dist/tex/latex/tools/verbatim.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\verbatim.sty"
 Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
 \every@verbatim=\toks17
 \verbatim@line=\toks18
 \verbatim@in@stream=\read1
 )
-(/usr/share/texmf/tex/latex/xcolor/xcolor.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\xcolor\xcolor.sty"
 Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
 
-(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/color.cfg
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
 File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
 Package xcolor Info: Driver file: pdftex.def on input line 225.
 
-(/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
 File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
 
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
 Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
 )
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
 Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 )
 \Gread@gobject=\count92
 )
-(/usr/share/texlive/texmf-dist/tex/latex/colortbl/colortbl.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\colortbl\colortbl.sty"
 Package: colortbl 2012/02/13 v1.0a Color table columns (DPC)
 \everycr=\toks19
 \minrowclearance=\skip48
@@ -102,7 +114,7 @@ Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
 )
-(/usr/share/texlive/texmf-dist/tex/latex/xtab/xtab.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\xtab\xtab.sty"
 Package: xtab 2011/07/31 v2.3f Extended supertabular package
 \c@tracingst=\count94
 \PWSTcapht=\dimen107
@@ -135,40 +147,85 @@ Package: xtab 2011/07/31 v2.3f Extended supertabular package
 \xreflength=\skip52
 \tmplength=\skip53
 )
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\adjustbox\adjustbox.sty"
+Package: adjustbox 2012/05/21 v1.0 Adjusting TeX boxes (trim, clip, ...)
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\xkeyval\xkeyval.sty"
+Package: xkeyval 2012/10/14 v2.6b package option processing (HA)
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\xkeyval\xkeyval.tex"
+\XKV@toks=\toks20
+\XKV@tempa@toks=\toks21
+\XKV@depth=\count101
+File: xkeyval.tex 2012/10/14 v2.6b key=value parser (HA)
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\xkeyval\keyval.tex")))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\adjustbox\adjcalc.sty"
+Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back
+-ends (calc, etex, pgfmath)
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\adjustbox\trimclip.sty"
+Package: trimclip 2012/05/16 v1.0 Trim and clip general TeX material
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
-Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
-\KV@toks@=\toks20
-)
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
 Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
 
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\trig.sty"
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/graphics.cfg
-File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
 )
 Package graphics Info: Driver file: pdftex.def on input line 91.
 )
 \Gin@req@height=\dimen122
 \Gin@req@width=\dimen123
 )
-(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
-Package: inputenc 2008/03/30 v1.1d Input encoding file
-\inpenc@prehook=\toks21
-\inpenc@posthook=\toks22
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\collectbox\collectbox.sty"
+Package: collectbox 2012/05/17 v0.4b Collect macro arguments as boxes
+\collectedbox=\box30
+)
+\tc@llx=\dimen124
+\tc@lly=\dimen125
+\tc@urx=\dimen126
+\tc@ury=\dimen127
+Package trimclip Info: Using driver 'tc-pdftex.def'.
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\adjustbox\tc-pdftex.def"
+File: tc-pdftex.def 2012/05/13 v1.0 Clipping driver for pdftex
+))
+\adjbox@Width=\dimen128
+\adjbox@Height=\dimen129
+\adjbox@Depth=\dimen130
+\adjbox@Totalheight=\dimen131
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ifoddpage\ifoddpage.sty"
+Package: ifoddpage 2011/09/13 v1.0 Conditionals for odd/even page detection
+\c@checkoddpage=\count102
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ltxmisc\varwidth.sty"
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box31
+\sift@deathcycles=\count103
+\@vwid@loff=\dimen132
+\@vwid@roff=\dimen133
+))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\inputenc.sty"
+Package: inputenc 2008/03/30 v1.1d Input encoding file
+\inpenc@prehook=\toks22
+\inpenc@posthook=\toks23
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
 Now handling font encoding OML ...
 ... no UTF-8 mapping file for font encoding OML
 Now handling font encoding T1 ...
 ... processing UTF-8 mapping file for font encoding T1
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/t1enc.dfu
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\t1enc.dfu"
 File: t1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
    defining Unicode char U+00A1 (decimal 161)
    defining Unicode char U+00A3 (decimal 163)
@@ -318,7 +375,7 @@ File: t1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
 Now handling font encoding OT1 ...
 ... processing UTF-8 mapping file for font encoding OT1
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/ot1enc.dfu
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ot1enc.dfu"
 File: ot1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
    defining Unicode char U+00A1 (decimal 161)
    defining Unicode char U+00A3 (decimal 163)
@@ -349,7 +406,7 @@ File: ot1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
 Now handling font encoding OMS ...
 ... processing UTF-8 mapping file for font encoding OMS
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/omsenc.dfu
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\omsenc.dfu"
 File: omsenc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
    defining Unicode char U+00A7 (decimal 167)
    defining Unicode char U+00B6 (decimal 182)
@@ -373,33 +430,31 @@ Now handling font encoding U ...
    defining Unicode char U+2122 (decimal 8482)
    defining Unicode char U+2423 (decimal 9251)
 ))
-(/usr/share/texlive/texmf-dist/tex/latex/base/makeidx.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\makeidx.sty"
 Package: makeidx 2000/03/29 v1.0m Standard LaTeX package
 )
-(/usr/share/texlive/texmf-dist/tex/latex/tools/multicol.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\multicol.sty"
 Package: multicol 2011/06/27 v1.7a multicolumn formatting (FMi)
-\c@tracingmulticols=\count101
-\mult@box=\box30
-\multicol@leftmargin=\dimen124
-\c@unbalance=\count102
-\c@collectmore=\count103
-\doublecol@number=\count104
-\multicoltolerance=\count105
-\multicolpretolerance=\count106
-\full@width=\dimen125
-\page@free=\dimen126
-\premulticols=\dimen127
-\postmulticols=\dimen128
+\c@tracingmulticols=\count104
+\mult@box=\box32
+\multicol@leftmargin=\dimen134
+\c@unbalance=\count105
+\c@collectmore=\count106
+\doublecol@number=\count107
+\multicoltolerance=\count108
+\multicolpretolerance=\count109
+\full@width=\dimen135
+\page@free=\dimen136
+\premulticols=\dimen137
+\postmulticols=\dimen138
 \multicolsep=\skip54
 \multicolbaselineskip=\skip55
-\partial@page=\box31
-\last@line=\box32
-\mult@rightbox=\box33
-\mult@grightbox=\box34
-\mult@gfirstbox=\box35
-\mult@firstbox=\box36
-\@tempa=\box37
-\@tempa=\box38
+\partial@page=\box33
+\last@line=\box34
+\mult@rightbox=\box35
+\mult@grightbox=\box36
+\mult@gfirstbox=\box37
+\mult@firstbox=\box38
 \@tempa=\box39
 \@tempa=\box40
 \@tempa=\box41
@@ -415,19 +470,21 @@ Package: multicol 2011/06/27 v1.7a multicolumn formatting (FMi)
 \@tempa=\box51
 \@tempa=\box52
 \@tempa=\box53
-\c@columnbadness=\count107
-\c@finalcolumnbadness=\count108
-\last@try=\dimen129
-\multicolovershoot=\dimen130
-\multicolundershoot=\dimen131
-\mult@nat@firstbox=\box54
-\colbreak@box=\box55
-\multicol@sort@counter=\count109
+\@tempa=\box54
+\@tempa=\box55
+\c@columnbadness=\count110
+\c@finalcolumnbadness=\count111
+\last@try=\dimen139
+\multicolovershoot=\dimen140
+\multicolundershoot=\dimen141
+\mult@nat@firstbox=\box56
+\colbreak@box=\box57
+\multicol@sort@counter=\count112
 )
-(/usr/share/texlive/texmf-dist/tex/latex/multirow/multirow.sty
-\bigstrutjot=\dimen132
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\multirow\multirow.sty"
+\bigstrutjot=\dimen142
 )
-(/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\textcomp.sty"
 Package: textcomp 2005/09/27 v1.99g Standard LaTeX package
 Package textcomp Info: Sub-encoding information:
 (textcomp)               5 = only ISO-Adobe without \textcurrency
@@ -442,12 +499,12 @@ Package textcomp Info: Sub-encoding information:
 (textcomp)             See the documentation for details.
 Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 71.
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.def
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ts1enc.def"
 File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
 Now handling font encoding TS1 ...
 ... processing UTF-8 mapping file for font encoding TS1
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.dfu
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ts1enc.dfu"
 File: ts1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
    defining Unicode char U+00A2 (decimal 162)
    defining Unicode char U+00A3 (decimal 163)
@@ -582,98 +639,69 @@ Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 338.
 Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 339.
 Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 340.
 )
-(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\wasysym\wasysym.sty"
+Package: wasysym 2003/10/30 v2.0 Wasy-2 symbol support package
+\symwasy=\mathgroup4
+LaTeX Font Info:    Overwriting symbol font `wasy' in version `bold'
+(Font)                  U/wasy/m/n --> U/wasy/b/n on input line 90.
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\fontenc.sty"
 Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/t1enc.def
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\t1enc.def"
 File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
 LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
 ))
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/mathptmx.sty
-Package: mathptmx 2005/04/12 PSNFSS-v9.2a Times w/ Math, improved (SPQR, WaS) 
-LaTeX Font Info:    Redeclaring symbol font `operators' on input line 28.
-LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> OT1/ztmcm/m/n on input line 28.
-LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/ztmcm/m/n on input line 28.
-LaTeX Font Info:    Redeclaring symbol font `letters' on input line 29.
-LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
-(Font)                  OML/cmm/m/it --> OML/ztmcm/m/it on input line 29.
-LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
-(Font)                  OML/cmm/b/it --> OML/ztmcm/m/it on input line 29.
-LaTeX Font Info:    Redeclaring symbol font `symbols' on input line 30.
-LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
-(Font)                  OMS/cmsy/m/n --> OMS/ztmcm/m/n on input line 30.
-LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
-(Font)                  OMS/cmsy/b/n --> OMS/ztmcm/m/n on input line 30.
-LaTeX Font Info:    Redeclaring symbol font `largesymbols' on input line 31.
-LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
-(Font)                  OMX/cmex/m/n --> OMX/ztmcm/m/n on input line 31.
-LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
-(Font)                  OMX/cmex/m/n --> OMX/ztmcm/m/n on input line 31.
-\symbold=\mathgroup4
-\symitalic=\mathgroup5
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 34.
-LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> OT1/ptm/bx/n on input line 34.
-LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/ptm/bx/n on input line 34.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 35.
-LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> OT1/ptm/m/it on input line 35.
-LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> OT1/ptm/m/it on input line 35.
-LaTeX Info: Redefining \hbar on input line 50.
-)
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/helvet.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\helvet.sty"
 Package: helvet 2005/04/12 PSNFSS-v9.2a (WaS) 
 )
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/courier.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\courier.sty"
 Package: courier 2005/04/12 PSNFSS-v9.2a (WaS) 
 )
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty"
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
 
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty"
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
-\@emptytoks=\toks23
-\symAMSa=\mathgroup6
-\symAMSb=\mathgroup7
+\@emptytoks=\toks24
+\symAMSa=\mathgroup5
+\symAMSb=\mathgroup6
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ))
-(/usr/share/texlive/texmf-dist/tex/latex/sectsty/sectsty.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\sectsty\sectsty.sty"
 Package: sectsty 2002/02/25 v2.0.2 Commands to change all sectional heading sty
 les
 )
-(/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\geometry\geometry.sty"
 Package: geometry 2010/09/12 v5.6 Page Geometry
 
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
 Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
 Package ifpdf Info: pdfTeX in PDF mode is detected.
 )
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifvtex.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\ifvtex.sty"
 Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
 Package ifvtex Info: VTeX not detected.
 )
-(/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
-\Gm@cnth=\count110
-\Gm@cntv=\count111
-\c@Gm@tempcnt=\count112
-\Gm@bindingoffset=\dimen133
-\Gm@wd@mp=\dimen134
-\Gm@odd@mp=\dimen135
-\Gm@even@mp=\dimen136
-\Gm@layoutwidth=\dimen137
-\Gm@layoutheight=\dimen138
-\Gm@layouthoffset=\dimen139
-\Gm@layoutvoffset=\dimen140
-\Gm@dimlist=\toks24
-)
-(/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+\Gm@cnth=\count113
+\Gm@cntv=\count114
+\c@Gm@tempcnt=\count115
+\Gm@bindingoffset=\dimen143
+\Gm@wd@mp=\dimen144
+\Gm@odd@mp=\dimen145
+\Gm@even@mp=\dimen146
+\Gm@layoutwidth=\dimen147
+\Gm@layoutheight=\dimen148
+\Gm@layouthoffset=\dimen149
+\Gm@layoutvoffset=\dimen150
+\Gm@dimlist=\toks25
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\geometry\geometry.cfg"))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\fancyhdr\fancyhdr.sty"
 \fancy@headwidth=\skip56
 \f@ncyO@elh=\skip57
 \f@ncyO@erh=\skip58
@@ -684,14 +712,14 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \f@ncyO@olf=\skip63
 \f@ncyO@orf=\skip64
 )
-(/usr/share/texlive/texmf-dist/tex/latex/natbib/natbib.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\natbib\natbib.sty"
 Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibhang=\skip65
 \bibsep=\skip66
 LaTeX Info: Redefining \cite on input line 694.
-\c@NAT@ctr=\count113
+\c@NAT@ctr=\count116
 )
-(/usr/share/texlive/texmf-dist/tex/latex/tocloft/tocloft.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tocloft\tocloft.sty"
 Package: tocloft 2013/05/02 v2.3f parameterised ToC, etc., typesetting
 Package tocloft Info: The document has chapter divisions on input line 44.
 \cftparskip=\skip67
@@ -723,8 +751,8 @@ Package tocloft Info: The document has chapter divisions on input line 44.
 \cftbeforefigskip=\skip93
 \cftfigindent=\skip94
 \cftfignumwidth=\skip95
-\c@lofdepth=\count114
-\c@lotdepth=\count115
+\c@lofdepth=\count117
+\c@lotdepth=\count118
 \cftbeforelottitleskip=\skip96
 \cftafterlottitleskip=\skip97
 \cftbeforetabskip=\skip98
@@ -732,20 +760,18 @@ Package tocloft Info: The document has chapter divisions on input line 44.
 \cfttabnumwidth=\skip100
 )
 \@indexfile=\write3
-\openout3 = `refman.idx'.
-
 
 Writing index file refman.idx
-(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\hyperref.sty"
 Package: hyperref 2012/11/06 v6.83m Hypertext links for LaTeX
 
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
-Package: hobsub-hyperref 2012/05/28 v1.13 Bundle oberdiek, subset hyperref (HO)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\hobsub-hyperref.sty"
+Package: hobsub-hyperref 2012/04/25 v1.12 Bundle oberdiek, subset hyperref (HO)
 
 
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
-Package: hobsub-generic 2012/05/28 v1.13 Bundle oberdiek, subset generic (HO)
-Package: hobsub 2012/05/28 v1.13 Construct package bundles (HO)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\hobsub-generic.sty"
+Package: hobsub-generic 2012/04/25 v1.12 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2012/04/25 v1.12 Construct package bundles (HO)
 Package hobsub Info: Skipping package `infwarerr' (already loaded).
 Package hobsub Info: Skipping package `ltxcmds' (already loaded).
 Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
@@ -774,7 +800,7 @@ Package: uniquecounter 2011/01/30 v1.2 Provide unlimited unique counter (HO)
 )
 Package hobsub Info: Skipping package `hobsub' (already loaded).
 Package: letltxmacro 2010/09/02 v1.4 Let assignment for LaTeX macros (HO)
-Package: hopatch 2012/05/28 v1.2 Wrapper for package hooks (HO)
+Package: hopatch 2011/06/24 v1.1 Wrapper for package hooks (HO)
 Package: xcolor-patch 2011/01/30 xcolor patch
 Package: atveryend 2011/06/30 v1.8 Hooks at the very end of document (HO)
 Package atveryend Info: \enddocument detected (standard20110627).
@@ -782,24 +808,24 @@ Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
 Package: refcount 2011/10/16 v3.4 Data extraction from label references (HO)
 Package: hycolor 2011/01/30 v1.7 Color options for hyperref/bookmark (HO)
 )
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/auxhook.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\auxhook.sty"
 Package: auxhook 2011/03/04 v1.3 Hooks for auxiliary files (HO)
 )
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
 Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
 )
-\@linkdim=\dimen141
-\Hy@linkcounter=\count116
-\Hy@pagecounter=\count117
+\@linkdim=\dimen151
+\Hy@linkcounter=\count119
+\Hy@pagecounter=\count120
 
-(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\pd1enc.def"
 File: pd1enc.def 2012/11/06 v6.83m Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 )
-\Hy@SavedSpaceFactor=\count118
+\Hy@SavedSpaceFactor=\count121
 
-(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/hyperref.cfg
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\hyperref.cfg"
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
 Package hyperref Info: Hyper figures OFF on input line 4443.
@@ -810,25 +836,25 @@ Package hyperref Info: Backreferencing ON on input line 4461.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4688.
 
-(/usr/share/texlive/texmf-dist/tex/latex/hyperref/backref.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\backref.sty"
 Package: backref 2012/07/25 v1.38 Bibliographical back referencing
 
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\rerunfilecheck.sty"
 Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 ))
-\c@Hy@tempcnt=\count119
+\c@Hy@tempcnt=\count122
 
-(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\url\url.sty"
 \Urlmuskip=\muskip10
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 5041.
-\XeTeXLinkMargin=\dimen142
-\Fld@menulength=\count120
-\Field@Width=\dimen143
-\Fld@charsize=\dimen144
+\XeTeXLinkMargin=\dimen152
+\Fld@menulength=\count123
+\Field@Width=\dimen153
+\Fld@charsize=\dimen154
 Package hyperref Info: Hyper figures OFF on input line 6295.
 Package hyperref Info: Link nesting OFF on input line 6300.
 Package hyperref Info: Hyper index ON on input line 6303.
@@ -838,91 +864,74 @@ Package hyperref Info: Link coloring with OCG OFF on input line 6320.
 Package hyperref Info: PDF/A mode OFF on input line 6325.
 LaTeX Info: Redefining \ref on input line 6365.
 LaTeX Info: Redefining \pageref on input line 6369.
-\Hy@abspage=\count121
-\c@Item=\count122
-\c@Hfootnote=\count123
+\Hy@abspage=\count124
+\c@Item=\count125
+\c@Hfootnote=\count126
 )
 
 Package hyperref Message: Driver: hpdftex.
 
-(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\hpdftex.def"
 File: hpdftex.def 2012/11/06 v6.83m Hyperref driver for pdfTeX
-\Fld@listcount=\count124
-\c@bookmark@seq@number=\count125
+\Fld@listcount=\count127
+\c@bookmark@seq@number=\count128
 \Hy@SectionHShift=\skip101
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 101.
-Package hyperref Info: Option `unicode' set `true' on input line 101.
+Package hyperref Info: Option `colorlinks' set `true' on input line 105.
+Package hyperref Info: Option `unicode' set `true' on input line 105.
 
-(/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\puenc.def"
 File: puenc.def 2012/11/06 v6.83m Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
-) (./refman.aux)
-\openout1 = `refman.aux'.
+)
+(C:\Users\Mark\X-Mem\doc\latex\refman.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 115.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 115.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 111.
-LaTeX Font Info:    ... okay on input line 111.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 111.
-LaTeX Font Info:    ... okay on input line 111.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 111.
-LaTeX Font Info:    ... okay on input line 111.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 111.
-LaTeX Font Info:    ... okay on input line 111.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 111.
-LaTeX Font Info:    ... okay on input line 111.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 111.
-LaTeX Font Info:    ... okay on input line 111.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 111.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 111.
 
-
-(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ts1cmr.fd"
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 111.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 111.
-LaTeX Font Info:    ... okay on input line 111.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 111.
-LaTeX Font Info:    ... okay on input line 111.
-LaTeX Font Info:    Try loading font information for T1+phv on input line 111.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 115.
+LaTeX Font Info:    ... okay on input line 115.
+LaTeX Font Info:    Try loading font information for T1+phv on input line 115.
 
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\t1phv.fd"
 File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
 )
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 8.99994pt on input line 111.
+(Font)              scaled to size 8.99994pt on input line 115.
 
-(/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
+("C:\Program Files (x86)\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count126
-\scratchdimen=\dimen145
-\scratchbox=\box56
-\nofMPsegments=\count127
-\nofMParguments=\count128
-\everyMPshowfont=\toks25
-\MPscratchCnt=\count129
-\MPscratchDim=\dimen146
-\MPnumerator=\count130
-\makeMPintoPDFobject=\count131
-\everyMPtoPDFconversion=\toks26
-) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
-Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
-
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
-Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
+\scratchcounter=\count129
+\scratchdimen=\dimen155
+\scratchbox=\box58
+\nofMPsegments=\count130
+\nofMParguments=\count131
+\everyMPshowfont=\toks26
+\MPscratchCnt=\count132
+\MPscratchDim=\dimen156
+\MPnumerator=\count133
+\makeMPintoPDFobject=\count134
+\everyMPtoPDFconversion=\toks27
 )
-Package grfext Info: Graphics extension search list:
-(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
-G,.JBIG2,.JB2,.eps]
-(grfext)             \AppendGraphicsExtensions on input line 452.
-
-(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
-e
-))
-\big@size=\dimen147
-
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -957,111 +966,99 @@ e
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\AtBeginShipoutBox=\box57
-Package backref Info: ** backref set up for natbib ** on input line 111.
-Package hyperref Info: Link coloring ON on input line 111.
-(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+\AtBeginShipoutBox=\box59
+Package backref Info: ** backref set up for natbib ** on input line 115.
+Package hyperref Info: Link coloring ON on input line 115.
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count132
+\c@section@level=\count135
 )
-LaTeX Info: Redefining \ref on input line 111.
-LaTeX Info: Redefining \pageref on input line 111.
-LaTeX Info: Redefining \nameref on input line 111.
+LaTeX Info: Redefining \ref on input line 115.
+LaTeX Info: Redefining \pageref on input line 115.
+LaTeX Info: Redefining \nameref on input line 115.
 
-(./refman.out) (./refman.out)
+(C:\Users\Mark\X-Mem\doc\latex\refman.out)
+(C:\Users\Mark\X-Mem\doc\latex\refman.out)
 \@outlinefile=\write4
-\openout4 = `refman.out'.
+Package hyperref Info: Option `pageanchor' set `false' on input line 122.
 
-Package hyperref Info: Option `pageanchor' set `false' on input line 114.
+
+Package hyperref Warning: Option `bookmarks' has already been used,
+(hyperref)                setting the option has no effect on input line 122.
+
+Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 122.
+
+Package hyperref Info: Option `unicode' set `true' on input line 122.
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 12.9599pt on input line 119.
+(Font)              scaled to size 12.9599pt on input line 127.
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 10.79993pt on input line 119.
+(Font)              scaled to size 6.29996pt on input line 127.
+LaTeX Font Info:    Try loading font information for U+wasy on input line 127.
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\wasysym\uwasy.fd"
+File: uwasy.fd 2003/10/30 v2.0 Wasy-2 symbol font definitions
+)
+LaTeX Font Info:    Try loading font information for U+msa on input line 127.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 127.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 8.09995pt on input line 123.
+(Font)              scaled to size 10.79993pt on input line 127.
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 8.09995pt on input line 131.
  [1
 
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2
+{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}] [2
 
 ]
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 22.39185pt on input line 127.
+(Font)              scaled to size 22.39185pt on input line 135.
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <24.88> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 127.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 135.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 22.39185pt on input line 127.
+(Font)              scaled to size 22.39185pt on input line 135.
 LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
-(Font)              scaled to size 22.39185pt on input line 127.
- (./refman.toc
+(Font)              scaled to size 22.39185pt on input line 135.
+
+(C:\Users\Mark\X-Mem\doc\latex\refman.toc
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <10> not available
 (Font)              Font shape `T1/phv/b/n' tried instead on input line 1.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
 (Font)              scaled to size 8.99994pt on input line 1.
-LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 1.
-
-
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ztmcm.fd
-File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
-)
-LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 1.
-
-
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omlztmcm.fd
-File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
-)
-LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 1.
-
-
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsztmcm.fd
-File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
-)
-LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 1.
-
-
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omxztmcm.fd
-File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
-)
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 1.
-
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd
-File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
-)
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1.
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <7> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 1.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 6.29996pt on input line 1.
  [3
 
-]
-LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <7> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 71.
-LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 6.29996pt on input line 71.
- [4] [5] [6]
-[7] [8] [9] [10] [11])
+] [4] [5] [6] [7] [8] [9] [10]
+[11])
 \tf@toc=\write5
-\openout5 = `refman.toc'.
-
  [12]
-Package hyperref Info: Option `pageanchor' set `true' on input line 130.
+Package hyperref Info: Option `pageanchor' set `true' on input line 138.
 
 Chapter 1.
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 18.66588pt on input line 133.
+(Font)              scaled to size 18.66588pt on input line 141.
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <20.74> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 133.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 141.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 18.66588pt on input line 133.
+(Font)              scaled to size 18.66588pt on input line 141.
 LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
-(Font)              scaled to size 18.66588pt on input line 133.
-(./md_src__r_e_a_d_m_e.tex
+(Font)              scaled to size 18.66588pt on input line 141.
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 6.29996pt on input line 141.
+(C:\Users\Mark\X-Mem\doc\latex\md_src__r_e_a_d_m_e.tex
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
 (Font)              Font shape `T1/phv/b/n' tried instead on input line 1.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
@@ -1070,28 +1067,28 @@ LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
 (Font)              scaled to size 10.79993pt on input line 1.
 LaTeX Font Info:    Try loading font information for T1+pcr on input line 5.
 
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\t1pcr.fd"
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
-LaTeX Font Info:    Try loading font information for TS1+phv on input line 29.
+LaTeX Font Info:    Try loading font information for TS1+phv on input line 25.
 
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1phv.fd
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\ts1phv.fd"
 File: ts1phv.fd 2001/06/04 scalable font definitions for TS1/phv.
 )
 LaTeX Font Info:    Font shape `TS1/phv/m/n' will be
-(Font)              scaled to size 8.99994pt on input line 29.
+(Font)              scaled to size 8.99994pt on input line 25.
  [1
 
 
 ] [2]
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
 (Font)              scaled to size 7.19995pt on input line 112.
- [3])
-[4] [5] [6
+
+[3]) [4] [5] [6
 
 ]
 Chapter 2.
-(./hierarchy.tex
+(C:\Users\Mark\X-Mem\doc\latex\hierarchy.tex
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <14.4> not available
 (Font)              Font shape `T1/phv/b/n' tried instead on input line 1.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
@@ -1102,9 +1099,9 @@ LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
 
 ]
 Chapter 3.
-(./annotated.tex [9]) [10]
+(C:\Users\Mark\X-Mem\doc\latex\annotated.tex [9]) [10]
 Chapter 4.
-(./files.tex
+(C:\Users\Mark\X-Mem\doc\latex\files.tex
 Underfull \vbox (badness 3250) has occurred while \output is active []
 
  [11
@@ -1112,494 +1109,188 @@ Underfull \vbox (badness 3250) has occurred while \output is active []
 ])
 [12]
 Chapter 5.
-(./structxmem_1_1config_1_1third__party_1_1_parser_1_1_action.tex
-<structxmem_1_1config_1_1third__party_1_1_parser_1_1_action.pdf, id=2130, 501.8
-75pt x 64.34038pt>
+
+(C:\Users\Mark\X-Mem\doc\latex\structxmem_1_1config_1_1third__party_1_1_parser_
+1_1_action.tex
+<structxmem_1_1config_1_1third__party_1_1_parser_1_1_action.pdf, id=2118, 501.8
+75pt x 65.24374pt>
 File: structxmem_1_1config_1_1third__party_1_1_parser_1_1_action.pdf Graphic fi
 le (type pdf)
 
 <use structxmem_1_1config_1_1third__party_1_1_parser_1_1_action.pdf>
 Package pdftex.def Info: structxmem_1_1config_1_1third__party_1_1_parser_1_1_ac
-tion.pdf used on input line 7.
-(pdftex.def)             Requested size: 398.3531pt x 51.06917pt.
+tion.pdf used on input line 6.
+(pdftex.def)             Requested size: 392.84702pt x 51.06917pt.
 LaTeX Font Info:    Font shape `T1/phv/m/it' in size <9> not available
-(Font)              Font shape `T1/phv/m/sl' tried instead on input line 14.
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 13.
 LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
-(Font)              scaled to size 8.09995pt on input line 14.
+(Font)              scaled to size 8.09995pt on input line 13.
+LaTeX Font Info:    Font shape `T1/phv/m/it' in size <7> not available
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 13.
+LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
+(Font)              scaled to size 6.29996pt on input line 13.
 LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
-(Font)              scaled to size 8.99994pt on input line 27.
+(Font)              scaled to size 8.99994pt on input line 26.
 LaTeX Font Info:    Font shape `T1/phv/bc/it' in size <10> not available
-(Font)              Font shape `T1/phv/bc/sl' tried instead on input line 27.
+(Font)              Font shape `T1/phv/bc/sl' tried instead on input line 26.
 LaTeX Font Info:    Font shape `T1/phv/bc/sl' will be
-(Font)              scaled to size 8.99994pt on input line 27.
+(Font)              scaled to size 8.99994pt on input line 26.
 
 
 LaTeX Font Warning: Font shape `T1/pcr/bc/n' undefined
-(Font)              using `T1/pcr/m/n' instead on input line 27.
+(Font)              using `T1/pcr/m/n' instead on input line 26.
 
 LaTeX Font Info:    Font shape `T1/phv/m/it' in size <10> not available
-(Font)              Font shape `T1/phv/m/sl' tried instead on input line 34.
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 33.
 LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
-(Font)              scaled to size 8.99994pt on input line 34.
+(Font)              scaled to size 8.99994pt on input line 33.
 
-Underfull \hbox (badness 10000) detected at line 39
+Underfull \hbox (badness 10000) detected at line 38
 [][][]
  []
 
 [13
 
- <./structxmem_1_1config_1_1third__party_1_1_parser_1_1_action.pdf>])
-(./structxmem_1_1config_1_1third__party_1_1_arg.tex
-<structxmem_1_1config_1_1third__party_1_1_arg.pdf, id=2161, 501.875pt x 258.475
-68pt>
+ <C:/Users/Mark/X-Mem/doc/latex/structxmem_1_1config_1_1third__party_1_1_parser
+_1_1_action.pdf>])
+(C:\Users\Mark\X-Mem\doc\latex\structxmem_1_1config_1_1third__party_1_1_arg.tex
+
+<structxmem_1_1config_1_1third__party_1_1_arg.pdf, id=2147, 501.875pt x 258.967
+5pt>
 File: structxmem_1_1config_1_1third__party_1_1_arg.pdf Graphic file (type pdf)
  <use structxmem_1_1config_1_1third__party_1_1_arg.pdf>
 Package pdftex.def Info: structxmem_1_1config_1_1third__party_1_1_arg.pdf used 
-on input line 16.
-(pdftex.def)             Requested size: 165.73413pt x 85.35826pt.
-LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 6.29996pt on input line 34.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 46.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 46.
- [14 <./structxmem_1_1config_1_1third__party_1_1_arg.pdf>])
-(./classxmem_1_1benchmark_1_1_benchmark.tex
-<classxmem_1_1benchmark_1_1_benchmark.pdf, id=2182, 501.875pt x 79.66763pt>
+on input line 15.
+(pdftex.def)             Requested size: 165.42015pt x 85.35826pt.
+LaTeX Font Info:    Font shape `TS1/phv/m/it' in size <9> not available
+(Font)              Font shape `TS1/phv/m/sl' tried instead on input line 23.
+LaTeX Font Info:    Font shape `TS1/phv/m/sl' will be
+(Font)              scaled to size 8.09995pt on input line 23.
+ [14 <C:/Users/Mark/X-Mem/doc/latex/structxmem_1_1config_1_1third__party_1_1_ar
+g.pdf>])
+(C:\Users\Mark\X-Mem\doc\latex\classxmem_1_1benchmark_1_1_benchmark.tex
+<classxmem_1_1benchmark_1_1_benchmark.pdf, id=2166, 501.875pt x 80.3pt>
 File: classxmem_1_1benchmark_1_1_benchmark.pdf Graphic file (type pdf)
 
 <use classxmem_1_1benchmark_1_1_benchmark.pdf>
 Package pdftex.def Info: classxmem_1_1benchmark_1_1_benchmark.pdf used on input
- line 16.
-(pdftex.def)             Requested size: 358.49329pt x 56.9055pt.
- [15 <./classxmem_1_1benchmark_1_1_benchmark.pdf>] [16]
-Underfull \hbox (badness 10000) detected at line 181
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 195
-[][][]
- []
-
-[17]
-Underfull \hbox (badness 10000) detected at line 209
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 223
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 237
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 251
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 265
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 279
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 293
-[][][]
- []
-
-[18] [19]
-Underfull \hbox (badness 10000) detected at line 312
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 326
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 340
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 354
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 368
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 382
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 396
-[][][]
- []
-
-[20] [21]) (./classxmem_1_1benchmark_1_1_benchmark_manager.tex [22]
-Underfull \hbox (badness 10000) detected at line 72
-[][][]
- []
-
-[23]
-Underfull \hbox (badness 10000) detected at line 86
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 100
-[][][]
- []
-
-) (./classxmem_1_1config_1_1_configurator.tex [24]
-Underfull \hbox (badness 10000) detected at line 94
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 108
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 122
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 136
-[][][]
- []
-
-[25]
-Underfull \hbox (badness 10000) detected at line 150
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 164
-[][][]
- []
-
+ line 15.
+(pdftex.def)             Requested size: 355.6675pt x 56.9055pt.
+ [15 <C:/Users/Mark/X-Mem/doc/latex/classxmem_1_1benchmark_1_1_benchmark.pdf>] 
+[16]
+LaTeX Font Info:    Font shape `T1/phv/bc/it' in size <7> not available
+(Font)              Font shape `T1/phv/bc/sl' tried instead on input line 134.
+LaTeX Font Info:    Font shape `T1/phv/bc/sl' will be
+(Font)              scaled to size 6.29996pt on input line 134.
 
 Underfull \hbox (badness 10000) detected at line 178
 [][][]
  []
 
-) (./classxmem_1_1config_1_1third__party_1_1_stats_1_1_count_options_action.tex
 
-<classxmem_1_1config_1_1third__party_1_1_stats_1_1_count_options_action.pdf, id
-=2374, 501.875pt x 129.51385pt>
-File: classxmem_1_1config_1_1third__party_1_1_stats_1_1_count_options_action.pd
-f Graphic file (type pdf)
-
-<use classxmem_1_1config_1_1third__party_1_1_stats_1_1_count_options_action.pdf
->
-Package pdftex.def Info: classxmem_1_1config_1_1third__party_1_1_stats_1_1_coun
-t_options_action.pdf used on input line 7.
-(pdftex.def)             Requested size: 220.5117pt x 56.9055pt.
- [26 <./classxmem_1_1config_1_1third__party_1_1_stats_1_1_count_options_action.
-pdf>]) (./structxmem_1_1config_1_1third__party_1_1_descriptor.tex
-LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <9> not available
-(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 23.
-
-Underfull \hbox (badness 10000) detected at line 35
+Underfull \hbox (badness 10000) detected at line 192
 [][][]
  []
 
-[27]
-Underfull \hbox (badness 10000) detected at line 77
+[17]
+Underfull \hbox (badness 10000) detected at line 206
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 91
+Underfull \hbox (badness 10000) detected at line 220
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 105
+Underfull \hbox (badness 10000) detected at line 234
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 108
-[][][]
- []
-
-[28]) (./classxmem_1_1config_1_1third__party_1_1_example_arg.tex
-<classxmem_1_1config_1_1third__party_1_1_example_arg.pdf, id=2459, 501.875pt x 
-258.47568pt>
-File: classxmem_1_1config_1_1third__party_1_1_example_arg.pdf Graphic file (typ
-e pdf)
- <use classxmem_1_1config_1_1third__party_1_1_example_arg.pdf>
-Package pdftex.def Info: classxmem_1_1config_1_1third__party_1_1_example_arg.pd
-f used on input line 7.
-(pdftex.def)             Requested size: 165.73413pt x 85.35826pt.
-)
-(./structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_func
-tion_writer.tex
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 3.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 3.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 3.
-
-Underfull \hbox (badness 10000) in paragraph at lines 3--3
-[]\T1/phv/bc/n/14.4 xmem-:-:config-:-:third-_-party-:-:Print-Usage-Implementati
-on-:-:Function-Writer$\OML/ztmcm/m/it/14.4 <$ \T1/phv/bc/n/14.4 Func-tion
- []
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3.
-
-
-<structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_functi
-on_writer.pdf, id=2465, 501.875pt x 85.42917pt>
-File: structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_f
-unction_writer.pdf Graphic file (type pdf)
-
-<use structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_fu
-nction_writer.pdf>
-Package pdftex.def Info: structxmem_1_1config_1_1third__party_1_1_print_usage_i
-mplementation_1_1_function_writer.pdf used on input line 7.
-(pdftex.def)             Requested size: 334.31703pt x 56.9055pt.
- [29 <./classxmem_1_1config_1_1third__party_1_1_example_arg.pdf>])
-(./structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_i_st
-ring_writer.tex
-Underfull \hbox (badness 1742) in paragraph at lines 3--3
-[]\T1/phv/bc/n/14.4 xmem-:-:config-:-:third-_-party-:-:Print-Usage-Implementati
-on-:-:I-String-Writer Struct Ref-er-
- []
-
-
-<structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_i_stri
-ng_writer.pdf, id=2484, 501.875pt x 15.80907pt>
-File: structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_i
-_string_writer.pdf Graphic file (type pdf)
-
-<use structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_i_
-string_writer.pdf>
-Package pdftex.def Info: structxmem_1_1config_1_1third__party_1_1_print_usage_i
-mplementation_1_1_i_string_writer.pdf used on input line 7.
-(pdftex.def)             Requested size: 398.2995pt x 12.54619pt.
-) (./classxmem_1_1benchmark_1_1_latency_benchmark.tex
-<classxmem_1_1benchmark_1_1_latency_benchmark.pdf, id=2487, 501.875pt x 172.313
-77pt>
-File: classxmem_1_1benchmark_1_1_latency_benchmark.pdf Graphic file (type pdf)
- <use classxmem_1_1benchmark_1_1_latency_benchmark.pdf>
-Package pdftex.def Info: classxmem_1_1benchmark_1_1_latency_benchmark.pdf used 
-on input line 16.
-(pdftex.def)             Requested size: 165.73413pt x 56.9055pt.
- [30 <./structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1
-_function_writer.pdf> <./structxmem_1_1config_1_1third__party_1_1_print_usage_i
-mplementation_1_1_i_string_writer.pdf>] [31 <./classxmem_1_1benchmark_1_1_laten
-cy_benchmark.pdf>]
-Underfull \hbox (badness 10000) detected at line 98
-[][][]
- []
-
-)
-(./classxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_line_
-part_iterator.tex [32])
-(./classxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_line_
-wrapper.tex
-Underfull \hbox (badness 2951) in paragraph at lines 3--3
-[]\T1/phv/bc/n/14.4 xmem-:-:config-:-:third-_-party-:-:Print-Usage-Implementati
-on-:-:Line-Wrapper Class Ref-er-
- []
-
-[33]) (./classxmem_1_1config_1_1third__party_1_1_my_arg.tex
-<classxmem_1_1config_1_1third__party_1_1_my_arg.pdf, id=2601, 501.875pt x 258.4
-7568pt>
-File: classxmem_1_1config_1_1third__party_1_1_my_arg.pdf Graphic file (type pdf
-)
- <use classxmem_1_1config_1_1third__party_1_1_my_arg.pdf>
-Package pdftex.def Info: classxmem_1_1config_1_1third__party_1_1_my_arg.pdf use
-d on input line 7.
-(pdftex.def)             Requested size: 165.73413pt x 85.35826pt.
-)
-(./classxmem_1_1config_1_1third__party_1_1_option.tex [34 <./classxmem_1_1confi
-g_1_1third__party_1_1_my_arg.pdf>]
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 42.
- [35]
-Underfull \hbox (badness 10000) detected at line 134
-[][][]
- []
-
-[36]
-Underfull \hbox (badness 10000) detected at line 165
+Underfull \hbox (badness 10000) detected at line 248
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 207
+Underfull \hbox (badness 10000) detected at line 262
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 210
+Underfull \hbox (badness 10000) detected at line 276
 [][][]
  []
 
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 241.
+Underfull \hbox (badness 10000) detected at line 290
+[][][]
+ []
 
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\ast' on input line 241.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 241.
-
-[37]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 264.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\ast' on input line 264.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 264.
-
-[38]
-Underfull \hbox (badness 10000) detected at line 359
+[18] [19]
+Underfull \hbox (badness 10000) detected at line 309
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 391
-[][][]
- []
-
-[39])
-(./structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_o_st
-ream_writer.tex
-Underfull \hbox (badness 6510) in paragraph at lines 3--3
-[]\T1/phv/bc/n/14.4 xmem-:-:config-:-:third-_-party-:-:Print-Usage-Implementati
-on-:-:O-Stream-Writer$\OML/ztmcm/m/it/14.4 <$ \T1/phv/bc/n/14.4 O-Stream
- []
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3.
-
-
-<structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_o_stre
-am_writer.pdf, id=2811, 501.875pt x 85.42917pt>
-File: structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_o
-_stream_writer.pdf Graphic file (type pdf)
-
-<use structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_o_
-stream_writer.pdf>
-Package pdftex.def Info: structxmem_1_1config_1_1third__party_1_1_print_usage_i
-mplementation_1_1_o_stream_writer.pdf used on input line 7.
-(pdftex.def)             Requested size: 334.31703pt x 56.9055pt.
-) (./classxmem_1_1config_1_1third__party_1_1_parser.tex
-[40 <./structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_
-o_stream_writer.pdf>]
-LaTeX Font Info:    Font shape `T1/phv/bx/it' in size <9> not available
-(Font)              Font shape `T1/phv/b/it' tried instead on input line 56.
-LaTeX Font Info:    Font shape `T1/phv/b/it' in size <9> not available
-(Font)              Font shape `T1/phv/b/sl' tried instead on input line 56.
-LaTeX Font Info:    Font shape `T1/phv/b/sl' will be
-(Font)              scaled to size 8.09995pt on input line 56.
-LaTeX Font Info:    Font shape `T1/pcr/bx/it' in size <9> not available
-(Font)              Font shape `T1/pcr/b/it' tried instead on input line 56.
-LaTeX Font Info:    Font shape `T1/pcr/b/it' in size <9> not available
-(Font)              Font shape `T1/pcr/b/sl' tried instead on input line 56.
-
-Underfull \hbox (badness 10000) detected at line 70
-[][][]
- []
-
-[41]
-
-LaTeX Font Warning: Font shape `T1/pcr/bc/it' undefined
-(Font)              using `T1/pcr/bc/n' instead on input line 105.
-
-
-Underfull \hbox (badness 10000) detected at line 135
-[][][]
- []
-
-[42]
-Underfull \hbox (badness 10000) detected at line 170
+Underfull \hbox (badness 10000) detected at line 323
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 186
+Underfull \hbox (badness 10000) detected at line 337
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 200
+Underfull \hbox (badness 10000) detected at line 351
 [][][]
  []
 
-[43]
-Underfull \hbox (badness 10000) detected at line 249
+
+Underfull \hbox (badness 10000) detected at line 365
 [][][]
  []
 
-[44]) (./classxmem_1_1power_1_1_power_reader.tex
-<classxmem_1_1power_1_1_power_reader.pdf, id=2973, 501.875pt x 229.42714pt>
-File: classxmem_1_1power_1_1_power_reader.pdf Graphic file (type pdf)
 
-<use classxmem_1_1power_1_1_power_reader.pdf>
-Package pdftex.def Info: classxmem_1_1power_1_1_power_reader.pdf used on input 
-line 16.
-(pdftex.def)             Requested size: 124.48056pt x 56.9055pt.
- [45 <./classxmem_1_1power_1_1_power_reader.pdf>]
+Underfull \hbox (badness 10000) detected at line 379
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 393
+[][][]
+ []
+
+[20] [21])
+(C:\Users\Mark\X-Mem\doc\latex\classxmem_1_1benchmark_1_1_benchmark_manager.tex
+[22]
+Underfull \hbox (badness 10000) detected at line 71
+[][][]
+ []
+
+[23]
+Underfull \hbox (badness 10000) detected at line 85
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 99
+[][][]
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\classxmem_1_1config_1_1_configurator.tex
+[24]
+Underfull \hbox (badness 10000) detected at line 93
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 107
+[][][]
+ []
+
+
 Underfull \hbox (badness 10000) detected at line 121
 [][][]
  []
@@ -1609,7 +1300,7 @@ Underfull \hbox (badness 10000) detected at line 135
 [][][]
  []
 
-[46]
+[25]
 Underfull \hbox (badness 10000) detected at line 149
 [][][]
  []
@@ -1624,251 +1315,42 @@ Underfull \hbox (badness 10000) detected at line 177
 [][][]
  []
 
-
-Underfull \hbox (badness 10000) detected at line 191
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 205
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 219
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 233
-[][][]
- []
-
-[47]
-Underfull \hbox (badness 10000) detected at line 247
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 261
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 275
-[][][]
- []
-
-[48])
-(./structxmem_1_1config_1_1third__party_1_1_print_usage_implementation.tex
-Underfull \hbox (badness 10000) detected at line 51
-[][][]
- []
-
-[49]) (./classxmem_1_1thread_1_1_runnable.tex
-<classxmem_1_1thread_1_1_runnable.pdf, id=3081, 501.875pt x 68.51598pt>
-File: classxmem_1_1thread_1_1_runnable.pdf Graphic file (type pdf)
-
-<use classxmem_1_1thread_1_1_runnable.pdf>
-Package pdftex.def Info: classxmem_1_1thread_1_1_runnable.pdf used on input lin
-e 16.
-(pdftex.def)             Requested size: 398.33012pt x 54.38089pt.
- [50 <./classxmem_1_1thread_1_1_runnable.pdf>]
-Underfull \hbox (badness 10000) detected at line 60
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 74
-[][][]
- []
-
-) (./structxmem_1_1config_1_1third__party_1_1_stats.tex [51]
-Underfull \hbox (badness 862) in paragraph at lines 43--44
-[]\T1/phv/m/n/10 void [][]add[][] (const [][]De-scrip-tor[][] usage[]$ $[], int
- argc, char $\OMS/ztmcm/m/n/10 ^^C$$^^C$\T1/phv/m/n/10 argv, int min-_-abbr-_-l
-en=0, bool single-_-minus-_-
- []
-
-
-Underfull \hbox (badness 10000) detected at line 77
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 99
-[][][]
- []
-
-[52]
-Underfull \hbox (badness 10000) detected at line 112
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 122
-[][][]
- []
-
-) (./classxmem_1_1config_1_1third__party_1_1_parser_1_1_store_option_action.tex
-
-<classxmem_1_1config_1_1third__party_1_1_parser_1_1_store_option_action.pdf, id
-=3184, 501.875pt x 128.6908pt>
-File: classxmem_1_1config_1_1third__party_1_1_parser_1_1_store_option_action.pd
+)
+(C:\Users\Mark\X-Mem\doc\latex\classxmem_1_1config_1_1third__party_1_1_stats_1_
+1_count_options_action.tex
+<classxmem_1_1config_1_1third__party_1_1_stats_1_1_count_options_action.pdf, id
+=2354, 501.875pt x 130.4875pt>
+File: classxmem_1_1config_1_1third__party_1_1_stats_1_1_count_options_action.pd
 f Graphic file (type pdf)
 
-<use classxmem_1_1config_1_1third__party_1_1_parser_1_1_store_option_action.pdf
+<use classxmem_1_1config_1_1third__party_1_1_stats_1_1_count_options_action.pdf
 >
-Package pdftex.def Info: classxmem_1_1config_1_1third__party_1_1_parser_1_1_sto
-re_option_action.pdf used on input line 7.
-(pdftex.def)             Requested size: 221.92076pt x 56.9055pt.
- [53 <./classxmem_1_1config_1_1third__party_1_1_parser_1_1_store_option_action.
-pdf>]
-Underfull \hbox (badness 10000) detected at line 69
+Package pdftex.def Info: classxmem_1_1config_1_1third__party_1_1_stats_1_1_coun
+t_options_action.pdf used on input line 6.
+(pdftex.def)             Requested size: 218.86523pt x 56.9055pt.
+ [26 <C:/Users/Mark/X-Mem/doc/latex/classxmem_1_1config_1_1third__party_1_1_sta
+ts_1_1_count_options_action.pdf>])
+(C:\Users\Mark\X-Mem\doc\latex\structxmem_1_1config_1_1third__party_1_1_descrip
+tor.tex
+LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <9> not available
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 22.
+
+Underfull \hbox (badness 10000) detected at line 34
 [][][]
  []
 
-)
-(./structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_stre
-am_writer.tex
-Underfull \hbox (badness 10000) in paragraph at lines 3--3
-[]\T1/phv/bc/n/14.4 xmem-:-:config-:-:third-_-party-:-:Print-Usage-Implementati
-on-:-:Stream-Writer$\OML/ztmcm/m/it/14.4 <$ \T1/phv/bc/n/14.4 Func-tion,
- []
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3.
-
-
-<structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_stream
-_writer.pdf, id=3215, 501.875pt x 79.03528pt>
-File: structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_s
-tream_writer.pdf Graphic file (type pdf)
-
-<use structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_st
-ream_writer.pdf>
-Package pdftex.def Info: structxmem_1_1config_1_1third__party_1_1_print_usage_i
-mplementation_1_1_stream_writer.pdf used on input line 7.
-(pdftex.def)             Requested size: 361.36504pt x 56.9055pt.
- [54 <./structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1
-_stream_writer.pdf>])
-(./structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_sysc
-all_writer.tex
-Underfull \hbox (badness 1286) in paragraph at lines 3--3
-[]\T1/phv/bc/n/14.4 xmem-:-:config-:-:third-_-party-:-:Print-Usage-Implementati
-on-:-:Syscall-Writer$\OML/ztmcm/m/it/14.4 <$ \T1/phv/bc/n/14.4 Syscall $\OML/zt
-mcm/m/it/14.4 >$
- []
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3.
-
-
-<structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_syscal
-l_writer.pdf, id=3230, 501.875pt x 88.44041pt>
-File: structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_s
-yscall_writer.pdf Graphic file (type pdf)
-
-<use structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_sy
-scall_writer.pdf>
-Package pdftex.def Info: structxmem_1_1config_1_1third__party_1_1_print_usage_i
-mplementation_1_1_syscall_writer.pdf used on input line 7.
-(pdftex.def)             Requested size: 322.9296pt x 56.9055pt.
-)
-(./structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_temp
-orary_writer.tex
-Underfull \hbox (badness 800) in paragraph at lines 3--3
-[]\T1/phv/bc/n/14.4 xmem-:-:config-:-:third-_-party-:-:Print-Usage-Implementati
-on-:-:Temporary-Writer$\OML/ztmcm/m/it/14.4 <$ \T1/phv/bc/n/14.4 Tem-po-
- []
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 3.
-
-
-<structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_tempor
-ary_writer.pdf, id=3233, 501.875pt x 81.27364pt>
-File: structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_t
-emporary_writer.pdf Graphic file (type pdf)
-
-<use structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_te
-mporary_writer.pdf>
-Package pdftex.def Info: structxmem_1_1config_1_1third__party_1_1_print_usage_i
-mplementation_1_1_temporary_writer.pdf used on input line 7.
-(pdftex.def)             Requested size: 351.40965pt x 56.9055pt.
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 22.16548pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[55 <./structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_
-syscall_writer.pdf> <./structxmem_1_1config_1_1third__party_1_1_print_usage_imp
-lementation_1_1_temporary_writer.pdf>]) (./classxmem_1_1thread_1_1_thread.tex
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 66.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\sim' on input line 66.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 66.
-
-[56]
-Underfull \hbox (badness 10000) detected at line 77
+[27]
+Underfull \hbox (badness 10000) detected at line 76
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 87
+Underfull \hbox (badness 10000) detected at line 90
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 97
+Underfull \hbox (badness 10000) detected at line 104
 [][][]
  []
 
@@ -1877,51 +1359,277 @@ Underfull \hbox (badness 10000) detected at line 107
 [][][]
  []
 
+LaTeX Font Info:    Try loading font information for TS1+pcr on input line 108.
 
-Underfull \hbox (badness 10000) detected at line 117
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\ts1pcr.fd"
+File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
+) [28])
+(C:\Users\Mark\X-Mem\doc\latex\classxmem_1_1config_1_1third__party_1_1_example_
+arg.tex
+<classxmem_1_1config_1_1third__party_1_1_example_arg.pdf, id=2436, 501.875pt x 
+258.9675pt>
+File: classxmem_1_1config_1_1third__party_1_1_example_arg.pdf Graphic file (typ
+e pdf)
+ <use classxmem_1_1config_1_1third__party_1_1_example_arg.pdf>
+Package pdftex.def Info: classxmem_1_1config_1_1third__party_1_1_example_arg.pd
+f used on input line 6.
+(pdftex.def)             Requested size: 165.42015pt x 85.35826pt.
+)
+(C:\Users\Mark\X-Mem\doc\latex\structxmem_1_1config_1_1third__party_1_1_print_u
+sage_implementation_1_1_function_writer.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 xmem[]:[]:config[]:[]:third[]_[]party[]:[]:Print[]Usage[]Im
+plementation[]:[]:Function[]Writer$\OML/cmm/m/it/14.4 <$ \T1/phv/bc/n/14.4 Func
+-tion
+ []
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1.
+
+
+<structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_functi
+on_writer.pdf, id=2442, 501.875pt x 86.3225pt>
+File: structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_f
+unction_writer.pdf Graphic file (type pdf)
+
+<use structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_fu
+nction_writer.pdf>
+Package pdftex.def Info: structxmem_1_1config_1_1third__party_1_1_print_usage_i
+mplementation_1_1_function_writer.pdf used on input line 6.
+(pdftex.def)             Requested size: 330.84796pt x 56.9055pt.
+ [29 <C:/Users/Mark/X-Mem/doc/latex/classxmem_1_1config_1_1third__party_1_1_exa
+mple_arg.pdf>])
+(C:\Users\Mark\X-Mem\doc\latex\structxmem_1_1config_1_1third__party_1_1_print_u
+sage_implementation_1_1_i_string_writer.tex
+Underfull \hbox (badness 1742) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 xmem[]:[]:config[]:[]:third[]_[]party[]:[]:Print[]Usage[]Im
+plementation[]:[]:I[]String[]Writer Struct Ref-er-
+ []
+
+
+<structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_i_stri
+ng_writer.pdf, id=2458, 501.875pt x 16.06pt>
+File: structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_i
+_string_writer.pdf Graphic file (type pdf)
+
+<use structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_i_
+string_writer.pdf>
+Package pdftex.def Info: structxmem_1_1config_1_1third__party_1_1_print_usage_i
+mplementation_1_1_i_string_writer.pdf used on input line 6.
+(pdftex.def)             Requested size: 392.07355pt x 12.54619pt.
+)
+(C:\Users\Mark\X-Mem\doc\latex\classxmem_1_1benchmark_1_1_latency_benchmark.tex
+
+<classxmem_1_1benchmark_1_1_latency_benchmark.pdf, id=2461, 501.875pt x 172.645
+pt>
+File: classxmem_1_1benchmark_1_1_latency_benchmark.pdf Graphic file (type pdf)
+ <use classxmem_1_1benchmark_1_1_latency_benchmark.pdf>
+Package pdftex.def Info: classxmem_1_1benchmark_1_1_latency_benchmark.pdf used 
+on input line 15.
+(pdftex.def)             Requested size: 165.42015pt x 56.9055pt.
+ [30 <C:/Users/Mark/X-Mem/doc/latex/structxmem_1_1config_1_1third__party_1_1_pr
+int_usage_implementation_1_1_function_writer.pdf> <C:/Users/Mark/X-Mem/doc/late
+x/structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_i_str
+ing_writer.pdf>]
+[31 <C:/Users/Mark/X-Mem/doc/latex/classxmem_1_1benchmark_1_1_latency_benchmark
+.pdf>]
+Underfull \hbox (badness 10000) detected at line 97
+[][][]
+ []
+
+)
+(C:\Users\Mark\X-Mem\doc\latex\classxmem_1_1config_1_1third__party_1_1_print_us
+age_implementation_1_1_line_part_iterator.tex [32])
+(C:\Users\Mark\X-Mem\doc\latex\classxmem_1_1config_1_1third__party_1_1_print_us
+age_implementation_1_1_line_wrapper.tex
+Underfull \hbox (badness 2951) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 xmem[]:[]:config[]:[]:third[]_[]party[]:[]:Print[]Usage[]Im
+plementation[]:[]:Line[]Wrapper Class Ref-er-
+ []
+
+[33])
+(C:\Users\Mark\X-Mem\doc\latex\classxmem_1_1config_1_1third__party_1_1_my_arg.t
+ex
+<classxmem_1_1config_1_1third__party_1_1_my_arg.pdf, id=2569, 501.875pt x 258.9
+675pt>
+File: classxmem_1_1config_1_1third__party_1_1_my_arg.pdf Graphic file (type pdf
+)
+ <use classxmem_1_1config_1_1third__party_1_1_my_arg.pdf>
+Package pdftex.def Info: classxmem_1_1config_1_1third__party_1_1_my_arg.pdf use
+d on input line 6.
+(pdftex.def)             Requested size: 165.42015pt x 85.35826pt.
+)
+(C:\Users\Mark\X-Mem\doc\latex\classxmem_1_1config_1_1third__party_1_1_option.t
+ex [34 <C:/Users/Mark/X-Mem/doc/latex/classxmem_1_1config_1_1third__party_1_1_m
+y_arg.pdf>]
+LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <7> not available
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 39.
+ [35]
+Underfull \hbox (badness 10000) detected at line 133
+[][][]
+ []
+
+[36]
+Underfull \hbox (badness 10000) detected at line 164
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 127
+Underfull \hbox (badness 10000) detected at line 206
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 137
-[][][]
- []
-
-[57]
-Underfull \hbox (badness 10000) detected at line 147
+Underfull \hbox (badness 10000) detected at line 209
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 157
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 240.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\ast' on input line 240.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 240.
+
+[37]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 263.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\ast' on input line 263.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 263.
+
+[38]
+Underfull \hbox (badness 10000) detected at line 358
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 167
+Underfull \hbox (badness 10000) detected at line 390
+[][][]
+ []
+
+[39])
+(C:\Users\Mark\X-Mem\doc\latex\structxmem_1_1config_1_1third__party_1_1_print_u
+sage_implementation_1_1_o_stream_writer.tex
+Underfull \hbox (badness 7133) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 xmem[]:[]:config[]:[]:third[]_[]party[]:[]:Print[]Usage[]Im
+plementation[]:[]:O[]Stream[]Writer$\OML/cmm/m/it/14.4 <$ \T1/phv/bc/n/14.4 O[]
+Stream
+ []
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1.
+
+
+<structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_o_stre
+am_writer.pdf, id=2776, 501.875pt x 86.3225pt>
+File: structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_o
+_stream_writer.pdf Graphic file (type pdf)
+
+<use structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_o_
+stream_writer.pdf>
+Package pdftex.def Info: structxmem_1_1config_1_1third__party_1_1_print_usage_i
+mplementation_1_1_o_stream_writer.pdf used on input line 6.
+(pdftex.def)             Requested size: 330.84796pt x 56.9055pt.
+)
+(C:\Users\Mark\X-Mem\doc\latex\classxmem_1_1config_1_1third__party_1_1_parser.t
+ex [40 <C:/Users/Mark/X-Mem/doc/latex/structxmem_1_1config_1_1third__party_1_1_
+print_usage_implementation_1_1_o_stream_writer.pdf>]
+LaTeX Font Info:    Font shape `T1/phv/bx/it' in size <9> not available
+(Font)              Font shape `T1/phv/b/it' tried instead on input line 55.
+LaTeX Font Info:    Font shape `T1/phv/b/it' in size <9> not available
+(Font)              Font shape `T1/phv/b/sl' tried instead on input line 55.
+LaTeX Font Info:    Font shape `T1/phv/b/sl' will be
+(Font)              scaled to size 8.09995pt on input line 55.
+LaTeX Font Info:    Font shape `T1/pcr/bx/it' in size <9> not available
+(Font)              Font shape `T1/pcr/b/it' tried instead on input line 55.
+LaTeX Font Info:    Font shape `T1/pcr/b/it' in size <9> not available
+(Font)              Font shape `T1/pcr/b/sl' tried instead on input line 55.
+LaTeX Font Info:    Font shape `T1/pcr/bx/it' in size <7> not available
+(Font)              Font shape `T1/pcr/b/it' tried instead on input line 55.
+LaTeX Font Info:    Font shape `T1/pcr/b/it' in size <7> not available
+(Font)              Font shape `T1/pcr/b/sl' tried instead on input line 55.
+
+Underfull \hbox (badness 10000) detected at line 69
+[][][]
+ []
+
+[41]
+
+LaTeX Font Warning: Font shape `T1/pcr/bc/it' undefined
+(Font)              using `T1/pcr/bc/n' instead on input line 104.
+
+
+Underfull \hbox (badness 10000) detected at line 134
+[][][]
+ []
+
+[42]
+Underfull \hbox (badness 10000) detected at line 169
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 177
+Underfull \hbox (badness 10000) detected at line 185
 [][][]
  []
 
-) (./classxmem_1_1benchmark_1_1_throughput_benchmark.tex
-<classxmem_1_1benchmark_1_1_throughput_benchmark.pdf, id=3309, 501.875pt x 159.
-32523pt>
-File: classxmem_1_1benchmark_1_1_throughput_benchmark.pdf Graphic file (type pd
-f)
- <use classxmem_1_1benchmark_1_1_throughput_benchmark.pdf>
-Package pdftex.def Info: classxmem_1_1benchmark_1_1_throughput_benchmark.pdf us
-ed on input line 16.
-(pdftex.def)             Requested size: 179.25047pt x 56.9055pt.
- [58 <./classxmem_1_1benchmark_1_1_throughput_benchmark.pdf>] [59]
+
+Underfull \hbox (badness 10000) detected at line 199
+[][][]
+ []
+
+[43]
+Underfull \hbox (badness 10000) detected at line 248
+[][][]
+ []
+
+[44]) (C:\Users\Mark\X-Mem\doc\latex\classxmem_1_1power_1_1_power_reader.tex
+<classxmem_1_1power_1_1_power_reader.pdf, id=2933, 501.875pt x 229.85875pt>
+File: classxmem_1_1power_1_1_power_reader.pdf Graphic file (type pdf)
+
+<use classxmem_1_1power_1_1_power_reader.pdf>
+Package pdftex.def Info: classxmem_1_1power_1_1_power_reader.pdf used on input 
+line 15.
+(pdftex.def)             Requested size: 124.24315pt x 56.9055pt.
+ [45 <C:/Users/Mark/X-Mem/doc/latex/classxmem_1_1power_1_1_power_reader.pdf>]
 Underfull \hbox (badness 10000) detected at line 120
 [][][]
  []
@@ -1931,7 +1639,7 @@ Underfull \hbox (badness 10000) detected at line 134
 [][][]
  []
 
-
+[46]
 Underfull \hbox (badness 10000) detected at line 148
 [][][]
  []
@@ -1941,63 +1649,252 @@ Underfull \hbox (badness 10000) detected at line 162
 [][][]
  []
 
-) (./classxmem_1_1benchmark_1_1_throughput_benchmark_worker.tex
-<classxmem_1_1benchmark_1_1_throughput_benchmark_worker.pdf, id=3348, 501.875pt
- x 137.03195pt>
-File: classxmem_1_1benchmark_1_1_throughput_benchmark_worker.pdf Graphic file (
-type pdf)
 
-<use classxmem_1_1benchmark_1_1_throughput_benchmark_worker.pdf>
-Package pdftex.def Info: classxmem_1_1benchmark_1_1_throughput_benchmark_worker
-.pdf used on input line 16.
-(pdftex.def)             Requested size: 208.41208pt x 56.9055pt.
- [60] [61 <./classxmem_1_1benchmark_1_1_throughput_benchmark_worker.pdf>] [62]
-Underfull \hbox (badness 10000) detected at line 99
+Underfull \hbox (badness 10000) detected at line 176
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 113
+Underfull \hbox (badness 10000) detected at line 190
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 127
+Underfull \hbox (badness 10000) detected at line 204
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 141
+Underfull \hbox (badness 10000) detected at line 218
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 155
+Underfull \hbox (badness 10000) detected at line 232
 [][][]
  []
 
-[63]
-Underfull \hbox (badness 10000) detected at line 169
-[][][]
- []
-
-
-Underfull \hbox (badness 10000) detected at line 183
-[][][]
- []
-
-) (./classxmem_1_1timers_1_1_timer.tex [64]
-Underfull \hbox (badness 10000) detected at line 54
+[47]
+Underfull \hbox (badness 10000) detected at line 246
 [][][]
  []
 
 
+Underfull \hbox (badness 10000) detected at line 260
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 274
+[][][]
+ []
+
+[48])
+(C:\Users\Mark\X-Mem\doc\latex\structxmem_1_1config_1_1third__party_1_1_print_u
+sage_implementation.tex
+Underfull \hbox (badness 10000) detected at line 50
+[][][]
+ []
+
+[49]) (C:\Users\Mark\X-Mem\doc\latex\classxmem_1_1thread_1_1_runnable.tex
+<classxmem_1_1thread_1_1_runnable.pdf, id=3038, 501.875pt x 69.25874pt>
+File: classxmem_1_1thread_1_1_runnable.pdf Graphic file (type pdf)
+
+<use classxmem_1_1thread_1_1_runnable.pdf>
+Package pdftex.def Info: classxmem_1_1thread_1_1_runnable.pdf used on input lin
+e 15.
+(pdftex.def)             Requested size: 394.06464pt x 54.38089pt.
+ [50 <C:/Users/Mark/X-Mem/doc/latex/classxmem_1_1thread_1_1_runnable.pdf>]
+Underfull \hbox (badness 10000) detected at line 59
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 73
+[][][]
+ []
+
+)
+(C:\Users\Mark\X-Mem\doc\latex\structxmem_1_1config_1_1third__party_1_1_stats.t
+ex [51]
+Underfull \hbox (badness 10000) detected at line 76
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 98
+[][][]
+ []
+
+[52]
+Underfull \hbox (badness 10000) detected at line 111
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 121
+[][][]
+ []
+
+)
+(C:\Users\Mark\X-Mem\doc\latex\classxmem_1_1config_1_1third__party_1_1_parser_1
+_1_store_option_action.tex
+<classxmem_1_1config_1_1third__party_1_1_parser_1_1_store_option_action.pdf, id
+=3138, 501.875pt x 129.48375pt>
+File: classxmem_1_1config_1_1third__party_1_1_parser_1_1_store_option_action.pd
+f Graphic file (type pdf)
+
+<use classxmem_1_1config_1_1third__party_1_1_parser_1_1_store_option_action.pdf
+>
+Package pdftex.def Info: classxmem_1_1config_1_1third__party_1_1_parser_1_1_sto
+re_option_action.pdf used on input line 6.
+(pdftex.def)             Requested size: 220.5653pt x 56.9055pt.
+ [53 <C:/Users/Mark/X-Mem/doc/latex/classxmem_1_1config_1_1third__party_1_1_par
+ser_1_1_store_option_action.pdf>]
 Underfull \hbox (badness 10000) detected at line 68
 [][][]
  []
 
+)
+(C:\Users\Mark\X-Mem\doc\latex\structxmem_1_1config_1_1third__party_1_1_print_u
+sage_implementation_1_1_stream_writer.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 xmem[]:[]:config[]:[]:third[]_[]party[]:[]:Print[]Usage[]Im
+plementation[]:[]:Stream[]Writer$\OML/cmm/m/it/14.4 <$ \T1/phv/bc/n/14.4 Func-t
+ion,
+ []
 
-Underfull \hbox (badness 10000) detected at line 82
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1.
+
+
+<structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_stream
+_writer.pdf, id=3166, 501.875pt x 79.29625pt>
+File: structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_s
+tream_writer.pdf Graphic file (type pdf)
+
+<use structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_st
+ream_writer.pdf>
+Package pdftex.def Info: structxmem_1_1config_1_1third__party_1_1_print_usage_i
+mplementation_1_1_stream_writer.pdf used on input line 6.
+(pdftex.def)             Requested size: 360.17038pt x 56.9055pt.
+ [54 <C:/Users/Mark/X-Mem/doc/latex/structxmem_1_1config_1_1third__party_1_1_pr
+int_usage_implementation_1_1_stream_writer.pdf>])
+(C:\Users\Mark\X-Mem\doc\latex\structxmem_1_1config_1_1third__party_1_1_print_u
+sage_implementation_1_1_syscall_writer.tex
+Underfull \hbox (badness 1509) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 xmem[]:[]:config[]:[]:third[]_[]party[]:[]:Print[]Usage[]Im
+plementation[]:[]:Syscall[]Writer$\OML/cmm/m/it/14.4 <$ \T1/phv/bc/n/14.4 Sysca
+ll $\OML/cmm/m/it/14.4 >$
+ []
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1.
+
+
+<structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_syscal
+l_writer.pdf, id=3179, 501.875pt x 89.33376pt>
+File: structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_s
+yscall_writer.pdf Graphic file (type pdf)
+
+<use structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_sy
+scall_writer.pdf>
+Package pdftex.def Info: structxmem_1_1config_1_1third__party_1_1_print_usage_i
+mplementation_1_1_syscall_writer.pdf used on input line 6.
+(pdftex.def)             Requested size: 319.69794pt x 56.9055pt.
+)
+(C:\Users\Mark\X-Mem\doc\latex\structxmem_1_1config_1_1third__party_1_1_print_u
+sage_implementation_1_1_temporary_writer.tex
+Underfull \hbox (badness 963) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 xmem[]:[]:config[]:[]:third[]_[]party[]:[]:Print[]Usage[]Im
+plementation[]:[]:Temporary[]Writer$\OML/cmm/m/it/14.4 <$ \T1/phv/bc/n/14.4 Tem
+-po-
+ []
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 1.
+
+
+<structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_tempor
+ary_writer.pdf, id=3182, 501.875pt x 81.30376pt>
+File: structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_t
+emporary_writer.pdf Graphic file (type pdf)
+
+<use structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_te
+mporary_writer.pdf>
+Package pdftex.def Info: structxmem_1_1config_1_1third__party_1_1_print_usage_i
+mplementation_1_1_temporary_writer.pdf used on input line 6.
+(pdftex.def)             Requested size: 351.27946pt x 56.9055pt.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 22.16548pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[55 <C:/Users/Mark/X-Mem/doc/latex/structxmem_1_1config_1_1third__party_1_1_pri
+nt_usage_implementation_1_1_syscall_writer.pdf> <C:/Users/Mark/X-Mem/doc/latex/
+structxmem_1_1config_1_1third__party_1_1_print_usage_implementation_1_1_tempora
+ry_writer.pdf>])
+(C:\Users\Mark\X-Mem\doc\latex\classxmem_1_1thread_1_1_thread.tex
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 65.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\sim' on input line 65.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 65.
+
+[56]
+Underfull \hbox (badness 10000) detected at line 76
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 86
 [][][]
  []
 
@@ -2006,836 +1903,1030 @@ Underfull \hbox (badness 10000) detected at line 96
 [][][]
  []
 
-) [65] [66
 
-]
-Chapter 6.
-(./_benchmark_8cpp.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--15
-
- []
-
-) (./benchmark__kernels_8cpp.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--11
-
- []
-
-) (./_benchmark_manager_8cpp.tex [67]
-Underfull \hbox (badness 10000) in paragraph at lines 9--16
-
- []
-
-) (./common_8cpp.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--11
-
- []
-
-) (./_configurator_8cpp.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--16
-
- []
-
-[68]) (./_benchmark_8h.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--17
-
- []
-
-) (./benchmark__kernels_8h.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--11
-
- []
-
-
-Underfull \hbox (badness 772) in paragraph at lines 20--21
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-forw-Sequential-Loop-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n
-/10 ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 772) in paragraph at lines 22--23
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-forw-Sequential-Loop-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n
-/10 ^^C$\T1/phv/m/n/10 start-_-
- []
-
-[69]
-Underfull \hbox (badness 3250) in paragraph at lines 28--29
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-rev-Sequential-Loop-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/
-10 ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 3250) in paragraph at lines 30--31
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-rev-Sequential-Loop-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/
-10 ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 892) in paragraph at lines 32--33
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-rev-Sequential-Loop-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n
-/10 ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 892) in paragraph at lines 34--35
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-rev-Sequential-Loop-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n
-/10 ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 36--37
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-forw-Stride2-Loop-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
- ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 38--39
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-forw-Stride2-Loop-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
- ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 7451) in paragraph at lines 40--41
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-forw-Stride2-Loop-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/1
-0 ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 7451) in paragraph at lines 42--43
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-forw-Stride2-Loop-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/1
-0 ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 44--45
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-rev-Stride2-Loop-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 
-^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 46--47
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-rev-Stride2-Loop-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 
-^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 48--49
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-rev-Stride2-Loop-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
- ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 50--51
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-rev-Stride2-Loop-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
- ^^C$\T1/phv/m/n/10 start-_-
- []
-
-[70]
-Underfull \hbox (badness 10000) in paragraph at lines 52--53
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-forw-Stride4-Loop-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
- ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 54--55
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-forw-Stride4-Loop-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
- ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 7451) in paragraph at lines 56--57
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-forw-Stride4-Loop-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/1
-0 ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 7451) in paragraph at lines 58--59
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-forw-Stride4-Loop-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/1
-0 ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 60--61
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-rev-Stride4-Loop-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 
-^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 62--63
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-rev-Stride4-Loop-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 
-^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 64--65
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-rev-Stride4-Loop-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
- ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 66--67
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-rev-Stride4-Loop-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
- ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 68--69
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-forw-Stride8-Loop-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
- ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 70--71
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-forw-Stride8-Loop-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
- ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 7451) in paragraph at lines 72--73
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-forw-Stride8-Loop-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/1
-0 ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 7451) in paragraph at lines 74--75
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-forw-Stride8-Loop-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/1
-0 ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 76--77
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-rev-Stride8-Loop-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 
-^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 78--79
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-rev-Stride8-Loop-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 
-^^C$\T1/phv/m/n/10 start-_-
- []
-
-[71]
-Underfull \hbox (badness 10000) in paragraph at lines 80--81
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-rev-Stride8-Loop-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
- ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 82--83
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-rev-Stride8-Loop-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
- ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 7451) in paragraph at lines 84--85
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-forw-Stride16-Loop-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/1
-0 ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 7451) in paragraph at lines 86--87
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-forw-Stride16-Loop-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/1
-0 ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 2951) in paragraph at lines 88--89
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-forw-Stride16-Loop-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/
-10 ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 2951) in paragraph at lines 90--91
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-forw-Stride16-Loop-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/
-10 ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 92--93
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-rev-Stride16-Loop-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
- ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 94--95
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-rev-Stride16-Loop-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10
- ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 7981) in paragraph at lines 96--97
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-rev-Stride16-Loop-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/1
-0 ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 7981) in paragraph at lines 98--99
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-rev-Stride16-Loop-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/1
-0 ^^C$\T1/phv/m/n/10 start-_-
- []
-
-
-Underfull \hbox (badness 760) in paragraph at lines 100--101
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-random-Loop-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\
-T1/phv/m/n/10 start-_-address,
- []
-
-
-Underfull \hbox (badness 760) in paragraph at lines 102--103
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::dummy-_-random-Loop-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\
-T1/phv/m/n/10 start-_-address,
- []
-
-[72]
-Underfull \hbox (badness 3179) in paragraph at lines 108--109
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::forw-Sequential-Read-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$
-\T1/phv/m/n/10 start-_-address,
- []
-
-
-Underfull \hbox (badness 3179) in paragraph at lines 110--111
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::forw-Sequential-Read-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$
-\T1/phv/m/n/10 start-_-address,
- []
-
-
-Underfull \hbox (badness 866) in paragraph at lines 112--113
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::forw-Sequential-Read-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C
-$\T1/phv/m/n/10 start-_-address,
- []
-
-
-Underfull \hbox (badness 866) in paragraph at lines 114--115
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::forw-Sequential-Read-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C
-$\T1/phv/m/n/10 start-_-address,
- []
-
-
-Underfull \hbox (badness 3492) in paragraph at lines 120--121
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::rev-Sequential-Read-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$
-\T1/phv/m/n/10 start-_-address,
- []
-
-
-Underfull \hbox (badness 3492) in paragraph at lines 122--123
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::rev-Sequential-Read-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$
-\T1/phv/m/n/10 start-_-address,
- []
-
-
-Underfull \hbox (badness 2865) in paragraph at lines 124--125
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::forw-Sequential-Write-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C
-$\T1/phv/m/n/10 start-_-address,
- []
-
-
-Underfull \hbox (badness 2865) in paragraph at lines 126--127
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::forw-Sequential-Write-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C
-$\T1/phv/m/n/10 start-_-address,
- []
-
-
-Underfull \hbox (badness 3148) in paragraph at lines 136--137
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::rev-Sequential-Write-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C
-$\T1/phv/m/n/10 start-_-address,
- []
-
-
-Underfull \hbox (badness 3148) in paragraph at lines 138--139
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::rev-Sequential-Write-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C
-$\T1/phv/m/n/10 start-_-address,
- []
-
-[73]
-Underfull \hbox (badness 1558) in paragraph at lines 148--149
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::rev-Stride2-Read-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1/
-phv/m/n/10 start-_-address, void
- []
-
-
-Underfull \hbox (badness 1558) in paragraph at lines 150--151
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::rev-Stride2-Read-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1/
-phv/m/n/10 start-_-address, void
- []
-
-
-Underfull \hbox (badness 1418) in paragraph at lines 164--165
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::rev-Stride2-Write-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1
-/phv/m/n/10 start-_-address, void
- []
-
-
-Underfull \hbox (badness 1418) in paragraph at lines 166--167
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::rev-Stride2-Write-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1
-/phv/m/n/10 start-_-address, void
- []
-
-[74]
-Underfull \hbox (badness 1558) in paragraph at lines 180--181
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::rev-Stride4-Read-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1/
-phv/m/n/10 start-_-address, void
- []
-
-
-Underfull \hbox (badness 1558) in paragraph at lines 182--183
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::rev-Stride4-Read-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1/
-phv/m/n/10 start-_-address, void
- []
-
-
-Underfull \hbox (badness 1418) in paragraph at lines 196--197
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::rev-Stride4-Write-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1
-/phv/m/n/10 start-_-address, void
- []
-
-
-Underfull \hbox (badness 1418) in paragraph at lines 198--199
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::rev-Stride4-Write-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1
-/phv/m/n/10 start-_-address, void
- []
-
-
-Underfull \hbox (badness 1558) in paragraph at lines 212--213
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::rev-Stride8-Read-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1/
-phv/m/n/10 start-_-address, void
- []
-
-[75]
-Underfull \hbox (badness 1558) in paragraph at lines 214--215
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::rev-Stride8-Read-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1/
-phv/m/n/10 start-_-address, void
- []
-
-
-Underfull \hbox (badness 1418) in paragraph at lines 228--229
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::rev-Stride8-Write-_--Word32 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1
-/phv/m/n/10 start-_-address, void
- []
-
-
-Underfull \hbox (badness 1418) in paragraph at lines 230--231
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::rev-Stride8-Write-_--Word64 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1
-/phv/m/n/10 start-_-address, void
- []
-
-[76]
-Underfull \hbox (badness 4013) in paragraph at lines 272--273
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::random-Read-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1/phv/
-m/n/10 start-_-address, void
- []
-
-
-Underfull \hbox (badness 4013) in paragraph at lines 274--275
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::random-Read-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1/phv/
-m/n/10 start-_-address, void
- []
-
-
-Underfull \hbox (badness 3746) in paragraph at lines 280--281
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::random-Write-_--Word128 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1/phv
-/m/n/10 start-_-address, void
- []
-
-
-Underfull \hbox (badness 3746) in paragraph at lines 282--283
-[]\T1/phv/m/n/10 int32-_-t \T1/phv/b/n/10 xmem-::benchmark-::benchmark-_-kernel
-s-::random-Write-_--Word256 \T1/phv/m/n/10 (void $\OMS/ztmcm/m/n/10 ^^C$\T1/phv
-/m/n/10 start-_-address, void
- []
-
-[77]) (./_benchmark_manager_8h.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--18
-
- []
-
-) (./common_8h.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--11
-
- []
-
-[78] [79] [80] [81] [82]) (./_configurator_8h.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--14
-
- []
-
-) (./_example_arg_8h.tex [83]
-Underfull \hbox (badness 10000) in paragraph at lines 9--12
-
- []
-
-) (./_latency_benchmark_8h.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--13
-
- []
-
-) (./_my_arg_8h.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--13
-
- []
-
-[84]) (./optionparser_8h.tex
-Underfull \hbox (badness 4608) in paragraph at lines 54--59
-[]\T1/phv/m/n/10 enum \T1/phv/b/n/10 Arg-Status \T1/phv/m/n/10 { \T1/phv/b/n/10
- xmem-::config-::third-_-party-::-A-R-G-_--N-O-N-E\T1/phv/m/n/10 , \T1/phv/b/n/
-10 xmem-::config-::third-_-party-::-A-R-G-_--O-K\T1/phv/m/n/10 ,
- []
-
-[85]
-Underfull \hbox (badness 2057) in paragraph at lines 68--69
-\T1/phv/m/n/10 void \T1/phv/b/n/10 xmem-::config-::third-_-party-::print-Usage 
-\T1/phv/m/n/10 (const Tem-po-rary &prn, const De-scrip-tor usage[]$ $[], int
- []
-
-
-Underfull \hbox (badness 10000) detected at line 82
+Underfull \hbox (badness 10000) detected at line 106
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 127
+Underfull \hbox (badness 10000) detected at line 116
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 131
+Underfull \hbox (badness 10000) detected at line 126
 [][][]
  []
 
-[86]
-Underfull \hbox (badness 10000) detected at line 137
+
+Underfull \hbox (badness 10000) detected at line 136
 [][][]
  []
 
-LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <10> not available
-(Font)              Font shape `T1/pcr/b/n' tried instead on input line 138.
+[57]
+Underfull \hbox (badness 10000) detected at line 146
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 156
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 166
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 176
+[][][]
+ []
+
+)
+(C:\Users\Mark\X-Mem\doc\latex\classxmem_1_1benchmark_1_1_throughput_benchmark.
+tex
+<classxmem_1_1benchmark_1_1_throughput_benchmark.pdf, id=3253, 501.875pt x 159.
+59625pt>
+File: classxmem_1_1benchmark_1_1_throughput_benchmark.pdf Graphic file (type pd
+f)
+ <use classxmem_1_1benchmark_1_1_throughput_benchmark.pdf>
+Package pdftex.def Info: classxmem_1_1benchmark_1_1_throughput_benchmark.pdf us
+ed on input line 15.
+(pdftex.def)             Requested size: 178.94415pt x 56.9055pt.
+ [58 <C:/Users/Mark/X-Mem/doc/latex/classxmem_1_1benchmark_1_1_throughput_bench
+mark.pdf>]
+[59]
+Underfull \hbox (badness 10000) detected at line 119
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 133
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 147
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 161
+[][][]
+ []
+
+)
+(C:\Users\Mark\X-Mem\doc\latex\classxmem_1_1benchmark_1_1_throughput_benchmark_
+worker.tex
+<classxmem_1_1benchmark_1_1_throughput_benchmark_worker.pdf, id=3289, 501.875pt
+ x 137.51375pt>
+File: classxmem_1_1benchmark_1_1_throughput_benchmark_worker.pdf Graphic file (
+type pdf)
+
+<use classxmem_1_1benchmark_1_1_throughput_benchmark_worker.pdf>
+Package pdftex.def Info: classxmem_1_1benchmark_1_1_throughput_benchmark_worker
+.pdf used on input line 15.
+(pdftex.def)             Requested size: 207.68457pt x 56.9055pt.
+ [60] [61 <C:/Users/Mark/X-Mem/doc/latex/classxmem_1_1benchmark_1_1_throughput_
+benchmark_worker.pdf>] [62]
+Underfull \hbox (badness 10000) detected at line 98
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 112
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 126
+[][][]
+ []
+
 
 Underfull \hbox (badness 10000) detected at line 140
 [][][]
  []
 
 
-Underfull \hbox (badness 10000) detected at line 186
+Underfull \hbox (badness 10000) detected at line 154
 [][][]
  []
 
-[87]) (./_power_reader_8h.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--14
-
+[63]
+Underfull \hbox (badness 10000) detected at line 168
+[][][]
  []
 
-) (./_runnable_8h.tex [88]
-Underfull \hbox (badness 10000) in paragraph at lines 9--10
 
+Underfull \hbox (badness 10000) detected at line 182
+[][][]
  []
 
-) (./_thread_8h.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--11
-
+) (C:\Users\Mark\X-Mem\doc\latex\classxmem_1_1timers_1_1_timer.tex [64]
+Underfull \hbox (badness 10000) detected at line 53
+[][][]
  []
 
-) (./_throughput_benchmark_8h.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--13
 
+Underfull \hbox (badness 10000) detected at line 67
+[][][]
  []
 
-[89]) (./_throughput_benchmark_worker_8h.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--12
 
+Underfull \hbox (badness 10000) detected at line 81
+[][][]
  []
 
-) (./_timer_8h.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--10
 
+Underfull \hbox (badness 10000) detected at line 95
+[][][]
  []
 
-) (./_q_p_c_timer_8h.tex) (./win__common__third__party_8h.tex [90])
-(./win___c_pdh_query_8h.tex) (./_windows_d_r_a_m_power_reader_8h.tex)
-(./_t_s_c_timer_8h.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--10
-
- []
-
-) (./_latency_benchmark_8cpp.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--17
-
- []
-
-[91]) (./main_8cpp.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--13
-
- []
-
-) (./_power_reader_8cpp.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--14
-
- []
-
-) (./_runnable_8cpp.tex [92]
-Underfull \hbox (badness 10000) in paragraph at lines 9--11
-
- []
-
-) (./_thread_8cpp.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--12
-
- []
-
-) (./_throughput_benchmark_8cpp.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--20
-
- []
-
-) (./_throughput_benchmark_worker_8cpp.tex [93]
-Underfull \hbox (badness 10000) in paragraph at lines 9--13
-
- []
-
-) (./_timer_8cpp.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--10
-
- []
-
-) (./_q_p_c_timer_8cpp.tex) (./win__common__third__party_8cpp.tex)
-(./_windows_d_r_a_m_power_reader_8cpp.tex [94]) (./_t_s_c_timer_8cpp.tex
-Underfull \hbox (badness 10000) in paragraph at lines 9--10
-
- []
-
-) [95] (./refman.ind [96
+) [65] [66
 
 ]
+Chapter 6.
+(C:\Users\Mark\X-Mem\doc\latex\_benchmark_8cpp.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--14
+
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\benchmark__kernels_8cpp.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--10
+
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\_benchmark_manager_8cpp.tex [67]
+Underfull \hbox (badness 10000) in paragraph at lines 8--15
+
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\common_8cpp.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--10
+
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\_configurator_8cpp.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--15
+
+ []
+
+[68]) (C:\Users\Mark\X-Mem\doc\latex\_benchmark_8h.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--16
+
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\benchmark__kernels_8h.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--10
+
+ []
+
+
+Underfull \hbox (badness 4454) in paragraph at lines 15--16
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::chase[]Pointers \T1/phv/m/n/10 (uintptr[]_[]t $\OMS/cmsy/m/n/10 $\T
+1/phv/m/n/10 first[]_[]address, uintptr[]_[]
+ []
+
+[69]
+Underfull \hbox (badness 6348) in paragraph at lines 35--36
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]forw[]Stride2[]Loop[]_[][]Word32 \T1/phv/m/n/10 (void $\OM
+S/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 6348) in paragraph at lines 37--38
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]forw[]Stride2[]Loop[]_[][]Word64 \T1/phv/m/n/10 (void $\OM
+S/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 2368) in paragraph at lines 39--40
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]forw[]Stride2[]Loop[]_[][]Word128 \T1/phv/m/n/10 (void $\O
+MS/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 2368) in paragraph at lines 41--42
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]forw[]Stride2[]Loop[]_[][]Word256 \T1/phv/m/n/10 (void $\O
+MS/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 43--44
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]rev[]Stride2[]Loop[]_[][]Word32 \T1/phv/m/n/10 (void $\OMS
+/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--46
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]rev[]Stride2[]Loop[]_[][]Word64 \T1/phv/m/n/10 (void $\OMS
+/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 6825) in paragraph at lines 47--48
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]rev[]Stride2[]Loop[]_[][]Word128 \T1/phv/m/n/10 (void $\OM
+S/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 6825) in paragraph at lines 49--50
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]rev[]Stride2[]Loop[]_[][]Word256 \T1/phv/m/n/10 (void $\OM
+S/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+[70]
+Underfull \hbox (badness 6348) in paragraph at lines 51--52
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]forw[]Stride4[]Loop[]_[][]Word32 \T1/phv/m/n/10 (void $\OM
+S/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 6348) in paragraph at lines 53--54
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]forw[]Stride4[]Loop[]_[][]Word64 \T1/phv/m/n/10 (void $\OM
+S/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 2368) in paragraph at lines 55--56
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]forw[]Stride4[]Loop[]_[][]Word128 \T1/phv/m/n/10 (void $\O
+MS/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 2368) in paragraph at lines 57--58
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]forw[]Stride4[]Loop[]_[][]Word256 \T1/phv/m/n/10 (void $\O
+MS/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 59--60
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]rev[]Stride4[]Loop[]_[][]Word32 \T1/phv/m/n/10 (void $\OMS
+/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 61--62
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]rev[]Stride4[]Loop[]_[][]Word64 \T1/phv/m/n/10 (void $\OMS
+/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 6825) in paragraph at lines 63--64
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]rev[]Stride4[]Loop[]_[][]Word128 \T1/phv/m/n/10 (void $\OM
+S/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 6825) in paragraph at lines 65--66
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]rev[]Stride4[]Loop[]_[][]Word256 \T1/phv/m/n/10 (void $\OM
+S/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 6348) in paragraph at lines 67--68
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]forw[]Stride8[]Loop[]_[][]Word32 \T1/phv/m/n/10 (void $\OM
+S/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 6348) in paragraph at lines 69--70
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]forw[]Stride8[]Loop[]_[][]Word64 \T1/phv/m/n/10 (void $\OM
+S/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 2368) in paragraph at lines 71--72
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]forw[]Stride8[]Loop[]_[][]Word128 \T1/phv/m/n/10 (void $\O
+MS/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 2368) in paragraph at lines 73--74
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]forw[]Stride8[]Loop[]_[][]Word256 \T1/phv/m/n/10 (void $\O
+MS/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 75--76
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]rev[]Stride8[]Loop[]_[][]Word32 \T1/phv/m/n/10 (void $\OMS
+/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 77--78
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]rev[]Stride8[]Loop[]_[][]Word64 \T1/phv/m/n/10 (void $\OMS
+/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+[71]
+Underfull \hbox (badness 6825) in paragraph at lines 79--80
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]rev[]Stride8[]Loop[]_[][]Word128 \T1/phv/m/n/10 (void $\OM
+S/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 6825) in paragraph at lines 81--82
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]rev[]Stride8[]Loop[]_[][]Word256 \T1/phv/m/n/10 (void $\OM
+S/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 2368) in paragraph at lines 83--84
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]forw[]Stride16[]Loop[]_[][]Word32 \T1/phv/m/n/10 (void $\O
+MS/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 2368) in paragraph at lines 85--86
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]forw[]Stride16[]Loop[]_[][]Word64 \T1/phv/m/n/10 (void $\O
+MS/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 6825) in paragraph at lines 91--92
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]rev[]Stride16[]Loop[]_[][]Word32 \T1/phv/m/n/10 (void $\OM
+S/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 6825) in paragraph at lines 93--94
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]rev[]Stride16[]Loop[]_[][]Word64 \T1/phv/m/n/10 (void $\OM
+S/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 2617) in paragraph at lines 95--96
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]rev[]Stride16[]Loop[]_[][]Word128 \T1/phv/m/n/10 (void $\O
+MS/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 2617) in paragraph at lines 97--98
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]rev[]Stride16[]Loop[]_[][]Word256 \T1/phv/m/n/10 (void $\O
+MS/cmsy/m/n/10 $\T1/phv/m/n/10 start[]_[]
+ []
+
+
+Underfull \hbox (badness 760) in paragraph at lines 99--100
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]random[]Loop[]_[][]Word32 \T1/phv/m/n/10 (void $\OMS/cmsy/
+m/n/10 $\T1/phv/m/n/10 start[]_[]address,
+ []
+
+
+Underfull \hbox (badness 760) in paragraph at lines 101--102
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::dummy[]_[]random[]Loop[]_[][]Word64 \T1/phv/m/n/10 (void $\OMS/cmsy/
+m/n/10 $\T1/phv/m/n/10 start[]_[]address,
+ []
+
+[72]
+Underfull \hbox (badness 3179) in paragraph at lines 107--108
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::forw[]Sequential[]Read[]_[][]Word32 \T1/phv/m/n/10 (void $\OMS/cmsy/
+m/n/10 $\T1/phv/m/n/10 start[]_[]address,
+ []
+
+
+Underfull \hbox (badness 3179) in paragraph at lines 109--110
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::forw[]Sequential[]Read[]_[][]Word64 \T1/phv/m/n/10 (void $\OMS/cmsy/
+m/n/10 $\T1/phv/m/n/10 start[]_[]address,
+ []
+
+
+Underfull \hbox (badness 866) in paragraph at lines 111--112
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::forw[]Sequential[]Read[]_[][]Word128 \T1/phv/m/n/10 (void $\OMS/cmsy
+/m/n/10 $\T1/phv/m/n/10 start[]_[]address,
+ []
+
+
+Underfull \hbox (badness 866) in paragraph at lines 113--114
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::forw[]Sequential[]Read[]_[][]Word256 \T1/phv/m/n/10 (void $\OMS/cmsy
+/m/n/10 $\T1/phv/m/n/10 start[]_[]address,
+ []
+
+
+Underfull \hbox (badness 3492) in paragraph at lines 119--120
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::rev[]Sequential[]Read[]_[][]Word128 \T1/phv/m/n/10 (void $\OMS/cmsy/
+m/n/10 $\T1/phv/m/n/10 start[]_[]address,
+ []
+
+
+Underfull \hbox (badness 3492) in paragraph at lines 121--122
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::rev[]Sequential[]Read[]_[][]Word256 \T1/phv/m/n/10 (void $\OMS/cmsy/
+m/n/10 $\T1/phv/m/n/10 start[]_[]address,
+ []
+
+
+Underfull \hbox (badness 2865) in paragraph at lines 123--124
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::forw[]Sequential[]Write[]_[][]Word32 \T1/phv/m/n/10 (void $\OMS/cmsy
+/m/n/10 $\T1/phv/m/n/10 start[]_[]address,
+ []
+
+
+Underfull \hbox (badness 2865) in paragraph at lines 125--126
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::forw[]Sequential[]Write[]_[][]Word64 \T1/phv/m/n/10 (void $\OMS/cmsy
+/m/n/10 $\T1/phv/m/n/10 start[]_[]address,
+ []
+
+
+Underfull \hbox (badness 3148) in paragraph at lines 135--136
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::rev[]Sequential[]Write[]_[][]Word128 \T1/phv/m/n/10 (void $\OMS/cmsy
+/m/n/10 $\T1/phv/m/n/10 start[]_[]address,
+ []
+
+
+Underfull \hbox (badness 3148) in paragraph at lines 137--138
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::rev[]Sequential[]Write[]_[][]Word256 \T1/phv/m/n/10 (void $\OMS/cmsy
+/m/n/10 $\T1/phv/m/n/10 start[]_[]address,
+ []
+
+[73]
+Underfull \hbox (badness 1558) in paragraph at lines 147--148
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::rev[]Stride2[]Read[]_[][]Word32 \T1/phv/m/n/10 (void $\OMS/cmsy/m/n/
+10 $\T1/phv/m/n/10 start[]_[]address, void
+ []
+
+
+Underfull \hbox (badness 1558) in paragraph at lines 149--150
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::rev[]Stride2[]Read[]_[][]Word64 \T1/phv/m/n/10 (void $\OMS/cmsy/m/n/
+10 $\T1/phv/m/n/10 start[]_[]address, void
+ []
+
+
+Underfull \hbox (badness 1418) in paragraph at lines 163--164
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::rev[]Stride2[]Write[]_[][]Word32 \T1/phv/m/n/10 (void $\OMS/cmsy/m/n
+/10 $\T1/phv/m/n/10 start[]_[]address, void
+ []
+
+
+Underfull \hbox (badness 1418) in paragraph at lines 165--166
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::rev[]Stride2[]Write[]_[][]Word64 \T1/phv/m/n/10 (void $\OMS/cmsy/m/n
+/10 $\T1/phv/m/n/10 start[]_[]address, void
+ []
+
+[74]
+Underfull \hbox (badness 1558) in paragraph at lines 179--180
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::rev[]Stride4[]Read[]_[][]Word32 \T1/phv/m/n/10 (void $\OMS/cmsy/m/n/
+10 $\T1/phv/m/n/10 start[]_[]address, void
+ []
+
+
+Underfull \hbox (badness 1558) in paragraph at lines 181--182
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::rev[]Stride4[]Read[]_[][]Word64 \T1/phv/m/n/10 (void $\OMS/cmsy/m/n/
+10 $\T1/phv/m/n/10 start[]_[]address, void
+ []
+
+
+Underfull \hbox (badness 1418) in paragraph at lines 195--196
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::rev[]Stride4[]Write[]_[][]Word32 \T1/phv/m/n/10 (void $\OMS/cmsy/m/n
+/10 $\T1/phv/m/n/10 start[]_[]address, void
+ []
+
+
+Underfull \hbox (badness 1418) in paragraph at lines 197--198
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::rev[]Stride4[]Write[]_[][]Word64 \T1/phv/m/n/10 (void $\OMS/cmsy/m/n
+/10 $\T1/phv/m/n/10 start[]_[]address, void
+ []
+
+
+Underfull \hbox (badness 1558) in paragraph at lines 211--212
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::rev[]Stride8[]Read[]_[][]Word32 \T1/phv/m/n/10 (void $\OMS/cmsy/m/n/
+10 $\T1/phv/m/n/10 start[]_[]address, void
+ []
+
+[75]
+Underfull \hbox (badness 1558) in paragraph at lines 213--214
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::rev[]Stride8[]Read[]_[][]Word64 \T1/phv/m/n/10 (void $\OMS/cmsy/m/n/
+10 $\T1/phv/m/n/10 start[]_[]address, void
+ []
+
+
+Underfull \hbox (badness 1418) in paragraph at lines 227--228
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::rev[]Stride8[]Write[]_[][]Word32 \T1/phv/m/n/10 (void $\OMS/cmsy/m/n
+/10 $\T1/phv/m/n/10 start[]_[]address, void
+ []
+
+
+Underfull \hbox (badness 1418) in paragraph at lines 229--230
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::rev[]Stride8[]Write[]_[][]Word64 \T1/phv/m/n/10 (void $\OMS/cmsy/m/n
+/10 $\T1/phv/m/n/10 start[]_[]address, void
+ []
+
+[76]
+Underfull \hbox (badness 7468) in paragraph at lines 267--268
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::random[]Read[]_[][]Word32 \T1/phv/m/n/10 (void $\OMS/cmsy/m/n/10 $\
+T1/phv/m/n/10 start[]_[]address, void
+ []
+
+
+Underfull \hbox (badness 7468) in paragraph at lines 269--270
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::random[]Read[]_[][]Word64 \T1/phv/m/n/10 (void $\OMS/cmsy/m/n/10 $\
+T1/phv/m/n/10 start[]_[]address, void
+ []
+
+
+Underfull \hbox (badness 4013) in paragraph at lines 271--272
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::random[]Read[]_[][]Word128 \T1/phv/m/n/10 (void $\OMS/cmsy/m/n/10 $
+\T1/phv/m/n/10 start[]_[]address, void
+ []
+
+
+Underfull \hbox (badness 4013) in paragraph at lines 273--274
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::random[]Read[]_[][]Word256 \T1/phv/m/n/10 (void $\OMS/cmsy/m/n/10 $
+\T1/phv/m/n/10 start[]_[]address, void
+ []
+
+
+Underfull \hbox (badness 7064) in paragraph at lines 275--276
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::random[]Write[]_[][]Word32 \T1/phv/m/n/10 (void $\OMS/cmsy/m/n/10 $
+\T1/phv/m/n/10 start[]_[]address, void
+ []
+
+
+Underfull \hbox (badness 7064) in paragraph at lines 277--278
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::random[]Write[]_[][]Word64 \T1/phv/m/n/10 (void $\OMS/cmsy/m/n/10 $
+\T1/phv/m/n/10 start[]_[]address, void
+ []
+
+
+Underfull \hbox (badness 3746) in paragraph at lines 279--280
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::random[]Write[]_[][]Word128 \T1/phv/m/n/10 (void $\OMS/cmsy/m/n/10 
+$\T1/phv/m/n/10 start[]_[]address, void
+ []
+
+
+Underfull \hbox (badness 3746) in paragraph at lines 281--282
+[]\T1/phv/m/n/10 int32[]_[]t \T1/phv/b/n/10 xmem[]::benchmark[]::benchmark[]_[]
+kernels[]::random[]Write[]_[][]Word256 \T1/phv/m/n/10 (void $\OMS/cmsy/m/n/10 
+$\T1/phv/m/n/10 start[]_[]address, void
+ []
+
+[77]) (C:\Users\Mark\X-Mem\doc\latex\_benchmark_manager_8h.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--17
+
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\common_8h.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--10
+
+ []
+
+[78] [79] [80] [81] [82]) (C:\Users\Mark\X-Mem\doc\latex\_configurator_8h.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--13
+
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\_example_arg_8h.tex [83]
+Underfull \hbox (badness 10000) in paragraph at lines 8--11
+
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\_latency_benchmark_8h.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--12
+
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\_my_arg_8h.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--12
+
+ []
+
+[84]) (C:\Users\Mark\X-Mem\doc\latex\optionparser_8h.tex
+Underfull \hbox (badness 4608) in paragraph at lines 53--58
+[]\T1/phv/m/n/10 enum \T1/phv/b/n/10 Arg[]Status \T1/phv/m/n/10 { \T1/phv/b/n/1
+0 xmem[]::config[]::third[]_[]party[]::[]A[]R[]G[]_[][]N[]O[]N[]E\T1/phv/m/n/10
+ , \T1/phv/b/n/10 xmem[]::config[]::third[]_[]party[]::[]A[]R[]G[]_[][]O[]K\T1/
+phv/m/n/10 ,
+ []
+
+[85]
+Underfull \hbox (badness 1960) in paragraph at lines 67--68
+\T1/phv/m/n/10 void \T1/phv/b/n/10 xmem[]::config[]::third[]_[]party[]::print[]
+Usage \T1/phv/m/n/10 (const Tem-po-rary &prn, const De-scrip-tor usage[]$ $[], 
+int
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 83
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 128
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 132
+[][][]
+ []
+
+[86]
+Underfull \hbox (badness 10000) detected at line 138
+[][][]
+ []
+
+LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <10> not available
+(Font)              Font shape `T1/pcr/b/n' tried instead on input line 139.
+LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <7> not available
+(Font)              Font shape `T1/pcr/b/n' tried instead on input line 139.
+
+Underfull \hbox (badness 10000) detected at line 141
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 187
+[][][]
+ []
+
+[87]) (C:\Users\Mark\X-Mem\doc\latex\_power_reader_8h.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--13
+
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\_runnable_8h.tex [88]
+Underfull \hbox (badness 10000) in paragraph at lines 8--9
+
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\_thread_8h.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--10
+
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\_throughput_benchmark_8h.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--12
+
+ []
+
+[89]) (C:\Users\Mark\X-Mem\doc\latex\_throughput_benchmark_worker_8h.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--11
+
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\_timer_8h.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--9
+
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\_q_p_c_timer_8h.tex)
+(C:\Users\Mark\X-Mem\doc\latex\win__common__third__party_8h.tex [90])
+(C:\Users\Mark\X-Mem\doc\latex\win___c_pdh_query_8h.tex)
+(C:\Users\Mark\X-Mem\doc\latex\_windows_d_r_a_m_power_reader_8h.tex)
+(C:\Users\Mark\X-Mem\doc\latex\_t_s_c_timer_8h.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--9
+
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\_latency_benchmark_8cpp.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--16
+
+ []
+
+[91]) (C:\Users\Mark\X-Mem\doc\latex\main_8cpp.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--12
+
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\_power_reader_8cpp.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--13
+
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\_runnable_8cpp.tex [92]
+Underfull \hbox (badness 10000) in paragraph at lines 8--10
+
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\_thread_8cpp.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--11
+
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\_throughput_benchmark_8cpp.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--19
+
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\_throughput_benchmark_worker_8cpp.tex [93]
+Underfull \hbox (badness 10000) in paragraph at lines 8--12
+
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\_timer_8cpp.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--9
+
+ []
+
+) (C:\Users\Mark\X-Mem\doc\latex\_q_p_c_timer_8cpp.tex)
+(C:\Users\Mark\X-Mem\doc\latex\win__common__third__party_8cpp.tex)
+(C:\Users\Mark\X-Mem\doc\latex\_windows_d_r_a_m_power_reader_8cpp.tex [94])
+(C:\Users\Mark\X-Mem\doc\latex\_t_s_c_timer_8cpp.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--9
+
+ []
+
+) [95] [96
+
+] (C:\Users\Mark\X-Mem\doc\latex\refman.ind [97
+
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 146--148
+[]| \T1/phv/m/n/10 T[]H[]R[]O[]U[]G[]H[]P[]U[]T[]_[][]B[]E[]N[]C[]H[]M[]A[]R[]K
+[]_[][]B[]Y[]T[]E[]S[]_[][]P[]E[]R[]_[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 150--152
+[]| \T1/phv/m/n/10 U[]S[]E[]_[][]L[]A[]T[]E[]N[]C[]Y[]_[][]B[]E[]N[]C[]H[]M[]A[
+]R[]K[]_[][]R[]A[]N[]D[]O[]M[]_[][]S[]H[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 156--158
+[]| \T1/phv/m/n/10 U[]S[]E[]_[][]T[]H[]R[]O[]U[]G[]H[]P[]U[]T[]_[][]S[]E[]Q[]U[
+]E[]N[]T[]I[]A[]L[]_[][]P[]A[]T[]T[]E[]R[]N,
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 175--177
-[]| \T1/phv/m/n/10 xmem-::config-::third-_-party-::-Stats-::-Count-Options-
+[]| \T1/phv/m/n/10 xmem[]::config[]::third[]_[]party[]::[]Stats[]::[]Count[]Opt
+ions[]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 205--207
-[]| \T1/phv/m/n/10 xmem-::config-::third-_-party-::-Parser-::-Store-Option-
+Underfull \hbox (badness 10000) in paragraph at lines 223--225
+[]| \T1/phv/m/n/10 xmem[]::config[]::third[]_[]party[]::[]Parser[]::[]Store[]Op
+tion[]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 220--222
-[]| \T1/phv/m/n/10 xmem-::benchmark-::-Throughput-Benchmark-Worker,
+Underfull \hbox (badness 10000) in paragraph at lines 236--238
+[]| \T1/phv/m/n/10 xmem[]::benchmark[]::[]Throughput[]Benchmark[]Worker,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 232--234
-[]| \T1/phv/m/n/10 xmem-::benchmark-::-Throughput-Benchmark-Worker,
+Underfull \hbox (badness 10000) in paragraph at lines 245--247
+[]| \T1/phv/m/n/10 xmem[]::benchmark[]::[]Throughput[]Benchmark[]Worker,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 241--243
-[]| \T1/phv/m/n/10 xmem-::benchmark-::-Throughput-Benchmark-Worker,
+Underfull \hbox (badness 10000) in paragraph at lines 252--254
+[]| \T1/phv/m/n/10 xmem[]::benchmark[]::[]Throughput[]Benchmark[]Worker,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 244--246
-[]| \T1/phv/m/n/10 xmem-::benchmark-::-Throughput-Benchmark-Worker,
+Underfull \hbox (badness 10000) in paragraph at lines 255--257
+[]| \T1/phv/m/n/10 xmem[]::benchmark[]::[]Throughput[]Benchmark[]Worker,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 261--263
-[]| \T1/phv/m/n/10 xmem-::benchmark-::-Throughput-Benchmark-Worker,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 282--284
-[]| \T1/phv/m/n/10 xmem-::benchmark-::-Throughput-Benchmark-Worker,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 318--320
-[]| \T1/phv/m/n/10 xmem-::benchmark-::-Throughput-Benchmark-Worker,
- []
-
-[97]
-Underfull \hbox (badness 10000) in paragraph at lines 445--447
-[]| \T1/phv/m/n/10 xmem-::config-::third-_-party-::-Parser-::-Store-Option-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 447--449
-[]| \T1/phv/m/n/10 xmem-::config-::third-_-party-::-Stats-::-Count-Options-
+Underfull \hbox (badness 10000) in paragraph at lines 267--269
+[]| \T1/phv/m/n/10 xmem[]::benchmark[]::[]Throughput[]Benchmark[]Worker,
  []
 
 [98]
-Underfull \hbox (badness 10000) in paragraph at lines 572--574
-[]| \T1/phv/m/n/10 xmem-::config-::third-_-party-::-Parser-::-Store-Option-
+Underfull \hbox (badness 10000) in paragraph at lines 282--284
+[]| \T1/phv/m/n/10 xmem[]::benchmark[]::[]Throughput[]Benchmark[]Worker,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 584--586
-[]| \T1/phv/m/n/10 xmem-::benchmark-::-Throughput-Benchmark-Worker,
+Underfull \hbox (badness 10000) in paragraph at lines 311--313
+[]| \T1/phv/m/n/10 xmem[]::benchmark[]::[]Throughput[]Benchmark[]Worker,
+ []
+
+
+Overfull \hbox (18.92598pt too wide) in paragraph at lines 358--360
+[]| \T1/phv/m/n/10 xmem[]::config[]::third[]_[]party[]::[]Print[]Usage[]Impleme
+ntation[]
+ []
+
+
+Overfull \hbox (18.92598pt too wide) in paragraph at lines 383--385
+[]| \T1/phv/m/n/10 xmem[]::config[]::third[]_[]party[]::[]Print[]Usage[]Impleme
+ntation[]
+ []
+
+
+Overfull \hbox (18.92598pt too wide) in paragraph at lines 386--388
+[]| \T1/phv/m/n/10 xmem[]::config[]::third[]_[]party[]::[]Print[]Usage[]Impleme
+ntation[]
+ []
+
+
+Overfull \hbox (18.92598pt too wide) in paragraph at lines 389--391
+[]| \T1/phv/m/n/10 xmem[]::config[]::third[]_[]party[]::[]Print[]Usage[]Impleme
+ntation[]
  []
 
 [99]
-Underfull \hbox (badness 10000) in paragraph at lines 788--790
-[]\T1/phv/m/n/10 xmem-::config-::third-_-party-::-Parser-::-Store-Option-Action
-,
+Underfull \hbox (badness 10000) in paragraph at lines 435--437
+[]| \T1/phv/m/n/10 xmem[]::config[]::third[]_[]party[]::[]Parser[]::[]Store[]Op
+tion[]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 794--796
-[]\T1/phv/m/n/10 xmem-::config-::third-_-party-::-Print-Usage-Implementation,
+Underfull \hbox (badness 10000) in paragraph at lines 437--439
+[]| \T1/phv/m/n/10 xmem[]::config[]::third[]_[]party[]::[]Stats[]::[]Count[]Opt
+ions[]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 798--800
-[]\T1/phv/m/n/10 xmem-::config-::third-_-party-::-Print-Usage-Implementation-::
--
+Overfull \hbox (18.92598pt too wide) in paragraph at lines 448--450
+[]| \T1/phv/m/n/10 xmem[]::config[]::third[]_[]party[]::[]Print[]Usage[]Impleme
+ntation[]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 800--802
-[]\T1/phv/m/n/10 xmem-::config-::third-_-party-::-Print-Usage-Implementation-::
--
+Underfull \hbox (badness 10000) in paragraph at lines 527--529
+[]| \T1/phv/m/n/10 xmem[]::config[]::third[]_[]party[]::[]Parser[]::[]Store[]Op
+tion[]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 802--804
-[]\T1/phv/m/n/10 xmem-::config-::third-_-party-::-Print-Usage-Implementation-::
--
+Underfull \hbox (badness 10000) in paragraph at lines 540--542
+[]| \T1/phv/m/n/10 xmem[]::benchmark[]::[]Throughput[]Benchmark[]Worker,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 807--809
-[]\T1/phv/m/n/10 xmem-::config-::third-_-party-::-Print-Usage-Implementation-::
--
+Underfull \hbox (badness 10000) in paragraph at lines 554--555
+[]\T1/phv/m/n/10 U[]S[]E[]_[][]L[]A[]T[]E[]N[]C[]Y[]_[][]B[]E[]N[]C[]H[]M[]A[]R
+[]K[]_[][]R[]A[]N[]D[]O[]M[]_[][]S[]H[]U[]F[]F[]L[]
+ []
+
+[100]
+Underfull \hbox (badness 10000) in paragraph at lines 698--700
+[]\T1/phv/m/n/10 xmem[]::config[]::third[]_[]party[]::[]Parser[]::[]Store[]Opti
+on[]Action,
+ []
+
+[101]
+Underfull \hbox (badness 10000) in paragraph at lines 703--705
+[]\T1/phv/m/n/10 xmem[]::config[]::third[]_[]party[]::[]Print[]Usage[]Implement
+ation,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 811--813
-[]\T1/phv/m/n/10 xmem-::config-::third-_-party-::-Print-Usage-Implementation-::
--
+Underfull \hbox (badness 10000) in paragraph at lines 706--708
+[]\T1/phv/m/n/10 xmem[]::config[]::third[]_[]party[]::[]Print[]Usage[]Implement
+ation[]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 813--815
-[]\T1/phv/m/n/10 xmem-::config-::third-_-party-::-Print-Usage-Implementation-::
--
+Underfull \hbox (badness 10000) in paragraph at lines 708--710
+[]\T1/phv/m/n/10 xmem[]::config[]::third[]_[]party[]::[]Print[]Usage[]Implement
+ation[]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 815--817
-[]\T1/phv/m/n/10 xmem-::config-::third-_-party-::-Print-Usage-Implementation-::
--
+Underfull \hbox (badness 10000) in paragraph at lines 710--712
+[]\T1/phv/m/n/10 xmem[]::config[]::third[]_[]party[]::[]Print[]Usage[]Implement
+ation[]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 817--819
-[]\T1/phv/m/n/10 xmem-::config-::third-_-party-::-Print-Usage-Implementation-::
--
+Underfull \hbox (badness 10000) in paragraph at lines 715--717
+[]\T1/phv/m/n/10 xmem[]::config[]::third[]_[]party[]::[]Print[]Usage[]Implement
+ation[]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 827--829
-[]\T1/phv/m/n/10 xmem-::config-::third-_-party-::-Stats-::-Count-Options-Action
-,
+Underfull \hbox (badness 10000) in paragraph at lines 719--721
+[]\T1/phv/m/n/10 xmem[]::config[]::third[]_[]party[]::[]Print[]Usage[]Implement
+ation[]
  []
 
-[100] [101
 
-])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 219.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 219.
- (./refman.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 219.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 219.
+Underfull \hbox (badness 10000) in paragraph at lines 721--723
+[]\T1/phv/m/n/10 xmem[]::config[]::third[]_[]party[]::[]Print[]Usage[]Implement
+ation[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 723--725
+[]\T1/phv/m/n/10 xmem[]::config[]::third[]_[]party[]::[]Print[]Usage[]Implement
+ation[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 725--727
+[]\T1/phv/m/n/10 xmem[]::config[]::third[]_[]party[]::[]Print[]Usage[]Implement
+ation[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 732--734
+[]\T1/phv/m/n/10 xmem[]::config[]::third[]_[]party[]::[]Stats[]::[]Count[]Optio
+ns[]Action,
+ []
+
+[102])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 229.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 229.
+ (C:\Users\Mark\X-Mem\doc\latex\refman.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 229.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 229.
 Package rerunfilecheck Info: File `refman.out' has not changed.
-(rerunfilecheck)             Checksum: 601FCEF39DBE67D24DB70891A5EB7477;65307.
+(rerunfilecheck)             Checksum: 23FD5BAE31B187D84F45F2C4C5F72870;79464.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 219.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 229.
  ) 
 Here is how much of TeX's memory you used:
- 14071 strings out of 495028
- 244345 string characters out of 6181497
- 285627 words of memory out of 5000000
- 15999 multiletter control sequences out of 15000+600000
- 104965 words of font info for 160 fonts, out of 8000000 for 9000
- 14 hyphenation exceptions out of 8191
- 48i,13n,43p,3221b,587s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/urw/courier/ucrb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-urw/courier/ucrbo8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/
-ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrro8a.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/t
-exlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8ac.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/urw/helvetic/uhvbo8ac.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw
-/helvetic/uhvro8a.pfb>
-Output written on refman.pdf (113 pages, 489241 bytes).
+ 14797 strings out of 493921
+ 260028 string characters out of 3144879
+ 357074 words of memory out of 3000000
+ 16780 multiletter control sequences out of 15000+200000
+ 80813 words of font info for 113 fonts, out of 3000000 for 9000
+ 841 hyphenation exceptions out of 8191
+ 48i,16n,43p,5603b,587s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Progra
+m Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program 
+Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program Fi
+les (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files
+ (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files (x
+86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Program Files (x86)
+/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files (x86)/M
+iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files (x86)/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Program Files (x86)/MiKTeX 
+2.9/fonts/type1/urw/courier/ucrb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts
+/type1/urw/courier/ucrbo8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/u
+rw/courier/ucrr8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/courie
+r/ucrro8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvb8
+a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvb8ac.pfb><
+C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvbo8ac.pfb><C:/Pro
+gram Files (x86)/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Program Fil
+es (x86)/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvro8a.pfb>
+Output written on refman.pdf (114 pages, 1057299 bytes).
 PDF statistics:
- 4371 PDF objects out of 5155 (max. 8388607)
- 4167 compressed objects within 42 object streams
- 916 named destinations out of 1000 (max. 500000)
+ 4362 PDF objects out of 5155 (max. 8388607)
+ 921 named destinations out of 1000 (max. 500000)
  2891 words of extra memory for PDF output out of 10000 (max. 10000000)
 

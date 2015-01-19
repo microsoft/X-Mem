@@ -431,6 +431,7 @@ int32_t xmem::common::query_sys_info() {
 		std::cerr << "WARNING: Failed to allocate memory for querying system information." << std::endl;
 		return -1;
 	}
+	retval = GetLogicalProcessorInformation(buffer, &len); //try again
 #endif
 
 	//Get NUMA info
@@ -438,9 +439,9 @@ int32_t xmem::common::query_sys_info() {
 	curr = buffer;
 	offset = 0;
 	while (offset + sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION) <= len) {
-		if (ptr->Relationship == RelationNumaNode)
+		if (curr->Relationship == RelationNumaNode)
 			g_num_nodes++;
-		else if (ptr->Relationship == RelationProcessorPackage)
+		else if (curr->Relationship == RelationProcessorPackage)
 			g_num_physical_packages++;
 		curr++;
 		offset += sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION);
@@ -462,9 +463,10 @@ int32_t xmem::common::query_sys_info() {
 	curr = buffer;
 	offset = 0;
 	while (offset + sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION) <= len) {
-		if (ptr->Relationship == RelationProcessorCore) {
+		if (curr->Relationship == RelationProcessorCore) {
 			DWORD LSHIFT = sizeof(ULONG_PTR)*8 - 1;
 			DWORD bitSetCount = 0;
+			ULONG_PTR bitMask = curr->ProcessorMask;
 			ULONG_PTR bitTest = (ULONG_PTR)1 << LSHIFT;    
 			DWORD i;
 			
@@ -491,19 +493,19 @@ int32_t xmem::common::query_sys_info() {
 	curr = buffer;
 	offset = 0;
 	while (offset + sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION) <= len) {
-		if (ptr->Relationship == RelationCache) {
-			switch (curr->Cache->Level) {
+		if (curr->Relationship == RelationCache) {
+			switch (curr->Cache.Level) {
 				case 1:
-					g_num_l1_caches++;
+					g_total_l1_caches++;
 					break;
 				case 2:
-					g_num_l2_caches++;
+					g_total_l2_caches++;
 					break;
 				case 3:
-					g_num_l3_caches++;
+					g_total_l3_caches++;
 					break;
 				case 4:
-					g_num_l4_caches++;
+					g_total_l4_caches++;
 					break;
 				default:
 					std::cerr << "WARNING: Unknown cache level detected in system information." << std::endl;
