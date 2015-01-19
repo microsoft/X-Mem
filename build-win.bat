@@ -2,7 +2,7 @@
 
 :: Author: Mark Gottscho <mgottscho@ucla.edu>
 
-echo Building X-Mem for WINDOWS...
+echo Building X-Mem for Windows...
 
 :: Build
 call scons -f SConstruct_win

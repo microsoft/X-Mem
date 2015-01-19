@@ -1,5 +1,0 @@
-# SConstruct file for Unix build only
-# Author: Mark Gottscho <mgottscho@ucla.edu>
-
-SConscript('SConscript_unix', variant_dir = 'build/unix/release', duplicate = 0, exports = {'MODE':'release'})
-SConscript('SConscript_unix', variant_dir = 'build/unix/debug', duplicate = 0, exports = {'MODE':'debug'})

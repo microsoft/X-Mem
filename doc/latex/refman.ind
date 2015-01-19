@@ -490,15 +490,15 @@
   \item {src/\discretionary {-}{}{}Configurator.\discretionary {-}{}{}cpp}, 
 		\hyperpage{68}
   \item {src/\discretionary {-}{}{}Latency\discretionary {-}{}{}Benchmark.\discretionary {-}{}{}cpp}, 
-		\hyperpage{92}
+		\hyperpage{91}
   \item {src/\discretionary {-}{}{}Power\discretionary {-}{}{}Reader.\discretionary {-}{}{}cpp}, 
-		\hyperpage{93}
+		\hyperpage{92}
   \item {src/\discretionary {-}{}{}Runnable.\discretionary {-}{}{}cpp}, 
 		\hyperpage{93}
   \item {src/\discretionary {-}{}{}Thread.\discretionary {-}{}{}cpp}, 
 		\hyperpage{93}
   \item {src/\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark.\discretionary {-}{}{}cpp}, 
-		\hyperpage{94}
+		\hyperpage{93}
   \item {src/\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Worker.\discretionary {-}{}{}cpp}, 
 		\hyperpage{94}
   \item {src/\discretionary {-}{}{}Timer.\discretionary {-}{}{}cpp}, 
@@ -541,8 +541,6 @@
 		\hyperpage{91}
   \item {src/include/win/win\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}C\discretionary {-}{}{}Pdh\discretionary {-}{}{}Query.\discretionary {-}{}{}h}, 
 		\hyperpage{91}
-  \item {src/include/win/win\discretionary {-}{}{}\_\discretionary {-}{}{}common.\discretionary {-}{}{}h}, 
-		\hyperpage{91}
   \item {src/include/win/win\discretionary {-}{}{}\_\discretionary {-}{}{}common\discretionary {-}{}{}\_\discretionary {-}{}{}third\discretionary {-}{}{}\_\discretionary {-}{}{}party.\discretionary {-}{}{}h}, 
 		\hyperpage{91}
   \item {src/include/x86\discretionary {-}{}{}\_\discretionary {-}{}{}64/\discretionary {-}{}{}T\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}Timer.\discretionary {-}{}{}h}, 
@@ -552,10 +550,8 @@
 		\hyperpage{94}
   \item {src/win/\discretionary {-}{}{}Windows\discretionary {-}{}{}D\discretionary {-}{}{}R\discretionary {-}{}{}A\discretionary {-}{}{}M\discretionary {-}{}{}Power\discretionary {-}{}{}Reader.\discretionary {-}{}{}cpp}, 
 		\hyperpage{95}
-  \item {src/win/win\discretionary {-}{}{}\_\discretionary {-}{}{}common.\discretionary {-}{}{}cpp}, 
-		\hyperpage{95}
   \item {src/win/win\discretionary {-}{}{}\_\discretionary {-}{}{}common\discretionary {-}{}{}\_\discretionary {-}{}{}third\discretionary {-}{}{}\_\discretionary {-}{}{}party.\discretionary {-}{}{}cpp}, 
-		\hyperpage{95}
+		\hyperpage{94}
   \item {src/x86\discretionary {-}{}{}\_\discretionary {-}{}{}64/\discretionary {-}{}{}T\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}Timer.\discretionary {-}{}{}cpp}, 
 		\hyperpage{95}
   \item {started}

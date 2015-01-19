@@ -38,17 +38,17 @@
 #include <intrin.h>
 #endif
 
-#ifdef __unix__
+#ifdef __gnu_linux__
 #include <immintrin.h>
 #endif
 
 namespace xmem {
 	namespace common {
 
-#define VERSION "1.04"
+#define VERSION "1.05"
 
-#if !defined(_WIN32) && !defined(__unix__)
-#error Neither Windows or Unix build environments were detected!
+#if !defined(_WIN32) && !defined(__gnu_linux__)
+#error Neither Windows/GNULinux build environments were detected!
 #endif
 
 //Windows: convert platform-specific preprocessor flags for architecture to xmem-specific constants
@@ -84,8 +84,8 @@ namespace xmem {
 
 #endif
 
-//Unix: convert platform-specific preprocessor flags for architecture to xmem-specific constants
-#ifdef __unix__
+//Linux: convert platform-specific preprocessor flags for architecture to xmem-specific constants
+#ifdef __gnu_linux__
 
 #ifdef __i386__ //Intel x86
 #define ARCH_INTEL_X86

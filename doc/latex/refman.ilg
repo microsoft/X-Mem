@@ -86,8 +86,8 @@ Scanning input file refman.idx....
    -- First argument too long (max 1024).
 !! Input index error (file = refman.idx, line = 398):
    -- First argument too long (max 1024).
-done (392 entries accepted, 40 rejected).
-Sorting entries......done (3482 comparisons).
-Generating output file refman.ind....done (916 lines written, 0 warnings).
+done (390 entries accepted, 40 rejected).
+Sorting entries......done (3692 comparisons).
+Generating output file refman.ind....done (912 lines written, 0 warnings).
 Output written in refman.ind.
 Transcript written in refman.ilg.

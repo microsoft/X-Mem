@@ -47,7 +47,7 @@
 #include <windows.h>
 #endif
 
-#ifdef __unix__
+#ifdef __gnu_linux__
 #include <numa.h>
 #endif
 
@@ -80,7 +80,7 @@ BenchmarkManager::BenchmarkManager(size_t working_set_size, uint32_t iterations_
 	for (uint32_t i = 0; i < g_num_physical_packages; i++) { //FIXME: this assumes that each physical package has a DRAM power measurement capability
 		std::string power_obj_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Socket " << i << " DRAM"))->str();
 		
-		//TODO: Implement derived PowerReaders for Unix systems.
+		//TODO: Implement derived PowerReaders for Linux systems.
 		//FIXME: this is a bandaid for when the system is -really- NUMA, but has UMA emulation in hardware. In such a case, the number of physical packages may exceed number of NUMA nodes, but there are still
 		//two physical "nodes" of DRAM power to measure. On Windows, need a way of picking a CPU core from a physical processor package rather than from a NUMA node! Maybe this exists and I need to search harder. :)
 #ifdef _WIN32
@@ -132,8 +132,8 @@ BenchmarkManager::~BenchmarkManager() {
 #ifdef _WIN32
 			VirtualFreeEx(GetCurrentProcess(), __mem_arrays[i], 0, MEM_RELEASE); //windows API
 #endif
-#ifdef __unix__
-			numa_free(__mem_arrays[i], __mem_array_lens[i]); //Unix API
+#ifdef __gnu_linux__
+			numa_free(__mem_arrays[i], __mem_array_lens[i]); //Linux API
 #endif
 	//Close results file
 	if (__results_file.is_open())
@@ -326,7 +326,7 @@ void BenchmarkManager::__setupWorkingSets(size_t working_set_size) {
 #ifdef _WIN32
 		__mem_arrays[numa_node] = VirtualAllocExNuma(GetCurrentProcess(), NULL, allocation_size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE, numa_node); //Windows NUMA allocation. Make the allocation one page bigger than necessary so that we can do alignment.
 #endif
-#ifdef __unix__
+#ifdef __gnu_linux__
 		__mem_arrays[numa_node] = numa_alloc_onnode(allocation_size, numa_node);
 #endif
 

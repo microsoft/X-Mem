@@ -37,7 +37,7 @@
 #include <windows.h>
 #endif
 
-#ifdef __unix__
+#ifdef __gnu_linux__
 #include <pthread.h>
 #endif
 
@@ -82,7 +82,7 @@ namespace xmem {
 				HANDLE _mutex; 
 #endif
 
-#ifdef __unix__
+#ifdef __gnu_linux__
 				/** A handle to the OS pthreads mutex, i.e., the locking mechanism. Outside the constructor, this should only be accessed via _acquireLock() and _releaseLock(). */
 				pthread_mutex_t _mutex; 
 #endif

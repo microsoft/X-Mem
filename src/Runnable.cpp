@@ -37,7 +37,7 @@
 #include <windows.h>
 #endif
 
-#ifdef __unix__
+#ifdef __gnu_linux__
 #include <pthread.h>
 #include <time.h>
 #endif
@@ -48,7 +48,7 @@ Runnable::Runnable() :
 #ifdef _WIN32
 	_mutex(0) 
 #endif
-#ifdef __unix__
+#ifdef __gnu_linux__
 	_mutex(PTHREAD_MUTEX_INITIALIZER)
 #endif
 	{
@@ -64,7 +64,7 @@ Runnable::~Runnable() {
 		ReleaseMutex(_mutex); //Don't need to check return code. If it fails, the lock might not have been held anyway.
 #endif
 
-#ifdef __unix__
+#ifdef __gnu_linux__
 	int32_t retval = pthread_mutex_destroy(&_mutex); 
 	if (!retval) {
 		if (retval == EBUSY)
@@ -85,7 +85,7 @@ bool Runnable::_acquireLock(int32_t timeout) {
 	DWORD reason;
 #endif
 
-#ifdef __unix__
+#ifdef __gnu_linux__
 	int32_t reason;
 #endif
 
@@ -94,7 +94,7 @@ bool Runnable::_acquireLock(int32_t timeout) {
 		reason = WaitForSingleObject(_mutex, INFINITE);
 		if (reason == WAIT_OBJECT_0) //success
 #endif
-#ifdef __unix__
+#ifdef __gnu_linux__
 		reason = pthread_mutex_lock(&_mutex);
 		if (!reason) //success
 #endif
@@ -104,7 +104,7 @@ bool Runnable::_acquireLock(int32_t timeout) {
 #ifdef _WIN32
 			<< GetLastError() 
 #endif
-#ifdef __unix__
+#ifdef __gnu_linux__
 			<< reason
 #endif
 			<< std::endl;
@@ -115,7 +115,7 @@ bool Runnable::_acquireLock(int32_t timeout) {
 		reason = WaitForSingleObject(_mutex, timeout);
 		if (reason == WAIT_OBJECT_0) //success
 #endif
-#ifdef __unix
+#ifdef __gnu_linux__
 		struct timespec t;
 		t.tv_sec = static_cast<time_t>(timeout/1000);
 		t.tv_nsec = static_cast<time_t>((timeout % 1000) * 1e6);
@@ -126,14 +126,14 @@ bool Runnable::_acquireLock(int32_t timeout) {
 #ifdef _WIN32
 		else if (reason != WAIT_TIMEOUT) {
 #endif
-#ifdef __unix__
+#ifdef __gnu_linux__
 		else if (reason != ETIMEDOUT) {
 #endif
 			std::cerr << "WARNING: Failed to acquire lock in a Runnable object! Error code "
 #ifdef _WIN32
 			<< GetLastError() 
 #endif
-#ifdef __unix__		
+#ifdef __gnu_linux__		
 			<< reason
 #endif
 			<< std::endl;
@@ -148,7 +148,7 @@ bool Runnable::_releaseLock() {
 #ifdef _WIN32
 	if (ReleaseMutex(_mutex))
 #endif
-#ifdef __unix__
+#ifdef __gnu_linux__
 	int32_t retval = pthread_mutex_unlock(&_mutex);
 	if (!retval)
 #endif
@@ -157,7 +157,7 @@ bool Runnable::_releaseLock() {
 #ifdef _WIN32
 	<< GetLastError()
 #endif
-#ifdef __unix__
+#ifdef __gnu_linux__
 	<< retval
 #endif
 	<< std::endl;

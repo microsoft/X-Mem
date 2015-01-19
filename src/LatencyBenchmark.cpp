@@ -48,7 +48,7 @@
 #include <processthreadsapi.h>
 #endif
 
-#ifdef __unix__
+#ifdef __gnu_linux__
 #include <unistd.h> //for nice()
 #endif
 
@@ -132,7 +132,7 @@ bool LatencyBenchmark::__run_core() {
 	SetPriorityClass(GetCurrentProcess(), 0x80); //HIGH_PRIORITY_CLASS
 	SetThreadPriority(GetCurrentThread(), 15); //THREAD_PRIORITY_TIME_CRITICAL
 #endif
-#ifdef __unix__
+#ifdef __gnu_linux__
 	if (nice(-20) == EPERM) //Increase priority to maximum. This will require admin privileges and thus can fail. Note that this doesn't necessarily improve performance as Linux is still using a round-robin scheduler by default.
 		std::cerr << "WARNING: Failed to increase Linux thread scheduling priority using \"nice\" value of -20. This probably happened because you ran X-Mem without administrator privileges." << std::endl;
 #endif
@@ -269,7 +269,7 @@ bool LatencyBenchmark::__run_core() {
 	SetPriorityClass(GetCurrentProcess(), originalPriorityClass);
 	SetThreadPriority(GetCurrentThread(), originalPriority);
 #endif
-#ifdef __unix__
+#ifdef __gnu_linux__
 	if (nice(0) == EPERM) //Set priority to nominal. Note that this doesn't necessarily affect performance as Linux is still using a round-robin scheduler by default.
 		std::cerr << "WARNING: Failed to set Linux thread scheduling priority using default \"nice\" value of 0. This shouldn\'t have happened." << std::endl;
 #endif

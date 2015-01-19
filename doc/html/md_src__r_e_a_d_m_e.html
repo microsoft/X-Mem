@@ -30,7 +30,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">X-Mem
-   &#160;<span id="projectnumber">1.04</span>
+   &#160;<span id="projectnumber">1.05</span>
    </div>
    <div id="projectbrief">The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power.</div>
   </td>
@@ -101,7 +101,7 @@ $(document).ready(function(){initNavTree('md_src__r_e_a_d_m_e.html','');});
 <div class="title">README </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h2>X-Mem: Extensible Memory Benchmarking Tool v1.04 </h2>
+<div class="textblock"><h2>X-Mem: Extensible Memory Benchmarking Tool v1.05 </h2>
 <p>The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power.</p>
 <p>Originally authored by Mark Gottscho (Email: <a href="#" onclick="location.href='mai'+'lto:'+'mgo'+'tt'+'sch'+'o@'+'ucl'+'a.'+'edu'; return false;">mgott<span style="display: none;">.nosp@m.</span>scho<span style="display: none;">.nosp@m.</span>@ucla<span style="display: none;">.nosp@m.</span>.edu</a>) as a Summer 2014 intern at Microsoft Research, Redmond, WA.</p>
 <p>This project is under active development. Stay tuned for more updates.</p>
@@ -134,7 +134,7 @@ $(document).ready(function(){initNavTree('md_src__r_e_a_d_m_e.html','');});
 <p>Cross-platform: Currently implemented for Windows on x86-64 CPUs with AVX extensions</p>
 <ul>
 <li>Designed to allow straightforward porting to other operating systems and ISAs</li>
-<li>Planning to implement Unix port</li>
+<li>Planning to implement GNU/Linux port</li>
 </ul>
 <p>Memory throughput:</p>
 <ul>
@@ -165,7 +165,7 @@ $(document).ready(function(){initNavTree('md_src__r_e_a_d_m_e.html','');});
 <li>Microsoft Windows 64-bit, 8.0 or later, Server 2012 or later.</li>
 <li>Microsoft Visual C++ 2013 Redistributables (64-bit)</li>
 </ul>
-<p>UNIX/LINUX:</p>
+<p>LINUX:</p>
 <ul>
 <li>TBD <hr/>
  <h2>INSTALLATION </h2>
@@ -209,7 +209,7 @@ xmem -t --latency -n10 -w524288 -f results.csv -i 101
 </pre><hr/>
  <h2>BUILDING FROM SOURCE </h2>
 <p>Before building the source, enable and disable the relevant compile-time options in <a class="el" href="common_8h.html" title="Header file for common preprocessor definitions, macros, functions, and global constants. ">src/include/common.h</a>, under the section "User-configurable compilation configuration". Please read the comments by each #define statement to understand the context of each option.</p>
-<p>After you have set the desired compile-time options, build the source. On Windows, running build-win.bat should suffice. On Unix, run build-unix.sh.</p>
+<p>After you have set the desired compile-time options, build the source. On Windows, running build-win.bat should suffice. On GNU/Linux, run build-linux.sh.</p>
 <p>If you customize your build, make sure you use the "Release" mode for your OS. Do not include debug capabilities as it can dramatically affect performance of the benchmarks, leading to pessimistic results. </p>
 <hr/>
  <h2>BUILD PREREQUISITES </h2>
@@ -220,7 +220,7 @@ xmem -t --latency -n10 -w524288 -f results.csv -i 101
 <li>Python 2.7. You can obtain it at <a href="http://www.python.org">http://www.python.org</a>.</li>
 <li>SCons build system. You can obtain it at <a href="http://www.scons.org">http://www.scons.org</a>. Build tested with SCons 2.3.4.</li>
 </ul>
-<p>UNIX/LINUX:</p>
+<p>LINUX:</p>
 <ul>
 <li>gcc with support for the C++11 standard. Tested with gcc version 4.8.2 on Ubuntu 14.04 LTS for x86-64.</li>
 <li>Python 2.7. You can obtain it at <a href="http://www.python.org">http://www.python.org</a>. On Ubuntu systems, you can install using "sudo apt-get install python2.7". You may need some other Python 2.7 packages as well.</li>
@@ -235,15 +235,15 @@ xmem -t --latency -n10 -w524288 -f results.csv -i 101
 <li>LaTeX distribution. You can get a Windows distribution at <a href="http://www.miktex.org">http://www.miktex.org</a>.</li>
 <li>make for Windows. You can obtain it at <a href="http://gnuwin32.sourceforge.net/packages/make.htm">http://gnuwin32.sourceforge.net/packages/make.htm</a>. You will have to manually add it to your Windows path.</li>
 </ul>
-<p>UNIX/LINUX:</p>
+<p>LINUX:</p>
 <ul>
 <li>doxygen tool. You can obtain it at <a href="http://www.stack.nl/~dimitri/doxygen">http://www.stack.nl/~dimitri/doxygen</a>. On Ubuntu systems, you can install with "sudo apt-get install doxygen".</li>
 <li>LaTeX distribution. On Ubuntu systems, LaTeX distributed with doxygen should actually be sufficient. You can install with "sudo apt-get install doxygen-latex".</li>
-<li>make. This should be included on any Unix/Linux system. <hr/>
+<li>make. This should be included on any GNU/Linux system. <hr/>
  <h2>SOURCE CODE DOCUMENTATION </h2>
 </li>
 </ul>
-<p>The tool comes with built-in Doxygen comments in the source code, which can be used to generate both HTML and LaTeX &ndash;&gt; PDF documentation. Documentation is maintained under the doc/ subdirectory. To build documentation after modifying the source, run build-docs-win.bat on Windows, or build-docs-unix.sh on Unix systems. Note that Doxygen and a LaTeX distribution must be installed on the system. </p>
+<p>The tool comes with built-in Doxygen comments in the source code, which can be used to generate both HTML and LaTeX &ndash;&gt; PDF documentation. Documentation is maintained under the doc/ subdirectory. To build documentation after modifying the source, run build-docs-win.bat on Windows, or build-docs-linux.sh on GNU/Linux systems. Note that Doxygen and a LaTeX distribution must be installed on the system. </p>
 <hr/>
  <h2>VERSION CONTROL </h2>
 <p>This project is under version control using git. Its master repository is hosted at <a href="https://github.com/Microsoft/X-Mem.git">https://github.com/Microsoft/X-Mem.git</a>. </p>
@@ -259,7 +259,7 @@ xmem -t --latency -n10 -w524288 -f results.csv -i 101
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Jan 17 2015 16:24:07 for X-Mem by
+    <li class="footer">Generated on Sun Jan 18 2015 18:19:02 for X-Mem by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

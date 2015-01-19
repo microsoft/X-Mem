@@ -39,7 +39,7 @@
 #include <benchmark_kernels.h>
 #include <common.h>
 
-#ifdef __unix__
+#ifdef __gnu_linux__
 #include <immintrin.h> //for Intel AVX intrinsics
 #endif
 
@@ -137,7 +137,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwSequentialLoop_Word256(voi
 #ifdef _WIN32
 	return win_asm_dummy_forwSequentialLoop_Word256(static_cast<Word256_t*>(start_address), static_cast<Word256_t*>(end_address));
 #endif
-#ifdef __unix__
+#ifdef __gnu_linux__
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address), *endptr = static_cast<Word256_t*>(end_address); wordptr < endptr;) {
 		UNROLL64(wordptr++;) 
@@ -173,7 +173,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revSequentialLoop_Word256(void
 #ifdef _WIN32
 	return win_asm_dummy_revSequentialLoop_Word256(static_cast<Word256_t*>(end_address), static_cast<Word256_t*>(start_address));
 #endif
-#ifdef __unix__
+#ifdef __gnu_linux__
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address), *begptr = static_cast<Word256_t*>(start_address); wordptr > begptr;) {
 		UNROLL64(wordptr--;) 
@@ -377,7 +377,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwSequentialRead_Word256(void* sta
 #ifdef _WIN32
 	return win_asm_forwSequentialRead_Word256(static_cast<Word256_t*>(start_address), static_cast<Word256_t*>(end_address));
 #endif
-#ifdef __unix__
+#ifdef __gnu_linux__
 	register Word256_t val;
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address), *endptr = static_cast<Word256_t*>(end_address); wordptr < endptr;) {
 		UNROLL256(val = *wordptr++;)
@@ -410,7 +410,7 @@ int32_t xmem::benchmark::benchmark_kernels::revSequentialRead_Word256(void* star
 #ifdef _WIN32
 	return win_asm_revSequentialRead_Word256(static_cast<Word256_t*>(end_address), static_cast<Word256_t*>(start_address));
 #endif
-#ifdef __unix__
+#ifdef __gnu_linux__
 	register Word256_t val;
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address), *begptr = static_cast<Word256_t*>(start_address); wordptr > begptr;) {
 		UNROLL64(val = *wordptr--;)
@@ -445,7 +445,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwSequentialWrite_Word256(void* st
 #ifdef _WIN32
 	return win_asm_forwSequentialWrite_Word256(static_cast<Word256_t*>(start_address), static_cast<Word256_t*>(end_address));
 #endif
-#ifdef __unix__
+#ifdef __gnu_linux__
 	register Word256_t val;
 	val = _mm256_set_epi64x(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address), *endptr = static_cast<Word256_t*>(end_address); wordptr < endptr;) {
@@ -479,7 +479,7 @@ int32_t xmem::benchmark::benchmark_kernels::revSequentialWrite_Word256(void* sta
 #ifdef _WIN32
 	return win_asm_revSequentialWrite_Word256(static_cast<Word256_t*>(end_address), static_cast<Word256_t*>(start_address));
 #endif
-#ifdef __unix__
+#ifdef __gnu_linux__
 	register Word256_t val;
 	val = _mm256_set_epi64x(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address), *begptr = static_cast<Word256_t*>(start_address); wordptr > begptr;) {

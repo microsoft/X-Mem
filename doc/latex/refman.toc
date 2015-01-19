@@ -315,40 +315,36 @@
 \contentsline {subsection}{\numberline {6.20.1}Detailed Description}{90}{subsection.6.20.1}
 \contentsline {section}{\numberline {6.21}src/include/win/\discretionary {-}{}{}Q\discretionary {-}{}{}P\discretionary {-}{}{}C\discretionary {-}{}{}Timer.h File Reference}{90}{section.6.21}
 \contentsline {subsection}{\numberline {6.21.1}Detailed Description}{91}{subsection.6.21.1}
-\contentsline {section}{\numberline {6.22}src/include/win/win\discretionary {-}{}{}\_\discretionary {-}{}{}common.h File Reference}{91}{section.6.22}
+\contentsline {section}{\numberline {6.22}src/include/win/win\discretionary {-}{}{}\_\discretionary {-}{}{}common\discretionary {-}{}{}\_\discretionary {-}{}{}third\discretionary {-}{}{}\_\discretionary {-}{}{}party.h File Reference}{91}{section.6.22}
 \contentsline {subsection}{\numberline {6.22.1}Detailed Description}{91}{subsection.6.22.1}
-\contentsline {section}{\numberline {6.23}src/include/win/win\discretionary {-}{}{}\_\discretionary {-}{}{}common\discretionary {-}{}{}\_\discretionary {-}{}{}third\discretionary {-}{}{}\_\discretionary {-}{}{}party.h File Reference}{91}{section.6.23}
+\contentsline {section}{\numberline {6.23}src/include/win/win\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}C\discretionary {-}{}{}Pdh\discretionary {-}{}{}Query.h File Reference}{91}{section.6.23}
 \contentsline {subsection}{\numberline {6.23.1}Detailed Description}{91}{subsection.6.23.1}
-\contentsline {section}{\numberline {6.24}src/include/win/win\discretionary {-}{}{}\_\discretionary {-}{}{}\discretionary {-}{}{}C\discretionary {-}{}{}Pdh\discretionary {-}{}{}Query.h File Reference}{91}{section.6.24}
+\contentsline {section}{\numberline {6.24}src/include/win/\discretionary {-}{}{}Windows\discretionary {-}{}{}D\discretionary {-}{}{}R\discretionary {-}{}{}A\discretionary {-}{}{}M\discretionary {-}{}{}Power\discretionary {-}{}{}Reader.h File Reference}{91}{section.6.24}
 \contentsline {subsection}{\numberline {6.24.1}Detailed Description}{91}{subsection.6.24.1}
-\contentsline {section}{\numberline {6.25}src/include/win/\discretionary {-}{}{}Windows\discretionary {-}{}{}D\discretionary {-}{}{}R\discretionary {-}{}{}A\discretionary {-}{}{}M\discretionary {-}{}{}Power\discretionary {-}{}{}Reader.h File Reference}{91}{section.6.25}
+\contentsline {section}{\numberline {6.25}src/include/x86\discretionary {-}{}{}\_\discretionary {-}{}{}64/\discretionary {-}{}{}T\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}Timer.h File Reference}{91}{section.6.25}
 \contentsline {subsection}{\numberline {6.25.1}Detailed Description}{91}{subsection.6.25.1}
-\contentsline {section}{\numberline {6.26}src/include/x86\discretionary {-}{}{}\_\discretionary {-}{}{}64/\discretionary {-}{}{}T\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}Timer.h File Reference}{91}{section.6.26}
+\contentsline {section}{\numberline {6.26}src/\discretionary {-}{}{}Latency\discretionary {-}{}{}Benchmark.cpp File Reference}{91}{section.6.26}
 \contentsline {subsection}{\numberline {6.26.1}Detailed Description}{92}{subsection.6.26.1}
-\contentsline {section}{\numberline {6.27}src/\discretionary {-}{}{}Latency\discretionary {-}{}{}Benchmark.cpp File Reference}{92}{section.6.27}
+\contentsline {section}{\numberline {6.27}src/main.cpp File Reference}{92}{section.6.27}
 \contentsline {subsection}{\numberline {6.27.1}Detailed Description}{92}{subsection.6.27.1}
-\contentsline {section}{\numberline {6.28}src/main.cpp File Reference}{92}{section.6.28}
+\contentsline {section}{\numberline {6.28}src/\discretionary {-}{}{}Power\discretionary {-}{}{}Reader.cpp File Reference}{92}{section.6.28}
 \contentsline {subsection}{\numberline {6.28.1}Detailed Description}{92}{subsection.6.28.1}
-\contentsline {section}{\numberline {6.29}src/\discretionary {-}{}{}Power\discretionary {-}{}{}Reader.cpp File Reference}{93}{section.6.29}
+\contentsline {section}{\numberline {6.29}src/\discretionary {-}{}{}Runnable.cpp File Reference}{93}{section.6.29}
 \contentsline {subsection}{\numberline {6.29.1}Detailed Description}{93}{subsection.6.29.1}
-\contentsline {section}{\numberline {6.30}src/\discretionary {-}{}{}Runnable.cpp File Reference}{93}{section.6.30}
+\contentsline {section}{\numberline {6.30}src/\discretionary {-}{}{}Thread.cpp File Reference}{93}{section.6.30}
 \contentsline {subsection}{\numberline {6.30.1}Detailed Description}{93}{subsection.6.30.1}
-\contentsline {section}{\numberline {6.31}src/\discretionary {-}{}{}Thread.cpp File Reference}{93}{section.6.31}
-\contentsline {subsection}{\numberline {6.31.1}Detailed Description}{93}{subsection.6.31.1}
-\contentsline {section}{\numberline {6.32}src/\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark.cpp File Reference}{94}{section.6.32}
+\contentsline {section}{\numberline {6.31}src/\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark.cpp File Reference}{93}{section.6.31}
+\contentsline {subsection}{\numberline {6.31.1}Detailed Description}{94}{subsection.6.31.1}
+\contentsline {section}{\numberline {6.32}src/\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Worker.cpp File Reference}{94}{section.6.32}
 \contentsline {subsection}{\numberline {6.32.1}Detailed Description}{94}{subsection.6.32.1}
-\contentsline {section}{\numberline {6.33}src/\discretionary {-}{}{}Throughput\discretionary {-}{}{}Benchmark\discretionary {-}{}{}Worker.cpp File Reference}{94}{section.6.33}
+\contentsline {section}{\numberline {6.33}src/\discretionary {-}{}{}Timer.cpp File Reference}{94}{section.6.33}
 \contentsline {subsection}{\numberline {6.33.1}Detailed Description}{94}{subsection.6.33.1}
-\contentsline {section}{\numberline {6.34}src/\discretionary {-}{}{}Timer.cpp File Reference}{94}{section.6.34}
+\contentsline {section}{\numberline {6.34}src/win/\discretionary {-}{}{}Q\discretionary {-}{}{}P\discretionary {-}{}{}C\discretionary {-}{}{}Timer.cpp File Reference}{94}{section.6.34}
 \contentsline {subsection}{\numberline {6.34.1}Detailed Description}{94}{subsection.6.34.1}
-\contentsline {section}{\numberline {6.35}src/win/\discretionary {-}{}{}Q\discretionary {-}{}{}P\discretionary {-}{}{}C\discretionary {-}{}{}Timer.cpp File Reference}{94}{section.6.35}
-\contentsline {subsection}{\numberline {6.35.1}Detailed Description}{95}{subsection.6.35.1}
-\contentsline {section}{\numberline {6.36}src/win/win\discretionary {-}{}{}\_\discretionary {-}{}{}common.cpp File Reference}{95}{section.6.36}
+\contentsline {section}{\numberline {6.35}src/win/win\discretionary {-}{}{}\_\discretionary {-}{}{}common\discretionary {-}{}{}\_\discretionary {-}{}{}third\discretionary {-}{}{}\_\discretionary {-}{}{}party.cpp File Reference}{94}{section.6.35}
+\contentsline {subsection}{\numberline {6.35.1}Detailed Description}{94}{subsection.6.35.1}
+\contentsline {section}{\numberline {6.36}src/win/\discretionary {-}{}{}Windows\discretionary {-}{}{}D\discretionary {-}{}{}R\discretionary {-}{}{}A\discretionary {-}{}{}M\discretionary {-}{}{}Power\discretionary {-}{}{}Reader.cpp File Reference}{95}{section.6.36}
 \contentsline {subsection}{\numberline {6.36.1}Detailed Description}{95}{subsection.6.36.1}
-\contentsline {section}{\numberline {6.37}src/win/win\discretionary {-}{}{}\_\discretionary {-}{}{}common\discretionary {-}{}{}\_\discretionary {-}{}{}third\discretionary {-}{}{}\_\discretionary {-}{}{}party.cpp File Reference}{95}{section.6.37}
+\contentsline {section}{\numberline {6.37}src/x86\discretionary {-}{}{}\_\discretionary {-}{}{}64/\discretionary {-}{}{}T\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}Timer.cpp File Reference}{95}{section.6.37}
 \contentsline {subsection}{\numberline {6.37.1}Detailed Description}{95}{subsection.6.37.1}
-\contentsline {section}{\numberline {6.38}src/win/\discretionary {-}{}{}Windows\discretionary {-}{}{}D\discretionary {-}{}{}R\discretionary {-}{}{}A\discretionary {-}{}{}M\discretionary {-}{}{}Power\discretionary {-}{}{}Reader.cpp File Reference}{95}{section.6.38}
-\contentsline {subsection}{\numberline {6.38.1}Detailed Description}{95}{subsection.6.38.1}
-\contentsline {section}{\numberline {6.39}src/x86\discretionary {-}{}{}\_\discretionary {-}{}{}64/\discretionary {-}{}{}T\discretionary {-}{}{}S\discretionary {-}{}{}C\discretionary {-}{}{}Timer.cpp File Reference}{95}{section.6.39}
-\contentsline {subsection}{\numberline {6.39.1}Detailed Description}{95}{subsection.6.39.1}
-\contentsline {chapter}{Index}{96}{section*.96}
+\contentsline {chapter}{Index}{96}{section*.95}

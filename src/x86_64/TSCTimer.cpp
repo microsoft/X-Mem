@@ -36,7 +36,7 @@
 #include <intrin.h>
 #endif
 
-#ifdef __unix__
+#ifdef __gnu_linux__
 #include <immintrin.h>
 #include <time.h>
 #include <cpuid.h>
@@ -54,7 +54,7 @@ TSCTimer::TSCTimer() :
 #ifdef _WIN32
 	Sleep(1000);
 #endif
-#ifdef __unix__
+#ifdef __gnu_linux__
 	struct timespec duration, remainder;
 	duration.tv_sec = 1;
 	duration.tv_nsec = 0;
@@ -79,7 +79,7 @@ uint64_t xmem::timers::x86_64::start_tsc_timer() {
 	int32_t dontcare[4];
 	__cpuid(dontcare, 0); //Serializing instruction. This forces all previous instructions to finish
 #endif
-#ifdef __unix__
+#ifdef __gnu_linux__
 	int32_t dc0, dc1, dc2, dc3, dc4;
 	__cpuid(dc0, dc1, dc2, dc3, dc4); //Serializing instruction. This forces all previous instructions to finish
 #endif
@@ -94,7 +94,7 @@ uint64_t xmem::timers::x86_64::stop_tsc_timer() {
 	tick = __rdtscp(&filler); //Get clock tick. This is a partially serializing instruction. All previous instructions must finish
 	__cpuid(dontcare, 0); //Fully serializing instruction. We do this to prevent later instructions from being moved inside the timed section
 #endif
-#ifdef __unix__
+#ifdef __gnu_linux__
 	int32_t dc0, dc1, dc2, dc3, dc4;
 	tick = __rdtscp(&filler); //Get clock tick. This is a partially serializing instruction. All previous instructions must finish
 	__cpuid(dc0, dc1, dc2, dc3, dc4); //Serializing instruction. This forces all previous instructions to finish
