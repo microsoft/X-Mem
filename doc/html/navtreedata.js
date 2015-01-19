@@ -26,8 +26,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"classxmem_1_1benchmark_1_1_benchmark_manager.html#ac515058049ec46df410e4e8e7d858019",
-"functions_f.html"
+"classxmem_1_1benchmark_1_1_latency_benchmark.html#a2714dfbf9be2eef8ac4089ad610db651",
+"dir_b0856f6b0d80ccb263b2f415c91f9e17.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

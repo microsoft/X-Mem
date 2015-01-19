@@ -41,13 +41,13 @@
 #include <assert.h>
 #include <random>
 #include <time.h>
-#ifdef _WIN32
+/*#ifdef _WIN32
 #include <windows.h>
 #include <intrin.h>
 #include <processthreadsapi.h>
 #else
 #error Windows is the only supported OS at this time.
-#endif
+#endif*/
 
 using namespace xmem::benchmark;
 using namespace xmem::benchmark::benchmark_kernels;

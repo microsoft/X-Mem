@@ -32,6 +32,7 @@
 
 //Libraries
 #include <cstdint>
+#include <cstddef>
 
 namespace xmem {
 	namespace benchmark {

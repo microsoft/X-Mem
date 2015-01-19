@@ -38,17 +38,17 @@
 #include <intrin.h>
 #endif
 
-#ifdef __unix__
+#ifdef __gnu_linux__
 #include <immintrin.h>
 #endif
 
 namespace xmem {
 	namespace common {
 
-#define VERSION "1.03.01"
+#define VERSION "1.05.01"
 
-#if !defined(_WIN32) && !defined(__unix__)
-#error Neither Windows or Unix build environments were detected!
+#if !defined(_WIN32) && !defined(__gnu_linux__)
+#error Neither Windows/GNULinux build environments were detected!
 #endif
 
 //Windows: convert platform-specific preprocessor flags for architecture to xmem-specific constants
@@ -84,8 +84,8 @@ namespace xmem {
 
 #endif
 
-//Unix: convert platform-specific preprocessor flags for architecture to xmem-specific constants
-#ifdef __unix__
+//Linux: convert platform-specific preprocessor flags for architecture to xmem-specific constants
+#ifdef __gnu_linux__
 
 #ifdef __i386__ //Intel x86
 #define ARCH_INTEL_X86
@@ -129,11 +129,18 @@ namespace xmem {
 #define GB_4 4294967296
 
 //Default compile-time constants
-#define DEFAULT_PAGE_SIZE 4096 /**< Default platform page size in bytes. This generally should not be relied on, but is a failsafe. */
+#define DEFAULT_PAGE_SIZE 4*KB /**< Default platform page size in bytes. This generally should not be relied on, but is a failsafe. */
+#define DEFAULT_LARGE_PAGE_SIZE 2*MB /**< Default platform large page size in bytes. This generally should not be relied on, but is a failsafe. */
 #define DEFAULT_WORKING_SET_SIZE DEFAULT_PAGE_SIZE /**< Default working set size in bytes. */
-#define DEFAULT_NUM_CPUS 1 /**< Default number of logical CPU cores. */
-#define DEFAULT_NUM_NODES 1 /**< Default number of NUMA nodes. */
-#define DEFAULT_THREAD_JOIN_TIMEOUT 600000 /**< Default number of milliseconds to wait for a thread to join. Negative values mean indefinite wait. */
+#define DEFAULT_NUM_NODES 0 /**< Default number of NUMA nodes. */
+#define DEFAULT_NUM_PHYSICAL_PACKAGES 0 /**< Default number of physical packages. */
+#define DEFAULT_NUM_PHYSICAL_CPUS 0 /**< Default number of physical CPU cores. */
+#define DEFAULT_NUM_LOGICAL_CPUS 0 /**< Default number of logical CPU cores. */
+#define DEFAULT_NUM_L1_CACHES 0 /**< Default number of L1 caches. */
+#define DEFAULT_NUM_L2_CACHES 0 /**< Default number of L2 caches. */
+#define DEFAULT_NUM_L3_CACHES 0 /**< Default number of L3 caches. */
+#define DEFAULT_NUM_L4_CACHES 0 /**< Default number of L4 caches. */
+#define DEFAULT_THREAD_JOIN_TIMEOUT 600000 /**< Default number of milliseconds to wait for a thread to join. Negative values mean indefinite wait. TODO: remove this */
 #define MIN_ELAPSED_TICKS 10000 /**< If any routine measured fewer than this number of ticks its results should be viewed with suspicion. This is because the latency of the timer itself will matter. */
 
 
@@ -202,8 +209,11 @@ namespace xmem {
 #ifdef ARCH_INTEL_X86_64 //DO NOT COMMENT THIS OUT
 //#define USE_CHUNK_64b /**< RECOMMENDED DISABLED. Use 64-bit chunks. */
 //#define USE_CHUNK_128b /**< RECOMMENDED DISABLED. Use 128-bit chunks. x86-64 processors with SSE only. TODO: Not yet implemented. */
-#ifdef ARCH_INTEL_X86_64_AVX
+#ifdef ARCH_INTEL_X86_64_AVX //TODO: Is this supposed to be AVX2 instead of AVX?
 #define USE_CHUNK_256b /**< RECOMMENDED ENABLED. Use 256-bit chunks. x86-64 processors only with AVX ISA extensions. */
+#endif
+#ifdef ARCH_INTEL_X86_64_AVX512
+//#define USE_CHUNK_512b /**< TODO. Not yet implemented. */
 #endif
 #endif //DO NOT COMMENT THIS OUT
 
@@ -447,6 +457,12 @@ namespace xmem {
 		 * @returns False if the default value has to be used because the appropriate values could not be queried successfully from the OS.
 		 */
 		bool config_page_size();
+
+		/**
+		 * @brief Sets up global variables based on system information at runtime.
+		 * @returns 0 on success.
+		 */
+		int32_t query_sys_info();
 	};
 };
 

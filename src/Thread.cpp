@@ -38,7 +38,7 @@
 #include <Windows.h>
 #endif
 
-#ifdef __unix__
+#ifdef __gnu_linux__
 #include <pthread.h>
 #endif
 
@@ -73,8 +73,8 @@ bool Thread::create_and_start() {
 		return false;
 #endif
 
-#ifdef __unix__
-	//We cannot use create() and start() on Unix because pthreads API does not allow for a thread created in the suspended state. So we just do it in one shot.
+#ifdef __gnu_linux__
+	//We cannot use create() and start() on Linux because pthreads API does not allow for a thread created in the suspended state. So we just do it in one shot.
 	if (__target != NULL) {
 		int32_t failure = pthread_create(&__thread_handle, NULL, &Thread::__run_launchpad, __target);
 		if (failure)
@@ -87,7 +87,6 @@ bool Thread::create_and_start() {
 		return true;
 	}
 	return false;
-
 #endif
 }
 
@@ -108,8 +107,12 @@ bool Thread::join() {
 	return false;
 #endif
 
-#ifdef __unix__
-	int32_t failure = pthread_join(__thread_handle, static_cast<void**>(&__thread_exit_code));
+#ifdef __gnu_linux__
+	void* exit_pointer = NULL;
+	int32_t failure = pthread_join(__thread_handle, &exit_pointer);
+	if (exit_pointer)
+		__thread_exit_code = *(static_cast<int32_t*>(exit_pointer));
+
 	if (!failure) {
 		__running = false;
 		__suspended = false;
@@ -125,7 +128,7 @@ bool Thread::cancel() {
 #ifdef _WIN32
 		if (TerminateThread(__thread_handle, -1)) { //This can be unsafe! Use with caution.
 #endif
-#ifdef __unix
+#ifdef __gnu_linux__
 		if (pthread_cancel(__thread_handle)) {
 #endif
 			__suspended = false;
@@ -202,15 +205,26 @@ bool Thread::__start() {
 #endif
 
 #ifdef _WIN32
-DWORD  Thread::__run_launchpad(void* target_runnable_object) {
-#endif
-#ifdef __unix__
-int32_t Thread::__run_launchpad(void* target_runnable_object) {
-#endif
+DWORD Thread::__run_launchpad(void* target_runnable_object) {
 	if (target_runnable_object != NULL) {
 		Runnable* target = static_cast<Runnable*>(target_runnable_object);
 		target->run();
 		return 0;
-	} else
-		return 1;
+	}
+	return 1;
 }
+#endif
+
+#ifdef __gnu_linux__
+void* Thread::__run_launchpad(void* target_runnable_object) {
+	int32_t* thread_retval = new int32_t;
+	*thread_retval = 1;
+	if (target_runnable_object != NULL) {
+		Runnable* target = static_cast<Runnable*>(target_runnable_object);
+		target->run();
+		*thread_retval = 0;
+		return static_cast<void*>(thread_retval);
+	}
+	return static_cast<void*>(thread_retval);
+}
+#endif

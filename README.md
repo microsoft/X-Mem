@@ -1,7 +1,7 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: Extensible Memory Benchmarking Tool v1.03.01
+X-Mem: Extensible Memory Benchmarking Tool v1.05.01
 ------------------------------------------------------------------------------------------------------------
 
 The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power. 
@@ -59,7 +59,7 @@ Extensibility: C++ object-oriented principles
 
 Cross-platform: Currently implemented for Windows on x86-64 CPUs with AVX extensions
 	- Designed to allow straightforward porting to other operating systems and ISAs
-	- Planning to implement Unix port
+	- Planning to implement GNU/Linux port
 
 Memory throughput:
 	- Accurate measurement of sustained memory throughput to all levels of cache
@@ -91,7 +91,7 @@ WINDOWS:
 - Microsoft Windows 64-bit, 8.0 or later, Server 2012 or later.
 - Microsoft Visual C++ 2013 Redistributables (64-bit)
 
-UNIX/LINUX:
+LINUX:
 
 - TBD
 
@@ -147,7 +147,7 @@ BUILDING FROM SOURCE
 
 Before building the source, enable and disable the relevant compile-time options in src/include/common.h, under the section "User-configurable compilation configuration". Please read the comments by each #define statement to understand the context of each option.
 
-After you have set the desired compile-time options, build the source. On Windows, running build-win.bat should suffice. On Unix, run build-unix.sh.
+After you have set the desired compile-time options, build the source. On Windows, running build-win.bat should suffice. On GNU/Linux, run build-linux.sh.
 
 If you customize your build, make sure you use the "Release" mode for your OS. Do not include debug capabilities as it can dramatically affect performance of the benchmarks, leading to pessimistic results.
 
@@ -163,7 +163,7 @@ WINDOWS:
 - Python 2.7. You can obtain it at <http://www.python.org>.
 - SCons build system. You can obtain it at <http://www.scons.org>. Build tested with SCons 2.3.4.
 
-UNIX/LINUX:
+LINUX:
 
 - gcc with support for the C++11 standard. Tested with gcc version 4.8.2 on Ubuntu 14.04 LTS for x86-64.
 - Python 2.7. You can obtain it at <http://www.python.org>. On Ubuntu systems, you can install using "sudo apt-get install python2.7". You may need some other Python 2.7 packages as well.
@@ -181,17 +181,17 @@ WINDOWS:
 - LaTeX distribution. You can get a Windows distribution at <http://www.miktex.org>.
 - make for Windows. You can obtain it at <http://gnuwin32.sourceforge.net/packages/make.htm>. You will have to manually add it to your Windows path.
 
-UNIX/LINUX:
+LINUX:
 
 - doxygen tool. You can obtain it at <http://www.stack.nl/~dimitri/doxygen>. On Ubuntu systems, you can install with "sudo apt-get install doxygen".
 - LaTeX distribution. On Ubuntu systems, LaTeX distributed with doxygen should actually be sufficient. You can install with "sudo apt-get install doxygen-latex".
-- make. This should be included on any Unix/Linux system.
+- make. This should be included on any GNU/Linux system.
 
 ------------------------------------------------------------------------------------------------------------
 SOURCE CODE DOCUMENTATION
 ------------------------------------------------------------------------------------------------------------
 
-The tool comes with built-in Doxygen comments in the source code, which can be used to generate both HTML and LaTeX --> PDF documentation. Documentation is maintained under the doc/ subdirectory. To build documentation after modifying the source, run build-docs-win.bat on Windows, or build-docs-unix.sh on Unix systems. Note that Doxygen and a LaTeX distribution must be installed on the system.
+The tool comes with built-in Doxygen comments in the source code, which can be used to generate both HTML and LaTeX --> PDF documentation. Documentation is maintained under the doc/ subdirectory. To build documentation after modifying the source, run build-docs-win.bat on Windows, or build-docs-linux.sh on GNU/Linux systems. Note that Doxygen and a LaTeX distribution must be installed on the system.
 
 ------------------------------------------------------------------------------------------------------------
 VERSION CONTROL

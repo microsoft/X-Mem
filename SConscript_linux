@@ -1,0 +1,24 @@
+# SConscript file for Unix build only
+# Author: Mark Gottscho <mgottscho@ucla.edu>
+
+import os
+
+# Initialize build environment
+env = Environment()
+
+# Customize build settings
+
+# LINUX
+env.Append(CPPFLAGS = '-Wall -g -O3 -std=c++11 -mavx -mavx2')
+env.Append(CPPPATH = ['src/include', '/usr/include'])
+env.Append(LIBS = ['pthread', 'numa'])
+
+# List all C++ source files
+sources = [
+	Glob('src/*.cpp'), 
+	Glob('src/x86_64/*.cpp')
+]
+
+defaultBuild = env.Program(target = 'xmem', source = sources)
+
+Default(defaultBuild)

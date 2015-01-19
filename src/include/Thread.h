@@ -36,7 +36,7 @@
 //Libraries
 #include <cstdint>
 
-#ifdef __unix__
+#ifdef __gnu_linux__
 #include <pthread.h>
 #endif
 
@@ -143,8 +143,8 @@ namespace xmem {
 #ifdef _WIN32
 				static DWORD WINAPI __run_launchpad(void* target_runnable_object);
 #endif
-#ifdef __unix__
-				static int32_t __run_launchpad(void* target_runnable_object);
+#ifdef __gnu_linux__
+				static void* __run_launchpad(void* target_runnable_object);
 #endif
 
 				Runnable* __target; /**< The object connecting a run() method which operates in a thread-safe manner. */
@@ -163,7 +163,7 @@ namespace xmem {
 #ifdef _WIN32
 				HANDLE __thread_handle;
 #endif
-#ifdef __unix__
+#ifdef __gnu_linux__
 				pthread_t __thread_handle;
 #endif
 		};

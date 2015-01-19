@@ -38,19 +38,31 @@
 
 //Libraries
 #include <iostream>
+
 #ifdef _WIN32
 #include <windows.h>
-#else
-#error Windows is the only supported OS at this time.
+#endif
+
+#ifdef __gnu_linux__
+#include <unistd.h>
+#include <pthread.h>
+#include <numa.h>
 #endif
 
 namespace xmem {
 	namespace common {
 		size_t g_page_size; /**< Default page size on the system, in bytes. */
+#ifdef USE_LARGE_PAGES
 		size_t g_large_page_size; /**< Large page size on the system, in bytes. */
+#endif
 		uint32_t g_num_nodes; /**< Number of NUMA nodes in the system. */
-		uint32_t g_num_logical_cpus; /**< Number of logical CPU cores in the system. */
+		uint32_t g_num_logical_cpus; /**< Number of logical CPU cores in the system. This may be different than physical CPUs, e.g. Intel hyperthreading. */
+		uint32_t g_num_physical_cpus; /**< Number of physical CPU cores in the system. */
 		uint32_t g_num_physical_packages; /**< Number of physical CPU packages in the system. Generally this is the same as number of NUMA nodes, unless UMA emulation is done in hardware. */
+		uint32_t g_total_l1_caches; /**< Total number of L1 caches in the system. */
+		uint32_t g_total_l2_caches; /**< Total number of L2 caches in the system. */
+		uint32_t g_total_l3_caches; /**< Total number of L3 caches in the system. */
+		uint32_t g_total_l4_caches; /**< Total number of L4 caches in the system. */
 		uint32_t g_starting_test_index; /**< Numeric identifier for the first benchmark test. */
 		uint32_t g_test_index; /**< Numeric identifier for the current benchmark test. */
 	};
@@ -104,6 +116,9 @@ void xmem::common::print_compile_time_options() {
 #endif
 #ifdef _WIN64
 	std::cout << "Win64" << std::endl;
+#endif
+#ifdef __gnu_linux__
+	std::cout <<  "GNU/Linux" << std::endl;
 #endif
 #ifdef ARCH_INTEL_X86
 	std::cout << "ARCH_INTEL_X86" << std::endl;
@@ -282,8 +297,14 @@ bool xmem::common::lock_thread_to_cpu(uint32_t cpu_id) {
 			return false;
 	}
 	return true;
-#else
-#error Windows is the only supported OS at this time.
+#endif
+#ifdef __gnu_linux__
+	cpu_set_t cpus;
+	CPU_ZERO(&cpus);
+	CPU_SET(static_cast<int32_t>(cpu_id), &cpus);
+
+	pthread_t tid = pthread_self();
+	return (!pthread_setaffinity_np(tid, sizeof(cpu_set_t), &cpus));
 #endif
 }
 
@@ -299,20 +320,32 @@ bool xmem::common::unlock_thread_to_cpu() {
 			return false;
 	}
 	return true;
-#else
-#error Windows is the only supported OS at this time.
+#endif
+#ifdef __gnu_linux__
+	pthread_t tid = pthread_self();
+	cpu_set_t cpus;
+	CPU_ZERO(&cpus);
+
+	if (pthread_getaffinity_np(tid, sizeof(cpu_set_t), &cpus)) //failure
+		return false;
+	
+	int32_t total_num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
+	for (int32_t c = 0; c < total_num_cpus; c++)
+		CPU_SET(c, &cpus);
+
+	return (!pthread_setaffinity_np(tid, sizeof(cpu_set_t), &cpus));
 #endif
 }
 		
 int32_t xmem::common::cpu_id_in_numa_node(uint32_t numa_node, uint32_t cpu_in_node) {
 	int32_t cpu_id = -1;
+	uint32_t rank_in_node = 0;
 #ifdef _WIN32
 	uint64_t processorMask = 0;
 	GetNumaNodeProcessorMask(numa_node, &processorMask);
 	//Select Nth CPU in the node
 	uint32_t shifts = 0;
 	uint64_t shiftmask = processorMask;
-	uint32_t rank_in_node = 0;
 	bool done = false;
 	while (!done && shifts < sizeof(shiftmask)*8) {
 		if ((shiftmask & 0x1) == 0x1) { //current CPU is in the NUMA node
@@ -325,10 +358,25 @@ int32_t xmem::common::cpu_id_in_numa_node(uint32_t numa_node, uint32_t cpu_in_no
 		shiftmask = shiftmask >> 1; //shift right by one to examine next CPU
 		shifts++;
 	}
-	return cpu_id;
-#else
-#error Windows is the only supported OS at this time.
 #endif
+#ifdef __gnu_linux__
+	struct bitmask bm;
+	if (numa_node_to_cpus(static_cast<int32_t>(numa_node), &bm)) //error
+		return -1;
+	
+	//Select Nth CPU in the node
+	for (uint64_t i = 0; i < bm.size; i++) {
+		if (numa_bitmask_isbitset(&bm, i)) {
+			if (cpu_in_node == rank_in_node) { //found the CPU of interest in the NUMA node
+				cpu_id = i;
+				return cpu_id;
+			}
+			rank_in_node++;
+		}
+	}
+
+#endif
+	return cpu_id;
 }
 	
 size_t xmem::common::compute_number_of_passes(size_t working_set_size_KB) {
@@ -343,4 +391,169 @@ size_t xmem::common::compute_number_of_passes(size_t working_set_size_KB) {
 	if (passes < 1)
 		passes = 1;
 	return passes;
+}
+
+int32_t xmem::common::query_sys_info() {
+	//Initialize to defaults.
+#ifdef VERBOSE
+	std::cout << std::endl;
+	std::cout << "Initializing default system information...";
+#endif
+	g_num_nodes = DEFAULT_NUM_NODES;
+	g_num_physical_packages = DEFAULT_NUM_PHYSICAL_PACKAGES;
+	g_num_physical_cpus = DEFAULT_NUM_PHYSICAL_CPUS;
+	g_num_logical_cpus = DEFAULT_NUM_LOGICAL_CPUS;
+	g_total_l1_caches = DEFAULT_NUM_L1_CACHES;
+	g_total_l2_caches = DEFAULT_NUM_L2_CACHES;
+	g_total_l3_caches = DEFAULT_NUM_L3_CACHES;
+	g_total_l4_caches = DEFAULT_NUM_L4_CACHES;
+	g_page_size = DEFAULT_PAGE_SIZE;
+#ifdef USE_LARGE_PAGES
+	g_large_page_size = DEFAULT_LARGE_PAGE_SIZE; 
+#endif
+
+#ifdef VERBOSE
+	std::cout << "done" << std::endl;
+	std::cout << "Querying system information...";
+#endif
+
+	//Windows only: get logical processor information data structures from OS
+#ifdef _WIN32
+	PSYSTEM_LOGICAL_PROCESSOR_INFORMATION buffer = NULL;
+	PSYSTEM_LOGICAL_PROCESSOR_INFORMATION curr = NULL;
+	DWORD len = 0;
+	DWORD offset = 0;
+	DWORD retval = 0;
+	bool done = false;
+	retval = GetLogicalProcessorInformation(buffer, &len); //this will fail because buffer is not yet allocated.
+	buffer = static_cast<PSYSTEM_LOGICAL_PROCESSOR_INFORMATION>(malloc(len));
+	if (!buffer) {
+		std::cerr << "WARNING: Failed to allocate memory for querying system information." << std::endl;
+		return -1;
+	}
+	retval = GetLogicalProcessorInformation(buffer, &len); //try again
+#endif
+
+	//Get NUMA info
+#ifdef _WIN32
+	curr = buffer;
+	offset = 0;
+	while (offset + sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION) <= len) {
+		if (curr->Relationship == RelationNumaNode)
+			g_num_nodes++;
+		else if (curr->Relationship == RelationProcessorPackage)
+			g_num_physical_packages++;
+		curr++;
+		offset += sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION);
+		
+	}
+#endif
+#ifdef __gnu_linux__
+	if (numa_available() == -1) { //Check that NUMA is available.
+		std::cerr << "WARNING: NUMA API is not available on this system." << std::endl;
+		return -1;
+	}
+
+	g_num_nodes = numa_max_node()+1;
+	g_num_physical_packages = g_num_nodes; //FIXME: this is totally a bandaid	
+#endif
+
+	//Get number of CPUs
+#ifdef _WIN32
+	curr = buffer;
+	offset = 0;
+	while (offset + sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION) <= len) {
+		if (curr->Relationship == RelationProcessorCore) {
+			DWORD LSHIFT = sizeof(ULONG_PTR)*8 - 1;
+			DWORD bitSetCount = 0;
+			ULONG_PTR bitMask = curr->ProcessorMask;
+			ULONG_PTR bitTest = (ULONG_PTR)1 << LSHIFT;    
+			DWORD i;
+			
+			for (i = 0; i <= LSHIFT; ++i)
+			{
+				bitSetCount += ((bitMask & bitTest)?1:0);
+				bitTest/=2;
+			}
+
+			g_num_logical_cpus += bitSetCount;
+			g_num_physical_cpus++;
+		}
+		curr++;
+		offset += sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION);
+	}
+#endif
+#ifdef __gnu_linux__
+	g_num_logical_cpus = sysconf(_SC_NPROCESSORS_ONLN); //FIXME: this isn't really portable -- requires glibc extensions to sysconf()
+	g_num_physical_cpus = g_num_logical_cpus / 2; //FIXME: this is totally a bandaid and assumes something like Intel HyperThreading
+#endif
+
+	//Get number of caches
+#ifdef _WIN32
+	curr = buffer;
+	offset = 0;
+	while (offset + sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION) <= len) {
+		if (curr->Relationship == RelationCache) {
+			switch (curr->Cache.Level) {
+				case 1:
+					g_total_l1_caches++;
+					break;
+				case 2:
+					g_total_l2_caches++;
+					break;
+				case 3:
+					g_total_l3_caches++;
+					break;
+				case 4:
+					g_total_l4_caches++;
+					break;
+				default:
+					std::cerr << "WARNING: Unknown cache level detected in system information." << std::endl;
+					break;
+			}
+		}
+		curr++;
+		offset += sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION);
+	}
+#endif
+#ifdef __gnu_linux__
+	g_total_l1_caches = g_num_physical_cpus; //FIXME: this is totally a bandaid
+	g_total_l2_caches = g_num_physical_cpus; //FIXME: this is totally a bandaid
+	g_total_l3_caches = 1; //FIXME: this is totally a bandaid
+	g_total_l4_caches = 0; //FIXME: this is totally a bandaid
+#endif
+
+	//Get page size
+#ifdef _WIN32
+	SYSTEM_INFO sysinfo;
+	GetSystemInfo(&sysinfo);
+	DWORD pgsz = sysinfo.dwPageSize;
+	g_page_size = pgsz;
+#ifdef USE_LARGE_PAGES
+	g_large_page_size = GetLargePageMinimum();
+#endif
+#endif
+#ifdef __gnu_linux__
+	g_page_size = static_cast<uint64_t>(sysconf(_SC_PAGESIZE));
+#ifdef USE_LARGE_PAGES
+	g_large_page_size = 0; //FIXME: implement
+#endif
+#endif
+
+	//Report
+#ifdef VERBOSE
+	std::cout << "done" << std::endl;
+	std::cout << "Number of NUMA nodes: " << g_num_nodes << std::endl;
+	std::cout << "Number of physical processor packages: " << g_num_physical_packages << std::endl;
+	std::cout << "Number of physical processor cores: " << g_num_physical_cpus << std::endl;
+	std::cout << "Number of logical processor cores: " << g_num_logical_cpus << std::endl;
+	std::cout << "Number of processor L1/L2/L3/L4 caches: " << g_total_l1_caches << "/" << g_total_l2_caches << "/" << g_total_l3_caches << "/" << g_total_l4_caches << std::endl; 
+#ifdef USE_LARGE_PAGES
+	std::cout << "(Large) page size to be used for benchmarks: " << g_large_page_size << " B" << std::endl;
+#else
+	std::cout << "(Regular) page size to be used for benchmarks: " << g_page_size << " B" << std::endl;
+#endif
+#endif
+
+	return 0;
 }

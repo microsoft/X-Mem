@@ -154,8 +154,8 @@ namespace xmem {
 			bool __runThroughput; /**< True if throughput tests should be run. */
 			size_t __working_set_size; /**< Working set size in bytes for each thread, if applicable. */
 			uint32_t __iterations; /**< Number of iterations to run for each benchmark test. */
-			bool __use_output_file; /**< If true, generate a CSV output file for results. */
 			std::string __filename; /**< The output filename if applicable. */
+			bool __use_output_file; /**< If true, generate a CSV output file for results. */
 		};
 	};
 };

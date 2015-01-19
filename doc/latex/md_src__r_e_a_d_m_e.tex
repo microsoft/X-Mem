@@ -1,4 +1,4 @@
-\subsection*{X-\/\+Mem\+: Extensible Memory Benchmarking Tool v1.\+03.\+01 }
+\subsection*{X-\/\+Mem\+: Extensible Memory Benchmarking Tool v1.\+05.\+01 }
 
 The flexible open-\/source research tool for characterizing memory hierarchy throughput, latency, and power.
 
@@ -44,7 +44,7 @@ Extensibility\+: C++ object-\/oriented principles
 Cross-\/platform\+: Currently implemented for Windows on x86-\/64 C\+P\+Us with A\+V\+X extensions
 \begin{DoxyItemize}
 \item Designed to allow straightforward porting to other operating systems and I\+S\+As
-\item Planning to implement Unix port
+\item Planning to implement G\+N\+U/\+Linux port
 \end{DoxyItemize}
 
 Memory throughput\+:
@@ -87,7 +87,7 @@ W\+I\+N\+D\+O\+W\+S\+:
 \item Microsoft Visual C++ 2013 Redistributables (64-\/bit)
 \end{DoxyItemize}
 
-U\+N\+I\+X/\+L\+I\+N\+U\+X\+:
+L\+I\+N\+U\+X\+:
 
 
 \begin{DoxyItemize}
@@ -144,7 +144,7 @@ xmem -t --latency -n10 -w524288 -f results.csv -i 101
 
 Before building the source, enable and disable the relevant compile-\/time options in \hyperlink{common_8h}{src/include/common.\+h}, under the section \char`\"{}\+User-\/configurable compilation configuration\char`\"{}. Please read the comments by each \#define statement to understand the context of each option.
 
-After you have set the desired compile-\/time options, build the source. On Windows, running build-\/win.\+bat should suffice. On Unix, run build-\/unix.\+sh.
+After you have set the desired compile-\/time options, build the source. On Windows, running build-\/win.\+bat should suffice. On G\+N\+U/\+Linux, run build-\/linux.\+sh.
 
 If you customize your build, make sure you use the \char`\"{}\+Release\char`\"{} mode for your O\+S. Do not include debug capabilities as it can dramatically affect performance of the benchmarks, leading to pessimistic results. 
 
@@ -161,7 +161,7 @@ W\+I\+N\+D\+O\+W\+S\+:
 \item S\+Cons build system. You can obtain it at \href{http://www.scons.org}{\tt http\+://www.\+scons.\+org}. Build tested with S\+Cons 2.\+3.\+4.
 \end{DoxyItemize}
 
-U\+N\+I\+X/\+L\+I\+N\+U\+X\+:
+L\+I\+N\+U\+X\+:
 
 
 \begin{DoxyItemize}
@@ -183,18 +183,18 @@ W\+I\+N\+D\+O\+W\+S\+:
 \item make for Windows. You can obtain it at \href{http://gnuwin32.sourceforge.net/packages/make.htm}{\tt http\+://gnuwin32.\+sourceforge.\+net/packages/make.\+htm}. You will have to manually add it to your Windows path.
 \end{DoxyItemize}
 
-U\+N\+I\+X/\+L\+I\+N\+U\+X\+:
+L\+I\+N\+U\+X\+:
 
 
 \begin{DoxyItemize}
 \item doxygen tool. You can obtain it at \href{http://www.stack.nl/~dimitri/doxygen}{\tt http\+://www.\+stack.\+nl/$\sim$dimitri/doxygen}. On Ubuntu systems, you can install with \char`\"{}sudo apt-\/get install doxygen\char`\"{}.
 \item La\+Te\+X distribution. On Ubuntu systems, La\+Te\+X distributed with doxygen should actually be sufficient. You can install with \char`\"{}sudo apt-\/get install doxygen-\/latex\char`\"{}.
-\item make. This should be included on any Unix/\+Linux system. 
+\item make. This should be included on any G\+N\+U/\+Linux system. 
 
  \subsection*{S\+O\+U\+R\+C\+E C\+O\+D\+E D\+O\+C\+U\+M\+E\+N\+T\+A\+T\+I\+O\+N }
 \end{DoxyItemize}
 
-The tool comes with built-\/in Doxygen comments in the source code, which can be used to generate both H\+T\+M\+L and La\+Te\+X --$>$ P\+D\+F documentation. Documentation is maintained under the doc/ subdirectory. To build documentation after modifying the source, run build-\/docs-\/win.\+bat on Windows, or build-\/docs-\/unix.\+sh on Unix systems. Note that Doxygen and a La\+Te\+X distribution must be installed on the system. 
+The tool comes with built-\/in Doxygen comments in the source code, which can be used to generate both H\+T\+M\+L and La\+Te\+X --$>$ P\+D\+F documentation. Documentation is maintained under the doc/ subdirectory. To build documentation after modifying the source, run build-\/docs-\/win.\+bat on Windows, or build-\/docs-\/linux.\+sh on G\+N\+U/\+Linux systems. Note that Doxygen and a La\+Te\+X distribution must be installed on the system. 
 
  \subsection*{V\+E\+R\+S\+I\+O\+N C\+O\+N\+T\+R\+O\+L }
 

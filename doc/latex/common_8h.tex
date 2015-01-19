@@ -10,7 +10,7 @@ Header file for common preprocessor definitions, macros, functions, and global c
 \subsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{common_8h_a1c6d5de492ac61ad29aec7aa9a436bbf}{}\#define {\bfseries V\+E\+R\+S\+I\+O\+N}~\char`\"{}1.\+03.\+01\char`\"{}\label{common_8h_a1c6d5de492ac61ad29aec7aa9a436bbf}
+\hypertarget{common_8h_a1c6d5de492ac61ad29aec7aa9a436bbf}{}\#define {\bfseries V\+E\+R\+S\+I\+O\+N}~\char`\"{}1.\+05.\+01\char`\"{}\label{common_8h_a1c6d5de492ac61ad29aec7aa9a436bbf}
 
 \item 
 \hypertarget{common_8h_a1841fd1a462d245d8c73dce55e2f45da}{}\#define {\bfseries K\+B}~1024\label{common_8h_a1841fd1a462d245d8c73dce55e2f45da}
@@ -40,13 +40,27 @@ Header file for common preprocessor definitions, macros, functions, and global c
 \hypertarget{common_8h_a468c1dfde4c885eeffa6a887176fde3e}{}\#define {\bfseries G\+B\+\_\+4}~4294967296\label{common_8h_a468c1dfde4c885eeffa6a887176fde3e}
 
 \item 
-\#define \hyperlink{common_8h_aa2f776dcebe2f31589b20e618ebe94fd}{D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}~4096
+\#define \hyperlink{common_8h_aa2f776dcebe2f31589b20e618ebe94fd}{D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}~4$\ast$K\+B
+\item 
+\#define \hyperlink{common_8h_a2dd7d3e112c6becc2e3b462dbfe7d847}{D\+E\+F\+A\+U\+L\+T\+\_\+\+L\+A\+R\+G\+E\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}~2$\ast$M\+B
 \item 
 \#define \hyperlink{common_8h_a6c5d03c7c32e3cabfb28f04a9a352c96}{D\+E\+F\+A\+U\+L\+T\+\_\+\+W\+O\+R\+K\+I\+N\+G\+\_\+\+S\+E\+T\+\_\+\+S\+I\+Z\+E}~\hyperlink{common_8h_aa2f776dcebe2f31589b20e618ebe94fd}{D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}
 \item 
-\#define \hyperlink{common_8h_a9f5390a25c5dbc825fa35cd4c71f3b76}{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+C\+P\+U\+S}~1
+\#define \hyperlink{common_8h_a4e7fb19b2931b6a49d4aa701ec32b3be}{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+N\+O\+D\+E\+S}~0
 \item 
-\#define \hyperlink{common_8h_a4e7fb19b2931b6a49d4aa701ec32b3be}{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+N\+O\+D\+E\+S}~1
+\#define \hyperlink{common_8h_a0fafeebfd17d763165528aa8c0788460}{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+P\+H\+Y\+S\+I\+C\+A\+L\+\_\+\+P\+A\+C\+K\+A\+G\+E\+S}~0
+\item 
+\#define \hyperlink{common_8h_a9092e152410a9938e5a00d8c62b92726}{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+P\+H\+Y\+S\+I\+C\+A\+L\+\_\+\+C\+P\+U\+S}~0
+\item 
+\#define \hyperlink{common_8h_a056f574fb1cc32b63311f603bde40a9b}{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L\+O\+G\+I\+C\+A\+L\+\_\+\+C\+P\+U\+S}~0
+\item 
+\#define \hyperlink{common_8h_acfb61ec227e63068da8a5dcfca99be13}{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L1\+\_\+\+C\+A\+C\+H\+E\+S}~0
+\item 
+\#define \hyperlink{common_8h_ae7314114e15294742d1c98bc01a66111}{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L2\+\_\+\+C\+A\+C\+H\+E\+S}~0
+\item 
+\#define \hyperlink{common_8h_a6249570ec188525d29f21ac48f406920}{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L3\+\_\+\+C\+A\+C\+H\+E\+S}~0
+\item 
+\#define \hyperlink{common_8h_a35cbfd7168eb66a48435562aac6cac46}{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L4\+\_\+\+C\+A\+C\+H\+E\+S}~0
 \item 
 \#define \hyperlink{common_8h_a03c7f857881677d0f9963bf09c1ac1fb}{D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+J\+O\+I\+N\+\_\+\+T\+I\+M\+E\+O\+U\+T}~600000
 \item 
@@ -183,7 +197,15 @@ int32\+\_\+t {\bfseries xmem\+::common\+::cpu\+\_\+id\+\_\+in\+\_\+numa\+\_\+nod
 size\+\_\+t {\bfseries xmem\+::common\+::compute\+\_\+number\+\_\+of\+\_\+passes} (size\+\_\+t working\+\_\+set\+\_\+size\+\_\+\+K\+B)
 \begin{DoxyCompactList}\small\item\em Computes the number of passes to use for a given working set size in K\+B, when size-\/based benchmarking mode is enabled at compile-\/time. You may want to change this implementation to suit your needs. See the compile-\/time options in \hyperlink{common_8h}{common.\+h}. \end{DoxyCompactList}\item 
 bool {\bfseries xmem\+::common\+::config\+\_\+page\+\_\+size} ()
-\begin{DoxyCompactList}\small\item\em Queries the page sizes from the system and sets relevant global variables. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Queries the page sizes from the system and sets relevant global variables. \end{DoxyCompactList}\item 
+int32\+\_\+t {\bfseries xmem\+::common\+::query\+\_\+sys\+\_\+info} ()
+\begin{DoxyCompactList}\small\item\em Sets up global variables based on system information at runtime. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{namespacexmem_1_1common_a07dea368489acf172355b2ee6c4c2845}{}size\+\_\+t {\bfseries xmem\+::common\+::g\+\_\+large\+\_\+page\+\_\+size}\label{namespacexmem_1_1common_a07dea368489acf172355b2ee6c4c2845}
+
+\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -195,19 +217,40 @@ Header file for common preprocessor definitions, macros, functions, and global c
 \hypertarget{common_8h_a99f183a29ff70efd094401faa20f1804}{}\index{common.\+h@{common.\+h}!B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+D\+U\+R\+A\+T\+I\+O\+N\+\_\+\+S\+E\+C@{B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+D\+U\+R\+A\+T\+I\+O\+N\+\_\+\+S\+E\+C}}
 \index{B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+D\+U\+R\+A\+T\+I\+O\+N\+\_\+\+S\+E\+C@{B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+D\+U\+R\+A\+T\+I\+O\+N\+\_\+\+S\+E\+C}!common.\+h@{common.\+h}}
 \subsubsection[{B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+D\+U\+R\+A\+T\+I\+O\+N\+\_\+\+S\+E\+C}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+D\+U\+R\+A\+T\+I\+O\+N\+\_\+\+S\+E\+C~4}\label{common_8h_a99f183a29ff70efd094401faa20f1804}
-R\+E\+C\+O\+M\+M\+E\+N\+D\+E\+D V\+A\+L\+U\+E\+: At least 2. Number of seconds to run in each benchmark. \hypertarget{common_8h_a9f5390a25c5dbc825fa35cd4c71f3b76}{}\index{common.\+h@{common.\+h}!D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+C\+P\+U\+S@{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+C\+P\+U\+S}}
-\index{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+C\+P\+U\+S@{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+C\+P\+U\+S}!common.\+h@{common.\+h}}
-\subsubsection[{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+C\+P\+U\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+C\+P\+U\+S~1}\label{common_8h_a9f5390a25c5dbc825fa35cd4c71f3b76}
+R\+E\+C\+O\+M\+M\+E\+N\+D\+E\+D V\+A\+L\+U\+E\+: At least 2. Number of seconds to run in each benchmark. \hypertarget{common_8h_a2dd7d3e112c6becc2e3b462dbfe7d847}{}\index{common.\+h@{common.\+h}!D\+E\+F\+A\+U\+L\+T\+\_\+\+L\+A\+R\+G\+E\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E@{D\+E\+F\+A\+U\+L\+T\+\_\+\+L\+A\+R\+G\+E\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}}
+\index{D\+E\+F\+A\+U\+L\+T\+\_\+\+L\+A\+R\+G\+E\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E@{D\+E\+F\+A\+U\+L\+T\+\_\+\+L\+A\+R\+G\+E\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}!common.\+h@{common.\+h}}
+\subsubsection[{D\+E\+F\+A\+U\+L\+T\+\_\+\+L\+A\+R\+G\+E\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+F\+A\+U\+L\+T\+\_\+\+L\+A\+R\+G\+E\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E~2$\ast$M\+B}\label{common_8h_a2dd7d3e112c6becc2e3b462dbfe7d847}
+Default platform large page size in bytes. This generally should not be relied on, but is a failsafe. \hypertarget{common_8h_acfb61ec227e63068da8a5dcfca99be13}{}\index{common.\+h@{common.\+h}!D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L1\+\_\+\+C\+A\+C\+H\+E\+S@{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L1\+\_\+\+C\+A\+C\+H\+E\+S}}
+\index{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L1\+\_\+\+C\+A\+C\+H\+E\+S@{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L1\+\_\+\+C\+A\+C\+H\+E\+S}!common.\+h@{common.\+h}}
+\subsubsection[{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L1\+\_\+\+C\+A\+C\+H\+E\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L1\+\_\+\+C\+A\+C\+H\+E\+S~0}\label{common_8h_acfb61ec227e63068da8a5dcfca99be13}
+Default number of L1 caches. \hypertarget{common_8h_ae7314114e15294742d1c98bc01a66111}{}\index{common.\+h@{common.\+h}!D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L2\+\_\+\+C\+A\+C\+H\+E\+S@{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L2\+\_\+\+C\+A\+C\+H\+E\+S}}
+\index{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L2\+\_\+\+C\+A\+C\+H\+E\+S@{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L2\+\_\+\+C\+A\+C\+H\+E\+S}!common.\+h@{common.\+h}}
+\subsubsection[{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L2\+\_\+\+C\+A\+C\+H\+E\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L2\+\_\+\+C\+A\+C\+H\+E\+S~0}\label{common_8h_ae7314114e15294742d1c98bc01a66111}
+Default number of L2 caches. \hypertarget{common_8h_a6249570ec188525d29f21ac48f406920}{}\index{common.\+h@{common.\+h}!D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L3\+\_\+\+C\+A\+C\+H\+E\+S@{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L3\+\_\+\+C\+A\+C\+H\+E\+S}}
+\index{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L3\+\_\+\+C\+A\+C\+H\+E\+S@{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L3\+\_\+\+C\+A\+C\+H\+E\+S}!common.\+h@{common.\+h}}
+\subsubsection[{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L3\+\_\+\+C\+A\+C\+H\+E\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L3\+\_\+\+C\+A\+C\+H\+E\+S~0}\label{common_8h_a6249570ec188525d29f21ac48f406920}
+Default number of L3 caches. \hypertarget{common_8h_a35cbfd7168eb66a48435562aac6cac46}{}\index{common.\+h@{common.\+h}!D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L4\+\_\+\+C\+A\+C\+H\+E\+S@{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L4\+\_\+\+C\+A\+C\+H\+E\+S}}
+\index{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L4\+\_\+\+C\+A\+C\+H\+E\+S@{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L4\+\_\+\+C\+A\+C\+H\+E\+S}!common.\+h@{common.\+h}}
+\subsubsection[{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L4\+\_\+\+C\+A\+C\+H\+E\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L4\+\_\+\+C\+A\+C\+H\+E\+S~0}\label{common_8h_a35cbfd7168eb66a48435562aac6cac46}
+Default number of L4 caches. \hypertarget{common_8h_a056f574fb1cc32b63311f603bde40a9b}{}\index{common.\+h@{common.\+h}!D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L\+O\+G\+I\+C\+A\+L\+\_\+\+C\+P\+U\+S@{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L\+O\+G\+I\+C\+A\+L\+\_\+\+C\+P\+U\+S}}
+\index{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L\+O\+G\+I\+C\+A\+L\+\_\+\+C\+P\+U\+S@{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L\+O\+G\+I\+C\+A\+L\+\_\+\+C\+P\+U\+S}!common.\+h@{common.\+h}}
+\subsubsection[{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L\+O\+G\+I\+C\+A\+L\+\_\+\+C\+P\+U\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L\+O\+G\+I\+C\+A\+L\+\_\+\+C\+P\+U\+S~0}\label{common_8h_a056f574fb1cc32b63311f603bde40a9b}
 Default number of logical C\+P\+U cores. \hypertarget{common_8h_a4e7fb19b2931b6a49d4aa701ec32b3be}{}\index{common.\+h@{common.\+h}!D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+N\+O\+D\+E\+S@{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+N\+O\+D\+E\+S}}
 \index{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+N\+O\+D\+E\+S@{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+N\+O\+D\+E\+S}!common.\+h@{common.\+h}}
-\subsubsection[{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+N\+O\+D\+E\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+N\+O\+D\+E\+S~1}\label{common_8h_a4e7fb19b2931b6a49d4aa701ec32b3be}
-Default number of N\+U\+M\+A nodes. \hypertarget{common_8h_aa2f776dcebe2f31589b20e618ebe94fd}{}\index{common.\+h@{common.\+h}!D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E@{D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}}
+\subsubsection[{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+N\+O\+D\+E\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+N\+O\+D\+E\+S~0}\label{common_8h_a4e7fb19b2931b6a49d4aa701ec32b3be}
+Default number of N\+U\+M\+A nodes. \hypertarget{common_8h_a9092e152410a9938e5a00d8c62b92726}{}\index{common.\+h@{common.\+h}!D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+P\+H\+Y\+S\+I\+C\+A\+L\+\_\+\+C\+P\+U\+S@{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+P\+H\+Y\+S\+I\+C\+A\+L\+\_\+\+C\+P\+U\+S}}
+\index{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+P\+H\+Y\+S\+I\+C\+A\+L\+\_\+\+C\+P\+U\+S@{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+P\+H\+Y\+S\+I\+C\+A\+L\+\_\+\+C\+P\+U\+S}!common.\+h@{common.\+h}}
+\subsubsection[{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+P\+H\+Y\+S\+I\+C\+A\+L\+\_\+\+C\+P\+U\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+P\+H\+Y\+S\+I\+C\+A\+L\+\_\+\+C\+P\+U\+S~0}\label{common_8h_a9092e152410a9938e5a00d8c62b92726}
+Default number of physical C\+P\+U cores. \hypertarget{common_8h_a0fafeebfd17d763165528aa8c0788460}{}\index{common.\+h@{common.\+h}!D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+P\+H\+Y\+S\+I\+C\+A\+L\+\_\+\+P\+A\+C\+K\+A\+G\+E\+S@{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+P\+H\+Y\+S\+I\+C\+A\+L\+\_\+\+P\+A\+C\+K\+A\+G\+E\+S}}
+\index{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+P\+H\+Y\+S\+I\+C\+A\+L\+\_\+\+P\+A\+C\+K\+A\+G\+E\+S@{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+P\+H\+Y\+S\+I\+C\+A\+L\+\_\+\+P\+A\+C\+K\+A\+G\+E\+S}!common.\+h@{common.\+h}}
+\subsubsection[{D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+P\+H\+Y\+S\+I\+C\+A\+L\+\_\+\+P\+A\+C\+K\+A\+G\+E\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+P\+H\+Y\+S\+I\+C\+A\+L\+\_\+\+P\+A\+C\+K\+A\+G\+E\+S~0}\label{common_8h_a0fafeebfd17d763165528aa8c0788460}
+Default number of physical packages. \hypertarget{common_8h_aa2f776dcebe2f31589b20e618ebe94fd}{}\index{common.\+h@{common.\+h}!D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E@{D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}}
 \index{D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E@{D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}!common.\+h@{common.\+h}}
-\subsubsection[{D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E~4096}\label{common_8h_aa2f776dcebe2f31589b20e618ebe94fd}
+\subsubsection[{D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E~4$\ast$K\+B}\label{common_8h_aa2f776dcebe2f31589b20e618ebe94fd}
 Default platform page size in bytes. This generally should not be relied on, but is a failsafe. \hypertarget{common_8h_a03c7f857881677d0f9963bf09c1ac1fb}{}\index{common.\+h@{common.\+h}!D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+J\+O\+I\+N\+\_\+\+T\+I\+M\+E\+O\+U\+T@{D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+J\+O\+I\+N\+\_\+\+T\+I\+M\+E\+O\+U\+T}}
 \index{D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+J\+O\+I\+N\+\_\+\+T\+I\+M\+E\+O\+U\+T@{D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+J\+O\+I\+N\+\_\+\+T\+I\+M\+E\+O\+U\+T}!common.\+h@{common.\+h}}
 \subsubsection[{D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+J\+O\+I\+N\+\_\+\+T\+I\+M\+E\+O\+U\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+J\+O\+I\+N\+\_\+\+T\+I\+M\+E\+O\+U\+T~600000}\label{common_8h_a03c7f857881677d0f9963bf09c1ac1fb}
-Default number of milliseconds to wait for a thread to join. Negative values mean indefinite wait. \hypertarget{common_8h_a6c5d03c7c32e3cabfb28f04a9a352c96}{}\index{common.\+h@{common.\+h}!D\+E\+F\+A\+U\+L\+T\+\_\+\+W\+O\+R\+K\+I\+N\+G\+\_\+\+S\+E\+T\+\_\+\+S\+I\+Z\+E@{D\+E\+F\+A\+U\+L\+T\+\_\+\+W\+O\+R\+K\+I\+N\+G\+\_\+\+S\+E\+T\+\_\+\+S\+I\+Z\+E}}
+Default number of milliseconds to wait for a thread to join. Negative values mean indefinite wait. T\+O\+D\+O\+: remove this \hypertarget{common_8h_a6c5d03c7c32e3cabfb28f04a9a352c96}{}\index{common.\+h@{common.\+h}!D\+E\+F\+A\+U\+L\+T\+\_\+\+W\+O\+R\+K\+I\+N\+G\+\_\+\+S\+E\+T\+\_\+\+S\+I\+Z\+E@{D\+E\+F\+A\+U\+L\+T\+\_\+\+W\+O\+R\+K\+I\+N\+G\+\_\+\+S\+E\+T\+\_\+\+S\+I\+Z\+E}}
 \index{D\+E\+F\+A\+U\+L\+T\+\_\+\+W\+O\+R\+K\+I\+N\+G\+\_\+\+S\+E\+T\+\_\+\+S\+I\+Z\+E@{D\+E\+F\+A\+U\+L\+T\+\_\+\+W\+O\+R\+K\+I\+N\+G\+\_\+\+S\+E\+T\+\_\+\+S\+I\+Z\+E}!common.\+h@{common.\+h}}
 \subsubsection[{D\+E\+F\+A\+U\+L\+T\+\_\+\+W\+O\+R\+K\+I\+N\+G\+\_\+\+S\+E\+T\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+E\+F\+A\+U\+L\+T\+\_\+\+W\+O\+R\+K\+I\+N\+G\+\_\+\+S\+E\+T\+\_\+\+S\+I\+Z\+E~{\bf D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}}\label{common_8h_a6c5d03c7c32e3cabfb28f04a9a352c96}
 Default working set size in bytes. \hypertarget{common_8h_a32c9687a13ba0617654032e5014fb3cc}{}\index{common.\+h@{common.\+h}!L\+A\+T\+E\+N\+C\+Y\+\_\+\+B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+U\+N\+R\+O\+L\+L\+\_\+\+L\+E\+N\+G\+T\+H@{L\+A\+T\+E\+N\+C\+Y\+\_\+\+B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+U\+N\+R\+O\+L\+L\+\_\+\+L\+E\+N\+G\+T\+H}}

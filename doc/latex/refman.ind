@@ -85,7 +85,7 @@
   \indexspace
 
   \item {B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+D\+U\+R\+A\+T\+I\+O\+N\+\_\+\+S\+E\+C}
-    \subitem {common.\+h}, \hyperpage{80}
+    \subitem {common.\+h}, \hyperpage{81}
   \item {Benchmark}
     \subitem {xmem\+::benchmark\+::\+Benchmark}, \hyperpage{17}
   \item {Benchmark\+Manager}
@@ -110,44 +110,58 @@
     \subitem {xmem\+::power\+::\+Power\+Reader}, \hyperpage{46}
   \item {common.\+h}
     \subitem {B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+D\+U\+R\+A\+T\+I\+O\+N\+\_\+\+S\+E\+C}, 
-		\hyperpage{80}
-    \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+C\+P\+U\+S}, 
-		\hyperpage{80}
+		\hyperpage{81}
+    \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+L\+A\+R\+G\+E\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}, 
+		\hyperpage{81}
+    \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L1\+\_\+\+C\+A\+C\+H\+E\+S}, 
+		\hyperpage{81}
+    \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L2\+\_\+\+C\+A\+C\+H\+E\+S}, 
+		\hyperpage{81}
+    \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L3\+\_\+\+C\+A\+C\+H\+E\+S}, 
+		\hyperpage{81}
+    \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L4\+\_\+\+C\+A\+C\+H\+E\+S}, 
+		\hyperpage{81}
+    \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L\+O\+G\+I\+C\+A\+L\+\_\+\+C\+P\+U\+S}, 
+		\hyperpage{81}
     \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+N\+O\+D\+E\+S}, 
-		\hyperpage{80}
+		\hyperpage{81}
+    \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+P\+H\+Y\+S\+I\+C\+A\+L\+\_\+\+C\+P\+U\+S}, 
+		\hyperpage{81}
+    \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+P\+H\+Y\+S\+I\+C\+A\+L\+\_\+\+P\+A\+C\+K\+A\+G\+E\+S}, 
+		\hyperpage{81}
     \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}, 
-		\hyperpage{80}
+		\hyperpage{81}
     \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+J\+O\+I\+N\+\_\+\+T\+I\+M\+E\+O\+U\+T}, 
 		\hyperpage{81}
     \subitem {D\+E\+F\+A\+U\+L\+T\+\_\+\+W\+O\+R\+K\+I\+N\+G\+\_\+\+S\+E\+T\+\_\+\+S\+I\+Z\+E}, 
 		\hyperpage{81}
     \subitem {L\+A\+T\+E\+N\+C\+Y\+\_\+\+B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+U\+N\+R\+O\+L\+L\+\_\+\+L\+E\+N\+G\+T\+H}, 
-		\hyperpage{81}
+		\hyperpage{82}
     \subitem {M\+I\+N\+\_\+\+E\+L\+A\+P\+S\+E\+D\+\_\+\+T\+I\+C\+K\+S}, 
-		\hyperpage{81}
+		\hyperpage{82}
     \subitem {M\+U\+L\+T\+I\+T\+H\+R\+E\+A\+D\+I\+N\+G\+\_\+\+E\+N\+A\+B\+L\+E}, 
-		\hyperpage{81}
+		\hyperpage{82}
     \subitem {P\+O\+W\+E\+R\+\_\+\+S\+A\+M\+P\+L\+I\+N\+G\+\_\+\+P\+E\+R\+I\+O\+D\+\_\+\+S\+E\+C}, 
-		\hyperpage{81}
+		\hyperpage{82}
     \subitem {T\+H\+R\+O\+U\+G\+H\+P\+U\+T\+\_\+\+B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+B\+Y\+T\+E\+S\+\_\+\+P\+E\+R\+\_\+\+P\+A\+S\+S}, 
-		\hyperpage{81}
+		\hyperpage{82}
     \subitem {U\+S\+E\+\_\+\+A\+L\+L\+\_\+\+N\+U\+M\+A\+\_\+\+N\+O\+D\+E\+S}, 
-		\hyperpage{81}
+		\hyperpage{82}
     \subitem {U\+S\+E\+\_\+\+L\+A\+T\+E\+N\+C\+Y\+\_\+\+B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+R\+A\+N\+D\+O\+M\+\_\+\+S\+H\+U\+F\+F\+L\+E\+\_\+\+P\+A\+T\+T\+E\+R\+N}, 
-		\hyperpage{81}
+		\hyperpage{82}
     \subitem {U\+S\+E\+\_\+\+T\+H\+R\+O\+U\+G\+H\+P\+U\+T\+\_\+\+F\+O\+R\+W\+\_\+\+S\+T\+R\+I\+D\+E\+\_\+1}, 
-		\hyperpage{81}
+		\hyperpage{82}
     \subitem {U\+S\+E\+\_\+\+T\+H\+R\+O\+U\+G\+H\+P\+U\+T\+\_\+\+R\+E\+A\+D\+S}, 
-		\hyperpage{81}
+		\hyperpage{82}
     \subitem {U\+S\+E\+\_\+\+T\+H\+R\+O\+U\+G\+H\+P\+U\+T\+\_\+\+S\+E\+Q\+U\+E\+N\+T\+I\+A\+L\+\_\+\+P\+A\+T\+T\+E\+R\+N}, 
 		\hyperpage{82}
     \subitem {U\+S\+E\+\_\+\+T\+H\+R\+O\+U\+G\+H\+P\+U\+T\+\_\+\+W\+R\+I\+T\+E\+S}, 
 		\hyperpage{82}
     \subitem {U\+S\+E\+\_\+\+T\+I\+M\+E\+\_\+\+B\+A\+S\+E\+D\+\_\+\+B\+E\+N\+C\+H\+M\+A\+R\+K\+S}, 
-		\hyperpage{82}
+		\hyperpage{83}
     \subitem {U\+S\+E\+\_\+\+T\+S\+C\+\_\+\+T\+I\+M\+E\+R}, 
-		\hyperpage{82}
-    \subitem {V\+E\+R\+B\+O\+S\+E}, \hyperpage{82}
+		\hyperpage{83}
+    \subitem {V\+E\+R\+B\+O\+S\+E}, \hyperpage{83}
   \item {completed}
     \subitem {xmem\+::thread\+::\+Thread}, \hyperpage{57}
   \item {Configurator}
@@ -167,12 +181,26 @@
 
   \indexspace
 
-  \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+C\+P\+U\+S}
-    \subitem {common.\+h}, \hyperpage{80}
+  \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+L\+A\+R\+G\+E\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}
+    \subitem {common.\+h}, \hyperpage{81}
+  \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L1\+\_\+\+C\+A\+C\+H\+E\+S}
+    \subitem {common.\+h}, \hyperpage{81}
+  \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L2\+\_\+\+C\+A\+C\+H\+E\+S}
+    \subitem {common.\+h}, \hyperpage{81}
+  \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L3\+\_\+\+C\+A\+C\+H\+E\+S}
+    \subitem {common.\+h}, \hyperpage{81}
+  \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L4\+\_\+\+C\+A\+C\+H\+E\+S}
+    \subitem {common.\+h}, \hyperpage{81}
+  \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+L\+O\+G\+I\+C\+A\+L\+\_\+\+C\+P\+U\+S}
+    \subitem {common.\+h}, \hyperpage{81}
   \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+N\+O\+D\+E\+S}
-    \subitem {common.\+h}, \hyperpage{80}
+    \subitem {common.\+h}, \hyperpage{81}
+  \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+P\+H\+Y\+S\+I\+C\+A\+L\+\_\+\+C\+P\+U\+S}
+    \subitem {common.\+h}, \hyperpage{81}
+  \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+N\+U\+M\+\_\+\+P\+H\+Y\+S\+I\+C\+A\+L\+\_\+\+P\+A\+C\+K\+A\+G\+E\+S}
+    \subitem {common.\+h}, \hyperpage{81}
   \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+P\+A\+G\+E\+\_\+\+S\+I\+Z\+E}
-    \subitem {common.\+h}, \hyperpage{80}
+    \subitem {common.\+h}, \hyperpage{81}
   \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+T\+H\+R\+E\+A\+D\+\_\+\+J\+O\+I\+N\+\_\+\+T\+I\+M\+E\+O\+U\+T}
     \subitem {common.\+h}, \hyperpage{81}
   \item {D\+E\+F\+A\+U\+L\+T\+\_\+\+W\+O\+R\+K\+I\+N\+G\+\_\+\+S\+E\+T\+\_\+\+S\+I\+Z\+E}
@@ -317,7 +345,7 @@
   \indexspace
 
   \item {L\+A\+T\+E\+N\+C\+Y\+\_\+\+B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+U\+N\+R\+O\+L\+L\+\_\+\+L\+E\+N\+G\+T\+H}
-    \subitem {common.\+h}, \hyperpage{81}
+    \subitem {common.\+h}, \hyperpage{82}
   \item {last}
     \subitem {xmem\+::config\+::third\+\_\+party\+::\+Option}, 
 		\hyperpage{37}
@@ -336,9 +364,9 @@
   \indexspace
 
   \item {M\+I\+N\+\_\+\+E\+L\+A\+P\+S\+E\+D\+\_\+\+T\+I\+C\+K\+S}
-    \subitem {common.\+h}, \hyperpage{81}
+    \subitem {common.\+h}, \hyperpage{82}
   \item {M\+U\+L\+T\+I\+T\+H\+R\+E\+A\+D\+I\+N\+G\+\_\+\+E\+N\+A\+B\+L\+E}
-    \subitem {common.\+h}, \hyperpage{81}
+    \subitem {common.\+h}, \hyperpage{82}
 
   \indexspace
 
@@ -394,7 +422,7 @@
   \indexspace
 
   \item {P\+O\+W\+E\+R\+\_\+\+S\+A\+M\+P\+L\+I\+N\+G\+\_\+\+P\+E\+R\+I\+O\+D\+\_\+\+S\+E\+C}
-    \subitem {common.\+h}, \hyperpage{81}
+    \subitem {common.\+h}, \hyperpage{82}
   \item {parse}
     \subitem {xmem\+::config\+::third\+\_\+party\+::\+Parser}, 
 		\hyperpage{44}
@@ -448,45 +476,43 @@
   \item {src/\+Configurator.\+cpp}, \hyperpage{68}
   \item {src/\+Latency\+Benchmark.\+cpp}, \hyperpage{91}
   \item {src/\+Power\+Reader.\+cpp}, \hyperpage{92}
-  \item {src/\+Runnable.\+cpp}, \hyperpage{92}
-  \item {src/\+Thread.\+cpp}, \hyperpage{92}
+  \item {src/\+Runnable.\+cpp}, \hyperpage{93}
+  \item {src/\+Thread.\+cpp}, \hyperpage{93}
   \item {src/\+Throughput\+Benchmark.\+cpp}, \hyperpage{93}
-  \item {src/\+Throughput\+Benchmark\+Worker.\+cpp}, \hyperpage{93}
-  \item {src/\+Timer.\+cpp}, \hyperpage{93}
+  \item {src/\+Throughput\+Benchmark\+Worker.\+cpp}, \hyperpage{94}
+  \item {src/\+Timer.\+cpp}, \hyperpage{94}
   \item {src/benchmark\+\_\+kernels.\+cpp}, \hyperpage{67}
   \item {src/common.\+cpp}, \hyperpage{68}
   \item {src/include/\+Benchmark.\+h}, \hyperpage{69}
   \item {src/include/\+Benchmark\+Manager.\+h}, \hyperpage{78}
-  \item {src/include/\+Configurator.\+h}, \hyperpage{82}
-  \item {src/include/\+Example\+Arg.\+h}, \hyperpage{83}
-  \item {src/include/\+Latency\+Benchmark.\+h}, \hyperpage{83}
-  \item {src/include/\+My\+Arg.\+h}, \hyperpage{83}
-  \item {src/include/\+Power\+Reader.\+h}, \hyperpage{87}
-  \item {src/include/\+Runnable.\+h}, \hyperpage{88}
-  \item {src/include/\+Thread.\+h}, \hyperpage{88}
-  \item {src/include/\+Throughput\+Benchmark.\+h}, \hyperpage{88}
+  \item {src/include/\+Configurator.\+h}, \hyperpage{83}
+  \item {src/include/\+Example\+Arg.\+h}, \hyperpage{84}
+  \item {src/include/\+Latency\+Benchmark.\+h}, \hyperpage{84}
+  \item {src/include/\+My\+Arg.\+h}, \hyperpage{84}
+  \item {src/include/\+Power\+Reader.\+h}, \hyperpage{88}
+  \item {src/include/\+Runnable.\+h}, \hyperpage{89}
+  \item {src/include/\+Thread.\+h}, \hyperpage{89}
+  \item {src/include/\+Throughput\+Benchmark.\+h}, \hyperpage{89}
   \item {src/include/\+Throughput\+Benchmark\+Worker.\+h}, 
-		\hyperpage{89}
-  \item {src/include/\+Timer.\+h}, \hyperpage{89}
+		\hyperpage{90}
+  \item {src/include/\+Timer.\+h}, \hyperpage{90}
   \item {src/include/benchmark\+\_\+kernels.\+h}, \hyperpage{69}
   \item {src/include/common.\+h}, \hyperpage{78}
-  \item {src/include/optionparser.\+h}, \hyperpage{84}
+  \item {src/include/optionparser.\+h}, \hyperpage{85}
   \item {src/include/win/\+Q\+P\+C\+Timer.\+h}, \hyperpage{90}
   \item {src/include/win/\+Windows\+D\+R\+A\+M\+Power\+Reader.\+h}, 
-		\hyperpage{90}
-  \item {src/include/win/win\+\_\+\+C\+Pdh\+Query.\+h}, \hyperpage{90}
-  \item {src/include/win/win\+\_\+common.\+h}, \hyperpage{90}
+		\hyperpage{91}
+  \item {src/include/win/win\+\_\+\+C\+Pdh\+Query.\+h}, \hyperpage{91}
   \item {src/include/win/win\+\_\+common\+\_\+third\+\_\+party.\+h}, 
-		\hyperpage{90}
+		\hyperpage{91}
   \item {src/include/x86\+\_\+64/\+T\+S\+C\+Timer.\+h}, \hyperpage{91}
-  \item {src/main.\+cpp}, \hyperpage{91}
+  \item {src/main.\+cpp}, \hyperpage{92}
   \item {src/win/\+Q\+P\+C\+Timer.\+cpp}, \hyperpage{94}
   \item {src/win/\+Windows\+D\+R\+A\+M\+Power\+Reader.\+cpp}, 
-		\hyperpage{94}
-  \item {src/win/win\+\_\+common.\+cpp}, \hyperpage{94}
+		\hyperpage{95}
   \item {src/win/win\+\_\+common\+\_\+third\+\_\+party.\+cpp}, 
 		\hyperpage{94}
-  \item {src/x86\+\_\+64/\+T\+S\+C\+Timer.\+cpp}, \hyperpage{94}
+  \item {src/x86\+\_\+64/\+T\+S\+C\+Timer.\+cpp}, \hyperpage{95}
   \item {started}
     \subitem {xmem\+::thread\+::\+Thread}, \hyperpage{58}
   \item {Stats}
@@ -504,7 +530,7 @@
   \indexspace
 
   \item {T\+H\+R\+O\+U\+G\+H\+P\+U\+T\+\_\+\+B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+B\+Y\+T\+E\+S\+\_\+\+P\+E\+R\+\_\+\+P\+A\+S\+S}
-    \subitem {common.\+h}, \hyperpage{81}
+    \subitem {common.\+h}, \hyperpage{82}
   \item {Thread}
     \subitem {xmem\+::thread\+::\+Thread}, \hyperpage{56}
   \item {Throughput\+Benchmark}
@@ -524,28 +550,28 @@
   \indexspace
 
   \item {U\+S\+E\+\_\+\+A\+L\+L\+\_\+\+N\+U\+M\+A\+\_\+\+N\+O\+D\+E\+S}
-    \subitem {common.\+h}, \hyperpage{81}
+    \subitem {common.\+h}, \hyperpage{82}
   \item {U\+S\+E\+\_\+\+L\+A\+T\+E\+N\+C\+Y\+\_\+\+B\+E\+N\+C\+H\+M\+A\+R\+K\+\_\+\+R\+A\+N\+D\+O\+M\+\_\+\+S\+H\+U\+F\+F\+L\+E\+\_\+\+P\+A\+T\+T\+E\+R\+N}
-    \subitem {common.\+h}, \hyperpage{81}
+    \subitem {common.\+h}, \hyperpage{82}
   \item {U\+S\+E\+\_\+\+T\+H\+R\+O\+U\+G\+H\+P\+U\+T\+\_\+\+F\+O\+R\+W\+\_\+\+S\+T\+R\+I\+D\+E\+\_\+1}
-    \subitem {common.\+h}, \hyperpage{81}
+    \subitem {common.\+h}, \hyperpage{82}
   \item {U\+S\+E\+\_\+\+T\+H\+R\+O\+U\+G\+H\+P\+U\+T\+\_\+\+R\+E\+A\+D\+S}
-    \subitem {common.\+h}, \hyperpage{81}
+    \subitem {common.\+h}, \hyperpage{82}
   \item {U\+S\+E\+\_\+\+T\+H\+R\+O\+U\+G\+H\+P\+U\+T\+\_\+\+S\+E\+Q\+U\+E\+N\+T\+I\+A\+L\+\_\+\+P\+A\+T\+T\+E\+R\+N}
     \subitem {common.\+h}, \hyperpage{82}
   \item {U\+S\+E\+\_\+\+T\+H\+R\+O\+U\+G\+H\+P\+U\+T\+\_\+\+W\+R\+I\+T\+E\+S}
     \subitem {common.\+h}, \hyperpage{82}
   \item {U\+S\+E\+\_\+\+T\+I\+M\+E\+\_\+\+B\+A\+S\+E\+D\+\_\+\+B\+E\+N\+C\+H\+M\+A\+R\+K\+S}
-    \subitem {common.\+h}, \hyperpage{82}
+    \subitem {common.\+h}, \hyperpage{83}
   \item {U\+S\+E\+\_\+\+T\+S\+C\+\_\+\+T\+I\+M\+E\+R}
-    \subitem {common.\+h}, \hyperpage{82}
+    \subitem {common.\+h}, \hyperpage{83}
   \item {use\+Output\+File}
     \subitem {xmem\+::config\+::\+Configurator}, \hyperpage{26}
 
   \indexspace
 
   \item {V\+E\+R\+B\+O\+S\+E}
-    \subitem {common.\+h}, \hyperpage{82}
+    \subitem {common.\+h}, \hyperpage{83}
   \item {valid\+Target}
     \subitem {xmem\+::thread\+::\+Thread}, \hyperpage{58}
 

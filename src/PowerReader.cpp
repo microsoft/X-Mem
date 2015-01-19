@@ -40,14 +40,14 @@ using namespace xmem::power;
 
 PowerReader::PowerReader(double sampling_period, double power_units, std::string name, int32_t cpu_affinity) :
 	_stop_signal(false),
+	_power_units(power_units),
+	_name(name),
+	_cpu_affinity(cpu_affinity),
 	_power_trace(),
 	_average_power(0),
 	_peak_power(0),
 	_num_samples(0),
-	_sampling_period(sampling_period),
-	_power_units(power_units),
-	_name(name),
-	_cpu_affinity(cpu_affinity)
+	_sampling_period(sampling_period)
 {
 	_power_trace.reserve(16); //Arbitrary default
 }

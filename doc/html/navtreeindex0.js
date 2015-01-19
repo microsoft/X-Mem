@@ -47,9 +47,7 @@ var NAVTREEINDEX0 =
 "_t_s_c_timer_8h.html":[2,0,0,0,1,0],
 "_t_s_c_timer_8h_source.html":[2,0,0,0,1,0],
 "_thread_8cpp.html":[2,0,0,12],
-"_thread_8cpp.html#a5df37b7f02e5cdc7d9412b7f872b8e01":[2,0,0,12,1],
-"_thread_8cpp.html#af154484a7efcba95a006421d2da01f1f":[2,0,0,12,0],
-"_thread_8cpp.html#af7449f4e1bb7fd701d8a3ead5f0da5a1":[2,0,0,12,2],
+"_thread_8cpp.html#a5df37b7f02e5cdc7d9412b7f872b8e01":[2,0,0,12,0],
 "_thread_8h.html":[2,0,0,0,13],
 "_thread_8h_source.html":[2,0,0,0,13],
 "_throughput_benchmark_8cpp.html":[2,0,0,13],
@@ -61,9 +59,9 @@ var NAVTREEINDEX0 =
 "_timer_8cpp.html":[2,0,0,15],
 "_timer_8h.html":[2,0,0,0,16],
 "_timer_8h_source.html":[2,0,0,0,16],
-"_windows_d_r_a_m_power_reader_8cpp.html":[2,0,0,1,3],
-"_windows_d_r_a_m_power_reader_8h.html":[2,0,0,0,0,4],
-"_windows_d_r_a_m_power_reader_8h_source.html":[2,0,0,0,0,4],
+"_windows_d_r_a_m_power_reader_8cpp.html":[2,0,0,1,2],
+"_windows_d_r_a_m_power_reader_8h.html":[2,0,0,0,0,3],
+"_windows_d_r_a_m_power_reader_8h_source.html":[2,0,0,0,0,3],
 "annotated.html":[1,0],
 "benchmark__kernels_8cpp.html":[2,0,0,4],
 "benchmark__kernels_8h.html":[2,0,0,0,3],
@@ -249,5 +247,7 @@ var NAVTREEINDEX0 =
 "classxmem_1_1benchmark_1_1_benchmark_manager.html#a1990c0e85b05764d7819b6903d495ee1":[1,0,0,0,1,0],
 "classxmem_1_1benchmark_1_1_benchmark_manager.html#a47b21d3d8a1e1be93e7efd35a3374b0c":[1,0,0,0,1,4],
 "classxmem_1_1benchmark_1_1_benchmark_manager.html#a7b7f4694586af20262d2f3ebe3750d86":[1,0,0,0,1,2],
-"classxmem_1_1benchmark_1_1_benchmark_manager.html#ab1540ca105b7e3c4f5fe96aeb59cc649":[1,0,0,0,1,1]
+"classxmem_1_1benchmark_1_1_benchmark_manager.html#ab1540ca105b7e3c4f5fe96aeb59cc649":[1,0,0,0,1,1],
+"classxmem_1_1benchmark_1_1_benchmark_manager.html#ac515058049ec46df410e4e8e7d858019":[1,0,0,0,1,3],
+"classxmem_1_1benchmark_1_1_latency_benchmark.html":[1,0,0,0,2]
 };
