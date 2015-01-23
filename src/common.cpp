@@ -47,14 +47,21 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <numa.h>
+#include <fstream> //for std::ifstream
+#include <vector> //for std::vector
+#include <algorithm> //for std::find
+
+#ifdef USE_LARGE_PAGES
+#include <hugetlbfs.h> //for allocating huge pages
+#endif
 #endif
 
 namespace xmem {
 	namespace common {
 		size_t g_page_size; /**< Default page size on the system, in bytes. */
-#ifdef USE_LARGE_PAGES
+//#ifdef USE_LARGE_PAGES
 		size_t g_large_page_size; /**< Large page size on the system, in bytes. */
-#endif
+//#endif
 		uint32_t g_num_nodes; /**< Number of NUMA nodes in the system. */
 		uint32_t g_num_logical_cpus; /**< Number of logical CPU cores in the system. This may be different than physical CPUs, e.g. Intel hyperthreading. */
 		uint32_t g_num_physical_cpus; /**< Number of physical CPU cores in the system. */
@@ -445,7 +452,6 @@ int32_t xmem::common::query_sys_info() {
 			g_num_physical_packages++;
 		curr++;
 		offset += sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION);
-		
 	}
 #endif
 #ifdef __gnu_linux__
@@ -454,8 +460,26 @@ int32_t xmem::common::query_sys_info() {
 		return -1;
 	}
 
+	//Get number of nodes. This is easy.
 	g_num_nodes = numa_max_node()+1;
-	g_num_physical_packages = g_num_nodes; //FIXME: this is totally a bandaid	
+
+	//Get number of physical packages. This is somewhat convoluted, but not sure of a better way on Linux. Technically there could be on-chip NUMA, so...
+	std::ifstream in;
+	in.open("/proc/cpuinfo");
+	char line[512];
+	std::vector<uint32_t> phys_package_ids;
+	uint32_t id = 0;
+	while (!in.eof()) {
+		in.getline(line, 512, '\n'); //FIXME: buffer overflow risk.
+		std::string line_string(line);
+		if (line_string.find("physical id") != std::string::npos) {
+			sscanf(line, "physical id\t\t\t: %u", &id);
+			if (std::find(phys_package_ids.begin(), phys_package_ids.end(), id) == phys_package_ids.end()) //have not seen this physical processor yet
+				phys_package_ids.push_back(id); //add to list
+		}
+	}
+	g_num_physical_packages = phys_package_ids.size();
+	in.close();
 #endif
 
 	//Get number of CPUs
@@ -484,8 +508,24 @@ int32_t xmem::common::query_sys_info() {
 	}
 #endif
 #ifdef __gnu_linux__
-	g_num_logical_cpus = sysconf(_SC_NPROCESSORS_ONLN); //FIXME: this isn't really portable -- requires glibc extensions to sysconf()
-	g_num_physical_cpus = g_num_logical_cpus / 2; //FIXME: this is totally a bandaid and assumes something like Intel HyperThreading
+	//Get number of logical CPUs
+	g_num_logical_cpus = sysconf(_SC_NPROCESSORS_ONLN); //This isn't really portable -- requires glibc extensions to sysconf()
+
+
+	//Get number of physical CPUs. This is somewhat convoluted, but not sure of a better way on Linux. I don't want to assume anything about HyperThreading-like things. TODO: currently this assumes each processor package has an equal number of cores, e.g. same processor model.
+	std::vector<uint32_t> core_ids;
+	in.open("/proc/cpuinfo");
+	while (!in.eof()) {
+		in.getline(line, 512, '\n'); //FIXME: buffer overflow risk.
+		std::string line_string(line);
+		if (line_string.find("core id") != std::string::npos) {
+			sscanf(line, "core id\t\t\t: %u", &id);
+			if (std::find(core_ids.begin(), core_ids.end(), id) == core_ids.end()) //have not seen this physical core yet
+				core_ids.push_back(id); //add to list
+		}
+	}
+	g_num_physical_cpus = core_ids.size() * g_num_physical_packages;
+	in.close();
 #endif
 
 	//Get number of caches
@@ -517,10 +557,10 @@ int32_t xmem::common::query_sys_info() {
 	}
 #endif
 #ifdef __gnu_linux__
-	g_total_l1_caches = g_num_physical_cpus; //FIXME: this is totally a bandaid
-	g_total_l2_caches = g_num_physical_cpus; //FIXME: this is totally a bandaid
-	g_total_l3_caches = 1; //FIXME: this is totally a bandaid
-	g_total_l4_caches = 0; //FIXME: this is totally a bandaid
+	g_total_l1_caches = g_num_physical_cpus; //TODO: this is an absolute guess. How to do this on Linux?
+	g_total_l2_caches = g_num_physical_cpus; //TODO: this is an absolute guess. How to do this on Linux?
+	g_total_l3_caches = g_num_physical_packages; //TODO: this is an absolute guess. How to do this on Linux?
+	g_total_l4_caches = 0; //TODO: this is an absolute guess. How to do this on Linux?
 #endif
 
 	//Get page size
@@ -536,7 +576,7 @@ int32_t xmem::common::query_sys_info() {
 #ifdef __gnu_linux__
 	g_page_size = static_cast<uint64_t>(sysconf(_SC_PAGESIZE));
 #ifdef USE_LARGE_PAGES
-	g_large_page_size = 0; //FIXME: implement
+	g_large_page_size = gethugepagesize(); 
 #endif
 #endif
 
@@ -547,12 +587,28 @@ int32_t xmem::common::query_sys_info() {
 	std::cout << "Number of physical processor packages: " << g_num_physical_packages << std::endl;
 	std::cout << "Number of physical processor cores: " << g_num_physical_cpus << std::endl;
 	std::cout << "Number of logical processor cores: " << g_num_logical_cpus << std::endl;
-	std::cout << "Number of processor L1/L2/L3/L4 caches: " << g_total_l1_caches << "/" << g_total_l2_caches << "/" << g_total_l3_caches << "/" << g_total_l4_caches << std::endl; 
+	std::cout << "Number of processor L1/L2/L3/L4 caches: " 
+		<< g_total_l1_caches
+		<< "/"
+		<< g_total_l2_caches
+		<< "/" 
+		<< g_total_l3_caches
+		<< "/"
+		<< g_total_l4_caches
+#ifdef __gnu_linux__
+		<< " (guess)"
+#endif
+		<< std::endl; 
 #ifdef USE_LARGE_PAGES
 	std::cout << "(Large) page size to be used for benchmarks: " << g_large_page_size << " B" << std::endl;
 #else
 	std::cout << "(Regular) page size to be used for benchmarks: " << g_page_size << " B" << std::endl;
 #endif
+#endif
+
+#ifdef _WIN32
+	if (buffer)
+		free(buffer);
 #endif
 
 	return 0;

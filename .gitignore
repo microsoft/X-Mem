@@ -11,6 +11,9 @@ vc120.pdb
 .sconsign.dblite
 build/
 
+# Doxygen
+doc/
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db

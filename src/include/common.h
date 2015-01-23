@@ -45,7 +45,7 @@
 namespace xmem {
 	namespace common {
 
-#define VERSION "1.05.01"
+#define VERSION "1.05.02"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -186,8 +186,8 @@ namespace xmem {
 //#define USE_QPC_TIMER /**< RECOMMENDED ENABLED. WINDOWS ONLY. Use the Windows QueryPerformanceCounter timer API. This is a safe bet as it is more hardware-agnostic and has fewer quirks, but it has lower resolution than the TSC timer. */
 #define USE_TSC_TIMER /**< RECOMMENDED DISABLED. Use the Intel Time Stamp Counter native hardware timer. Only use this if you know what you are doing. */
 
-#ifdef _WIN32 //DO NOT COMMENT THIS OUT
-#define USE_LARGE_PAGES /**< RECOMMENDED ENABLED. Currently only implemented for Windows. Allocate memory using large pages rather than small normal pages. In general, this is highly recommended, as the TLB can skew benchmark results for DRAM. */
+#ifdef _WIN32
+#define USE_LARGE_PAGES /**< RECOMMENDED ENABLED. TODO: Currently only implemented for Windows. Allocate memory using large pages rather than small normal pages. In general, this is highly recommended, as the TLB can skew benchmark results for DRAM. */
 #endif
 
 //Benchmarking methodology. Only one may be selected!
