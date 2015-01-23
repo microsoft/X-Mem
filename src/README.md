@@ -1,7 +1,7 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: Extensible Memory Benchmarking Tool v1.05.04
+X-Mem: Extensible Memory Benchmarking Tool v1.05.05
 ------------------------------------------------------------------------------------------------------------
 
 The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power. 
@@ -94,20 +94,20 @@ WINDOWS:
 GNU/LINUX:
 
 - GNU utilities with support for C++11. Tested with gcc 4.8.2 on Ubuntu 14.04 LTS.
-- If the binary is built with the option USE_LARGE_PAGES, you will need libhugetlbfs. You can obtain it at <http://libhugetlbfs.sourceforge.net>. On Ubuntu systems, you can install using "sudo apt-get install libhugetlbfs0". Note that you may need to manually ensure that large pages are available from the OS. This can be done by running "hugeadm --pool-list". It is recommended to set minimum pool to 1GB (in order to measure DRAM effectively). If needed, this can be done by running "hugeadm --pool-pages-min 2MB:512".
+- (SUPPORT IS CURRENTLY SUSPENDED) If the binary is built with the option USE_LARGE_PAGES, you will need libhugetlbfs. You can obtain it at <http://libhugetlbfs.sourceforge.net>. On Ubuntu systems, you can install using "sudo apt-get install libhugetlbfs0". Note that you may need to manually ensure that large pages are available from the OS. This can be done by running "hugeadm --pool-list". It is recommended to set minimum pool to 1GB (in order to measure DRAM effectively). If needed, this can be done by running "hugeadm --pool-pages-min 2MB:512".
 
 ------------------------------------------------------------------------------------------------------------
 INSTALLATION
 ------------------------------------------------------------------------------------------------------------
 
-The only file that is needed to run is xmem.exe. It has no other dependencies aside from the system prerequisites listed above.
+The only file that is needed to run on Windows is xmem-win.exe, and xmem-linux on GNU/Linux. It has no other dependencies aside from the system prerequisites listed above.
 
 ------------------------------------------------------------------------------------------------------------
 USAGE
 ------------------------------------------------------------------------------------------------------------
 
 NOTE: On Windows, make sure you run X-Mem with Administrator privileges. This is needed in order to:
-	- Allocate "large pages" for improved performance as well as query 
+	- Allocate "large pages" for improved performance as well as query if USE_LARGE_PAGES compile-time option is set
 	- Read performance counter data from the OS for reporting power (when applicable)
 	- Elevate thread priority and pin threads to CPUs for improved performance and benchmarking consistency
 
@@ -169,8 +169,8 @@ GNU/LINUX:
 - gcc with support for the C++11 standard. Tested with gcc version 4.8.2 on Ubuntu 14.04 LTS for x86-64.
 - Python 2.7. You can obtain it at <http://www.python.org>. On Ubuntu systems, you can install using "sudo apt-get install python2.7". You may need some other Python 2.7 packages as well.
 - SCons build system. You can obtain it at <http://www.scons.org>. On Ubuntu systems, you can install using "sudo apt-get install scons". Build tested with SCons 2.3.4.
-- If you want large page (huge page) support on GNU/Linux, you need kernel support. This can be verified on your installation by running "grep hugetlbfs /proc/filesystems". If you do not have huge page support in your kernel, you can build a kernel with the appropriate options switched on: "CONFIG_HUGETLB_PAGE" and "CONFIG_HUGETLBFS".
-- libhugetlbfs. This is used for allocating "huge pages". You can obtain it at <http://libhugetlbfs.sourceforge.net>. On Ubuntu systems, you can install using "sudo apt-get install libhugetlbfs-dev".
+- (SUPPORT IS CURRENTLY SUSPENDED) If you want large page (huge page) support on GNU/Linux, you need kernel support. This can be verified on your installation by running "grep hugetlbfs /proc/filesystems". If you do not have huge page support in your kernel, you can build a kernel with the appropriate options switched on: "CONFIG_HUGETLB_PAGE" and "CONFIG_HUGETLBFS".
+- (SUPPORT IS CURRENTLY SUSPENDED) libhugetlbfs. This is used for allocating "huge pages". You can obtain it at <http://libhugetlbfs.sourceforge.net>. On Ubuntu systems, you can install using "sudo apt-get install libhugetlbfs-dev".
 
 ------------------------------------------------------------------------------------------------------------
 DOCUMENTATION BUILD PREREQUISITES
