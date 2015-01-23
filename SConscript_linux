@@ -11,8 +11,7 @@ env = Environment()
 # LINUX
 env.Append(CPPFLAGS = '-Wall -g -O3 -std=c++11 -mavx -mavx2')
 env.Append(CPPPATH = ['src/include', '/usr/include'])
-env.Append(LIBS = ['pthread', 'numa'])
-env.Append(LIBS = ['hugetlbfs'])
+env.Append(LIBS = ['pthread', 'numa', 'hugetlbfs'])
 
 # List all C++ source files
 sources = [

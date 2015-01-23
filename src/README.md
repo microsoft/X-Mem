@@ -1,7 +1,7 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: Extensible Memory Benchmarking Tool v1.05.02
+X-Mem: Extensible Memory Benchmarking Tool v1.05.03
 ------------------------------------------------------------------------------------------------------------
 
 The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power. 
@@ -10,7 +10,7 @@ Originally authored by Mark Gottscho (Email: <mgottscho@ucla.edu>) as a Summer 2
 
 This project is under active development. Stay tuned for more updates.
 
-PROJECT REVISION DATE: January 14, 2015.
+PROJECT REVISION DATE: January 23, 2015.
 
 ------------------------------------------------------------------------------------------------------------
 LICENSE
@@ -91,9 +91,10 @@ WINDOWS:
 - Microsoft Windows 64-bit, 8.0 or later, Server 2012 or later.
 - Microsoft Visual C++ 2013 Redistributables (64-bit)
 
-LINUX:
+GNU/LINUX:
 
-- TBD
+- GNU utilities with support for C++11. Tested with gcc 4.8.2 on Ubuntu 14.04 LTS.
+- If the binary is built with the option USE_LARGE_PAGES, you will need libhugetlbfs. You can obtain it at <http://libhugetlbfs.sourceforge.net>. On Ubuntu systems, you can install using "sudo apt-get install libhugetlbfs0". Note that you may need to manually ensure that large pages are available from the OS. This can be done by running "hugeadm --pool-list". It is recommended to set minimum pool to 1GB (in order to measure DRAM effectively). If needed, this can be done by running "hugeadm --pool-pages-min 2MB:512".
 
 ------------------------------------------------------------------------------------------------------------
 INSTALLATION
@@ -163,11 +164,13 @@ WINDOWS:
 - Python 2.7. You can obtain it at <http://www.python.org>.
 - SCons build system. You can obtain it at <http://www.scons.org>. Build tested with SCons 2.3.4.
 
-LINUX:
+GNU/LINUX:
 
 - gcc with support for the C++11 standard. Tested with gcc version 4.8.2 on Ubuntu 14.04 LTS for x86-64.
 - Python 2.7. You can obtain it at <http://www.python.org>. On Ubuntu systems, you can install using "sudo apt-get install python2.7". You may need some other Python 2.7 packages as well.
 - SCons build system. You can obtain it at <http://www.scons.org>. On Ubuntu systems, you can install using "sudo apt-get install scons". Build tested with SCons 2.3.4.
+- If you want large page (huge page) support on GNU/Linux, you need kernel support. This can be verified on your installation by running "grep hugetlbfs /proc/filesystems". If you do not have huge page support in your kernel, you can build a kernel with the appropriate options switched on: "CONFIG_HUGETLB_PAGE" and "CONFIG_HUGETLBFS".
+- libhugetlbfs. This is used for allocating "huge pages". You can obtain it at <http://libhugetlbfs.sourceforge.net>. On Ubuntu systems, you can install using "sudo apt-get install libhugetlbfs-dev".
 
 ------------------------------------------------------------------------------------------------------------
 DOCUMENTATION BUILD PREREQUISITES
@@ -181,7 +184,7 @@ WINDOWS:
 - LaTeX distribution. You can get a Windows distribution at <http://www.miktex.org>.
 - make for Windows. You can obtain it at <http://gnuwin32.sourceforge.net/packages/make.htm>. You will have to manually add it to your Windows path.
 
-LINUX:
+GNU/LINUX:
 
 - doxygen tool. You can obtain it at <http://www.stack.nl/~dimitri/doxygen>. On Ubuntu systems, you can install with "sudo apt-get install doxygen".
 - LaTeX distribution. On Ubuntu systems, LaTeX distributed with doxygen should actually be sufficient. You can install with "sudo apt-get install doxygen-latex".

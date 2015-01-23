@@ -52,7 +52,9 @@
 #include <algorithm> //for std::find
 
 #ifdef USE_LARGE_PAGES
-#include <hugetlbfs.h> //for allocating huge pages
+extern "C" {
+#include <hugetlbfs.h> //for getting huge page size
+}
 #endif
 #endif
 
@@ -367,21 +369,29 @@ int32_t xmem::common::cpu_id_in_numa_node(uint32_t numa_node, uint32_t cpu_in_no
 	}
 #endif
 #ifdef __gnu_linux__
-	struct bitmask bm;
-	if (numa_node_to_cpus(static_cast<int32_t>(numa_node), &bm)) //error
+	struct bitmask *bm_ptr = numa_allocate_cpumask();
+	if (!bm_ptr) {
+		std::cerr << "WARNING: Failed to allocate a bitmask for loading NUMA information." << std::endl;
 		return -1;
-	
+	}
+	if (numa_node_to_cpus(static_cast<int32_t>(numa_node), bm_ptr)) //error
+		return -1;
+
 	//Select Nth CPU in the node
-	for (uint64_t i = 0; i < bm.size; i++) {
-		if (numa_bitmask_isbitset(&bm, i)) {
+	for (uint32_t i = 0; i < bm_ptr->size; i++) {
+		if (numa_bitmask_isbitset(bm_ptr, i) == 1) {
 			if (cpu_in_node == rank_in_node) { //found the CPU of interest in the NUMA node
 				cpu_id = i;
+				if (bm_ptr)
+					free(bm_ptr);
 				return cpu_id;
 			}
 			rank_in_node++;
 		}
 	}
-
+	
+	if (bm_ptr)
+		free(bm_ptr);
 #endif
 	return cpu_id;
 }
