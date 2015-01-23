@@ -45,7 +45,7 @@
 namespace xmem {
 	namespace common {
 
-#define VERSION "1.05.03"
+#define VERSION "1.05.04"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
