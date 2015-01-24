@@ -10,7 +10,7 @@ env = Environment()
 
 # LINUX
 env.Append(CPPFLAGS = '-Wall -g -O3 -std=c++11 -mavx')
-env.Append(CPPPATH = ['src/include', '/usr/include'])
+env.Append(CPPPATH = ['src/include', '/usr/include', '/lib'])
 env.Append(LIBS = ['pthread', 'numa', 'hugetlbfs'])
 
 # List all C++ source files

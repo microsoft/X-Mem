@@ -126,11 +126,12 @@ bool Thread::join() {
 }
 
 bool Thread::cancel() {
-	if (__created) {
 #ifdef _WIN32
+	if (__created) {
 		if (TerminateThread(__thread_handle, -1)) { //This can be unsafe! Use with caution.
 #endif
 #ifdef __gnu_linux__
+	if (__created && !__completed) {
 		if (pthread_cancel(__thread_handle)) {
 #endif
 			__suspended = false;
@@ -138,8 +139,9 @@ bool Thread::cancel() {
 			__completed = true;
 			return true;
 		}
+		return false;
 	}
-	return false;
+	return true;
 }
 
 int32_t Thread::getExitCode() {
