@@ -45,7 +45,7 @@
 namespace xmem {
 	namespace common {
 
-#define VERSION "1.1"
+#define VERSION "1.1.01"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -205,10 +205,10 @@ namespace xmem {
 #endif //DO NOT COMMENT THIS OUT
 
 //Chunk sizes
-//#define USE_CHUNK_32b /**< RECOMMENDED DISABLED. Use 32-bit chunks. */
+#define USE_CHUNK_32b /**< RECOMMENDED DISABLED. Use 32-bit chunks. */
 #ifdef ARCH_INTEL_X86_64 //DO NOT COMMENT THIS OUT
-//#define USE_CHUNK_64b /**< RECOMMENDED DISABLED. Use 64-bit chunks. */
-//#define USE_CHUNK_128b /**< RECOMMENDED DISABLED. Use 128-bit chunks. x86-64 processors with SSE only. TODO: Not yet implemented. */
+#define USE_CHUNK_64b /**< RECOMMENDED DISABLED. Use 64-bit chunks. */
+#define USE_CHUNK_128b /**< RECOMMENDED DISABLED. Use 128-bit chunks. x86-64 processors with SSE only. TODO: Not yet implemented. */
 #ifdef ARCH_INTEL_X86_64_AVX //TODO: Is this supposed to be AVX2 instead of AVX?
 #define USE_CHUNK_256b /**< RECOMMENDED ENABLED. Use 256-bit chunks. x86-64 processors only with AVX ISA extensions. */
 #endif
@@ -224,14 +224,14 @@ namespace xmem {
 #ifdef USE_THROUGHPUT_SEQUENTIAL_PATTERN //DO NOT COMMENT THIS OUT
 //Throughput benchmark forward strides
 #define USE_THROUGHPUT_FORW_STRIDE_1 /**< RECOMMENDED ENABLED. In throughput benchmarks with sequential pattern, do forward strides of 1 chunk (forward sequential). */
-//#define USE_THROUGHPUT_FORW_STRIDE_2 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 2 chunks. TODO: Not yet implemented for 128 and 256-bit chunks */
+#define USE_THROUGHPUT_FORW_STRIDE_2 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 2 chunks. TODO: Not yet implemented for 128 and 256-bit chunks */
 //#define USE_THROUGHPUT_FORW_STRIDE_4 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 4 chunks. TODO: Not yet implemented for 128 and 256-bit chunks */
 //#define USE_THROUGHPUT_FORW_STRIDE_8 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 8 chunks. TODO: Not yet implemented for 128 and 256-bit chunks */
 //#define USE_THROUGHPUT_FORW_STRIDE_16 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 16 chunks. TODO: Not yet implemented for 128 and 256-bit chunks */
 
 //Throughput benchmark reverse strides
-//#define USE_THROUGHPUT_REV_STRIDE_1 /**< RECOMMENDED ENABLED. In throughput benchmarks with sequential pattern, do reverse strides of 1 chunk (reverse sequential). FIXME: Problem with reverse throughput benchmarks in terms of addressing. Don't use this for now. */
-//#define USE_THROUGHPUT_REV_STRIDE_2 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 2 chunks. TODO: Not yet implemented for 128 and 256-bit chunks */
+#define USE_THROUGHPUT_REV_STRIDE_1 /**< RECOMMENDED ENABLED. In throughput benchmarks with sequential pattern, do reverse strides of 1 chunk (reverse sequential). FIXME: Problem with reverse throughput benchmarks in terms of addressing. Don't use this for now. */
+#define USE_THROUGHPUT_REV_STRIDE_2 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 2 chunks. TODO: Not yet implemented for 128 and 256-bit chunks */
 //#define USE_THROUGHPUT_REV_STRIDE_4 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 4 chunks. TODO: Not yet implemented for 128 and 256-bit chunks */
 //#define USE_THROUGHPUT_REV_STRIDE_8 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 8 chunks. TODO: Not yet implemented for 128 and 256-bit chunks */
 //#define USE_THROUGHPUT_REV_STRIDE_16 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 16 chunks. TODO: Not yet implemented for 128 and 256-bit chunks */
