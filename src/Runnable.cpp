@@ -66,11 +66,13 @@ Runnable::~Runnable() {
 
 #ifdef __gnu_linux__
 	int32_t retval = pthread_mutex_destroy(&_mutex); 
-	if (!retval) {
+	if (retval) {
 		if (retval == EBUSY)
 			std::cerr << "WARNING: Failed to destroy a mutex, as it was busy!" << std::endl;
+		else if (retval == EINVAL)
+			std::cerr << "WARNING: Failed to destroy a mutex, as it was invalid!" << std::endl;
 		else
-			std::cerr << "WARNING: Failed to destroy a mutex for an unknown reason!" << std::endl;
+			std::cerr << "WARNING: Failed to destroy a mutex for an unknown reason, error number " << retval << "!" << std::endl;
 	}
 #endif
 }

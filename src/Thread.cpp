@@ -76,8 +76,10 @@ bool Thread::create_and_start() {
 #ifdef __gnu_linux__
 	//We cannot use create() and start() on Linux because pthreads API does not allow for a thread created in the suspended state. So we just do it in one shot.
 	if (__target != NULL) {
-		int32_t failure = pthread_create(&__thread_handle, NULL, &Thread::__run_launchpad, __target);
-		if (failure)
+		pthread_attr_t attr;
+		if (pthread_attr_init(&attr)) //TODO: do we want just default flags?
+			return false;
+		if (pthread_create(&__thread_handle, &attr, &Thread::__run_launchpad, __target))
 			return false;
 		__created = true;
 		__started = true;
@@ -124,11 +126,12 @@ bool Thread::join() {
 }
 
 bool Thread::cancel() {
-	if (__created) {
 #ifdef _WIN32
+	if (__created) {
 		if (TerminateThread(__thread_handle, -1)) { //This can be unsafe! Use with caution.
 #endif
 #ifdef __gnu_linux__
+	if (__created && !__completed) {
 		if (pthread_cancel(__thread_handle)) {
 #endif
 			__suspended = false;
@@ -136,8 +139,9 @@ bool Thread::cancel() {
 			__completed = true;
 			return true;
 		}
+		return false;
 	}
-	return false;
+	return true;
 }
 
 int32_t Thread::getExitCode() {

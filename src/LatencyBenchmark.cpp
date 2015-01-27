@@ -116,7 +116,7 @@ bool LatencyBenchmark::__run_core() {
 	std::cout << "-------- Running Benchmark: " << _name;
 	std::cout << " ----------" << std::endl;
 	report_benchmark_info(); 
-	
+
 	//Build indices for random workload
 	__buildRandomPointerPermutation();
 
@@ -296,7 +296,7 @@ bool LatencyBenchmark::__buildRandomPointerPermutation() {
 	uintptr_t* mem_base = static_cast<uintptr_t*>(_mem_array); 
 
 	std::mt19937_64 gen(time(NULL)); //Mersenne Twister random number generator, seeded at current time
-
+	
 #ifdef USE_LATENCY_BENCHMARK_RANDOM_HAMILTONIAN_CYCLE_PATTERN
 	//Build a random directed Hamiltonian Cycle across the entire memory
 
@@ -365,9 +365,9 @@ bool LatencyBenchmark::__buildRandomPointerPermutation() {
 	//Do a random shuffle of the indices
 	for (size_t i = 0; i < num_pointers; i++) //Initialize pointers to point at themselves (identity mapping)
 		mem_base[i] = reinterpret_cast<uintptr_t>(mem_base+static_cast<uintptr_t>(i));
+
 	std::shuffle(mem_base, mem_base + num_pointers, gen);
 #endif
-
 #ifdef VERBOSE
 	std::cout << "done" << std::endl;
 	std::cout << std::endl;

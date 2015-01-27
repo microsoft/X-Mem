@@ -45,7 +45,7 @@
 namespace xmem {
 	namespace common {
 
-#define VERSION "1.05.01"
+#define VERSION "1.1"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -187,7 +187,7 @@ namespace xmem {
 #define USE_TSC_TIMER /**< RECOMMENDED DISABLED. Use the Intel Time Stamp Counter native hardware timer. Only use this if you know what you are doing. */
 
 #ifdef _WIN32 //DO NOT COMMENT THIS OUT
-#define USE_LARGE_PAGES /**< RECOMMENDED ENABLED. Currently only implemented for Windows. Allocate memory using large pages rather than small normal pages. In general, this is highly recommended, as the TLB can skew benchmark results for DRAM. */
+#define USE_LARGE_PAGES /**< RECOMMENDED ENABLED. TODO: Currently only implemented for Windows because of lackluster support for large pages in GNU/Linux, and the fact that libhugetlbfs is not NUMA-aware in the way we need. Allocate memory using large pages rather than small normal pages. In general, this is highly recommended, as the TLB can skew benchmark results for DRAM. */
 #endif
 
 //Benchmarking methodology. Only one may be selected!

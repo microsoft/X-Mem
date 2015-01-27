@@ -49,6 +49,11 @@
 
 #ifdef __gnu_linux__
 #include <numa.h>
+#ifdef USE_LARGE_PAGES
+extern "C" {
+#include <hugetlbfs.h> //for allocating and freeing huge pages
+}
+#endif
 #endif
 
 using namespace xmem::benchmark;
@@ -133,7 +138,11 @@ BenchmarkManager::~BenchmarkManager() {
 			VirtualFreeEx(GetCurrentProcess(), __mem_arrays[i], 0, MEM_RELEASE); //windows API
 #endif
 #ifdef __gnu_linux__
+#ifdef USE_LARGE_PAGES
+			free_huge_pages(__mem_arrays[i]);
+#else
 			numa_free(__mem_arrays[i], __mem_array_lens[i]); //Linux API
+#endif
 #endif
 	//Close results file
 	if (__results_file.is_open())
@@ -315,8 +324,9 @@ void BenchmarkManager::__setupWorkingSets(size_t working_set_size) {
 		CloseHandle(hToken);
 		
 		__mem_arrays[numa_node] = VirtualAllocExNuma(GetCurrentProcess(), NULL, allocation_size, MEM_COMMIT | MEM_RESERVE | MEM_LARGE_PAGES, PAGE_READWRITE, numa_node); //Windows NUMA allocation. Make the allocation one page bigger than necessary so that we can do alignment.
-#else
-#error USE_LARGE_PAGES compile-time option is currently supported only on Windows systems.
+#endif
+#ifdef __gnu_linux__
+		__mem_arrays[numa_node] = get_huge_pages(allocation_size, GHP_DEFAULT); //TODO: hugetlbfs does not seem to be NUMA-aware. We may require NUMA awareness and huge pages to be mutually exclusive on Linux builds =( FIXME: I get segfaults in ThroughputBenchmark if allocation_size ends up requiring more than 1 huge page. For this reason USE_LARGE_PAGES is currently disabled for Linux builds.
 #endif
 
 
