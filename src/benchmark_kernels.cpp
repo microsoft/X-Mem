@@ -206,7 +206,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride2Loop_Word32(void* s
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(start_address); i < len; i += 512) {
-		wordptr += 1024;
+		UNROLL512(wordptr += 2;)
 		if (wordptr >= static_cast<Word32_t*>(end_address)) //end, modulo
 			wordptr -= len;
 	}
@@ -218,7 +218,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride2Loop_Word64(void* s
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address); i < len; i += 256) {
-		wordptr += 512;
+		UNROLL256(wordptr += 2;)
 		if (wordptr >= static_cast<Word64_t*>(end_address)) //end, modulo
 			wordptr -= len;
 	}
@@ -230,7 +230,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride2Loop_Word128(void* 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address); i < len; i += 128) {
-		wordptr += 256;
+		UNROLL128(wordptr += 2;)
 		if (wordptr >= static_cast<Word128_t*>(end_address)) //end, modulo
 			wordptr -= len;
 	}
@@ -242,7 +242,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride2Loop_Word256(void* 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 64) {
-		wordptr += 128;
+		UNROLL64(wordptr += 2;)
 		if (wordptr >= static_cast<Word256_t*>(end_address)) //end, modulo
 			wordptr -= len;
 	}
@@ -254,7 +254,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride2Loop_Word32(void* st
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address); i < len; i += 512) {
-		wordptr -= 1024;
+		UNROLL512(wordptr -= 2;)
 		if (wordptr <= static_cast<Word32_t*>(start_address)) //end, modulo
 			wordptr += len;
 	}
@@ -266,7 +266,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride2Loop_Word64(void* st
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(end_address); i < len; i += 256) {
-		wordptr -= 512;
+		UNROLL256(wordptr -= 2;)
 		if (wordptr <= static_cast<Word64_t*>(start_address)) //end, modulo
 			wordptr += len;
 	}
@@ -278,7 +278,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride2Loop_Word128(void* s
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 128) {
-		wordptr -= 256;
+		UNROLL128(wordptr -= 2;)
 		if (wordptr <= static_cast<Word128_t*>(start_address)) //end, modulo
 			wordptr += len;
 	}
@@ -290,7 +290,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride2Loop_Word256(void* s
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 64) {
-		wordptr -= 128;
+		UNROLL64(wordptr -= 2;)
 		if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
 			wordptr += len;
 	}
@@ -304,7 +304,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride4Loop_Word32(void* s
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(start_address); i < len; i += 256) {
-		wordptr += 1024;
+		UNROLL256(wordptr += 4;)
 		if (wordptr >= static_cast<Word32_t*>(end_address)) //end, modulo
 			wordptr -= len;
 	}
@@ -316,7 +316,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride4Loop_Word64(void* s
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address); i < len; i += 128) {
-		wordptr += 512;
+		UNROLL128(wordptr += 4;)
 		if (wordptr >= static_cast<Word64_t*>(end_address)) //end, modulo
 			wordptr -= len;
 	}
@@ -328,7 +328,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride4Loop_Word128(void* 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address); i < len; i += 64) {
-		wordptr += 256;
+		UNROLL64(wordptr += 4;)
 		if (wordptr >= static_cast<Word128_t*>(end_address)) //end, modulo
 			wordptr -= len;
 	}
@@ -340,7 +340,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride4Loop_Word256(void* 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 32) {
-		wordptr += 128;
+		UNROLL32(wordptr += 4;)
 		if (wordptr >= static_cast<Word256_t*>(end_address)) //end, modulo
 			wordptr -= len;
 	}
@@ -352,7 +352,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride4Loop_Word32(void* st
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address); i < len; i += 256) {
-		wordptr -= 1024;
+		UNROLL256(wordptr -= 4;)
 		if (wordptr <= static_cast<Word32_t*>(start_address)) //end, modulo
 			wordptr += len;
 	}
@@ -364,7 +364,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride4Loop_Word64(void* st
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(end_address); i < len; i += 128) {
-		wordptr -= 512;
+		UNROLL128(wordptr -= 4;)
 		if (wordptr <= static_cast<Word64_t*>(start_address)) //end, modulo
 			wordptr += len;
 	}
@@ -376,7 +376,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride4Loop_Word128(void* s
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 64) {
-		wordptr -= 256;
+		UNROLL64(wordptr -= 4;)
 		if (wordptr <= static_cast<Word128_t*>(start_address)) //end, modulo
 			wordptr += len;
 	}
@@ -388,7 +388,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride4Loop_Word256(void* s
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 32) {
-		wordptr -= 128;
+		UNROLL32(wordptr -= 4;)
 		if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
 			wordptr += len;
 	}
@@ -402,7 +402,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride8Loop_Word32(void* s
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(start_address); i < len; i += 128) {
-		wordptr += 1024;
+		UNROLL128(wordptr += 8;)
 		if (wordptr >= static_cast<Word32_t*>(end_address)) //end, modulo
 			wordptr -= len;
 	}
@@ -414,7 +414,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride8Loop_Word64(void* s
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address); i < len; i += 64) {
-		wordptr += 512;
+		UNROLL64(wordptr += 8;)
 		if (wordptr >= static_cast<Word64_t*>(end_address)) //end, modulo
 			wordptr -= len;
 	}
@@ -426,7 +426,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride8Loop_Word128(void* 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address); i < len; i += 32) {
-		wordptr += 256;
+		UNROLL32(wordptr += 8;)
 		if (wordptr >= static_cast<Word128_t*>(end_address)) //end, modulo
 			wordptr -= len;
 	}
@@ -438,7 +438,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride8Loop_Word256(void* 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 16) {
-		wordptr += 128;
+		UNROLL16(wordptr += 8;)
 		if (wordptr >= static_cast<Word256_t*>(end_address)) //end, modulo
 			wordptr -= len;
 	}
@@ -450,7 +450,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride8Loop_Word32(void* st
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address); i < len; i += 128) {
-		wordptr -= 1024;
+		UNROLL128(wordptr -= 8;)
 		if (wordptr <= static_cast<Word32_t*>(start_address)) //end, modulo
 			wordptr += len;
 	}
@@ -462,7 +462,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride8Loop_Word64(void* st
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(end_address); i < len; i += 64) {
-		wordptr -= 512;
+		UNROLL64(wordptr -= 8;)
 		if (wordptr <= static_cast<Word64_t*>(start_address)) //end, modulo
 			wordptr += len;
 	}
@@ -474,7 +474,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride8Loop_Word128(void* s
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 32) {
-		wordptr -= 256;
+		UNROLL32(wordptr -= 8;)
 		if (wordptr <= static_cast<Word128_t*>(start_address)) //end, modulo
 			wordptr += len;
 	}
@@ -486,7 +486,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride8Loop_Word256(void* s
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 16) {
-		wordptr -= 128;
+		UNROLL16(wordptr -= 8;)
 		if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
 			wordptr += len;
 	}
@@ -500,7 +500,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride16Loop_Word32(void* 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(start_address); i < len; i += 64) {
-		wordptr += 1024;
+		UNROLL64(wordptr += 16;)
 		if (wordptr >= static_cast<Word32_t*>(end_address)) //end, modulo
 			wordptr -= len;
 	}
@@ -512,7 +512,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride16Loop_Word64(void* 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address); i < len; i += 32) {
-		wordptr += 512;
+		UNROLL32(wordptr += 16;)
 		if (wordptr >= static_cast<Word64_t*>(end_address)) //end, modulo
 			wordptr -= len;
 	}
@@ -524,7 +524,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride16Loop_Word128(void*
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address); i < len; i += 16) {
-		wordptr += 256;
+		UNROLL16(wordptr += 16;)
 		if (wordptr >= static_cast<Word128_t*>(end_address)) //end, modulo
 			wordptr -= len;
 	}
@@ -536,7 +536,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride16Loop_Word256(void*
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 32) {
-		wordptr += 128;
+		UNROLL8(wordptr += 16;)
 		if (wordptr >= static_cast<Word256_t*>(end_address)) //end, modulo
 			wordptr -= len;
 	}
@@ -548,7 +548,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride16Loop_Word32(void* s
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address); i < len; i += 64) {
-		wordptr -= 1024;
+		UNROLL64(wordptr -= 16;)
 		if (wordptr <= static_cast<Word32_t*>(start_address)) //end, modulo
 			wordptr += len;
 	}
@@ -560,7 +560,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride16Loop_Word64(void* s
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(end_address); i < len; i += 32) {
-		wordptr -= 512;
+		UNROLL32(wordptr -= 16;)
 		if (wordptr <= static_cast<Word64_t*>(start_address)) //end, modulo
 			wordptr += len;
 	}
@@ -572,7 +572,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride16Loop_Word128(void* 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 16) {
-		wordptr -= 256;
+		UNROLL16(wordptr -= 16;)
 		if (wordptr <= static_cast<Word128_t*>(start_address)) //end, modulo
 			wordptr += len;
 	}
@@ -584,7 +584,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride16Loop_Word256(void* 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 8) {
-		wordptr -= 128;
+		UNROLL8(wordptr -= 16;)
 		if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
 			wordptr += len;
 	}
@@ -1749,6 +1749,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride16Write_Word256(void* start
 	return 0; //TODO
 #endif
 #ifdef __gnu_linux__
+	//FIXME: segfaults?
 	register Word256_t val;
 	val = _mm256_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
 	register uint64_t i = 0;

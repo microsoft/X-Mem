@@ -81,6 +81,7 @@ void xmem::common::print_welcome_message() {
 	//Greetings!
 	std::cout << "--------------------------------------------------------------------" << std::endl;
 	std::cout << "Extensible Memory Benchmarking Tool (X-Mem) v" << VERSION << std::endl;
+	std::cout << "Built on " << __DATE__ << " at " << __TIME__ << std::endl; //This should work on both Windows and GNU/Linux
 	std::cout << "(C) Microsoft Corporation 2014" << std::endl;
 	std::cout << "Originally authored by Mark Gottscho <mgottscho@ucla.edu>" << std::endl;
 	std::cout << "--------------------------------------------------------------------" << std::endl;

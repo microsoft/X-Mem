@@ -236,9 +236,11 @@ bool BenchmarkManager::runThroughputBenchmarks() {
 			__results_file << __tp_benchmarks[i]->getStrideSize() << ",";
 			__results_file << __tp_benchmarks[i]->getAverageMetric() << ",";
 			__results_file << "MB/s" << ",";
-			for (uint32_t j = 0; j < g_num_physical_packages; j++) {
-				__results_file << __tp_benchmarks[i]->getAverageDRAMPower(j) << ",";
-				__results_file << __tp_benchmarks[i]->getPeakDRAMPower(j) << ",";
+			if (__dram_power_readers.size() > 0) { //FIXME: bandaid
+				for (uint32_t j = 0; j < g_num_physical_packages; j++) {
+					__results_file << __tp_benchmarks[i]->getAverageDRAMPower(j) << ",";
+					__results_file << __tp_benchmarks[i]->getPeakDRAMPower(j) << ",";
+				}
 			}
 			__results_file << std::endl;
 		}
