@@ -45,7 +45,7 @@
 namespace xmem {
 	namespace common {
 
-#define VERSION "1.2.01"
+#define VERSION "1.2.02"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -140,7 +140,6 @@ namespace xmem {
 #define DEFAULT_NUM_L2_CACHES 0 /**< Default number of L2 caches. */
 #define DEFAULT_NUM_L3_CACHES 0 /**< Default number of L3 caches. */
 #define DEFAULT_NUM_L4_CACHES 0 /**< Default number of L4 caches. */
-//#define DEFAULT_THREAD_JOIN_TIMEOUT 600000 /**< Default number of milliseconds to wait for a thread to join. Negative values mean indefinite wait. FIXME: remove this */
 #define MIN_ELAPSED_TICKS 10000 /**< If any routine measured fewer than this number of ticks its results should be viewed with suspicion. This is because the latency of the timer itself will matter. */
 
 
@@ -224,17 +223,21 @@ namespace xmem {
 #ifdef USE_THROUGHPUT_SEQUENTIAL_PATTERN //DO NOT COMMENT THIS OUT
 //Throughput benchmark forward strides
 #define USE_THROUGHPUT_FORW_STRIDE_1 /**< RECOMMENDED ENABLED. In throughput benchmarks with sequential pattern, do forward strides of 1 chunk (forward sequential). */
+#ifndef _WIN32 //TODO: implement strided throughput benchmarks for 128 and 256-bit modes on Windows.
 #define USE_THROUGHPUT_FORW_STRIDE_2 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 2 chunks. */
 #define USE_THROUGHPUT_FORW_STRIDE_4 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 4 chunks. */
 #define USE_THROUGHPUT_FORW_STRIDE_8 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 8 chunks. */
 #define USE_THROUGHPUT_FORW_STRIDE_16 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 16 chunks. */
+#endif
 
 //Throughput benchmark reverse strides
 #define USE_THROUGHPUT_REV_STRIDE_1 /**< RECOMMENDED ENABLED. In throughput benchmarks with sequential pattern, do reverse strides of 1 chunk (reverse sequential). */
+#ifndef _WIN32 //TODO: implement strided throughput benchmarks for 128 and 256-bit modes on Windows.
 #define USE_THROUGHPUT_REV_STRIDE_2 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 2 chunks. */
 #define USE_THROUGHPUT_REV_STRIDE_4 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 4 chunks. */
 #define USE_THROUGHPUT_REV_STRIDE_8 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 8 chunks. */
 #define USE_THROUGHPUT_REV_STRIDE_16 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 16 chunks. */
+#endif 
 #endif //DO NOT COMMENT THIS OUT
 
 //Throughput benchmark reads and writes

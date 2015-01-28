@@ -1,7 +1,7 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: Extensible Memory Benchmarking Tool v1.2.01
+X-Mem: Extensible Memory Benchmarking Tool v1.2.02
 ------------------------------------------------------------------------------------------------------------
 
 The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power. 
@@ -44,12 +44,12 @@ FEATURES
 
 This tool is provided as open source with the hope of being useful to the broader research and development community. Here are some of X-Mem's features.
 
-Flexibility: Easy reconfiguration for different sets of tests
-	- Cache levels
-	- NUMA
-	- Multi-threading
-	- Forward and reverse strides
-	- Sequential and random access
+Flexibility: Easy reconfiguration for different combinations of tests
+	- Working sets in increments of 4KB, allowing cache through main memory-level benchmarking
+	- NUMA support
+	- Multi-threading for bandwidth saturation
+	- Regular access patterns: forward & reverse sequential as well as strides of 2, 4, 8, and 16 words
+	- Random access patterns
 	- Read and write
 	- 32, 64, 128, 256-bit width memory instructions
 
@@ -57,9 +57,8 @@ Extensibility: C++ object-oriented principles
 	- Supports rapid addition of new benchmark kernel routines by others
 	- Example: stream triad algorithm, impact of false sharing, etc. are possible with minor additions
 
-Cross-platform: Currently implemented for Windows on x86-64 CPUs with AVX extensions
+Cross-platform: Currently implemented for Windows and GNU/Linux on x86-64 CPUs
 	- Designed to allow straightforward porting to other operating systems and ISAs
-	- Planning to implement GNU/Linux port
 
 Memory throughput:
 	- Accurate measurement of sustained memory throughput to all levels of cache
@@ -200,7 +199,7 @@ The tool comes with built-in Doxygen comments in the source code, which can be u
 VERSION CONTROL
 ------------------------------------------------------------------------------------------------------------
 
-This project is under version control using git. Its master repository is hosted at <https://github.com/Microsoft/X-Mem.git>.
+This project is under version control using git. Its master repository is hosted at <https://github.com/Microsoft/X-Mem.git>. There is also another fork at <https://github.com/nanocad-lab/X-Mem.git>, which generally mirrors Microsoft's repository.
 
 ------------------------------------------------------------------------------------------------------------
 CONTACT, FEEDBACK, AND BUG REPORTS
@@ -214,4 +213,4 @@ For inquiries about this work while conducted at Microsoft, please contact Dr. M
 ACKNOWLEDGMENT
 ------------------------------------------------------------------------------------------------------------
 
-Mark Gottscho would like to thank Dr. Mohammed Shoaib of Microsoft Research and Dr. Sriram Govindan of Microsoft for their mentorship in the creation of this software. Further thanks to Dr. Bikash Sharma, Mark Santaniello, Mike Andrewartha, and Laura Caulfield of Microsoft for their contributions, feedback, and assistance. Finally, thank you to Dr. Jie Liu of Microsoft Research, Dr. Badriddine Khessib and Dr. Kushagra Vaid of Microsoft, and Prof. Puneet Gupta of UCLA for giving me the opportunity to create this work.
+Mark Gottscho would like to thank Dr. Mohammed Shoaib of Microsoft Research and Dr. Sriram Govindan of Microsoft for their mentorship in the creation of this software. Further thanks to Dr. Bikash Sharma, Mark Santaniello, Mike Andrewartha, and Laura Caulfield of Microsoft for their contributions, feedback, and assistance. Thank you as well to Dr. Jie Liu of Microsoft Research, Dr. Badriddine Khessib and Dr. Kushagra Vaid of Microsoft, and Prof. Puneet Gupta of UCLA for giving me the opportunity to create this work. Finally, Mark would like to thank Dr. Fedor Pikus of Mentor Graphics for teaching him some useful HPC programming techniques.
