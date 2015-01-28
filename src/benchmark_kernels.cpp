@@ -1753,7 +1753,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride16Write_Word256(void* start
 	register Word256_t val;
 	val = _mm256_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
 	register uint64_t i = 0;
-	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
+	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 8) {
 		UNROLL8(*wordptr = val; wordptr -= 16;)
 		if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
@@ -1766,7 +1766,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride16Write_Word256(void* start
 
 /* ------------ RANDOM READ --------------*/
 
-int32_t xmem::benchmark::benchmark_kernels::randomRead_Word32(void* start_address, void* end_address) { 
+int32_t xmem::benchmark::benchmark_kernels::randomRead_Word32(void* start_address, void* end_address) {
 	return 0;
 }
 
