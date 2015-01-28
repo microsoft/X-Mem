@@ -98,7 +98,7 @@ namespace xmem {
 			int32_t dummy_forwSequentialLoop_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in forward sequential Word 128 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in forward sequential Word 128 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -130,7 +130,7 @@ namespace xmem {
 			int32_t dummy_revSequentialLoop_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in reverse sequential Word 128 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in reverse sequential Word 128 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -148,7 +148,7 @@ namespace xmem {
 			/* ------------ STRIDE 2 LOOP --------------*/
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in forward 2-strided Word 32 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in forward 2-strided Word 32 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -156,7 +156,7 @@ namespace xmem {
 			int32_t dummy_forwStride2Loop_Word32(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in forward 2-strided Word 64 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in forward 2-strided Word 64 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -164,7 +164,7 @@ namespace xmem {
 			int32_t dummy_forwStride2Loop_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in forward 2-strided Word 128 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in forward 2-strided Word 128 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -172,7 +172,7 @@ namespace xmem {
 			int32_t dummy_forwStride2Loop_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in forward 2-strided Word 256 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in forward 2-strided Word 256 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -180,7 +180,7 @@ namespace xmem {
 			int32_t dummy_forwStride2Loop_Word256(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in reverse 2-strided Word 32 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in reverse 2-strided Word 32 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -188,7 +188,7 @@ namespace xmem {
 			int32_t dummy_revStride2Loop_Word32(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in reverse 2-strided Word 64 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in reverse 2-strided Word 64 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -196,7 +196,7 @@ namespace xmem {
 			int32_t dummy_revStride2Loop_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in reverse 2-strided Word 128 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in reverse 2-strided Word 128 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -204,7 +204,7 @@ namespace xmem {
 			int32_t dummy_revStride2Loop_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in reverse 2-strided Word 256 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in reverse 2-strided Word 256 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -214,7 +214,7 @@ namespace xmem {
 			/* ------------ STRIDE 4 LOOP --------------*/
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in forward 4-strided Word 32 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in forward 4-strided Word 32 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -222,7 +222,7 @@ namespace xmem {
 			int32_t dummy_forwStride4Loop_Word32(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in forward 4-strided Word 64 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in forward 4-strided Word 64 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -230,7 +230,7 @@ namespace xmem {
 			int32_t dummy_forwStride4Loop_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in forward 4-strided Word 128 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in forward 4-strided Word 128 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -238,7 +238,7 @@ namespace xmem {
 			int32_t dummy_forwStride4Loop_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in forward 4-strided Word 256 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in forward 4-strided Word 256 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -246,7 +246,7 @@ namespace xmem {
 			int32_t dummy_forwStride4Loop_Word256(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in reverse 4-strided Word 32 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in reverse 4-strided Word 32 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -254,7 +254,7 @@ namespace xmem {
 			int32_t dummy_revStride4Loop_Word32(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in reverse 4-strided Word 64 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in reverse 4-strided Word 64 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -262,7 +262,7 @@ namespace xmem {
 			int32_t dummy_revStride4Loop_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in reverse 4-strided Word 128 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in reverse 4-strided Word 128 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -270,7 +270,7 @@ namespace xmem {
 			int32_t dummy_revStride4Loop_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in reverse 4-strided Word 256 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in reverse 4-strided Word 256 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -280,7 +280,7 @@ namespace xmem {
 			/* ------------ STRIDE 8 LOOP --------------*/
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in forward 8-strided Word 32 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in forward 8-strided Word 32 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -288,7 +288,7 @@ namespace xmem {
 			int32_t dummy_forwStride8Loop_Word32(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in forward 8-strided Word 64 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in forward 8-strided Word 64 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -296,7 +296,7 @@ namespace xmem {
 			int32_t dummy_forwStride8Loop_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in forward 8-strided Word 128 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in forward 8-strided Word 128 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -304,7 +304,7 @@ namespace xmem {
 			int32_t dummy_forwStride8Loop_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in forward 8-strided Word 256 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in forward 8-strided Word 256 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -312,7 +312,7 @@ namespace xmem {
 			int32_t dummy_forwStride8Loop_Word256(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in reverse 8-strided Word 32 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in reverse 8-strided Word 32 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -320,7 +320,7 @@ namespace xmem {
 			int32_t dummy_revStride8Loop_Word32(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in reverse 8-strided Word 64 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in reverse 8-strided Word 64 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -328,7 +328,7 @@ namespace xmem {
 			int32_t dummy_revStride8Loop_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in reverse 8-strided Word 128 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in reverse 8-strided Word 128 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -336,7 +336,7 @@ namespace xmem {
 			int32_t dummy_revStride8Loop_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in reverse 8-strided Word 256 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in reverse 8-strided Word 256 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -346,7 +346,7 @@ namespace xmem {
 			/* ------------ STRIDE 16 LOOP --------------*/
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in forward 16-strided Word 32 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in forward 16-strided Word 32 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -354,7 +354,7 @@ namespace xmem {
 			int32_t dummy_forwStride16Loop_Word32(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in forward 16-strided Word 64 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in forward 16-strided Word 64 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -362,7 +362,7 @@ namespace xmem {
 			int32_t dummy_forwStride16Loop_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in forward 16-strided Word 128 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in forward 16-strided Word 128 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -370,7 +370,7 @@ namespace xmem {
 			int32_t dummy_forwStride16Loop_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in forward 16-strided Word 256 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in forward 16-strided Word 256 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -378,7 +378,7 @@ namespace xmem {
 			int32_t dummy_forwStride16Loop_Word256(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in reverse 16-strided Word 32 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in reverse 16-strided Word 32 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -386,7 +386,7 @@ namespace xmem {
 			int32_t dummy_revStride16Loop_Word32(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in reverse 16-strided Word 64 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in reverse 16-strided Word 64 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -394,7 +394,7 @@ namespace xmem {
 			int32_t dummy_revStride16Loop_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in reverse 16-strided Word 128 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in reverse 16-strided Word 128 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -402,7 +402,7 @@ namespace xmem {
 			int32_t dummy_revStride16Loop_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in reverse 16-strided Word 256 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in reverse 16-strided Word 256 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -412,7 +412,7 @@ namespace xmem {
 			/* ------------ RANDOM LOOP --------------*/
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in random Word 32 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in random Word 32 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -420,7 +420,7 @@ namespace xmem {
 			int32_t dummy_randomLoop_Word32(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in random Word 64 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in random Word 64 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -428,7 +428,7 @@ namespace xmem {
 			int32_t dummy_randomLoop_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in random Word 128 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in random Word 128 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -436,7 +436,7 @@ namespace xmem {
 			int32_t dummy_randomLoop_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Used for measuring the time spent doing everything in random Word 256 loops except for the memory access itself.
+			 * @brief Used for measuring the time spent doing everything in random Word 256 loops except for the memory access itself.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -466,7 +466,7 @@ namespace xmem {
 			int32_t forwSequentialRead_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory forward sequentially, reading in 128-bit chunks.
+			 * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -498,7 +498,7 @@ namespace xmem {
 			int32_t revSequentialRead_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory reverse sequentially, reading in 128-bit chunks.
+			 * @brief Walks over the allocated memory reverse sequentially, reading in 128-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -532,7 +532,7 @@ namespace xmem {
 			int32_t forwSequentialWrite_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory forward sequentially, writing in 128-bit chunks.
+			 * @brief Walks over the allocated memory forward sequentially, writing in 128-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -564,7 +564,7 @@ namespace xmem {
 			int32_t revSequentialWrite_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory reverse sequentially, writing in 128-bit chunks.
+			 * @brief Walks over the allocated memory reverse sequentially, writing in 128-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -598,7 +598,7 @@ namespace xmem {
 			int32_t forwStride2Read_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in forward strides of size 2, reading in 128-bit chunks.
+			 * @brief Walks over the allocated memory in forward strides of size 2, reading in 128-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -606,7 +606,7 @@ namespace xmem {
 			int32_t forwStride2Read_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in forward strides of size 2, reading in 256-bit chunks.
+			 * @brief Walks over the allocated memory in forward strides of size 2, reading in 256-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -630,7 +630,7 @@ namespace xmem {
 			int32_t revStride2Read_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in reverse strides of size 2, reading in 128-bit chunks.
+			 * @brief Walks over the allocated memory in reverse strides of size 2, reading in 128-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -638,7 +638,7 @@ namespace xmem {
 			int32_t revStride2Read_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in reverse strides of size 2, reading in 256-bit chunks.
+			 * @brief Walks over the allocated memory in reverse strides of size 2, reading in 256-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -664,7 +664,7 @@ namespace xmem {
 			int32_t forwStride2Write_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in forward strides of size 2, writing in 128-bit chunks.
+			 * @brief Walks over the allocated memory in forward strides of size 2, writing in 128-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -672,7 +672,7 @@ namespace xmem {
 			int32_t forwStride2Write_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in forward strides of size 2, writing in 256-bit chunks.
+			 * @brief Walks over the allocated memory in forward strides of size 2, writing in 256-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -696,7 +696,7 @@ namespace xmem {
 			int32_t revStride2Write_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in reverse strides of size 2, writing in 128-bit chunks.
+			 * @brief Walks over the allocated memory in reverse strides of size 2, writing in 128-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -704,7 +704,7 @@ namespace xmem {
 			int32_t revStride2Write_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in reverse strides of size 2, writing in 256-bit chunks.
+			 * @brief Walks over the allocated memory in reverse strides of size 2, writing in 256-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -730,7 +730,7 @@ namespace xmem {
 			int32_t forwStride4Read_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in forward strides of size 4, reading in 128-bit chunks.
+			 * @brief Walks over the allocated memory in forward strides of size 4, reading in 128-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -738,7 +738,7 @@ namespace xmem {
 			int32_t forwStride4Read_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in forward strides of size 4, reading in 256-bit chunks.
+			 * @brief Walks over the allocated memory in forward strides of size 4, reading in 256-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -762,7 +762,7 @@ namespace xmem {
 			int32_t revStride4Read_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in reverse strides of size 4, reading in 128-bit chunks.
+			 * @brief Walks over the allocated memory in reverse strides of size 4, reading in 128-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -770,7 +770,7 @@ namespace xmem {
 			int32_t revStride4Read_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in reverse strides of size 4, reading in 256-bit chunks.
+			 * @brief Walks over the allocated memory in reverse strides of size 4, reading in 256-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -796,7 +796,7 @@ namespace xmem {
 			int32_t forwStride4Write_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in forward strides of size 4, writing in 128-bit chunks.
+			 * @brief Walks over the allocated memory in forward strides of size 4, writing in 128-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -804,7 +804,7 @@ namespace xmem {
 			int32_t forwStride4Write_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in forward strides of size 4, writing in 256-bit chunks.
+			 * @brief Walks over the allocated memory in forward strides of size 4, writing in 256-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -828,7 +828,7 @@ namespace xmem {
 			int32_t revStride4Write_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in reverse strides of size 4, writing in 128-bit chunks.
+			 * @brief Walks over the allocated memory in reverse strides of size 4, writing in 128-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -836,7 +836,7 @@ namespace xmem {
 			int32_t revStride4Write_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in reverse strides of size 4, writing in 256-bit chunks.
+			 * @brief Walks over the allocated memory in reverse strides of size 4, writing in 256-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -862,7 +862,7 @@ namespace xmem {
 			int32_t forwStride8Read_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in forward strides of size 8, reading in 128-bit chunks.
+			 * @brief Walks over the allocated memory in forward strides of size 8, reading in 128-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -870,7 +870,7 @@ namespace xmem {
 			int32_t forwStride8Read_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in forward strides of size 8, reading in 256-bit chunks.
+			 * @brief Walks over the allocated memory in forward strides of size 8, reading in 256-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -894,7 +894,7 @@ namespace xmem {
 			int32_t revStride8Read_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in reverse strides of size 8, reading in 128-bit chunks.
+			 * @brief Walks over the allocated memory in reverse strides of size 8, reading in 128-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -902,7 +902,7 @@ namespace xmem {
 			int32_t revStride8Read_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in reverse strides of size 8, reading in 256-bit chunks.
+			 * @brief Walks over the allocated memory in reverse strides of size 8, reading in 256-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -927,7 +927,7 @@ namespace xmem {
 			int32_t forwStride8Write_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in forward strides of size 8, writing in 128-bit chunks.
+			 * @brief Walks over the allocated memory in forward strides of size 8, writing in 128-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -935,7 +935,7 @@ namespace xmem {
 			int32_t forwStride8Write_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in forward strides of size 8, writing in 256-bit chunks.
+			 * @brief Walks over the allocated memory in forward strides of size 8, writing in 256-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -959,7 +959,7 @@ namespace xmem {
 			int32_t revStride8Write_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in reverse strides of size 8, writing in 128-bit chunks.
+			 * @brief Walks over the allocated memory in reverse strides of size 8, writing in 128-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -967,7 +967,7 @@ namespace xmem {
 			int32_t revStride8Write_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in reverse strides of size 8, writing in 256-bit chunks.
+			 * @brief Walks over the allocated memory in reverse strides of size 8, writing in 256-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -993,7 +993,7 @@ namespace xmem {
 			int32_t forwStride16Read_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in forward strides of size 16, reading in 128-bit chunks.
+			 * @brief Walks over the allocated memory in forward strides of size 16, reading in 128-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -1001,7 +1001,7 @@ namespace xmem {
 			int32_t forwStride16Read_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in forward strides of size 16, reading in 256-bit chunks.
+			 * @brief Walks over the allocated memory in forward strides of size 16, reading in 256-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -1025,7 +1025,7 @@ namespace xmem {
 			int32_t revStride16Read_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in reverse strides of size 16, reading in 128-bit chunks.
+			 * @brief Walks over the allocated memory in reverse strides of size 16, reading in 128-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -1033,7 +1033,7 @@ namespace xmem {
 			int32_t revStride16Read_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in reverse strides of size 16, reading in 256-bit chunks.
+			 * @brief Walks over the allocated memory in reverse strides of size 16, reading in 256-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -1059,7 +1059,7 @@ namespace xmem {
 			int32_t forwStride16Write_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in forward strides of size 16, writing in 128-bit chunks.
+			 * @brief Walks over the allocated memory in forward strides of size 16, writing in 128-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -1067,7 +1067,7 @@ namespace xmem {
 			int32_t forwStride16Write_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in forward strides of size 16, writing in 256-bit chunks.
+			 * @brief Walks over the allocated memory in forward strides of size 16, writing in 256-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -1091,14 +1091,14 @@ namespace xmem {
 			int32_t revStride16Write_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in reverse strides of size 16, writing in 128-bit chunks.
+			 * @brief Walks over the allocated memory in reverse strides of size 16, writing in 128-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 */
 			int32_t revStride16Write_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in reverse strides of size 16, writing in 256-bit chunks.
+			 * @brief Walks over the allocated memory in reverse strides of size 16, writing in 256-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -1108,7 +1108,7 @@ namespace xmem {
 			/* ------------ RANDOM READ --------------*/
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in random order, reading in 32-bit chunks.
+			 * @brief Walks over the allocated memory in random order, reading in 32-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -1116,7 +1116,7 @@ namespace xmem {
 			int32_t randomRead_Word32(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in random order, reading in 64-bit chunks.
+			 * @brief Walks over the allocated memory in random order, reading in 64-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -1124,7 +1124,7 @@ namespace xmem {
 			int32_t randomRead_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in random order, reading in 128-bit chunks.
+			 * @brief Walks over the allocated memory in random order, reading in 128-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -1132,7 +1132,7 @@ namespace xmem {
 			int32_t randomRead_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in random order, reading in 256-bit chunks.
+			 * @brief Walks over the allocated memory in random order, reading in 256-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -1142,7 +1142,7 @@ namespace xmem {
 			/* ------------ RANDOM WRITE --------------*/
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in random order, writing in 32-bit chunks.
+			 * @brief Walks over the allocated memory in random order, writing in 32-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -1150,7 +1150,7 @@ namespace xmem {
 			int32_t randomWrite_Word32(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in random order, writing in 64-bit chunks.
+			 * @brief Walks over the allocated memory in random order, writing in 64-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.
@@ -1158,14 +1158,14 @@ namespace xmem {
 			int32_t randomWrite_Word64(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in random order, writing in 128-bit chunks.
+			 * @brief Walks over the allocated memory in random order, writing in 128-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 */
 			int32_t randomWrite_Word128(void* start_address, void* end_address);
 
 			/**
-			 * @brief TODO. Walks over the allocated memory in random order, writing in 256-bit chunks.
+			 * @brief Walks over the allocated memory in random order, writing in 256-bit chunks.
 			 * @param start_address The beginning of the memory region of interest.
 			 * @param end_address The end of the memory region of interest.
 			 * @returns Undefined.

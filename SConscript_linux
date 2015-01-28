@@ -9,7 +9,7 @@ env = Environment()
 # Customize build settings
 
 # LINUX
-env.Append(CPPFLAGS = '-Wall -g -O3 -std=c++11 -mavx')
+env.Append(CPPFLAGS = '-Wall -Wno-unused-but-set-variable -Wno-unused-variable -g -O3 -std=c++11 -mavx')
 env.Append(CPPPATH = ['src/include', '/usr/include', '/lib'])
 env.Append(LIBS = ['pthread', 'numa', 'hugetlbfs'])
 

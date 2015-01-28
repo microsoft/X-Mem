@@ -86,8 +86,7 @@ BenchmarkManager::BenchmarkManager(size_t working_set_size, uint32_t iterations_
 		std::string power_obj_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Socket " << i << " DRAM"))->str();
 		
 		//TODO: Implement derived PowerReaders for Linux systems.
-		//FIXME: this is a bandaid for when the system is -really- NUMA, but has UMA emulation in hardware. In such a case, the number of physical packages may exceed number of NUMA nodes, but there are still
-		//two physical "nodes" of DRAM power to measure. On Windows, need a way of picking a CPU core from a physical processor package rather than from a NUMA node! Maybe this exists and I need to search harder. :)
+		//FIXME: this is a bandaid for when the system is -really- NUMA, but has UMA emulation in hardware. In such a case, the number of physical packages may exceed number of NUMA nodes, but there are still two physical "nodes" of DRAM power to measure. On Windows, need a way of picking a CPU core from a physical processor package rather than from a NUMA node! Maybe this exists and I need to search harder. :)
 #ifdef _WIN32
 		if (i >= __num_numa_nodes) 
 			__dram_power_readers.push_back(new power::win::WindowsDRAMPowerReader((g_num_logical_cpus / g_num_physical_packages)*i+2, POWER_SAMPLING_PERIOD_SEC, 1, power_obj_name, (g_num_logical_cpus / g_num_physical_packages)*i+2)); //Measure using 3rd logical CPU in the node. FIXME: this is a bandaid. not always going to work if there aren't at least 3 logical CPUs in any node!!
@@ -237,9 +236,11 @@ bool BenchmarkManager::runThroughputBenchmarks() {
 			__results_file << __tp_benchmarks[i]->getStrideSize() << ",";
 			__results_file << __tp_benchmarks[i]->getAverageMetric() << ",";
 			__results_file << "MB/s" << ",";
-			for (uint32_t j = 0; j < g_num_physical_packages; j++) {
-				__results_file << __tp_benchmarks[i]->getAverageDRAMPower(j) << ",";
-				__results_file << __tp_benchmarks[i]->getPeakDRAMPower(j) << ",";
+			if (__dram_power_readers.size() > 0) { //FIXME: bandaid
+				for (uint32_t j = 0; j < g_num_physical_packages; j++) {
+					__results_file << __tp_benchmarks[i]->getAverageDRAMPower(j) << ",";
+					__results_file << __tp_benchmarks[i]->getPeakDRAMPower(j) << ",";
+				}
 			}
 			__results_file << std::endl;
 		}
