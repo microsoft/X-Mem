@@ -119,7 +119,6 @@ void ThroughputBenchmarkWorker::run() {
 #endif
 	uint64_t target_ticks = helper_timer.get_ticks_per_sec() * BENCHMARK_DURATION_SEC; //Rough target run duration in seconds 
 	uint64_t p = 0;
-	uint64_t p2 = 0;
 	bytes_per_pass = THROUGHPUT_BENCHMARK_BYTES_PER_PASS;
 #endif
 	
