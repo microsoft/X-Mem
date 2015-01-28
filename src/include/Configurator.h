@@ -46,35 +46,37 @@ namespace xmem {
 		 */
 		enum optionIndex {
 			UNKNOWN,
+			OUTPUT_FILE,
 			HELP,
-			MEAS_LATENCY,
-			MEAS_THROUGHPUT,
-			WORKING_SET_SIZE_PER_THREAD,
-			NUM_WORKER_THREADS,
-			ITERATIONS,
 			BASE_TEST_INDEX,
-			OUTPUT_FILE
+			NUM_WORKER_THREADS,
+			MEAS_LATENCY,
+			ITERATIONS,
+			MEAS_THROUGHPUT,
+			NUMA_DISABLE,
+			WORKING_SET_SIZE_PER_THREAD
 		};
 
 		/**
 		 * @brief Command-line option descriptors as needed by stuff in <config/third_party/optionparser.h>. This is basically the help message content.
 		 */
 		const third_party::Descriptor usage[] = {
-			{ UNKNOWN, 0, "", "", third_party::Arg::None, "USAGE: xmem [options]\n\n"
+			{ UNKNOWN, 0, "", "", third_party::Arg::None, "USAGE: xmem-<OS> [options]\n\n"
 			"Options:" },
-			{ HELP, 0, "h", "help", third_party::Arg::None, "    -h, --help    \tPrint usage and exit." },
-			{ MEAS_LATENCY, 0, "l", "latency", third_party::Arg::None, "    -l, --latency    \tMeasure memory latency" },
-			{ MEAS_THROUGHPUT, 0, "t", "throughput", third_party::Arg::None, "    -t, --throughput    \tMeasure memory throughput" },
-			{ WORKING_SET_SIZE_PER_THREAD, 0, "w", "working_set_size_per_thread", third_party::MyArg::PositiveInteger, "    -w, --working_set_size    \tWorking set size per thread in KB. This must be a multiple of 4KB." },
-			{ NUM_WORKER_THREADS, 1, "j", "num_worker_threads", third_party::MyArg::PositiveInteger, "    -j, --num_worker_threads    \tNumber of worker threads to use in throughput benchmarks, loaded latency benchmarks, and stress testing." },
-			{ ITERATIONS, 0, "n", "iterations", third_party::MyArg::PositiveInteger, "    -n, --iterations    \tIterations per benchmark test" },
-			{ BASE_TEST_INDEX, 0, "i", "base_test_index", third_party::MyArg::NonnegativeInteger, "    -i, --base_test_index    \tNumerical index of the first benchmark, for tracking unique test IDs." },
 			{ OUTPUT_FILE, 0, "f", "output_file", third_party::MyArg::Required, "    -f, --output_file    \tOutput filename to use. If not specified, no output file generated." },
+			{ HELP, 0, "h", "help", third_party::Arg::None, "    -h, --help    \tPrint usage and exit." },
+			{ BASE_TEST_INDEX, 0, "i", "base_test_index", third_party::MyArg::NonnegativeInteger, "    -i, --base_test_index    \tNumerical index of the first benchmark, for tracking unique test IDs." },
+			{ NUM_WORKER_THREADS, 1, "j", "num_worker_threads", third_party::MyArg::PositiveInteger, "    -j, --num_worker_threads    \tNumber of worker threads to use in benchmarks." },
+			{ MEAS_LATENCY, 0, "l", "latency", third_party::Arg::None, "    -l, --latency    \tMeasure memory latency" },
+			{ ITERATIONS, 0, "n", "iterations", third_party::MyArg::PositiveInteger, "    -n, --iterations    \tIterations per benchmark test" },
+			{ MEAS_THROUGHPUT, 0, "t", "throughput", third_party::Arg::None, "    -t, --throughput    \tMeasure memory throughput" },
+			{ NUMA_DISABLE, 1, "u", "force_uma", third_party::Arg::None, "    -u, --force_uma    \tTest only CPU/memory NUMA node 0 instead of all combinations." },
+			{ WORKING_SET_SIZE_PER_THREAD, 0, "w", "working_set_size_per_thread", third_party::MyArg::PositiveInteger, "    -w, --working_set_size    \tWorking set size per thread in KB. This must be a multiple of 4KB." },
 			{ UNKNOWN, 0, "", "", third_party::Arg::None, "\nExamples:\n"
 			"    xmem --help\n"
 			"    xmem -h\n"
 			"    xmem -t\n"
-			"    xmem -t --latency -n10 -w524288 -f results.csv -i 101 -j4\n"
+			"    xmem -t --latency -n10 -w524288 -f results.csv -i 101 -u -j2\n"
 			},
 			{ 0, 0, 0, 0, 0, 0 }
 		};
@@ -95,11 +97,12 @@ namespace xmem {
 			 * @param runThroughput Indicates throughput benchmarks should be run.
 			 * @param working_set_size_per_thread The total size of memory to test in all benchmarks, in bytes, per thread. This MUST be a multiple of 4KB pages.
 			 * @param num_worker_threads The number of threads to use in throughput benchmarks, loaded latency benchmarks, and stress tests.
+			 * @param numa_enable If true, then test all combinations of CPU/memory NUMA nodes.
 			 * @param iterations_per_test For each unique benchmark test, this is the number of times to repeat it.
 			 * @param filename Output filename to use.
 			 * @param use_output_file If true, use the provided output filename.
 			 */
-			Configurator(bool runLatency, bool runThroughput, size_t working_set_size_per_thread, uint32_t num_worker_threads, uint32_t iterations_per_test, std::string filename, bool use_output_file);
+			Configurator(bool runLatency, bool runThroughput, size_t working_set_size_per_thread, uint32_t num_worker_threads, bool numa_enable, uint32_t iterations_per_test, std::string filename, bool use_output_file);
 
 			/**
 			 * @brief Configures the tool based on user's command-line inputs.
@@ -132,6 +135,12 @@ namespace xmem {
 			 * @returns The number of load threads to use.
 			 */
 			uint32_t getNumLoadThreads() { return __num_worker_threads; }
+	
+			/**
+			 * @brief Determines if the benchmarks should test for all CPU/memory NUMA combinations.
+			 * @returns True if all NUMA nodes should be tested.
+			 */
+			bool isNUMAEnabled() { return __numa_enabled; }
 
 			/**
 			 * @brief Gets the number of iterations that should be run of each benchmark.
@@ -169,6 +178,7 @@ namespace xmem {
 			bool __runThroughput; /**< True if throughput tests should be run. */
 			size_t __working_set_size_per_thread; /**< Working set size in bytes for each thread, if applicable. */
 			uint32_t __num_worker_threads; /**< Number of load threads to use for throughput benchmarks, loaded latency benchmarks, and stress tests. */
+			bool __numa_enabled; /**< If true, test all combinations of CPU/memory NUMA nodes. Otherwise, just use node 0. */
 			uint32_t __iterations; /**< Number of iterations to run for each benchmark test. */
 			std::string __filename; /**< The output filename if applicable. */
 			bool __use_output_file; /**< If true, generate a CSV output file for results. */

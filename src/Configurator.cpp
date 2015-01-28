@@ -46,17 +46,19 @@ Configurator::Configurator() :
 					__runThroughput(false),
 					__working_set_size_per_thread(DEFAULT_WORKING_SET_SIZE_PER_THREAD),
 					__num_worker_threads(DEFAULT_NUM_WORKER_THREADS),
+					__numa_enabled(true),
 					__iterations(1),
 					__filename(),
 					__use_output_file(false)
 					{
 }
 
-Configurator::Configurator(bool runLatency, bool runThroughput, size_t working_set_size_per_thread, uint32_t num_worker_threads, uint32_t iterations_per_test, std::string filename, bool use_output_file) :
+Configurator::Configurator(bool runLatency, bool runThroughput, size_t working_set_size_per_thread, uint32_t num_worker_threads, bool numa_enabled, uint32_t iterations_per_test, std::string filename, bool use_output_file) :
 					__runLatency(runLatency),
 					__runThroughput(runThroughput),
 					__working_set_size_per_thread(working_set_size_per_thread),
 					__num_worker_threads(num_worker_threads),
+					__numa_enabled(numa_enabled),
 					__iterations(iterations_per_test),
 					__filename(filename),
 					__use_output_file(use_output_file)
@@ -109,12 +111,14 @@ int Configurator::configureFromInput(int argc, char* argv[]) {
 		std::cout << "Latency test selected." << std::endl;
 #endif
 	}
+
 	if (options[MEAS_THROUGHPUT]) {
 		__runThroughput = true;
 #ifdef VERBOSE
 		std::cout << "Throughput test selected." << std::endl;
 #endif
 	}
+
 	//Make sure at least one mode is available
 	if (!__runLatency && !__runThroughput) {
 		std::cerr << "ERROR: At least one test must be selected." << std::endl;
@@ -180,6 +184,16 @@ int Configurator::configureFromInput(int argc, char* argv[]) {
 	std::cout << "Number of worker threads:  \t";
 	std::cout << __num_worker_threads << std::endl;
 #endif
+
+	//Check NUMA selection
+	if (options[NUMA_DISABLE]) {
+		__numa_enabled = false;
+#ifdef VERBOSE
+		std::cout << "NUMA enabled:   \t\tno" << std::endl;
+	} else {
+		std::cout << "NUMA enabled:   \t\tyes" << std::endl;
+#endif
+	}
 
 	//Check iterations
 	if (options[ITERATIONS]) {

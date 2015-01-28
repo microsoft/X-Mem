@@ -59,10 +59,11 @@ extern "C" {
 using namespace xmem::benchmark;
 using namespace xmem::common;
 
-BenchmarkManager::BenchmarkManager(size_t working_set_size, uint32_t num_worker_threads, uint32_t iterations_per_benchmark, bool output_to_file, std::string results_filename) :
+BenchmarkManager::BenchmarkManager(size_t working_set_size, uint32_t num_worker_threads, bool numa_enabled, uint32_t iterations_per_benchmark, bool output_to_file, std::string results_filename) :
 	__num_numa_nodes(g_num_nodes),
 	__benchmark_num_numa_nodes(g_num_nodes),
 	__num_worker_threads(num_worker_threads),
+	__numa_enabled(numa_enabled),
 	__mem_arrays(),
 	__mem_array_lens(),
 	__tp_benchmarks(),
@@ -285,11 +286,10 @@ bool BenchmarkManager::runLatencyBenchmarks() {
 }
 
 void BenchmarkManager::__setupWorkingSets(size_t working_set_size) {
-	//Allocate memory in each NUMA node, if the compile-time option was set.
-#ifndef USE_ALL_NUMA_NODES
-	__benchmark_num_numa_nodes = 1; //Override the input number of NUMA nodes, if compile-time option was not set
-	std::cout << __num_numa_nodes << " NUMA nodes are present on the system, but we are only using " << __benchmark_num_numa_nodes << " for benchmarking." << std::endl;
-#endif
+	//Allocate memory in each NUMA node to be tested
+	if (!__numa_enabled)
+		__benchmark_num_numa_nodes = 1;
+
 	__mem_arrays.resize(__benchmark_num_numa_nodes);
 	__mem_array_lens.resize(__benchmark_num_numa_nodes);
 

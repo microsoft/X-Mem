@@ -45,7 +45,7 @@
 namespace xmem {
 	namespace common {
 
-#define VERSION "1.2.04"
+#define VERSION "1.2.05"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -133,10 +133,10 @@ namespace xmem {
 #define DEFAULT_LARGE_PAGE_SIZE 2*MB /**< Default platform large page size in bytes. This generally should not be relied on, but is a failsafe. */
 #define DEFAULT_WORKING_SET_SIZE_PER_THREAD DEFAULT_PAGE_SIZE /**< Default working set size in bytes. */
 #define DEFAULT_NUM_WORKER_THREADS 1 /**< Default number of worker threads to use. */
-#define DEFAULT_NUM_NODES 0 /**< Default number of NUMA nodes. */
-#define DEFAULT_NUM_PHYSICAL_PACKAGES 0 /**< Default number of physical packages. */
-#define DEFAULT_NUM_PHYSICAL_CPUS 0 /**< Default number of physical CPU cores. */
-#define DEFAULT_NUM_LOGICAL_CPUS 0 /**< Default number of logical CPU cores. */
+#define DEFAULT_NUM_NODES 1 /**< Default number of NUMA nodes. */
+#define DEFAULT_NUM_PHYSICAL_PACKAGES 1 /**< Default number of physical packages. */
+#define DEFAULT_NUM_PHYSICAL_CPUS 1 /**< Default number of physical CPU cores. */
+#define DEFAULT_NUM_LOGICAL_CPUS 1 /**< Default number of logical CPU cores. */
 #define DEFAULT_NUM_L1_CACHES 0 /**< Default number of L1 caches. */
 #define DEFAULT_NUM_L2_CACHES 0 /**< Default number of L2 caches. */
 #define DEFAULT_NUM_L3_CACHES 0 /**< Default number of L3 caches. */
@@ -177,8 +177,6 @@ namespace xmem {
  */
 
 #define VERBOSE /**< Increases console output information detail by a lot. */
-
-#define USE_ALL_NUMA_NODES /**< RECOMMENDED ENABLED. Test all NUMA node combinations for CPU and memory. If disabled, only node 0 is used for both CPU and memory. */
 
 //Which timer to use in the benchmarks. Only one may be selected!
 //#define USE_QPC_TIMER /**< RECOMMENDED ENABLED. WINDOWS ONLY. Use the Windows QueryPerformanceCounter timer API. This is a safe bet as it is more hardware-agnostic and has fewer quirks, but it has lower resolution than the TSC timer. */

@@ -159,9 +159,6 @@ void xmem::common::print_compile_time_options() {
 #ifdef NDEBUG
 	std::cout << "NDEBUG" << std::endl;
 #endif
-#ifdef USE_ALL_NUMA_NODES
-	std::cout << "USE_ALL_NUMA_NODES" << std::endl;
-#endif
 #ifdef USE_QPC_TIMER
 	std::cout << "USE_QPC_TIMER" << std::endl;
 #endif
