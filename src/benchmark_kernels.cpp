@@ -406,34 +406,98 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride4Loop_Word256(void* s
 /* ------------ STRIDE 8 LOOP --------------*/
 
 int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride8Loop_Word32(void* start_address, void* end_address) {
+	register Word32_t val; 
+	register uint64_t i = 0;
+	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
+	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(start_address); i < len; i += 128) {
+		wordptr += 1024;
+		if (wordptr >= static_cast<Word32_t*>(end_address)) //end, modulo
+			wordptr -= len;
+	}
 	return 0;
 }
 
 int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride8Loop_Word64(void* start_address, void* end_address) {
+	register Word64_t val; 
+	register uint64_t i = 0;
+	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
+	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address); i < len; i += 64) {
+		wordptr += 512;
+		if (wordptr >= static_cast<Word64_t*>(end_address)) //end, modulo
+			wordptr -= len;
+	}
 	return 0;
 }
 
 int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride8Loop_Word128(void* start_address, void* end_address) {
+	register Word128_t val; 
+	register uint64_t i = 0;
+	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
+	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address); i < len; i += 32) {
+		wordptr += 256;
+		if (wordptr >= static_cast<Word128_t*>(end_address)) //end, modulo
+			wordptr -= len;
+	}
 	return 0;
 }
 
 int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride8Loop_Word256(void* start_address, void* end_address) {
+	register Word256_t val; 
+	register uint64_t i = 0;
+	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
+	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 16) {
+		wordptr += 128;
+		if (wordptr >= static_cast<Word256_t*>(end_address)) //end, modulo
+			wordptr -= len;
+	}
 	return 0;
 }
 
 int32_t xmem::benchmark::benchmark_kernels::dummy_revStride8Loop_Word32(void* start_address, void* end_address) { 
+	register Word32_t val; 
+	register uint64_t i = 0;
+	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
+	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address); i < len; i += 128) {
+		wordptr -= 1024;
+		if (wordptr <= static_cast<Word32_t*>(start_address)) //end, modulo
+			wordptr += len;
+	}
 	return 0;
 }
 
 int32_t xmem::benchmark::benchmark_kernels::dummy_revStride8Loop_Word64(void* start_address, void* end_address) { 
+	register Word64_t val; 
+	register uint64_t i = 0;
+	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
+	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(end_address); i < len; i += 64) {
+		wordptr -= 512;
+		if (wordptr <= static_cast<Word64_t*>(start_address)) //end, modulo
+			wordptr += len;
+	}
 	return 0;
 }
 
 int32_t xmem::benchmark::benchmark_kernels::dummy_revStride8Loop_Word128(void* start_address, void* end_address) { 
+	register Word128_t val; 
+	register uint64_t i = 0;
+	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
+	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 32) {
+		wordptr -= 256;
+		if (wordptr <= static_cast<Word128_t*>(start_address)) //end, modulo
+			wordptr += len;
+	}
 	return 0;
 }
 
 int32_t xmem::benchmark::benchmark_kernels::dummy_revStride8Loop_Word256(void* start_address, void* end_address) { 
+	register Word256_t val; 
+	register uint64_t i = 0;
+	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
+	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 16) {
+		wordptr -= 128;
+		if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
+			wordptr += len;
+	}
 	return 0;
 }
 
@@ -1186,11 +1250,37 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride8Read_Word64(void* start_a
 }
 
 int32_t xmem::benchmark::benchmark_kernels::forwStride8Read_Word128(void* start_address, void* end_address) { 
+#ifdef _WIN32
+	return 0; //TODO
+#endif
+#ifdef __gnu_linux__
+	register Word128_t val; 
+	register uint64_t i = 0;
+	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
+	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address); i < len; i += 32) {
+		UNROLL32(val = *wordptr; wordptr += 8;) 
+		if (wordptr >= static_cast<Word128_t*>(end_address)) //end, modulo
+			wordptr -= len;
+	}
 	return 0;
+#endif
 }
 
 int32_t xmem::benchmark::benchmark_kernels::forwStride8Read_Word256(void* start_address, void* end_address) { 
+#ifdef _WIN32
+	return 0; //TODO
+#endif
+#ifdef __gnu_linux__
+	register Word256_t val; 
+	register uint64_t i = 0;
+	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
+	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 16) {
+		UNROLL16(val = *wordptr; wordptr += 8;) 
+		if (wordptr >= static_cast<Word256_t*>(end_address)) //end, modulo
+			wordptr -= len;
+	}
 	return 0;
+#endif
 }
 
 int32_t xmem::benchmark::benchmark_kernels::revStride8Read_Word32(void* start_address, void* end_address) {
@@ -1218,11 +1308,37 @@ int32_t xmem::benchmark::benchmark_kernels::revStride8Read_Word64(void* start_ad
 }
 
 int32_t xmem::benchmark::benchmark_kernels::revStride8Read_Word128(void* start_address, void* end_address) { 
+#ifdef _WIN32
+	return 0; //TODO
+#endif
+#ifdef __gnu_linux__
+	register Word128_t val; 
+	register uint64_t i = 0;
+	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
+	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 32) {
+		UNROLL32(val = *wordptr; wordptr -= 8;)
+		if (wordptr <= static_cast<Word128_t*>(start_address)) //end, modulo
+			wordptr += len;
+	}
 	return 0;
+#endif
 }
 
 int32_t xmem::benchmark::benchmark_kernels::revStride8Read_Word256(void* start_address, void* end_address) { 
+#ifdef _WIN32
+	return 0; //TODO
+#endif
+#ifdef __gnu_linux__
+	register Word256_t val; 
+	register uint64_t i = 0;
+	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
+	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 16) {
+		UNROLL16(val = *wordptr; wordptr -= 8;)
+		if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
+			wordptr += len;
+	}
 	return 0;
+#endif
 }
 
 /* ------------ STRIDE 8 WRITE --------------*/
@@ -1252,11 +1368,39 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride8Write_Word64(void* start_
 }
 
 int32_t xmem::benchmark::benchmark_kernels::forwStride8Write_Word128(void* start_address, void* end_address) { 
+#ifdef _WIN32
+	return 0; //TODO
+#endif
+#ifdef __gnu_linux__
+	register Word128_t val;
+	val = _mm_set_epi64x(0xFFFFFFFF, 0xFFFFFFFF);
+	register uint64_t i = 0;
+	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
+	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address); i < len; i += 32) {
+		UNROLL32(*wordptr = val; wordptr += 8;)
+		if (wordptr >= static_cast<Word128_t*>(end_address)) //end, modulo
+			wordptr -= len;
+	}
 	return 0;
+#endif
 }
 
 int32_t xmem::benchmark::benchmark_kernels::forwStride8Write_Word256(void* start_address, void* end_address) { 
+#ifdef _WIN32
+	return 0; //TODO
+#endif
+#ifdef __gnu_linux__
+	register Word256_t val;
+	val = _mm256_set_epi64x(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF); 
+	register uint64_t i = 0;
+	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
+	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 16) {
+		UNROLL16(*wordptr = val; wordptr += 8;)
+		if (wordptr >= static_cast<Word256_t*>(end_address)) //end, modulo
+			wordptr -= len;
+	}
 	return 0;
+#endif
 }
 
 int32_t xmem::benchmark::benchmark_kernels::revStride8Write_Word32(void* start_address, void* end_address) { 
@@ -1284,11 +1428,39 @@ int32_t xmem::benchmark::benchmark_kernels::revStride8Write_Word64(void* start_a
 }
 
 int32_t xmem::benchmark::benchmark_kernels::revStride8Write_Word128(void* start_address, void* end_address) { 
+#ifdef _WIN32
+	return 0; //TODO
+#endif
+#ifdef __gnu_linux__
+	register Word128_t val;
+	val = _mm_set_epi64x(0xFFFFFFFF, 0xFFFFFFFF); 
+	register uint64_t i = 0;
+	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
+	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 32) {
+		UNROLL32(*wordptr = val; wordptr -= 8;)
+		if (wordptr <= static_cast<Word128_t*>(start_address)) //end, modulo
+			wordptr += len;
+	}
 	return 0;
+#endif
 }
 
 int32_t xmem::benchmark::benchmark_kernels::revStride8Write_Word256(void* start_address, void* end_address) { 
+#ifdef _WIN32
+	return 0; //TODO
+#endif
+#ifdef __gnu_linux__
+	register Word256_t val;
+	val = _mm256_set_epi64x(0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF); 
+	register uint64_t i = 0;
+	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
+	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 16) {
+		UNROLL16(*wordptr = val; wordptr -= 8;)
+		if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
+			wordptr += len;
+	}
 	return 0;
+#endif
 }
 
 /* ------------ STRIDE 16 READ --------------*/
