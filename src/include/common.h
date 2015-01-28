@@ -45,7 +45,7 @@
 namespace xmem {
 	namespace common {
 
-#define VERSION "1.2.03"
+#define VERSION "1.2.04"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -131,7 +131,8 @@ namespace xmem {
 //Default compile-time constants
 #define DEFAULT_PAGE_SIZE 4*KB /**< Default platform page size in bytes. This generally should not be relied on, but is a failsafe. */
 #define DEFAULT_LARGE_PAGE_SIZE 2*MB /**< Default platform large page size in bytes. This generally should not be relied on, but is a failsafe. */
-#define DEFAULT_WORKING_SET_SIZE DEFAULT_PAGE_SIZE /**< Default working set size in bytes. */
+#define DEFAULT_WORKING_SET_SIZE_PER_THREAD DEFAULT_PAGE_SIZE /**< Default working set size in bytes. */
+#define DEFAULT_NUM_WORKER_THREADS 1 /**< Default number of worker threads to use. */
 #define DEFAULT_NUM_NODES 0 /**< Default number of NUMA nodes. */
 #define DEFAULT_NUM_PHYSICAL_PACKAGES 0 /**< Default number of physical packages. */
 #define DEFAULT_NUM_PHYSICAL_CPUS 0 /**< Default number of physical CPU cores. */
@@ -178,8 +179,6 @@ namespace xmem {
 #define VERBOSE /**< Increases console output information detail by a lot. */
 
 #define USE_ALL_NUMA_NODES /**< RECOMMENDED ENABLED. Test all NUMA node combinations for CPU and memory. If disabled, only node 0 is used for both CPU and memory. */
-
-#define MULTITHREADING_ENABLE /**< RECOMMENDED ENABLED. Use multiple threads for benchmarks wherever applicable. Note that power measurement is always done with multiple threads separate from the benchmarking threads, regardless if this option is set or not. */
 
 //Which timer to use in the benchmarks. Only one may be selected!
 //#define USE_QPC_TIMER /**< RECOMMENDED ENABLED. WINDOWS ONLY. Use the Windows QueryPerformanceCounter timer API. This is a safe bet as it is more hardware-agnostic and has fewer quirks, but it has lower resolution than the TSC timer. */

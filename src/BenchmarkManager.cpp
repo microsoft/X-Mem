@@ -59,10 +59,10 @@ extern "C" {
 using namespace xmem::benchmark;
 using namespace xmem::common;
 
-BenchmarkManager::BenchmarkManager(size_t working_set_size, uint32_t iterations_per_benchmark, bool output_to_file, std::string results_filename) :
+BenchmarkManager::BenchmarkManager(size_t working_set_size, uint32_t num_worker_threads, uint32_t iterations_per_benchmark, bool output_to_file, std::string results_filename) :
 	__num_numa_nodes(g_num_nodes),
 	__benchmark_num_numa_nodes(g_num_nodes),
-	__num_worker_threads(1),
+	__num_worker_threads(num_worker_threads),
 	__mem_arrays(),
 	__mem_array_lens(),
 	__tp_benchmarks(),
@@ -76,11 +76,6 @@ BenchmarkManager::BenchmarkManager(size_t working_set_size, uint32_t iterations_
 	__built_latency_benchmarks(false),
 	__iterations_per_benchmark(iterations_per_benchmark)
 	{
-	//Set up number of working threads
-#ifdef MULTITHREADING_ENABLE
-	__num_worker_threads = g_num_logical_cpus / g_num_physical_packages; //FIXME: this assumes that all physical packages have same number of logical CPUs which may not be true in general.
-#endif
-
 	//Set up DRAM power measurement
 	for (uint32_t i = 0; i < g_num_physical_packages; i++) { //FIXME: this assumes that each physical package has a DRAM power measurement capability
 		std::string power_obj_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Socket " << i << " DRAM"))->str();

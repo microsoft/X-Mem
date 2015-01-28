@@ -162,9 +162,6 @@ void xmem::common::print_compile_time_options() {
 #ifdef USE_ALL_NUMA_NODES
 	std::cout << "USE_ALL_NUMA_NODES" << std::endl;
 #endif
-#ifdef MULTITHREADING_ENABLE
-	std::cout << "MULTITHREADING_ENABLE" << std::endl;
-#endif
 #ifdef USE_QPC_TIMER
 	std::cout << "USE_QPC_TIMER" << std::endl;
 #endif

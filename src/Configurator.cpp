@@ -32,6 +32,7 @@
 #include <common.h>
 #include <optionparser.h>
 #include <MyArg.h>
+#include <common.h>
 
 //Libraries
 #include <cstdint>
@@ -43,17 +44,19 @@ using namespace xmem::config;
 Configurator::Configurator() :
 					__runLatency(false),
 					__runThroughput(false),
-					__working_set_size(DEFAULT_WORKING_SET_SIZE),
+					__working_set_size_per_thread(DEFAULT_WORKING_SET_SIZE_PER_THREAD),
+					__num_worker_threads(DEFAULT_NUM_WORKER_THREADS),
 					__iterations(1),
 					__filename(),
 					__use_output_file(false)
 					{
 }
 
-Configurator::Configurator(bool runLatency, bool runThroughput, size_t working_set_size, uint32_t iterations_per_test, std::string filename, bool use_output_file) :
+Configurator::Configurator(bool runLatency, bool runThroughput, size_t working_set_size_per_thread, uint32_t num_worker_threads, uint32_t iterations_per_test, std::string filename, bool use_output_file) :
 					__runLatency(runLatency),
 					__runThroughput(runThroughput),
-					__working_set_size(working_set_size),
+					__working_set_size_per_thread(working_set_size_per_thread),
+					__num_worker_threads(num_worker_threads),
 					__iterations(iterations_per_test),
 					__filename(filename),
 					__use_output_file(use_output_file)
@@ -123,12 +126,11 @@ int Configurator::configureFromInput(int argc, char* argv[]) {
 		return -1;
 	}
 
-
 	//Check working set size
-	if (options[WORKING_SET_SIZE]) {
-		__checkSingleOptionOccurrence(&options[WORKING_SET_SIZE]);
+	if (options[WORKING_SET_SIZE_PER_THREAD]) {
+		__checkSingleOptionOccurrence(&options[WORKING_SET_SIZE_PER_THREAD]);
 		char* endptr = NULL;
-		size_t working_set_size_KB = strtoul(options[WORKING_SET_SIZE].arg, &endptr, 10);	
+		size_t working_set_size_KB = strtoul(options[WORKING_SET_SIZE_PER_THREAD].arg, &endptr, 10);	
 		if ((working_set_size_KB % 4) != 0) {
 			std::cerr << "ERROR: Working set size must be specified in KB and be a multiple of 4 KB." << std::endl; 
 			
@@ -139,7 +141,7 @@ int Configurator::configureFromInput(int argc, char* argv[]) {
 			return -1;
 		}
 
-		__working_set_size = working_set_size_KB * KB; //convert to bytes
+		__working_set_size_per_thread = working_set_size_KB * KB; //convert to bytes
 	}
 
 #ifdef VERBOSE
@@ -147,21 +149,36 @@ int Configurator::configureFromInput(int argc, char* argv[]) {
 #endif
 #ifndef USE_LARGE_PAGES
 #ifdef VERBOSE
-	std::cout << __working_set_size << " B == " << __working_set_size / KB  << " KB == " << __working_set_size / MB << " MB (" << __working_set_size/(xmem::common::g_page_size) << " pages)" << std::endl;	
+	std::cout << __working_set_size_per_thread << " B == " << __working_set_size_per_thread / KB  << " KB == " << __working_set_size_per_thread / MB << " MB (" << __working_set_size_per_thread/(xmem::common::g_page_size) << " pages)" << std::endl;	
 #endif
 #else
 	size_t num_large_pages = 0;
-	if (__working_set_size <= xmem::common::g_large_page_size) //sub one large page, round up to one
+	if (__working_set_size_per_thread <= xmem::common::g_large_page_size) //sub one large page, round up to one
 		num_large_pages = 1;
-	else if (__working_set_size % xmem::common::g_large_page_size == 0) //multiple of large page
-		num_large_pages = __working_set_size / xmem::common::g_large_page_size;
+	else if (__working_set_size_per_thread % xmem::common::g_large_page_size == 0) //multiple of large page
+		num_large_pages = __working_set_size_per_thread / xmem::common::g_large_page_size;
 	else //larger than one large page but not a multiple of large page
-		num_large_pages = __working_set_size / xmem::common::g_large_page_size + 1;
+		num_large_pages = __working_set_size_per_thread / xmem::common::g_large_page_size + 1;
 
 #ifdef VERBOSE
-	std::cout << __working_set_size << " B == " << __working_set_size / KB  << " KB == " << __working_set_size / MB << " MB (fits in " << num_large_pages << " large pages)" << std::endl;	
+	std::cout << __working_set_size_per_thread << " B == " << __working_set_size_per_thread / KB  << " KB == " << __working_set_size_per_thread / MB << " MB (fits in " << num_large_pages << " large pages)" << std::endl;	
 #endif
 
+#endif
+
+	//Check number of load threads
+	if (options[NUM_WORKER_THREADS]) {
+		__checkSingleOptionOccurrence(&options[NUM_WORKER_THREADS]);
+		char* endptr = NULL;
+		__num_worker_threads = static_cast<uint32_t>(strtoul(options[NUM_WORKER_THREADS].arg, &endptr, 10));
+		if (__num_worker_threads > xmem::common::g_num_logical_cpus) {
+			std::cerr << "WARNING: Number of worker threads is greater than the number of logical CPUs. Falling back to the default." << std::endl;
+			__num_worker_threads = DEFAULT_NUM_WORKER_THREADS;
+		}
+	}
+#ifdef VERBOSE
+	std::cout << "Number of worker threads:  \t";
+	std::cout << __num_worker_threads << std::endl;
 #endif
 
 	//Check iterations

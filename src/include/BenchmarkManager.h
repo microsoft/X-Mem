@@ -53,11 +53,12 @@ namespace xmem {
 			/**
 			 * @brief Constructor.
 			 * @param working_set_size Total memory to test in bytes on each NUMA node. The BenchmarkManager will try to allocate them by itself.
+			 * @param num_worker_threads Number of worker threads to use in throughput benchmarks, loaded latency benchmarks, and stress tests.
 			 * @param iterations_per_benchmark Number of passes to run for each individual benchmark.
 			 * @param output_to_file If true, write to file specified by results_filename.
 			 * @param results_filename Filename to write results to if output_to_file is true.
 			 */
-			BenchmarkManager(size_t working_set_size, uint32_t iterations_per_benchmark, bool output_to_file, std::string results_filename);
+			BenchmarkManager(size_t working_set_size, uint32_t num_worker_threads, uint32_t iterations_per_benchmark, bool output_to_file, std::string results_filename);
 
 			/**
 			 * @brief Destructor.
