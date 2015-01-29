@@ -45,7 +45,7 @@
 namespace xmem {
 	namespace common {
 
-#define VERSION "1.2.05"
+#define VERSION "1.2.06"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -133,10 +133,10 @@ namespace xmem {
 #define DEFAULT_LARGE_PAGE_SIZE 2*MB /**< Default platform large page size in bytes. This generally should not be relied on, but is a failsafe. */
 #define DEFAULT_WORKING_SET_SIZE_PER_THREAD DEFAULT_PAGE_SIZE /**< Default working set size in bytes. */
 #define DEFAULT_NUM_WORKER_THREADS 1 /**< Default number of worker threads to use. */
-#define DEFAULT_NUM_NODES 1 /**< Default number of NUMA nodes. */
-#define DEFAULT_NUM_PHYSICAL_PACKAGES 1 /**< Default number of physical packages. */
-#define DEFAULT_NUM_PHYSICAL_CPUS 1 /**< Default number of physical CPU cores. */
-#define DEFAULT_NUM_LOGICAL_CPUS 1 /**< Default number of logical CPU cores. */
+#define DEFAULT_NUM_NODES 0 /**< Default number of NUMA nodes. */
+#define DEFAULT_NUM_PHYSICAL_PACKAGES 0 /**< Default number of physical packages. */
+#define DEFAULT_NUM_PHYSICAL_CPUS 0 /**< Default number of physical CPU cores. */
+#define DEFAULT_NUM_LOGICAL_CPUS 0 /**< Default number of logical CPU cores. */
 #define DEFAULT_NUM_L1_CACHES 0 /**< Default number of L1 caches. */
 #define DEFAULT_NUM_L2_CACHES 0 /**< Default number of L2 caches. */
 #define DEFAULT_NUM_L3_CACHES 0 /**< Default number of L3 caches. */
@@ -183,7 +183,7 @@ namespace xmem {
 #define USE_TSC_TIMER /**< RECOMMENDED DISABLED. Use the Intel Time Stamp Counter native hardware timer. Only use this if you know what you are doing. */
 
 #ifdef _WIN32 //DO NOT COMMENT THIS OUT
-#define USE_LARGE_PAGES /**< RECOMMENDED ENABLED. TODO: Currently only implemented correctly for Windows because of lackluster support for large pages in GNU/Linux, and the fact that libhugetlbfs is not NUMA-aware in the way we need. Allocate memory using large pages rather than small normal pages. In general, this is highly recommended, as the TLB can skew benchmark results for DRAM. */
+//#define USE_LARGE_PAGES /**< RECOMMENDED ENABLED. TODO: Currently only implemented correctly for Windows because of lackluster support for large pages in GNU/Linux, and the fact that libhugetlbfs is not NUMA-aware in the way we need. Allocate memory using large pages rather than small normal pages. In general, this is highly recommended, as the TLB can skew benchmark results for DRAM. */
 #endif
 
 //Benchmarking methodology. Only one may be selected!
