@@ -47,22 +47,23 @@ using namespace xmem;
  *	@brief The main entry point to the program.
  */
 int main(int argc, char* argv[]) {
+	common::init_globals();
 	common::print_welcome_message();
 		
-	//Display useful info
-#ifdef VERBOSE
-	common::print_compile_time_options();
-#endif
-
-	if (common::query_sys_info()) {
-		std::cerr << "ERROR occurred while querying CPU information." << std::endl;
-		return -1;
-	}
-
 	config::Configurator config;
 	bool configSuccess = !config.configureFromInput(argc, argv);
 
 	if (configSuccess) {
+		//Display useful info
+#ifdef VERBOSE
+		common::print_compile_time_options();
+#endif
+
+		if (common::query_sys_info()) {
+			std::cerr << "ERROR occurred while querying CPU information." << std::endl;
+			return -1;
+		}
+
 #ifdef VERBOSE
 		common::test_thread_affinities();
 		common::test_timers();

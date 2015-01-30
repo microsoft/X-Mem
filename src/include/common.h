@@ -45,7 +45,7 @@
 namespace xmem {
 	namespace common {
 
-#define VERSION "1.2.07"
+#define VERSION "1.2.08"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -300,6 +300,7 @@ namespace xmem {
 #error POWER_SAMPLING_PERIOD_SEC must be defined and greater than 0!
 #endif
 
+		extern bool g_verbose;
 		extern size_t g_page_size;
 		extern size_t g_large_page_size;
 		extern uint32_t g_num_nodes;
@@ -428,6 +429,11 @@ namespace xmem {
 		 * @returns False if the default value has to be used because the appropriate values could not be queried successfully from the OS.
 		 */
 		bool config_page_size();
+
+		/**
+		 * @brief Initializes useful global variables.
+		 */
+		void init_globals();
 
 		/**
 		 * @brief Sets up global variables based on system information at runtime.

@@ -60,6 +60,7 @@ extern "C" {
 
 namespace xmem {
 	namespace common {
+		bool g_verbose; /**< If true, be more verbose with console reporting. */
 		size_t g_page_size; /**< Default page size on the system, in bytes. */
 //#ifdef USE_LARGE_PAGES
 		size_t g_large_page_size; /**< Large page size on the system, in bytes. */
@@ -393,12 +394,9 @@ size_t xmem::common::compute_number_of_passes(size_t working_set_size_KB) {
 	return passes;
 }
 
-int32_t xmem::common::query_sys_info() {
-	//Initialize to defaults.
-#ifdef VERBOSE
-	std::cout << std::endl;
-	std::cout << "Initializing default system information...";
-#endif
+void xmem::common::init_globals() {
+	//Initialize global variables to defaults.
+	g_verbose = false;
 	g_num_nodes = DEFAULT_NUM_NODES;
 	g_num_physical_packages = DEFAULT_NUM_PHYSICAL_PACKAGES;
 	g_num_physical_cpus = DEFAULT_NUM_PHYSICAL_CPUS;
@@ -411,9 +409,10 @@ int32_t xmem::common::query_sys_info() {
 #ifdef USE_LARGE_PAGES
 	g_large_page_size = DEFAULT_LARGE_PAGE_SIZE; 
 #endif
+}
 
+int32_t xmem::common::query_sys_info() {
 #ifdef VERBOSE
-	std::cout << "done" << std::endl;
 	std::cout << "Querying system information...";
 #endif
 
