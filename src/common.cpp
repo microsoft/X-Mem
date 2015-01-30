@@ -186,18 +186,6 @@ void xmem::common::print_compile_time_options() {
 #ifdef USE_PASSES_CURVE_2
 	std::cout << "USE_PASSES_CURVE_2" << std::endl;
 #endif
-#ifdef USE_CHUNK_32b
-	std::cout << "USE_CHUNK_32b" << std::endl;
-#endif
-#ifdef USE_CHUNK_64b
-	std::cout << "USE_CHUNK_64b" << std::endl;
-#endif
-#ifdef USE_CHUNK_128b
-	std::cout << "USE_CHUNK_128b" << std::endl;
-#endif
-#ifdef USE_CHUNK_256b
-	std::cout << "USE_CHUNK_256b" << std::endl;
-#endif
 #ifdef USE_THROUGHPUT_SEQUENTIAL_PATTERN
 	std::cout << "USE_THROUGHPUT_SEQUENTIAL_PATTERN" << std::endl;
 #endif

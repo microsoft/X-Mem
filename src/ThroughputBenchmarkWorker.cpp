@@ -245,10 +245,20 @@ void ThroughputBenchmarkWorker::run() {
 	elapsed_ticks = stop_tick - start_tick;
 
 	//Time dummy version of function and loop overhead
+#ifdef USE_TSC_TIMER
 	start_tick = xmem::timers::x86_64::start_tsc_timer();
+#endif
+#ifdef USE_QPC_TIMER
+	start_tick = xmem::timers::win::get_qpc_time();
+#endif
 	for (uint64_t p = 0; p < __passes_per_iteration; p++)
 		(*dummy_fptr)(start_address, end_address);
+#ifdef USE_TSC_TIMER
 	stop_tick = xmem::timers::x86_64::stop_tsc_timer();
+#endif
+#ifdef USE_QPC_TIMER
+	stop_tick = xmem::timers::win::get_qpc_time();
+#endif
 	elapsed_dummy_ticks = stop_tick - start_tick;
 #endif
 

@@ -1,7 +1,7 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: Extensible Memory Benchmarking Tool v1.2.06
+X-Mem: Extensible Memory Benchmarking Tool v1.2.07
 ------------------------------------------------------------------------------------------------------------
 
 The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power. 
@@ -10,7 +10,7 @@ Originally authored by Mark Gottscho (Email: <mgottscho@ucla.edu>) as a Summer 2
 
 This project is under active development. Stay tuned for more updates.
 
-PROJECT REVISION DATE: January 28, 2015.
+PROJECT REVISION DATE: January 29, 2015.
 
 ------------------------------------------------------------------------------------------------------------
 LICENSE
@@ -110,41 +110,33 @@ NOTE: On Windows, make sure you run X-Mem with Administrator privileges. This is
 	- Read performance counter data from the OS for reporting power (when applicable)
 	- Elevate thread priority and pin threads to CPUs for improved performance and benchmarking consistency
 
-xmem-<OS> [options]
+USAGE: xmem-<OS> [options]
 
 Options:
-
-    -f, --output_file         Output filename to use. If not specified, no
-                              output file generated.
-
-    -h, --help                Print usage and exit.
-
-    -i, --base_test_index     Numerical index of the first benchmark, for
-                              tracking unique test IDs.
-
-	-j, --num_worker_threads  Number of worker threads to use in benchmarks.
-
-    -l, --latency             Measure memory latency
-
-    -n, --iterations          Iterations per benchmark test
-
-    -t, --throughput          Measure memory throughput.
-
-	-u, --force_uma           Test only CPU/memory NUMA node 0 instead of
-                              all combinations.
-
-    -w, --working_set_size    Working set size in KB per thread.
-	                          This must be a multiple of 4KB.
+    -c, --chunk_size            A chunk size to use for throughput benchmarks,
+                                specified in bits. Allowed values: 32, 64, 128,
+                                and 256. If no chunk sizes specified, use 64-bit
+                                chunks by default. NOTE: Some chunk sizes may
+                                not be supported on your hardware.
+    -f, --output_file           Output filename to use. If not specified, no
+                                output file generated.
+    -h, --help                  Print usage and exit.
+    -i, --base_test_index       Numerical index of the first benchmark, for
+                                tracking unique test IDs.
+    -j, --num_worker_threads    Number of worker threads to use in benchmarks.
+    -l, --latency               Measure memory latency
+    -n, --iterations            Iterations per benchmark test
+    -t, --throughput            Measure memory throughput
+    -u, --force_uma             Test only CPU/memory NUMA node 0 instead of all
+                                combinations.
+    -w, --working_set_size      Working set size per thread in KB. This must be
+                                a multiple of 4KB.
 
 Examples:
-
     xmem --help
-
     xmem -h
-
     xmem -t
-
-    xmem -t --latency -n10 -w524288 -f results.csv -i 101 --numa -j2
+    xmem -t --latency -n10 -w524288 -f results.csv -c32 -c256 -i 101 -u -j2
 
 ------------------------------------------------------------------------------------------------------------
 BUILDING FROM SOURCE

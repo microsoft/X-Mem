@@ -64,12 +64,11 @@ int main(int argc, char* argv[]) {
 
 	if (configSuccess) {
 #ifdef VERBOSE
-		common::print_types_report();
 		common::test_thread_affinities();
 		common::test_timers();
 #endif
 
-		benchmark::BenchmarkManager benchmgr(config.getWorkingSetSizePerThread(), config.getNumWorkerThreads(), config.isNUMAEnabled(), config.getIterationsPerTest(), config.useOutputFile(), config.getOutputFilename());
+		benchmark::BenchmarkManager benchmgr(config.getWorkingSetSizePerThread(), config.getNumWorkerThreads(), config.useChunk32b(), config.useChunk64b(), config.useChunk128b(), config.useChunk256b(), config.isNUMAEnabled(), config.getIterationsPerTest(), config.useOutputFile(), config.getOutputFilename());
 		if (config.throughputTestSelected()) {
 			benchmgr.runThroughputBenchmarks();
 		}

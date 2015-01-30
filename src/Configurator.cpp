@@ -46,6 +46,10 @@ Configurator::Configurator() :
 					__runThroughput(false),
 					__working_set_size_per_thread(DEFAULT_WORKING_SET_SIZE_PER_THREAD),
 					__num_worker_threads(DEFAULT_NUM_WORKER_THREADS),
+					__use_chunk_32b(false),
+					__use_chunk_64b(false),
+					__use_chunk_128b(false),
+					__use_chunk_256b(false),
 					__numa_enabled(true),
 					__iterations(1),
 					__filename(),
@@ -53,11 +57,15 @@ Configurator::Configurator() :
 					{
 }
 
-Configurator::Configurator(bool runLatency, bool runThroughput, size_t working_set_size_per_thread, uint32_t num_worker_threads, bool numa_enabled, uint32_t iterations_per_test, std::string filename, bool use_output_file) :
+Configurator::Configurator(bool runLatency, bool runThroughput, size_t working_set_size_per_thread, uint32_t num_worker_threads, bool use_chunk_32b, bool use_chunk_64b, bool use_chunk_128b, bool use_chunk_256b, bool numa_enabled, uint32_t iterations_per_test, std::string filename, bool use_output_file) :
 					__runLatency(runLatency),
 					__runThroughput(runThroughput),
 					__working_set_size_per_thread(working_set_size_per_thread),
 					__num_worker_threads(num_worker_threads),
+					__use_chunk_32b(use_chunk_32b),
+					__use_chunk_64b(use_chunk_64b),
+					__use_chunk_128b(use_chunk_128b),
+					__use_chunk_256b(use_chunk_256b),
 					__numa_enabled(numa_enabled),
 					__iterations(iterations_per_test),
 					__filename(filename),
@@ -176,13 +184,63 @@ int Configurator::configureFromInput(int argc, char* argv[]) {
 		char* endptr = NULL;
 		__num_worker_threads = static_cast<uint32_t>(strtoul(options[NUM_WORKER_THREADS].arg, &endptr, 10));
 		if (__num_worker_threads > xmem::common::g_num_logical_cpus) {
-			std::cerr << "WARNING: Number of worker threads is greater than the number of logical CPUs. Falling back to the default." << std::endl;
-			__num_worker_threads = DEFAULT_NUM_WORKER_THREADS;
+			std::cerr << "ERROR: Number of worker threads is greater than the number of logical CPUs." << std::endl;
+			
+			//Free up options memory
+			delete[] options;
+			delete[] buffer;
+		
+			return -1;
 		}
 	}
 #ifdef VERBOSE
 	std::cout << "Number of worker threads:  \t";
 	std::cout << __num_worker_threads << std::endl;
+#endif
+
+	//Check chunk sizes
+	if (options[CHUNK_SIZE]) {
+		third_party::Option* curr = options[CHUNK_SIZE];
+		while (curr) { //CHUNK_SIZE may occur more than once, this is perfectly OK.
+			char* endptr = NULL;
+			uint32_t chunk_size = static_cast<uint32_t>(strtoul(curr->arg, &endptr, 10));
+			switch (chunk_size) {
+				case 32:
+					__use_chunk_32b = true;
+					break;
+				case 64:
+					__use_chunk_64b = true;
+					break;
+				case 128: 
+					__use_chunk_128b = true;
+					break;
+				case 256:
+					__use_chunk_256b = true;
+					break;
+				default:
+					std::cerr << "ERROR: Invalid chunk size " << chunk_size << ". Chunk sizes can be 32, 64, 128, or 256 bits." << std::endl;
+					//Free up options memory
+					delete[] options;
+					delete[] buffer;
+				
+					return -1;
+			}
+			curr = curr->next();
+		}
+	} else
+		__use_chunk_64b = true;
+
+#ifdef VERBOSE
+	std::cout << "Chunk sizes:  \t\t\t";
+	if (__use_chunk_32b)
+		std::cout << "32 ";
+	if (__use_chunk_64b)
+		std::cout << "64 ";
+	if (__use_chunk_128b)
+		std::cout << "128 ";
+	if (__use_chunk_256b)
+		std::cout << "256 ";
+	std::cout << std::endl;
 #endif
 
 	//Check NUMA selection
@@ -231,7 +289,7 @@ int Configurator::configureFromInput(int argc, char* argv[]) {
 	return 0;
 }
 
-bool Configurator::__checkSingleOptionOccurrence(third_party::Option* opt) {
+bool Configurator::__checkSingleOptionOccurrence(third_party::Option* opt) const {
 	if (opt->count() > 1) {
 		std::cerr << "WARNING: " << opt->name << " option can only be specified once. Anything but the first specified value will be ignored." << std::endl;
 		return false;

@@ -78,28 +78,57 @@ uint64_t xmem::timers::x86_64::start_tsc_timer() {
 #ifdef _WIN32
 	int32_t dontcare[4];
 	__cpuid(dontcare, 0); //Serializing instruction. This forces all previous instructions to finish
+	return __rdtsc(); //Get clock tick
 #endif
 #ifdef __gnu_linux__
-	int32_t dc0 = 0;
-	int32_t dc1, dc2, dc3, dc4;
+	volatile int32_t dc0 = 0;
+	volatile int32_t dc1, dc2, dc3, dc4;
 	__cpuid(dc0, dc1, dc2, dc3, dc4); //Serializing instruction. This forces all previous instructions to finish
-#endif
 	return __rdtsc(); //Get clock tick
+
+	/*
+	uint32_t low, high;
+	__asm__ __volatile__ (
+		"cpuid\n\t"
+		"rdtsc\n\t"
+		"mov %%eax, %0\n\t"
+		"mov %%edx, %1\n\n"
+		: "=r" (low), "=r" (high)
+		: : "%rax", "%rbx", "%rcx", "%rdx");
+
+	return ((static_cast<uint64_t>(high) << 32) | low);
+	*/
+#endif
 }
 
 uint64_t xmem::timers::x86_64::stop_tsc_timer() {
+#ifdef _WIN32
 	uint64_t tick;
 	uint32_t filler;
-#ifdef _WIN32
 	int32_t dontcare[4];
 	tick = __rdtscp(&filler); //Get clock tick. This is a partially serializing instruction. All previous instructions must finish
 	__cpuid(dontcare, 0); //Fully serializing instruction. We do this to prevent later instructions from being moved inside the timed section
+	return tick;
 #endif
 #ifdef __gnu_linux__
-	int32_t dc0 = 0;
-	int32_t dc1, dc2, dc3, dc4;
+	uint64_t tick;
+	uint32_t filler;
+	volatile int32_t dc0 = 0;
+	volatile int32_t dc1, dc2, dc3, dc4;
 	tick = __rdtscp(&filler); //Get clock tick. This is a partially serializing instruction. All previous instructions must finish
 	__cpuid(dc0, dc1, dc2, dc3, dc4); //Serializing instruction. This forces all previous instructions to finish
-#endif
 	return tick;
+	
+	/*
+	uint32_t low, high;
+	__asm__ __volatile__ (
+		"rdtscp\n\t"
+		"mov %%eax, %0\n\t"
+		"mov %%edx, %1\n\t"
+		"cpuid\n\t"
+		: "=r" (low), "=r" (high)
+		: : "%rax", "%rbx", "%rcx", "%rdx");
+	return ((static_cast<uint64_t>(high) << 32) | low);
+	*/
+#endif
 }

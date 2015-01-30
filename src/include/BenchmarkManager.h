@@ -54,12 +54,16 @@ namespace xmem {
 			 * @brief Constructor.
 			 * @param working_set_size Total memory to test in bytes on each NUMA node. The BenchmarkManager will try to allocate them by itself.
 			 * @param num_worker_threads Number of worker threads to use in throughput benchmarks, loaded latency benchmarks, and stress tests.
+			 * @param use_chunk_32b If true, run benchmarks with 32-bit chunks.
+			 * @param use_chunk_64b If true, run benchmarks with 64-bit chunks.
+			 * @param use_chunk_128b If true, run benchmarks with 128-bit chunks.
+			 * @param use_chunk_256b If true, run benchmarks with 256-bit chunks.
 			 * @param numa_enabled If true, test all combinations of CPU/memory NUMA nodes.
 			 * @param iterations_per_benchmark Number of passes to run for each individual benchmark.
 			 * @param output_to_file If true, write to file specified by results_filename.
 			 * @param results_filename Filename to write results to if output_to_file is true.
 			 */
-			BenchmarkManager(size_t working_set_size, uint32_t num_worker_threads, bool numa_enabled, uint32_t iterations_per_benchmark, bool output_to_file, std::string results_filename);
+			BenchmarkManager(size_t working_set_size, uint32_t num_worker_threads, bool use_chunk_32b, bool use_chunk_64b, bool use_chunk_128b, bool use_chunk_256b, bool numa_enabled, uint32_t iterations_per_benchmark, bool output_to_file, std::string results_filename);
 
 			/**
 			 * @brief Destructor.
@@ -104,6 +108,10 @@ namespace xmem {
 			uint32_t __num_numa_nodes; /**< Number of NUMA nodes in the system. */
 			uint32_t __benchmark_num_numa_nodes; /**< Number of NUMA nodes to use in benchmarks. */
 			uint32_t __num_worker_threads; /**< Number of worker threads to use in each benchmark. */
+			bool __use_chunk_32b; /**< If true, use chunk sizes of 32-bits where applicable. */
+			bool __use_chunk_64b; /**< If true, use chunk sizes of 64-bits where applicable. */
+			bool __use_chunk_128b; /**< If true, use chunk sizes of 128-bits where applicable. */
+			bool __use_chunk_256b; /**< If true, use chunk sizes of 256-bits where applicable. */
 			bool __numa_enabled; /**< If true, test all combinations of CPU/memory NUMA nodes. */
 			std::vector<void*> __mem_arrays; /**< Memory regions to use in benchmarks. One for each benchmarked NUMA node. */
 			std::vector<size_t> __mem_array_lens; /**< Length of each memory region to use in benchmarks. */

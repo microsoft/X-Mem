@@ -45,7 +45,7 @@
 namespace xmem {
 	namespace common {
 
-#define VERSION "1.2.06"
+#define VERSION "1.2.07"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -200,19 +200,6 @@ namespace xmem {
 #define USE_PASSES_CURVE_2 /**< RECOMMENDED ENABLED. The passes per iteration of a benchmark will be given by y = 4*2097152 / working_set_size_KB^2 */
 #endif //DO NOT COMMENT THIS OUT
 
-//Chunk sizes
-#define USE_CHUNK_32b /**< RECOMMENDED DISABLED. Use 32-bit chunks. */
-#ifdef ARCH_INTEL_X86_64 //DO NOT COMMENT THIS OUT
-#define USE_CHUNK_64b /**< RECOMMENDED DISABLED. Use 64-bit chunks. */
-#define USE_CHUNK_128b /**< RECOMMENDED DISABLED. Use 128-bit chunks. x86-64 processors with SSE only. */
-#ifdef ARCH_INTEL_X86_64_AVX //DO NOT COMMENT THIS OUT
-#define USE_CHUNK_256b /**< RECOMMENDED ENABLED. Use 256-bit chunks. x86-64 processors only with AVX ISA extensions. */
-#endif
-#ifdef ARCH_INTEL_X86_64_AVX512 //DO NOT COMMENT THIS OUT
-//#define USE_CHUNK_512b /**< TODO. Not yet implemented. */
-#endif
-#endif //DO NOT COMMENT THIS OUT
-
 //Throughput benchmark access patterns
 #define USE_THROUGHPUT_SEQUENTIAL_PATTERN /**< RECOMMENDED ENABLED. Run the sequential family pattern of ThroughputBenchmarks. */
 //#define USE_THROUGHPUT_RANDOM_PATTERN /**< RECOMMENDED DISABLED. Run the random-access family pattern of ThroughputBenchmarks. TODO: Not yet implemented. */
@@ -220,21 +207,17 @@ namespace xmem {
 #ifdef USE_THROUGHPUT_SEQUENTIAL_PATTERN //DO NOT COMMENT THIS OUT
 //Throughput benchmark forward strides
 #define USE_THROUGHPUT_FORW_STRIDE_1 /**< RECOMMENDED ENABLED. In throughput benchmarks with sequential pattern, do forward strides of 1 chunk (forward sequential). */
-#ifndef _WIN32 //TODO: implement strided throughput benchmarks for 128 and 256-bit modes on Windows.
-#define USE_THROUGHPUT_FORW_STRIDE_2 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 2 chunks. */
-#define USE_THROUGHPUT_FORW_STRIDE_4 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 4 chunks. */
-#define USE_THROUGHPUT_FORW_STRIDE_8 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 8 chunks. */
-#define USE_THROUGHPUT_FORW_STRIDE_16 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 16 chunks. */
-#endif
+//#define USE_THROUGHPUT_FORW_STRIDE_2 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 2 chunks. */
+//#define USE_THROUGHPUT_FORW_STRIDE_4 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 4 chunks. */
+//#define USE_THROUGHPUT_FORW_STRIDE_8 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 8 chunks. */
+//#define USE_THROUGHPUT_FORW_STRIDE_16 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 16 chunks. */
 
 //Throughput benchmark reverse strides
 #define USE_THROUGHPUT_REV_STRIDE_1 /**< RECOMMENDED ENABLED. In throughput benchmarks with sequential pattern, do reverse strides of 1 chunk (reverse sequential). */
-#ifndef _WIN32 //TODO: implement strided throughput benchmarks for 128 and 256-bit modes on Windows.
-#define USE_THROUGHPUT_REV_STRIDE_2 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 2 chunks. */
-#define USE_THROUGHPUT_REV_STRIDE_4 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 4 chunks. */
-#define USE_THROUGHPUT_REV_STRIDE_8 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 8 chunks. */
-#define USE_THROUGHPUT_REV_STRIDE_16 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 16 chunks. */
-#endif 
+//#define USE_THROUGHPUT_REV_STRIDE_2 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 2 chunks. */
+//#define USE_THROUGHPUT_REV_STRIDE_4 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 4 chunks. */
+//#define USE_THROUGHPUT_REV_STRIDE_8 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 8 chunks. */
+//#define USE_THROUGHPUT_REV_STRIDE_16 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 16 chunks. */
 #endif //DO NOT COMMENT THIS OUT
 
 //Throughput benchmark reads and writes
@@ -289,10 +272,6 @@ namespace xmem {
 #if (defined(USE_PASSES_CURVE_1) && defined(USE_PASSES_CURVE_2)) || (!defined(USE_PASSES_CURVE_1) && !defined(USE_PASSES_CURVE_2))
 #error Exactly one passes curve must be defined.
 #endif
-#endif
-
-#if !defined(USE_CHUNK_32b) && !defined(USE_CHUNK_64b) && !defined(USE_CHUNK_128b) && !defined(USE_CHUNK_256b)
-#error At least one chunk size compile-time option must be selected!
 #endif
 
 #if !defined (USE_THROUGHPUT_SEQUENTIAL_PATTERN) && !defined(USE_THROUGHPUT_RANDOM_PATTERN)
@@ -368,18 +347,10 @@ namespace xmem {
 		 * @brief Legal memory read/write chunk sizes in bits.
 		 */
 		typedef enum {
-#ifdef USE_CHUNK_32b
 			CHUNK_32b,
-#endif
-#ifdef USE_CHUNK_64b
 			CHUNK_64b,
-#endif
-#ifdef USE_CHUNK_128b
 			CHUNK_128b,
-#endif
-#ifdef USE_CHUNK_256b
 			CHUNK_256b,
-#endif
 			NUM_CHUNK_SIZES
 		} chunk_size_t;
 
