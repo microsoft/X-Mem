@@ -45,7 +45,7 @@
 namespace xmem {
 	namespace common {
 
-#define VERSION "1.2.02"
+#define VERSION "1.2.08"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -131,7 +131,8 @@ namespace xmem {
 //Default compile-time constants
 #define DEFAULT_PAGE_SIZE 4*KB /**< Default platform page size in bytes. This generally should not be relied on, but is a failsafe. */
 #define DEFAULT_LARGE_PAGE_SIZE 2*MB /**< Default platform large page size in bytes. This generally should not be relied on, but is a failsafe. */
-#define DEFAULT_WORKING_SET_SIZE DEFAULT_PAGE_SIZE /**< Default working set size in bytes. */
+#define DEFAULT_WORKING_SET_SIZE_PER_THREAD DEFAULT_PAGE_SIZE /**< Default working set size in bytes. */
+#define DEFAULT_NUM_WORKER_THREADS 1 /**< Default number of worker threads to use. */
 #define DEFAULT_NUM_NODES 0 /**< Default number of NUMA nodes. */
 #define DEFAULT_NUM_PHYSICAL_PACKAGES 0 /**< Default number of physical packages. */
 #define DEFAULT_NUM_PHYSICAL_CPUS 0 /**< Default number of physical CPU cores. */
@@ -177,16 +178,12 @@ namespace xmem {
 
 #define VERBOSE /**< Increases console output information detail by a lot. */
 
-#define USE_ALL_NUMA_NODES /**< RECOMMENDED ENABLED. Test all NUMA node combinations for CPU and memory. If disabled, only node 0 is used for both CPU and memory. */
-
-#define MULTITHREADING_ENABLE /**< RECOMMENDED ENABLED. Use multiple threads for benchmarks wherever applicable. Note that power measurement is always done with multiple threads separate from the benchmarking threads, regardless if this option is set or not. */
-
 //Which timer to use in the benchmarks. Only one may be selected!
 //#define USE_QPC_TIMER /**< RECOMMENDED ENABLED. WINDOWS ONLY. Use the Windows QueryPerformanceCounter timer API. This is a safe bet as it is more hardware-agnostic and has fewer quirks, but it has lower resolution than the TSC timer. */
 #define USE_TSC_TIMER /**< RECOMMENDED DISABLED. Use the Intel Time Stamp Counter native hardware timer. Only use this if you know what you are doing. */
 
 #ifdef _WIN32 //DO NOT COMMENT THIS OUT
-#define USE_LARGE_PAGES /**< RECOMMENDED ENABLED. TODO: Currently only implemented correctly for Windows because of lackluster support for large pages in GNU/Linux, and the fact that libhugetlbfs is not NUMA-aware in the way we need. Allocate memory using large pages rather than small normal pages. In general, this is highly recommended, as the TLB can skew benchmark results for DRAM. */
+//#define USE_LARGE_PAGES /**< RECOMMENDED ENABLED. TODO: Currently only implemented correctly for Windows because of lackluster support for large pages in GNU/Linux, and the fact that libhugetlbfs is not NUMA-aware in the way we need. Allocate memory using large pages rather than small normal pages. In general, this is highly recommended, as the TLB can skew benchmark results for DRAM. */
 #endif
 
 //Benchmarking methodology. Only one may be selected!
@@ -203,19 +200,6 @@ namespace xmem {
 #define USE_PASSES_CURVE_2 /**< RECOMMENDED ENABLED. The passes per iteration of a benchmark will be given by y = 4*2097152 / working_set_size_KB^2 */
 #endif //DO NOT COMMENT THIS OUT
 
-//Chunk sizes
-#define USE_CHUNK_32b /**< RECOMMENDED DISABLED. Use 32-bit chunks. */
-#ifdef ARCH_INTEL_X86_64 //DO NOT COMMENT THIS OUT
-#define USE_CHUNK_64b /**< RECOMMENDED DISABLED. Use 64-bit chunks. */
-#define USE_CHUNK_128b /**< RECOMMENDED DISABLED. Use 128-bit chunks. x86-64 processors with SSE only. */
-#ifdef ARCH_INTEL_X86_64_AVX //DO NOT COMMENT THIS OUT
-#define USE_CHUNK_256b /**< RECOMMENDED ENABLED. Use 256-bit chunks. x86-64 processors only with AVX ISA extensions. */
-#endif
-#ifdef ARCH_INTEL_X86_64_AVX512 //DO NOT COMMENT THIS OUT
-//#define USE_CHUNK_512b /**< TODO. Not yet implemented. */
-#endif
-#endif //DO NOT COMMENT THIS OUT
-
 //Throughput benchmark access patterns
 #define USE_THROUGHPUT_SEQUENTIAL_PATTERN /**< RECOMMENDED ENABLED. Run the sequential family pattern of ThroughputBenchmarks. */
 //#define USE_THROUGHPUT_RANDOM_PATTERN /**< RECOMMENDED DISABLED. Run the random-access family pattern of ThroughputBenchmarks. TODO: Not yet implemented. */
@@ -223,21 +207,17 @@ namespace xmem {
 #ifdef USE_THROUGHPUT_SEQUENTIAL_PATTERN //DO NOT COMMENT THIS OUT
 //Throughput benchmark forward strides
 #define USE_THROUGHPUT_FORW_STRIDE_1 /**< RECOMMENDED ENABLED. In throughput benchmarks with sequential pattern, do forward strides of 1 chunk (forward sequential). */
-#ifndef _WIN32 //TODO: implement strided throughput benchmarks for 128 and 256-bit modes on Windows.
-#define USE_THROUGHPUT_FORW_STRIDE_2 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 2 chunks. */
-#define USE_THROUGHPUT_FORW_STRIDE_4 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 4 chunks. */
-#define USE_THROUGHPUT_FORW_STRIDE_8 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 8 chunks. */
-#define USE_THROUGHPUT_FORW_STRIDE_16 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 16 chunks. */
-#endif
+//#define USE_THROUGHPUT_FORW_STRIDE_2 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 2 chunks. */
+//#define USE_THROUGHPUT_FORW_STRIDE_4 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 4 chunks. */
+//#define USE_THROUGHPUT_FORW_STRIDE_8 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 8 chunks. */
+//#define USE_THROUGHPUT_FORW_STRIDE_16 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 16 chunks. */
 
 //Throughput benchmark reverse strides
 #define USE_THROUGHPUT_REV_STRIDE_1 /**< RECOMMENDED ENABLED. In throughput benchmarks with sequential pattern, do reverse strides of 1 chunk (reverse sequential). */
-#ifndef _WIN32 //TODO: implement strided throughput benchmarks for 128 and 256-bit modes on Windows.
-#define USE_THROUGHPUT_REV_STRIDE_2 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 2 chunks. */
-#define USE_THROUGHPUT_REV_STRIDE_4 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 4 chunks. */
-#define USE_THROUGHPUT_REV_STRIDE_8 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 8 chunks. */
-#define USE_THROUGHPUT_REV_STRIDE_16 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 16 chunks. */
-#endif 
+//#define USE_THROUGHPUT_REV_STRIDE_2 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 2 chunks. */
+//#define USE_THROUGHPUT_REV_STRIDE_4 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 4 chunks. */
+//#define USE_THROUGHPUT_REV_STRIDE_8 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 8 chunks. */
+//#define USE_THROUGHPUT_REV_STRIDE_16 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 16 chunks. */
 #endif //DO NOT COMMENT THIS OUT
 
 //Throughput benchmark reads and writes
@@ -294,10 +274,6 @@ namespace xmem {
 #endif
 #endif
 
-#if !defined(USE_CHUNK_32b) && !defined(USE_CHUNK_64b) && !defined(USE_CHUNK_128b) && !defined(USE_CHUNK_256b)
-#error At least one chunk size compile-time option must be selected!
-#endif
-
 #if !defined (USE_THROUGHPUT_SEQUENTIAL_PATTERN) && !defined(USE_THROUGHPUT_RANDOM_PATTERN)
 #error At least one throughput pattern compile-time option must be set!
 #endif
@@ -324,6 +300,7 @@ namespace xmem {
 #error POWER_SAMPLING_PERIOD_SEC must be defined and greater than 0!
 #endif
 
+		extern bool g_verbose;
 		extern size_t g_page_size;
 		extern size_t g_large_page_size;
 		extern uint32_t g_num_nodes;
@@ -371,18 +348,10 @@ namespace xmem {
 		 * @brief Legal memory read/write chunk sizes in bits.
 		 */
 		typedef enum {
-#ifdef USE_CHUNK_32b
 			CHUNK_32b,
-#endif
-#ifdef USE_CHUNK_64b
 			CHUNK_64b,
-#endif
-#ifdef USE_CHUNK_128b
 			CHUNK_128b,
-#endif
-#ifdef USE_CHUNK_256b
 			CHUNK_256b,
-#endif
 			NUM_CHUNK_SIZES
 		} chunk_size_t;
 
@@ -460,6 +429,11 @@ namespace xmem {
 		 * @returns False if the default value has to be used because the appropriate values could not be queried successfully from the OS.
 		 */
 		bool config_page_size();
+
+		/**
+		 * @brief Initializes useful global variables.
+		 */
+		void init_globals();
 
 		/**
 		 * @brief Sets up global variables based on system information at runtime.

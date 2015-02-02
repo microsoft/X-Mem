@@ -99,7 +99,6 @@ ThroughputBenchmark::ThroughputBenchmark(
 #ifdef USE_THROUGHPUT_READS
 				case READ:
 					switch (_chunk_size) {
-#ifdef USE_CHUNK_32b
 						case CHUNK_32b:
 							switch (__stride_size) {
 #ifdef USE_THROUGHPUT_FORW_STRIDE_1
@@ -168,8 +167,6 @@ ThroughputBenchmark::ThroughputBenchmark(
 									break;
 							}
 							break;
-#endif
-#ifdef USE_CHUNK_64b
 						case CHUNK_64b:
 							switch (__stride_size) {
 #ifdef USE_THROUGHPUT_FORW_STRIDE_1
@@ -238,8 +235,6 @@ ThroughputBenchmark::ThroughputBenchmark(
 									break;
 							}
 							break;
-#endif
-#ifdef USE_CHUNK_128b
 						case CHUNK_128b:
 							switch (__stride_size) {
 #ifdef USE_THROUGHPUT_FORW_STRIDE_1
@@ -308,8 +303,6 @@ ThroughputBenchmark::ThroughputBenchmark(
 									break;
 							}
 							break;
-#endif
-#ifdef USE_CHUNK_256b
 						case CHUNK_256b:
 							switch (__stride_size) {
 #ifdef USE_THROUGHPUT_FORW_STRIDE_1
@@ -390,7 +383,6 @@ ThroughputBenchmark::ThroughputBenchmark(
 #ifdef USE_THROUGHPUT_WRITES
 				case WRITE:
 					switch (_chunk_size) {
-#ifdef USE_CHUNK_32b
 						case CHUNK_32b:
 							switch (__stride_size) {
 #ifdef USE_THROUGHPUT_FORW_STRIDE_1
@@ -459,8 +451,6 @@ ThroughputBenchmark::ThroughputBenchmark(
 									break;
 							}
 							break;
-#endif
-#ifdef USE_CHUNK_64b
 						case CHUNK_64b:
 							switch (__stride_size) {
 #ifdef USE_THROUGHPUT_FORW_STRIDE_1
@@ -529,8 +519,6 @@ ThroughputBenchmark::ThroughputBenchmark(
 									break;
 							}
 							break;
-#endif
-#ifdef USE_CHUNK_128b
 						case CHUNK_128b:
 							switch (__stride_size) {
 #ifdef USE_THROUGHPUT_FORW_STRIDE_1
@@ -599,8 +587,6 @@ ThroughputBenchmark::ThroughputBenchmark(
 									break;
 							}
 							break;
-#endif
-#ifdef USE_CHUNK_256b
 						case CHUNK_256b:
 							switch (__stride_size) {
 #ifdef USE_THROUGHPUT_FORW_STRIDE_1
@@ -669,7 +655,6 @@ ThroughputBenchmark::ThroughputBenchmark(
 									break;
 							}
 							break;
-#endif
 
 						default:
 							std::cerr << "Got an invalid ThroughputBenchmark configuration." << std::endl;
@@ -685,37 +670,28 @@ ThroughputBenchmark::ThroughputBenchmark(
 			}
 			break;
 #endif
-#endif
 #ifdef USE_THROUGHPUT_RANDOM_PATTERN
 		case RANDOM:
 			switch (__rw_mode) {
 #ifdef USE_THROUGHPUT_READS
 				case READ:
 					switch (_chunk_size) {
-#ifdef USE_CHUNK_32b
 						case CHUNK_32b: 
 							__bench_fptr = &randomRead_Word32;
 							__dummy_fptr = &dummy_randomLoop_Word32;
 							break;
-#endif
-#ifdef USE_CHUNK_64b
 						case CHUNK_64b:
 							__bench_fptr = &randomRead_Word64;
 							__dummy_fptr = &dummy_randomLoop_Word64;
 							break;
-#endif
-#ifdef USE_CHUNK_128b
 						case CHUNK_128b:
 							__bench_fptr = &randomRead_Word128;
 							__dummy_fptr = &dummy_randomLoop_Word128;
 							break;
-#endif
-#ifdef USE_CHUNK_256b
 						case CHUNK_256b:
 							__bench_fptr = &randomRead_Word256;
 							__dummy_fptr = &dummy_randomLoop_Word256;
 							break;
-#endif
 
 						default:
 							std::cerr << "Got an invalid ThroughputBenchmark configuration." << std::endl;
@@ -727,30 +703,22 @@ ThroughputBenchmark::ThroughputBenchmark(
 #ifdef USE_THROUGHPUT_WRITES				
 				case WRITE:
 					switch (_chunk_size) {
-#ifdef USE_CHUNK_32b
 						case CHUNK_32b:
 							__bench_fptr = &randomWrite_Word32;
 							__dummy_fptr = &dummy_randomLoop_Word32;
 							break;
-#endif
-#ifdef USE_CHUNK_64b
 						case CHUNK_64b:
 							__bench_fptr = &randomWrite_Word64;
 							__dummy_fptr = &dummy_randomLoop_Word64;
 							break;
-#endif
-#ifdef USE_CHUNK_128b
 						case CHUNK_128b:
 							__bench_fptr = &randomWrite_Word128;
 							__dummy_fptr = &dummy_randomLoop_Word128;
 							break;
-#endif
-#ifdef USE_CHUNK_256b
 						case CHUNK_256b:
 							__bench_fptr = &randomWrite_Word256;
 							__dummy_fptr = &dummy_randomLoop_Word256;
 							break;
-#endif
 						default:
 							std::cerr << "Got an invalid ThroughputBenchmark configuration." << std::endl;
 							__obj_valid = false;
@@ -782,26 +750,18 @@ void ThroughputBenchmark::report_benchmark_info() {
 	std::cout << "Memory NUMA Node: " << _mem_node << std::endl;
 	std::cout << "Chunk Size: ";
 	switch (_chunk_size) {
-#ifdef USE_CHUNK_32b
 		case CHUNK_32b:
 			std::cout << "32-bit";
 			break;
-#endif
-#ifdef USE_CHUNK_64b
 		case CHUNK_64b:
 			std::cout << "64-bit";
 			break;
-#endif
-#ifdef USE_CHUNK_128b
 		case CHUNK_128b:
 			std::cout << "128-bit";
 			break;
-#endif
-#ifdef USE_CHUNK_256b
 		case CHUNK_256b:
 			std::cout << "256-bit";
 			break;
-#endif
 		default:
 			std::cout << "UNKNOWN";
 			break;
@@ -1009,26 +969,18 @@ bool ThroughputBenchmark::__buildRandomPointerPermutation() {
 	size_t num_pointers = 0; //Number of pointers that fit into the memory region
 	
 	switch (_chunk_size) {
-#ifdef USE_CHUNK_32b
 		case CHUNK_32b:
 			num_pointers = _len / sizeof(Word32_t);
 			break;
-#endif
-#ifdef USE_CHUNK_64b
 		case CHUNK_64b:
 			num_pointers = _len / sizeof(Word64_t);
 			break;
-#endif
-#ifdef USE_CHUNK_128b
 		case CHUNK_128b:
 			num_pointers = _len / sizeof(Word128_t);
 			break;
-#endif
-#ifdef USE_CHUNK_256b
 		case CHUNK_256b:
 			num_pointers = _len / sizeof(Word256_t);
 			break;
-#endif
 		default:
 			std::cerr << "ERROR! Got illegal chunk size when building random access pattern." << std::endl;
 			return false;

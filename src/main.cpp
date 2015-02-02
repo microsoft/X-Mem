@@ -47,29 +47,29 @@ using namespace xmem;
  *	@brief The main entry point to the program.
  */
 int main(int argc, char* argv[]) {
+	common::init_globals();
 	common::print_welcome_message();
 		
-	//Display useful info
-#ifdef VERBOSE
-	common::print_compile_time_options();
-#endif
-
-	if (common::query_sys_info()) {
-		std::cerr << "ERROR occurred while querying CPU information." << std::endl;
-		return -1;
-	}
-
 	config::Configurator config;
 	bool configSuccess = !config.configureFromInput(argc, argv);
 
 	if (configSuccess) {
+		//Display useful info
 #ifdef VERBOSE
-		common::print_types_report();
+		common::print_compile_time_options();
+#endif
+
+		if (common::query_sys_info()) {
+			std::cerr << "ERROR occurred while querying CPU information." << std::endl;
+			return -1;
+		}
+
+#ifdef VERBOSE
 		common::test_thread_affinities();
 		common::test_timers();
 #endif
 
-		benchmark::BenchmarkManager benchmgr(config.getWorkingSetSize(), config.getIterationsPerTest(), config.useOutputFile(), config.getOutputFilename());
+		benchmark::BenchmarkManager benchmgr(config.getWorkingSetSizePerThread(), config.getNumWorkerThreads(), config.useChunk32b(), config.useChunk64b(), config.useChunk128b(), config.useChunk256b(), config.isNUMAEnabled(), config.getIterationsPerTest(), config.useOutputFile(), config.getOutputFilename());
 		if (config.throughputTestSelected()) {
 			benchmgr.runThroughputBenchmarks();
 		}

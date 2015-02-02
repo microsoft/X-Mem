@@ -1,4 +1,12 @@
-# Microsoft build stuff
+# X-Mem Stuff
+xmem-linux
+xmem-win.exe
+
+# SCons build stuff
+.sconsign.dblite
+build/
+
+# Microsoft Visual Studio build stuff
 x64/
 Release/
 Debug/
@@ -6,10 +14,6 @@ vc120.pdb
 *.suo
 *.sdf
 *.opensdf
-
-# SCons build stuff
-.sconsign.dblite
-build/
 
 # Doxygen
 doc/
