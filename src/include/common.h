@@ -45,7 +45,7 @@
 namespace xmem {
 	namespace common {
 
-#define VERSION "1.2.08"
+#define VERSION "1.2.09"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -175,8 +175,6 @@ namespace xmem {
  *  Feel free to change these as needed. To disable an option, simply comment out its #define statement. To enable an option, ensure it is not commented out.
  *	In some cases, such as chunk size, stride size, etc. for throughput benchmarks, all combinations of the options will be used! This might dramatically increase runtime.
  */
-
-#define VERBOSE /**< Increases console output information detail by a lot. */
 
 //Which timer to use in the benchmarks. Only one may be selected!
 //#define USE_QPC_TIMER /**< RECOMMENDED ENABLED. WINDOWS ONLY. Use the Windows QueryPerformanceCounter timer API. This is a safe bet as it is more hardware-agnostic and has fewer quirks, but it has lower resolution than the TSC timer. */
@@ -356,8 +354,8 @@ namespace xmem {
 		} chunk_size_t;
 
 		/**
-		 * @brief Prints a basic welcome message to the console with useful information.
-		 */
+		* @brief Prints a basic welcome message to the console with useful information.
+		*/
 		void print_welcome_message();
 
 		/**

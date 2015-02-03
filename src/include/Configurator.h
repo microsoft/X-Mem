@@ -55,6 +55,7 @@ namespace xmem {
 			ITERATIONS,
 			MEAS_THROUGHPUT,
 			NUMA_DISABLE,
+			VERBOSE,
 			WORKING_SET_SIZE_PER_THREAD
 		};
 
@@ -72,7 +73,8 @@ namespace xmem {
 			{ MEAS_LATENCY, 0, "l", "latency", third_party::Arg::None, "    -l, --latency    \tMeasure memory latency" },
 			{ ITERATIONS, 0, "n", "iterations", third_party::MyArg::PositiveInteger, "    -n, --iterations    \tIterations per benchmark test" },
 			{ MEAS_THROUGHPUT, 0, "t", "throughput", third_party::Arg::None, "    -t, --throughput    \tMeasure memory throughput" },
-			{ NUMA_DISABLE, 1, "u", "force_uma", third_party::Arg::None, "    -u, --force_uma    \tTest only CPU/memory NUMA node 0 instead of all combinations." },
+			{ NUMA_DISABLE, 0, "u", "force_uma", third_party::Arg::None, "    -u, --force_uma    \tTest only CPU/memory NUMA node 0 instead of all combinations." },
+			{ VERBOSE, 0, "v", "verbose", third_party::Arg::None, "    -v, --verbose    \tVerbose mode, increase detail in X-Mem console reporting." },
 			{ WORKING_SET_SIZE_PER_THREAD, 0, "w", "working_set_size_per_thread", third_party::MyArg::PositiveInteger, "    -w, --working_set_size    \tWorking set size per thread in KB. This must be a multiple of 4KB." },
 			{ UNKNOWN, 0, "", "", third_party::Arg::None, "\nExamples:\n"
 			"    xmem --help\n"
@@ -107,8 +109,23 @@ namespace xmem {
 			 * @param iterations_per_test For each unique benchmark test, this is the number of times to repeat it.
 			 * @param filename Output filename to use.
 			 * @param use_output_file If true, use the provided output filename.
+			 * @param verbose If true, then X-Mem should be more verbose in its console reporting.
 			 */
-			Configurator(bool runLatency, bool runThroughput, size_t working_set_size_per_thread, uint32_t num_worker_threads, bool use_chunk_32b, bool use_chunk_64b, bool use_chunk_128b, bool use_chunk_256b, bool numa_enable, uint32_t iterations_per_test, std::string filename, bool use_output_file);
+			Configurator(
+				bool runLatency,
+				bool runThroughput,
+				size_t working_set_size_per_thread,
+				uint32_t num_worker_threads,
+				bool use_chunk_32b,
+				bool use_chunk_64b,
+				bool use_chunk_128b,
+				bool use_chunk_256b,
+				bool numa_enable,
+				uint32_t iterations_per_test,
+				std::string filename,
+				bool use_output_file,
+				bool verbose
+			);
 
 			/**
 			 * @brief Configures the tool based on user's command-line inputs.
@@ -190,6 +207,18 @@ namespace xmem {
 			 */
 			bool useOutputFile() const { return __use_output_file; }
 
+			/**
+			 * @brief Changes whether an output file should be used.
+			 * @param use If true, then use the output file.
+			 */
+			void setUseOutputFile(bool use) { __use_output_file = use; }
+
+			/** 
+			 * @brief Determines whether X-Mem is in verbose mode.
+			 * @returns True if verbose mode is enabled.
+			 */
+			bool verboseMode() const { return __verbose; }
+
 		private:
 			/**
 			 * @brief Inspects a command line option (switch) to see if it occurred more than once, and warns the user if this is the case. The program only uses the first occurrence of any switch.
@@ -210,6 +239,7 @@ namespace xmem {
 			uint32_t __iterations; /**< Number of iterations to run for each benchmark test. */
 			std::string __filename; /**< The output filename if applicable. */
 			bool __use_output_file; /**< If true, generate a CSV output file for results. */
+			bool __verbose; /**< If true, then console reporting should be more detailed. */
 		};
 	};
 };

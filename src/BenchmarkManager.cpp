@@ -30,6 +30,7 @@
 //Headers
 #include <BenchmarkManager.h>
 #include <common.h>
+#include <Configurator.h>
 
 #ifdef _WIN32
 #include <win/win_common_third_party.h>
@@ -59,27 +60,21 @@ extern "C" {
 using namespace xmem::benchmark;
 using namespace xmem::common;
 
-BenchmarkManager::BenchmarkManager(size_t working_set_size, uint32_t num_worker_threads, bool use_chunk_32b, bool use_chunk_64b, bool use_chunk_128b, bool use_chunk_256b, bool numa_enabled, uint32_t iterations_per_benchmark, bool output_to_file, std::string results_filename) :
+BenchmarkManager::BenchmarkManager(
+	config::Configurator &config
+	) :
+	__config(config),
 	__num_numa_nodes(g_num_nodes),
 	__benchmark_num_numa_nodes(g_num_nodes),
-	__num_worker_threads(num_worker_threads),
-	__use_chunk_32b(use_chunk_32b),	
-	__use_chunk_64b(use_chunk_64b),	
-	__use_chunk_128b(use_chunk_128b),	
-	__use_chunk_256b(use_chunk_256b),	
-	__numa_enabled(numa_enabled),
 	__mem_arrays(),
 	__mem_array_lens(),
 	__tp_benchmarks(),
 	__lat_benchmarks(),
 	__dram_power_readers(),
 	__timer(),
-	__output_to_file(output_to_file),
-	__results_filename(results_filename),
 	__results_file(),
 	__built_throughput_benchmarks(false),
-	__built_latency_benchmarks(false),
-	__iterations_per_benchmark(iterations_per_benchmark)
+	__built_latency_benchmarks(false)
 	{
 	//Set up DRAM power measurement
 	for (uint32_t i = 0; i < g_num_physical_packages; i++) { //FIXME: this assumes that each physical package has a DRAM power measurement capability
@@ -96,14 +91,14 @@ BenchmarkManager::BenchmarkManager(size_t working_set_size, uint32_t num_worker_
 	}
 
 	//Build working memory regions
-	__setupWorkingSets(working_set_size);
+	__setupWorkingSets(__config.getWorkingSetSizePerThread());
 
 	//Open results file
-	if (__output_to_file) {
-		__results_file.open(__results_filename.c_str(), std::fstream::out);
+	if (__config.useOutputFile()) {
+		__results_file.open(__config.getOutputFilename().c_str(), std::fstream::out);
 		if (!__results_file.is_open()) {
-			__output_to_file = false;
-			std::cerr << "WARNING: Failed to open " << __results_filename << " for writing! No results file will be generated." << std::endl;
+			__config.setUseOutputFile(false);
+			std::cerr << "WARNING: Failed to open " << __config.getOutputFilename() << " for writing! No results file will be generated." << std::endl;
 		}
 
 		//Generate file headers
@@ -151,8 +146,10 @@ BenchmarkManager::~BenchmarkManager() {
 bool BenchmarkManager::runAll() {
 	bool success = true;
 
-	success = success && runThroughputBenchmarks();
-	success = success && runLatencyBenchmarks();
+	if (__config.throughputTestSelected())
+		success = success && runThroughputBenchmarks();
+	if (__config.latencyTestSelected())
+		success = success && runLatencyBenchmarks();
 
 	return success;
 }
@@ -166,10 +163,10 @@ bool BenchmarkManager::runThroughputBenchmarks() {
 		__tp_benchmarks[i]->report_results(); //to console
 		
 		//Write to results file if necessary
-		if (__output_to_file) {
+		if (__config.useOutputFile()) {
 			__results_file << __tp_benchmarks[i]->getName() << ",";
 			__results_file << __tp_benchmarks[i]->getIterations() << ",";
-			__results_file << static_cast<uint64_t>(__tp_benchmarks[i]->getLen() / __num_worker_threads / KB) << ",";
+			__results_file << static_cast<uint64_t>(__tp_benchmarks[i]->getLen() / __config.getNumWorkerThreads() / KB) << ",";
 			__results_file << __tp_benchmarks[i]->getMemNode() << ",";
 			__results_file << __tp_benchmarks[i]->getCPUNode() << ",";
 			pattern_mode_t pattern = __tp_benchmarks[i]->getPatternMode();
@@ -238,9 +235,8 @@ bool BenchmarkManager::runThroughputBenchmarks() {
 		}
 	}
 
-#ifdef VERBOSE
-	std::cout << std::endl << "Done running throughput benchmarks." << std::endl;
-#endif
+	if (g_verbose)
+		std::cout << std::endl << "Done running throughput benchmarks." << std::endl;
 
 	return true;
 }
@@ -254,7 +250,7 @@ bool BenchmarkManager::runLatencyBenchmarks() {
 		__lat_benchmarks[i]->report_results(); //to console
 		
 		//Write to results file if necessary
-		if (__output_to_file) {
+		if (__config.useOutputFile()) {
 			__results_file << __lat_benchmarks[i]->getName() << ",";
 			__results_file << __lat_benchmarks[i]->getIterations() << ",";
 			__results_file << static_cast<uint64_t>(__lat_benchmarks[i]->getLen() / KB) << ",";
@@ -274,16 +270,15 @@ bool BenchmarkManager::runLatencyBenchmarks() {
 		}
 	}
 
-#ifdef VERBOSE
-	std::cout << std::endl << "Done running latency benchmarks." << std::endl;
-#endif
+	if (g_verbose)
+		std::cout << std::endl << "Done running latency benchmarks." << std::endl;
 
 	return true;
 }
 
 void BenchmarkManager::__setupWorkingSets(size_t working_set_size) {
 	//Allocate memory in each NUMA node to be tested
-	if (!__numa_enabled)
+	if (!__config.isNUMAEnabled())
 		__benchmark_num_numa_nodes = 1;
 
 	__mem_arrays.resize(__benchmark_num_numa_nodes);
@@ -295,11 +290,11 @@ void BenchmarkManager::__setupWorkingSets(size_t working_set_size) {
 #ifdef USE_LARGE_PAGES
 		size_t remainder = 0;
 		//For large pages, working set size could be less than a single large page. So let's allocate the right amount of memory, which is the working set size rounded up to nearest large page, which could be more than we actually use.
-		if (__num_worker_threads * working_set_size < g_large_page_size)
+		if (__config.getNumWorkerThreads() * working_set_size < g_large_page_size)
 			allocation_size = g_large_page_size;
 		else { 
-			remainder = (__num_worker_threads * working_set_size) % g_large_page_size;
-			allocation_size = (__num_worker_threads * working_set_size) + remainder;
+			remainder = (__config.getNumWorkerThreads() * working_set_size) % g_large_page_size;
+			allocation_size = (__config.getNumWorkerThreads() * working_set_size) + remainder;
 		}
 		
 #ifdef _WIN32
@@ -324,7 +319,7 @@ void BenchmarkManager::__setupWorkingSets(size_t working_set_size) {
 
 #else //Non-large pages (nominal case)
 		//Under normal (not large-page) operation, working set size is a multiple of regular pages.
-		allocation_size = __num_worker_threads * working_set_size + g_page_size; 
+		allocation_size = __config.getNumWorkerThreads() * working_set_size + g_page_size; 
 #ifdef _WIN32
 		__mem_arrays[numa_node] = VirtualAllocExNuma(GetCurrentProcess(), NULL, allocation_size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE, numa_node); //Windows NUMA allocation. Make the allocation one page bigger than necessary so that we can do alignment.
 #endif
@@ -335,16 +330,16 @@ void BenchmarkManager::__setupWorkingSets(size_t working_set_size) {
 #endif
 		
 		if (__mem_arrays[numa_node] != nullptr)
-			__mem_array_lens[numa_node] = __num_worker_threads * working_set_size;
+			__mem_array_lens[numa_node] = __config.getNumWorkerThreads() * working_set_size;
 		else {
-			std::cerr << "FATAL: Failed to allocate " << allocation_size << " B on NUMA node " << numa_node << " for " << __num_worker_threads << " worker threads." << std::endl;
+			std::cerr << "FATAL: Failed to allocate " << allocation_size << " B on NUMA node " << numa_node << " for " << __config.getNumWorkerThreads() << " worker threads." << std::endl;
 			exit(-1);
 		}
 
-#ifdef VERBOSE
-		std::cout << std::endl;
-		std::cout << "Virtual address for memory on NUMA node " << numa_node << ": " << __mem_arrays[numa_node];
-#endif
+	 	if (g_verbose) {
+			std::cout << std::endl;
+			std::cout << "Virtual address for memory on NUMA node " << numa_node << ": " << __mem_arrays[numa_node];
+		}
 
 		//upwards alignment to page boundary
 #ifdef USE_LARGE_PAGES
@@ -356,28 +351,28 @@ void BenchmarkManager::__setupWorkingSets(size_t working_set_size) {
 		uintptr_t aligned_addr = (tmp_ptr + mask) & ~mask; //add one page to the address, then truncate least significant bits of address to be page aligned.
 		__mem_arrays[numa_node] = reinterpret_cast<void*>(aligned_addr); 
 
-#ifdef VERBOSE
-		std::cout << " ---- ALIGNED ----> " << __mem_arrays[numa_node] << std::endl;
-		std::cout << std::endl;
-#endif
+		if (g_verbose) {
+			std::cout << " ---- ALIGNED ----> " << __mem_arrays[numa_node] << std::endl;
+			std::cout << std::endl;
+		}
 	}
 }
 
 void BenchmarkManager::__buildThroughputBenchmarks() {
-#ifdef VERBOSE
-	std::cout << std::endl;
-	std::cout << "Generating throughput benchmarks." << std::endl;
-#endif
+	if (g_verbose)  {
+		std::cout << std::endl;
+		std::cout << "Generating throughput benchmarks." << std::endl;
+	}
 
 	//Put the enumerations into vectors to make constructing benchmarks more loopable
 	std::vector<chunk_size_t> chunks;
-	if (__use_chunk_32b)
+	if (__config.useChunk32b())
 		chunks.push_back(static_cast<chunk_size_t>(CHUNK_32b)); 
-	if (__use_chunk_64b)
+	if (__config.useChunk64b())
 		chunks.push_back(static_cast<chunk_size_t>(CHUNK_64b)); 
-	if (__use_chunk_128b)
+	if (__config.useChunk128b())
 		chunks.push_back(static_cast<chunk_size_t>(CHUNK_128b)); 
-	if (__use_chunk_256b)
+	if (__config.useChunk256b())
 		chunks.push_back(static_cast<chunk_size_t>(CHUNK_256b)); 
 
 	std::vector<rw_mode_t> rws;
@@ -430,9 +425,8 @@ void BenchmarkManager::__buildThroughputBenchmarks() {
 	strides[i++] = -16;
 #endif
 
-#ifdef VERBOSE
-	std::cout << std::endl;
-#endif
+	if (g_verbose)
+		std::cout << std::endl;
 
 	std::string benchmark_name;
 	i = 0;
@@ -458,11 +452,11 @@ void BenchmarkManager::__buildThroughputBenchmarks() {
 						__tp_benchmarks.resize(__tp_benchmarks.size()+1);
 						try {
 #ifdef USE_TIME_BASED_BENCHMARKS
-							__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __iterations_per_benchmark, chunk, cpu_node, mem_node, __num_worker_threads, benchmark_name, &__timer, __dram_power_readers, stride, SEQUENTIAL, rw);
+							__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __config.getIterationsPerTest(), chunk, cpu_node, mem_node, __config.getNumWorkerThreads(), benchmark_name, &__timer, __dram_power_readers, stride, SEQUENTIAL, rw);
 #endif
 #ifdef USE_SIZE_BASED_BENCHMARKS
-							size_t passes_per_iteration = compute_number_of_passes((mem_array_len / __num_worker_threads) / KB);
-							__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __iterations_per_benchmark, passes_per_iteration, chunk, cpu_node, mem_node, __num_worker_threads, benchmark_name, &__timer, __dram_power_readers, stride, SEQUENTIAL, rw);
+							size_t passes_per_iteration = compute_number_of_passes((mem_array_len / __config.getNumWorkerThreads()) / KB);
+							__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __config.getIterationsPerTest(), passes_per_iteration, chunk, cpu_node, mem_node, __config.getNumWorkerThreads(), benchmark_name, &__timer, __dram_power_readers, stride, SEQUENTIAL, rw);
 #endif
 						} catch (...) { 
 							std::cerr << "FATAL: Failed to build a ThroughputBenchmark! Terminating." << std::endl;
@@ -488,11 +482,11 @@ void BenchmarkManager::__buildThroughputBenchmarks() {
 					__tp_benchmarks.resize(__tp_benchmarks.size()+1);
 					try {
 #ifdef USE_TIME_BASED_BENCHMARKS
-						__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __iterations_per_benchmark, chunk, cpu_node, mem_node, __num_worker_threads, benchmark_name, &__timer, __dram_power_readers, 0, RANDOM, rw);
+						__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __config.getIterationsPerTest(), chunk, cpu_node, mem_node, __config.getNumWorkerThreads(), benchmark_name, &__timer, __dram_power_readers, 0, RANDOM, rw);
 #endif
 #ifdef USE_SIZE_BASED_BENCHMARKS
-						size_t passes_per_iteration = compute_number_of_passes((mem_array_len / __num_worker_threads) / KB);
-						__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __iterations_per_benchmark, passes_per_iteration, chunk, cpu_node, mem_node, __num_worker_threads, benchmark_name, &__timer, __dram_power_readers, 0, RANDOM, rw);
+						size_t passes_per_iteration = compute_number_of_passes((mem_array_len / __config.getNumWorkerThreads) / KB);
+						__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __config.getIterationsPerTest(), passes_per_iteration, chunk, cpu_node, mem_node, __config.getNumWorkerThreads(), benchmark_name, &__timer, __dram_power_readers, 0, RANDOM, rw);
 #endif
 					} catch (...) { 
 						std::cerr << "FATAL: Failed to build a ThroughputBenchmark! Terminating." << std::endl;
@@ -511,10 +505,10 @@ void BenchmarkManager::__buildThroughputBenchmarks() {
 }
 
 void BenchmarkManager::__buildLatencyBenchmarks() {
-#ifdef VERBOSE
-	std::cout << std::endl;
-	std::cout << "Generating latency benchmarks." << std::endl;
-#endif
+	if (g_verbose) {
+		std::cout << std::endl;
+		std::cout << "Generating latency benchmarks." << std::endl;
+	}
 
 	std::string benchmark_name;
 	uint32_t i = 0;
@@ -531,13 +525,13 @@ void BenchmarkManager::__buildLatencyBenchmarks() {
 			try {
 #ifdef USE_TIME_BASED_BENCHMARKS
 				//FIXME: number of worker threads issue. loaded latency vs unloaded latency
-				__lat_benchmarks[i] = new LatencyBenchmark(mem_array, mem_array_len / __num_worker_threads, __iterations_per_benchmark, cpu_node, mem_node, 1, benchmark_name, &__timer, __dram_power_readers); 
+				__lat_benchmarks[i] = new LatencyBenchmark(mem_array, mem_array_len / __config.getNumWorkerThreads(), __config.getIterationsPerTest(), cpu_node, mem_node, 1, benchmark_name, &__timer, __dram_power_readers); 
 #endif
 #ifdef USE_SIZE_BASED_BENCHMARKS
 				size_t passes_per_iteration = compute_number_of_passes(mem_array_len / KB) / 4;
 				if (passes_per_iteration < 1)
 					passes_per_iteration = 1;
-				__lat_benchmarks[i] = new LatencyBenchmark(mem_array, mem_array_len / __num_worker_threads, __iterations_per_benchmark, passes_per_iteration, cpu_node, mem_node, 1, benchmark_name, &__timer, __dram_power_readers); 
+				__lat_benchmarks[i] = new LatencyBenchmark(mem_array, mem_array_len / __config.getNumWorkerThreads(), __config.getIterationsPerTest(), passes_per_iteration, cpu_node, mem_node, 1, benchmark_name, &__timer, __dram_power_readers); 
 #endif
 			} catch (...) {
 				std::cerr << "FATAL: Failed to build a LatencyBenchmark! Terminating." << std::endl;

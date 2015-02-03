@@ -838,15 +838,14 @@ bool ThroughputBenchmark::__run_core() {
 #endif
 
 	//Start power measurement
-#ifdef VERBOSE
-	std::cout << "Starting power measurement threads...";
-#endif
-	if (!_start_power_threads())
-		std::cout << "FAIL" << std::endl;
-#ifdef VERBOSE
-	else
+	if (g_verbose) 
+		std::cout << "Starting power measurement threads...";
+	if (!_start_power_threads()) {
+		if (g_verbose)
+			std::cout << "FAIL" << std::endl;
+		std::cerr << "WARNING: Failed to start power measurement threads." << std::endl;
+	} else if (g_verbose)
 		std::cout << "done" << std::endl;
-#endif
 
 	//Set up some stuff for worker threads
 	size_t len_per_thread = _len / _num_worker_threads; //TODO: is this what we want?
@@ -854,9 +853,9 @@ bool ThroughputBenchmark::__run_core() {
 	std::vector<thread::Thread*> worker_threads;
 
 	//Do a bunch of iterations of the core benchmark routines
-	#ifdef VERBOSE
+	if (g_verbose)
 		std::cout << "Running benchmark." << std::endl << std::endl;
-	#endif
+
 	for (uint32_t i = 0; i < _iterations; i++) {
 		//Create workers and worker threads
 		workers.reserve(_num_worker_threads);
@@ -905,24 +904,23 @@ bool ThroughputBenchmark::__run_core() {
 
 		avg_adjusted_ticks = total_adjusted_ticks / _num_worker_threads;
 			
-#ifdef VERBOSE
-		//Report duration for this iteration
-		std::cout << "Iter " << i+1 << " had " << total_passes << " passes in total across " << _num_worker_threads << " threads, with " << bytes_per_pass << " bytes touched per pass:";
-		if (iter_warning) std::cout << " -- WARNING";
-		std::cout << std::endl;
+		if (g_verbose ) { //Report duration for this iteration
+			std::cout << "Iter " << i+1 << " had " << total_passes << " passes in total across " << _num_worker_threads << " threads, with " << bytes_per_pass << " bytes touched per pass:";
+			if (iter_warning) std::cout << " -- WARNING";
+			std::cout << std::endl;
 
-		std::cout << "...clock ticks in total across " << _num_worker_threads << " threads == " << total_adjusted_ticks << " (adjusted by -" << total_elapsed_dummy_ticks << ")";
-		if (iter_warning) std::cout << " -- WARNING";
-		std::cout << std::endl;
-		
-		std::cout << "...ns in total across " << _num_worker_threads << " threads == " << total_adjusted_ticks * _timer->get_ns_per_tick() << " (adjusted by -" << total_elapsed_dummy_ticks * _timer->get_ns_per_tick() << ")";
-		if (iter_warning) std::cout << " -- WARNING";
-		std::cout << std::endl;
+			std::cout << "...clock ticks in total across " << _num_worker_threads << " threads == " << total_adjusted_ticks << " (adjusted by -" << total_elapsed_dummy_ticks << ")";
+			if (iter_warning) std::cout << " -- WARNING";
+			std::cout << std::endl;
+			
+			std::cout << "...ns in total across " << _num_worker_threads << " threads == " << total_adjusted_ticks * _timer->get_ns_per_tick() << " (adjusted by -" << total_elapsed_dummy_ticks * _timer->get_ns_per_tick() << ")";
+			if (iter_warning) std::cout << " -- WARNING";
+			std::cout << std::endl;
 
-		std::cout << "...sec in total across " << _num_worker_threads << " threads == " << total_adjusted_ticks * _timer->get_ns_per_tick() / 1e9 << " (adjusted by -" << total_elapsed_dummy_ticks * _timer->get_ns_per_tick() / 1e9 << ")";
-		if (iter_warning) std::cout << " -- WARNING";
-		std::cout << std::endl;
-#endif
+			std::cout << "...sec in total across " << _num_worker_threads << " threads == " << total_adjusted_ticks * _timer->get_ns_per_tick() / 1e9 << " (adjusted by -" << total_elapsed_dummy_ticks * _timer->get_ns_per_tick() / 1e9 << ")";
+			if (iter_warning) std::cout << " -- WARNING";
+			std::cout << std::endl;
+		}
 		
 		//Compute metric for this iteration
 		_metricOnIter[i] = ((static_cast<double>(total_passes) * static_cast<double>(bytes_per_pass)) / static_cast<double>(MB))   /   ((static_cast<double>(avg_adjusted_ticks) * _timer->get_ns_per_tick()) / 1e9);
@@ -938,17 +936,15 @@ bool ThroughputBenchmark::__run_core() {
 		workers.clear();
 	}
 
-	//Stop power measurement
-#ifdef VERBOSE
-	std::cout << std::endl;
-	std::cout << "Stopping power measurement threads...";
-#endif
-	if (!_stop_power_threads())
-		std::cout << "FAIL" << std::endl;
-#ifdef VERBOSE
-	else
+	//Stopping power measurement
+	if (g_verbose) 
+		std::cout << "Stopping power measurement threads...";
+	if (!_stop_power_threads()) {
+		if (g_verbose)
+			std::cout << "FAIL" << std::endl;
+		std::cerr << "WARNING: Failed to stop power measurement threads." << std::endl;
+	} else if (g_verbose)
 		std::cout << "done" << std::endl;
-#endif
 	
 	//Run metadata
 	_averageMetric /= static_cast<double>(_iterations);
@@ -962,9 +958,8 @@ bool ThroughputBenchmark::run() {
 }
 
 bool ThroughputBenchmark::__buildRandomPointerPermutation() {
-#ifdef VERBOSE
-	std::cout << "Preparing memory region under test. This might take a while...";
-#endif
+	if (g_verbose)
+		std::cout << "Preparing memory region under test. This might take a while...";
 	
 	size_t num_pointers = 0; //Number of pointers that fit into the memory region
 	
@@ -1061,10 +1056,10 @@ bool ThroughputBenchmark::__buildRandomPointerPermutation() {
 	std::shuffle(mem_base, mem_base + num_pointers, gen);
 #endif
 
-#ifdef VERBOSE
-	std::cout << "done" << std::endl;
-	std::cout << std::endl;
-#endif
+	if (g_verbose) { 
+		std::cout << "done" << std::endl;
+		std::cout << std::endl;
+	}
 
 	return true;
 }

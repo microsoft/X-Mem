@@ -60,7 +60,7 @@ extern "C" {
 
 namespace xmem {
 	namespace common {
-		bool g_verbose; /**< If true, be more verbose with console reporting. */
+		bool g_verbose = false; /**< If true, be more verbose with console reporting. */
 		size_t g_page_size; /**< Default page size on the system, in bytes. */
 //#ifdef USE_LARGE_PAGES
 		size_t g_large_page_size; /**< Large page size on the system, in bytes. */
@@ -154,9 +154,6 @@ void xmem::common::print_compile_time_options() {
 #endif
 	std::cout << std::endl;
 	std::cout << "This binary was built with the following compile-time options:" << std::endl;
-#ifdef VERBOSE
-	std::cout << "VERBOSE" << std::endl;
-#endif
 #ifdef NDEBUG
 	std::cout << "NDEBUG" << std::endl;
 #endif
@@ -412,9 +409,9 @@ void xmem::common::init_globals() {
 }
 
 int32_t xmem::common::query_sys_info() {
-#ifdef VERBOSE
-	std::cout << "Querying system information...";
-#endif
+	if (g_verbose) {
+		std::cout << "Querying system information...";
+	}
 
 	//Windows only: get logical processor information data structures from OS
 #ifdef _WIN32
@@ -573,30 +570,30 @@ int32_t xmem::common::query_sys_info() {
 #endif
 
 	//Report
-#ifdef VERBOSE
-	std::cout << "done" << std::endl;
-	std::cout << "Number of NUMA nodes: " << g_num_nodes << std::endl;
-	std::cout << "Number of physical processor packages: " << g_num_physical_packages << std::endl;
-	std::cout << "Number of physical processor cores: " << g_num_physical_cpus << std::endl;
-	std::cout << "Number of logical processor cores: " << g_num_logical_cpus << std::endl;
-	std::cout << "Number of processor L1/L2/L3/L4 caches: " 
-		<< g_total_l1_caches
-		<< "/"
-		<< g_total_l2_caches
-		<< "/" 
-		<< g_total_l3_caches
-		<< "/"
-		<< g_total_l4_caches
+	if (g_verbose) {
+		std::cout << "done" << std::endl;
+		std::cout << "Number of NUMA nodes: " << g_num_nodes << std::endl;
+		std::cout << "Number of physical processor packages: " << g_num_physical_packages << std::endl;
+		std::cout << "Number of physical processor cores: " << g_num_physical_cpus << std::endl;
+		std::cout << "Number of logical processor cores: " << g_num_logical_cpus << std::endl;
+		std::cout << "Number of processor L1/L2/L3/L4 caches: " 
+			<< g_total_l1_caches
+			<< "/"
+			<< g_total_l2_caches
+			<< "/" 
+			<< g_total_l3_caches
+			<< "/"
+			<< g_total_l4_caches
 #ifdef __gnu_linux__
-		<< " (guess)"
+			<< " (guess)"
 #endif
-		<< std::endl; 
+			<< std::endl; 
 #ifdef USE_LARGE_PAGES
-	std::cout << "(Large) page size to be used for benchmarks: " << g_large_page_size << " B" << std::endl;
+		std::cout << "(Large) page size to be used for benchmarks: " << g_large_page_size << " B" << std::endl;
 #else
-	std::cout << "(Regular) page size to be used for benchmarks: " << g_page_size << " B" << std::endl;
+		std::cout << "(Regular) page size to be used for benchmarks: " << g_page_size << " B" << std::endl;
 #endif
-#endif
+	}
 
 #ifdef _WIN32
 	if (buffer)

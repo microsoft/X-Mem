@@ -41,36 +41,53 @@
 
 using namespace xmem::config;
 
-Configurator::Configurator() :
-					__runLatency(false),
-					__runThroughput(false),
-					__working_set_size_per_thread(DEFAULT_WORKING_SET_SIZE_PER_THREAD),
-					__num_worker_threads(DEFAULT_NUM_WORKER_THREADS),
-					__use_chunk_32b(false),
-					__use_chunk_64b(false),
-					__use_chunk_128b(false),
-					__use_chunk_256b(false),
-					__numa_enabled(true),
-					__iterations(1),
-					__filename(),
-					__use_output_file(false)
-					{
+Configurator::Configurator(
+	) :
+	__runLatency(false),
+	__runThroughput(false),
+	__working_set_size_per_thread(DEFAULT_WORKING_SET_SIZE_PER_THREAD),
+	__num_worker_threads(DEFAULT_NUM_WORKER_THREADS),
+	__use_chunk_32b(false),
+	__use_chunk_64b(false),
+	__use_chunk_128b(false),
+	__use_chunk_256b(false),
+	__numa_enabled(true),
+	__iterations(1),
+	__filename(),
+	__use_output_file(false),
+	__verbose(false)
+	{
 }
 
-Configurator::Configurator(bool runLatency, bool runThroughput, size_t working_set_size_per_thread, uint32_t num_worker_threads, bool use_chunk_32b, bool use_chunk_64b, bool use_chunk_128b, bool use_chunk_256b, bool numa_enabled, uint32_t iterations_per_test, std::string filename, bool use_output_file) :
-					__runLatency(runLatency),
-					__runThroughput(runThroughput),
-					__working_set_size_per_thread(working_set_size_per_thread),
-					__num_worker_threads(num_worker_threads),
-					__use_chunk_32b(use_chunk_32b),
-					__use_chunk_64b(use_chunk_64b),
-					__use_chunk_128b(use_chunk_128b),
-					__use_chunk_256b(use_chunk_256b),
-					__numa_enabled(numa_enabled),
-					__iterations(iterations_per_test),
-					__filename(filename),
-					__use_output_file(use_output_file)
-					{
+Configurator::Configurator(
+	bool runLatency,
+	bool runThroughput,
+	size_t working_set_size_per_thread,
+	uint32_t num_worker_threads,
+	bool use_chunk_32b,
+	bool use_chunk_64b,
+	bool use_chunk_128b,
+	bool use_chunk_256b,
+	bool numa_enabled,
+	uint32_t iterations_per_test,
+	std::string filename,
+	bool use_output_file,
+	bool verbose
+	) :
+	__runLatency(runLatency),
+	__runThroughput(runThroughput),
+	__working_set_size_per_thread(working_set_size_per_thread),
+	__num_worker_threads(num_worker_threads),
+	__use_chunk_32b(use_chunk_32b),
+	__use_chunk_64b(use_chunk_64b),
+	__use_chunk_128b(use_chunk_128b),
+	__use_chunk_256b(use_chunk_256b),
+	__numa_enabled(numa_enabled),
+	__iterations(iterations_per_test),
+	__filename(filename),
+	__use_output_file(use_output_file),
+	__verbose(verbose)
+	{
 }
 
 int Configurator::configureFromInput(int argc, char* argv[]) {
@@ -172,6 +189,11 @@ int Configurator::configureFromInput(int argc, char* argv[]) {
 	if (options[NUMA_DISABLE])
 		__numa_enabled = false;
 
+	if (options[VERBOSE]) {
+		__verbose = true;
+		common::g_verbose = true;
+	}
+
 	//Check iterations
 	if (options[ITERATIONS]) {
 		if (!__checkSingleOptionOccurrence(&options[ITERATIONS]))
@@ -212,36 +234,37 @@ int Configurator::configureFromInput(int argc, char* argv[]) {
 		goto error;
 
 	//Echo user settings if we are verbose
-#ifdef VERBOSE
-	if (__runLatency)
-		std::cout << "Latency test selected." << std::endl;
-	if (__runThroughput)
-		std::cout << "Latency test selected." << std::endl;
-	std::cout << std::endl << "Working set:  \t\t\t";
+	if (__verbose) {
+		std::cout << "Verbose mode enabled." << std::endl;
+		if (__runLatency)
+			std::cout << "Latency test selected." << std::endl;
+		if (__runThroughput)
+			std::cout << "Throughput test selected." << std::endl;
+		std::cout << std::endl << "Working set:  \t\t\t";
 #ifndef USE_LARGE_PAGES
-	std::cout << __working_set_size_per_thread << " B == " << __working_set_size_per_thread / KB  << " KB == " << __working_set_size_per_thread / MB << " MB (" << __working_set_size_per_thread/(xmem::common::g_page_size) << " pages)" << std::endl;	
+		std::cout << __working_set_size_per_thread << " B == " << __working_set_size_per_thread / KB  << " KB == " << __working_set_size_per_thread / MB << " MB (" << __working_set_size_per_thread/(xmem::common::g_page_size) << " pages)" << std::endl;	
 #else
-	std::cout << __working_set_size_per_thread << " B == " << __working_set_size_per_thread / KB  << " KB == " << __working_set_size_per_thread / MB << " MB (fits in " << num_large_pages << " large pages)" << std::endl;	
+		std::cout << __working_set_size_per_thread << " B == " << __working_set_size_per_thread / KB  << " KB == " << __working_set_size_per_thread / MB << " MB (fits in " << num_large_pages << " large pages)" << std::endl;	
 #endif
-	std::cout << "Number of worker threads:  \t";
-	std::cout << __num_worker_threads << std::endl;
-	std::cout << "Chunk sizes:  \t\t\t";
-	if (__use_chunk_32b)
-		std::cout << "32 ";
-	if (__use_chunk_64b)
-		std::cout << "64 ";
-	if (__use_chunk_128b)
-		std::cout << "128 ";
-	if (__use_chunk_256b)
-		std::cout << "256 ";
-	std::cout << std::endl;
-	if (!__numa_enabled)
-		std::cout << "NUMA enabled:   \t\tno" << std::endl;
-	else
-		std::cout << "NUMA enabled:   \t\tyes" << std::endl;
-	std::cout << "Iterations:  \t\t\t";
-	std::cout << __iterations << std::endl;
-#endif
+		std::cout << "Number of worker threads:  \t";
+		std::cout << __num_worker_threads << std::endl;
+		std::cout << "Chunk sizes:  \t\t\t";
+		if (__use_chunk_32b)
+			std::cout << "32 ";
+		if (__use_chunk_64b)
+			std::cout << "64 ";
+		if (__use_chunk_128b)
+			std::cout << "128 ";
+		if (__use_chunk_256b)
+			std::cout << "256 ";
+		std::cout << std::endl;
+		if (!__numa_enabled)
+			std::cout << "NUMA enabled:   \t\tno" << std::endl;
+		else
+			std::cout << "NUMA enabled:   \t\tyes" << std::endl;
+		std::cout << "Iterations:  \t\t\t";
+		std::cout << __iterations << std::endl;
+	}
 
 	//Free up options memory
 	if (options)

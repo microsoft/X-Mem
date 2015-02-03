@@ -146,27 +146,26 @@ bool LatencyBenchmark::__run_core() {
 #endif
 	
 	//Prime memory
-#ifdef VERBOSE
-	std::cout << "Priming benchmark...";
-#endif
+	if (g_verbose)
+		std::cout << "Priming benchmark...";
 	__primeMemory(4);
-#ifdef VERBOSE
-	std::cout << "done" << std::endl;
+	if (g_verbose)
+		std::cout << "done" << std::endl;
 
 	//Start power measurement
-	std::cout << "Starting power measurement threads...";
-#endif
-	if (!_start_power_threads())
-		std::cout << "FAIL" << std::endl;
-#ifdef VERBOSE
-	else
+	if (g_verbose)
+		std::cout << "Starting power measurement threads...";
+	
+	if (!_start_power_threads()) {
+		if (g_verbose)
+			std::cout << "FAIL" << std::endl;
+		std::cerr << "WARNING: Failed to start power threads." << std::endl;
+	} else if (g_verbose)
 		std::cout << "done" << std::endl;
-#endif
 
 	//Run benchmark
-#ifdef VERBOSE
-	std::cout << "Running benchmark." << std::endl << std::endl;
-#endif
+	if (g_verbose)
+		std::cout << "Running benchmark." << std::endl << std::endl;
 
 	//Do a bunch of iterations of the core benchmark routine
 	uintptr_t* next_address = static_cast<uintptr_t*>(_mem_array);
@@ -224,24 +223,23 @@ bool LatencyBenchmark::__run_core() {
 			_warning = true;
 		}
 	
-#ifdef VERBOSE
-		//Report metrics for this iteration
-		std::cout << "Iter " << i+1 << " had " << passes << " passes, with " << accesses_per_pass << " accesses per pass:";
-		if (iter_warning) std::cout << " -- WARNING";
-		std::cout << std::endl;
+		if (g_verbose) { //Report metrics for this iteration
+			std::cout << "Iter " << i+1 << " had " << passes << " passes, with " << accesses_per_pass << " accesses per pass:";
+			if (iter_warning) std::cout << " -- WARNING";
+			std::cout << std::endl;
 
-		std::cout << "...clock ticks == " << adjusted_ticks << " (adjusted by -" << elapsed_dummy_ticks << ")";
-		if (iter_warning) std::cout << " -- WARNING";
-		std::cout << std::endl;
+			std::cout << "...clock ticks == " << adjusted_ticks << " (adjusted by -" << elapsed_dummy_ticks << ")";
+			if (iter_warning) std::cout << " -- WARNING";
+			std::cout << std::endl;
 
-		std::cout << "...ns == " << adjusted_ticks * _timer->get_ns_per_tick() << " (adjusted by -" << elapsed_dummy_ticks * _timer->get_ns_per_tick() << ")";
-		if (iter_warning) std::cout << " -- WARNING";
-		std::cout << std::endl;
+			std::cout << "...ns == " << adjusted_ticks * _timer->get_ns_per_tick() << " (adjusted by -" << elapsed_dummy_ticks * _timer->get_ns_per_tick() << ")";
+			if (iter_warning) std::cout << " -- WARNING";
+			std::cout << std::endl;
 
-		std::cout << "...sec == " << adjusted_ticks * _timer->get_ns_per_tick() / 1e9 << " (adjusted by -" << elapsed_dummy_ticks * _timer->get_ns_per_tick() / 1e9 << ")";
-		if (iter_warning) std::cout << " -- WARNING";
-		std::cout << std::endl;
-#endif
+			std::cout << "...sec == " << adjusted_ticks * _timer->get_ns_per_tick() / 1e9 << " (adjusted by -" << elapsed_dummy_ticks * _timer->get_ns_per_tick() / 1e9 << ")";
+			if (iter_warning) std::cout << " -- WARNING";
+			std::cout << std::endl;
+		}
 		
 		//Compute metric for this iteration
 		_metricOnIter[i] = static_cast<double>(adjusted_ticks * _timer->get_ns_per_tick())  /  static_cast<double>(passes * num_pointers);
@@ -249,16 +247,17 @@ bool LatencyBenchmark::__run_core() {
 	}
 
 	//Stop power measurement
-#ifdef VERBOSE
-	std::cout << std::endl;
-	std::cout << "Stopping power measurement threads...";
-#endif
-	if (!_stop_power_threads())
-		std::cout << "FAIL" << std::endl;
-#ifdef VERBOSE
-	else
+	if (g_verbose) {
+		std::cout << std::endl;
+		std::cout << "Stopping power measurement threads...";
+	}
+	
+	if (!_stop_power_threads()) {
+		if (g_verbose)
+			std::cout << "FAIL" << std::endl;
+		std::cerr << "WARNING: Failed to stop power measurement threads." << std::endl;
+	} else if (g_verbose)
 		std::cout << "done" << std::endl;
-#endif
 	
 	//Unset processor affinity
 	if (locked)
@@ -286,9 +285,8 @@ bool LatencyBenchmark::run() {
 }
 
 bool LatencyBenchmark::__buildRandomPointerPermutation() {
-#ifdef VERBOSE
-	std::cout << "Preparing memory region under test. This might take a while...";
-#endif
+	if (g_verbose)
+		std::cout << "Preparing memory region under test. This might take a while...";
 	//std::fstream myfile;
 	//myfile.open("test.txt", std::fstream::out);
 	
@@ -368,10 +366,10 @@ bool LatencyBenchmark::__buildRandomPointerPermutation() {
 
 	std::shuffle(mem_base, mem_base + num_pointers, gen);
 #endif
-#ifdef VERBOSE
-	std::cout << "done" << std::endl;
-	std::cout << std::endl;
-#endif
+	if (g_verbose) {
+		std::cout << "done" << std::endl;
+		std::cout << std::endl;
+	}
 
 	return true;
 }

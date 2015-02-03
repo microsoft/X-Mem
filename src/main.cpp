@@ -40,6 +40,7 @@
 
 //Libraries
 #include <iostream>
+#include <string>
 
 using namespace xmem;
 
@@ -55,21 +56,20 @@ int main(int argc, char* argv[]) {
 
 	if (configSuccess) {
 		//Display useful info
-#ifdef VERBOSE
-		common::print_compile_time_options();
-#endif
+		if (common::g_verbose)
+			common::print_compile_time_options();
 
 		if (common::query_sys_info()) {
 			std::cerr << "ERROR occurred while querying CPU information." << std::endl;
 			return -1;
 		}
 
-#ifdef VERBOSE
-		common::test_thread_affinities();
-		common::test_timers();
-#endif
+		if (common::g_verbose) {
+			common::test_thread_affinities();
+			common::test_timers();
+		}
 
-		benchmark::BenchmarkManager benchmgr(config.getWorkingSetSizePerThread(), config.getNumWorkerThreads(), config.useChunk32b(), config.useChunk64b(), config.useChunk128b(), config.useChunk256b(), config.isNUMAEnabled(), config.getIterationsPerTest(), config.useOutputFile(), config.getOutputFilename());
+		benchmark::BenchmarkManager benchmgr(config);
 		if (config.throughputTestSelected()) {
 			benchmgr.runThroughputBenchmarks();
 		}
