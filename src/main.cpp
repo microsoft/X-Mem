@@ -35,6 +35,7 @@
 
 //Headers
 #include <common.h>
+#include <build_datetime.h>
 #include <Configurator.h>
 #include <BenchmarkManager.h>
 
@@ -43,6 +44,17 @@
 #include <string>
 
 using namespace xmem;
+
+void common::print_welcome_message() {
+	//Greetings!
+	std::cout << "--------------------------------------------------------------------" << std::endl;
+	std::cout << "Extensible Memory Benchmarking Tool (X-Mem) v" << VERSION << std::endl;
+	std::cout << "Build date: " << BUILD_DATETIME << std::endl;
+	std::cout << "(C) Microsoft Corporation 2014" << std::endl;
+	std::cout << "Originally authored by Mark Gottscho <mgottscho@ucla.edu>" << std::endl;
+	std::cout << "--------------------------------------------------------------------" << std::endl;
+	std::cout << std::endl;
+}
 
 /**
  *	@brief The main entry point to the program.
