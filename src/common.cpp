@@ -173,12 +173,6 @@ void xmem::common::print_compile_time_options() {
 #ifdef USE_PASSES_CURVE_2
 	std::cout << "USE_PASSES_CURVE_2" << std::endl;
 #endif
-#ifdef USE_THROUGHPUT_SEQUENTIAL_PATTERN
-	std::cout << "USE_THROUGHPUT_SEQUENTIAL_PATTERN" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_RANDOM_PATTERN
-	std::cout << "USE_THROUGHPUT_RANDOM_PATTERN" << std::endl;
-#endif
 #ifdef USE_THROUGHPUT_FORW_STRIDE_1
 	std::cout << "USE_THROUGHPUT_FORW_STRIDE_1" << std::endl;
 #endif

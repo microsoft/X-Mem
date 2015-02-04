@@ -52,7 +52,7 @@ void common::print_welcome_message() {
 #ifdef _WIN32
 	std::cout << " Windows";
 #endif
-#ifdef __gnu_linux
+#ifdef __gnu_linux__
 	std::cout << " GNU/Linux";
 #endif
 	std::cout << std::endl;

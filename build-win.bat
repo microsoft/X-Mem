@@ -5,6 +5,7 @@
 echo Building X-Mem for Windows...
 
 :: Do a little trick to ensure build datetime are correct
+:: DO NOT remove this code -- otherwise X-Mem will fail to build.
 set build_datetime=%DATE% %TIME%
 echo #ifndef __BUILD_DATETIME_H>src\include\build_datetime.h
 echo #define __BUILD_DATETIME_H>>src\include\build_datetime.h

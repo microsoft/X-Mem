@@ -93,7 +93,6 @@ ThroughputBenchmark::ThroughputBenchmark(
 	__dummy_fptr(nullptr)
 	{ 
 	switch (__pattern_mode) {
-#ifdef USE_THROUGHPUT_SEQUENTIAL_PATTERN
 		case SEQUENTIAL:
 			switch (__rw_mode) {
 #ifdef USE_THROUGHPUT_READS
@@ -379,7 +378,7 @@ ThroughputBenchmark::ThroughputBenchmark(
 							break;
 					}
 					break;
-#endif
+
 #ifdef USE_THROUGHPUT_WRITES
 				case WRITE:
 					switch (_chunk_size) {
@@ -662,6 +661,7 @@ ThroughputBenchmark::ThroughputBenchmark(
 							break;
 					}
 					break;
+#endif		
 
 				default:
 					std::cerr << "Got an invalid ThroughputBenchmark configuration." << std::endl;
@@ -669,8 +669,7 @@ ThroughputBenchmark::ThroughputBenchmark(
 					break;
 			}
 			break;
-#endif
-#ifdef USE_THROUGHPUT_RANDOM_PATTERN
+		
 		case RANDOM:
 			switch (__rw_mode) {
 #ifdef USE_THROUGHPUT_READS
@@ -692,10 +691,9 @@ ThroughputBenchmark::ThroughputBenchmark(
 							__bench_fptr = &randomRead_Word256;
 							__dummy_fptr = &dummy_randomLoop_Word256;
 							break;
-
 						default:
 							std::cerr << "Got an invalid ThroughputBenchmark configuration." << std::endl;
-							__obj_valid = false;
+							_obj_valid = false;
 							break;
 					}
 					break;
@@ -721,7 +719,7 @@ ThroughputBenchmark::ThroughputBenchmark(
 							break;
 						default:
 							std::cerr << "Got an invalid ThroughputBenchmark configuration." << std::endl;
-							__obj_valid = false;
+							_obj_valid = false;
 							break;
 					}
 					break;
@@ -729,11 +727,10 @@ ThroughputBenchmark::ThroughputBenchmark(
 
 				default:
 					std::cerr << "Got an invalid ThroughputBenchmark configuration." << std::endl;
-					__obj_valid = false;
+					_obj_valid = false;
 					break;
 			}
 			break;
-#endif
 
 		default:
 			std::cerr << "Got an invalid ThroughputBenchmark configuration." << std::endl;
@@ -770,7 +767,6 @@ void ThroughputBenchmark::report_benchmark_info() {
 
 	std::cout << "Access Pattern: ";
 	switch (__pattern_mode) {
-#ifdef USE_THROUGHPUT_SEQUENTIAL_PATTERN
 		case SEQUENTIAL:
 			if (__stride_size > 0)
 				std::cout << "forward ";
@@ -784,12 +780,9 @@ void ThroughputBenchmark::report_benchmark_info() {
 			else 
 				std::cout << "strides of " << __stride_size << " chunks";
 			break;
-#endif
-#ifdef USE_THROUGHPUT_RANDOM_PATTERN
 		case RANDOM:
 			std::cout << "random";
 			break;
-#endif
 		default:
 			std::cout << "UNKNOWN";
 			break;
@@ -832,10 +825,8 @@ bool ThroughputBenchmark::__run_core() {
 	report_benchmark_info(); 
 	
 	//Build indices for random workload
-#ifdef USE_THROUGHPUT_RANDOM_PATTERN
 	if (__pattern_mode == RANDOM) 
 		__buildRandomPointerPermutation();
-#endif
 
 	//Start power measurement
 	if (g_verbose) 

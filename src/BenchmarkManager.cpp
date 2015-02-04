@@ -172,16 +172,12 @@ bool BenchmarkManager::runThroughputBenchmarks() {
 			__results_file << __tp_benchmarks[i]->getCPUNode() << ",";
 			pattern_mode_t pattern = __tp_benchmarks[i]->getPatternMode();
 			switch (pattern) {
-#ifdef USE_THROUGHPUT_SEQUENTIAL_PATTERN
 				case SEQUENTIAL:
 					__results_file << "SEQUENTIAL" << ",";
 					break;
-#endif
-#ifdef USE_THROUGHPUT_RANDOM_PATTERN
 				case RANDOM:
 					__results_file << "RANDOM" << ",";
 					break;
-#endif
 				default:
 					__results_file << "UNKNOWN" << ",";
 					break;
@@ -439,25 +435,55 @@ void BenchmarkManager::__buildThroughputBenchmarks() {
 		for (uint32_t cpu_node = 0; cpu_node < __benchmark_num_numa_nodes; cpu_node++) { //iterate each CPU node
 
 			//DO SEQUENTIAL/STRIDED TESTS
-#ifdef USE_THROUGHPUT_SEQUENTIAL_PATTERN
-			for (uint32_t rw_index = 0; rw_index < rws.size(); rw_index++) { //iterate read/write access types
-				rw_mode_t rw = rws[rw_index];
+			if (__config.useSequentialAccessPattern()) {
+				for (uint32_t rw_index = 0; rw_index < rws.size(); rw_index++) { //iterate read/write access types
+					rw_mode_t rw = rws[rw_index];
 
-				for (uint32_t chunk_index = 0; chunk_index < chunks.size(); chunk_index++) { //iterate different chunk sizes
-					chunk_size_t chunk = chunks[chunk_index];
+					for (uint32_t chunk_index = 0; chunk_index < chunks.size(); chunk_index++) { //iterate different chunk sizes
+						chunk_size_t chunk = chunks[chunk_index];
 
-					for (uint32_t stride_index = 0; stride_index < strides.size(); stride_index++) {  //iterate different stride lengths
-						int64_t stride = strides[stride_index];
+						for (uint32_t stride_index = 0; stride_index < strides.size(); stride_index++) {  //iterate different stride lengths
+							int64_t stride = strides[stride_index];
 
-						benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index++ << " (Throughput)"))->str();
+							benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index++ << " (Throughput)"))->str();
+							__tp_benchmarks.resize(__tp_benchmarks.size()+1);
+							try {
+#ifdef USE_TIME_BASED_BENCHMARKS
+								__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __config.getIterationsPerTest(), chunk, cpu_node, mem_node, __config.getNumWorkerThreads(), benchmark_name, &__timer, __dram_power_readers, stride, SEQUENTIAL, rw);
+#endif
+#ifdef USE_SIZE_BASED_BENCHMARKS
+								size_t passes_per_iteration = compute_number_of_passes((mem_array_len / __config.getNumWorkerThreads()) / KB);
+								__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __config.getIterationsPerTest(), passes_per_iteration, chunk, cpu_node, mem_node, __config.getNumWorkerThreads(), benchmark_name, &__timer, __dram_power_readers, stride, SEQUENTIAL, rw);
+#endif
+							} catch (...) { 
+								std::cerr << "FATAL: Failed to build a ThroughputBenchmark! Terminating." << std::endl;
+								exit(-1);
+							}
+							if (__tp_benchmarks[i] == nullptr)
+								std::cerr << "FATAL: Failed to build a ThroughputBenchmark! Terminating." << std::endl;
+							i++;
+						}
+					}
+				}
+			}
+			
+			if (__config.useRandomAccessPattern()) {
+				//DO RANDOM TESTS
+				for (uint32_t rw_index = 0; rw_index < rws.size(); rw_index++) { //iterate read/write access types
+					rw_mode_t rw = rws[rw_index];
+
+					for (uint32_t chunk_index = 0; chunk_index < chunks.size(); chunk_index++) { //iterate different chunk sizes
+						chunk_size_t chunk = chunks[chunk_index];
+
+						benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index++))->str();
 						__tp_benchmarks.resize(__tp_benchmarks.size()+1);
 						try {
 #ifdef USE_TIME_BASED_BENCHMARKS
-							__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __config.getIterationsPerTest(), chunk, cpu_node, mem_node, __config.getNumWorkerThreads(), benchmark_name, &__timer, __dram_power_readers, stride, SEQUENTIAL, rw);
+							__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __config.getIterationsPerTest(), chunk, cpu_node, mem_node, __config.getNumWorkerThreads(), benchmark_name, &__timer, __dram_power_readers, 0, RANDOM, rw);
 #endif
 #ifdef USE_SIZE_BASED_BENCHMARKS
-							size_t passes_per_iteration = compute_number_of_passes((mem_array_len / __config.getNumWorkerThreads()) / KB);
-							__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __config.getIterationsPerTest(), passes_per_iteration, chunk, cpu_node, mem_node, __config.getNumWorkerThreads(), benchmark_name, &__timer, __dram_power_readers, stride, SEQUENTIAL, rw);
+							size_t passes_per_iteration = compute_number_of_passes((mem_array_len / __config.getNumWorkerThreads) / KB);
+							__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __config.getIterationsPerTest(), passes_per_iteration, chunk, cpu_node, mem_node, __config.getNumWorkerThreads(), benchmark_name, &__timer, __dram_power_readers, 0, RANDOM, rw);
 #endif
 						} catch (...) { 
 							std::cerr << "FATAL: Failed to build a ThroughputBenchmark! Terminating." << std::endl;
@@ -469,36 +495,6 @@ void BenchmarkManager::__buildThroughputBenchmarks() {
 					}
 				}
 			}
-#endif
-
-#ifdef USE_THROUGHPUT_RANDOM_PATTERN
-			//DO RANDOM TESTS
-			for (uint32_t rw_index = 0; rw_index < rws.size(); rw_index++) { //iterate read/write access types
-				rw_mode_t rw = rws[rw_index];
-
-				for (uint32_t chunk_index = 0; chunk_index < chunks.size(); chunk_index++) { //iterate different chunk sizes
-					chunk_size_t chunk = chunks[chunk_index];
-
-					benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index++))->str();
-					__tp_benchmarks.resize(__tp_benchmarks.size()+1);
-					try {
-#ifdef USE_TIME_BASED_BENCHMARKS
-						__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __config.getIterationsPerTest(), chunk, cpu_node, mem_node, __config.getNumWorkerThreads(), benchmark_name, &__timer, __dram_power_readers, 0, RANDOM, rw);
-#endif
-#ifdef USE_SIZE_BASED_BENCHMARKS
-						size_t passes_per_iteration = compute_number_of_passes((mem_array_len / __config.getNumWorkerThreads) / KB);
-						__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __config.getIterationsPerTest(), passes_per_iteration, chunk, cpu_node, mem_node, __config.getNumWorkerThreads(), benchmark_name, &__timer, __dram_power_readers, 0, RANDOM, rw);
-#endif
-					} catch (...) { 
-						std::cerr << "FATAL: Failed to build a ThroughputBenchmark! Terminating." << std::endl;
-						exit(-1);
-					}
-					if (__tp_benchmarks[i] == nullptr)
-						std::cerr << "FATAL: Failed to build a ThroughputBenchmark! Terminating." << std::endl;
-					i++;
-				}
-			}
-#endif
 		}
 	}
 	

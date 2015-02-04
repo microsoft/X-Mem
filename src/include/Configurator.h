@@ -53,6 +53,8 @@ namespace xmem {
 			NUM_WORKER_THREADS,
 			MEAS_LATENCY,
 			ITERATIONS,
+			RANDOM_ACCESS_PATTERN,
+			SEQUENTIAL_ACCESS_PATTERN,
 			MEAS_THROUGHPUT,
 			NUMA_DISABLE,
 			VERBOSE,
@@ -72,15 +74,17 @@ namespace xmem {
 			{ NUM_WORKER_THREADS, 1, "j", "num_worker_threads", third_party::MyArg::PositiveInteger, "    -j, --num_worker_threads    \tNumber of worker threads to use in benchmarks." },
 			{ MEAS_LATENCY, 0, "l", "latency", third_party::Arg::None, "    -l, --latency    \tMeasure memory latency" },
 			{ ITERATIONS, 0, "n", "iterations", third_party::MyArg::PositiveInteger, "    -n, --iterations    \tIterations per benchmark test" },
+			{ RANDOM_ACCESS_PATTERN, 0, "r", "random_access", third_party::Arg::None, "    -r, --random_access    \tUse a random access pattern on throughput benchmarks" },
+			{ SEQUENTIAL_ACCESS_PATTERN, 0, "s", "sequential_access", third_party::Arg::None, "    -s, --sequential_access    \tUse a sequential access pattern on throughput benchmarks" },
 			{ MEAS_THROUGHPUT, 0, "t", "throughput", third_party::Arg::None, "    -t, --throughput    \tMeasure memory throughput" },
 			{ NUMA_DISABLE, 0, "u", "force_uma", third_party::Arg::None, "    -u, --force_uma    \tTest only CPU/memory NUMA node 0 instead of all combinations." },
 			{ VERBOSE, 0, "v", "verbose", third_party::Arg::None, "    -v, --verbose    \tVerbose mode, increase detail in X-Mem console reporting." },
 			{ WORKING_SET_SIZE_PER_THREAD, 0, "w", "working_set_size_per_thread", third_party::MyArg::PositiveInteger, "    -w, --working_set_size    \tWorking set size per thread in KB. This must be a multiple of 4KB." },
-			{ UNKNOWN, 0, "", "", third_party::Arg::None, "\nExamples:\n"
+			{ UNKNOWN, 0, "", "", third_party::Arg::None, "\nIf a given option is not specified, X-Mem defaults will be used where appropriate.\n\nExamples:\n"
 			"    xmem --help\n"
 			"    xmem -h\n"
-			"    xmem -t\n"
-			"    xmem -t --latency -n10 -w524288 -f results.csv -c32 -c256 -i 101 -u -j2\n"
+			"    xmem -l --verbose -n5 --chunk_size=32 -s\n"
+			"    xmem -t --latency -w524288 -f results.csv -c32 -c256 -i 101 -u -j2\n"
 			},
 			{ 0, 0, 0, 0, 0, 0 }
 		};
@@ -107,6 +111,9 @@ namespace xmem {
 			 * @param use_chunk_256b If true, include 256-bit chunks for relevant benchmarks.
 			 * @param numa_enable If true, then test all combinations of CPU/memory NUMA nodes.
 			 * @param iterations_per_test For each unique benchmark test, this is the number of times to repeat it.
+			 * @param use_random_access_pattern If true, use random-access patterns in throughput benchmarks.
+			 * @param use_sequential_access_pattern If true, use sequential-access patterns in throughput benchmarks.
+			 * @param starting_test_index Numerical index to use for the first test. This is an aid for end-user interpreting and post-processing of result CSV file, if relevant.
 			 * @param filename Output filename to use.
 			 * @param use_output_file If true, use the provided output filename.
 			 * @param verbose If true, then X-Mem should be more verbose in its console reporting.
@@ -122,6 +129,9 @@ namespace xmem {
 				bool use_chunk_256b,
 				bool numa_enable,
 				uint32_t iterations_per_test,
+				bool use_random_access_pattern,
+				bool use_sequential_access_pattern,
+				uint32_t starting_test_index,
 				std::string filename,
 				bool use_output_file,
 				bool verbose
@@ -133,7 +143,7 @@ namespace xmem {
 			 * @param argv The argv from main().
 			 * @returns 0 on success.
 			 */
-			int configureFromInput(int argc, char* argv[]);
+			int32_t configureFromInput(int argc, char* argv[]);
 
 			/**
 			 * @brief Indicates if the latency test has been selected.
@@ -189,11 +199,29 @@ namespace xmem {
 			 */
 			uint32_t getIterationsPerTest() const { return __iterations; }
 
+			/**
+			 * @brief Determines if throughput benchmarks should use a random access pattern.
+			 * @returns True if random access should be used.
+			 */
+			bool useRandomAccessPattern() const { return __use_random_access_pattern; }
+			
+			/**
+			 * @brief Determines if throughput benchmarks should use a sequential access pattern.
+			 * @returns True if sequential access should be used.
+			 */
+			bool useSequentialAccessPattern() const { return __use_sequential_access_pattern; }
+
 			/** 
 			 * @brief Gets the number of worker threads to use.
 			 * @returns The number of worker threads.
 			 */
 			uint32_t getNumWorkerThreads() const { return __num_worker_threads; }
+
+			/** 
+			 * @brief Gets the numerical index of the first benchmark for CSV output purposes.
+			 * @returns The starting benchmark index.
+			 */
+			uint32_t getStartingTestIndex() const { return __starting_test_index; }
 
 			/**
 			 * @brief Gets the output filename to use, if applicable.
@@ -227,6 +255,8 @@ namespace xmem {
 			 */
 			bool __checkSingleOptionOccurrence(third_party::Option* opt) const;
 
+			bool __configured; /**< If true, this object has been configured. configureFromInput() will only work if this is false. */
+
 			bool __runLatency; /**< True if latency tests should be run. */
 			bool __runThroughput; /**< True if throughput tests should be run. */
 			size_t __working_set_size_per_thread; /**< Working set size in bytes for each thread, if applicable. */
@@ -237,6 +267,9 @@ namespace xmem {
 			bool __use_chunk_256b; /**< If true, use chunk sizes of 256-bits where applicable. */
 			bool __numa_enabled; /**< If true, test all combinations of CPU/memory NUMA nodes. Otherwise, just use node 0. */
 			uint32_t __iterations; /**< Number of iterations to run for each benchmark test. */
+			bool __use_random_access_pattern; /**< If true, run throughput benchmarks with random access pattern. */
+			bool __use_sequential_access_pattern; /**< If true, run throughput benchmarks with sequential access pattern. */
+			uint32_t __starting_test_index; /**< Numerical index to use for the first test. This is an aid for end-user interpreting and post-processing of result CSV file, if relevant. */
 			std::string __filename; /**< The output filename if applicable. */
 			bool __use_output_file; /**< If true, generate a CSV output file for results. */
 			bool __verbose; /**< If true, then console reporting should be more detailed. */

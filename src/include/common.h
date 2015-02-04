@@ -45,7 +45,7 @@
 namespace xmem {
 	namespace common {
 
-#define VERSION "1.2.11"
+#define VERSION "1.2.12"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -198,11 +198,6 @@ namespace xmem {
 #define USE_PASSES_CURVE_2 /**< RECOMMENDED ENABLED. The passes per iteration of a benchmark will be given by y = 4*2097152 / working_set_size_KB^2 */
 #endif //DO NOT COMMENT THIS OUT
 
-//Throughput benchmark access patterns
-#define USE_THROUGHPUT_SEQUENTIAL_PATTERN /**< RECOMMENDED ENABLED. Run the sequential family pattern of ThroughputBenchmarks. */
-//#define USE_THROUGHPUT_RANDOM_PATTERN /**< RECOMMENDED DISABLED. Run the random-access family pattern of ThroughputBenchmarks. TODO: Not yet implemented. */
-
-#ifdef USE_THROUGHPUT_SEQUENTIAL_PATTERN //DO NOT COMMENT THIS OUT
 //Throughput benchmark forward strides
 #define USE_THROUGHPUT_FORW_STRIDE_1 /**< RECOMMENDED ENABLED. In throughput benchmarks with sequential pattern, do forward strides of 1 chunk (forward sequential). */
 //#define USE_THROUGHPUT_FORW_STRIDE_2 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 2 chunks. */
@@ -216,7 +211,6 @@ namespace xmem {
 //#define USE_THROUGHPUT_REV_STRIDE_4 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 4 chunks. */
 //#define USE_THROUGHPUT_REV_STRIDE_8 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 8 chunks. */
 //#define USE_THROUGHPUT_REV_STRIDE_16 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 16 chunks. */
-#endif //DO NOT COMMENT THIS OUT
 
 //Throughput benchmark reads and writes
 #define USE_THROUGHPUT_READS /**< RECOMMENDED ENABLED. In throughput benchmarks, read from memory. */
@@ -272,10 +266,6 @@ namespace xmem {
 #endif
 #endif
 
-#if !defined (USE_THROUGHPUT_SEQUENTIAL_PATTERN) && !defined(USE_THROUGHPUT_RANDOM_PATTERN)
-#error At least one throughput pattern compile-time option must be set!
-#endif
-
 #if defined(USE_THROUGHPUT_SEQUENTIAL_PATTERN)
 #if !defined(USE_THROUGHPUT_FORW_STRIDE_1) && !defined(USE_THROUGHPUT_FORW_STRIDE_2) && !defined(USE_THROUGHPUT_FORW_STRIDE_4) && !defined(USE_THROUGHPUT_FORW_STRIDE_8) && !defined(USE_THROUGHPUT_FORW_STRIDE_16) && !defined(USE_THROUGHPUT_REV_STRIDE_1) && !defined(USE_THROUGHPUT_REV_STRIDE_2) && !defined(USE_THROUGHPUT_REV_STRIDE_4) && !defined(USE_THROUGHPUT_REV_STRIDE_8) && !defined(USE_THROUGHPUT_REV_STRIDE_16) 
 #error Throughput benchmark sequential pattern compile-time option was selected, but no stride options were set! At least one must be enabled.
@@ -320,12 +310,8 @@ namespace xmem {
 		 * @brief Memory access patterns are broadly categorized by sequential or random-access.
 		 */
 		typedef enum {
-#ifdef USE_THROUGHPUT_SEQUENTIAL_PATTERN
 			SEQUENTIAL,
-#endif
-#ifdef USE_THROUGHPUT_RANDOM_PATTERN
 			RANDOM,
-#endif
 			NUM_PATTERN_MODES
 		} pattern_mode_t;
 
