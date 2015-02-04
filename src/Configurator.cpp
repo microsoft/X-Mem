@@ -61,7 +61,17 @@ Configurator::Configurator(
 	__use_output_file(false),
 	__verbose(false),
 	__use_reads(true),
-	__use_writes(true)
+	__use_writes(true),
+	__use_stride_p1(true),
+	__use_stride_n1(false),
+	__use_stride_p2(false),
+	__use_stride_n2(false),
+	__use_stride_p4(false),
+	__use_stride_n4(false),
+	__use_stride_p8(false),
+	__use_stride_n8(false),
+	__use_stride_p16(false),
+	__use_stride_n16(false)
 	{
 }
 
@@ -83,7 +93,17 @@ Configurator::Configurator(
 	bool use_output_file,
 	bool verbose,
 	bool use_reads,
-	bool use_writes
+	bool use_writes,
+	bool use_stride_p1,
+	bool use_stride_n1,
+	bool use_stride_p2,
+	bool use_stride_n2,
+	bool use_stride_p4,
+	bool use_stride_n4,
+	bool use_stride_p8,
+	bool use_stride_n8,
+	bool use_stride_p16,
+	bool use_stride_n16
 	) :
 	__configured(true),
 	__runLatency(runLatency),
@@ -103,7 +123,17 @@ Configurator::Configurator(
 	__use_output_file(use_output_file),
 	__verbose(verbose),
 	__use_reads(use_reads),
-	__use_writes(use_writes)
+	__use_writes(use_writes),
+	__use_stride_p1(use_stride_p1),
+	__use_stride_n1(use_stride_n1),
+	__use_stride_p2(use_stride_p2),
+	__use_stride_n2(use_stride_n2),
+	__use_stride_p4(use_stride_p4),
+	__use_stride_n4(use_stride_n4),
+	__use_stride_p8(use_stride_p8),
+	__use_stride_n8(use_stride_n8),
+	__use_stride_p16(use_stride_p16),
+	__use_stride_n16(use_stride_n16)
 	{
 }
 
@@ -187,12 +217,15 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	
 	//Check chunk sizes
 	if (options[CHUNK_SIZE]) {
+		if (!__runThroughput) //These options only make sense for throughput benchmarks, but are otherwise harmless
+			std::cerr << "WARNING: Ignoring specified chunk sizes. These only apply to throughput benchmarks." << std::endl;
+
 		//Init... override default values
 		__use_chunk_32b = false;
 		__use_chunk_64b = false;
 		__use_chunk_128b = false;
 		__use_chunk_256b = false;
-
+		
 		third_party::Option* curr = options[CHUNK_SIZE];
 		while (curr) { //CHUNK_SIZE may occur more than once, this is perfectly OK.
 			char* endptr = NULL;
@@ -287,7 +320,67 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 
 	if (options[USE_WRITES])
 		__use_writes = true;
-	
+
+	//Check stride sizes
+	if (options[STRIDE_SIZE]) { //override defaults
+		if (!__runThroughput) //These options only make sense for throughput benchmarks, but are otherwise harmless
+			std::cerr << "WARNING: Ignoring specified stride sizes. These only apply to throughput benchmarks." << std::endl;
+
+		__use_stride_p1 = false;
+		__use_stride_n1 = false;
+		__use_stride_p2 = false;
+		__use_stride_n2 = false;
+		__use_stride_p4 = false;
+		__use_stride_n4 = false;
+		__use_stride_p8 = false;
+		__use_stride_n8 = false;
+		__use_stride_p16 = false;
+		__use_stride_n16 = false;
+		
+		third_party::Option* curr = options[STRIDE_SIZE];
+		while (curr) { //STRIDE_SIZE may occur more than once, this is perfectly OK.
+			char* endptr = NULL;
+			int32_t stride_size = static_cast<int32_t>(strtoul(curr->arg, &endptr, 10));
+			switch (stride_size) {
+				case 1:
+					__use_stride_p1 = true;
+					break;
+				case -1:
+					__use_stride_n1 = true;
+					break;
+				case 2:
+					__use_stride_p2 = true;
+					break;
+				case -2:
+					__use_stride_n2 = true;
+					break;
+				case 4:
+					__use_stride_p4 = true;
+					break;
+				case -4:
+					__use_stride_n4 = true;
+					break;
+				case 8:
+					__use_stride_p8 = true;
+					break;
+				case -8:
+					__use_stride_n8 = true;
+					break;
+				case 16:
+					__use_stride_p16 = true;
+					break;
+				case -16:
+					__use_stride_n16 = true;
+					break;
+
+				default:
+					std::cerr << "ERROR: Invalid stride size " << stride_size << ". Stride sizes can be 1, -1, 2, -2, 4, -4, 8, -8, 16, or -16." << std::endl;
+					goto error;
+			}
+			curr = curr->next();
+		}
+	}
+
 	//Make sure at least one mode is available
 	if (!__runLatency && !__runThroughput) {
 		std::cerr << "ERROR: At least one benchmark type must be selected." << std::endl;
@@ -342,6 +435,38 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		else
 			std::cout << "no";
 		std::cout << std::endl;
+		std::cout << "---> Chunk sizes:  \t\t";
+		if (__use_chunk_32b)
+			std::cout << "32 ";
+		if (__use_chunk_64b)
+			std::cout << "64 ";
+		if (__use_chunk_128b)
+			std::cout << "128 ";
+		if (__use_chunk_256b)
+			std::cout << "256 ";
+		std::cout << std::endl;
+		std::cout << "---> Stride sizes:  \t\t";
+		if (__use_stride_p1)
+			std::cout << "1 ";
+		if (__use_stride_n1)
+			std::cout << "-1 ";
+		if (__use_stride_p2)
+			std::cout << "2 ";
+		if (__use_stride_n2)
+			std::cout << "-2 ";
+		if (__use_stride_p4)
+			std::cout << "4 ";
+		if (__use_stride_n4)
+			std::cout << "-4 ";
+		if (__use_stride_p8)
+			std::cout << "8 ";
+		if (__use_stride_n8)
+			std::cout << "-8 ";
+		if (__use_stride_p16)
+			std::cout << "16 ";
+		if (__use_stride_n16)
+			std::cout << "-16 ";
+		std::cout << std::endl;
 	}
 	std::cout << "Working set:  \t\t\t";
 #ifndef USE_LARGE_PAGES
@@ -351,16 +476,6 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 #endif
 	std::cout << "Number of worker threads:  \t";
 	std::cout << __num_worker_threads << std::endl;
-	std::cout << "Chunk sizes:  \t\t\t";
-	if (__use_chunk_32b)
-		std::cout << "32 ";
-	if (__use_chunk_64b)
-		std::cout << "64 ";
-	if (__use_chunk_128b)
-		std::cout << "128 ";
-	if (__use_chunk_256b)
-		std::cout << "256 ";
-	std::cout << std::endl;
 	if (!__numa_enabled)
 		std::cout << "NUMA enabled:   \t\tno" << std::endl;
 	else

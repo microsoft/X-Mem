@@ -375,36 +375,26 @@ void BenchmarkManager::__buildThroughputBenchmarks() {
 		rws.push_back(WRITE);
 	
 	std::vector<int64_t> strides;
-#ifdef USE_THROUGHPUT_FORW_STRIDE_1
-	strides.push_back(1);
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_1
-	strides.push_back(-1);
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_2
-	strides.push_back(2);
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_2
-	strides.push_back(-2);
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_4
-	strides.push_back(4);
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_4
-	strides.push_back(-4);
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_8
-	strides.push_back(8);
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_8
-	strides.push_back(-8);
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_16
-	strides.push_back(16);
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_16
-	strides.push_back(-16);
-#endif
+	if (__config.useStrideP1())
+		strides.push_back(1);
+	if (__config.useStrideN1())
+		strides.push_back(-1);
+	if (__config.useStrideP2())
+		strides.push_back(2);
+	if (__config.useStrideN2())
+		strides.push_back(-2);
+	if (__config.useStrideP4())
+		strides.push_back(4);
+	if (__config.useStrideN4())
+		strides.push_back(-4);
+	if (__config.useStrideP8())
+		strides.push_back(8);
+	if (__config.useStrideN8())
+		strides.push_back(-8);
+	if (__config.useStrideP16())
+		strides.push_back(16);
+	if (__config.useStrideN16())
+		strides.push_back(-16);
 
 	if (g_verbose)
 		std::cout << std::endl;

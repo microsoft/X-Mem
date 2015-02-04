@@ -99,66 +99,46 @@ ThroughputBenchmark::ThroughputBenchmark(
 					switch (_chunk_size) {
 						case CHUNK_32b:
 							switch (__stride_size) {
-#ifdef USE_THROUGHPUT_FORW_STRIDE_1
 								case 1:
 									__bench_fptr = &forwSequentialRead_Word32;
 									__dummy_fptr = &dummy_forwSequentialLoop_Word32;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_1
 								case -1:
 									__bench_fptr = &revSequentialRead_Word32;
 									__dummy_fptr = &dummy_revSequentialLoop_Word32;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_2
 								case 2:
 									__bench_fptr = &forwStride2Read_Word32;
 									__dummy_fptr = &dummy_forwStride2Loop_Word32;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_2
 								case -2:
 									__bench_fptr = &revStride2Read_Word32;
 									__dummy_fptr = &dummy_revStride2Loop_Word32;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_4
 								case 4:
 									__bench_fptr = &forwStride4Read_Word32;
 									__dummy_fptr = &dummy_forwStride4Loop_Word32;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_4
 								case -4:
 									__bench_fptr = &revStride4Read_Word32;
 									__dummy_fptr = &dummy_revStride4Loop_Word32;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_8
 								case 8:
 									__bench_fptr = &forwStride8Read_Word32;
 									__dummy_fptr = &dummy_forwStride8Loop_Word32;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_8
 								case -8:
 									__bench_fptr = &revStride8Read_Word32;
 									__dummy_fptr = &dummy_revStride8Loop_Word32;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_16
 								case 16:
 									__bench_fptr = &forwStride16Read_Word32;
 									__dummy_fptr = &dummy_forwStride16Loop_Word32;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_16
 								case -16:
 									__bench_fptr = &revStride16Read_Word32;
 									__dummy_fptr = &dummy_revStride16Loop_Word32;
 									break;
-#endif
 								default:
 									std::cerr << "Got an invalid ThroughputBenchmark configuration." << std::endl;
 									_obj_valid = false;
@@ -167,66 +147,46 @@ ThroughputBenchmark::ThroughputBenchmark(
 							break;
 						case CHUNK_64b:
 							switch (__stride_size) {
-#ifdef USE_THROUGHPUT_FORW_STRIDE_1
 								case 1:
 									__bench_fptr = &forwSequentialRead_Word64;
 									__dummy_fptr = &dummy_forwSequentialLoop_Word64;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_1
 								case -1:
 									__bench_fptr = &revSequentialRead_Word64;
 									__dummy_fptr = &dummy_revSequentialLoop_Word64;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_2
 								case 2:
 									__bench_fptr = &forwStride2Read_Word64;
 									__dummy_fptr = &dummy_forwStride2Loop_Word64;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_2
 								case -2:
 									__bench_fptr = &revStride2Read_Word64;
 									__dummy_fptr = &dummy_revStride2Loop_Word64;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_4
 								case 4:
 									__bench_fptr = &forwStride4Read_Word64;
 									__dummy_fptr = &dummy_forwStride4Loop_Word64;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_4
 								case -4:
 									__bench_fptr = &revStride4Read_Word64;
 									__dummy_fptr = &dummy_revStride4Loop_Word64;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_8
 								case 8:
 									__bench_fptr = &forwStride8Read_Word64;
 									__dummy_fptr = &dummy_forwStride8Loop_Word64;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_8
 								case -8:
 									__bench_fptr = &revStride8Read_Word64;
 									__dummy_fptr = &dummy_revStride8Loop_Word64;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_16
 								case 16:
 									__bench_fptr = &forwStride16Read_Word64;
 									__dummy_fptr = &dummy_forwStride16Loop_Word64;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_16
 								case -16:
 									__bench_fptr = &revStride16Read_Word64;
 									__dummy_fptr = &dummy_revStride16Loop_Word64;
 									break;
-#endif
 								default:
 									std::cerr << "Got an invalid ThroughputBenchmark configuration." << std::endl;
 									_obj_valid = false;
@@ -235,66 +195,46 @@ ThroughputBenchmark::ThroughputBenchmark(
 							break;
 						case CHUNK_128b:
 							switch (__stride_size) {
-#ifdef USE_THROUGHPUT_FORW_STRIDE_1
 								case 1:
 									__bench_fptr = &forwSequentialRead_Word128;
 									__dummy_fptr = &dummy_forwSequentialLoop_Word128;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_1
 								case -1:
 									__bench_fptr = &revSequentialRead_Word128;
 									__dummy_fptr = &dummy_revSequentialLoop_Word128;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_2
 								case 2:
 									__bench_fptr = &forwStride2Read_Word128;
 									__dummy_fptr = &dummy_forwStride2Loop_Word128;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_2
 								case -2:
 									__bench_fptr = &revStride2Read_Word128;
 									__dummy_fptr = &dummy_revStride2Loop_Word128;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_4
 								case 4:
 									__bench_fptr = &forwStride4Read_Word128;
 									__dummy_fptr = &dummy_forwStride4Loop_Word128;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_4
 								case -4:
 									__bench_fptr = &revStride4Read_Word128;
 									__dummy_fptr = &dummy_revStride4Loop_Word128;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_8
 								case 8:
 									__bench_fptr = &forwStride8Read_Word128;
 									__dummy_fptr = &dummy_forwStride8Loop_Word128;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_8
 								case -8:
 									__bench_fptr = &revStride8Read_Word128;
 									__dummy_fptr = &dummy_revStride8Loop_Word128;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_16
 								case 16:
 									__bench_fptr = &forwStride16Read_Word128;
 									__dummy_fptr = &dummy_forwStride16Loop_Word128;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_16
 								case -16:
 									__bench_fptr = &revStride16Read_Word128;
 									__dummy_fptr = &dummy_revStride16Loop_Word128;
 									break;
-#endif
 								default:
 									std::cerr << "Got an invalid ThroughputBenchmark configuration." << std::endl;
 									_obj_valid = false;
@@ -303,66 +243,46 @@ ThroughputBenchmark::ThroughputBenchmark(
 							break;
 						case CHUNK_256b:
 							switch (__stride_size) {
-#ifdef USE_THROUGHPUT_FORW_STRIDE_1
 								case 1:
 									__bench_fptr = &forwSequentialRead_Word256;
 									__dummy_fptr = &dummy_forwSequentialLoop_Word256;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_1
 								case -1:
 									__bench_fptr = &revSequentialRead_Word256;
 									__dummy_fptr = &dummy_revSequentialLoop_Word256;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_2
 								case 2:
 									__bench_fptr = &forwStride2Read_Word256;
 									__dummy_fptr = &dummy_forwStride2Loop_Word256;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_2
 								case -2:
 									__bench_fptr = &revStride2Read_Word256;
 									__dummy_fptr = &dummy_revStride2Loop_Word256;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_4
 								case 4:
 									__bench_fptr = &forwStride4Read_Word256;
 									__dummy_fptr = &dummy_forwStride4Loop_Word256;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_4
 								case -4:
 									__bench_fptr = &revStride4Read_Word256;
 									__dummy_fptr = &dummy_revStride4Loop_Word256;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_8
 								case 8:
 									__bench_fptr = &forwStride8Read_Word256;
 									__dummy_fptr = &dummy_forwStride8Loop_Word256;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_8
 								case -8:
 									__bench_fptr = &revStride8Read_Word256;
 									__dummy_fptr = &dummy_revStride8Loop_Word256;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_16
 								case 16:
 									__bench_fptr = &forwStride16Read_Word256;
 									__dummy_fptr = &dummy_forwStride16Loop_Word256;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_16
 								case -16:
 									__bench_fptr = &revStride16Read_Word256;
 									__dummy_fptr = &dummy_revStride16Loop_Word256;
 									break;
-#endif
 								default:
 									std::cerr << "Got an invalid ThroughputBenchmark configuration." << std::endl;
 									_obj_valid = false;
@@ -381,66 +301,46 @@ ThroughputBenchmark::ThroughputBenchmark(
 					switch (_chunk_size) {
 						case CHUNK_32b:
 							switch (__stride_size) {
-#ifdef USE_THROUGHPUT_FORW_STRIDE_1
 								case 1:
 									__bench_fptr = &forwSequentialWrite_Word32;
 									__dummy_fptr = &dummy_forwSequentialLoop_Word32;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_1
 								case -1:
 									__bench_fptr = &revSequentialWrite_Word32;
 									__dummy_fptr = &dummy_revSequentialLoop_Word32;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_2
 								case 2:
 									__bench_fptr = &forwStride2Write_Word32;
 									__dummy_fptr = &dummy_forwStride2Loop_Word32;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_2
 								case -2:
 									__bench_fptr = &revStride2Write_Word32;
 									__dummy_fptr = &dummy_revStride2Loop_Word32;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_4
 								case 4:
 									__bench_fptr = &forwStride4Write_Word32;
 									__dummy_fptr = &dummy_forwStride4Loop_Word32;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_4
 								case -4:
 									__bench_fptr = &revStride4Write_Word32;
 									__dummy_fptr = &dummy_revStride4Loop_Word32;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_8
 								case 8:
 									__bench_fptr = &forwStride8Write_Word32;
 									__dummy_fptr = &dummy_forwStride8Loop_Word32;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_8
 								case -8:
 									__bench_fptr = &revStride8Write_Word32;
 									__dummy_fptr = &dummy_revStride8Loop_Word32;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_16
 								case 16:
 									__bench_fptr = &forwStride16Write_Word32;
 									__dummy_fptr = &dummy_forwStride16Loop_Word32;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_16
 								case -16:
 									__bench_fptr = &revStride16Write_Word32;
 									__dummy_fptr = &dummy_revStride16Loop_Word32;
 									break;
-#endif
 								default:
 									std::cerr << "Got an invalid ThroughputBenchmark configuration." << std::endl;
 									_obj_valid = false;
@@ -449,66 +349,46 @@ ThroughputBenchmark::ThroughputBenchmark(
 							break;
 						case CHUNK_64b:
 							switch (__stride_size) {
-#ifdef USE_THROUGHPUT_FORW_STRIDE_1
 								case 1:
 									__bench_fptr = &forwSequentialWrite_Word64;
 									__dummy_fptr = &dummy_forwSequentialLoop_Word64;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_1
 								case -1:
 									__bench_fptr = &revSequentialWrite_Word64;
 									__dummy_fptr = &dummy_revSequentialLoop_Word64;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_2
 								case 2:
 									__bench_fptr = &forwStride2Write_Word64;
 									__dummy_fptr = &dummy_forwStride2Loop_Word64;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_2
 								case -2:
 									__bench_fptr = &revStride2Write_Word64;
 									__dummy_fptr = &dummy_revStride2Loop_Word64;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_4
 								case 4:
 									__bench_fptr = &forwStride4Write_Word64;
 									__dummy_fptr = &dummy_forwStride4Loop_Word64;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_4
 								case -4:
 									__bench_fptr = &revStride4Write_Word64;
 									__dummy_fptr = &dummy_revStride4Loop_Word64;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_8
 								case 8:
 									__bench_fptr = &forwStride8Write_Word64;
 									__dummy_fptr = &dummy_forwStride8Loop_Word64;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_8
 								case -8:
 									__bench_fptr = &revStride8Write_Word64;
 									__dummy_fptr = &dummy_revStride8Loop_Word64;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_16
 								case 16:
 									__bench_fptr = &forwStride16Write_Word64;
 									__dummy_fptr = &dummy_forwStride16Loop_Word64;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_16
 								case -16:
 									__bench_fptr = &revStride16Write_Word64;
 									__dummy_fptr = &dummy_revStride16Loop_Word64;
 									break;
-#endif
 								default:
 									std::cerr << "Got an invalid ThroughputBenchmark configuration." << std::endl;
 									_obj_valid = false;
@@ -517,66 +397,46 @@ ThroughputBenchmark::ThroughputBenchmark(
 							break;
 						case CHUNK_128b:
 							switch (__stride_size) {
-#ifdef USE_THROUGHPUT_FORW_STRIDE_1
 								case 1:
 									__bench_fptr = &forwSequentialWrite_Word128;
 									__dummy_fptr = &dummy_forwSequentialLoop_Word128;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_1
 								case -1:
 									__bench_fptr = &revSequentialWrite_Word128;
 									__dummy_fptr = &dummy_revSequentialLoop_Word128;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_2
 								case 2:
 									__bench_fptr = &forwStride2Write_Word128;
 									__dummy_fptr = &dummy_forwStride2Loop_Word128;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_2
 								case -2:
 									__bench_fptr = &revStride2Write_Word128;
 									__dummy_fptr = &dummy_revStride2Loop_Word128;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_4
 								case 4:
 									__bench_fptr = &forwStride4Write_Word128;
 									__dummy_fptr = &dummy_forwStride4Loop_Word128;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_4
 								case -4:
 									__bench_fptr = &revStride4Write_Word128;
 									__dummy_fptr = &dummy_revStride4Loop_Word128;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_8
 								case 8:
 									__bench_fptr = &forwStride8Write_Word128;
 									__dummy_fptr = &dummy_forwStride8Loop_Word128;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_8
 								case -8:
 									__bench_fptr = &revStride8Write_Word128;
 									__dummy_fptr = &dummy_revStride8Loop_Word128;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_16
 								case 16:
 									__bench_fptr = &forwStride16Write_Word128;
 									__dummy_fptr = &dummy_forwStride16Loop_Word128;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_16
 								case -16:
 									__bench_fptr = &revStride16Write_Word128;
 									__dummy_fptr = &dummy_revStride16Loop_Word128;
 									break;
-#endif
 								default:
 									std::cerr << "Got an invalid ThroughputBenchmark configuration." << std::endl;
 									_obj_valid = false;
@@ -585,66 +445,46 @@ ThroughputBenchmark::ThroughputBenchmark(
 							break;
 						case CHUNK_256b:
 							switch (__stride_size) {
-#ifdef USE_THROUGHPUT_FORW_STRIDE_1
 								case 1:
 									__bench_fptr = &forwSequentialWrite_Word256;
 									__dummy_fptr = &dummy_forwSequentialLoop_Word256;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_1
 								case -1:
 									__bench_fptr = &revSequentialWrite_Word256;
 									__dummy_fptr = &dummy_revSequentialLoop_Word256;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_2
 								case 2:
 									__bench_fptr = &forwStride2Write_Word256;
 									__dummy_fptr = &dummy_forwStride2Loop_Word256;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_2
 								case -2:
 									__bench_fptr = &revStride2Write_Word256;
 									__dummy_fptr = &dummy_revStride2Loop_Word256;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_4
 								case 4:
 									__bench_fptr = &forwStride4Write_Word256;
 									__dummy_fptr = &dummy_forwStride4Loop_Word256;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_4
 								case -4:
 									__bench_fptr = &revStride4Write_Word256;
 									__dummy_fptr = &dummy_revStride4Loop_Word256;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_8
 								case 8:
 									__bench_fptr = &forwStride8Write_Word256;
 									__dummy_fptr = &dummy_forwStride8Loop_Word256;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_8
 								case -8:
 									__bench_fptr = &revStride8Write_Word256;
 									__dummy_fptr = &dummy_revStride8Loop_Word256;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_16
 								case 16:
 									__bench_fptr = &forwStride16Write_Word256;
 									__dummy_fptr = &dummy_forwStride16Loop_Word256;
 									break;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_16
 								case -16:
 									__bench_fptr = &revStride16Write_Word256;
 									__dummy_fptr = &dummy_revStride16Loop_Word256;
 									break;
-#endif
 								default:
 									std::cerr << "Got an invalid ThroughputBenchmark configuration." << std::endl;
 									_obj_valid = false;

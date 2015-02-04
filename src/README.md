@@ -1,7 +1,7 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: Extensible Memory Benchmarking Tool v1.2.13
+X-Mem: Extensible Memory Benchmarking Tool v1.3
 ------------------------------------------------------------------------------------------------------------
 
 The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power. 
@@ -110,7 +110,6 @@ NOTE: On Windows, make sure you run X-Mem with Administrator privileges. This is
 	- Read performance counter data from the OS for reporting power (when applicable)
 	- Elevate thread priority and pin threads to CPUs for improved performance and benchmarking consistency
 
-
 USAGE: xmem [options]
 
 Options:
@@ -141,6 +140,12 @@ Options:
                                 a multiple of 4KB.
     -R, --reads                 Use memory reads in throughput benchmarks.
     -W, --writes                Use memory writes in throughput benchmarks.
+    -S, --stride_size           A stride size to use for sequential throughput
+                                benchmarks, specified in powers-of-two multiples
+                                of the chunk size(s). Allowed values: 1, -1, 2,
+                                -2, 4, -4, 8, -8, 16, -16. Positive indicates
+                                the forward direction (increasing addresses),
+                                while negative indicates the reverse direction.
 
 If a given option is not specified, X-Mem defaults will be used where
 appropriate.
@@ -150,7 +155,6 @@ Examples:
     xmem -h
     xmem -l --verbose -n5 --chunk_size=32 -s
     xmem -t --latency -w524288 -f results.csv -c32 -c256 -i 101 -u -j2
-
 
 ------------------------------------------------------------------------------------------------------------
 BUILDING FROM SOURCE

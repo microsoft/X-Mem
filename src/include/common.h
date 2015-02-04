@@ -45,7 +45,7 @@
 namespace xmem {
 	namespace common {
 
-#define VERSION "1.2.13"
+#define VERSION "1.3"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -198,20 +198,6 @@ namespace xmem {
 #define USE_PASSES_CURVE_2 /**< RECOMMENDED ENABLED. The passes per iteration of a benchmark will be given by y = 4*2097152 / working_set_size_KB^2 */
 #endif //DO NOT COMMENT THIS OUT
 
-//Throughput benchmark forward strides
-#define USE_THROUGHPUT_FORW_STRIDE_1 /**< RECOMMENDED ENABLED. In throughput benchmarks with sequential pattern, do forward strides of 1 chunk (forward sequential). */
-//#define USE_THROUGHPUT_FORW_STRIDE_2 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 2 chunks. */
-//#define USE_THROUGHPUT_FORW_STRIDE_4 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 4 chunks. */
-//#define USE_THROUGHPUT_FORW_STRIDE_8 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 8 chunks. */
-//#define USE_THROUGHPUT_FORW_STRIDE_16 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 16 chunks. */
-
-//Throughput benchmark reverse strides
-#define USE_THROUGHPUT_REV_STRIDE_1 /**< RECOMMENDED ENABLED. In throughput benchmarks with sequential pattern, do reverse strides of 1 chunk (reverse sequential). */
-//#define USE_THROUGHPUT_REV_STRIDE_2 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 2 chunks. */
-//#define USE_THROUGHPUT_REV_STRIDE_4 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 4 chunks. */
-//#define USE_THROUGHPUT_REV_STRIDE_8 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 8 chunks. */
-//#define USE_THROUGHPUT_REV_STRIDE_16 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 16 chunks. */
-
 //Latency benchmark pointer chasing construction method
 #define USE_LATENCY_BENCHMARK_RANDOM_SHUFFLE_PATTERN /**< RECOMMENDED ENABLED. In latency benchmarks, generate the pointer chasing pattern using a random shuffle, which has a chance of creating small cycles. Much faster to run but strictly less correct. O(N) */
 //#define USE_LATENCY_BENCHMARK_RANDOM_HAMILTONIAN_CYCLE_PATTERN /**< RECOMMENDED DISABLED. In latency benchmarks, generate the pointer chasing pattern using a random directed Hamiltonian Cycle across the entire memory space under test. Slow to compute as it is O(N^2), but strictly more correct. */
@@ -260,10 +246,6 @@ namespace xmem {
 #if (defined(USE_PASSES_CURVE_1) && defined(USE_PASSES_CURVE_2)) || (!defined(USE_PASSES_CURVE_1) && !defined(USE_PASSES_CURVE_2))
 #error Exactly one passes curve must be defined.
 #endif
-#endif
-
-#if !defined(USE_THROUGHPUT_FORW_STRIDE_1) && !defined(USE_THROUGHPUT_FORW_STRIDE_2) && !defined(USE_THROUGHPUT_FORW_STRIDE_4) && !defined(USE_THROUGHPUT_FORW_STRIDE_8) && !defined(USE_THROUGHPUT_FORW_STRIDE_16) && !defined(USE_THROUGHPUT_REV_STRIDE_1) && !defined(USE_THROUGHPUT_REV_STRIDE_2) && !defined(USE_THROUGHPUT_REV_STRIDE_4) && !defined(USE_THROUGHPUT_REV_STRIDE_8) && !defined(USE_THROUGHPUT_REV_STRIDE_16) 
-#error Throughput benchmark sequential pattern compile-time option was selected, but no stride options were set! At least one must be enabled.
 #endif
 
 #if !defined(USE_LATENCY_BENCHMARK_RANDOM_SHUFFLE_PATTERN) && !defined(USE_LATENCY_BENCHMARK_RANDOM_HAMILTONIAN_CYCLE_PATTERN)

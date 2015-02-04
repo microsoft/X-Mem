@@ -60,7 +60,8 @@ namespace xmem {
 			VERBOSE,
 			WORKING_SET_SIZE_PER_THREAD,
 			USE_READS,
-			USE_WRITES
+			USE_WRITES,
+			STRIDE_SIZE
 		};
 
 		/**
@@ -84,6 +85,7 @@ namespace xmem {
 			{ WORKING_SET_SIZE_PER_THREAD, 0, "w", "working_set_size_per_thread", third_party::MyArg::PositiveInteger, "    -w, --working_set_size    \tWorking set size per thread in KB. This must be a multiple of 4KB." },
 			{ USE_READS, 0, "R", "reads", third_party::Arg::None, "    -R, --reads    \tUse memory reads in throughput benchmarks." },
 			{ USE_WRITES, 0, "W", "writes", third_party::Arg::None, "    -W, --writes    \tUse memory writes in throughput benchmarks." },
+			{ STRIDE_SIZE, 0, "S", "stride_size", third_party::MyArg::Integer, "    -S, --stride_size    \tA stride size to use for sequential throughput benchmarks, specified in powers-of-two multiples of the chunk size(s). Allowed values: 1, -1, 2, -2, 4, -4, 8, -8, 16, -16. Positive indicates the forward direction (increasing addresses), while negative indicates the reverse direction." },
 			{ UNKNOWN, 0, "", "", third_party::Arg::None, "\nIf a given option is not specified, X-Mem defaults will be used where appropriate.\n\nExamples:\n"
 			"    xmem --help\n"
 			"    xmem -h\n"
@@ -123,6 +125,16 @@ namespace xmem {
 			 * @param verbose If true, then X-Mem should be more verbose in its console reporting.
 			 * @param use_reads If true, then throughput benchmarks should use reads.
 			 * @param use_writes If true, then throughput benchmarks should use writes.
+			 * @param use_stride_p1 If true, include stride of +1 for relevant benchmarks.
+			 * @param use_stride_n1 If true, include stride of -1 for relevant benchmarks.
+			 * @param use_stride_p2 If true, include stride of +2 for relevant benchmarks.
+			 * @param use_stride_n2 If true, include stride of -2 for relevant benchmarks.
+			 * @param use_stride_p4 If true, include stride of +4 for relevant benchmarks.
+			 * @param use_stride_n4 If true, include stride of -4 for relevant benchmarks.
+			 * @param use_stride_p8 If true, include stride of +8 for relevant benchmarks.
+			 * @param use_stride_n8 If true, include stride of -8 for relevant benchmarks.
+			 * @param use_stride_p16 If true, include stride of +16 for relevant benchmarks.
+			 * @param use_stride_n16 If true, include stride of -16 for relevant benchmarks.
 			 */
 			Configurator(
 				bool runLatency,
@@ -142,7 +154,17 @@ namespace xmem {
 				bool use_output_file,
 				bool verbose,
 				bool use_reads,
-				bool use_writes
+				bool use_writes,
+				bool use_stride_p1,
+				bool use_stride_n1,
+				bool use_stride_p2,
+				bool use_stride_n2,
+				bool use_stride_p4,
+				bool use_stride_n4,
+				bool use_stride_p8,
+				bool use_stride_n8,
+				bool use_stride_p16,
+				bool use_stride_n16
 			);
 
 			/**
@@ -267,6 +289,66 @@ namespace xmem {
 			 */
 			bool useWrites() const { return __use_writes; }
 
+			/**
+			 * @brief Determines if a stride of +1 should be used in relevant benchmarks.
+			 * @returns True if a stride of +1 should be used.
+			 */
+			bool useStrideP1() const { return __use_stride_p1; }
+			
+			/**
+			 * @brief Determines if a stride of -1 should be used in relevant benchmarks.
+			 * @returns True if a stride of -1 should be used.
+			 */
+			bool useStrideN1() const { return __use_stride_n1; }
+			
+			/**
+			 * @brief Determines if a stride of +2 should be used in relevant benchmarks.
+			 * @returns True if a stride of +2 should be used.
+			 */
+			bool useStrideP2() const { return __use_stride_p2; }
+			
+			/**
+			 * @brief Determines if a stride of -2 should be used in relevant benchmarks.
+			 * @returns True if a stride of -2 should be used.
+			 */
+			bool useStrideN2() const { return __use_stride_n2; }
+			
+			/**
+			 * @brief Determines if a stride of +4 should be used in relevant benchmarks.
+			 * @returns True if a stride of +4 should be used.
+			 */
+			bool useStrideP4() const { return __use_stride_p4; }
+			
+			/**
+			 * @brief Determines if a stride of -4 should be used in relevant benchmarks.
+			 * @returns True if a stride of -4 should be used.
+			 */
+			bool useStrideN4() const { return __use_stride_n4; }
+			
+			/**
+			 * @brief Determines if a stride of +8 should be used in relevant benchmarks.
+			 * @returns True if a stride of +8 should be used.
+			 */
+			bool useStrideP8() const { return __use_stride_p8; }
+			
+			/**
+			 * @brief Determines if a stride of -8 should be used in relevant benchmarks.
+			 * @returns True if a stride of -8 should be used.
+			 */
+			bool useStrideN8() const { return __use_stride_n8; }
+			
+			/**
+			 * @brief Determines if a stride of +16 should be used in relevant benchmarks.
+			 * @returns True if a stride of +16 should be used.
+			 */
+			bool useStrideP16() const { return __use_stride_p16; }
+			
+			/**
+			 * @brief Determines if a stride of -16 should be used in relevant benchmarks.
+			 * @returns True if a stride of -16 should be used.
+			 */
+			bool useStrideN16() const { return __use_stride_n16; }
+
 		private:
 			/**
 			 * @brief Inspects a command line option (switch) to see if it occurred more than once, and warns the user if this is the case. The program only uses the first occurrence of any switch.
@@ -295,6 +377,16 @@ namespace xmem {
 			bool __verbose; /**< If true, then console reporting should be more detailed. */
 			bool __use_reads; /**< If true, throughput benchmarks should use reads. */
 			bool __use_writes; /**< If true, throughput benchmarks should use writes. */
+			bool __use_stride_p1; /**< If true, use a stride of +1 in relevant benchmarks. */
+			bool __use_stride_n1; /**< If true, use a stride of -1 in relevant benchmarks. */
+			bool __use_stride_p2; /**< If true, use a stride of +2 in relevant benchmarks. */
+			bool __use_stride_n2; /**< If true, use a stride of -2 in relevant benchmarks. */
+			bool __use_stride_p4; /**< If true, use a stride of +4 in relevant benchmarks. */
+			bool __use_stride_n4; /**< If true, use a stride of -4 in relevant benchmarks. */
+			bool __use_stride_p8; /**< If true, use a stride of +8 in relevant benchmarks. */
+			bool __use_stride_n8; /**< If true, use a stride of -8 in relevant benchmarks. */
+			bool __use_stride_p16; /**< If true, use a stride of +16 in relevant benchmarks. */
+			bool __use_stride_n16; /**< If true, use a stride of -16 in relevant benchmarks. */
 		};
 	};
 };

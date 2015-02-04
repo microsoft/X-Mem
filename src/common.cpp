@@ -173,36 +173,6 @@ void xmem::common::print_compile_time_options() {
 #ifdef USE_PASSES_CURVE_2
 	std::cout << "USE_PASSES_CURVE_2" << std::endl;
 #endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_1
-	std::cout << "USE_THROUGHPUT_FORW_STRIDE_1" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_1
-	std::cout << "USE_THROUGHPUT_REV_STRIDE_1" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_2
-	std::cout << "USE_THROUGHPUT_FORW_STRIDE_2" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_2
-	std::cout << "USE_THROUGHPUT_REV_STRIDE_2" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_4
-	std::cout << "USE_THROUGHPUT_FORW_STRIDE_4" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_4
-	std::cout << "USE_THROUGHPUT_REV_STRIDE_4" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_8
-	std::cout << "USE_THROUGHPUT_FORW_STRIDE_8" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_8
-	std::cout << "USE_THROUGHPUT_REV_STRIDE_8" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_16
-	std::cout << "USE_THROUGHPUT_FORW_STRIDE_16" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_16
-	std::cout << "USE_THROUGHPUT_REV_STRIDE_16" << std::endl;
-#endif
 #ifdef USE_LATENCY_BENCHMARK_RANDOM_SHUFFLE_PATTERN
 	std::cout << "USE_LATENCY_BENCHMARK_RANDOM_SHUFFLE_PATTERN" << std::endl;
 #endif
