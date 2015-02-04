@@ -17,6 +17,6 @@ call scons -f SConstruct_win
 ::MSBuild
 
 :: Copy executable
-copy build\win\release\xmem.exe .\xmem-win.exe
+copy build\win\release\xmem.exe .\xmem.exe
 
-echo Done! The executable is at the top of the project tree: xmem-win.exe
+echo Done! The executable is at the top of the project tree: xmem.exe

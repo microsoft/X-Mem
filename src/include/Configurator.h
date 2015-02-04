@@ -65,7 +65,7 @@ namespace xmem {
 		 * @brief Command-line option descriptors as needed by stuff in <config/third_party/optionparser.h>. This is basically the help message content.
 		 */
 		const third_party::Descriptor usage[] = {
-			{ UNKNOWN, 0, "", "", third_party::Arg::None, "\nUSAGE: xmem-<OS> [options]\n\n"
+			{ UNKNOWN, 0, "", "", third_party::Arg::None, "\nUSAGE: xmem [options]\n\n"
 			"Options:" },
 			{ CHUNK_SIZE, 0, "c", "chunk_size", third_party::MyArg::PositiveInteger, "    -c, --chunk_size    \tA chunk size to use for throughput benchmarks, specified in bits. Allowed values: 32, 64, 128, and 256. If no chunk sizes specified, use 64-bit chunks by default. NOTE: Some chunk sizes may not be supported on your hardware."},
 			{ OUTPUT_FILE, 0, "f", "output_file", third_party::MyArg::Required, "    -f, --output_file    \tOutput filename to use. If not specified, no output file generated." },

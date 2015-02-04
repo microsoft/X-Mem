@@ -1,6 +1,6 @@
 # X-Mem Stuff
-xmem-linux
-xmem-win.exe
+xmem
+xmem.exe
 # This is created dynamically by the build script. No need to version control it.
 src/include/build_datetime.h
 

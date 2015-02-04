@@ -18,8 +18,8 @@ scons -f SConstruct_linux
 # Check if build was successful
 if [[ $? -eq 0 ]]; then
 	# Copy executable
-	cp build/linux/release/xmem ./xmem-linux
-	echo Done! The executable is at the top of the project tree: xmem-linux
+	cp build/linux/release/xmem ./xmem
+	echo Done! The executable is at the top of the project tree: xmem
 	exit 0
 else
 	echo X-Mem for GNU/Linux build FAILED.	

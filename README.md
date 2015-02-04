@@ -1,7 +1,7 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: Extensible Memory Benchmarking Tool v1.2.12
+X-Mem: Extensible Memory Benchmarking Tool v1.2.12a
 ------------------------------------------------------------------------------------------------------------
 
 The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power. 
@@ -110,7 +110,7 @@ NOTE: On Windows, make sure you run X-Mem with Administrator privileges. This is
 	- Read performance counter data from the OS for reporting power (when applicable)
 	- Elevate thread priority and pin threads to CPUs for improved performance and benchmarking consistency
 
-USAGE: xmem-<OS> [options]
+USAGE: xmem [options]
 
 Options:
     -c, --chunk_size            A chunk size to use for throughput benchmarks,
@@ -126,17 +126,26 @@ Options:
     -j, --num_worker_threads    Number of worker threads to use in benchmarks.
     -l, --latency               Measure memory latency
     -n, --iterations            Iterations per benchmark test
+    -r, --random_access         Use a random access pattern on throughput
+                                benchmarks
+    -s, --sequential_access     Use a sequential access pattern on throughput
+                                benchmarks
     -t, --throughput            Measure memory throughput
     -u, --force_uma             Test only CPU/memory NUMA node 0 instead of all
                                 combinations.
+    -v, --verbose               Verbose mode, increase detail in X-Mem console
+                                reporting.
     -w, --working_set_size      Working set size per thread in KB. This must be
                                 a multiple of 4KB.
+
+If a given option is not specified, X-Mem defaults will be used where
+appropriate.
 
 Examples:
     xmem --help
     xmem -h
-    xmem -t
-    xmem -t --latency -n10 -w524288 -f results.csv -c32 -c256 -i 101 -u -j2
+    xmem -l --verbose -n5 --chunk_size=32 -s
+    xmem -t --latency -w524288 -f results.csv -c32 -c256 -i 101 -u -j2
 
 ------------------------------------------------------------------------------------------------------------
 BUILDING FROM SOURCE
