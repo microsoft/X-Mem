@@ -59,9 +59,10 @@ extern "C" {
 
 using namespace xmem::benchmark;
 using namespace xmem::common;
+using namespace xmem::config;
 
 BenchmarkManager::BenchmarkManager(
-	config::Configurator &config
+	Configurator &config
 	) :
 	__config(config),
 	__num_numa_nodes(g_num_nodes),
