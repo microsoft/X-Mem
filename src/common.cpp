@@ -203,12 +203,6 @@ void xmem::common::print_compile_time_options() {
 #ifdef USE_THROUGHPUT_REV_STRIDE_16
 	std::cout << "USE_THROUGHPUT_REV_STRIDE_16" << std::endl;
 #endif
-#ifdef USE_THROUGHPUT_READS
-	std::cout << "USE_THROUGHPUT_READS" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_WRITES
-	std::cout << "USE_THROUGHPUT_WRITES" << std::endl;
-#endif
 #ifdef USE_LATENCY_BENCHMARK_RANDOM_SHUFFLE_PATTERN
 	std::cout << "USE_LATENCY_BENCHMARK_RANDOM_SHUFFLE_PATTERN" << std::endl;
 #endif

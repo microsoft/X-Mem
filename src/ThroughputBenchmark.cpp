@@ -95,7 +95,6 @@ ThroughputBenchmark::ThroughputBenchmark(
 	switch (__pattern_mode) {
 		case SEQUENTIAL:
 			switch (__rw_mode) {
-#ifdef USE_THROUGHPUT_READS
 				case READ:
 					switch (_chunk_size) {
 						case CHUNK_32b:
@@ -370,7 +369,6 @@ ThroughputBenchmark::ThroughputBenchmark(
 									break;
 							}
 							break;
-#endif
 
 						default:
 							std::cerr << "Got an invalid ThroughputBenchmark configuration." << std::endl;
@@ -379,7 +377,6 @@ ThroughputBenchmark::ThroughputBenchmark(
 					}
 					break;
 
-#ifdef USE_THROUGHPUT_WRITES
 				case WRITE:
 					switch (_chunk_size) {
 						case CHUNK_32b:
@@ -661,7 +658,6 @@ ThroughputBenchmark::ThroughputBenchmark(
 							break;
 					}
 					break;
-#endif		
 
 				default:
 					std::cerr << "Got an invalid ThroughputBenchmark configuration." << std::endl;
@@ -672,7 +668,6 @@ ThroughputBenchmark::ThroughputBenchmark(
 		
 		case RANDOM:
 			switch (__rw_mode) {
-#ifdef USE_THROUGHPUT_READS
 				case READ:
 					switch (_chunk_size) {
 						case CHUNK_32b: 
@@ -697,8 +692,7 @@ ThroughputBenchmark::ThroughputBenchmark(
 							break;
 					}
 					break;
-#endif
-#ifdef USE_THROUGHPUT_WRITES				
+
 				case WRITE:
 					switch (_chunk_size) {
 						case CHUNK_32b:
@@ -723,7 +717,6 @@ ThroughputBenchmark::ThroughputBenchmark(
 							break;
 					}
 					break;
-#endif
 
 				default:
 					std::cerr << "Got an invalid ThroughputBenchmark configuration." << std::endl;
@@ -792,16 +785,12 @@ void ThroughputBenchmark::report_benchmark_info() {
 
 	std::cout << "Read/Write Mode: ";
 	switch (__rw_mode) {
-#ifdef USE_THROUGHPUT_READS
 		case READ:
 			std::cout << "read";
 			break;
-#endif
-#ifdef USE_THROUGHPUT_WRITES
 		case WRITE:
 			std::cout << "write";
 			break;
-#endif
 		default:
 			std::cout << "UNKNOWN";
 			break;

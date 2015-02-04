@@ -58,7 +58,9 @@ namespace xmem {
 			MEAS_THROUGHPUT,
 			NUMA_DISABLE,
 			VERBOSE,
-			WORKING_SET_SIZE_PER_THREAD
+			WORKING_SET_SIZE_PER_THREAD,
+			USE_READS,
+			USE_WRITES
 		};
 
 		/**
@@ -74,12 +76,14 @@ namespace xmem {
 			{ NUM_WORKER_THREADS, 1, "j", "num_worker_threads", third_party::MyArg::PositiveInteger, "    -j, --num_worker_threads    \tNumber of worker threads to use in benchmarks." },
 			{ MEAS_LATENCY, 0, "l", "latency", third_party::Arg::None, "    -l, --latency    \tMeasure memory latency" },
 			{ ITERATIONS, 0, "n", "iterations", third_party::MyArg::PositiveInteger, "    -n, --iterations    \tIterations per benchmark test" },
-			{ RANDOM_ACCESS_PATTERN, 0, "r", "random_access", third_party::Arg::None, "    -r, --random_access    \tUse a random access pattern on throughput benchmarks" },
+			{ RANDOM_ACCESS_PATTERN, 0, "r", "random_access", third_party::Arg::None, "    -r, --random_access    \tUse a random access pattern on throughput benchmarks. WARNING: not yet implemented, results are not correct." },
 			{ SEQUENTIAL_ACCESS_PATTERN, 0, "s", "sequential_access", third_party::Arg::None, "    -s, --sequential_access    \tUse a sequential access pattern on throughput benchmarks" },
 			{ MEAS_THROUGHPUT, 0, "t", "throughput", third_party::Arg::None, "    -t, --throughput    \tMeasure memory throughput" },
 			{ NUMA_DISABLE, 0, "u", "force_uma", third_party::Arg::None, "    -u, --force_uma    \tTest only CPU/memory NUMA node 0 instead of all combinations." },
 			{ VERBOSE, 0, "v", "verbose", third_party::Arg::None, "    -v, --verbose    \tVerbose mode, increase detail in X-Mem console reporting." },
 			{ WORKING_SET_SIZE_PER_THREAD, 0, "w", "working_set_size_per_thread", third_party::MyArg::PositiveInteger, "    -w, --working_set_size    \tWorking set size per thread in KB. This must be a multiple of 4KB." },
+			{ USE_READS, 0, "R", "reads", third_party::Arg::None, "    -R, --reads    \tUse memory reads in throughput benchmarks." },
+			{ USE_WRITES, 0, "W", "writes", third_party::Arg::None, "    -W, --writes    \tUse memory writes in throughput benchmarks." },
 			{ UNKNOWN, 0, "", "", third_party::Arg::None, "\nIf a given option is not specified, X-Mem defaults will be used where appropriate.\n\nExamples:\n"
 			"    xmem --help\n"
 			"    xmem -h\n"
@@ -117,6 +121,8 @@ namespace xmem {
 			 * @param filename Output filename to use.
 			 * @param use_output_file If true, use the provided output filename.
 			 * @param verbose If true, then X-Mem should be more verbose in its console reporting.
+			 * @param use_reads If true, then throughput benchmarks should use reads.
+			 * @param use_writes If true, then throughput benchmarks should use writes.
 			 */
 			Configurator(
 				bool runLatency,
@@ -134,7 +140,9 @@ namespace xmem {
 				uint32_t starting_test_index,
 				std::string filename,
 				bool use_output_file,
-				bool verbose
+				bool verbose,
+				bool use_reads,
+				bool use_writes
 			);
 
 			/**
@@ -247,6 +255,18 @@ namespace xmem {
 			 */
 			bool verboseMode() const { return __verbose; }
 
+			/**
+			 * @brief Determines whether reads should be used in throughput benchmarks.
+			 * @returns True if reads should be used.
+			 */
+			bool useReads() const { return __use_reads; }
+			
+			/**
+			 * @brief Determines whether writes should be used in throughput benchmarks.
+			 * @returns True if writes should be used.
+			 */
+			bool useWrites() const { return __use_writes; }
+
 		private:
 			/**
 			 * @brief Inspects a command line option (switch) to see if it occurred more than once, and warns the user if this is the case. The program only uses the first occurrence of any switch.
@@ -273,6 +293,8 @@ namespace xmem {
 			std::string __filename; /**< The output filename if applicable. */
 			bool __use_output_file; /**< If true, generate a CSV output file for results. */
 			bool __verbose; /**< If true, then console reporting should be more detailed. */
+			bool __use_reads; /**< If true, throughput benchmarks should use reads. */
+			bool __use_writes; /**< If true, throughput benchmarks should use writes. */
 		};
 	};
 };

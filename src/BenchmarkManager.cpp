@@ -185,16 +185,12 @@ bool BenchmarkManager::runThroughputBenchmarks() {
 
 			rw_mode_t rw_mode = __tp_benchmarks[i]->getRWMode();
 			switch (rw_mode) {
-#ifdef USE_THROUGHPUT_READS
 				case READ:
 					__results_file << "READ" << ",";
 					break;
-#endif
-#ifdef USE_THROUGHPUT_WRITES
 				case WRITE:
 					__results_file << "WRITE" << ",";
 					break;
-#endif
 				default:
 					__results_file << "UNKNOWN" << ",";
 					break;
@@ -364,69 +360,57 @@ void BenchmarkManager::__buildThroughputBenchmarks() {
 	//Put the enumerations into vectors to make constructing benchmarks more loopable
 	std::vector<chunk_size_t> chunks;
 	if (__config.useChunk32b())
-		chunks.push_back(static_cast<chunk_size_t>(CHUNK_32b)); 
+		chunks.push_back(CHUNK_32b); 
 	if (__config.useChunk64b())
-		chunks.push_back(static_cast<chunk_size_t>(CHUNK_64b)); 
+		chunks.push_back(CHUNK_64b); 
 	if (__config.useChunk128b())
-		chunks.push_back(static_cast<chunk_size_t>(CHUNK_128b)); 
+		chunks.push_back(CHUNK_128b); 
 	if (__config.useChunk256b())
-		chunks.push_back(static_cast<chunk_size_t>(CHUNK_256b)); 
+		chunks.push_back(CHUNK_256b); 
 
 	std::vector<rw_mode_t> rws;
-	rws.resize(NUM_RW_MODES);
-	uint32_t i = 0;
-	for (uint32_t el = 0; el != NUM_RW_MODES; el++)
-		rws[i++] = static_cast<rw_mode_t>(el);
+	if (__config.useReads())
+		rws.push_back(READ);
+	if (__config.useWrites())
+		rws.push_back(WRITE);
 	
 	std::vector<int64_t> strides;
-	strides.resize(0);
-	i = 0;
 #ifdef USE_THROUGHPUT_FORW_STRIDE_1
-	strides.resize(strides.size()+1);
-	strides[i++] = 1;
+	strides.push_back(1);
 #endif
 #ifdef USE_THROUGHPUT_REV_STRIDE_1
-	strides.resize(strides.size()+1);
-	strides[i++] = -1;
+	strides.push_back(-1);
 #endif
 #ifdef USE_THROUGHPUT_FORW_STRIDE_2
-	strides.resize(strides.size()+1);
-	strides[i++] = 2;
+	strides.push_back(2);
 #endif
 #ifdef USE_THROUGHPUT_REV_STRIDE_2
-	strides.resize(strides.size()+1);
-	strides[i++] = -2;
+	strides.push_back(-2);
 #endif
 #ifdef USE_THROUGHPUT_FORW_STRIDE_4
-	strides.resize(strides.size()+1);
-	strides[i++] = 4;
+	strides.push_back(4);
 #endif
 #ifdef USE_THROUGHPUT_REV_STRIDE_4
-	strides.resize(strides.size()+1);
-	strides[i++] = -4;
+	strides.push_back(-4);
 #endif
 #ifdef USE_THROUGHPUT_FORW_STRIDE_8
-	strides.resize(strides.size()+1);
-	strides[i++] = 8;
+	strides.push_back(8);
 #endif
 #ifdef USE_THROUGHPUT_REV_STRIDE_8
-	strides.resize(strides.size()+1);
-	strides[i++] = -8;
+	strides.push_back(-8);
 #endif
 #ifdef USE_THROUGHPUT_FORW_STRIDE_16
-	strides.resize(strides.size()+1);
-	strides[i++] = 16;
+	strides.push_back(16);
 #endif
 #ifdef USE_THROUGHPUT_REV_STRIDE_16
-	strides.resize(strides.size()+1);
-	strides[i++] = -16;
+	strides.push_back(-16);
 #endif
 
 	if (g_verbose)
 		std::cout << std::endl;
 
 	std::string benchmark_name;
-	i = 0;
+	uint32_t i = 0;
 	//Build throughput benchmarks. This is a humongous nest of for loops, but rest assured, the range of each loop should be small enough. The problem is we have many combinations to test.
 	for (uint32_t mem_node = 0; mem_node < __benchmark_num_numa_nodes; mem_node++) { //iterate each memory NUMA node
 		void* mem_array = __mem_arrays[mem_node];			

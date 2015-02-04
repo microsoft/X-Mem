@@ -1,7 +1,7 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: Extensible Memory Benchmarking Tool v1.2.12a
+X-Mem: Extensible Memory Benchmarking Tool v1.2.13
 ------------------------------------------------------------------------------------------------------------
 
 The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power. 
@@ -110,6 +110,7 @@ NOTE: On Windows, make sure you run X-Mem with Administrator privileges. This is
 	- Read performance counter data from the OS for reporting power (when applicable)
 	- Elevate thread priority and pin threads to CPUs for improved performance and benchmarking consistency
 
+
 USAGE: xmem [options]
 
 Options:
@@ -127,7 +128,8 @@ Options:
     -l, --latency               Measure memory latency
     -n, --iterations            Iterations per benchmark test
     -r, --random_access         Use a random access pattern on throughput
-                                benchmarks
+                                benchmarks. WARNING: not yet implemented,
+                                results are not correct.
     -s, --sequential_access     Use a sequential access pattern on throughput
                                 benchmarks
     -t, --throughput            Measure memory throughput
@@ -137,6 +139,8 @@ Options:
                                 reporting.
     -w, --working_set_size      Working set size per thread in KB. This must be
                                 a multiple of 4KB.
+    -R, --reads                 Use memory reads in throughput benchmarks.
+    -W, --writes                Use memory writes in throughput benchmarks.
 
 If a given option is not specified, X-Mem defaults will be used where
 appropriate.
@@ -146,6 +150,7 @@ Examples:
     xmem -h
     xmem -l --verbose -n5 --chunk_size=32 -s
     xmem -t --latency -w524288 -f results.csv -c32 -c256 -i 101 -u -j2
+
 
 ------------------------------------------------------------------------------------------------------------
 BUILDING FROM SOURCE

@@ -59,7 +59,9 @@ Configurator::Configurator(
 	__starting_test_index(1),
 	__filename(),
 	__use_output_file(false),
-	__verbose(false)
+	__verbose(false),
+	__use_reads(true),
+	__use_writes(true)
 	{
 }
 
@@ -79,7 +81,9 @@ Configurator::Configurator(
 	uint32_t starting_test_index,
 	std::string filename,
 	bool use_output_file,
-	bool verbose
+	bool verbose,
+	bool use_reads,
+	bool use_writes
 	) :
 	__configured(true),
 	__runLatency(runLatency),
@@ -97,7 +101,9 @@ Configurator::Configurator(
 	__starting_test_index(starting_test_index),
 	__filename(filename),
 	__use_output_file(use_output_file),
-	__verbose(verbose)
+	__verbose(verbose),
+	__use_reads(use_reads),
+	__use_writes(use_writes)
 	{
 }
 
@@ -117,13 +123,15 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	third_party::Option* buffer = new third_party::Option[stats.buffer_max];
 	third_party::Parser parse(usage, argc, argv, options, buffer); //Parse input
 
-	//Need some arguments.
-	if (argc == 0)
-		goto error;
-
 	//Check for parser error
 	if (parse.error())
 		goto error;
+
+	//X-Mem doesn't have any non-option arguments, so we will presume the user wants a help message.
+	if (parse.nonOptionsCount() > 0) {
+		std::cerr << "ERROR: X-Mem does not support any non-option arguments." << std::endl;
+		goto error;
+	}
 
 	//Check for any unknown options
 	for (third_party::Option* unknown_opt = options[UNKNOWN]; unknown_opt != NULL; unknown_opt = unknown_opt->next()) {
@@ -264,6 +272,21 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		__filename = options[OUTPUT_FILE].arg;
 		__use_output_file = true;
 	}
+
+	//Check if reads should be used in throughput benchmarks
+	if (options[USE_READS] || options[USE_WRITES]) { //override defaults
+		if (!__runThroughput) //These options only make sense for throughput benchmarks, but are otherwise harmless
+			std::cerr << "WARNING: Ignoring specified read/write patterns. These only apply to throughput benchmarks." << std::endl;
+
+		__use_reads = false;
+		__use_writes = false;
+	}
+
+	if (options[USE_READS])
+		__use_reads = true;
+
+	if (options[USE_WRITES])
+		__use_writes = true;
 	
 	//Make sure at least one mode is available
 	if (!__runLatency && !__runThroughput) {
@@ -274,6 +297,12 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	//Make sure at least one access pattern is selected if in throughput mode
 	if (__runThroughput && !__use_random_access_pattern && !__use_sequential_access_pattern) { //This should never be triggered
 		std::cerr << "ERROR: Throughput benchmark was selected, but no access pattern was specified!" << std::endl;	
+		goto error;
+	}
+	
+	//Make sure at least one access pattern is selected if in throughput mode
+	if (__runThroughput && !__use_reads && !__use_writes) { //This should never be triggered
+		std::cerr << "ERROR: Throughput benchmark was selected, but no read/write pattern was specified!" << std::endl;	
 		goto error;
 	}
 
@@ -288,11 +317,31 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	if (__runLatency)
 		std::cout << "Latency test selected." << std::endl;
 	if (__runThroughput) {
-		std::cout << "Throughput test selected..." << std::endl;
+		std::cout << "Throughput test selected." << std::endl;
+		std::cout << "---> Random access: \t\t";
 		if (__use_random_access_pattern)
-			std::cout << "---> access pattern: \t\tRANDOM" << std::endl;
+			std::cout << "yes";
+		else
+			std::cout << "no";
+		std::cout << std::endl;
+		std::cout << "---> Sequential access: \t";
 		if (__use_sequential_access_pattern)
-			std::cout << "---> access pattern: \t\tSEQUENTIAL" << std::endl;
+			std::cout << "yes";
+		else
+			std::cout << "no";
+		std::cout << std::endl;
+		std::cout << "---> Use memory reads: \t\t";
+		if (__use_reads)
+			std::cout << "yes";
+		else
+			std::cout << "no";
+		std::cout << std::endl;
+		std::cout << "---> Use memory writes: \t";
+		if (__use_writes)
+			std::cout << "yes";
+		else
+			std::cout << "no";
+		std::cout << std::endl;
 	}
 	std::cout << "Working set:  \t\t\t";
 #ifndef USE_LARGE_PAGES

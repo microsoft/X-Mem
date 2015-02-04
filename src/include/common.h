@@ -45,7 +45,7 @@
 namespace xmem {
 	namespace common {
 
-#define VERSION "1.2.12a"
+#define VERSION "1.2.13"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -212,10 +212,6 @@ namespace xmem {
 //#define USE_THROUGHPUT_REV_STRIDE_8 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 8 chunks. */
 //#define USE_THROUGHPUT_REV_STRIDE_16 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 16 chunks. */
 
-//Throughput benchmark reads and writes
-#define USE_THROUGHPUT_READS /**< RECOMMENDED ENABLED. In throughput benchmarks, read from memory. */
-#define USE_THROUGHPUT_WRITES /**< RECOMMENDED ENABLED. In throughput benchmarks, write to memory. */
-
 //Latency benchmark pointer chasing construction method
 #define USE_LATENCY_BENCHMARK_RANDOM_SHUFFLE_PATTERN /**< RECOMMENDED ENABLED. In latency benchmarks, generate the pointer chasing pattern using a random shuffle, which has a chance of creating small cycles. Much faster to run but strictly less correct. O(N) */
 //#define USE_LATENCY_BENCHMARK_RANDOM_HAMILTONIAN_CYCLE_PATTERN /**< RECOMMENDED DISABLED. In latency benchmarks, generate the pointer chasing pattern using a random directed Hamiltonian Cycle across the entire memory space under test. Slow to compute as it is O(N^2), but strictly more correct. */
@@ -266,14 +262,8 @@ namespace xmem {
 #endif
 #endif
 
-#if defined(USE_THROUGHPUT_SEQUENTIAL_PATTERN)
 #if !defined(USE_THROUGHPUT_FORW_STRIDE_1) && !defined(USE_THROUGHPUT_FORW_STRIDE_2) && !defined(USE_THROUGHPUT_FORW_STRIDE_4) && !defined(USE_THROUGHPUT_FORW_STRIDE_8) && !defined(USE_THROUGHPUT_FORW_STRIDE_16) && !defined(USE_THROUGHPUT_REV_STRIDE_1) && !defined(USE_THROUGHPUT_REV_STRIDE_2) && !defined(USE_THROUGHPUT_REV_STRIDE_4) && !defined(USE_THROUGHPUT_REV_STRIDE_8) && !defined(USE_THROUGHPUT_REV_STRIDE_16) 
 #error Throughput benchmark sequential pattern compile-time option was selected, but no stride options were set! At least one must be enabled.
-#endif
-#endif
-
-#if !defined(USE_THROUGHPUT_READS) && !defined(USE_THROUGHPUT_WRITES)
-#error At least one read or write mode compile-time option must be selected for throughput benchmarks!
 #endif
 
 #if !defined(USE_LATENCY_BENCHMARK_RANDOM_SHUFFLE_PATTERN) && !defined(USE_LATENCY_BENCHMARK_RANDOM_HAMILTONIAN_CYCLE_PATTERN)
@@ -319,12 +309,8 @@ namespace xmem {
 		 * @brief Memory access batterns are broadly categorized by reads and writes.
 		 */
 		typedef enum {
-#ifdef USE_THROUGHPUT_READS
 			READ,
-#endif
-#ifdef USE_THROUGHPUT_WRITES
 			WRITE,
-#endif
 			NUM_RW_MODES
 		} rw_mode_t;
 
