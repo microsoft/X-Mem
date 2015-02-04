@@ -14,9 +14,15 @@ echo #endif>>src\include\build_datetime.h
 
 :: Build
 call scons -f SConstruct_win
-::MSBuild
+
+:: Check if build was successful
+if ERRORLEVEL 1 goto buildFailure
 
 :: Copy executable
 copy build\win\release\xmem.exe .\xmem.exe
-
 echo Done! The executable is at the top of the project tree: xmem.exe
+exit /B 0
+
+:buildFailure
+echo X-Mem for Windows build FAILED.
+exit /B 1
