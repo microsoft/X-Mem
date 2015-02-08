@@ -51,20 +51,16 @@
 #include <vector> //for std::vector
 #include <algorithm> //for std::find
 
-#ifdef USE_LARGE_PAGES
 extern "C" {
 #include <hugetlbfs.h> //for getting huge page size
 }
-#endif
 #endif
 
 namespace xmem {
 	namespace common {
 		bool g_verbose = false; /**< If true, be more verbose with console reporting. */
 		size_t g_page_size; /**< Default page size on the system, in bytes. */
-//#ifdef USE_LARGE_PAGES
 		size_t g_large_page_size; /**< Large page size on the system, in bytes. */
-//#endif
 		uint32_t g_num_nodes; /**< Number of NUMA nodes in the system. */
 		uint32_t g_num_logical_cpus; /**< Number of logical CPU cores in the system. This may be different than physical CPUs, e.g. Intel hyperthreading. */
 		uint32_t g_num_physical_cpus; /**< Number of physical CPU cores in the system. */
@@ -151,9 +147,6 @@ void xmem::common::print_compile_time_options() {
 #endif
 #ifdef USE_TSC_TIMER
 	std::cout << "USE_TSC_TIMER" << std::endl;
-#endif
-#ifdef USE_LARGE_PAGES
-	std::cout << "USE_LARGE_PAGES" << std::endl;
 #endif
 #ifdef USE_TIME_BASED_BENCHMARKS
 	std::cout << "USE_TIME_BASED_BENCHMARKS" << std::endl;
@@ -350,9 +343,7 @@ void xmem::common::init_globals() {
 	g_total_l3_caches = DEFAULT_NUM_L3_CACHES;
 	g_total_l4_caches = DEFAULT_NUM_L4_CACHES;
 	g_page_size = DEFAULT_PAGE_SIZE;
-#ifdef USE_LARGE_PAGES
 	g_large_page_size = DEFAULT_LARGE_PAGE_SIZE; 
-#endif
 }
 
 int32_t xmem::common::query_sys_info() {
@@ -505,15 +496,11 @@ int32_t xmem::common::query_sys_info() {
 	GetSystemInfo(&sysinfo);
 	DWORD pgsz = sysinfo.dwPageSize;
 	g_page_size = pgsz;
-#ifdef USE_LARGE_PAGES
 	g_large_page_size = GetLargePageMinimum();
-#endif
 #endif
 #ifdef __gnu_linux__
 	g_page_size = static_cast<uint64_t>(sysconf(_SC_PAGESIZE));
-#ifdef USE_LARGE_PAGES
 	g_large_page_size = gethugepagesize(); 
-#endif
 #endif
 
 	//Report
@@ -535,11 +522,8 @@ int32_t xmem::common::query_sys_info() {
 			<< " (guess)"
 #endif
 			<< std::endl; 
-#ifdef USE_LARGE_PAGES
-		std::cout << "(Large) page size to be used for benchmarks: " << g_large_page_size << " B" << std::endl;
-#else
-		std::cout << "(Regular) page size to be used for benchmarks: " << g_page_size << " B" << std::endl;
-#endif
+		std::cout << "Regular page size: " << g_page_size << " B" << std::endl;
+		std::cout << "Large page size: " << g_large_page_size << " B" << std::endl;
 	}
 
 #ifdef _WIN32

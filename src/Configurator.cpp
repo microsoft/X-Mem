@@ -60,6 +60,7 @@ Configurator::Configurator(
 	__filename(),
 	__use_output_file(false),
 	__verbose(false),
+	__use_large_pages(false),
 	__use_reads(true),
 	__use_writes(true),
 	__use_stride_p1(true),
@@ -92,6 +93,7 @@ Configurator::Configurator(
 	std::string filename,
 	bool use_output_file,
 	bool verbose,
+	bool use_large_pages,
 	bool use_reads,
 	bool use_writes,
 	bool use_stride_p1,
@@ -122,6 +124,7 @@ Configurator::Configurator(
 	__filename(filename),
 	__use_output_file(use_output_file),
 	__verbose(verbose),
+	__use_large_pages(use_large_pages),
 	__use_reads(use_reads),
 	__use_writes(use_writes),
 	__use_stride_p1(use_stride_p1),
@@ -195,16 +198,21 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 
 		__working_set_size_per_thread = working_set_size_KB * KB; //convert to bytes
 	}
-
-#ifdef USE_LARGE_PAGES
-	size_t num_large_pages = 0;
-	if (__working_set_size_per_thread <= xmem::common::g_large_page_size) //sub one large page, round up to one
-		num_large_pages = 1;
-	else if (__working_set_size_per_thread % xmem::common::g_large_page_size == 0) //multiple of large page
-		num_large_pages = __working_set_size_per_thread / xmem::common::g_large_page_size;
-	else //larger than one large page but not a multiple of large page
-		num_large_pages = __working_set_size_per_thread / xmem::common::g_large_page_size + 1;
+	
+	//Check NUMA selection
+	if (options[NUMA_DISABLE])
+		__numa_enabled = false;
+	
+	//Check if large pages should be used for allocation of memory under test.
+	if (options[USE_LARGE_PAGES]) {
+#ifdef __gnu_linux__
+		if (__numa_enabled) { //For now, large pages are not --simultaneously-- supported alongside NUMA. This is due to lack of NUMA support in hugetlbfs on GNU/Linux.
+			std::cerr << "ERROR: On GNU/Linux version of X-Mem, large pages are not simultaneously supported alongside NUMA due to reasons outside our control. If you want large pages, then force UMA using the \"-u\" option explicitly." << std::endl;
+			goto error;
+		}
 #endif
+		__use_large_pages = true;
+	}
 
 	//Check number of worker threads
 	if (options[NUM_WORKER_THREADS]) { //Override default value
@@ -251,10 +259,6 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		}
 	}
 
-	//Check NUMA selection
-	if (options[NUMA_DISABLE])
-		__numa_enabled = false;
-
 	if (options[VERBOSE]) {
 		__verbose = true; //What the user configuration is.
 		common::g_verbose = true; //What rest of X-Mem actually uses.
@@ -278,13 +282,11 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		__use_sequential_access_pattern = false;
 	}
 
-	if (options[RANDOM_ACCESS_PATTERN]) {
+	if (options[RANDOM_ACCESS_PATTERN])
 		__use_random_access_pattern = true;
-	}
 	
-	if (options[SEQUENTIAL_ACCESS_PATTERN]) {
+	if (options[SEQUENTIAL_ACCESS_PATTERN])
 		__use_sequential_access_pattern = true;
-	}
 
 	//Check starting test index
 	if (options[BASE_TEST_INDEX]) { //override defaults
@@ -306,7 +308,7 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		__use_output_file = true;
 	}
 
-	//Check if reads should be used in throughput benchmarks
+	//Check if reads and/or writes should be used in throughput benchmarks
 	if (options[USE_READS] || options[USE_WRITES]) { //override defaults
 		if (!__runThroughput) //These options only make sense for throughput benchmarks, but are otherwise harmless
 			std::cerr << "WARNING: Ignoring specified read/write patterns. These only apply to throughput benchmarks." << std::endl;
@@ -469,17 +471,28 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		std::cout << std::endl;
 	}
 	std::cout << "Working set:  \t\t\t";
-#ifndef USE_LARGE_PAGES
-	std::cout << __working_set_size_per_thread << " B == " << __working_set_size_per_thread / KB  << " KB == " << __working_set_size_per_thread / MB << " MB (" << __working_set_size_per_thread/(xmem::common::g_page_size) << " pages)" << std::endl;	
-#else
-	std::cout << __working_set_size_per_thread << " B == " << __working_set_size_per_thread / KB  << " KB == " << __working_set_size_per_thread / MB << " MB (fits in " << num_large_pages << " large pages)" << std::endl;	
-#endif
+	if (__use_large_pages) {
+		size_t num_large_pages = 0;
+		if (__working_set_size_per_thread <= xmem::common::g_large_page_size) //sub one large page, round up to one
+			num_large_pages = 1;
+		else if (__working_set_size_per_thread % xmem::common::g_large_page_size == 0) //multiple of large page
+			num_large_pages = __working_set_size_per_thread / xmem::common::g_large_page_size;
+		else //larger than one large page but not a multiple of large page
+			num_large_pages = __working_set_size_per_thread / xmem::common::g_large_page_size + 1;
+		std::cout << __working_set_size_per_thread << " B == " << __working_set_size_per_thread / KB  << " KB == " << __working_set_size_per_thread / MB << " MB (fits in " << num_large_pages << " large pages)" << std::endl;	
+	} else { 
+		std::cout << __working_set_size_per_thread << " B == " << __working_set_size_per_thread / KB  << " KB == " << __working_set_size_per_thread / MB << " MB (" << __working_set_size_per_thread/(xmem::common::g_page_size) << " pages)" << std::endl;	
+	}
 	std::cout << "Number of worker threads:  \t";
 	std::cout << __num_worker_threads << std::endl;
 	if (!__numa_enabled)
 		std::cout << "NUMA enabled:   \t\tno" << std::endl;
 	else
 		std::cout << "NUMA enabled:   \t\tyes" << std::endl;
+	if (__use_large_pages)
+		std::cout << "Large pages:    \t\tyes" << std::endl;
+	else
+		std::cout << "Large pages:    \t\tno" << std::endl;
 	std::cout << "Iterations:  \t\t\t";
 	std::cout << __iterations << std::endl;
 	std::cout << "Starting test index:  \t\t";

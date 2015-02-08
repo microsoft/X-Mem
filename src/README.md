@@ -1,7 +1,7 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: Extensible Memory Benchmarking Tool v1.3
+X-Mem: Extensible Memory Benchmarking Tool v1.3.1
 ------------------------------------------------------------------------------------------------------------
 
 The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power. 
@@ -10,7 +10,7 @@ Originally authored by Mark Gottscho (Email: <mgottscho@ucla.edu>) as a Summer 2
 
 This project is under active development. Stay tuned for more updates.
 
-PROJECT REVISION DATE: February 4, 2015.
+PROJECT REVISION DATE: February 8, 2015.
 
 ------------------------------------------------------------------------------------------------------------
 LICENSE
@@ -93,7 +93,7 @@ WINDOWS:
 GNU/LINUX:
 
 - GNU utilities with support for C++11. Tested with gcc 4.8.2 on Ubuntu 14.04 LTS.
-- (SUPPORT IS CURRENTLY SUSPENDED) If the binary is built with the option USE_LARGE_PAGES, you will need libhugetlbfs. You can obtain it at <http://libhugetlbfs.sourceforge.net>. On Ubuntu systems, you can install using "sudo apt-get install libhugetlbfs0". Note that you may need to manually ensure that large pages are available from the OS. This can be done by running "hugeadm --pool-list". It is recommended to set minimum pool to 1GB (in order to measure DRAM effectively). If needed, this can be done by running "hugeadm --pool-pages-min 2MB:512".
+- libhugetlbfs. You can obtain it at <http://libhugetlbfs.sourceforge.net>. On Ubuntu systems, you can install using "sudo apt-get install libhugetlbfs0". During runtime, if the --large_pages option is selected, you may need to first manually ensure that large pages are available from the OS. This can be done by running "hugeadm --pool-list". It is recommended to set minimum pool to 1GB (in order to measure DRAM effectively). If needed, this can be done by running "hugeadm --pool-pages-min 2MB:512". Alternatively, run the linux_setup_runtime_hugetlbfs.sh script that is provided with X-Mem.
 
 ------------------------------------------------------------------------------------------------------------
 INSTALLATION
@@ -106,9 +106,10 @@ USAGE
 ------------------------------------------------------------------------------------------------------------
 
 NOTE: On Windows, make sure you run X-Mem with Administrator privileges. This is needed in order to:
-	- Allocate "large pages" for improved performance as well as query if USE_LARGE_PAGES compile-time option is set
-	- Read performance counter data from the OS for reporting power (when applicable)
-	- Elevate thread priority and pin threads to CPUs for improved performance and benchmarking consistency
+	- Allocate "large pages" for improved performance, if the --large_pages option is selected (see below).
+	- Read performance counter data from the OS for reporting power (when applicable).
+	- Elevate thread priority and pin threads to CPUs for improved performance and benchmarking consistency.
+NOTE: On GNU/Linux, if you plan to use the --large_pages option, you will need administrator privileges (sudoer).
 
 USAGE: xmem [options]
 
@@ -138,6 +139,10 @@ Options:
                                 reporting.
     -w, --working_set_size      Working set size per thread in KB. This must be
                                 a multiple of 4KB.
+    -L, --large_pages           Use large pages if possible. This may enable
+                                better memory performance, particularly for
+                                random-access patterns, but may not be supported
+                                on your system.
     -R, --reads                 Use memory reads in throughput benchmarks.
     -W, --writes                Use memory writes in throughput benchmarks.
     -S, --stride_size           A stride size to use for sequential throughput
@@ -183,8 +188,8 @@ GNU/LINUX:
 - gcc with support for the C++11 standard. Tested with gcc version 4.8.2 on Ubuntu 14.04 LTS for x86-64.
 - Python 2.7. You can obtain it at <http://www.python.org>. On Ubuntu systems, you can install using "sudo apt-get install python2.7". You may need some other Python 2.7 packages as well.
 - SCons build system. You can obtain it at <http://www.scons.org>. On Ubuntu systems, you can install using "sudo apt-get install scons". Build tested with SCons 2.3.4.
-- (SUPPORT IS CURRENTLY SUSPENDED) If you want large page (huge page) support on GNU/Linux, you need kernel support. This can be verified on your installation by running "grep hugetlbfs /proc/filesystems". If you do not have huge page support in your kernel, you can build a kernel with the appropriate options switched on: "CONFIG_HUGETLB_PAGE" and "CONFIG_HUGETLBFS".
-- (SUPPORT IS CURRENTLY SUSPENDED) libhugetlbfs. This is used for allocating "huge pages". You can obtain it at <http://libhugetlbfs.sourceforge.net>. On Ubuntu systems, you can install using "sudo apt-get install libhugetlbfs-dev".
+- Kernel support for large (huge) pages. This support can be verified on your Linux installation by running "grep hugetlbfs /proc/filesystems". If you do not have huge page support in your kernel, you can build a kernel with the appropriate options switched on: "CONFIG_HUGETLB_PAGE" and "CONFIG_HUGETLBFS".
+- libhugetlbfs. This is used for allocating large (huge) pages if the --large_pages runtime option is selected. You can obtain it at <http://libhugetlbfs.sourceforge.net>. On Ubuntu systems, you can install using "sudo apt-get install libhugetlbfs-dev".
 
 ------------------------------------------------------------------------------------------------------------
 DOCUMENTATION BUILD PREREQUISITES

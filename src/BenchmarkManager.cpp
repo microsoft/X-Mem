@@ -50,11 +50,9 @@
 
 #ifdef __gnu_linux__
 #include <numa.h>
-#ifdef USE_LARGE_PAGES
 extern "C" {
 #include <hugetlbfs.h> //for allocating and freeing huge pages
 }
-#endif
 #endif
 
 using namespace xmem::benchmark;
@@ -128,17 +126,17 @@ BenchmarkManager::~BenchmarkManager() {
 			delete __lat_benchmarks[i];
 	//Free memory arrays
 	for (uint32_t i = 0; i < __mem_arrays.size(); i++)
-		if (__mem_arrays[i] != nullptr)
+		if (__mem_arrays[i] != nullptr) {
 #ifdef _WIN32
-			VirtualFreeEx(GetCurrentProcess(), __mem_arrays[i], 0, MEM_RELEASE); //windows API
+			VirtualFreeEx(GetCurrentProcess(), __mem_arrays[i], 0, MEM_RELEASE);
 #endif
 #ifdef __gnu_linux__
-#ifdef USE_LARGE_PAGES
-			free_huge_pages(__mem_arrays[i]);
-#else
-			numa_free(__mem_arrays[i], __mem_array_lens[i]); //Linux API
+			if (__config.useLargePages())
+				free_huge_pages(__mem_arrays[i]);
+			else
+				numa_free(__mem_arrays[i], __mem_array_lens[i]); 
 #endif
-#endif
+		}
 	//Close results file
 	if (__results_file.is_open())
 		__results_file.close();
@@ -280,52 +278,50 @@ void BenchmarkManager::__setupWorkingSets(size_t working_set_size) {
 	for (uint32_t numa_node = 0; numa_node < __benchmark_num_numa_nodes; numa_node++) {
 		size_t allocation_size = 0;
 
-#ifdef USE_LARGE_PAGES
-		size_t remainder = 0;
-		//For large pages, working set size could be less than a single large page. So let's allocate the right amount of memory, which is the working set size rounded up to nearest large page, which could be more than we actually use.
-		if (__config.getNumWorkerThreads() * working_set_size < g_large_page_size)
-			allocation_size = g_large_page_size;
-		else { 
-			remainder = (__config.getNumWorkerThreads() * working_set_size) % g_large_page_size;
-			allocation_size = (__config.getNumWorkerThreads() * working_set_size) + remainder;
-		}
-		
+		if (__config.useLargePages()) {
+			size_t remainder = 0;
+			//For large pages, working set size could be less than a single large page. So let's allocate the right amount of memory, which is the working set size rounded up to nearest large page, which could be more than we actually use.
+			if (__config.getNumWorkerThreads() * working_set_size < g_large_page_size)
+				allocation_size = g_large_page_size;
+			else { 
+				remainder = (__config.getNumWorkerThreads() * working_set_size) % g_large_page_size;
+				allocation_size = (__config.getNumWorkerThreads() * working_set_size) + remainder;
+			}
+			
 #ifdef _WIN32
-		//Make sure we have necessary privileges
-		HANDLE hToken;
-		if (!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken)) {
-			std::cerr << "FATAL: Failed to open process token to adjust privileges! Did you remember to run in Administrator mode?" << std::endl;
-			exit(-1);
-		}
-		if (!xmem::common::win::third_party::SetPrivilege(hToken,"SeLockMemoryPrivilege", true)) {
-			std::cerr << "FATAL: Failed to adjust privileges to allow locking memory pages! Did you remember to run in Administrator mode?" << std::endl;
-			exit(-1);
-		}
-		CloseHandle(hToken);
-		
-		__mem_arrays[numa_node] = VirtualAllocExNuma(GetCurrentProcess(), NULL, allocation_size, MEM_COMMIT | MEM_RESERVE | MEM_LARGE_PAGES, PAGE_READWRITE, numa_node); //Windows NUMA allocation. Make the allocation one page bigger than necessary so that we can do alignment.
+			//Make sure we have necessary privileges
+			HANDLE hToken;
+			if (!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken)) {
+				std::cerr << "ERROR: Failed to open process token to adjust privileges! Did you remember to run in Administrator mode?" << std::endl;
+				exit(-1);
+			}
+			if (!xmem::common::win::third_party::SetPrivilege(hToken,"SeLockMemoryPrivilege", true)) {
+				std::cerr << "ERROR: Failed to adjust privileges to allow locking memory pages! Did you remember to run in Administrator mode?" << std::endl;
+				exit(-1);
+			}
+			CloseHandle(hToken);
+			
+			__mem_arrays[numa_node] = VirtualAllocExNuma(GetCurrentProcess(), NULL, allocation_size, MEM_COMMIT | MEM_RESERVE | MEM_LARGE_PAGES, PAGE_READWRITE, numa_node); //Windows NUMA allocation. Make the allocation one page bigger than necessary so that we can do alignment.
 #endif
 #ifdef __gnu_linux__
-		__mem_arrays[numa_node] = get_huge_pages(allocation_size, GHP_DEFAULT); //TODO: hugetlbfs does not seem to be NUMA-aware. We may require NUMA awareness and huge pages to be mutually exclusive on Linux builds =( FIXME: I get segfaults in ThroughputBenchmark if allocation_size ends up requiring more than 1 huge page. For this reason USE_LARGE_PAGES is currently disabled for Linux builds.
+			__mem_arrays[numa_node] = get_huge_pages(allocation_size, GHP_DEFAULT); //TODO: hugetlbfs does not seem to be NUMA-aware. We may require NUMA awareness and huge pages to be mutually exclusive on Linux builds =( FIXME: I get segfaults in ThroughputBenchmark if allocation_size ends up requiring more than 1 huge page.
 #endif
-
-
-#else //Non-large pages (nominal case)
-		//Under normal (not large-page) operation, working set size is a multiple of regular pages.
-		allocation_size = __config.getNumWorkerThreads() * working_set_size + g_page_size; 
+		} else { //Non-large pages (nominal case)
+			//Under normal (not large-page) operation, working set size is a multiple of regular pages.
+			allocation_size = __config.getNumWorkerThreads() * working_set_size + g_page_size; 
 #ifdef _WIN32
-		__mem_arrays[numa_node] = VirtualAllocExNuma(GetCurrentProcess(), NULL, allocation_size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE, numa_node); //Windows NUMA allocation. Make the allocation one page bigger than necessary so that we can do alignment.
+			__mem_arrays[numa_node] = VirtualAllocExNuma(GetCurrentProcess(), NULL, allocation_size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE, numa_node); //Windows NUMA allocation. Make the allocation one page bigger than necessary so that we can do alignment.
 #endif
 #ifdef __gnu_linux__
-		__mem_arrays[numa_node] = numa_alloc_onnode(allocation_size, numa_node);
+			numa_set_strict(1); //Enforce NUMA memory allocation to land on specified node or fail otherwise. Alternative node fallback is forbidden.
+			__mem_arrays[numa_node] = numa_alloc_onnode(allocation_size, numa_node);
 #endif
-
-#endif
+		}
 		
 		if (__mem_arrays[numa_node] != nullptr)
 			__mem_array_lens[numa_node] = __config.getNumWorkerThreads() * working_set_size;
 		else {
-			std::cerr << "FATAL: Failed to allocate " << allocation_size << " B on NUMA node " << numa_node << " for " << __config.getNumWorkerThreads() << " worker threads." << std::endl;
+			std::cerr << "ERROR: Failed to allocate " << allocation_size << " B on NUMA node " << numa_node << " for " << __config.getNumWorkerThreads() << " worker threads." << std::endl;
 			exit(-1);
 		}
 
@@ -335,11 +331,11 @@ void BenchmarkManager::__setupWorkingSets(size_t working_set_size) {
 		}
 
 		//upwards alignment to page boundary
-#ifdef USE_LARGE_PAGES
-		uintptr_t mask = static_cast<uintptr_t>(g_large_page_size)-1;
-#else
-		uintptr_t mask = static_cast<uintptr_t>(g_page_size)-1; //e.g. 4095 bytes
-#endif
+		uintptr_t mask;
+		if (__config.useLargePages())
+			mask = static_cast<uintptr_t>(g_large_page_size)-1;
+		else
+			mask = static_cast<uintptr_t>(g_page_size)-1; //e.g. 4095 bytes
 		uintptr_t tmp_ptr = reinterpret_cast<uintptr_t>(__mem_arrays[numa_node]);
 		uintptr_t aligned_addr = (tmp_ptr + mask) & ~mask; //add one page to the address, then truncate least significant bits of address to be page aligned.
 		__mem_arrays[numa_node] = reinterpret_cast<void*>(aligned_addr); 
@@ -430,11 +426,11 @@ void BenchmarkManager::__buildThroughputBenchmarks() {
 								__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __config.getIterationsPerTest(), passes_per_iteration, chunk, cpu_node, mem_node, __config.getNumWorkerThreads(), benchmark_name, &__timer, __dram_power_readers, stride, SEQUENTIAL, rw);
 #endif
 							} catch (...) { 
-								std::cerr << "FATAL: Failed to build a ThroughputBenchmark! Terminating." << std::endl;
+								std::cerr << "ERROR: Failed to build a ThroughputBenchmark! Terminating." << std::endl;
 								exit(-1);
 							}
 							if (__tp_benchmarks[i] == nullptr)
-								std::cerr << "FATAL: Failed to build a ThroughputBenchmark! Terminating." << std::endl;
+								std::cerr << "ERROR: Failed to build a ThroughputBenchmark! Terminating." << std::endl;
 							i++;
 						}
 					}
@@ -460,11 +456,11 @@ void BenchmarkManager::__buildThroughputBenchmarks() {
 							__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __config.getIterationsPerTest(), passes_per_iteration, chunk, cpu_node, mem_node, __config.getNumWorkerThreads(), benchmark_name, &__timer, __dram_power_readers, 0, RANDOM, rw);
 #endif
 						} catch (...) { 
-							std::cerr << "FATAL: Failed to build a ThroughputBenchmark! Terminating." << std::endl;
+							std::cerr << "ERROR: Failed to build a ThroughputBenchmark! Terminating." << std::endl;
 							exit(-1);
 						}
 						if (__tp_benchmarks[i] == nullptr)
-							std::cerr << "FATAL: Failed to build a ThroughputBenchmark! Terminating." << std::endl;
+							std::cerr << "ERROR: Failed to build a ThroughputBenchmark! Terminating." << std::endl;
 						i++;
 					}
 				}
@@ -505,11 +501,11 @@ void BenchmarkManager::__buildLatencyBenchmarks() {
 				__lat_benchmarks[i] = new LatencyBenchmark(mem_array, mem_array_len / __config.getNumWorkerThreads(), __config.getIterationsPerTest(), passes_per_iteration, cpu_node, mem_node, 1, benchmark_name, &__timer, __dram_power_readers); 
 #endif
 			} catch (...) {
-				std::cerr << "FATAL: Failed to build a LatencyBenchmark! Terminating." << std::endl;
+				std::cerr << "ERROR: Failed to build a LatencyBenchmark! Terminating." << std::endl;
 				exit(-1);
 			}
 			if (__lat_benchmarks[i] == nullptr)
-				std::cerr << "FATAL: Failed to build a LatencyBenchmark! Terminating." << std::endl;
+				std::cerr << "ERROR: Failed to build a LatencyBenchmark! Terminating." << std::endl;
 			i++;
 		}
 	}

@@ -59,6 +59,7 @@ namespace xmem {
 			NUMA_DISABLE,
 			VERBOSE,
 			WORKING_SET_SIZE_PER_THREAD,
+			USE_LARGE_PAGES,
 			USE_READS,
 			USE_WRITES,
 			STRIDE_SIZE
@@ -83,6 +84,7 @@ namespace xmem {
 			{ NUMA_DISABLE, 0, "u", "force_uma", third_party::Arg::None, "    -u, --force_uma    \tTest only CPU/memory NUMA node 0 instead of all combinations." },
 			{ VERBOSE, 0, "v", "verbose", third_party::Arg::None, "    -v, --verbose    \tVerbose mode, increase detail in X-Mem console reporting." },
 			{ WORKING_SET_SIZE_PER_THREAD, 0, "w", "working_set_size_per_thread", third_party::MyArg::PositiveInteger, "    -w, --working_set_size    \tWorking set size per thread in KB. This must be a multiple of 4KB." },
+			{ USE_LARGE_PAGES, 1, "L", "large_pages", third_party::Arg::None, "    -L, --large_pages    \tUse large pages if possible. This may enable better memory performance, particularly for random-access patterns, but may not be supported on your system." },
 			{ USE_READS, 0, "R", "reads", third_party::Arg::None, "    -R, --reads    \tUse memory reads in throughput benchmarks." },
 			{ USE_WRITES, 0, "W", "writes", third_party::Arg::None, "    -W, --writes    \tUse memory writes in throughput benchmarks." },
 			{ STRIDE_SIZE, 0, "S", "stride_size", third_party::MyArg::Integer, "    -S, --stride_size    \tA stride size to use for sequential throughput benchmarks, specified in powers-of-two multiples of the chunk size(s). Allowed values: 1, -1, 2, -2, 4, -4, 8, -8, 16, -16. Positive indicates the forward direction (increasing addresses), while negative indicates the reverse direction." },
@@ -123,6 +125,7 @@ namespace xmem {
 			 * @param filename Output filename to use.
 			 * @param use_output_file If true, use the provided output filename.
 			 * @param verbose If true, then X-Mem should be more verbose in its console reporting.
+			 * @param use_large_pages If true, then X-Mem will attempt to force usage of large pages.
 			 * @param use_reads If true, then throughput benchmarks should use reads.
 			 * @param use_writes If true, then throughput benchmarks should use writes.
 			 * @param use_stride_p1 If true, include stride of +1 for relevant benchmarks.
@@ -153,6 +156,7 @@ namespace xmem {
 				std::string filename,
 				bool use_output_file,
 				bool verbose,
+				bool use_large_pages,
 				bool use_reads,
 				bool use_writes,
 				bool use_stride_p1,
@@ -278,6 +282,12 @@ namespace xmem {
 			bool verboseMode() const { return __verbose; }
 
 			/**
+			 * @brief Determines whether X-Mem should use large pages.
+			 * @param True if large pages should be used.
+			 */
+			bool useLargePages() const { return __use_large_pages; }
+
+			/**
 			 * @brief Determines whether reads should be used in throughput benchmarks.
 			 * @returns True if reads should be used.
 			 */
@@ -375,6 +385,7 @@ namespace xmem {
 			std::string __filename; /**< The output filename if applicable. */
 			bool __use_output_file; /**< If true, generate a CSV output file for results. */
 			bool __verbose; /**< If true, then console reporting should be more detailed. */
+			bool __use_large_pages; /**< If true, then large pages should be used. */
 			bool __use_reads; /**< If true, throughput benchmarks should use reads. */
 			bool __use_writes; /**< If true, throughput benchmarks should use writes. */
 			bool __use_stride_p1; /**< If true, use a stride of +1 in relevant benchmarks. */
