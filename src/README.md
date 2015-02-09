@@ -1,7 +1,7 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: Extensible Memory Benchmarking Tool v1.3.1
+X-Mem: Extensible Memory Benchmarking Tool v1.3.2
 ------------------------------------------------------------------------------------------------------------
 
 The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power. 
@@ -45,33 +45,36 @@ FEATURES
 This tool is provided as open source with the hope of being useful to the broader research and development community. Here are some of X-Mem's features.
 
 Flexibility: Easy reconfiguration for different combinations of tests
-	- Working sets in increments of 4KB, allowing cache through main memory-level benchmarking
+	- Working sets in increments of 4KB, allowing cache up to main memory-level benchmarking
 	- NUMA support
-	- Multi-threading for bandwidth saturation
+	- Multi-threading support
+	- Large page support
+
+Extensibility: modularity via C++ object-oriented principles
+	- Supports rapid addition of new benchmark kernel routines
+	- Example: stream triad algorithm, impact of false sharing, etc. are possible with minor changes
+
+Cross-platform: Currently implemented for Windows and GNU/Linux on x86-64 CPUs
+	- Designed to allow straightforward porting to other operating systems and ISAs
+	- GNU/Linux on ARM port planned
+
+Memory throughput:
+	- Accurate measurement of sustained memory throughput to all levels of cache and memory
 	- Regular access patterns: forward & reverse sequential as well as strides of 2, 4, 8, and 16 words
 	- Random access patterns
 	- Read and write
 	- 32, 64, 128, 256-bit width memory instructions
 
-Extensibility: C++ object-oriented principles
-	- Supports rapid addition of new benchmark kernel routines by others
-	- Example: stream triad algorithm, impact of false sharing, etc. are possible with minor additions
-
-Cross-platform: Currently implemented for Windows and GNU/Linux on x86-64 CPUs
-	- Designed to allow straightforward porting to other operating systems and ISAs
-
-Memory throughput:
-	- Accurate measurement of sustained memory throughput to all levels of cache
-	- Burst mode benchmark kernels possible (extensible!)
-
 Memory latency: 
-	- Accurate measurement of round-trip unloaded memory latency to all levels of cache
-	- Loaded latency measurements planned
+	- Accurate measurement of round-trip memory latency to all levels of cache and memory
+	- Loaded and unloaded latency via use of multithreaded load generation
 
 Memory power:
 	- Currently collecting DRAM power via custom driver exposed in Windows performance counter API
-	- Supports custom power instrumentation without much modification
-	- Thorough Documentation: extensive Doxygen source comments, HTML, PDF docs
+	- Support custom power instrumentation through a simple interface that end-users can implement
+
+Documentation:
+	- Extensive Doxygen source code comments, PDF manual, HTML
 
 For feature requests, please refer to the contact information at the end of this README.
 
@@ -83,17 +86,23 @@ There are a few runtime prerequisites in order for the software to run correctly
 
 HARDWARE:
 
-- Intel x86-64 CPU. RECOMMENDED: Recent CPU with SSE2 and AVX extended instruction sets for improved throughput benchmarking capabilities.
+- Intel x86-64 CPU supporting AVX extensions (Sandy Bridge or later).
 
 WINDOWS:
 
 - Microsoft Windows 64-bit, 8.0 or later, Server 2012 or later.
 - Microsoft Visual C++ 2013 Redistributables (64-bit)
+- Potentially, Administrator privileges, in order to:
+	- use large pages, if the --large_pages option is selected (see USAGE, below)
+	- use the PowerReader interface, depending on end-user implementation
+	- elevate thread priority and pin threads to logical CPUs for improved performance and benchmarking consistency
 
 GNU/LINUX:
 
 - GNU utilities with support for C++11. Tested with gcc 4.8.2 on Ubuntu 14.04 LTS.
-- libhugetlbfs. You can obtain it at <http://libhugetlbfs.sourceforge.net>. On Ubuntu systems, you can install using "sudo apt-get install libhugetlbfs0". During runtime, if the --large_pages option is selected, you may need to first manually ensure that large pages are available from the OS. This can be done by running "hugeadm --pool-list". It is recommended to set minimum pool to 1GB (in order to measure DRAM effectively). If needed, this can be done by running "hugeadm --pool-pages-min 2MB:512". Alternatively, run the linux_setup_runtime_hugetlbfs.sh script that is provided with X-Mem.
+- libhugetlbfs. You can obtain it at <http://libhugetlbfs.sourceforge.net>. On Ubuntu systems, you can install using "sudo apt-get install libhugetlbfs0".
+- Potentially, administrator privileges, if you plan to use the --large_pages option.
+	- During runtime, if the --large_pages option is selected, you may need to first manually ensure that large pages are available from the OS. This can be done by running "hugeadm --pool-list". It is recommended to set minimum pool to 1GB (in order to measure DRAM effectively). If needed, this can be done by running "hugeadm --pool-pages-min 2MB:512". Alternatively, run the linux_setup_runtime_hugetlbfs.sh script that is provided with X-Mem. 
 
 ------------------------------------------------------------------------------------------------------------
 INSTALLATION
@@ -104,12 +113,6 @@ The only file that is needed to run on Windows is xmem-win.exe, and xmem-linux o
 ------------------------------------------------------------------------------------------------------------
 USAGE
 ------------------------------------------------------------------------------------------------------------
-
-NOTE: On Windows, make sure you run X-Mem with Administrator privileges. This is needed in order to:
-	- Allocate "large pages" for improved performance, if the --large_pages option is selected (see below).
-	- Read performance counter data from the OS for reporting power (when applicable).
-	- Elevate thread priority and pin threads to CPUs for improved performance and benchmarking consistency.
-NOTE: On GNU/Linux, if you plan to use the --large_pages option, you will need administrator privileges (sudoer).
 
 USAGE: xmem [options]
 
@@ -124,7 +127,14 @@ Options:
     -h, --help                  Print usage and exit.
     -i, --base_test_index       Numerical index of the first benchmark, for
                                 tracking unique test IDs.
-    -j, --num_worker_threads    Number of worker threads to use in benchmarks.
+    -j, --num_worker_threads    Number of worker threads to use in relevant
+                                benchmarks. This may not exceed the number of
+                                logical CPUs in the system. For throughput
+                                benchmarks, this is the number of independent
+                                load-generating threads. For latency benchmarks,
+                                this is the number of independent
+                                load-generating threads plus one latency
+                                measurement thread.
     -l, --latency               Measure memory latency
     -n, --iterations            Iterations per benchmark test
     -r, --random_access         Use a random access pattern on throughput
@@ -137,8 +147,8 @@ Options:
                                 combinations.
     -v, --verbose               Verbose mode, increase detail in X-Mem console
                                 reporting.
-    -w, --working_set_size      Working set size per thread in KB. This must be
-                                a multiple of 4KB.
+    -w, --working_set_size      Working set size per worker thread in KB. This
+                                must be a multiple of 4KB.
     -L, --large_pages           Use large pages if possible. This may enable
                                 better memory performance, particularly for
                                 random-access patterns, but may not be supported

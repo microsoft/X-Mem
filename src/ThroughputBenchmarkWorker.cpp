@@ -66,7 +66,7 @@ ThroughputBenchmarkWorker::ThroughputBenchmarkWorker(
 	#endif
 		BenchFunction bench_fptr,
 		BenchFunction dummy_fptr,
-		uint32_t cpu_affinity
+		int32_t cpu_affinity
 	) :
 	__mem_array(mem_array),
 	__len(len),
@@ -92,7 +92,7 @@ ThroughputBenchmarkWorker::~ThroughputBenchmarkWorker() {
 
 void ThroughputBenchmarkWorker::run() {
 	//Set up relevant state -- localized to this thread's stack
-	uint32_t cpu_affinity = 0;
+	int32_t cpu_affinity = 0;
 	BenchFunction bench_fptr = NULL;
 	BenchFunction dummy_fptr = NULL;
 	void* start_address = NULL;

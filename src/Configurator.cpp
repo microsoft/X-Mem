@@ -221,6 +221,10 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 
 		char* endptr = NULL;
 		__num_worker_threads = static_cast<uint32_t>(strtoul(options[NUM_WORKER_THREADS].arg, &endptr, 10));
+		if (__num_worker_threads > common::g_num_logical_cpus) {
+			std::cerr << "ERROR: Number of worker threads may not exceed the number of logical CPUs (" << common::g_num_logical_cpus << ")" << std::endl;
+			goto error;
+		}
 	}
 	
 	//Check chunk sizes

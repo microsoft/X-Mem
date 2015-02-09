@@ -693,7 +693,7 @@ bool ThroughputBenchmark::__run_core() {
 #endif
 												__bench_fptr,
 												__dummy_fptr,
-												static_cast<uint32_t>(cpu_id)	
+												cpu_id
 											)
 							);
 			worker_threads.push_back(new thread::Thread(workers[t]));

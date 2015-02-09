@@ -62,7 +62,7 @@ namespace xmem {
 #endif
 					BenchFunction bench_fptr,
 					BenchFunction dummy_fptr,
-					uint32_t cpu_affinity
+					int32_t cpu_affinity
 					);
 				
 				/**
@@ -121,7 +121,7 @@ namespace xmem {
 				// ONLY ACCESS OBJECT VARIABLES UNDER THE RUNNABLE OBJECT LOCK!!!!
 				void* __mem_array; /**< The memory region for this worker. */
 				size_t __len; /**< The length of the memory region for this worker. */
-				uint32_t __cpu_affinity; /**< The logical CPU affinity for this worker. */
+				int32_t __cpu_affinity; /**< The logical CPU affinity for this worker. */
 				BenchFunction __bench_fptr; /**< Points to the memory test core routine to use. */
 				BenchFunction __dummy_fptr; /**< Points to a dummy version of the memory test core routine to use. */
 				uint64_t __bytes_per_pass; /**< Number of bytes accessed in each kernel pass. */
