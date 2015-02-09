@@ -1,7 +1,7 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: Extensible Memory Benchmarking Tool v1.3.4
+X-Mem: Extensible Memory Benchmarking Tool v1.3.5
 ------------------------------------------------------------------------------------------------------------
 
 The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power. 
@@ -10,7 +10,7 @@ Originally authored by Mark Gottscho (Email: <mgottscho@ucla.edu>) as a Summer 2
 
 This project is under active development. Stay tuned for more updates.
 
-PROJECT REVISION DATE: February 8, 2015.
+PROJECT REVISION DATE: February 9, 2015.
 
 ------------------------------------------------------------------------------------------------------------
 LICENSE
@@ -94,6 +94,7 @@ WINDOWS:
 - Microsoft Visual C++ 2013 Redistributables (64-bit)
 - Potentially, Administrator privileges, in order to:
 	- use large pages, if the --large_pages option is selected (see USAGE, below)
+	- The first time you use --large_pages on a given Windows machine, you may need to ensure that your Windows user account has the necessary rights to allow lockable memory pages. To do this on Windows 8, run gpedit.msc --> Local Computer Policy --> Computer Configuration --> Windows Settings --> Security Settings --> Local Policies --> User Rights Assignment --> Add your username to "Lock pages in memory". Then log out and then log back in.
 	- use the PowerReader interface, depending on end-user implementation
 	- elevate thread priority and pin threads to logical CPUs for improved performance and benchmarking consistency
 

@@ -353,7 +353,6 @@ void LatencyBenchmark::__primeMemory(uint64_t passes) {
 	void* start_address = _mem_array; 
 	void* end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + _len);
 
-	forwSequentialWrite_Word64(start_address, end_address); //write to everything in memory, make sure all pages are faulted in
 	for (uint64_t p = 0; p < passes; p++)
 		forwSequentialRead_Word64(start_address, end_address); //dependent reads on the memory, make sure caches are ready, coherence, etc...
 }
