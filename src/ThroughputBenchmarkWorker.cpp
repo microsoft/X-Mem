@@ -160,8 +160,8 @@ void ThroughputBenchmarkWorker::run() {
 #endif
 
 	//Prime memory
-	benchmark_kernels::forwSequentialWrite_Word64(start_address, end_address);  //initialize memory by writing and force page faults if pages are not resident in physical memory
-	benchmark_kernels::forwSequentialRead_Word64(start_address, end_address); //dependent reads on the memory, make sure caches are ready, coherence, etc...
+	benchmark_kernels::forwSequentialWrite_Word64(prime_start_address, prime_end_address);  //initialize memory by writing and force page faults if pages are not resident in physical memory
+	benchmark_kernels::forwSequentialRead_Word64(prime_start_address, prime_end_address); //dependent reads on the memory, make sure caches are ready, coherence, etc...
 	for (uint64_t i = 0; i < 4; i++) {
 		(*__bench_fptr)(start_address, end_address); //run the benchmark several times to ensure caches are warmed up for the algorithm and CPU is ready to go
 	}
