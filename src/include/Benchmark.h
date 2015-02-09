@@ -231,8 +231,7 @@ namespace xmem {
 #ifdef USE_SIZE_BASED_BENCHMARKS
 			uint64_t _passes_per_iteration; /**< Number of passes per iteration in this benchmark. */
 #endif
-			xmem::common::chunk_size_t _chunk_size; /**< Chunk size of memory accesses in this benchmark. TODO: Move this to ThroughputBenchmark.h, as it does not apply in all situations, e.g. in LatencyBenchmark. */
-			size_t* _indices; /**< Pointer to a list of indices. This is for indirect memory addressing. Currently unused. TODO: Remove this entirely? */
+			xmem::common::chunk_size_t _chunk_size; /**< Chunk size of memory accesses in this benchmark. */
 			uint32_t _cpu_node; /**< The CPU NUMA node used in this benchmark. */
 			uint32_t _mem_node; /**< The memory NUMA node used in this benchmark. */
 			uint32_t _num_worker_threads; /**< The number of worker threads used in this benchmark. */

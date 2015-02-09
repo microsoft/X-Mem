@@ -405,6 +405,30 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		goto error;
 	}
 
+	//If the user picked "all" option, override anything else they put in that is relevant.
+	if (options[ALL]) {
+		__runLatency = true;
+		__runThroughput = true;
+		__use_chunk_32b = true;
+		__use_chunk_64b = true;
+		__use_chunk_128b = true;
+		__use_chunk_256b = true;
+		__use_random_access_pattern = true;
+		__use_sequential_access_pattern = true;
+		__use_reads = true;
+		__use_writes = true;
+		__use_stride_p1 = true;
+		__use_stride_n1 = true;
+		__use_stride_p2 = true;
+		__use_stride_n2 = true;
+		__use_stride_p4 = true;
+		__use_stride_n4 = true;
+		__use_stride_p8 = true;
+		__use_stride_n8 = true;
+		__use_stride_p16 = true;
+		__use_stride_n16 = true;
+	}
+
 	//Check for help or bad options
 	if (options[HELP] || options[UNKNOWN] != NULL)
 		goto error;

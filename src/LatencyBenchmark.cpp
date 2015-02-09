@@ -77,7 +77,7 @@ LatencyBenchmark::LatencyBenchmark(
 #ifdef USE_SIZE_BASED_BENCHMARKS
 		passes_per_iteration,
 #endif
-		NUM_CHUNK_SIZES,
+		CHUNK_64b,
 		cpu_node,
 		mem_node,
 		num_worker_threads,
@@ -306,7 +306,6 @@ bool LatencyBenchmark::__buildRandomPointerPermutation() {
 	W.resize(num_pointers);
 	for (w_index = 0; w_index < num_pointers; w_index++) {
 		W.at(w_index) = w_index;
-		//std::cout << "w_index == " << w_index << ", W.at(w_index) == " << W.at(w_index) << std::endl;
 	}
 	
 	//Build the directed Hamiltonian Cycle
@@ -314,33 +313,12 @@ bool LatencyBenchmark::__buildRandomPointerPermutation() {
 	size_t w = 0; //the next memory location
 	w_index = 0;
 	while (W.size() > 0) { //while we have not reached all memory locations
-		//std::cout << "W.size() == " << W.size() << std::endl;
-
 		W.erase(W.begin() + w_index);
-		
-		//Binary search for v
-		/*bool found = false;
-		size_t lbound = 0, ubound = W.size(); //init bounds and starting index
-		while (!found) {
-			//std::cout << "lbound == " << lbound << ", ubound == " << ubound << std::endl;
-			w_index = (ubound + lbound) / 2; 
-			if (W[w_index] == v) {//found
-				//Remove v from W
-				W.erase(W.begin() + w_index);
-				found = true;
-				//std::cout << "FOUND!" << std::endl;
-			} else if (W[w_index] < v) { //v is larger, search right half
-				lbound = w_index;
-			} else { //v is smaller, search left half
-				ubound = w_index;
-			}
-		}*/
 
 		//Normal case
 		if (W.size() > 0) {
 			//Choose the next w_index at random from W
 			w_index = gen() % W.size();
-		//	std::cout << "Next w_index == " << w_index << std::endl;
 
 			//Extract the memory location corresponding to this w_index
 			w = W[w_index];
@@ -348,9 +326,6 @@ bool LatencyBenchmark::__buildRandomPointerPermutation() {
 			w = 0;
 		}
 
-		//std::cout << "w == " << w << std::endl;
-
-		//std::cout << "Constructing pointer v == " << v << " --> w == " << w << std::endl;
 		//Create pointer v --> w. This corresponds to a directed edge in the graph with nodes v and w.
 		mem_base[v] = reinterpret_cast<uintptr_t>(mem_base + w);
 
@@ -378,6 +353,7 @@ void LatencyBenchmark::__primeMemory(uint64_t passes) {
 	void* start_address = _mem_array; 
 	void* end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + _len);
 
+	forwSequentialWrite_Word64(start_address, end_address); //write to everything in memory, make sure all pages are faulted in
 	for (uint64_t p = 0; p < passes; p++)
 		forwSequentialRead_Word64(start_address, end_address); //dependent reads on the memory, make sure caches are ready, coherence, etc...
 }
