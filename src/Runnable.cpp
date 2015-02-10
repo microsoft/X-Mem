@@ -42,7 +42,7 @@
 #include <time.h>
 #endif
 
-using namespace xmem::thread;
+using namespace xmem;
 
 Runnable::Runnable() :
 #ifdef _WIN32

@@ -43,9 +43,7 @@
 #include <immintrin.h> //for Intel AVX intrinsics
 #endif
 
-using namespace xmem::common;
-using namespace xmem::benchmark::benchmark_kernels;
-
+using namespace xmem;
 
 /***********************************************************************
  ***********************************************************************
@@ -55,7 +53,7 @@ using namespace xmem::benchmark::benchmark_kernels;
 
 /* --------------------- DUMMY BENCHMARK ROUTINES --------------------------- */
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_chasePointers(uintptr_t*, uintptr_t**, size_t len) {
+int32_t xmem::dummy_chasePointers(uintptr_t*, uintptr_t**, size_t len) {
 	volatile uintptr_t placeholder = 0; //Try to defeat compiler optimizations removing this method
 #ifdef USE_SIZE_BASED_BENCHMARKS
 	for (size_t i = 0; i < len / sizeof(uintptr_t); i += 512)
@@ -66,7 +64,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_chasePointers(uintptr_t*, uint
 
 /* -------------------- CORE BENCHMARK ROUTINES -------------------------- */
 
-int32_t xmem::benchmark::benchmark_kernels::chasePointers(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
+int32_t xmem::chasePointers(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 	volatile uintptr_t* p = first_address;
 
 #ifdef USE_TIME_BASED_BENCHMARKS
@@ -109,13 +107,13 @@ extern "C" int win_asm_dummy_revSequentialLoop_Word256(Word256_t* first_word, Wo
 
 /* --------------------- DUMMY BENCHMARK ROUTINES --------------------------- */
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_empty(void*, void*) { 
+int32_t xmem::dummy_empty(void*, void*) { 
 	return 0;
 }
 		
 /* ------------ SEQUENTIAL LOOP --------------*/
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_forwSequentialLoop_Word32(void* start_address, void* end_address) {
+int32_t xmem::dummy_forwSequentialLoop_Word32(void* start_address, void* end_address) {
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(start_address), *endptr = static_cast<Word32_t*>(end_address); wordptr < endptr;) {
 		UNROLL1024(wordptr++;) 
@@ -124,7 +122,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwSequentialLoop_Word32(void
 	return placeholder;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_forwSequentialLoop_Word64(void* start_address, void* end_address) {
+int32_t xmem::dummy_forwSequentialLoop_Word64(void* start_address, void* end_address) {
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
 		UNROLL512(wordptr++;) 
@@ -133,7 +131,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwSequentialLoop_Word64(void
 	return placeholder;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_forwSequentialLoop_Word128(void* start_address, void* end_address) {
+int32_t xmem::dummy_forwSequentialLoop_Word128(void* start_address, void* end_address) {
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address), *endptr = static_cast<Word128_t*>(end_address); wordptr < endptr;) {
 		UNROLL256(wordptr++;) 
@@ -142,7 +140,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwSequentialLoop_Word128(voi
 	return placeholder;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_forwSequentialLoop_Word256(void* start_address, void* end_address) {
+int32_t xmem::dummy_forwSequentialLoop_Word256(void* start_address, void* end_address) {
 #ifdef _WIN32
 	//FIXME: this probably does not need to be a dedicated asm function.
 	return win_asm_dummy_forwSequentialLoop_Word256(static_cast<Word256_t*>(start_address), static_cast<Word256_t*>(end_address));
@@ -157,7 +155,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwSequentialLoop_Word256(voi
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_revSequentialLoop_Word32(void* start_address, void* end_address) { 
+int32_t xmem::dummy_revSequentialLoop_Word32(void* start_address, void* end_address) { 
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address), *begptr = static_cast<Word32_t*>(start_address); wordptr > begptr;) {
 		UNROLL1024(wordptr--;)
@@ -166,7 +164,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revSequentialLoop_Word32(void*
 	return placeholder;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_revSequentialLoop_Word64(void* start_address, void* end_address) {
+int32_t xmem::dummy_revSequentialLoop_Word64(void* start_address, void* end_address) {
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(end_address), *begptr = static_cast<Word64_t*>(start_address); wordptr > begptr;) {
 		UNROLL512(wordptr--;)
@@ -175,7 +173,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revSequentialLoop_Word64(void*
 	return placeholder;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_revSequentialLoop_Word128(void* start_address, void* end_address) {
+int32_t xmem::dummy_revSequentialLoop_Word128(void* start_address, void* end_address) {
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address), *begptr = static_cast<Word128_t*>(start_address); wordptr > begptr;) {
 		UNROLL256(wordptr--;) 
@@ -184,7 +182,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revSequentialLoop_Word128(void
 	return placeholder;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_revSequentialLoop_Word256(void* start_address, void* end_address) {
+int32_t xmem::dummy_revSequentialLoop_Word256(void* start_address, void* end_address) {
 #ifdef _WIN32
 	//FIXME: this probably does not need to be a dedicated asm function.
 	return win_asm_dummy_revSequentialLoop_Word256(static_cast<Word256_t*>(end_address), static_cast<Word256_t*>(start_address));
@@ -201,7 +199,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revSequentialLoop_Word256(void
 		
 /* ------------ STRIDE 2 LOOP --------------*/
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride2Loop_Word32(void* start_address, void* end_address) {
+int32_t xmem::dummy_forwStride2Loop_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -213,7 +211,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride2Loop_Word32(void* s
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride2Loop_Word64(void* start_address, void* end_address) {
+int32_t xmem::dummy_forwStride2Loop_Word64(void* start_address, void* end_address) {
 	register Word64_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -225,7 +223,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride2Loop_Word64(void* s
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride2Loop_Word128(void* start_address, void* end_address) {
+int32_t xmem::dummy_forwStride2Loop_Word128(void* start_address, void* end_address) {
 	register Word128_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
@@ -237,7 +235,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride2Loop_Word128(void* 
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride2Loop_Word256(void* start_address, void* end_address) {
+int32_t xmem::dummy_forwStride2Loop_Word256(void* start_address, void* end_address) {
 	register Word256_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
@@ -249,7 +247,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride2Loop_Word256(void* 
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_revStride2Loop_Word32(void* start_address, void* end_address) {
+int32_t xmem::dummy_revStride2Loop_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -261,7 +259,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride2Loop_Word32(void* st
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_revStride2Loop_Word64(void* start_address, void* end_address) {
+int32_t xmem::dummy_revStride2Loop_Word64(void* start_address, void* end_address) {
 	register Word64_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -273,7 +271,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride2Loop_Word64(void* st
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_revStride2Loop_Word128(void* start_address, void* end_address) {
+int32_t xmem::dummy_revStride2Loop_Word128(void* start_address, void* end_address) {
 	register Word128_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
@@ -285,7 +283,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride2Loop_Word128(void* s
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_revStride2Loop_Word256(void* start_address, void* end_address) { 
+int32_t xmem::dummy_revStride2Loop_Word256(void* start_address, void* end_address) { 
 	register Word256_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
@@ -299,7 +297,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride2Loop_Word256(void* s
 
 /* ------------ STRIDE 4 LOOP --------------*/
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride4Loop_Word32(void* start_address, void* end_address) {
+int32_t xmem::dummy_forwStride4Loop_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -311,7 +309,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride4Loop_Word32(void* s
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride4Loop_Word64(void* start_address, void* end_address) {
+int32_t xmem::dummy_forwStride4Loop_Word64(void* start_address, void* end_address) {
 	register Word64_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -323,7 +321,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride4Loop_Word64(void* s
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride4Loop_Word128(void* start_address, void* end_address) {
+int32_t xmem::dummy_forwStride4Loop_Word128(void* start_address, void* end_address) {
 	register Word128_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
@@ -335,7 +333,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride4Loop_Word128(void* 
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride4Loop_Word256(void* start_address, void* end_address) {
+int32_t xmem::dummy_forwStride4Loop_Word256(void* start_address, void* end_address) {
 	register Word256_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
@@ -347,7 +345,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride4Loop_Word256(void* 
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_revStride4Loop_Word32(void* start_address, void* end_address) {
+int32_t xmem::dummy_revStride4Loop_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -359,7 +357,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride4Loop_Word32(void* st
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_revStride4Loop_Word64(void* start_address, void* end_address) {
+int32_t xmem::dummy_revStride4Loop_Word64(void* start_address, void* end_address) {
 	register Word64_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -371,7 +369,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride4Loop_Word64(void* st
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_revStride4Loop_Word128(void* start_address, void* end_address) {
+int32_t xmem::dummy_revStride4Loop_Word128(void* start_address, void* end_address) {
 	register Word128_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
@@ -383,7 +381,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride4Loop_Word128(void* s
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_revStride4Loop_Word256(void* start_address, void* end_address) {
+int32_t xmem::dummy_revStride4Loop_Word256(void* start_address, void* end_address) {
 	register Word256_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
@@ -397,7 +395,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride4Loop_Word256(void* s
 
 /* ------------ STRIDE 8 LOOP --------------*/
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride8Loop_Word32(void* start_address, void* end_address) {
+int32_t xmem::dummy_forwStride8Loop_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -409,7 +407,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride8Loop_Word32(void* s
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride8Loop_Word64(void* start_address, void* end_address) {
+int32_t xmem::dummy_forwStride8Loop_Word64(void* start_address, void* end_address) {
 	register Word64_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -421,7 +419,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride8Loop_Word64(void* s
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride8Loop_Word128(void* start_address, void* end_address) {
+int32_t xmem::dummy_forwStride8Loop_Word128(void* start_address, void* end_address) {
 	register Word128_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
@@ -433,7 +431,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride8Loop_Word128(void* 
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride8Loop_Word256(void* start_address, void* end_address) {
+int32_t xmem::dummy_forwStride8Loop_Word256(void* start_address, void* end_address) {
 	register Word256_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
@@ -445,7 +443,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride8Loop_Word256(void* 
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_revStride8Loop_Word32(void* start_address, void* end_address) { 
+int32_t xmem::dummy_revStride8Loop_Word32(void* start_address, void* end_address) { 
 	register Word32_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -457,7 +455,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride8Loop_Word32(void* st
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_revStride8Loop_Word64(void* start_address, void* end_address) { 
+int32_t xmem::dummy_revStride8Loop_Word64(void* start_address, void* end_address) { 
 	register Word64_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -469,7 +467,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride8Loop_Word64(void* st
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_revStride8Loop_Word128(void* start_address, void* end_address) { 
+int32_t xmem::dummy_revStride8Loop_Word128(void* start_address, void* end_address) { 
 	register Word128_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
@@ -481,7 +479,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride8Loop_Word128(void* s
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_revStride8Loop_Word256(void* start_address, void* end_address) { 
+int32_t xmem::dummy_revStride8Loop_Word256(void* start_address, void* end_address) { 
 	register Word256_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
@@ -495,7 +493,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride8Loop_Word256(void* s
 
 /* ------------ STRIDE 16 LOOP --------------*/
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride16Loop_Word32(void* start_address, void* end_address) { 
+int32_t xmem::dummy_forwStride16Loop_Word32(void* start_address, void* end_address) { 
 	register Word32_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -507,7 +505,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride16Loop_Word32(void* 
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride16Loop_Word64(void* start_address, void* end_address) { 
+int32_t xmem::dummy_forwStride16Loop_Word64(void* start_address, void* end_address) { 
 	register Word64_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -519,7 +517,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride16Loop_Word64(void* 
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride16Loop_Word128(void* start_address, void* end_address) { 
+int32_t xmem::dummy_forwStride16Loop_Word128(void* start_address, void* end_address) { 
 	register Word128_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
@@ -531,7 +529,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride16Loop_Word128(void*
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride16Loop_Word256(void* start_address, void* end_address) { 
+int32_t xmem::dummy_forwStride16Loop_Word256(void* start_address, void* end_address) { 
 	register Word256_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
@@ -543,7 +541,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_forwStride16Loop_Word256(void*
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_revStride16Loop_Word32(void* start_address, void* end_address) { 
+int32_t xmem::dummy_revStride16Loop_Word32(void* start_address, void* end_address) { 
 	register Word32_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -555,7 +553,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride16Loop_Word32(void* s
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_revStride16Loop_Word64(void* start_address, void* end_address) { 
+int32_t xmem::dummy_revStride16Loop_Word64(void* start_address, void* end_address) { 
 	register Word64_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -567,7 +565,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride16Loop_Word64(void* s
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_revStride16Loop_Word128(void* start_address, void* end_address) { 
+int32_t xmem::dummy_revStride16Loop_Word128(void* start_address, void* end_address) { 
 	register Word128_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
@@ -579,7 +577,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride16Loop_Word128(void* 
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_revStride16Loop_Word256(void* start_address, void* end_address) { 
+int32_t xmem::dummy_revStride16Loop_Word256(void* start_address, void* end_address) { 
 	register Word256_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
@@ -593,19 +591,19 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_revStride16Loop_Word256(void* 
 
 /* ------------ RANDOM LOOP --------------*/
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_randomLoop_Word32(void* start_address, void* end_address) { 
+int32_t xmem::dummy_randomLoop_Word32(void* start_address, void* end_address) { 
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_randomLoop_Word64(void* start_address, void* end_address) { 
+int32_t xmem::dummy_randomLoop_Word64(void* start_address, void* end_address) { 
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_randomLoop_Word128(void* start_address, void* end_address) { 
+int32_t xmem::dummy_randomLoop_Word128(void* start_address, void* end_address) { 
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::dummy_randomLoop_Word256(void* start_address, void* end_address) { 
+int32_t xmem::dummy_randomLoop_Word256(void* start_address, void* end_address) { 
 	return 0;
 }
 
@@ -625,7 +623,7 @@ int32_t xmem::benchmark::benchmark_kernels::dummy_randomLoop_Word256(void* start
 
 /* ------------ SEQUENTIAL READ --------------*/
 
-int32_t xmem::benchmark::benchmark_kernels::forwSequentialRead_Word32(void* start_address, void* end_address) {
+int32_t xmem::forwSequentialRead_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(start_address), *endptr = static_cast<Word32_t*>(end_address); wordptr < endptr;) {
 		UNROLL1024(val = *wordptr++;) 
@@ -633,7 +631,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwSequentialRead_Word32(void* star
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwSequentialRead_Word64(void* start_address, void* end_address) {
+int32_t xmem::forwSequentialRead_Word64(void* start_address, void* end_address) {
 	register Word64_t val;
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
 		UNROLL512(val = *wordptr++;)
@@ -641,7 +639,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwSequentialRead_Word64(void* star
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwSequentialRead_Word128(void* start_address, void* end_address) { 
+int32_t xmem::forwSequentialRead_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -654,7 +652,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwSequentialRead_Word128(void* sta
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwSequentialRead_Word256(void* start_address, void* end_address) { 
+int32_t xmem::forwSequentialRead_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return win_asm_forwSequentialRead_Word256(static_cast<Word256_t*>(start_address), static_cast<Word256_t*>(end_address));
 #endif
@@ -667,7 +665,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwSequentialRead_Word256(void* sta
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revSequentialRead_Word32(void* start_address, void* end_address) { 
+int32_t xmem::revSequentialRead_Word32(void* start_address, void* end_address) { 
 	register Word32_t val;
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address), *begptr = static_cast<Word32_t*>(start_address); wordptr > begptr;) {
 		UNROLL1024(val = *wordptr--;)
@@ -675,7 +673,7 @@ int32_t xmem::benchmark::benchmark_kernels::revSequentialRead_Word32(void* start
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revSequentialRead_Word64(void* start_address, void* end_address) {
+int32_t xmem::revSequentialRead_Word64(void* start_address, void* end_address) {
 	register Word64_t val;
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(end_address), *begptr = static_cast<Word64_t*>(start_address); wordptr > begptr;) {
 		UNROLL512(val = *wordptr--;)
@@ -683,7 +681,7 @@ int32_t xmem::benchmark::benchmark_kernels::revSequentialRead_Word64(void* start
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revSequentialRead_Word128(void* start_address, void* end_address) { 
+int32_t xmem::revSequentialRead_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -696,7 +694,7 @@ int32_t xmem::benchmark::benchmark_kernels::revSequentialRead_Word128(void* star
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revSequentialRead_Word256(void* start_address, void* end_address) {
+int32_t xmem::revSequentialRead_Word256(void* start_address, void* end_address) {
 #ifdef _WIN32
 	return win_asm_revSequentialRead_Word256(static_cast<Word256_t*>(end_address), static_cast<Word256_t*>(start_address));
 #endif
@@ -711,7 +709,7 @@ int32_t xmem::benchmark::benchmark_kernels::revSequentialRead_Word256(void* star
 
 /* ------------ SEQUENTIAL WRITE --------------*/
 
-int32_t xmem::benchmark::benchmark_kernels::forwSequentialWrite_Word32(void* start_address, void* end_address) {
+int32_t xmem::forwSequentialWrite_Word32(void* start_address, void* end_address) {
 	register Word32_t val = 0xFFFFFFFF; 
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(start_address), *endptr = static_cast<Word32_t*>(end_address); wordptr < endptr;) {
 		UNROLL1024(*wordptr++ = val;) 
@@ -719,7 +717,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwSequentialWrite_Word32(void* sta
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwSequentialWrite_Word64(void* start_address, void* end_address) {
+int32_t xmem::forwSequentialWrite_Word64(void* start_address, void* end_address) {
 	register Word64_t val = 0xFFFFFFFFFFFFFFFF; 
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
 		UNROLL512(*wordptr++ = val;) 
@@ -727,7 +725,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwSequentialWrite_Word64(void* sta
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwSequentialWrite_Word128(void* start_address, void* end_address) { 
+int32_t xmem::forwSequentialWrite_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -741,7 +739,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwSequentialWrite_Word128(void* st
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwSequentialWrite_Word256(void* start_address, void* end_address) {
+int32_t xmem::forwSequentialWrite_Word256(void* start_address, void* end_address) {
 #ifdef _WIN32
 	return win_asm_forwSequentialWrite_Word256(static_cast<Word256_t*>(start_address), static_cast<Word256_t*>(end_address));
 #endif
@@ -755,7 +753,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwSequentialWrite_Word256(void* st
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revSequentialWrite_Word32(void* start_address, void* end_address) {
+int32_t xmem::revSequentialWrite_Word32(void* start_address, void* end_address) {
 	register Word32_t val = 0xFFFFFFFF;
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address), *begptr = static_cast<Word32_t*>(start_address); wordptr > begptr;) {
 		UNROLL1024(*wordptr-- = val;)
@@ -763,7 +761,7 @@ int32_t xmem::benchmark::benchmark_kernels::revSequentialWrite_Word32(void* star
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revSequentialWrite_Word64(void* start_address, void* end_address) {
+int32_t xmem::revSequentialWrite_Word64(void* start_address, void* end_address) {
 	register Word64_t val = 0xFFFFFFFFFFFFFFFF;
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(end_address), *begptr = static_cast<Word64_t*>(start_address); wordptr > begptr;) {
 		UNROLL512(*wordptr-- = val;)
@@ -771,7 +769,7 @@ int32_t xmem::benchmark::benchmark_kernels::revSequentialWrite_Word64(void* star
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revSequentialWrite_Word128(void* start_address, void* end_address) { 
+int32_t xmem::revSequentialWrite_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -785,7 +783,7 @@ int32_t xmem::benchmark::benchmark_kernels::revSequentialWrite_Word128(void* sta
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revSequentialWrite_Word256(void* start_address, void* end_address) {
+int32_t xmem::revSequentialWrite_Word256(void* start_address, void* end_address) {
 #ifdef _WIN32
 	return win_asm_revSequentialWrite_Word256(static_cast<Word256_t*>(end_address), static_cast<Word256_t*>(start_address));
 #endif
@@ -801,7 +799,7 @@ int32_t xmem::benchmark::benchmark_kernels::revSequentialWrite_Word256(void* sta
 
 /* ------------ STRIDE 2 READ --------------*/
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride2Read_Word32(void* start_address, void* end_address) {
+int32_t xmem::forwStride2Read_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -813,7 +811,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride2Read_Word32(void* start_a
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride2Read_Word64(void* start_address, void* end_address) { 
+int32_t xmem::forwStride2Read_Word64(void* start_address, void* end_address) { 
 	register Word64_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -825,7 +823,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride2Read_Word64(void* start_a
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride2Read_Word128(void* start_address, void* end_address) { 
+int32_t xmem::forwStride2Read_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -842,7 +840,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride2Read_Word128(void* start_
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride2Read_Word256(void* start_address, void* end_address) { 
+int32_t xmem::forwStride2Read_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -859,7 +857,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride2Read_Word256(void* start_
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride2Read_Word32(void* start_address, void* end_address) {
+int32_t xmem::revStride2Read_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -871,7 +869,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride2Read_Word32(void* start_ad
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride2Read_Word64(void* start_address, void* end_address) { 
+int32_t xmem::revStride2Read_Word64(void* start_address, void* end_address) { 
 	register Word64_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -883,7 +881,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride2Read_Word64(void* start_ad
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride2Read_Word128(void* start_address, void* end_address) { 
+int32_t xmem::revStride2Read_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -900,7 +898,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride2Read_Word128(void* start_a
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride2Read_Word256(void* start_address, void* end_address) { 
+int32_t xmem::revStride2Read_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -919,7 +917,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride2Read_Word256(void* start_a
 
 /* ------------ STRIDE 2 WRITE --------------*/
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride2Write_Word32(void* start_address, void* end_address) {
+int32_t xmem::forwStride2Write_Word32(void* start_address, void* end_address) {
 	register Word32_t val = 0xFFFFFFFF; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -931,7 +929,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride2Write_Word32(void* start_
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride2Write_Word64(void* start_address, void* end_address) {
+int32_t xmem::forwStride2Write_Word64(void* start_address, void* end_address) {
 	register Word64_t val = 0xFFFFFFFFFFFFFFFF; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -943,7 +941,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride2Write_Word64(void* start_
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride2Write_Word128(void* start_address, void* end_address) { 
+int32_t xmem::forwStride2Write_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -961,7 +959,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride2Write_Word128(void* start
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride2Write_Word256(void* start_address, void* end_address) { 
+int32_t xmem::forwStride2Write_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -979,7 +977,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride2Write_Word256(void* start
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride2Write_Word32(void* start_address, void* end_address) { 
+int32_t xmem::revStride2Write_Word32(void* start_address, void* end_address) { 
 	register Word32_t val = 0xFFFFFFFF; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -991,7 +989,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride2Write_Word32(void* start_a
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride2Write_Word64(void* start_address, void* end_address) { 
+int32_t xmem::revStride2Write_Word64(void* start_address, void* end_address) { 
 	register Word64_t val = 0xFFFFFFFFFFFFFFFF; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -1003,7 +1001,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride2Write_Word64(void* start_a
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride2Write_Word128(void* start_address, void* end_address) { 
+int32_t xmem::revStride2Write_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1021,7 +1019,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride2Write_Word128(void* start_
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride2Write_Word256(void* start_address, void* end_address) { 
+int32_t xmem::revStride2Write_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1041,7 +1039,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride2Write_Word256(void* start_
 
 /* ------------ STRIDE 4 READ --------------*/
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride4Read_Word32(void* start_address, void* end_address) {
+int32_t xmem::forwStride4Read_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -1053,7 +1051,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride4Read_Word32(void* start_a
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride4Read_Word64(void* start_address, void* end_address) { 
+int32_t xmem::forwStride4Read_Word64(void* start_address, void* end_address) { 
 	register Word64_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -1065,7 +1063,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride4Read_Word64(void* start_a
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride4Read_Word128(void* start_address, void* end_address) { 
+int32_t xmem::forwStride4Read_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1082,7 +1080,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride4Read_Word128(void* start_
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride4Read_Word256(void* start_address, void* end_address) { 
+int32_t xmem::forwStride4Read_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1099,7 +1097,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride4Read_Word256(void* start_
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride4Read_Word32(void* start_address, void* end_address) {
+int32_t xmem::revStride4Read_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -1111,7 +1109,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride4Read_Word32(void* start_ad
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride4Read_Word64(void* start_address, void* end_address) { 
+int32_t xmem::revStride4Read_Word64(void* start_address, void* end_address) { 
 	register Word64_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -1123,7 +1121,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride4Read_Word64(void* start_ad
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride4Read_Word128(void* start_address, void* end_address) { 
+int32_t xmem::revStride4Read_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1140,7 +1138,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride4Read_Word128(void* start_a
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride4Read_Word256(void* start_address, void* end_address) { 
+int32_t xmem::revStride4Read_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1159,7 +1157,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride4Read_Word256(void* start_a
 
 /* ------------ STRIDE 4 WRITE --------------*/
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride4Write_Word32(void* start_address, void* end_address) {
+int32_t xmem::forwStride4Write_Word32(void* start_address, void* end_address) {
 	register Word32_t val = 0xFFFFFFFF; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -1171,7 +1169,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride4Write_Word32(void* start_
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride4Write_Word64(void* start_address, void* end_address) {
+int32_t xmem::forwStride4Write_Word64(void* start_address, void* end_address) {
 	register Word64_t val = 0xFFFFFFFFFFFFFFFF; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -1183,7 +1181,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride4Write_Word64(void* start_
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride4Write_Word128(void* start_address, void* end_address) { 
+int32_t xmem::forwStride4Write_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1201,7 +1199,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride4Write_Word128(void* start
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride4Write_Word256(void* start_address, void* end_address) { 
+int32_t xmem::forwStride4Write_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1219,7 +1217,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride4Write_Word256(void* start
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride4Write_Word32(void* start_address, void* end_address) { 
+int32_t xmem::revStride4Write_Word32(void* start_address, void* end_address) { 
 	register Word32_t val = 0xFFFFFFFF; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -1231,7 +1229,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride4Write_Word32(void* start_a
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride4Write_Word64(void* start_address, void* end_address) { 
+int32_t xmem::revStride4Write_Word64(void* start_address, void* end_address) { 
 	register Word64_t val = 0xFFFFFFFFFFFFFFFF; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -1243,7 +1241,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride4Write_Word64(void* start_a
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride4Write_Word128(void* start_address, void* end_address) { 
+int32_t xmem::revStride4Write_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1261,7 +1259,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride4Write_Word128(void* start_
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride4Write_Word256(void* start_address, void* end_address) { 
+int32_t xmem::revStride4Write_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1281,7 +1279,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride4Write_Word256(void* start_
 
 /* ------------ STRIDE 8 READ --------------*/
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride8Read_Word32(void* start_address, void* end_address) {
+int32_t xmem::forwStride8Read_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -1293,7 +1291,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride8Read_Word32(void* start_a
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride8Read_Word64(void* start_address, void* end_address) { 
+int32_t xmem::forwStride8Read_Word64(void* start_address, void* end_address) { 
 	register Word64_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -1305,7 +1303,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride8Read_Word64(void* start_a
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride8Read_Word128(void* start_address, void* end_address) { 
+int32_t xmem::forwStride8Read_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1322,7 +1320,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride8Read_Word128(void* start_
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride8Read_Word256(void* start_address, void* end_address) { 
+int32_t xmem::forwStride8Read_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1339,7 +1337,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride8Read_Word256(void* start_
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride8Read_Word32(void* start_address, void* end_address) {
+int32_t xmem::revStride8Read_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -1351,7 +1349,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride8Read_Word32(void* start_ad
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride8Read_Word64(void* start_address, void* end_address) { 
+int32_t xmem::revStride8Read_Word64(void* start_address, void* end_address) { 
 	register Word64_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -1363,7 +1361,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride8Read_Word64(void* start_ad
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride8Read_Word128(void* start_address, void* end_address) { 
+int32_t xmem::revStride8Read_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1380,7 +1378,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride8Read_Word128(void* start_a
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride8Read_Word256(void* start_address, void* end_address) { 
+int32_t xmem::revStride8Read_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1399,7 +1397,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride8Read_Word256(void* start_a
 
 /* ------------ STRIDE 8 WRITE --------------*/
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride8Write_Word32(void* start_address, void* end_address) {
+int32_t xmem::forwStride8Write_Word32(void* start_address, void* end_address) {
 	register Word32_t val = 0xFFFFFFFF; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -1411,7 +1409,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride8Write_Word32(void* start_
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride8Write_Word64(void* start_address, void* end_address) {
+int32_t xmem::forwStride8Write_Word64(void* start_address, void* end_address) {
 	register Word64_t val = 0xFFFFFFFFFFFFFFFF; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -1423,7 +1421,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride8Write_Word64(void* start_
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride8Write_Word128(void* start_address, void* end_address) { 
+int32_t xmem::forwStride8Write_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1441,7 +1439,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride8Write_Word128(void* start
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride8Write_Word256(void* start_address, void* end_address) { 
+int32_t xmem::forwStride8Write_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1459,7 +1457,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride8Write_Word256(void* start
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride8Write_Word32(void* start_address, void* end_address) { 
+int32_t xmem::revStride8Write_Word32(void* start_address, void* end_address) { 
 	register Word32_t val = 0xFFFFFFFF; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -1471,7 +1469,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride8Write_Word32(void* start_a
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride8Write_Word64(void* start_address, void* end_address) { 
+int32_t xmem::revStride8Write_Word64(void* start_address, void* end_address) { 
 	register Word64_t val = 0xFFFFFFFFFFFFFFFF; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -1483,7 +1481,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride8Write_Word64(void* start_a
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride8Write_Word128(void* start_address, void* end_address) { 
+int32_t xmem::revStride8Write_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1501,7 +1499,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride8Write_Word128(void* start_
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride8Write_Word256(void* start_address, void* end_address) { 
+int32_t xmem::revStride8Write_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1521,7 +1519,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride8Write_Word256(void* start_
 
 /* ------------ STRIDE 16 READ --------------*/
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride16Read_Word32(void* start_address, void* end_address) {
+int32_t xmem::forwStride16Read_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -1533,7 +1531,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride16Read_Word32(void* start_
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride16Read_Word64(void* start_address, void* end_address) { 
+int32_t xmem::forwStride16Read_Word64(void* start_address, void* end_address) { 
 	register Word64_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -1545,7 +1543,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride16Read_Word64(void* start_
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride16Read_Word128(void* start_address, void* end_address) { 
+int32_t xmem::forwStride16Read_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1562,7 +1560,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride16Read_Word128(void* start
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride16Read_Word256(void* start_address, void* end_address) { 
+int32_t xmem::forwStride16Read_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1579,7 +1577,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride16Read_Word256(void* start
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride16Read_Word32(void* start_address, void* end_address) {
+int32_t xmem::revStride16Read_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -1591,7 +1589,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride16Read_Word32(void* start_a
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride16Read_Word64(void* start_address, void* end_address) { 
+int32_t xmem::revStride16Read_Word64(void* start_address, void* end_address) { 
 	register Word64_t val; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -1603,7 +1601,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride16Read_Word64(void* start_a
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride16Read_Word128(void* start_address, void* end_address) { 
+int32_t xmem::revStride16Read_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1620,7 +1618,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride16Read_Word128(void* start_
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride16Read_Word256(void* start_address, void* end_address) { 
+int32_t xmem::revStride16Read_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1639,7 +1637,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride16Read_Word256(void* start_
 
 /* ------------ STRIDE 16 WRITE --------------*/
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride16Write_Word32(void* start_address, void* end_address) {
+int32_t xmem::forwStride16Write_Word32(void* start_address, void* end_address) {
 	register Word32_t val = 0xFFFFFFFF; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -1651,7 +1649,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride16Write_Word32(void* start
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride16Write_Word64(void* start_address, void* end_address) {
+int32_t xmem::forwStride16Write_Word64(void* start_address, void* end_address) {
 	register Word64_t val = 0xFFFFFFFFFFFFFFFF; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word64_t);
@@ -1663,7 +1661,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride16Write_Word64(void* start
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride16Write_Word128(void* start_address, void* end_address) { 
+int32_t xmem::forwStride16Write_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0;
 #endif
@@ -1681,7 +1679,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride16Write_Word128(void* star
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::forwStride16Write_Word256(void* start_address, void* end_address) { 
+int32_t xmem::forwStride16Write_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0;
 #endif
@@ -1699,7 +1697,7 @@ int32_t xmem::benchmark::benchmark_kernels::forwStride16Write_Word256(void* star
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride16Write_Word32(void* start_address, void* end_address) { 
+int32_t xmem::revStride16Write_Word32(void* start_address, void* end_address) { 
 	register Word32_t val = 0xFFFFFFFF; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -1712,7 +1710,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride16Write_Word32(void* start_
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride16Write_Word64(void* start_address, void* end_address) { 
+int32_t xmem::revStride16Write_Word64(void* start_address, void* end_address) { 
 	register Word64_t val = 0xFFFFFFFFFFFFFFFF; 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word32_t);
@@ -1725,7 +1723,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride16Write_Word64(void* start_
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride16Write_Word128(void* start_address, void* end_address) { 
+int32_t xmem::revStride16Write_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1744,7 +1742,7 @@ int32_t xmem::benchmark::benchmark_kernels::revStride16Write_Word128(void* start
 #endif
 }
 
-int32_t xmem::benchmark::benchmark_kernels::revStride16Write_Word256(void* start_address, void* end_address) { 
+int32_t xmem::revStride16Write_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -1766,36 +1764,36 @@ int32_t xmem::benchmark::benchmark_kernels::revStride16Write_Word256(void* start
 
 /* ------------ RANDOM READ --------------*/
 
-int32_t xmem::benchmark::benchmark_kernels::randomRead_Word32(void* start_address, void* end_address) {
+int32_t xmem::randomRead_Word32(void* start_address, void* end_address) {
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::randomRead_Word64(void* start_address, void* end_address) { 
+int32_t xmem::randomRead_Word64(void* start_address, void* end_address) { 
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::randomRead_Word128(void* start_address, void* end_address) { 
+int32_t xmem::randomRead_Word128(void* start_address, void* end_address) { 
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::randomRead_Word256(void* start_address, void* end_address) { 
+int32_t xmem::randomRead_Word256(void* start_address, void* end_address) { 
 	return 0;
 }
 
 /* ------------ RANDOM WRITE --------------*/
 
-int32_t xmem::benchmark::benchmark_kernels::randomWrite_Word32(void* start_address, void* end_address) { 
+int32_t xmem::randomWrite_Word32(void* start_address, void* end_address) { 
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::randomWrite_Word64(void* start_address, void* end_address) { 
+int32_t xmem::randomWrite_Word64(void* start_address, void* end_address) { 
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::randomWrite_Word128(void* start_address, void* end_address) { 
+int32_t xmem::randomWrite_Word128(void* start_address, void* end_address) { 
 	return 0;
 }
 
-int32_t xmem::benchmark::benchmark_kernels::randomWrite_Word256(void* start_address, void* end_address) { 
+int32_t xmem::randomWrite_Word256(void* start_address, void* end_address) { 
 	return 0;
 }

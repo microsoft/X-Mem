@@ -55,9 +55,7 @@ extern "C" {
 }
 #endif
 
-using namespace xmem::benchmark;
-using namespace xmem::common;
-using namespace xmem::config;
+using namespace xmem;
 
 BenchmarkManager::BenchmarkManager(
 	Configurator &config
@@ -295,7 +293,7 @@ void BenchmarkManager::__setupWorkingSets(size_t working_set_size) {
 				std::cerr << "ERROR: Failed to open process token to adjust privileges! Did you remember to run in Administrator mode?" << std::endl;
 				exit(-1);
 			}
-			if (!xmem::common::win::third_party::SetPrivilege(hToken,"SeLockMemoryPrivilege", true)) {
+			if (!SetPrivilege(hToken,"SeLockMemoryPrivilege", true)) {
 				std::cerr << "ERROR: Failed to adjust privileges to allow locking memory pages! Did you remember to run in Administrator mode?" << std::endl;
 				exit(-1);
 			}
@@ -419,11 +417,11 @@ void BenchmarkManager::__buildThroughputBenchmarks() {
 							__tp_benchmarks.resize(__tp_benchmarks.size()+1);
 							try {
 #ifdef USE_TIME_BASED_BENCHMARKS
-								__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __config.getIterationsPerTest(), chunk, cpu_node, mem_node, __config.getNumWorkerThreads(), benchmark_name, &__timer, __dram_power_readers, stride, SEQUENTIAL, rw);
+								__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __config.getIterationsPerTest(), chunk, stride, cpu_node, mem_node, __config.getNumWorkerThreads(), benchmark_name, &__timer, __dram_power_readers, SEQUENTIAL, rw);
 #endif
 #ifdef USE_SIZE_BASED_BENCHMARKS
 								size_t passes_per_iteration = compute_number_of_passes((mem_array_len / __config.getNumWorkerThreads()) / KB);
-								__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __config.getIterationsPerTest(), passes_per_iteration, chunk, cpu_node, mem_node, __config.getNumWorkerThreads(), benchmark_name, &__timer, __dram_power_readers, stride, SEQUENTIAL, rw);
+								__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __config.getIterationsPerTest(), passes_per_iteration, chunk, stride, cpu_node, mem_node, __config.getNumWorkerThreads(), benchmark_name, &__timer, __dram_power_readers, SEQUENTIAL, rw);
 #endif
 							} catch (...) { 
 								std::cerr << "ERROR: Failed to build a ThroughputBenchmark! Terminating." << std::endl;
@@ -449,11 +447,11 @@ void BenchmarkManager::__buildThroughputBenchmarks() {
 						__tp_benchmarks.resize(__tp_benchmarks.size()+1);
 						try {
 #ifdef USE_TIME_BASED_BENCHMARKS
-							__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __config.getIterationsPerTest(), chunk, cpu_node, mem_node, __config.getNumWorkerThreads(), benchmark_name, &__timer, __dram_power_readers, 0, RANDOM, rw);
+							__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __config.getIterationsPerTest(), chunk, 0, cpu_node, mem_node, __config.getNumWorkerThreads(), benchmark_name, &__timer, __dram_power_readers, RANDOM, rw);
 #endif
 #ifdef USE_SIZE_BASED_BENCHMARKS
 							size_t passes_per_iteration = compute_number_of_passes((mem_array_len / __config.getNumWorkerThreads) / KB);
-							__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __config.getIterationsPerTest(), passes_per_iteration, chunk, cpu_node, mem_node, __config.getNumWorkerThreads(), benchmark_name, &__timer, __dram_power_readers, 0, RANDOM, rw);
+							__tp_benchmarks[i] = new ThroughputBenchmark(mem_array, mem_array_len, __config.getIterationsPerTest(), passes_per_iteration, chunk, 0 cpu_node, mem_node, __config.getNumWorkerThreads(), benchmark_name, &__timer, __dram_power_readers, RANDOM, rw);
 #endif
 						} catch (...) { 
 							std::cerr << "ERROR: Failed to build a ThroughputBenchmark! Terminating." << std::endl;
@@ -492,13 +490,13 @@ void BenchmarkManager::__buildLatencyBenchmarks() {
 			try {
 #ifdef USE_TIME_BASED_BENCHMARKS
 				//FIXME: number of worker threads issue. loaded latency vs unloaded latency
-				__lat_benchmarks[i] = new LatencyBenchmark(mem_array, mem_array_len / __config.getNumWorkerThreads(), __config.getIterationsPerTest(), cpu_node, mem_node, 1, benchmark_name, &__timer, __dram_power_readers); 
+				__lat_benchmarks[i] = new LatencyBenchmark(mem_array, mem_array_len / __config.getNumWorkerThreads(), __config.getIterationsPerTest(), CHUNK_64b, 0, cpu_node, mem_node, benchmark_name, &__timer, __dram_power_readers, RANDOM, READ); 
 #endif
 #ifdef USE_SIZE_BASED_BENCHMARKS
 				size_t passes_per_iteration = compute_number_of_passes(mem_array_len / KB) / 4;
 				if (passes_per_iteration < 1)
 					passes_per_iteration = 1;
-				__lat_benchmarks[i] = new LatencyBenchmark(mem_array, mem_array_len / __config.getNumWorkerThreads(), __config.getIterationsPerTest(), passes_per_iteration, cpu_node, mem_node, 1, benchmark_name, &__timer, __dram_power_readers); 
+				__lat_benchmarks[i] = new LatencyBenchmark(mem_array, mem_array_len / __config.getNumWorkerThreads(), __config.getIterationsPerTest(), passes_per_iteration, CHUNK_64b, 0, cpu_node, mem_node, benchmark_name, &__timer, __dram_power_readers, RANDOM, READ); 
 #endif
 			} catch (...) {
 				std::cerr << "ERROR: Failed to build a LatencyBenchmark! Terminating." << std::endl;

@@ -49,9 +49,7 @@
 #error Windows is the only supported OS at this time.
 #endif*/
 
-using namespace xmem::benchmark;
-using namespace xmem::benchmark::benchmark_kernels;
-using namespace xmem::common;
+using namespace xmem;
 
 ThroughputBenchmark::ThroughputBenchmark(
 		void* mem_array,
@@ -61,13 +59,13 @@ ThroughputBenchmark::ThroughputBenchmark(
 		uint64_t passes_per_iteration,
 #endif
 		chunk_size_t chunk_size,
+		int64_t stride_size,
 		uint32_t cpu_node,
 		uint32_t mem_node,
 		uint32_t num_worker_threads,
 		std::string name,
-		xmem::timers::Timer *timer,
-		std::vector<xmem::power::PowerReader*> dram_power_readers,
-		int64_t stride_size,
+		Timer *timer,
+		std::vector<PowerReader*> dram_power_readers,
 		pattern_mode_t pattern_mode,
 		rw_mode_t rw_mode
 	) :
@@ -79,26 +77,26 @@ ThroughputBenchmark::ThroughputBenchmark(
 		passes_per_iteration,
 #endif
 		chunk_size,
+		stride_size,
 		cpu_node,
 		mem_node,
 		num_worker_threads,
 		name,
 		timer,
-		dram_power_readers
+		dram_power_readers,
+		pattern_mode,
+		rw_mode
 	),
-	__stride_size(stride_size),
-	__pattern_mode(pattern_mode),
-	__rw_mode(rw_mode),
 	__bench_fptr(nullptr),
 	__dummy_fptr(nullptr)
 	{ 
-	switch (__pattern_mode) {
+	switch (_pattern_mode) {
 		case SEQUENTIAL:
-			switch (__rw_mode) {
+			switch (_rw_mode) {
 				case READ:
 					switch (_chunk_size) {
 						case CHUNK_32b:
-							switch (__stride_size) {
+							switch (_stride_size) {
 								case 1:
 									__bench_fptr = &forwSequentialRead_Word32;
 									__dummy_fptr = &dummy_forwSequentialLoop_Word32;
@@ -146,7 +144,7 @@ ThroughputBenchmark::ThroughputBenchmark(
 							}
 							break;
 						case CHUNK_64b:
-							switch (__stride_size) {
+							switch (_stride_size) {
 								case 1:
 									__bench_fptr = &forwSequentialRead_Word64;
 									__dummy_fptr = &dummy_forwSequentialLoop_Word64;
@@ -194,7 +192,7 @@ ThroughputBenchmark::ThroughputBenchmark(
 							}
 							break;
 						case CHUNK_128b:
-							switch (__stride_size) {
+							switch (_stride_size) {
 								case 1:
 									__bench_fptr = &forwSequentialRead_Word128;
 									__dummy_fptr = &dummy_forwSequentialLoop_Word128;
@@ -242,7 +240,7 @@ ThroughputBenchmark::ThroughputBenchmark(
 							}
 							break;
 						case CHUNK_256b:
-							switch (__stride_size) {
+							switch (_stride_size) {
 								case 1:
 									__bench_fptr = &forwSequentialRead_Word256;
 									__dummy_fptr = &dummy_forwSequentialLoop_Word256;
@@ -300,7 +298,7 @@ ThroughputBenchmark::ThroughputBenchmark(
 				case WRITE:
 					switch (_chunk_size) {
 						case CHUNK_32b:
-							switch (__stride_size) {
+							switch (_stride_size) {
 								case 1:
 									__bench_fptr = &forwSequentialWrite_Word32;
 									__dummy_fptr = &dummy_forwSequentialLoop_Word32;
@@ -348,7 +346,7 @@ ThroughputBenchmark::ThroughputBenchmark(
 							}
 							break;
 						case CHUNK_64b:
-							switch (__stride_size) {
+							switch (_stride_size) {
 								case 1:
 									__bench_fptr = &forwSequentialWrite_Word64;
 									__dummy_fptr = &dummy_forwSequentialLoop_Word64;
@@ -396,7 +394,7 @@ ThroughputBenchmark::ThroughputBenchmark(
 							}
 							break;
 						case CHUNK_128b:
-							switch (__stride_size) {
+							switch (_stride_size) {
 								case 1:
 									__bench_fptr = &forwSequentialWrite_Word128;
 									__dummy_fptr = &dummy_forwSequentialLoop_Word128;
@@ -444,7 +442,7 @@ ThroughputBenchmark::ThroughputBenchmark(
 							}
 							break;
 						case CHUNK_256b:
-							switch (__stride_size) {
+							switch (_stride_size) {
 								case 1:
 									__bench_fptr = &forwSequentialWrite_Word256;
 									__dummy_fptr = &dummy_forwSequentialLoop_Word256;
@@ -507,7 +505,7 @@ ThroughputBenchmark::ThroughputBenchmark(
 			break;
 		
 		case RANDOM:
-			switch (__rw_mode) {
+			switch (_rw_mode) {
 				case READ:
 					switch (_chunk_size) {
 						case CHUNK_32b: 
@@ -599,19 +597,19 @@ void ThroughputBenchmark::report_benchmark_info() {
 	std::cout << std::endl;
 
 	std::cout << "Access Pattern: ";
-	switch (__pattern_mode) {
+	switch (_pattern_mode) {
 		case SEQUENTIAL:
-			if (__stride_size > 0)
+			if (_stride_size > 0)
 				std::cout << "forward ";
-			else if (__stride_size < 0)
+			else if (_stride_size < 0)
 				std::cout << "reverse ";
 			else 
 				std::cout << "UNKNOWN ";
 
-			if (__stride_size == 1 || __stride_size == -1)
+			if (_stride_size == 1 || _stride_size == -1)
 				std::cout << "sequential";
 			else 
-				std::cout << "strides of " << __stride_size << " chunks";
+				std::cout << "strides of " << _stride_size << " chunks";
 			break;
 		case RANDOM:
 			std::cout << "random";
@@ -624,7 +622,7 @@ void ThroughputBenchmark::report_benchmark_info() {
 
 
 	std::cout << "Read/Write Mode: ";
-	switch (__rw_mode) {
+	switch (_rw_mode) {
 		case READ:
 			std::cout << "read";
 			break;
@@ -654,7 +652,7 @@ bool ThroughputBenchmark::__run_core() {
 	report_benchmark_info(); 
 	
 	//Build indices for random workload
-	if (__pattern_mode == RANDOM) 
+	if (_pattern_mode == RANDOM) 
 		__buildRandomPointerPermutation();
 
 	//Start power measurement
@@ -670,7 +668,7 @@ bool ThroughputBenchmark::__run_core() {
 	//Set up some stuff for worker threads
 	size_t len_per_thread = _len / _num_worker_threads; //TODO: is this what we want?
 	std::vector<ThroughputBenchmarkWorker*> workers;
-	std::vector<thread::Thread*> worker_threads;
+	std::vector<Thread*> worker_threads;
 
 	//Do a bunch of iterations of the core benchmark routines
 	if (g_verbose)
@@ -696,7 +694,7 @@ bool ThroughputBenchmark::__run_core() {
 												cpu_id
 											)
 							);
-			worker_threads.push_back(new thread::Thread(workers[t]));
+			worker_threads.push_back(new Thread(workers[t]));
 		}
 
 		//Start worker threads! gogogo
@@ -904,14 +902,3 @@ void ThroughputBenchmark::__internal_report_results() {
 		std::cout << "WARNING: Benchmark has not run yet. No reported results." << std::endl;
 }
 
-int64_t ThroughputBenchmark::getStrideSize() {
-	return __stride_size;
-}
-
-pattern_mode_t ThroughputBenchmark::getPatternMode() {
-	return __pattern_mode;
-}
-
-rw_mode_t ThroughputBenchmark::getRWMode() {
-	return __rw_mode;
-}

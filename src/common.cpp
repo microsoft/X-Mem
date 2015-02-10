@@ -57,24 +57,24 @@ extern "C" {
 #endif
 
 namespace xmem {
-	namespace common {
-		bool g_verbose = false; /**< If true, be more verbose with console reporting. */
-		size_t g_page_size; /**< Default page size on the system, in bytes. */
-		size_t g_large_page_size; /**< Large page size on the system, in bytes. */
-		uint32_t g_num_nodes; /**< Number of NUMA nodes in the system. */
-		uint32_t g_num_logical_cpus; /**< Number of logical CPU cores in the system. This may be different than physical CPUs, e.g. Intel hyperthreading. */
-		uint32_t g_num_physical_cpus; /**< Number of physical CPU cores in the system. */
-		uint32_t g_num_physical_packages; /**< Number of physical CPU packages in the system. Generally this is the same as number of NUMA nodes, unless UMA emulation is done in hardware. */
-		uint32_t g_total_l1_caches; /**< Total number of L1 caches in the system. */
-		uint32_t g_total_l2_caches; /**< Total number of L2 caches in the system. */
-		uint32_t g_total_l3_caches; /**< Total number of L3 caches in the system. */
-		uint32_t g_total_l4_caches; /**< Total number of L4 caches in the system. */
-		uint32_t g_starting_test_index; /**< Numeric identifier for the first benchmark test. */
-		uint32_t g_test_index; /**< Numeric identifier for the current benchmark test. */
-	};
+	bool g_verbose = false; /**< If true, be more verbose with console reporting. */
+	size_t g_page_size; /**< Default page size on the system, in bytes. */
+	size_t g_large_page_size; /**< Large page size on the system, in bytes. */
+	uint32_t g_num_nodes; /**< Number of NUMA nodes in the system. */
+	uint32_t g_num_logical_cpus; /**< Number of logical CPU cores in the system. This may be different than physical CPUs, e.g. Intel hyperthreading. */
+	uint32_t g_num_physical_cpus; /**< Number of physical CPU cores in the system. */
+	uint32_t g_num_physical_packages; /**< Number of physical CPU packages in the system. Generally this is the same as number of NUMA nodes, unless UMA emulation is done in hardware. */
+	uint32_t g_total_l1_caches; /**< Total number of L1 caches in the system. */
+	uint32_t g_total_l2_caches; /**< Total number of L2 caches in the system. */
+	uint32_t g_total_l3_caches; /**< Total number of L3 caches in the system. */
+	uint32_t g_total_l4_caches; /**< Total number of L4 caches in the system. */
+	uint32_t g_starting_test_index; /**< Numeric identifier for the first benchmark test. */
+	uint32_t g_test_index; /**< Numeric identifier for the current benchmark test. */
 };
 
-void xmem::common::print_types_report() {
+using namespace xmem;
+
+void xmem::print_types_report() {
 	std::cout << std::endl << "These are the system type sizes:" << std::endl;
 	std::cout << "short:  \t\t\t" << sizeof(short) << std::endl;
 	std::cout << "int:  \t\t\t\t" << sizeof(int) << std::endl;
@@ -104,7 +104,7 @@ void xmem::common::print_types_report() {
 	std::cout << "size_t:  \t\t\t" << sizeof(size_t) << std::endl;
 }
 
-void xmem::common::print_compile_time_options() {
+void xmem::print_compile_time_options() {
 	std::cout << std::endl;
 	std::cout << "This binary was built for the following OS and architecture capabilities: " << std::endl;
 #ifdef _WIN32
@@ -178,25 +178,25 @@ void xmem::common::print_compile_time_options() {
 	std::cout << std::endl;
 }
 
-void xmem::common::test_timers() {
+void xmem::test_timers() {
 	std::cout << std::endl << "Testing timers..." << std::endl;
 #ifdef USE_QPC_TIMER
-	xmem::timers::win::QPCTimer qpc;
+	QPCTimer qpc;
 	std::cout << "Reported QPC timer frequency: " << qpc.get_ticks_per_sec() << " Hz == " << (double)(qpc.get_ticks_per_sec()) / (1e6) << " MHz" << std::endl;
 	std::cout << "Derived QPC timer ns per tick: " << qpc.get_ns_per_tick() << std::endl;
 #endif
 #ifdef USE_TSC_TIMER
-	xmem::timers::x86_64::TSCTimer tsc;
+	TSCTimer tsc;
 	std::cout << "Calculated TSC timer frequency: " << tsc.get_ticks_per_sec() << " Hz == " << (double)(tsc.get_ticks_per_sec()) / (1e6) << " MHz" << std::endl;
 	std::cout << "Derived TSC timer ns per tick: " << tsc.get_ns_per_tick() << std::endl;
 #endif
 	std::cout << std::endl;
 }
 	
-void xmem::common::test_thread_affinities() {
+void xmem::test_thread_affinities() {
 	std::cout << std::endl << "Testing thread affinities..." << std::endl;
 	bool success = false;
-	for (uint32_t cpu = 0; cpu < xmem::common::g_num_logical_cpus; cpu++) {
+	for (uint32_t cpu = 0; cpu < g_num_logical_cpus; cpu++) {
 		std::cout << "Locking to logical CPU " << cpu << "...";
 		success = lock_thread_to_cpu(cpu);
 		std::cout << (success ? "Pass" : "FAIL");
@@ -207,15 +207,15 @@ void xmem::common::test_thread_affinities() {
 	}
 }
 
-bool xmem::common::lock_thread_to_numa_node(uint32_t numa_node) {
+bool xmem::lock_thread_to_numa_node(uint32_t numa_node) {
 	return lock_thread_to_cpu(cpu_id_in_numa_node(numa_node, 0)); //get the first CPU in the node if of interest
 }
 
-bool xmem::common::unlock_thread_to_numa_node() {
+bool xmem::unlock_thread_to_numa_node() {
 	return unlock_thread_to_cpu();
 }
 
-bool xmem::common::lock_thread_to_cpu(uint32_t cpu_id) {
+bool xmem::lock_thread_to_cpu(uint32_t cpu_id) {
 #ifdef _WIN32
 	HANDLE tid = GetCurrentThread();
 	if (tid == 0)
@@ -238,7 +238,7 @@ bool xmem::common::lock_thread_to_cpu(uint32_t cpu_id) {
 #endif
 }
 
-bool xmem::common::unlock_thread_to_cpu() {
+bool xmem::unlock_thread_to_cpu() {
 #ifdef _WIN32
 	HANDLE tid = GetCurrentThread();
 	if (tid == 0)
@@ -267,7 +267,7 @@ bool xmem::common::unlock_thread_to_cpu() {
 #endif
 }
 		
-int32_t xmem::common::cpu_id_in_numa_node(uint32_t numa_node, uint32_t cpu_in_node) {
+int32_t xmem::cpu_id_in_numa_node(uint32_t numa_node, uint32_t cpu_in_node) {
 	int32_t cpu_id = -1;
 	uint32_t rank_in_node = 0;
 #ifdef _WIN32
@@ -317,7 +317,7 @@ int32_t xmem::common::cpu_id_in_numa_node(uint32_t numa_node, uint32_t cpu_in_no
 	return cpu_id;
 }
 	
-size_t xmem::common::compute_number_of_passes(size_t working_set_size_KB) {
+size_t xmem::compute_number_of_passes(size_t working_set_size_KB) {
 	size_t passes = 0;
 #ifdef USE_PASSES_CURVE_1
 	passes = 65536 / working_set_size_KB;
@@ -331,7 +331,7 @@ size_t xmem::common::compute_number_of_passes(size_t working_set_size_KB) {
 	return passes;
 }
 
-void xmem::common::init_globals() {
+void xmem::init_globals() {
 	//Initialize global variables to defaults.
 	g_verbose = false;
 	g_num_nodes = DEFAULT_NUM_NODES;
@@ -346,7 +346,7 @@ void xmem::common::init_globals() {
 	g_large_page_size = DEFAULT_LARGE_PAGE_SIZE; 
 }
 
-int32_t xmem::common::query_sys_info() {
+int32_t xmem::query_sys_info() {
 	if (g_verbose) {
 		std::cout << "Querying system information...";
 	}

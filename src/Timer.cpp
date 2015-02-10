@@ -29,7 +29,7 @@
 
 #include <Timer.h>
 
-using namespace xmem::timers;
+using namespace xmem;
 
 Timer::Timer() :
 	_ticks_per_sec(0),

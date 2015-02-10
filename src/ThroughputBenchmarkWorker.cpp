@@ -55,8 +55,7 @@
 
 //Libraries
 #include <iostream>
-using namespace xmem::benchmark;
-using namespace xmem::common;
+using namespace xmem;
 
 ThroughputBenchmarkWorker::ThroughputBenchmarkWorker(
 		void* mem_array,
@@ -112,10 +111,10 @@ void ThroughputBenchmarkWorker::run() {
 	void* mem_array = NULL;
 	size_t len = 0;
 #ifdef USE_TSC_TIMER
-	timers::x86_64::TSCTimer helper_timer;
+	TSCTimer helper_timer;
 #endif
 #ifdef USE_QPC_TIMER
-	timers::win::QPCTimer helper_timer;
+	QPCTimer helper_timer;
 #endif
 	uint64_t target_ticks = helper_timer.get_ticks_per_sec() * BENCHMARK_DURATION_SEC; //Rough target run duration in seconds 
 	uint64_t p = 0;
@@ -160,8 +159,8 @@ void ThroughputBenchmarkWorker::run() {
 #endif
 
 	//Prime memory
-	benchmark_kernels::forwSequentialWrite_Word64(prime_start_address, prime_end_address);  //initialize memory by writing and force page faults if pages are not resident in physical memory
-	benchmark_kernels::forwSequentialRead_Word64(prime_start_address, prime_end_address); //dependent reads on the memory, make sure caches are ready, coherence, etc...
+	forwSequentialWrite_Word64(prime_start_address, prime_end_address);  //initialize memory by writing and force page faults if pages are not resident in physical memory
+	forwSequentialRead_Word64(prime_start_address, prime_end_address); //dependent reads on the memory, make sure caches are ready, coherence, etc...
 	for (uint64_t i = 0; i < 4; i++) {
 		(*__bench_fptr)(start_address, end_address); //run the benchmark several times to ensure caches are warmed up for the algorithm and CPU is ready to go
 	}
@@ -171,10 +170,10 @@ void ThroughputBenchmarkWorker::run() {
 	//Run actual version of function and loop overhead
 	while (elapsed_ticks < target_ticks) {
 #ifdef USE_TSC_TIMER
-		start_tick = xmem::timers::x86_64::start_tsc_timer();
+		start_tick = start_tsc_timer();
 #endif
 #ifdef USE_QPC_TIMER
-		start_tick = xmem::timers::win::get_qpc_time();
+		start_tick = get_qpc_time();
 #endif
 		UNROLL1024(
 			(*bench_fptr)(start_address, end_address);
@@ -186,10 +185,10 @@ void ThroughputBenchmarkWorker::run() {
 			end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(start_address) + bytes_per_pass);
 		)
 #ifdef USE_TSC_TIMER
-		stop_tick = xmem::timers::x86_64::stop_tsc_timer();
+		stop_tick = stop_tsc_timer();
 #endif
 #ifdef USE_QPC_TIMER
-		stop_tick = xmem::timers::win::get_qpc_time();
+		stop_tick = get_qpc_time();
 #endif
 
 		elapsed_ticks += (stop_tick - start_tick);
@@ -202,10 +201,10 @@ void ThroughputBenchmarkWorker::run() {
 	end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array) + bytes_per_pass);
 	while (p < passes) {
 #ifdef USE_TSC_TIMER
-		start_tick = xmem::timers::x86_64::start_tsc_timer();
+		start_tick = start_tsc_timer();
 #endif
 #ifdef USE_QPC_TIMER
-		start_tick = xmem::timers::win::get_qpc_time();
+		start_tick = get_qpc_time();
 #endif
 		UNROLL1024(
 			(*dummy_fptr)(start_address, end_address);
@@ -217,10 +216,10 @@ void ThroughputBenchmarkWorker::run() {
 			end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(start_address) + bytes_per_pass);
 		)
 #ifdef USE_TSC_TIMER
-		stop_tick = xmem::timers::x86_64::stop_tsc_timer();
+		stop_tick = stop_tsc_timer();
 #endif
 #ifdef USE_QPC_TIMER
-		stop_tick = xmem::timers::win::get_qpc_time();
+		stop_tick = get_qpc_time();
 #endif
 		elapsed_dummy_ticks += (stop_tick - start_tick);
 		p+=1024;
@@ -229,35 +228,35 @@ void ThroughputBenchmarkWorker::run() {
 #endif
 #ifdef USE_SIZE_BASED_BENCHMARKS
 #ifdef USE_TSC_TIMER
-	start_tick = xmem::timers::x86_64::start_tsc_timer();
+	start_tick = start_tsc_timer();
 #endif
 #ifdef USE_QPC_TIMER
-	start_tick = xmem::timers::win::get_qpc_time();
+	start_tick = get_qpc_time();
 #endif
 	for (uint64_t p = 0; p < __passes_per_iteration; p++)
 		(*bench_fptr)(start_address, end_address);
 #ifdef USE_TSC_TIMER
-	stop_tick = xmem::timers::x86_64::stop_tsc_timer();
+	stop_tick = stop_tsc_timer();
 #endif
 #ifdef USE_QPC_TIMER
-	stop_tick = xmem::timers::win::get_qpc_time();
+	stop_tick = get_qpc_time();
 #endif
 	elapsed_ticks = stop_tick - start_tick;
 
 	//Time dummy version of function and loop overhead
 #ifdef USE_TSC_TIMER
-	start_tick = xmem::timers::x86_64::start_tsc_timer();
+	start_tick = start_tsc_timer();
 #endif
 #ifdef USE_QPC_TIMER
-	start_tick = xmem::timers::win::get_qpc_time();
+	start_tick = get_qpc_time();
 #endif
 	for (uint64_t p = 0; p < __passes_per_iteration; p++)
 		(*dummy_fptr)(start_address, end_address);
 #ifdef USE_TSC_TIMER
-	stop_tick = xmem::timers::x86_64::stop_tsc_timer();
+	stop_tick = stop_tsc_timer();
 #endif
 #ifdef USE_QPC_TIMER
-	stop_tick = xmem::timers::win::get_qpc_time();
+	stop_tick = get_qpc_time();
 #endif
 	elapsed_dummy_ticks = stop_tick - start_tick;
 #endif

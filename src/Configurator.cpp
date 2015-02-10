@@ -39,7 +39,7 @@
 #include <iostream>
 #include <string>
 
-using namespace xmem::config;
+using namespace xmem;
 
 Configurator::Configurator(
 	) :
@@ -151,10 +151,10 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	argv += (argc > 0);
 
 	//Set up optionparser
-	third_party::Stats stats(usage, argc, argv);
-	third_party::Option* options = new third_party::Option[stats.options_max];
-	third_party::Option* buffer = new third_party::Option[stats.buffer_max];
-	third_party::Parser parse(usage, argc, argv, options, buffer); //Parse input
+	Stats stats(usage, argc, argv);
+	Option* options = new Option[stats.options_max];
+	Option* buffer = new Option[stats.buffer_max];
+	Parser parse(usage, argc, argv, options, buffer); //Parse input
 
 	//Check for parser error
 	if (parse.error())
@@ -167,7 +167,7 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	}
 
 	//Check for any unknown options
-	for (third_party::Option* unknown_opt = options[UNKNOWN]; unknown_opt != NULL; unknown_opt = unknown_opt->next()) {
+	for (Option* unknown_opt = options[UNKNOWN]; unknown_opt != NULL; unknown_opt = unknown_opt->next()) {
 		std::cerr << "ERROR: Unknown option: " << std::string(unknown_opt->name, unknown_opt->namelen) << std::endl;
 		goto error;
 	}
@@ -221,8 +221,8 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 
 		char* endptr = NULL;
 		__num_worker_threads = static_cast<uint32_t>(strtoul(options[NUM_WORKER_THREADS].arg, &endptr, 10));
-		if (__num_worker_threads > common::g_num_logical_cpus) {
-			std::cerr << "ERROR: Number of worker threads may not exceed the number of logical CPUs (" << common::g_num_logical_cpus << ")" << std::endl;
+		if (__num_worker_threads > g_num_logical_cpus) {
+			std::cerr << "ERROR: Number of worker threads may not exceed the number of logical CPUs (" << g_num_logical_cpus << ")" << std::endl;
 			goto error;
 		}
 	}
@@ -238,7 +238,7 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		__use_chunk_128b = false;
 		__use_chunk_256b = false;
 		
-		third_party::Option* curr = options[CHUNK_SIZE];
+		Option* curr = options[CHUNK_SIZE];
 		while (curr) { //CHUNK_SIZE may occur more than once, this is perfectly OK.
 			char* endptr = NULL;
 			uint32_t chunk_size = static_cast<uint32_t>(strtoul(curr->arg, &endptr, 10));
@@ -265,7 +265,7 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 
 	if (options[VERBOSE]) {
 		__verbose = true; //What the user configuration is.
-		common::g_verbose = true; //What rest of X-Mem actually uses.
+		g_verbose = true; //What rest of X-Mem actually uses.
 	}
 
 	//Check iterations
@@ -300,8 +300,8 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		char *endptr = NULL;
 		__starting_test_index = static_cast<uint32_t>(strtoul(options[BASE_TEST_INDEX].arg, &endptr, 10)); //What the user specified
 	}
-	xmem::common::g_starting_test_index = __starting_test_index; //What rest of X-Mem uses
-	xmem::common::g_test_index = xmem::common::g_starting_test_index; //What rest of X-Mem uses. The current test index.
+	g_starting_test_index = __starting_test_index; //What rest of X-Mem uses
+	g_test_index = g_starting_test_index; //What rest of X-Mem uses. The current test index.
 
 	//Check filename
 	if (options[OUTPUT_FILE]) { //override defaults
@@ -343,7 +343,7 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		__use_stride_p16 = false;
 		__use_stride_n16 = false;
 		
-		third_party::Option* curr = options[STRIDE_SIZE];
+		Option* curr = options[STRIDE_SIZE];
 		while (curr) { //STRIDE_SIZE may occur more than once, this is perfectly OK.
 			char* endptr = NULL;
 			int32_t stride_size = static_cast<int32_t>(strtoul(curr->arg, &endptr, 10));
@@ -501,15 +501,15 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	std::cout << "Working set:  \t\t\t";
 	if (__use_large_pages) {
 		size_t num_large_pages = 0;
-		if (__working_set_size_per_thread <= xmem::common::g_large_page_size) //sub one large page, round up to one
+		if (__working_set_size_per_thread <= g_large_page_size) //sub one large page, round up to one
 			num_large_pages = 1;
-		else if (__working_set_size_per_thread % xmem::common::g_large_page_size == 0) //multiple of large page
-			num_large_pages = __working_set_size_per_thread / xmem::common::g_large_page_size;
+		else if (__working_set_size_per_thread % g_large_page_size == 0) //multiple of large page
+			num_large_pages = __working_set_size_per_thread / g_large_page_size;
 		else //larger than one large page but not a multiple of large page
-			num_large_pages = __working_set_size_per_thread / xmem::common::g_large_page_size + 1;
+			num_large_pages = __working_set_size_per_thread / g_large_page_size + 1;
 		std::cout << __working_set_size_per_thread << " B == " << __working_set_size_per_thread / KB  << " KB == " << __working_set_size_per_thread / MB << " MB (fits in " << num_large_pages << " large pages)" << std::endl;	
 	} else { 
-		std::cout << __working_set_size_per_thread << " B == " << __working_set_size_per_thread / KB  << " KB == " << __working_set_size_per_thread / MB << " MB (" << __working_set_size_per_thread/(xmem::common::g_page_size) << " pages)" << std::endl;	
+		std::cout << __working_set_size_per_thread << " B == " << __working_set_size_per_thread / KB  << " KB == " << __working_set_size_per_thread / MB << " MB (" << __working_set_size_per_thread/(g_page_size) << " pages)" << std::endl;	
 	}
 	std::cout << "Number of worker threads:  \t";
 	std::cout << __num_worker_threads << std::endl;
@@ -535,7 +535,7 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	return 0;
 
 	error:
-		third_party::printUsage(std::cerr, usage); //Display help message
+		printUsage(std::cerr, usage); //Display help message
 
 		//Free up options memory
 		if (options)
@@ -546,7 +546,7 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		return -1;
 }
 
-bool Configurator::__checkSingleOptionOccurrence(third_party::Option* opt) const {
+bool Configurator::__checkSingleOptionOccurrence(Option* opt) const {
 	if (opt->count() > 1) {
 		std::cerr << "ERROR: " << opt->name << " option can only be specified once." << std::endl;
 		return false;

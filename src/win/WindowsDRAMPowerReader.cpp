@@ -38,7 +38,7 @@
 #include <cstdint>
 #include <vector>
 
-using namespace xmem::power::win;
+using namespace xmem;
 
 WindowsDRAMPowerReader::WindowsDRAMPowerReader(uint32_t counter_cpu_index, double sampling_period, double power_units, std::string name, int32_t cpu_affinity) :
 	PowerReader(sampling_period, power_units, name, cpu_affinity),
@@ -48,9 +48,9 @@ WindowsDRAMPowerReader::WindowsDRAMPowerReader(uint32_t counter_cpu_index, doubl
 {
 	__perf_counter_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "\\CPU Power Counters(" << __counter_cpu_index << ")\\DRAM Power"))->str();
 	try {
-		__pdhQuery = new xmem::common::win::third_party::CPdhQuery(__perf_counter_name);
+		__pdhQuery = new CPdhQuery(__perf_counter_name);
 	}
-	catch (xmem::common::win::third_party::CPdhQuery::CException const &e) {
+	catch (CPdhQuery::CException const &e) {
 		//tcout << e.What() << std::endl;
 	}
 	if (__pdhQuery == NULL) {
@@ -83,7 +83,7 @@ void WindowsDRAMPowerReader::run() {
 					querydata = __pdhQuery->CollectQueryData();
 					result = common::win::third_party::DumpMapValue(querydata);
 				}
-				catch (xmem::common::win::third_party::CPdhQuery::CException const &e) {
+				catch (CPdhQuery::CException const &e) {
 					//tcout << e.What() << std::endl;
 				}
 			}

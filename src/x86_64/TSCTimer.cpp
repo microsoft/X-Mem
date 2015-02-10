@@ -43,7 +43,7 @@
 #include <x86intrin.h>
 #endif
 
-using namespace xmem::timers::x86_64;
+using namespace xmem;
 
 TSCTimer::TSCTimer() :
 	Timer(),
@@ -74,7 +74,7 @@ uint64_t TSCTimer::stop() {
 }
 
 
-uint64_t xmem::timers::x86_64::start_tsc_timer() {
+uint64_t xmem::start_tsc_timer() {
 #ifdef _WIN32
 	int32_t dontcare[4];
 	__cpuid(dontcare, 0); //Serializing instruction. This forces all previous instructions to finish
@@ -101,7 +101,7 @@ uint64_t xmem::timers::x86_64::start_tsc_timer() {
 #endif
 }
 
-uint64_t xmem::timers::x86_64::stop_tsc_timer() {
+uint64_t xmem::stop_tsc_timer() {
 #ifdef _WIN32
 	uint64_t tick;
 	uint32_t filler;

@@ -35,7 +35,7 @@
 //Libraries
 #include <windows.h>
 
-using namespace xmem::timers::win;
+using namespace xmem;
 
 QPCTimer::QPCTimer() :
 	Timer(),
@@ -58,7 +58,7 @@ uint64_t QPCTimer::stop() {
 	return (__stop_tick.QuadPart - __start_tick.QuadPart); 
 }
 
-uint64_t xmem::timers::win::get_qpc_time() {
+uint64_t get_qpc_time() {
 	LARGE_INTEGER tmp;
 	QueryPerformanceCounter(&tmp);
 	return static_cast<uint64_t>(tmp.QuadPart);

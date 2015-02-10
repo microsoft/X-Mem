@@ -37,8 +37,7 @@
 #include <iostream>
 #include <vector>
 
-using namespace xmem::benchmark;
-using namespace xmem::common;
+using namespace xmem;
 
 Benchmark::Benchmark(
 	void* mem_array,
@@ -48,12 +47,15 @@ Benchmark::Benchmark(
 	uint64_t passes_per_iteration,
 #endif
 	chunk_size_t chunk_size,
+	int64_t stride_size,
 	uint32_t cpu_node,
 	uint32_t mem_node,
 	uint32_t num_worker_threads,
 	std::string name,
-	xmem::timers::Timer *timer,
-	std::vector<xmem::power::PowerReader*> dram_power_readers
+	Timer *timer,
+	std::vector<PowerReader*> dram_power_readers,
+	pattern_mode_t pattern_mode,
+	rw_mode_t rw_mode
 	) :
 	_mem_array(mem_array),
 	_len(len),
@@ -62,11 +64,14 @@ Benchmark::Benchmark(
 	_passes_per_iteration(passes_per_iteration),
 #endif
 	_chunk_size(chunk_size),
+	_stride_size(stride_size),
 	_cpu_node(cpu_node),
 	_mem_node(mem_node),
 	_num_worker_threads(num_worker_threads),
 	_timer(timer),
 	_dram_power_readers(dram_power_readers),
+	_pattern_mode(pattern_mode),
+	_rw_mode(rw_mode),
 	_dram_power_threads(),
 	_average_dram_power_socket(),
 	_peak_dram_power_socket(),
@@ -139,8 +144,12 @@ uint64_t Benchmark::getPassesPerIteration() {
 }
 #endif
 
-xmem::common::chunk_size_t Benchmark::getChunkSize() {
+chunk_size_t Benchmark::getChunkSize() {
 	return _chunk_size;
+}
+
+int64_t Benchmark::getStrideSize() {
+	return _stride_size;
 }
 
 uint32_t Benchmark::getCPUNode() {
@@ -159,6 +168,14 @@ std::string Benchmark::getName() {
 	return _name;
 }
 
+pattern_mode_t Benchmark::getPatternMode() {
+	return _pattern_mode;
+}
+
+rw_mode_t Benchmark::getRWMode() {
+	return _rw_mode;
+}
+
 bool Benchmark::_start_power_threads() {
 	bool success = true;
 
@@ -166,10 +183,10 @@ bool Benchmark::_start_power_threads() {
 	for (uint32_t i = 0; i < _dram_power_readers.size(); i++) {
 		if (i >= _dram_power_threads.capacity())
 			_dram_power_threads.reserve(_dram_power_threads.capacity() + 1);
-		thread::Thread* mythread = NULL;
+		Thread* mythread = NULL;
 		if (_dram_power_readers[i] != NULL)  {
 			_dram_power_readers[i]->clear_and_reset(); //clear the state of the reader
-			mythread = new thread::Thread(_dram_power_readers[i]);
+			mythread = new Thread(_dram_power_readers[i]);
 		}
 		_dram_power_threads.push_back(mythread);
 		if (mythread == NULL) {

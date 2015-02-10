@@ -36,7 +36,7 @@
 #include <vector>
 #include <iostream>
 
-using namespace xmem::power;
+using namespace xmem;
 
 PowerReader::PowerReader(double sampling_period, double power_units, std::string name, int32_t cpu_affinity) :
 	_stop_signal(false),

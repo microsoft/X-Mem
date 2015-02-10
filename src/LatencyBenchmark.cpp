@@ -52,9 +52,7 @@
 #include <unistd.h> //for nice()
 #endif
 
-using namespace xmem::benchmark;
-using namespace xmem::benchmark::benchmark_kernels;
-using namespace xmem::common;
+using namespace xmem;
 		
 LatencyBenchmark::LatencyBenchmark(
 		void* mem_array,
@@ -63,12 +61,15 @@ LatencyBenchmark::LatencyBenchmark(
 #ifdef USE_SIZE_BASED_BENCHMARKS
 		uint64_t passes_per_iteration,
 #endif
+		chunk_size_t chunk_size,
+		int64_t stride_size,
 		uint32_t cpu_node,
 		uint32_t mem_node,
-		uint32_t num_worker_threads,
 		std::string name,
-		xmem::timers::Timer *timer,
-		std::vector<xmem::power::PowerReader*> dram_power_readers
+		Timer *timer,
+		std::vector<PowerReader*> dram_power_readers,
+		pattern_mode_t pattern_mode,
+		rw_mode_t rw_mode
 	) :
 	Benchmark(
 		mem_array,
@@ -77,13 +78,16 @@ LatencyBenchmark::LatencyBenchmark(
 #ifdef USE_SIZE_BASED_BENCHMARKS
 		passes_per_iteration,
 #endif
-		CHUNK_64b,
+		chunk_size,
+		stride_size,
 		cpu_node,
 		mem_node,
-		num_worker_threads,
+		1,
 		name,
 		timer,
-		dram_power_readers
+		dram_power_readers,
+		pattern_mode,
+		rw_mode
 	),
 	__bench_fptr(nullptr),
 	__dummy_fptr(nullptr)
