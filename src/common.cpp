@@ -51,20 +51,16 @@
 #include <vector> //for std::vector
 #include <algorithm> //for std::find
 
-#ifdef USE_LARGE_PAGES
 extern "C" {
 #include <hugetlbfs.h> //for getting huge page size
 }
 #endif
-#endif
 
 namespace xmem {
 	namespace common {
-		bool g_verbose; /**< If true, be more verbose with console reporting. */
+		bool g_verbose = false; /**< If true, be more verbose with console reporting. */
 		size_t g_page_size; /**< Default page size on the system, in bytes. */
-//#ifdef USE_LARGE_PAGES
 		size_t g_large_page_size; /**< Large page size on the system, in bytes. */
-//#endif
 		uint32_t g_num_nodes; /**< Number of NUMA nodes in the system. */
 		uint32_t g_num_logical_cpus; /**< Number of logical CPU cores in the system. This may be different than physical CPUs, e.g. Intel hyperthreading. */
 		uint32_t g_num_physical_cpus; /**< Number of physical CPU cores in the system. */
@@ -77,17 +73,6 @@ namespace xmem {
 		uint32_t g_test_index; /**< Numeric identifier for the current benchmark test. */
 	};
 };
-
-void xmem::common::print_welcome_message() {
-	//Greetings!
-	std::cout << "--------------------------------------------------------------------" << std::endl;
-	std::cout << "Extensible Memory Benchmarking Tool (X-Mem) v" << VERSION << std::endl;
-	std::cout << "Built on " << __DATE__ << " at " << __TIME__ << std::endl; //This should work on both Windows and GNU/Linux
-	std::cout << "(C) Microsoft Corporation 2014" << std::endl;
-	std::cout << "Originally authored by Mark Gottscho <mgottscho@ucla.edu>" << std::endl;
-	std::cout << "--------------------------------------------------------------------" << std::endl;
-	std::cout << std::endl;
-}
 
 void xmem::common::print_types_report() {
 	std::cout << std::endl << "These are the system type sizes:" << std::endl;
@@ -154,9 +139,6 @@ void xmem::common::print_compile_time_options() {
 #endif
 	std::cout << std::endl;
 	std::cout << "This binary was built with the following compile-time options:" << std::endl;
-#ifdef VERBOSE
-	std::cout << "VERBOSE" << std::endl;
-#endif
 #ifdef NDEBUG
 	std::cout << "NDEBUG" << std::endl;
 #endif
@@ -165,9 +147,6 @@ void xmem::common::print_compile_time_options() {
 #endif
 #ifdef USE_TSC_TIMER
 	std::cout << "USE_TSC_TIMER" << std::endl;
-#endif
-#ifdef USE_LARGE_PAGES
-	std::cout << "USE_LARGE_PAGES" << std::endl;
 #endif
 #ifdef USE_TIME_BASED_BENCHMARKS
 	std::cout << "USE_TIME_BASED_BENCHMARKS" << std::endl;
@@ -186,48 +165,6 @@ void xmem::common::print_compile_time_options() {
 #endif
 #ifdef USE_PASSES_CURVE_2
 	std::cout << "USE_PASSES_CURVE_2" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_SEQUENTIAL_PATTERN
-	std::cout << "USE_THROUGHPUT_SEQUENTIAL_PATTERN" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_RANDOM_PATTERN
-	std::cout << "USE_THROUGHPUT_RANDOM_PATTERN" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_1
-	std::cout << "USE_THROUGHPUT_FORW_STRIDE_1" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_1
-	std::cout << "USE_THROUGHPUT_REV_STRIDE_1" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_2
-	std::cout << "USE_THROUGHPUT_FORW_STRIDE_2" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_2
-	std::cout << "USE_THROUGHPUT_REV_STRIDE_2" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_4
-	std::cout << "USE_THROUGHPUT_FORW_STRIDE_4" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_4
-	std::cout << "USE_THROUGHPUT_REV_STRIDE_4" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_8
-	std::cout << "USE_THROUGHPUT_FORW_STRIDE_8" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_8
-	std::cout << "USE_THROUGHPUT_REV_STRIDE_8" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_FORW_STRIDE_16
-	std::cout << "USE_THROUGHPUT_FORW_STRIDE_16" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_REV_STRIDE_16
-	std::cout << "USE_THROUGHPUT_REV_STRIDE_16" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_READS
-	std::cout << "USE_THROUGHPUT_READS" << std::endl;
-#endif
-#ifdef USE_THROUGHPUT_WRITES
-	std::cout << "USE_THROUGHPUT_WRITES" << std::endl;
 #endif
 #ifdef USE_LATENCY_BENCHMARK_RANDOM_SHUFFLE_PATTERN
 	std::cout << "USE_LATENCY_BENCHMARK_RANDOM_SHUFFLE_PATTERN" << std::endl;
@@ -406,15 +343,13 @@ void xmem::common::init_globals() {
 	g_total_l3_caches = DEFAULT_NUM_L3_CACHES;
 	g_total_l4_caches = DEFAULT_NUM_L4_CACHES;
 	g_page_size = DEFAULT_PAGE_SIZE;
-#ifdef USE_LARGE_PAGES
 	g_large_page_size = DEFAULT_LARGE_PAGE_SIZE; 
-#endif
 }
 
 int32_t xmem::common::query_sys_info() {
-#ifdef VERBOSE
-	std::cout << "Querying system information...";
-#endif
+	if (g_verbose) {
+		std::cout << "Querying system information...";
+	}
 
 	//Windows only: get logical processor information data structures from OS
 #ifdef _WIN32
@@ -561,42 +496,35 @@ int32_t xmem::common::query_sys_info() {
 	GetSystemInfo(&sysinfo);
 	DWORD pgsz = sysinfo.dwPageSize;
 	g_page_size = pgsz;
-#ifdef USE_LARGE_PAGES
 	g_large_page_size = GetLargePageMinimum();
-#endif
 #endif
 #ifdef __gnu_linux__
 	g_page_size = static_cast<uint64_t>(sysconf(_SC_PAGESIZE));
-#ifdef USE_LARGE_PAGES
 	g_large_page_size = gethugepagesize(); 
-#endif
 #endif
 
 	//Report
-#ifdef VERBOSE
-	std::cout << "done" << std::endl;
-	std::cout << "Number of NUMA nodes: " << g_num_nodes << std::endl;
-	std::cout << "Number of physical processor packages: " << g_num_physical_packages << std::endl;
-	std::cout << "Number of physical processor cores: " << g_num_physical_cpus << std::endl;
-	std::cout << "Number of logical processor cores: " << g_num_logical_cpus << std::endl;
-	std::cout << "Number of processor L1/L2/L3/L4 caches: " 
-		<< g_total_l1_caches
-		<< "/"
-		<< g_total_l2_caches
-		<< "/" 
-		<< g_total_l3_caches
-		<< "/"
-		<< g_total_l4_caches
+	if (g_verbose) {
+		std::cout << "done" << std::endl;
+		std::cout << "Number of NUMA nodes: " << g_num_nodes << std::endl;
+		std::cout << "Number of physical processor packages: " << g_num_physical_packages << std::endl;
+		std::cout << "Number of physical processor cores: " << g_num_physical_cpus << std::endl;
+		std::cout << "Number of logical processor cores: " << g_num_logical_cpus << std::endl;
+		std::cout << "Number of processor L1/L2/L3/L4 caches: " 
+			<< g_total_l1_caches
+			<< "/"
+			<< g_total_l2_caches
+			<< "/" 
+			<< g_total_l3_caches
+			<< "/"
+			<< g_total_l4_caches
 #ifdef __gnu_linux__
-		<< " (guess)"
+			<< " (guess)"
 #endif
-		<< std::endl; 
-#ifdef USE_LARGE_PAGES
-	std::cout << "(Large) page size to be used for benchmarks: " << g_large_page_size << " B" << std::endl;
-#else
-	std::cout << "(Regular) page size to be used for benchmarks: " << g_page_size << " B" << std::endl;
-#endif
-#endif
+			<< std::endl; 
+		std::cout << "Regular page size: " << g_page_size << " B" << std::endl;
+		std::cout << "Large page size: " << g_large_page_size << " B" << std::endl;
+	}
 
 #ifdef _WIN32
 	if (buffer)

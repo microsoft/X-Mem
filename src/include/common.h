@@ -45,7 +45,7 @@
 namespace xmem {
 	namespace common {
 
-#define VERSION "1.2.08"
+#define VERSION "1.3.5"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -176,15 +176,9 @@ namespace xmem {
  *	In some cases, such as chunk size, stride size, etc. for throughput benchmarks, all combinations of the options will be used! This might dramatically increase runtime.
  */
 
-#define VERBOSE /**< Increases console output information detail by a lot. */
-
 //Which timer to use in the benchmarks. Only one may be selected!
 //#define USE_QPC_TIMER /**< RECOMMENDED ENABLED. WINDOWS ONLY. Use the Windows QueryPerformanceCounter timer API. This is a safe bet as it is more hardware-agnostic and has fewer quirks, but it has lower resolution than the TSC timer. */
 #define USE_TSC_TIMER /**< RECOMMENDED DISABLED. Use the Intel Time Stamp Counter native hardware timer. Only use this if you know what you are doing. */
-
-#ifdef _WIN32 //DO NOT COMMENT THIS OUT
-//#define USE_LARGE_PAGES /**< RECOMMENDED ENABLED. TODO: Currently only implemented correctly for Windows because of lackluster support for large pages in GNU/Linux, and the fact that libhugetlbfs is not NUMA-aware in the way we need. Allocate memory using large pages rather than small normal pages. In general, this is highly recommended, as the TLB can skew benchmark results for DRAM. */
-#endif
 
 //Benchmarking methodology. Only one may be selected!
 #define USE_TIME_BASED_BENCHMARKS /**< RECOMMENDED ENABLED. All benchmarks run for an estimated amount of time, and the figures of merit are computed based on the amount of memory accesses completed in the time limit. This mode has more consistent runtime across different machines, memory performance, and working set sizes, but may have more conservative measurements for differing levels of cache hierarchy (overestimating latency and underestimating throughput). */
@@ -199,30 +193,6 @@ namespace xmem {
 //#define USE_PASSES_CURVE_1 /**< RECOMMENDED DISABLED. The passes per iteration of a benchmark will be given by y = 65536 / working_set_size_KB */
 #define USE_PASSES_CURVE_2 /**< RECOMMENDED ENABLED. The passes per iteration of a benchmark will be given by y = 4*2097152 / working_set_size_KB^2 */
 #endif //DO NOT COMMENT THIS OUT
-
-//Throughput benchmark access patterns
-#define USE_THROUGHPUT_SEQUENTIAL_PATTERN /**< RECOMMENDED ENABLED. Run the sequential family pattern of ThroughputBenchmarks. */
-//#define USE_THROUGHPUT_RANDOM_PATTERN /**< RECOMMENDED DISABLED. Run the random-access family pattern of ThroughputBenchmarks. TODO: Not yet implemented. */
-
-#ifdef USE_THROUGHPUT_SEQUENTIAL_PATTERN //DO NOT COMMENT THIS OUT
-//Throughput benchmark forward strides
-#define USE_THROUGHPUT_FORW_STRIDE_1 /**< RECOMMENDED ENABLED. In throughput benchmarks with sequential pattern, do forward strides of 1 chunk (forward sequential). */
-//#define USE_THROUGHPUT_FORW_STRIDE_2 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 2 chunks. */
-//#define USE_THROUGHPUT_FORW_STRIDE_4 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 4 chunks. */
-//#define USE_THROUGHPUT_FORW_STRIDE_8 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 8 chunks. */
-//#define USE_THROUGHPUT_FORW_STRIDE_16 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do forward strides of 16 chunks. */
-
-//Throughput benchmark reverse strides
-#define USE_THROUGHPUT_REV_STRIDE_1 /**< RECOMMENDED ENABLED. In throughput benchmarks with sequential pattern, do reverse strides of 1 chunk (reverse sequential). */
-//#define USE_THROUGHPUT_REV_STRIDE_2 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 2 chunks. */
-//#define USE_THROUGHPUT_REV_STRIDE_4 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 4 chunks. */
-//#define USE_THROUGHPUT_REV_STRIDE_8 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 8 chunks. */
-//#define USE_THROUGHPUT_REV_STRIDE_16 /**< RECOMMENDED DISABLED. In throughput benchmarks with sequential pattern, do reverse strides of 16 chunks. */
-#endif //DO NOT COMMENT THIS OUT
-
-//Throughput benchmark reads and writes
-#define USE_THROUGHPUT_READS /**< RECOMMENDED ENABLED. In throughput benchmarks, read from memory. */
-#define USE_THROUGHPUT_WRITES /**< RECOMMENDED ENABLED. In throughput benchmarks, write to memory. */
 
 //Latency benchmark pointer chasing construction method
 #define USE_LATENCY_BENCHMARK_RANDOM_SHUFFLE_PATTERN /**< RECOMMENDED ENABLED. In latency benchmarks, generate the pointer chasing pattern using a random shuffle, which has a chance of creating small cycles. Much faster to run but strictly less correct. O(N) */
@@ -274,20 +244,6 @@ namespace xmem {
 #endif
 #endif
 
-#if !defined (USE_THROUGHPUT_SEQUENTIAL_PATTERN) && !defined(USE_THROUGHPUT_RANDOM_PATTERN)
-#error At least one throughput pattern compile-time option must be set!
-#endif
-
-#if defined(USE_THROUGHPUT_SEQUENTIAL_PATTERN)
-#if !defined(USE_THROUGHPUT_FORW_STRIDE_1) && !defined(USE_THROUGHPUT_FORW_STRIDE_2) && !defined(USE_THROUGHPUT_FORW_STRIDE_4) && !defined(USE_THROUGHPUT_FORW_STRIDE_8) && !defined(USE_THROUGHPUT_FORW_STRIDE_16) && !defined(USE_THROUGHPUT_REV_STRIDE_1) && !defined(USE_THROUGHPUT_REV_STRIDE_2) && !defined(USE_THROUGHPUT_REV_STRIDE_4) && !defined(USE_THROUGHPUT_REV_STRIDE_8) && !defined(USE_THROUGHPUT_REV_STRIDE_16) 
-#error Throughput benchmark sequential pattern compile-time option was selected, but no stride options were set! At least one must be enabled.
-#endif
-#endif
-
-#if !defined(USE_THROUGHPUT_READS) && !defined(USE_THROUGHPUT_WRITES)
-#error At least one read or write mode compile-time option must be selected for throughput benchmarks!
-#endif
-
 #if !defined(USE_LATENCY_BENCHMARK_RANDOM_SHUFFLE_PATTERN) && !defined(USE_LATENCY_BENCHMARK_RANDOM_HAMILTONIAN_CYCLE_PATTERN)
 #error One latency benchmark pattern compile-time option must be selected!
 #endif
@@ -322,12 +278,8 @@ namespace xmem {
 		 * @brief Memory access patterns are broadly categorized by sequential or random-access.
 		 */
 		typedef enum {
-#ifdef USE_THROUGHPUT_SEQUENTIAL_PATTERN
 			SEQUENTIAL,
-#endif
-#ifdef USE_THROUGHPUT_RANDOM_PATTERN
 			RANDOM,
-#endif
 			NUM_PATTERN_MODES
 		} pattern_mode_t;
 
@@ -335,12 +287,8 @@ namespace xmem {
 		 * @brief Memory access batterns are broadly categorized by reads and writes.
 		 */
 		typedef enum {
-#ifdef USE_THROUGHPUT_READS
 			READ,
-#endif
-#ifdef USE_THROUGHPUT_WRITES
 			WRITE,
-#endif
 			NUM_RW_MODES
 		} rw_mode_t;
 
@@ -356,8 +304,8 @@ namespace xmem {
 		} chunk_size_t;
 
 		/**
-		 * @brief Prints a basic welcome message to the console with useful information.
-		 */
+		* @brief Prints a basic welcome message to the console with useful information.
+		*/
 		void print_welcome_message();
 
 		/**

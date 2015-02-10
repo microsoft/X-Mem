@@ -62,7 +62,6 @@ Benchmark::Benchmark(
 	_passes_per_iteration(passes_per_iteration),
 #endif
 	_chunk_size(chunk_size),
-	_indices(nullptr),
 	_cpu_node(cpu_node),
 	_mem_node(mem_node),
 	_num_worker_threads(num_worker_threads),
@@ -82,8 +81,6 @@ Benchmark::Benchmark(
 }
 
 Benchmark::~Benchmark() {
-	if (_indices != nullptr)
-		delete[] _indices;
 }
 
 void Benchmark::report_power_results() {

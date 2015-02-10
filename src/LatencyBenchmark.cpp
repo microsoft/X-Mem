@@ -77,7 +77,7 @@ LatencyBenchmark::LatencyBenchmark(
 #ifdef USE_SIZE_BASED_BENCHMARKS
 		passes_per_iteration,
 #endif
-		NUM_CHUNK_SIZES,
+		CHUNK_64b,
 		cpu_node,
 		mem_node,
 		num_worker_threads,
@@ -146,27 +146,26 @@ bool LatencyBenchmark::__run_core() {
 #endif
 	
 	//Prime memory
-#ifdef VERBOSE
-	std::cout << "Priming benchmark...";
-#endif
+	if (g_verbose)
+		std::cout << "Priming benchmark...";
 	__primeMemory(4);
-#ifdef VERBOSE
-	std::cout << "done" << std::endl;
+	if (g_verbose)
+		std::cout << "done" << std::endl;
 
 	//Start power measurement
-	std::cout << "Starting power measurement threads...";
-#endif
-	if (!_start_power_threads())
-		std::cout << "FAIL" << std::endl;
-#ifdef VERBOSE
-	else
+	if (g_verbose)
+		std::cout << "Starting power measurement threads...";
+	
+	if (!_start_power_threads()) {
+		if (g_verbose)
+			std::cout << "FAIL" << std::endl;
+		std::cerr << "WARNING: Failed to start power threads." << std::endl;
+	} else if (g_verbose)
 		std::cout << "done" << std::endl;
-#endif
 
 	//Run benchmark
-#ifdef VERBOSE
-	std::cout << "Running benchmark." << std::endl << std::endl;
-#endif
+	if (g_verbose)
+		std::cout << "Running benchmark." << std::endl << std::endl;
 
 	//Do a bunch of iterations of the core benchmark routine
 	uintptr_t* next_address = static_cast<uintptr_t*>(_mem_array);
@@ -224,24 +223,23 @@ bool LatencyBenchmark::__run_core() {
 			_warning = true;
 		}
 	
-#ifdef VERBOSE
-		//Report metrics for this iteration
-		std::cout << "Iter " << i+1 << " had " << passes << " passes, with " << accesses_per_pass << " accesses per pass:";
-		if (iter_warning) std::cout << " -- WARNING";
-		std::cout << std::endl;
+		if (g_verbose) { //Report metrics for this iteration
+			std::cout << "Iter " << i+1 << " had " << passes << " passes, with " << accesses_per_pass << " accesses per pass:";
+			if (iter_warning) std::cout << " -- WARNING";
+			std::cout << std::endl;
 
-		std::cout << "...clock ticks == " << adjusted_ticks << " (adjusted by -" << elapsed_dummy_ticks << ")";
-		if (iter_warning) std::cout << " -- WARNING";
-		std::cout << std::endl;
+			std::cout << "...clock ticks == " << adjusted_ticks << " (adjusted by -" << elapsed_dummy_ticks << ")";
+			if (iter_warning) std::cout << " -- WARNING";
+			std::cout << std::endl;
 
-		std::cout << "...ns == " << adjusted_ticks * _timer->get_ns_per_tick() << " (adjusted by -" << elapsed_dummy_ticks * _timer->get_ns_per_tick() << ")";
-		if (iter_warning) std::cout << " -- WARNING";
-		std::cout << std::endl;
+			std::cout << "...ns == " << adjusted_ticks * _timer->get_ns_per_tick() << " (adjusted by -" << elapsed_dummy_ticks * _timer->get_ns_per_tick() << ")";
+			if (iter_warning) std::cout << " -- WARNING";
+			std::cout << std::endl;
 
-		std::cout << "...sec == " << adjusted_ticks * _timer->get_ns_per_tick() / 1e9 << " (adjusted by -" << elapsed_dummy_ticks * _timer->get_ns_per_tick() / 1e9 << ")";
-		if (iter_warning) std::cout << " -- WARNING";
-		std::cout << std::endl;
-#endif
+			std::cout << "...sec == " << adjusted_ticks * _timer->get_ns_per_tick() / 1e9 << " (adjusted by -" << elapsed_dummy_ticks * _timer->get_ns_per_tick() / 1e9 << ")";
+			if (iter_warning) std::cout << " -- WARNING";
+			std::cout << std::endl;
+		}
 		
 		//Compute metric for this iteration
 		_metricOnIter[i] = static_cast<double>(adjusted_ticks * _timer->get_ns_per_tick())  /  static_cast<double>(passes * num_pointers);
@@ -249,16 +247,17 @@ bool LatencyBenchmark::__run_core() {
 	}
 
 	//Stop power measurement
-#ifdef VERBOSE
-	std::cout << std::endl;
-	std::cout << "Stopping power measurement threads...";
-#endif
-	if (!_stop_power_threads())
-		std::cout << "FAIL" << std::endl;
-#ifdef VERBOSE
-	else
+	if (g_verbose) {
+		std::cout << std::endl;
+		std::cout << "Stopping power measurement threads...";
+	}
+	
+	if (!_stop_power_threads()) {
+		if (g_verbose)
+			std::cout << "FAIL" << std::endl;
+		std::cerr << "WARNING: Failed to stop power measurement threads." << std::endl;
+	} else if (g_verbose)
 		std::cout << "done" << std::endl;
-#endif
 	
 	//Unset processor affinity
 	if (locked)
@@ -286,9 +285,8 @@ bool LatencyBenchmark::run() {
 }
 
 bool LatencyBenchmark::__buildRandomPointerPermutation() {
-#ifdef VERBOSE
-	std::cout << "Preparing memory region under test. This might take a while...";
-#endif
+	if (g_verbose)
+		std::cout << "Preparing memory region under test. This might take a while...";
 	//std::fstream myfile;
 	//myfile.open("test.txt", std::fstream::out);
 	
@@ -308,7 +306,6 @@ bool LatencyBenchmark::__buildRandomPointerPermutation() {
 	W.resize(num_pointers);
 	for (w_index = 0; w_index < num_pointers; w_index++) {
 		W.at(w_index) = w_index;
-		//std::cout << "w_index == " << w_index << ", W.at(w_index) == " << W.at(w_index) << std::endl;
 	}
 	
 	//Build the directed Hamiltonian Cycle
@@ -316,33 +313,12 @@ bool LatencyBenchmark::__buildRandomPointerPermutation() {
 	size_t w = 0; //the next memory location
 	w_index = 0;
 	while (W.size() > 0) { //while we have not reached all memory locations
-		//std::cout << "W.size() == " << W.size() << std::endl;
-
 		W.erase(W.begin() + w_index);
-		
-		//Binary search for v
-		/*bool found = false;
-		size_t lbound = 0, ubound = W.size(); //init bounds and starting index
-		while (!found) {
-			//std::cout << "lbound == " << lbound << ", ubound == " << ubound << std::endl;
-			w_index = (ubound + lbound) / 2; 
-			if (W[w_index] == v) {//found
-				//Remove v from W
-				W.erase(W.begin() + w_index);
-				found = true;
-				//std::cout << "FOUND!" << std::endl;
-			} else if (W[w_index] < v) { //v is larger, search right half
-				lbound = w_index;
-			} else { //v is smaller, search left half
-				ubound = w_index;
-			}
-		}*/
 
 		//Normal case
 		if (W.size() > 0) {
 			//Choose the next w_index at random from W
 			w_index = gen() % W.size();
-		//	std::cout << "Next w_index == " << w_index << std::endl;
 
 			//Extract the memory location corresponding to this w_index
 			w = W[w_index];
@@ -350,9 +326,6 @@ bool LatencyBenchmark::__buildRandomPointerPermutation() {
 			w = 0;
 		}
 
-		//std::cout << "w == " << w << std::endl;
-
-		//std::cout << "Constructing pointer v == " << v << " --> w == " << w << std::endl;
 		//Create pointer v --> w. This corresponds to a directed edge in the graph with nodes v and w.
 		mem_base[v] = reinterpret_cast<uintptr_t>(mem_base + w);
 
@@ -368,10 +341,10 @@ bool LatencyBenchmark::__buildRandomPointerPermutation() {
 
 	std::shuffle(mem_base, mem_base + num_pointers, gen);
 #endif
-#ifdef VERBOSE
-	std::cout << "done" << std::endl;
-	std::cout << std::endl;
-#endif
+	if (g_verbose) {
+		std::cout << "done" << std::endl;
+		std::cout << std::endl;
+	}
 
 	return true;
 }
