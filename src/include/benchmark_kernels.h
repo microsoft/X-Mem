@@ -30,11 +30,39 @@
 #ifndef __BENCHMARK_KERNELS_H
 #define __BENCHMARK_KERNELS_H
 
+//Headers
+#include <common.h>
+
 //Libraries
 #include <cstdint>
 #include <cstddef>
 
 namespace xmem {
+	
+	typedef int32_t(*SequentialFunction)(void*, void*);
+	typedef int32_t(*RandomFunction)(uintptr_t*, uintptr_t**, size_t); 
+	
+	/**
+	 * @brief Determines which sequential memory access kernel to use based on the read/write mode, chunk size, and stride size.
+	 * @param rw_mode Read/write mode.
+	 * @param chunk_size Access granularity.
+	 * @param stride_size Distance between successive accesses.
+	 * @param kernel_function Function pointer that will be set to the matching kernel function.
+	 * @param dummy_kernel_function Function pointer that will be set to the matching dummy kernel function.
+	 * @returns True on success.
+	 */
+	bool determineSequentialKernel(rw_mode_t rw_mode, chunk_size_t chunk_size, int64_t stride_size, SequentialFunction* kernel_function, SequentialFunction* dummy_kernel_function);
+	
+	/**
+	 * @brief Determines which random memory access kernel to use based on the read/write mode, chunk size, and stride size.
+	 * @param rw_mode Read/write mode.
+	 * @param chunk_size Access granularity.
+	 * @param kernel_function Function pointer that will be set to the matching kernel function.
+	 * @param dummy_kernel_function Function pointer that will be set to the matching dummy kernel function.
+	 * @returns True on success.
+	 */
+	bool determineRandomKernel(rw_mode_t rw_mode, chunk_size_t chunk_size, RandomFunction* kernel_function, RandomFunction* dummy_kernel_function);
+
 
 	/***********************************************************************
 	 ***********************************************************************
@@ -56,8 +84,7 @@ namespace xmem {
 
 	/**
 	 * @brief Walks over the allocated memory in random order by chasing pointers.
-	 * @param num_pointers The total number of pointer dereferences to make.
-	 * @returns Undefined.
+	 * TODO update Doxygen comments
 	 */
 	int32_t chasePointers(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 	
@@ -411,35 +438,27 @@ namespace xmem {
 
 	/**
 	 * @brief Used for measuring the time spent doing everything in random Word 32 loops except for the memory access itself.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
+	 * TODO update Doxygen comments
 	 */
-	int32_t dummy_randomLoop_Word32(void* start_address, void* end_address);
+	int32_t dummy_randomLoop_Word32(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 
 	/**
 	 * @brief Used for measuring the time spent doing everything in random Word 64 loops except for the memory access itself.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
+	 * TODO update Doxygen comments
 	 */
-	int32_t dummy_randomLoop_Word64(void* start_address, void* end_address);
+	int32_t dummy_randomLoop_Word64(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 
 	/**
 	 * @brief Used for measuring the time spent doing everything in random Word 128 loops except for the memory access itself.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
+	 * TODO update Doxygen comments
 	 */
-	int32_t dummy_randomLoop_Word128(void* start_address, void* end_address);
+	int32_t dummy_randomLoop_Word128(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 
 	/**
 	 * @brief Used for measuring the time spent doing everything in random Word 256 loops except for the memory access itself.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
+	 * TODO update Doxygen comments
 	 */
-	int32_t dummy_randomLoop_Word256(void* start_address, void* end_address);
+	int32_t dummy_randomLoop_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 
 	/* ------------------------------------------------------------------------- */
 	/* --------------------- CORE BENCHMARK ROUTINES --------------------------- */
@@ -1107,68 +1126,53 @@ namespace xmem {
 
 	/**
 	 * @brief Walks over the allocated memory in random order, reading in 32-bit chunks.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
+	 * TODO update Doxygen comments
 	 */
-	int32_t randomRead_Word32(void* start_address, void* end_address);
+	int32_t randomRead_Word32(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 
 	/**
 	 * @brief Walks over the allocated memory in random order, reading in 64-bit chunks.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
+	 * TODO update Doxygen comments
 	 */
-	int32_t randomRead_Word64(void* start_address, void* end_address);
+	int32_t randomRead_Word64(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 
 	/**
 	 * @brief Walks over the allocated memory in random order, reading in 128-bit chunks.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
+	 * TODO update Doxygen comments
 	 */
-	int32_t randomRead_Word128(void* start_address, void* end_address);
+	int32_t randomRead_Word128(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 
 	/**
 	 * @brief Walks over the allocated memory in random order, reading in 256-bit chunks.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
+	 * TODO update Doxygen comments
 	 */
-	int32_t randomRead_Word256(void* start_address, void* end_address);
+	int32_t randomRead_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 
 	/* ------------ RANDOM WRITE --------------*/
 
 	/**
 	 * @brief Walks over the allocated memory in random order, writing in 32-bit chunks.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
+	 * TODO update Doxygen comments
 	 */
-	int32_t randomWrite_Word32(void* start_address, void* end_address);
+	int32_t randomWrite_Word32(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 
 	/**
 	 * @brief Walks over the allocated memory in random order, writing in 64-bit chunks.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
+	 * TODO update Doxygen comments
 	 */
-	int32_t randomWrite_Word64(void* start_address, void* end_address);
+	int32_t randomWrite_Word64(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 
 	/**
 	 * @brief Walks over the allocated memory in random order, writing in 128-bit chunks.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
+	 * TODO update Doxygen comments
 	 */
-	int32_t randomWrite_Word128(void* start_address, void* end_address);
+	int32_t randomWrite_Word128(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 
 	/**
 	 * @brief Walks over the allocated memory in random order, writing in 256-bit chunks.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
+	 * TODO update Doxygen comments
 	 */
-	int32_t randomWrite_Word256(void* start_address, void* end_address);
+	int32_t randomWrite_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 };
 
 #endif

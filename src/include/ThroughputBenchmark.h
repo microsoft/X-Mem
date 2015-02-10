@@ -45,8 +45,6 @@ namespace xmem {
 	 */
 	class ThroughputBenchmark : public Benchmark {
 	public:
-		typedef int32_t(*ThroughputBenchFunction)(void*, void*); //Core benchmark function pointer
-
 		/**
 		 * @brief Constructor. Parameters are passed directly to the Benchmark constructor. See Benchmark class documentation for parameter semantics.
 		 */
@@ -57,60 +55,25 @@ namespace xmem {
 #ifdef USE_SIZE_BASED_BENCHMARKS
 			uint64_t passes_per_iteration,
 #endif
+			uint32_t num_worker_threads,
+			uint32_t mem_node,
+			uint32_t cpu_node,
+			pattern_mode_t pattern_mode,
+			rw_mode_t rw_mode,
 			chunk_size_t chunk_size,
 			int64_t stride_size,
-			uint32_t cpu_node,
-			uint32_t mem_node,
-			uint32_t num_worker_threads,
-			std::string name,
-			Timer *timer,
+			Timer& timer,
 			std::vector<PowerReader*> dram_power_readers,
-			pattern_mode_t pattern_mode,
-			rw_mode_t rw_mode
+			std::string name
 		);
 
 		/**
 		 * @brief Destructor.
 		 */
-		virtual ~ThroughputBenchmark();
+		virtual ~ThroughputBenchmark() {}
 
-		/**
-		 * @brief Runs the benchmark.
-		 * @returns true on success
-		 */
-		virtual bool run();
-
-		/**
-		 * @brief Reports benchmark configuration details to the console.
-		 */
-		virtual void report_benchmark_info();
-
-		/**
-		 * @brief Reports results to the console.
-		 */
-		virtual void report_results();
-
-	private:
-		/**
-		 * @brief The core benchmark method.
-		 * @returns True on success.
-		 */
-		bool __run_core();
-
-		/**
-		 * @brief Constructs a random access pattern across the whole working set.
-		 * For successive iterations, the access pattern is identical.
-		 * @returns True on success.
-		 */
-		bool __buildRandomPointerPermutation();
-
-		/**
-		 * @brief Outputs a report of the benchmark results to the console if they ran.
-		 */
-		void __internal_report_results();
-
-		ThroughputBenchFunction __bench_fptr; /**< Points to the memory test kernel to use. */
-		ThroughputBenchFunction __dummy_fptr; /**< Points to a dummy version of the memory test kernel to use. */
+	protected:
+		virtual bool _run_core();
 	};
 };
 

@@ -45,8 +45,7 @@ namespace xmem {
 	 */
 	class LatencyBenchmark : public Benchmark {
 	public:
-		typedef int32_t(*LatencyBenchFunction)(uintptr_t*, uintptr_t**, size_t); //Core benchmark function pointer
-
+		
 		/**
 		 * @brief Constructor. Parameters are passed directly to the Benchmark constructor. See Benchmark class documentation for parameter semantics.
 		 */
@@ -57,66 +56,25 @@ namespace xmem {
 #ifdef USE_SIZE_BASED_BENCHMARKS
 			uint64_t passes_per_iteration,
 #endif
+			uint32_t num_worker_threads,
+			uint32_t mem_node,
+			uint32_t cpu_node,
+			pattern_mode_t pattern_mode,
+			rw_mode_t rw_mode,
 			chunk_size_t chunk_size,
 			int64_t stride_size,
-			uint32_t cpu_node,
-			uint32_t mem_node,
-			std::string name,
-			Timer *timer,
+			Timer& timer,
 			std::vector<PowerReader*> dram_power_readers,
-			pattern_mode_t pattern_mode,
-			rw_mode_t rw_mode
+			std::string name
 		);
 		
 		/**
 		 * @brief Destructor.
 		 */
-		virtual ~LatencyBenchmark();
+		virtual ~LatencyBenchmark() {}
 
-		/**
-		 * @brief Runs the benchmark.
-		 * @returns True on success.
-		 */
-		virtual bool run();
-
-		/**
-		 * @brief Outputs the benchmark configuration to the console.
-		 */
-		virtual void report_benchmark_info();
-
-		/**
-		 * @brief Outputs a report of the benchmark results to the console if run() returned true.
-		 */
-		virtual void report_results();
-
-	private:
-		/**
-		 * @brief Primes the whole memory space to be used in the benchmark.
-		 * This is to warm up the caches and make sure the OS has physical pages allocated as well.
-		 * @param passes The number of priming passes to do.
-		 */
-		void __primeMemory(uint64_t passes);
-
-		/**
-		 * @brief The core benchmark method.
-		 * @returns True on success.
-		 */
-		bool __run_core();
-
-		/**
-		 * @brief Constructs a cycle of pointers in the whole memory space, such that each word will be reached exactly once. This is essentially a random linked list.
-		 * For successive iterations, the access pattern is identical.
-		 * @returns True on success.
-		 */
-		bool __buildRandomPointerPermutation();
-
-		/**
-		 * @brief Outputs a report of the benchmark results to the console if they ran.
-		 */
-		void __internal_report_results();
-
-		LatencyBenchFunction __bench_fptr; /**< Points to the memory test core routine to use. */
-		LatencyBenchFunction __dummy_fptr; /**< Points to a dummy version of the memory test core routine to use. */
+	protected:
+		virtual bool _run_core();
 	};
 };
 

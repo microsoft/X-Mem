@@ -45,6 +45,455 @@
 
 using namespace xmem;
 
+bool xmem::determineSequentialKernel(rw_mode_t rw_mode, chunk_size_t chunk_size, int64_t stride_size, SequentialFunction* kernel_function, SequentialFunction* dummy_kernel_function) {
+	switch (rw_mode) {
+		case READ:
+			switch (chunk_size) {
+				case CHUNK_32b:
+					switch (stride_size) {
+						case 1:
+							*kernel_function = &forwSequentialRead_Word32;
+							*dummy_kernel_function = &dummy_forwSequentialLoop_Word32;
+							return true;
+						case -1:
+							*kernel_function = &revSequentialRead_Word32;
+							*dummy_kernel_function = &dummy_revSequentialLoop_Word32;
+							return true;
+						case 2:
+							*kernel_function = &forwStride2Read_Word32;
+							*dummy_kernel_function = &dummy_forwStride2Loop_Word32;
+							return true;
+						case -2:
+							*kernel_function = &revStride2Read_Word32;
+							*dummy_kernel_function = &dummy_revStride2Loop_Word32;
+							return true;
+						case 4:
+							*kernel_function = &forwStride4Read_Word32;
+							*dummy_kernel_function = &dummy_forwStride4Loop_Word32;
+							return true;
+						case -4:
+							*kernel_function = &revStride4Read_Word32;
+							*dummy_kernel_function = &dummy_revStride4Loop_Word32;
+							return true;
+						case 8:
+							*kernel_function = &forwStride8Read_Word32;
+							*dummy_kernel_function = &dummy_forwStride8Loop_Word32;
+							return true;
+						case -8:
+							*kernel_function = &revStride8Read_Word32;
+							*dummy_kernel_function = &dummy_revStride8Loop_Word32;
+							return true;
+						case 16:
+							*kernel_function = &forwStride16Read_Word32;
+							*dummy_kernel_function = &dummy_forwStride16Loop_Word32;
+							return true;
+						case -16:
+							*kernel_function = &revStride16Read_Word32;
+							*dummy_kernel_function = &dummy_revStride16Loop_Word32;
+							return true;
+						default:
+							return false;
+							return true;
+					}
+					return true;
+				case CHUNK_64b:
+					switch (stride_size) {
+						case 1:
+							*kernel_function = &forwSequentialRead_Word64;
+							*dummy_kernel_function = &dummy_forwSequentialLoop_Word64;
+							return true;
+						case -1:
+							*kernel_function = &revSequentialRead_Word64;
+							*dummy_kernel_function = &dummy_revSequentialLoop_Word64;
+							return true;
+						case 2:
+							*kernel_function = &forwStride2Read_Word64;
+							*dummy_kernel_function = &dummy_forwStride2Loop_Word64;
+							return true;
+						case -2:
+							*kernel_function = &revStride2Read_Word64;
+							*dummy_kernel_function = &dummy_revStride2Loop_Word64;
+							return true;
+						case 4:
+							*kernel_function = &forwStride4Read_Word64;
+							*dummy_kernel_function = &dummy_forwStride4Loop_Word64;
+							return true;
+						case -4:
+							*kernel_function = &revStride4Read_Word64;
+							*dummy_kernel_function = &dummy_revStride4Loop_Word64;
+							return true;
+						case 8:
+							*kernel_function = &forwStride8Read_Word64;
+							*dummy_kernel_function = &dummy_forwStride8Loop_Word64;
+							return true;
+						case -8:
+							*kernel_function = &revStride8Read_Word64;
+							*dummy_kernel_function = &dummy_revStride8Loop_Word64;
+							return true;
+						case 16:
+							*kernel_function = &forwStride16Read_Word64;
+							*dummy_kernel_function = &dummy_forwStride16Loop_Word64;
+							return true;
+						case -16:
+							*kernel_function = &revStride16Read_Word64;
+							*dummy_kernel_function = &dummy_revStride16Loop_Word64;
+							return true;
+						default:
+							return false;
+					}
+					return true;
+				case CHUNK_128b:
+					switch (stride_size) {
+						case 1:
+							*kernel_function = &forwSequentialRead_Word128;
+							*dummy_kernel_function = &dummy_forwSequentialLoop_Word128;
+							return true;
+						case -1:
+							*kernel_function = &revSequentialRead_Word128;
+							*dummy_kernel_function = &dummy_revSequentialLoop_Word128;
+							return true;
+						case 2:
+							*kernel_function = &forwStride2Read_Word128;
+							*dummy_kernel_function = &dummy_forwStride2Loop_Word128;
+							return true;
+						case -2:
+							*kernel_function = &revStride2Read_Word128;
+							*dummy_kernel_function = &dummy_revStride2Loop_Word128;
+							return true;
+						case 4:
+							*kernel_function = &forwStride4Read_Word128;
+							*dummy_kernel_function = &dummy_forwStride4Loop_Word128;
+							return true;
+						case -4:
+							*kernel_function = &revStride4Read_Word128;
+							*dummy_kernel_function = &dummy_revStride4Loop_Word128;
+							return true;
+						case 8:
+							*kernel_function = &forwStride8Read_Word128;
+							*dummy_kernel_function = &dummy_forwStride8Loop_Word128;
+							return true;
+						case -8:
+							*kernel_function = &revStride8Read_Word128;
+							*dummy_kernel_function = &dummy_revStride8Loop_Word128;
+							return true;
+						case 16:
+							*kernel_function = &forwStride16Read_Word128;
+							*dummy_kernel_function = &dummy_forwStride16Loop_Word128;
+							return true;
+						case -16:
+							*kernel_function = &revStride16Read_Word128;
+							*dummy_kernel_function = &dummy_revStride16Loop_Word128;
+							return true;
+						default:
+							return false;
+					}
+					return true;
+				case CHUNK_256b:
+					switch (stride_size) {
+						case 1:
+							*kernel_function = &forwSequentialRead_Word256;
+							*dummy_kernel_function = &dummy_forwSequentialLoop_Word256;
+							return true;
+						case -1:
+							*kernel_function = &revSequentialRead_Word256;
+							*dummy_kernel_function = &dummy_revSequentialLoop_Word256;
+							return true;
+						case 2:
+							*kernel_function = &forwStride2Read_Word256;
+							*dummy_kernel_function = &dummy_forwStride2Loop_Word256;
+							return true;
+						case -2:
+							*kernel_function = &revStride2Read_Word256;
+							*dummy_kernel_function = &dummy_revStride2Loop_Word256;
+							return true;
+						case 4:
+							*kernel_function = &forwStride4Read_Word256;
+							*dummy_kernel_function = &dummy_forwStride4Loop_Word256;
+							return true;
+						case -4:
+							*kernel_function = &revStride4Read_Word256;
+							*dummy_kernel_function = &dummy_revStride4Loop_Word256;
+							return true;
+						case 8:
+							*kernel_function = &forwStride8Read_Word256;
+							*dummy_kernel_function = &dummy_forwStride8Loop_Word256;
+							return true;
+						case -8:
+							*kernel_function = &revStride8Read_Word256;
+							*dummy_kernel_function = &dummy_revStride8Loop_Word256;
+							return true;
+						case 16:
+							*kernel_function = &forwStride16Read_Word256;
+							*dummy_kernel_function = &dummy_forwStride16Loop_Word256;
+							return true;
+						case -16:
+							*kernel_function = &revStride16Read_Word256;
+							*dummy_kernel_function = &dummy_revStride16Loop_Word256;
+							return true;
+						default:
+							return false;
+					}
+					return true;
+
+				default:
+					return false;
+			}
+			return true;
+
+		case WRITE:
+			switch (chunk_size) {
+				case CHUNK_32b:
+					switch (stride_size) {
+						case 1:
+							*kernel_function = &forwSequentialWrite_Word32;
+							*dummy_kernel_function = &dummy_forwSequentialLoop_Word32;
+							return true;
+						case -1:
+							*kernel_function = &revSequentialWrite_Word32;
+							*dummy_kernel_function = &dummy_revSequentialLoop_Word32;
+							return true;
+						case 2:
+							*kernel_function = &forwStride2Write_Word32;
+							*dummy_kernel_function = &dummy_forwStride2Loop_Word32;
+							return true;
+						case -2:
+							*kernel_function = &revStride2Write_Word32;
+							*dummy_kernel_function = &dummy_revStride2Loop_Word32;
+							return true;
+						case 4:
+							*kernel_function = &forwStride4Write_Word32;
+							*dummy_kernel_function = &dummy_forwStride4Loop_Word32;
+							return true;
+						case -4:
+							*kernel_function = &revStride4Write_Word32;
+							*dummy_kernel_function = &dummy_revStride4Loop_Word32;
+							return true;
+						case 8:
+							*kernel_function = &forwStride8Write_Word32;
+							*dummy_kernel_function = &dummy_forwStride8Loop_Word32;
+							return true;
+						case -8:
+							*kernel_function = &revStride8Write_Word32;
+							*dummy_kernel_function = &dummy_revStride8Loop_Word32;
+							return true;
+						case 16:
+							*kernel_function = &forwStride16Write_Word32;
+							*dummy_kernel_function = &dummy_forwStride16Loop_Word32;
+							return true;
+						case -16:
+							*kernel_function = &revStride16Write_Word32;
+							*dummy_kernel_function = &dummy_revStride16Loop_Word32;
+							return true;
+						default:
+							return false;
+					}
+					return true;
+				case CHUNK_64b:
+					switch (stride_size) {
+						case 1:
+							*kernel_function = &forwSequentialWrite_Word64;
+							*dummy_kernel_function = &dummy_forwSequentialLoop_Word64;
+							return true;
+						case -1:
+							*kernel_function = &revSequentialWrite_Word64;
+							*dummy_kernel_function = &dummy_revSequentialLoop_Word64;
+							return true;
+						case 2:
+							*kernel_function = &forwStride2Write_Word64;
+							*dummy_kernel_function = &dummy_forwStride2Loop_Word64;
+							return true;
+						case -2:
+							*kernel_function = &revStride2Write_Word64;
+							*dummy_kernel_function = &dummy_revStride2Loop_Word64;
+							return true;
+						case 4:
+							*kernel_function = &forwStride4Write_Word64;
+							*dummy_kernel_function = &dummy_forwStride4Loop_Word64;
+							return true;
+						case -4:
+							*kernel_function = &revStride4Write_Word64;
+							*dummy_kernel_function = &dummy_revStride4Loop_Word64;
+							return true;
+						case 8:
+							*kernel_function = &forwStride8Write_Word64;
+							*dummy_kernel_function = &dummy_forwStride8Loop_Word64;
+							return true;
+						case -8:
+							*kernel_function = &revStride8Write_Word64;
+							*dummy_kernel_function = &dummy_revStride8Loop_Word64;
+							return true;
+						case 16:
+							*kernel_function = &forwStride16Write_Word64;
+							*dummy_kernel_function = &dummy_forwStride16Loop_Word64;
+							return true;
+						case -16:
+							*kernel_function = &revStride16Write_Word64;
+							*dummy_kernel_function = &dummy_revStride16Loop_Word64;
+							return true;
+						default:
+							return false;
+					}
+					return true;
+				case CHUNK_128b:
+					switch (stride_size) {
+						case 1:
+							*kernel_function = &forwSequentialWrite_Word128;
+							*dummy_kernel_function = &dummy_forwSequentialLoop_Word128;
+							return true;
+						case -1:
+							*kernel_function = &revSequentialWrite_Word128;
+							*dummy_kernel_function = &dummy_revSequentialLoop_Word128;
+							return true;
+						case 2:
+							*kernel_function = &forwStride2Write_Word128;
+							*dummy_kernel_function = &dummy_forwStride2Loop_Word128;
+							return true;
+						case -2:
+							*kernel_function = &revStride2Write_Word128;
+							*dummy_kernel_function = &dummy_revStride2Loop_Word128;
+							return true;
+						case 4:
+							*kernel_function = &forwStride4Write_Word128;
+							*dummy_kernel_function = &dummy_forwStride4Loop_Word128;
+							return true;
+						case -4:
+							*kernel_function = &revStride4Write_Word128;
+							*dummy_kernel_function = &dummy_revStride4Loop_Word128;
+							return true;
+						case 8:
+							*kernel_function = &forwStride8Write_Word128;
+							*dummy_kernel_function = &dummy_forwStride8Loop_Word128;
+							return true;
+						case -8:
+							*kernel_function = &revStride8Write_Word128;
+							*dummy_kernel_function = &dummy_revStride8Loop_Word128;
+							return true;
+						case 16:
+							*kernel_function = &forwStride16Write_Word128;
+							*dummy_kernel_function = &dummy_forwStride16Loop_Word128;
+							return true;
+						case -16:
+							*kernel_function = &revStride16Write_Word128;
+							*dummy_kernel_function = &dummy_revStride16Loop_Word128;
+							return true;
+						default:
+							return false;
+					}
+					return true;
+				case CHUNK_256b:
+					switch (stride_size) {
+						case 1:
+							*kernel_function = &forwSequentialWrite_Word256;
+							*dummy_kernel_function = &dummy_forwSequentialLoop_Word256;
+							return true;
+						case -1:
+							*kernel_function = &revSequentialWrite_Word256;
+							*dummy_kernel_function = &dummy_revSequentialLoop_Word256;
+							return true;
+						case 2:
+							*kernel_function = &forwStride2Write_Word256;
+							*dummy_kernel_function = &dummy_forwStride2Loop_Word256;
+							return true;
+						case -2:
+							*kernel_function = &revStride2Write_Word256;
+							*dummy_kernel_function = &dummy_revStride2Loop_Word256;
+							return true;
+						case 4:
+							*kernel_function = &forwStride4Write_Word256;
+							*dummy_kernel_function = &dummy_forwStride4Loop_Word256;
+							return true;
+						case -4:
+							*kernel_function = &revStride4Write_Word256;
+							*dummy_kernel_function = &dummy_revStride4Loop_Word256;
+							return true;
+						case 8:
+							*kernel_function = &forwStride8Write_Word256;
+							*dummy_kernel_function = &dummy_forwStride8Loop_Word256;
+							return true;
+						case -8:
+							*kernel_function = &revStride8Write_Word256;
+							*dummy_kernel_function = &dummy_revStride8Loop_Word256;
+							return true;
+						case 16:
+							*kernel_function = &forwStride16Write_Word256;
+							*dummy_kernel_function = &dummy_forwStride16Loop_Word256;
+							return true;
+						case -16:
+							*kernel_function = &revStride16Write_Word256;
+							*dummy_kernel_function = &dummy_revStride16Loop_Word256;
+							return true;
+						default:
+							return false;
+					}
+					return true;
+
+				default:
+					return false;
+			}
+			return true;
+
+		default:
+			return false;
+	}
+
+	return false; //shouldn't reach this point
+}
+	
+bool xmem::determineRandomKernel(rw_mode_t rw_mode, chunk_size_t chunk_size, RandomFunction* kernel_function, RandomFunction* dummy_kernel_function) {
+	switch (rw_mode) {
+		case READ:
+			switch (chunk_size) {
+				case CHUNK_32b: 
+					*kernel_function = &randomRead_Word32;
+					*dummy_kernel_function = &dummy_randomLoop_Word32;
+					return true;
+				case CHUNK_64b:
+					*kernel_function = &randomRead_Word64;
+					*dummy_kernel_function = &dummy_randomLoop_Word64;
+					return true;
+				case CHUNK_128b:
+					*kernel_function = &randomRead_Word128;
+					*dummy_kernel_function = &dummy_randomLoop_Word128;
+					return true;
+				case CHUNK_256b:
+					*kernel_function = &randomRead_Word256;
+					*dummy_kernel_function = &dummy_randomLoop_Word256;
+					return true;
+				default:
+					return false;
+			}
+			return true;
+
+		case WRITE:
+			switch (chunk_size) {
+				case CHUNK_32b:
+					*kernel_function = &randomWrite_Word32;
+					*dummy_kernel_function = &dummy_randomLoop_Word32;
+					return true;
+				case CHUNK_64b:
+					*kernel_function = &randomWrite_Word64;
+					*dummy_kernel_function = &dummy_randomLoop_Word64;
+					return true;
+				case CHUNK_128b:
+					*kernel_function = &randomWrite_Word128;
+					*dummy_kernel_function = &dummy_randomLoop_Word128;
+					return true;
+				case CHUNK_256b:
+					*kernel_function = &randomWrite_Word256;
+					*dummy_kernel_function = &dummy_randomLoop_Word256;
+					return true;
+				default:
+					return false;
+			}
+			return true;
+
+		default:
+			return false;
+	}
+
+	return false;
+}
+
 /***********************************************************************
  ***********************************************************************
  ********************** LATENCY-RELATED BENCHMARK KERNELS **************
@@ -591,19 +1040,19 @@ int32_t xmem::dummy_revStride16Loop_Word256(void* start_address, void* end_addre
 
 /* ------------ RANDOM LOOP --------------*/
 
-int32_t xmem::dummy_randomLoop_Word32(void* start_address, void* end_address) { 
+int32_t xmem::dummy_randomLoop_Word32(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 	return 0;
 }
 
-int32_t xmem::dummy_randomLoop_Word64(void* start_address, void* end_address) { 
+int32_t xmem::dummy_randomLoop_Word64(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 	return 0;
 }
 
-int32_t xmem::dummy_randomLoop_Word128(void* start_address, void* end_address) { 
+int32_t xmem::dummy_randomLoop_Word128(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 	return 0;
 }
 
-int32_t xmem::dummy_randomLoop_Word256(void* start_address, void* end_address) { 
+int32_t xmem::dummy_randomLoop_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 	return 0;
 }
 
@@ -1764,36 +2213,36 @@ int32_t xmem::revStride16Write_Word256(void* start_address, void* end_address) {
 
 /* ------------ RANDOM READ --------------*/
 
-int32_t xmem::randomRead_Word32(void* start_address, void* end_address) {
+int32_t xmem::randomRead_Word32(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 	return 0;
 }
 
-int32_t xmem::randomRead_Word64(void* start_address, void* end_address) { 
+int32_t xmem::randomRead_Word64(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 	return 0;
 }
 
-int32_t xmem::randomRead_Word128(void* start_address, void* end_address) { 
+int32_t xmem::randomRead_Word128(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 	return 0;
 }
 
-int32_t xmem::randomRead_Word256(void* start_address, void* end_address) { 
+int32_t xmem::randomRead_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 	return 0;
 }
 
 /* ------------ RANDOM WRITE --------------*/
 
-int32_t xmem::randomWrite_Word32(void* start_address, void* end_address) { 
+int32_t xmem::randomWrite_Word32(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 	return 0;
 }
 
-int32_t xmem::randomWrite_Word64(void* start_address, void* end_address) { 
+int32_t xmem::randomWrite_Word64(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 	return 0;
 }
 
-int32_t xmem::randomWrite_Word128(void* start_address, void* end_address) { 
+int32_t xmem::randomWrite_Word128(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 	return 0;
 }
 
-int32_t xmem::randomWrite_Word256(void* start_address, void* end_address) { 
+int32_t xmem::randomWrite_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 	return 0;
 }

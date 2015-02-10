@@ -37,7 +37,6 @@
 
 //Libraries
 #include <iostream>
-#include <algorithm>
 #include <random>
 #include <assert.h>
 #include <time.h>
@@ -61,68 +60,52 @@ LatencyBenchmark::LatencyBenchmark(
 #ifdef USE_SIZE_BASED_BENCHMARKS
 		uint64_t passes_per_iteration,
 #endif
+		uint32_t num_worker_threads,
+		uint32_t mem_node,
+		uint32_t cpu_node,
+		pattern_mode_t pattern_mode,
+		rw_mode_t rw_mode,
 		chunk_size_t chunk_size,
 		int64_t stride_size,
-		uint32_t cpu_node,
-		uint32_t mem_node,
-		std::string name,
-		Timer *timer,
+		Timer& timer,
 		std::vector<PowerReader*> dram_power_readers,
-		pattern_mode_t pattern_mode,
-		rw_mode_t rw_mode
+		std::string name
 	) :
-	Benchmark(
-		mem_array,
-		len,
-		iterations,
+		Benchmark(
+			mem_array,
+			len,
+			iterations,
 #ifdef USE_SIZE_BASED_BENCHMARKS
-		passes_per_iteration,
+			passes_per_iteration,
 #endif
-		chunk_size,
-		stride_size,
-		cpu_node,
-		mem_node,
-		1,
-		name,
-		timer,
-		dram_power_readers,
-		pattern_mode,
-		rw_mode
-	),
-	__bench_fptr(nullptr),
-	__dummy_fptr(nullptr)
+			num_worker_threads,
+			mem_node,
+			cpu_node,
+			pattern_mode,
+			rw_mode,
+			chunk_size,
+			stride_size,
+			timer,
+			dram_power_readers,
+			"ns/access",
+			name
+		)
 	{ 
-	__bench_fptr = &chasePointers;
-	__dummy_fptr = &dummy_chasePointers;
 }
 
-LatencyBenchmark::~LatencyBenchmark() {
-}
-
-void LatencyBenchmark::report_benchmark_info() {
-	std::cout << "CPU NUMA Node: " << _cpu_node << std::endl;
-	std::cout << "Memory NUMA Node: " << _mem_node << std::endl;
-	std::cout << "Access Pattern: random (pointer-chasing) -- read-only";
-	std::cout << std::endl;
-	std::cout << std::endl;
-}
-
-void LatencyBenchmark::report_results() {
-	__internal_report_results();
-}
-
-bool LatencyBenchmark::__run_core() {
-	if (_hasRun) //A benchmark should only be run once per object
-		return false;
-
+bool LatencyBenchmark::_run_core() {
 	//Spit out useful info
 	std::cout << std::endl;
 	std::cout << "-------- Running Benchmark: " << _name;
 	std::cout << " ----------" << std::endl;
 	report_benchmark_info(); 
 
+	//Set up benchmark kernel function pointers
+	RandomFunction kernel_fptr = &chasePointers;
+	RandomFunction kernel_dummy_fptr = &dummy_chasePointers;
+
 	//Build indices for random workload
-	__buildRandomPointerPermutation();
+	_buildRandomPointerPermutation();
 
 	//Set processor affinity
 	bool locked = lock_thread_to_cpu(cpu_id_in_numa_node(_cpu_node,0)); //1st CPU in the node
@@ -150,11 +133,12 @@ bool LatencyBenchmark::__run_core() {
 #endif
 	
 	//Prime memory
-	if (g_verbose)
-		std::cout << "Priming benchmark...";
-	__primeMemory(4);
-	if (g_verbose)
-		std::cout << "done" << std::endl;
+	void* prime_start_address = _mem_array; 
+	void* prime_end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + _len);
+	for (uint64_t i = 0; i < 4; i++) {
+		//UNROLL256((*kernel_fptr)(prime_address, &prime_address, 0);)
+		forwSequentialRead_Word64(prime_start_address, prime_end_address); //dependent reads on the memory, make sure caches are ready, coherence, etc...
+	}
 
 	//Start power measurement
 	if (g_verbose)
@@ -180,13 +164,13 @@ bool LatencyBenchmark::__run_core() {
 		uint64_t accesses_per_pass = LATENCY_BENCHMARK_UNROLL_LENGTH;
 		uint64_t ticks = 0, target_ticks = 0, p = 0;
 		
-		target_ticks = _timer->get_ticks_per_sec() * BENCHMARK_DURATION_SEC; //Rough target run duration in seconds 
+		target_ticks = _timer.get_ticks_per_sec() * BENCHMARK_DURATION_SEC; //Rough target run duration in seconds 
 
 		//Run actual version of function and loop overhead
 		while (elapsed_ticks < target_ticks) {
-			_timer->start();
-			UNROLL256((*__bench_fptr)(next_address, &next_address, 0);)
-			ticks = _timer->stop();
+			_timer.start();
+			UNROLL256((*kernel_fptr)(next_address, &next_address, 0);)
+			ticks = _timer.stop();
 			elapsed_ticks += ticks;
 			passes+=256;
 		}
@@ -194,9 +178,9 @@ bool LatencyBenchmark::__run_core() {
 		//Run dummy version of function and loop overhead
 		p = 0;
 		while (p < passes) {
-			_timer->start();
-			UNROLL256((*__dummy_fptr)(NULL, NULL, 0);)
-			ticks = _timer->stop();
+			_timer.start();
+			UNROLL256((*kernel_dummy_fptr)(NULL, NULL, 0);)
+			ticks = _timer.stop();
 			elapsed_dummy_ticks += ticks;
 			p+=256;
 		}
@@ -206,17 +190,17 @@ bool LatencyBenchmark::__run_core() {
 		passes = _passes_per_iteration;
 
 		//Time actual version of function and loop overhead
-		_timer->start();
+		_timer.start();
 		for (uint64_t p = 0; p < _passes_per_iteration; p++)
-			(*__bench_fptr)(next_address, &next_address, _len);
-		elapsed_ticks = _timer->stop();
+			(*kernel_fptr)(next_address, &next_address, _len);
+		elapsed_ticks = _timer.stop();
 
 		//Time dummy version of function and loop overhead
 		next_address = static_cast<uintptr_t*>(_mem_array); 
-		_timer->start();
+		_timer.start();
 		for (uint64_t p = 0; p < _passes_per_iteration; p++)
-			(*__dummy_fptr)(NULL, NULL, _len);
-		elapsed_dummy_ticks = _timer->stop();
+			(*kernel_dummy_fptr)(NULL, NULL, _len);
+		elapsed_dummy_ticks = _timer.stop();
 #endif
 
 		adjusted_ticks = elapsed_ticks - elapsed_dummy_ticks; //In some odd circumstance where dummy is slower than real function, this will go to extremely high value. This will generate a WARNING in the console, but otherwise the benchmark will not be invalidated.
@@ -236,17 +220,17 @@ bool LatencyBenchmark::__run_core() {
 			if (iter_warning) std::cout << " -- WARNING";
 			std::cout << std::endl;
 
-			std::cout << "...ns == " << adjusted_ticks * _timer->get_ns_per_tick() << " (adjusted by -" << elapsed_dummy_ticks * _timer->get_ns_per_tick() << ")";
+			std::cout << "...ns == " << adjusted_ticks * _timer.get_ns_per_tick() << " (adjusted by -" << elapsed_dummy_ticks * _timer.get_ns_per_tick() << ")";
 			if (iter_warning) std::cout << " -- WARNING";
 			std::cout << std::endl;
 
-			std::cout << "...sec == " << adjusted_ticks * _timer->get_ns_per_tick() / 1e9 << " (adjusted by -" << elapsed_dummy_ticks * _timer->get_ns_per_tick() / 1e9 << ")";
+			std::cout << "...sec == " << adjusted_ticks * _timer.get_ns_per_tick() / 1e9 << " (adjusted by -" << elapsed_dummy_ticks * _timer.get_ns_per_tick() / 1e9 << ")";
 			if (iter_warning) std::cout << " -- WARNING";
 			std::cout << std::endl;
 		}
 		
 		//Compute metric for this iteration
-		_metricOnIter[i] = static_cast<double>(adjusted_ticks * _timer->get_ns_per_tick())  /  static_cast<double>(passes * num_pointers);
+		_metricOnIter[i] = static_cast<double>(adjusted_ticks * _timer.get_ns_per_tick())  /  static_cast<double>(passes * num_pointers);
 		_averageMetric += _metricOnIter[i];
 	}
 
@@ -282,100 +266,4 @@ bool LatencyBenchmark::__run_core() {
 	_hasRun = true;
 
 	return true;
-}
-
-bool LatencyBenchmark::run() {
-	return __run_core();
-}
-
-bool LatencyBenchmark::__buildRandomPointerPermutation() {
-	if (g_verbose)
-		std::cout << "Preparing memory region under test. This might take a while...";
-	//std::fstream myfile;
-	//myfile.open("test.txt", std::fstream::out);
-	
-	size_t num_pointers = _len / sizeof(uintptr_t); //Number of pointers that fit into the memory region
-	uintptr_t* mem_base = static_cast<uintptr_t*>(_mem_array); 
-
-	std::mt19937_64 gen(time(NULL)); //Mersenne Twister random number generator, seeded at current time
-	
-#ifdef USE_LATENCY_BENCHMARK_RANDOM_HAMILTONIAN_CYCLE_PATTERN
-	//Build a random directed Hamiltonian Cycle across the entire memory
-
-	//Let W be the list of memory locations that have not been reached yet. Each entry is an index in mem_base.
-	std::vector<size_t> W;
-	size_t w_index = 0;
-
-	//Initialize W to contain all memory locations, where each memory location appears exactly once in the list. The order does not strictly matter.
-	W.resize(num_pointers);
-	for (w_index = 0; w_index < num_pointers; w_index++) {
-		W.at(w_index) = w_index;
-	}
-	
-	//Build the directed Hamiltonian Cycle
-	size_t v = 0; //the current memory location. Always start at the first location for the Hamiltonian Cycle construction
-	size_t w = 0; //the next memory location
-	w_index = 0;
-	while (W.size() > 0) { //while we have not reached all memory locations
-		W.erase(W.begin() + w_index);
-
-		//Normal case
-		if (W.size() > 0) {
-			//Choose the next w_index at random from W
-			w_index = gen() % W.size();
-
-			//Extract the memory location corresponding to this w_index
-			w = W[w_index];
-		} else { //Last element visited needs to point at head of memory to complete the cycle
-			w = 0;
-		}
-
-		//Create pointer v --> w. This corresponds to a directed edge in the graph with nodes v and w.
-		mem_base[v] = reinterpret_cast<uintptr_t>(mem_base + w);
-
-		//Chase this pointer to move to next step
-		v = w;
-	}
-#endif
-
-#ifdef USE_LATENCY_BENCHMARK_RANDOM_SHUFFLE_PATTERN
-	//Do a random shuffle of the indices
-	for (size_t i = 0; i < num_pointers; i++) //Initialize pointers to point at themselves (identity mapping)
-		mem_base[i] = reinterpret_cast<uintptr_t>(mem_base+static_cast<uintptr_t>(i));
-
-	std::shuffle(mem_base, mem_base + num_pointers, gen);
-#endif
-	if (g_verbose) {
-		std::cout << "done" << std::endl;
-		std::cout << std::endl;
-	}
-
-	return true;
-}
-
-void LatencyBenchmark::__primeMemory(uint64_t passes) {
-	void* start_address = _mem_array; 
-	void* end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + _len);
-
-	for (uint64_t p = 0; p < passes; p++)
-		forwSequentialRead_Word64(start_address, end_address); //dependent reads on the memory, make sure caches are ready, coherence, etc...
-}
-
-void LatencyBenchmark::__internal_report_results() {
-	std::cout << std::endl;
-	std::cout << "*** RESULTS";
-	std::cout << "***" << std::endl;
-	std::cout << std::endl;
- 
-	if (_hasRun) {
-		for (uint32_t i = 0; i < _iterations; i++)
-			std::cout << "Iter #" << i + 1 << ": " << _metricOnIter[i] << " ns/access" << std::endl;
-		std::cout << "Average: " << _averageMetric << " ns/access" << std::endl;
-		if (_warning) std::cout << " (WARNING)";
-		std::cout << std::endl;
-		
-		report_power_results();
-	}
-	else
-		std::cout << "WARNING: Benchmark has not run yet. No reported results." << std::endl;
 }
