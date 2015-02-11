@@ -39,6 +39,10 @@
 #include <benchmark_kernels.h>
 #include <common.h>
 
+//Libraries
+#include <iostream>
+#include <random>
+#include <algorithm>
 #ifdef __gnu_linux__
 #include <immintrin.h> //for Intel AVX intrinsics
 #endif
@@ -492,6 +496,85 @@ bool xmem::determineRandomKernel(rw_mode_t rw_mode, chunk_size_t chunk_size, Ran
 	}
 
 	return false;
+}
+
+bool xmem::buildRandomPointerPermutation(void* start_address, void* end_address, chunk_size_t chunk_size) {
+	if (g_verbose)
+		std::cout << "Preparing a memory region under test. This might take a while...";
+
+	size_t length = static_cast<uint8_t*>(end_address) - static_cast<uint8_t*>(start_address); //casts to silence compiler warnings
+	size_t num_pointers = 0; //Number of pointers that fit into the memory region of interest
+	switch (chunk_size) {
+		case CHUNK_64b:
+			num_pointers = length / sizeof(Word64_t);
+			break;
+		case CHUNK_128b:
+			num_pointers = length / sizeof(Word128_t);
+			break;
+		case CHUNK_256b:
+			num_pointers = length / sizeof(Word256_t);
+			break;
+		default:
+			std::cerr << std::endl << "ERROR: Chunk size must be at least 64 bits for random-access kernels. This should not have happened." << std::endl;
+			return false;
+	}
+			
+	uintptr_t* mem_region_base = static_cast<uintptr_t*>(start_address); 
+
+	std::mt19937_64 gen(time(NULL)); //Mersenne Twister random number generator, seeded at current time
+	
+#ifdef RANDOM_CONSTRUCT_WITH_HAMILTONIAN_CYCLE
+	//Build a random directed Hamiltonian Cycle across the memory region 
+
+	//Let W be the list of memory locations that have not been reached yet. Each entry is an index in mem_base.
+	std::vector<size_t> W;
+	size_t w_index = 0;
+
+	//Initialize W to contain all memory locations, where each memory location appears exactly once in the list. The order does not strictly matter.
+	W.resize(num_pointers);
+	for (w_index = 0; w_index < num_pointers; w_index++) {
+		W.at(w_index) = w_index;
+	}
+	
+	//Build the directed Hamiltonian Cycle
+	size_t v = 0; //the current memory location. Always start at the first location for the Hamiltonian Cycle construction
+	size_t w = 0; //the next memory location
+	w_index = 0;
+	while (W.size() > 0) { //while we have not reached all memory locations
+		W.erase(W.begin() + w_index);
+
+		//Normal case
+		if (W.size() > 0) {
+			//Choose the next w_index at random from W
+			w_index = gen() % W.size();
+
+			//Extract the memory location corresponding to this w_index
+			w = W[w_index];
+		} else { //Last element visited needs to point at head of memory to complete the cycle
+			w = 0;
+		}
+
+		//Create pointer v --> w. This corresponds to a directed edge in the graph with nodes v and w.
+		mem_region_base[v] = reinterpret_cast<uintptr_t>(mem_region_base + w);
+
+		//Chase this pointer to move to next step
+		v = w;
+	}
+#endif
+
+#ifdef RANDOM_CONSTRUCT_WITH_SHUFFLE
+	//Do a random shuffle of the indices
+	for (size_t i = 0; i < num_pointers; i++) //Initialize pointers to point at themselves (identity mapping)
+		mem_region_base[i] = reinterpret_cast<uintptr_t>(mem_region_base+static_cast<uintptr_t>(i));
+
+	std::shuffle(mem_region_base, mem_region_base + num_pointers, gen);
+#endif
+	if (g_verbose) {
+		std::cout << "done" << std::endl;
+		std::cout << std::endl;
+	}
+
+	return true;
 }
 
 /***********************************************************************

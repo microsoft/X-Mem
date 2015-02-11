@@ -30,10 +30,8 @@
 //Headers
 #include <ThroughputBenchmark.h>
 #include <common.h>
-#include <ThroughputBenchmarkWorker.h>
-#include <benchmark_kernels.h>
+#include <LoadWorker.h>
 #include <Thread.h>
-#include <Runnable.h>
 #include <Timer.h>
 
 //Libraries
@@ -82,6 +80,8 @@ ThroughputBenchmark::ThroughputBenchmark(
 }
 
 bool ThroughputBenchmark::_run_core() {
+	size_t len_per_thread = _len / _num_worker_threads; //Carve up memory space so each worker has its own area to play in
+
 	//Set up kernel function pointers
 	SequentialFunction kernel_fptr_seq = NULL;
 	SequentialFunction kernel_dummy_fptr_seq = NULL; 
@@ -98,14 +98,22 @@ bool ThroughputBenchmark::_run_core() {
 			std::cerr << "ERROR: Failed to find appropriate benchmark kernel." << std::endl;
 			return false;
 		}
-		//Build indices for random workload
-		_buildRandomPointerPermutation();
+			
+		//Build pointer indices. Note that the pointers for each thread must stay within its respective region, otherwise sharing may occur. 
+		for (uint32_t i = 0; i < _num_worker_threads; i++) {
+			if (!buildRandomPointerPermutation(reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + i*len_per_thread), //casts to silence compiler warnings
+											   reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + (i+1)*len_per_thread), //casts to silence compiler warnings
+											   _chunk_size)) {
+				std::cerr << "ERROR: Failed to build a random pointer permutation for a worker thread!" << std::endl;
+				return false;
+			}
+		}
 	} else {
 		std::cerr << "ERROR: Got an invalid pattern mode." << std::endl;
 		return false;
 	}
 
-	//Helper timer
+	//For getting timer frequency info, etc.
 	Timer helper_timer;
 
 	//Start power measurement
@@ -119,9 +127,8 @@ bool ThroughputBenchmark::_run_core() {
 		std::cout << "done" << std::endl;
 
 	//Set up some stuff for worker threads
-	std::vector<ThroughputBenchmarkWorker*> workers;
+	std::vector<LoadWorker*> workers;
 	std::vector<Thread*> worker_threads;
-	size_t len_per_thread = _len / _num_worker_threads; //Carve up memory space so each worker has its own area to play in
 
 	//Do a bunch of iterations of the core benchmark routines
 	if (g_verbose)
@@ -137,7 +144,7 @@ bool ThroughputBenchmark::_run_core() {
 			if (cpu_id < 0)
 				std::cerr << "WARNING: Failed to find logical CPU " << t << " in NUMA node " << _cpu_node << std::endl;
 			if (_pattern_mode == SEQUENTIAL)
-				workers.push_back(new ThroughputBenchmarkWorker(
+				workers.push_back(new LoadWorker(
 									thread_mem_array,
 									len_per_thread,
 #ifdef USE_SIZE_BASED_BENCHMARKS
@@ -149,7 +156,7 @@ bool ThroughputBenchmark::_run_core() {
 									)
 								);
 			else if (_pattern_mode == RANDOM)
-				workers.push_back(new ThroughputBenchmarkWorker(
+				workers.push_back(new LoadWorker(
 									thread_mem_array,
 									len_per_thread,
 #ifdef USE_SIZE_BASED_BENCHMARKS

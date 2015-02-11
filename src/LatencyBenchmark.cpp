@@ -85,15 +85,58 @@ LatencyBenchmark::LatencyBenchmark(
 }
 
 bool LatencyBenchmark::_run_core() {
-	//Set up benchmark kernel function pointers
-	RandomFunction kernel_fptr = &chasePointers;
-	RandomFunction kernel_dummy_fptr = &dummy_chasePointers;
+	size_t len_per_thread = _len / _num_worker_threads; //Carve up memory space so each worker has its own area to play in
+
+	//Set up latency measurement kernel function pointers
+	RandomFunction lat_kernel_fptr = &chasePointers;
+	RandomFunction lat_kernel_dummy_fptr = &dummy_chasePointers;
+
+	//Initialize memory regions for all threads by writing to them, causing the memory to be physically resident.
+	forwSequentialWrite_Word64(_mem_array,
+							   reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array)+_len)); //static casts to silence compiler warnings
+
+	//Build pointer indices for random-access latency thread. We assume that latency thread is the first one, so we use beginning of memory region.
+	if (!buildRandomPointerPermutation(_mem_array,
+									   reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array)+len_per_thread), //static casts to silence compiler warnings
+									   CHUNK_64b)) { 
+		std::cerr << "ERROR: Failed to build a random pointer permutation for the latency measurement thread!" << std::endl;
+		return false;
+	}
+
+	//Set up load generation kernel function pointers
+	SequentialFunction load_kernel_fptr_seq = NULL;
+	SequentialFunction load_kernel_dummy_fptr_seq = NULL; 
+	RandomFunction load_kernel_fptr_ran = NULL;
+	RandomFunction load_kernel_dummy_fptr_ran = NULL; 
+	if (_num_worker_threads > 1) { //If we only have one worker thread, it is used for latency measurement only, and no load threads will be used.
+		if (_pattern_mode == SEQUENTIAL) {
+			if (!determineSequentialKernel(_rw_mode, _chunk_size, _stride_size, &load_kernel_fptr_seq, &load_kernel_dummy_fptr_seq)) {
+				std::cerr << "ERROR: Failed to find appropriate benchmark kernel." << std::endl;
+				return false;
+			}
+		} else if (_pattern_mode == RANDOM) {
+			if (!determineRandomKernel(_rw_mode, _chunk_size, &load_kernel_fptr_ran, &load_kernel_dummy_fptr_ran)) {
+				std::cerr << "ERROR: Failed to find appropriate benchmark kernel." << std::endl;
+				return false;
+			}
+
+			//Build pointer indices for random-access load threads. Note that the pointers for each load thread must stay within its respective region, otherwise sharing may occur. 
+			for (uint32_t i = 1; i < _num_worker_threads; i++) {
+				if (!buildRandomPointerPermutation(reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + i*len_per_thread), //static casts to silence compiler warnings
+												   reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + (i+1)*len_per_thread), //static casts to silence compiler warnings
+							 					   _chunk_size)) {
+					std::cerr << "ERROR: Failed to build a random pointer permutation for a load generation thread!" << std::endl;
+					return false;
+				}
+			}
+		} else {
+			std::cerr << "ERROR: Got an invalid pattern mode." << std::endl;
+			return false;
+		}
+	}
 
 	//For getting timer frequency info, etc.
 	Timer helper_timer;
-
-	//Build indices for random workload
-	_buildRandomPointerPermutation();
 
 	//Set processor affinity
 	bool locked = lock_thread_to_cpu(cpu_id_in_numa_node(_cpu_node,0)); //1st CPU in the node
@@ -161,7 +204,7 @@ bool LatencyBenchmark::_run_core() {
 		//Run actual version of function and loop overhead
 		while (elapsed_ticks < target_ticks) {
 			start_tick = start_timer();
-			UNROLL256((*kernel_fptr)(next_address, &next_address, 0);)
+			UNROLL256((*lat_kernel_fptr)(next_address, &next_address, 0);)
 			stop_tick = stop_timer();
 			elapsed_ticks += (stop_tick - start_tick);
 			passes+=256;
@@ -171,7 +214,7 @@ bool LatencyBenchmark::_run_core() {
 		uint64_t p = 0;
 		while (p < passes) {
 			start_tick = start_timer();
-			UNROLL256((*kernel_dummy_fptr)(next_address, &next_address, 0);)
+			UNROLL256((*lat_kernel_dummy_fptr)(next_address, &next_address, 0);)
 			stop_tick = stop_timer();
 			elapsed_dummy_ticks += (stop_tick - start_tick);
 			p+=256;
@@ -184,7 +227,7 @@ bool LatencyBenchmark::_run_core() {
 		//Time actual version of function and loop overhead
 		start_tick = start_timer();
 		for (uint64_t p = 0; p < passes; p++)
-			(*kernel_fptr)(next_address, &next_address, _len);
+			(*lat_kernel_fptr)(next_address, &next_address, _len);
 		stop_tick = stop_timer();
 		elapsed_ticks += (start_tick - stop_tick);
 
@@ -192,7 +235,7 @@ bool LatencyBenchmark::_run_core() {
 		next_address = static_cast<uintptr_t*>(_mem_array); 
 		start_tick = start_timer();
 		for (uint64_t p = 0; p < passes; p++)
-			(*kernel_dummy_fptr)(next_address, &next_address, _len);
+			(*lat_kernel_dummy_fptr)(next_address, &next_address, _len);
 		stop_tick = stop_timer();
 		elapsed_dummy_ticks += (start_tick - stop_tick);
 #endif

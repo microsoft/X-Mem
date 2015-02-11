@@ -24,62 +24,56 @@
 /**
  * @file
  * 
- * @brief Implementation file for the ThroughputBenchmarkWorker class.
+ * @brief Implementation file for the LoadWorker class.
  */
 
 //Headers
-#include <ThroughputBenchmarkWorker.h>
+#include <LoadWorker.h>
 #include <benchmark_kernels.h>
 #include <common.h>
 #include <Timer.h>
 
+//Libraries
+#include <iostream>
+
 #ifdef _WIN32
 #include <windows.h>
-//#include <intrin.h>
 #include <processthreadsapi.h>
 #endif
 
 #ifdef __gnu_linux__
-#include <unistd.h> //for nice()
+#include <unistd.h>
 #endif
 
-
-//Libraries
-#include <iostream>
 using namespace xmem;
 
-ThroughputBenchmarkWorker::ThroughputBenchmarkWorker(
+LoadWorker::LoadWorker(
 		void* mem_array,
 		size_t len,
-	#ifdef USE_SIZE_BASED_BENCHMARKS
+#ifdef USE_SIZE_BASED_BENCHMARKS
 		uint64_t passes_per_iteration,
-	#endif
+#endif
 		SequentialFunction kernel_fptr,
 		SequentialFunction kernel_dummy_fptr,
 		int32_t cpu_affinity
 	) :
-		__mem_array(mem_array),
-		__len(len),
-		__cpu_affinity(cpu_affinity),
+		MemoryWorker(
+			mem_array,
+			len,
+#ifdef USE_SIZE_BASED_BENCHMARKS
+			passes_per_iteration,
+#endif
+			cpu_affinity
+		),
 		__use_sequential_kernel_fptr(true),
 		__kernel_fptr_seq(kernel_fptr),
 		__kernel_dummy_fptr_seq(kernel_dummy_fptr),
 		__kernel_fptr_ran(NULL),
-		__kernel_dummy_fptr_ran(NULL),
-		__bytes_per_pass(0),
-		__passes(0),
-		__elapsed_ticks(0),
-		__elapsed_dummy_ticks(0),
-		__adjusted_ticks(0),
-		__warning(false),
-#ifdef USE_SIZE_BASED_BENCHMARKS
-		__passes_per_iteration(passes_per_iteration),
-#endif
-		__completed(false)
+		__kernel_dummy_fptr_ran(NULL)
 	{
 }
 
-ThroughputBenchmarkWorker::ThroughputBenchmarkWorker(
+LoadWorker::LoadWorker(
 		void* mem_array,
 		size_t len,
 	#ifdef USE_SIZE_BASED_BENCHMARKS
@@ -89,31 +83,26 @@ ThroughputBenchmarkWorker::ThroughputBenchmarkWorker(
 		RandomFunction kernel_dummy_fptr,
 		int32_t cpu_affinity
 	) :
-		__mem_array(mem_array),
-		__len(len),
-		__cpu_affinity(cpu_affinity),
+		MemoryWorker(
+			mem_array,
+			len,
+#ifdef USE_SIZE_BASED_BENCHMARKS
+			passes_per_iteration,
+#endif
+			cpu_affinity
+		),
 		__use_sequential_kernel_fptr(false),
 		__kernel_fptr_seq(NULL),
 		__kernel_dummy_fptr_seq(NULL),
 		__kernel_fptr_ran(kernel_fptr),
-		__kernel_dummy_fptr_ran(kernel_dummy_fptr),
-		__bytes_per_pass(0),
-		__passes(0),
-		__elapsed_ticks(0),
-		__elapsed_dummy_ticks(0),
-		__adjusted_ticks(0),
-		__warning(false),
-#ifdef USE_SIZE_BASED_BENCHMARKS
-		__passes_per_iteration(passes_per_iteration),
-#endif
-		__completed(false)
+		__kernel_dummy_fptr_ran(kernel_fptr)
 	{
 }
 
-ThroughputBenchmarkWorker::~ThroughputBenchmarkWorker() {
+LoadWorker::~LoadWorker() {
 }
 
-void ThroughputBenchmarkWorker::run() {
+void LoadWorker::run() {
 	//Set up relevant state -- localized to this thread's stack
 	int32_t cpu_affinity = 0;
 	bool use_sequential_kernel_fptr = false;
@@ -146,30 +135,30 @@ void ThroughputBenchmarkWorker::run() {
 	//Grab relevant setup state thread-safely and keep it local
 	if (_acquireLock(-1)) {
 #ifdef USE_TIME_BASED_BENCHMARKS
-		mem_array = __mem_array;
-		len = __len;
+		mem_array = _mem_array;
+		len = _len;
 #endif
 #ifdef USE_SIZE_BASED_BENCHMARKS
-		bytes_per_pass = __len;
-		passes = __passes_per_iteration;
+		bytes_per_pass = _len;
+		passes = _passes_per_iteration;
 #endif
-		cpu_affinity = __cpu_affinity;
+		cpu_affinity = _cpu_affinity;
 		use_sequential_kernel_fptr = __use_sequential_kernel_fptr;
 		kernel_fptr_seq = __kernel_fptr_seq;
 		kernel_dummy_fptr_seq = __kernel_dummy_fptr_seq;
 		kernel_fptr_ran = __kernel_fptr_ran;
 		kernel_dummy_fptr_ran = __kernel_dummy_fptr_ran;
-		start_address = __mem_array;
-		end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(__mem_array)+bytes_per_pass);
-		prime_start_address = __mem_array; 
-		prime_end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(__mem_array) + __len);
+		start_address = _mem_array;
+		end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array)+bytes_per_pass);
+		prime_start_address = _mem_array; 
+		prime_end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + _len);
 		_releaseLock();
 	}
 	
 	//Set processor affinity
 	bool locked = lock_thread_to_cpu(cpu_affinity);
 	if (!locked)
-		std::cerr << "WARNING: Failed to lock thread to NUMA CPU Node " << __cpu_affinity << "! Results may not be correct." << std::endl;
+		std::cerr << "WARNING: Failed to lock thread to NUMA CPU Node " << cpu_affinity << "! Results may not be correct." << std::endl;
 
 	//Increase scheduling priority
 #ifdef _WIN32
@@ -183,7 +172,6 @@ void ThroughputBenchmarkWorker::run() {
 		std::cerr << "WARNING: Failed to boost scheduling priority. Perhaps running in Administrator mode would help." << std::endl;
 
 	//Prime memory
-	forwSequentialWrite_Word64(prime_start_address, prime_end_address);  //initialize memory by writing and force page faults if pages are not resident in physical memory
 	for (uint64_t i = 0; i < 4; i++) {
 		forwSequentialRead_Word64(prime_start_address, prime_end_address); //dependent reads on the memory, make sure caches are ready, coherence, etc...
 	}
@@ -281,84 +269,13 @@ void ThroughputBenchmarkWorker::run() {
 
 	//Update the object state thread-safely
 	if (_acquireLock(-1)) {
-		__adjusted_ticks = adjusted_ticks;
-		__elapsed_ticks = elapsed_ticks;
-		__elapsed_dummy_ticks = elapsed_dummy_ticks;
-		__warning = warning;
-		__bytes_per_pass = bytes_per_pass;
-		__completed = true;
-		__passes = passes;
+		_adjusted_ticks = adjusted_ticks;
+		_elapsed_ticks = elapsed_ticks;
+		_elapsed_dummy_ticks = elapsed_dummy_ticks;
+		_warning = warning;
+		_bytes_per_pass = bytes_per_pass;
+		_completed = true;
+		_passes = passes;
 		_releaseLock();
 	}
 }
-
-size_t ThroughputBenchmarkWorker::getLen() {
-	size_t retval = 0;
-	if (_acquireLock(-1)) {
-		retval = __len;
-		_releaseLock();
-	}
-
-	return retval;
-}
-
-uint64_t ThroughputBenchmarkWorker::getBytesPerPass() {
-	size_t retval = 0;
-	if (_acquireLock(-1)) {
-		retval = __bytes_per_pass;
-		_releaseLock();
-	}
-
-	return retval;
-}
-
-uint64_t ThroughputBenchmarkWorker::getPasses() {
-	size_t retval = 0;
-	if (_acquireLock(-1)) {
-		retval = __passes;
-		_releaseLock();
-	}
-
-	return retval;
-}
-				
-uint64_t ThroughputBenchmarkWorker::getElapsedTicks() {
-	uint64_t retval = 0;
-	if (_acquireLock(-1)) {
-		retval = __elapsed_ticks;
-		_releaseLock();
-	}
-
-	return retval;
-}
-
-uint64_t ThroughputBenchmarkWorker::getElapsedDummyTicks() {
-	uint64_t retval = 0;
-	if (_acquireLock(-1)) {
-		retval = __elapsed_dummy_ticks;
-		_releaseLock();
-	}
-
-	return retval;
-}
-
-uint64_t ThroughputBenchmarkWorker::getAdjustedTicks() {
-	uint64_t retval = 0;
-	if (_acquireLock(-1)) {
-		retval = __adjusted_ticks;
-		_releaseLock();
-	}
-
-	return retval;
-}
-
-bool ThroughputBenchmarkWorker::hadWarning() {
-	bool retval = true;
-	if (_acquireLock(-1)) {
-		retval = __warning;
-		_releaseLock();
-	}
-
-	return retval;
-}
-

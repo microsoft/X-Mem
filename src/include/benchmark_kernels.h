@@ -63,6 +63,14 @@ namespace xmem {
 	 */
 	bool determineRandomKernel(rw_mode_t rw_mode, chunk_size_t chunk_size, RandomFunction* kernel_function, RandomFunction* dummy_kernel_function);
 
+	/**
+	 * @brief Builds a random chain of pointers within the specified memory region.
+	 * @param start_address Beginning address of the memory region.
+	 * @param end_address End address of the memory region.
+	 * @param chunk_size Granularity of words to read, dereference, and jump by. This cannot be 32 bits due to a need for 64-bit pointers. If the chunk size is more than 64 bits, when chasing pointers, only the first 64 bits of the referenced word are used to make the next hop.
+	 * @returns True on success.
+	 */
+	bool buildRandomPointerPermutation(void* start_address, void* end_address, chunk_size_t chunk_size);
 
 	/***********************************************************************
 	 ***********************************************************************

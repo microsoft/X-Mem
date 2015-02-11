@@ -36,8 +36,6 @@
 #include <cstdint>
 #include <iostream>
 #include <vector>
-#include <random>
-#include <algorithm>
 #include <time.h>
 
 using namespace xmem;
@@ -177,6 +175,10 @@ void Benchmark::report_benchmark_info() const {
 			break;
 	}
 	std::cout << std::endl;
+
+	std::cout << "Number of worker threads: " << _num_worker_threads;
+	std::cout << std::endl;
+
 	std::cout << std::endl;
 }
 
@@ -294,8 +296,6 @@ bool Benchmark::_start_power_threads() {
 
 	//Create all power threads
 	for (uint32_t i = 0; i < _dram_power_readers.size(); i++) {
-		if (i >= _dram_power_threads.capacity())
-			_dram_power_threads.reserve(_dram_power_threads.capacity() + 1);
 		Thread* mythread = NULL;
 		if (_dram_power_readers[i] != NULL)  {
 			_dram_power_readers[i]->clear_and_reset(); //clear the state of the reader
@@ -339,8 +339,6 @@ bool Benchmark::_stop_power_threads() {
 		}
 
 		//Collect power data
-		_average_dram_power_socket.reserve(_dram_power_readers.size());
-		_peak_dram_power_socket.reserve(_dram_power_readers.size());
 		for (uint32_t i = 0; i < _dram_power_readers.size(); i++) {
 			if (_dram_power_readers[i] != NULL) {
 				_average_dram_power_socket.push_back(_dram_power_readers[i]->getAveragePower() * _dram_power_readers[i]->getPowerUnits());
@@ -350,82 +348,4 @@ bool Benchmark::_stop_power_threads() {
 	}
 
 	return success;
-}
-
-bool Benchmark::_buildRandomPointerPermutation() {
-	if (g_verbose)
-		std::cout << "Preparing memory region under test. This might take a while...";
-
-	size_t num_pointers; //Number of pointers that fit into the memory region of interest
-	switch (_chunk_size) {
-		case CHUNK_64b:
-			num_pointers = _len / sizeof(Word64_t);
-			break;
-		case CHUNK_128b:
-			num_pointers = _len / sizeof(Word128_t);
-			break;
-		case CHUNK_256b:
-			num_pointers = _len / sizeof(Word256_t);
-			break;
-		default:
-			std::cerr << std::endl << "ERROR: Chunk size must be at least 64 bits for pointer-chasing algorithms. This should not have happened." << std::endl;
-			return false;
-	}
-			
-	uintptr_t* mem_base = static_cast<uintptr_t*>(_mem_array); 
-
-	std::mt19937_64 gen(time(NULL)); //Mersenne Twister random number generator, seeded at current time
-	
-#ifdef USE_LATENCY_BENCHMARK_RANDOM_HAMILTONIAN_CYCLE_PATTERN
-	//Build a random directed Hamiltonian Cycle across the entire memory
-
-	//Let W be the list of memory locations that have not been reached yet. Each entry is an index in mem_base.
-	std::vector<size_t> W;
-	size_t w_index = 0;
-
-	//Initialize W to contain all memory locations, where each memory location appears exactly once in the list. The order does not strictly matter.
-	W.resize(num_pointers);
-	for (w_index = 0; w_index < num_pointers; w_index++) {
-		W.at(w_index) = w_index;
-	}
-	
-	//Build the directed Hamiltonian Cycle
-	size_t v = 0; //the current memory location. Always start at the first location for the Hamiltonian Cycle construction
-	size_t w = 0; //the next memory location
-	w_index = 0;
-	while (W.size() > 0) { //while we have not reached all memory locations
-		W.erase(W.begin() + w_index);
-
-		//Normal case
-		if (W.size() > 0) {
-			//Choose the next w_index at random from W
-			w_index = gen() % W.size();
-
-			//Extract the memory location corresponding to this w_index
-			w = W[w_index];
-		} else { //Last element visited needs to point at head of memory to complete the cycle
-			w = 0;
-		}
-
-		//Create pointer v --> w. This corresponds to a directed edge in the graph with nodes v and w.
-		mem_base[v] = reinterpret_cast<uintptr_t>(mem_base + w);
-
-		//Chase this pointer to move to next step
-		v = w;
-	}
-#endif
-
-#ifdef USE_LATENCY_BENCHMARK_RANDOM_SHUFFLE_PATTERN
-	//Do a random shuffle of the indices
-	for (size_t i = 0; i < num_pointers; i++) //Initialize pointers to point at themselves (identity mapping)
-		mem_base[i] = reinterpret_cast<uintptr_t>(mem_base+static_cast<uintptr_t>(i));
-
-	std::shuffle(mem_base, mem_base + num_pointers, gen);
-#endif
-	if (g_verbose) {
-		std::cout << "done" << std::endl;
-		std::cout << std::endl;
-	}
-
-	return true;
 }

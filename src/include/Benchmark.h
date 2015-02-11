@@ -231,12 +231,6 @@ namespace xmem {
 		virtual bool _run_core() = 0;
 
 		/**
-		 * @brief Builds a random chain of pointers within the memory region under test.
-		 * @returns True on success.
-		 */
-		bool _buildRandomPointerPermutation();
-
-		/**
 		 * @brief Starts the DRAM power measurement threads.
 		 * @returns True on success.
 		 */
