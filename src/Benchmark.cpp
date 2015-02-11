@@ -55,7 +55,6 @@ Benchmark::Benchmark(
 		rw_mode_t rw_mode,
 		chunk_size_t chunk_size,
 		int64_t stride_size,
-		Timer& timer,
 		std::vector<PowerReader*> dram_power_readers,
 		std::string metricUnits,
 		std::string name
@@ -73,7 +72,6 @@ Benchmark::Benchmark(
 		_rw_mode(rw_mode),
 		_chunk_size(chunk_size),
 		_stride_size(stride_size),
-		_timer(timer),
 		_dram_power_readers(dram_power_readers),
 		_dram_power_threads(),
 		_metricOnIter(),
@@ -98,7 +96,23 @@ bool Benchmark::run() {
 	if (_hasRun) //A benchmark should only be run once per object
 		return false;
 
-	return _run_core();
+	print_benchmark_header();
+	report_benchmark_info(); 
+
+	bool success = _run_core();
+	if (success) {
+		return true;
+	} else {
+		std::cerr << "WARNING: Benchmark " << _name << " failed!" << std::endl;
+		return false;
+	}
+}
+
+void Benchmark::print_benchmark_header() const {
+	//Spit out useful info
+	std::cout << std::endl;
+	std::cout << "-------- Running Benchmark: " << _name;
+	std::cout << " ----------" << std::endl;
 }
 
 void Benchmark::report_benchmark_info() const {
@@ -173,10 +187,15 @@ void Benchmark::report_results() const {
 	std::cout << std::endl;
  
 	if (_hasRun) {
-		for (uint32_t i = 0; i < _iterations; i++)
-			std::cout << "Iter #" << i + 1 << ": " << _metricOnIter[i] << " " << _metricUnits << std::endl;
-		std::cout << "Average: " << _averageMetric << " " << _metricUnits << std::endl;
-		if (_warning) std::cout << " (WARNING)";
+		for (uint32_t i = 0; i < _iterations; i++) {
+			std::cout << "Iter #" << i + 1 << ": " << _metricOnIter[i] << " " << _metricUnits;
+			if (_warning)
+				std::cout << " (WARNING)";
+			std::cout << std::endl;
+		}
+		std::cout << "Average: " << _averageMetric << " " << _metricUnits;
+		if (_warning)
+			std::cout << " (WARNING)";
 		std::cout << std::endl;
 		
 		for (uint32_t i = 0; i < _dram_power_readers.size(); i++) {
@@ -348,7 +367,7 @@ bool Benchmark::_buildRandomPointerPermutation() {
 			num_pointers = _len / sizeof(Word256_t);
 			break;
 		default:
-			std::cerr << "ERROR: Chunk size must be at least 64 bits for pointer-chasing algorithms. This should not have happened." << std::endl;
+			std::cerr << std::endl << "ERROR: Chunk size must be at least 64 bits for pointer-chasing algorithms. This should not have happened." << std::endl;
 			return false;
 	}
 			

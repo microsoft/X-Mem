@@ -29,18 +29,14 @@
 
 //Headers
 #include <common.h>
-#if defined(ARCH_INTEL_X86_64) && defined(USE_TSC_TIMER)
-#include <x86_64/TSCTimer.h>
-#endif
-#if defined(_WIN32) && defined(USE_QPC_TIMER)
-#include <win/QPCTimer.h>
-#endif
+#include <Timer.h>
 
 //Libraries
 #include <iostream>
 
 #ifdef _WIN32
 #include <windows.h>
+#include <intrin.h>
 #endif
 
 #ifdef __gnu_linux__
@@ -50,6 +46,9 @@
 #include <fstream> //for std::ifstream
 #include <vector> //for std::vector
 #include <algorithm> //for std::find
+#include <immintrin.h> //for timer
+#include <cpuid.h> //for timer
+#include <x86intrin.h> //for timer
 
 extern "C" {
 #include <hugetlbfs.h> //for getting huge page size
@@ -180,16 +179,9 @@ void xmem::print_compile_time_options() {
 
 void xmem::test_timers() {
 	std::cout << std::endl << "Testing timers..." << std::endl;
-#ifdef USE_QPC_TIMER
-	QPCTimer qpc;
-	std::cout << "Reported QPC timer frequency: " << qpc.get_ticks_per_sec() << " Hz == " << (double)(qpc.get_ticks_per_sec()) / (1e6) << " MHz" << std::endl;
-	std::cout << "Derived QPC timer ns per tick: " << qpc.get_ns_per_tick() << std::endl;
-#endif
-#ifdef USE_TSC_TIMER
-	TSCTimer tsc;
-	std::cout << "Calculated TSC timer frequency: " << tsc.get_ticks_per_sec() << " Hz == " << (double)(tsc.get_ticks_per_sec()) / (1e6) << " MHz" << std::endl;
-	std::cout << "Derived TSC timer ns per tick: " << tsc.get_ns_per_tick() << std::endl;
-#endif
+	Timer timer;
+	std::cout << "Calculated timer frequency: " << timer.get_ticks_per_sec() << " Hz == " << (double)(timer.get_ticks_per_sec()) / (1e6) << " MHz" << std::endl;
+	std::cout << "Derived timer ns per tick: " << timer.get_ns_per_tick() << std::endl;
 	std::cout << std::endl;
 }
 	
@@ -533,3 +525,113 @@ int32_t xmem::query_sys_info() {
 
 	return 0;
 }
+
+uint64_t xmem::start_timer() {
+#ifdef USE_TSC_TIMER
+#ifdef _WIN32
+	int32_t dontcare[4];
+	__cpuid(dontcare, 0); //Serializing instruction. This forces all previous instructions to finish
+	return __rdtsc(); //Get clock tick
+#endif
+#ifdef __gnu_linux__
+	volatile int32_t dc0 = 0;
+	volatile int32_t dc1, dc2, dc3, dc4;
+	__cpuid(dc0, dc1, dc2, dc3, dc4); //Serializing instruction. This forces all previous instructions to finish
+	return __rdtsc(); //Get clock tick
+
+	/*
+	uint32_t low, high;
+	__asm__ __volatile__ (
+		"cpuid\n\t"
+		"rdtsc\n\t"
+		"mov %%eax, %0\n\t"
+		"mov %%edx, %1\n\n"
+		: "=r" (low), "=r" (high)
+		: : "%rax", "%rbx", "%rcx", "%rdx");
+
+	return ((static_cast<uint64_t>(high) << 32) | low);
+	*/
+#endif
+#endif
+
+#ifdef USE_QPC_TIMER
+	LARGE_INTEGER tmp;
+	QueryPerformanceCounter(&tmp);
+	return static_cast<uint64_t>(tmp.QuadPart);
+#endif
+}
+
+uint64_t xmem::stop_timer() {
+#ifdef USE_TSC_TIMER
+#ifdef _WIN32
+	uint64_t tick;
+	uint32_t filler;
+	int32_t dontcare[4];
+	tick = __rdtscp(&filler); //Get clock tick. This is a partially serializing instruction. All previous instructions must finish
+	__cpuid(dontcare, 0); //Fully serializing instruction. We do this to prevent later instructions from being moved inside the timed section
+	return tick;
+#endif
+#ifdef __gnu_linux__
+	uint64_t tick;
+	uint32_t filler;
+	volatile int32_t dc0 = 0;
+	volatile int32_t dc1, dc2, dc3, dc4;
+	tick = __rdtscp(&filler); //Get clock tick. This is a partially serializing instruction. All previous instructions must finish
+	__cpuid(dc0, dc1, dc2, dc3, dc4); //Serializing instruction. This forces all previous instructions to finish
+	return tick;
+	
+	/*
+	uint32_t low, high;
+	__asm__ __volatile__ (
+		"rdtscp\n\t"
+		"mov %%eax, %0\n\t"
+		"mov %%edx, %1\n\t"
+		"cpuid\n\t"
+		: "=r" (low), "=r" (high)
+		: : "%rax", "%rbx", "%rcx", "%rdx");
+	return ((static_cast<uint64_t>(high) << 32) | low);
+	*/
+#endif
+#endif
+
+#ifdef USE_QPC_TIMER
+	LARGE_INTEGER tmp;
+	QueryPerformanceCounter(&tmp);
+	return static_cast<uint64_t>(tmp.QuadPart);
+#endif
+}
+
+#ifdef _WIN32
+bool xmem::boostSchedulingPriority(DWORD& originalPriorityClass, DWORD& originalPriority) {
+	originalPriorityClass = GetPriorityClass(GetCurrentProcess()); 	
+	originalPriority = GetThreadPriority(GetCurrentThread());
+	SetPriorityClass(GetCurrentProcess(), 0x80); //HIGH_PRIORITY_CLASS
+	SetThreadPriority(GetCurrentThread(), 15); //THREAD_PRIORITY_TIME_CRITICAL
+
+	return true;
+}
+#endif
+
+#ifdef __gnu_linux__
+bool xmem::boostSchedulingPriority() {
+	if (nice(-20) == EPERM)
+		return false;
+	return true;
+}
+#endif
+
+#ifdef _WIN32
+bool xmem::revertSchedulingPriority(DWORD originalPriorityClass, DWORD originalPriority) {
+	SetPriorityClass(GetCurrentProcess(), originalPriorityClass);
+	SetThreadPriority(GetCurrentThread(), originalPriority);
+	return true;
+}
+#endif
+
+#ifdef __gnu_linux__
+bool xmem::revertSchedulingPriority() {
+	if (nice(0) == EPERM)
+		return false;
+	return true;
+}
+#endif

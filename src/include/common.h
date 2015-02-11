@@ -44,7 +44,7 @@
 
 namespace xmem {
 
-#define VERSION "1.4"
+#define VERSION "1.4.1"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -176,8 +176,8 @@ namespace xmem {
 */
 
 //Which timer to use in the benchmarks. Only one may be selected!
-//#define USE_QPC_TIMER /**< RECOMMENDED ENABLED. WINDOWS ONLY. Use the Windows QueryPerformanceCounter timer API. This is a safe bet as it is more hardware-agnostic and has fewer quirks, but it has lower resolution than the TSC timer. */
-#define USE_TSC_TIMER /**< RECOMMENDED DISABLED. Use the Intel Time Stamp Counter native hardware timer. Only use this if you know what you are doing. */
+//#define USE_QPC_TIMER /**< RECOMMENDED DISABLED. WINDOWS ONLY. Use the Windows QueryPerformanceCounter timer API. This is a safe bet as it is more hardware-agnostic and has fewer quirks, but it has lower resolution than the TSC timer. */
+#define USE_TSC_TIMER /**< RECOMMENDED ENABLED. Use the Intel Time Stamp Counter native hardware timer. Only use this if you know what you are doing. */
 
 //Benchmarking methodology. Only one may be selected!
 #define USE_TIME_BASED_BENCHMARKS /**< RECOMMENDED ENABLED. All benchmarks run for an estimated amount of time, and the figures of merit are computed based on the amount of memory accesses completed in the time limit. This mode has more consistent runtime across different machines, memory performance, and working set sizes, but may have more conservative measurements for differing levels of cache hierarchy (overestimating latency and underestimating throughput). */
@@ -207,6 +207,10 @@ namespace xmem {
 //Compile-time options checks
 #if defined(USE_QPC_TIMER) && !defined(_WIN32)
 #error USE_QPC_TIMER may only be defined for a Windows system!
+#endif 
+
+#if defined(USE_TSC_TIMER) && !defined(ARCH_INTEL_X86_64)
+#error USE_TSC_TIMER may only be defined for an Intel system!
 #endif 
 
 #if !defined(USE_QPC_TIMER) && !defined(USE_TSC_TIMER)
@@ -387,6 +391,54 @@ namespace xmem {
 	 * @returns 0 on success.
 	 */
 	int32_t query_sys_info();
+
+	/**
+	 * @brief Query the timer for the start of a timed section of code.
+	 * @returns The starting tick for some timed section of code using the timer.
+	 */
+	uint64_t start_timer();
+
+	/**
+	 * @brief Query the timer for the end of a timed section of code.
+	 * @returns The ending tick for some timed section of code using the timer.
+	 */
+	uint64_t stop_timer();
+
+#ifdef _WIN32
+	/**
+	 * @brief Increases the scheduling priority of the calling thread.
+	 * @param originalPriorityClass The Windows priority class before priority was increased.
+	 * @param originalPriority The Windows priority before priority was increased.
+	 * @returns True on success.
+	 */
+	bool boostSchedulingPriority(DWORD& originalPriorityClass, DWORD& originalPriority);
+#endif
+
+#ifdef __gnu_linux__
+	/**
+	 * @brief Increases the scheduling priority of the calling thread.
+	 * @returns True on success.
+	 */
+	bool boostSchedulingPriority();
+#endif
+
+#ifdef _WIN32
+	/**
+	 * @brief Reverts the scheduling priority of the calling thread.
+	 * @param originalPriorityClass The Windows priority class before priority was increased.
+	 * @param originalPriority The Windows priority before priority was increased.
+	 * @returns True on success.
+	 */
+	bool revertSchedulingPriority(DWORD originalPriorityClass, DWORD originalPriority);
+#endif
+
+#ifdef __gnu_linux__
+	/**
+	 * @brief Reverts the scheduling priority of the calling thread.
+	 * @returns True on success.
+	 */
+	bool revertSchedulingPriority();
+#endif
 };
 
 #endif

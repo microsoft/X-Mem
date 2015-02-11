@@ -105,13 +105,6 @@ namespace xmem {
 		std::vector<ThroughputBenchmark*> __tp_benchmarks; /**< Set of throughput benchmarks. */
 		std::vector<LatencyBenchmark*> __lat_benchmarks; /**< Set of latency benchmarks. */
 		std::vector<PowerReader*> __dram_power_readers; /**< Set of power measurement objects for DRAM on each NUMA node. */
-
-#if defined(_WIN32) && defined(USE_QPC_TIMER)
-		QPCTimer __timer; /**< Timer object. TODO: Make this cleaner. We can't use these objects in thread safe manner so it isn't used in any multithreaded scenario at the moment. */
-#endif
-#if defined(ARCH_INTEL_X86_64) && defined(USE_TSC_TIMER)
-		TSCTimer __timer; /**< Timer object. TODO: Make this cleaner. We can't use these objects in thread safe manner so it isn't used in any multithreaded scenario at the moment. */
-#endif
 		std::fstream __results_file; /**< The results CSV file. */
 		bool __built_throughput_benchmarks; /**< If true, finished building throughput benchmarks. */
 		bool __built_latency_benchmarks; /**< If true, finished building latency benchmarks. */

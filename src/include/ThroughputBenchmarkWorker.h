@@ -33,6 +33,7 @@
 //Headers
 #include <Runnable.h>
 #include <common.h>
+#include <benchmark_kernels.h>
 
 //Libraries
 #include <cstdint>
@@ -43,14 +44,13 @@ namespace xmem {
 	 */
 	class ThroughputBenchmarkWorker : public Runnable {
 		public:
-			typedef int32_t(*BenchFunction)(void*, void*); //Core benchmark function pointer
-
+			
 			/** 
-			 * @brief Constructor.
+			 * @brief Constructor for sequential-access patterns.
 			 * @param mem_array Pointer to the memory region to use by this worker.
 			 * @param len Length of the memory region to use by this worker.
-			 * @param bench_fptr Pointer to the core benchmark kernel to use.
-			 * @param dummy_fptr Pointer to the dummy version of the core benchmark kernel to use.
+			 * @param kernel_fptr Pointer to the sequential core benchmark kernel to use.
+			 * @param kernel_dummy_fptr Pointer to the sequential dummy version of the core benchmark kernel to use.
 			 * @param cpu_affinity Logical CPU identifier to lock this worker's thread to.
 			 */
 			ThroughputBenchmarkWorker(
@@ -59,10 +59,29 @@ namespace xmem {
 #ifdef USE_SIZE_BASED_BENCHMARKS
 				uint64_t passes_per_iteration,
 #endif
-				BenchFunction bench_fptr,
-				BenchFunction dummy_fptr,
+				SequentialFunction kernel_fptr,
+				SequentialFunction kernel_dummy_fptr,
 				int32_t cpu_affinity
-				);
+			);
+			
+			/** 
+			 * @brief Constructor for random-access patterns.
+			 * @param mem_array Pointer to the memory region to use by this worker.
+			 * @param len Length of the memory region to use by this worker.
+			 * @param kernel_fptr Pointer to the random core benchmark kernel to use.
+			 * @param kernel_dummy_fptr Pointer to the random dummy version of the core benchmark kernel to use.
+			 * @param cpu_affinity Logical CPU identifier to lock this worker's thread to.
+			 */
+			ThroughputBenchmarkWorker(
+				void* mem_array,
+				size_t len,
+#ifdef USE_SIZE_BASED_BENCHMARKS
+				uint64_t passes_per_iteration,
+#endif
+				RandomFunction kernel_fptr,
+				RandomFunction kernel_dummy_fptr,
+				int32_t cpu_affinity
+			);
 			
 			/**
 			 * @brief Destructor.
@@ -121,8 +140,11 @@ namespace xmem {
 			void* __mem_array; /**< The memory region for this worker. */
 			size_t __len; /**< The length of the memory region for this worker. */
 			int32_t __cpu_affinity; /**< The logical CPU affinity for this worker. */
-			BenchFunction __bench_fptr; /**< Points to the memory test core routine to use. */
-			BenchFunction __dummy_fptr; /**< Points to a dummy version of the memory test core routine to use. */
+			bool __use_sequential_kernel_fptr; /**< If true, use the SequentialFunction, otherwise use the RandomFunction. */
+			SequentialFunction __kernel_fptr_seq; /**< Points to the memory test core routine to use of the "sequential" type. */
+			SequentialFunction __kernel_dummy_fptr_seq; /**< Points to a dummy version of the memory test core routine to use of the "sequential" type. */
+			RandomFunction __kernel_fptr_ran; /**< Points to the memory test core routine to use of the "random" type. */
+			RandomFunction __kernel_dummy_fptr_ran; /**< Points to a dummy version of the memory test core routine to use of the "random" type. */
 			uint64_t __bytes_per_pass; /**< Number of bytes accessed in each kernel pass. */
 			uint64_t __passes; /**< Number of passes. */
 			uint64_t __elapsed_ticks; /**< Total elapsed ticks on the kernel routine. */

@@ -34,6 +34,7 @@
 #include <benchmark_kernels.h>
 #include <Thread.h>
 #include <Runnable.h>
+#include <Timer.h>
 
 //Libraries
 #include <iostream>
@@ -56,7 +57,6 @@ ThroughputBenchmark::ThroughputBenchmark(
 		rw_mode_t rw_mode,
 		chunk_size_t chunk_size,
 		int64_t stride_size,
-		Timer& timer,
 		std::vector<PowerReader*> dram_power_readers,
 		std::string name
 	) :
@@ -74,7 +74,6 @@ ThroughputBenchmark::ThroughputBenchmark(
 		rw_mode,
 		chunk_size,
 		stride_size,
-		timer,
 		dram_power_readers,
 		"MB/s",
 		name
@@ -83,26 +82,31 @@ ThroughputBenchmark::ThroughputBenchmark(
 }
 
 bool ThroughputBenchmark::_run_core() {
-	//Spit out useful info
-	std::cout << std::endl;
-	std::cout << "-------- Running Benchmark: " << _name;
-	std::cout << " ----------" << std::endl;
-	report_benchmark_info(); 
-	
 	//Set up kernel function pointers
-	//TODO and FIXME: RandomFunctions!!!!
-	SequentialFunction kernel_fptr;
-	SequentialFunction kernel_dummy_fptr; 
-	
-	if (!determineSequentialKernel(_rw_mode, _chunk_size, _stride_size, &kernel_fptr, &kernel_dummy_fptr)) {
-		std::cerr << "WARNING: Failed to find appropriate benchmark kernel." << std::endl;
+	SequentialFunction kernel_fptr_seq = NULL;
+	SequentialFunction kernel_dummy_fptr_seq = NULL; 
+	RandomFunction kernel_fptr_ran = NULL;
+	RandomFunction kernel_dummy_fptr_ran = NULL; 
+
+	if (_pattern_mode == SEQUENTIAL) {
+		if (!determineSequentialKernel(_rw_mode, _chunk_size, _stride_size, &kernel_fptr_seq, &kernel_dummy_fptr_seq)) {
+			std::cerr << "ERROR: Failed to find appropriate benchmark kernel." << std::endl;
+			return false;
+		}
+	} else if (_pattern_mode == RANDOM) {
+		if (!determineRandomKernel(_rw_mode, _chunk_size, &kernel_fptr_ran, &kernel_dummy_fptr_ran)) {
+			std::cerr << "ERROR: Failed to find appropriate benchmark kernel." << std::endl;
+			return false;
+		}
+		//Build indices for random workload
+		_buildRandomPointerPermutation();
+	} else {
+		std::cerr << "ERROR: Got an invalid pattern mode." << std::endl;
 		return false;
 	}
 
-	//Build indices for random workload
-	//TODO and FIXME
-//	if (_pattern_mode == RANDOM) 
-//		_buildRandomPointerPermutation();
+	//Helper timer
+	Timer helper_timer;
 
 	//Start power measurement
 	if (g_verbose) 
@@ -115,9 +119,9 @@ bool ThroughputBenchmark::_run_core() {
 		std::cout << "done" << std::endl;
 
 	//Set up some stuff for worker threads
-	size_t len_per_thread = _len / _num_worker_threads; //TODO: is this what we want?
 	std::vector<ThroughputBenchmarkWorker*> workers;
 	std::vector<Thread*> worker_threads;
+	size_t len_per_thread = _len / _num_worker_threads; //Carve up memory space so each worker has its own area to play in
 
 	//Do a bunch of iterations of the core benchmark routines
 	if (g_verbose)
@@ -132,17 +136,32 @@ bool ThroughputBenchmark::_run_core() {
 			int32_t cpu_id = cpu_id_in_numa_node(_cpu_node, t);
 			if (cpu_id < 0)
 				std::cerr << "WARNING: Failed to find logical CPU " << t << " in NUMA node " << _cpu_node << std::endl;
-			workers.push_back(new ThroughputBenchmarkWorker(
-												thread_mem_array,
-												len_per_thread,
+			if (_pattern_mode == SEQUENTIAL)
+				workers.push_back(new ThroughputBenchmarkWorker(
+									thread_mem_array,
+									len_per_thread,
 #ifdef USE_SIZE_BASED_BENCHMARKS
-												_passes_per_iteration,
+									_passes_per_iteration,
 #endif
-												kernel_fptr,
-												kernel_dummy_fptr,
-												cpu_id
-											)
-							);
+									kernel_fptr_seq,
+									kernel_dummy_fptr_seq,
+									cpu_id
+									)
+								);
+			else if (_pattern_mode == RANDOM)
+				workers.push_back(new ThroughputBenchmarkWorker(
+									thread_mem_array,
+									len_per_thread,
+#ifdef USE_SIZE_BASED_BENCHMARKS
+									_passes_per_iteration,
+#endif
+									kernel_fptr_ran,
+									kernel_dummy_fptr_ran,
+									cpu_id
+									)
+								);
+			else
+				std::cerr << "WARNING: Invalid benchmark pattern mode." << std::endl;
 			worker_threads.push_back(new Thread(workers[t]));
 		}
 
@@ -153,7 +172,7 @@ bool ThroughputBenchmark::_run_core() {
 		//Wait for all threads to complete
 		for (uint32_t t = 0; t < _num_worker_threads; t++)
 			if (!worker_threads[t]->join())
-				std::cerr << "WARNING: A worker thread failed to complete by the expected time!" << std::endl;
+				std::cerr << "WARNING: A worker thread failed to complete correctly!" << std::endl;
 
 		//Compute throughput achieved with all workers
 		uint64_t total_passes = 0;
@@ -170,6 +189,9 @@ bool ThroughputBenchmark::_run_core() {
 		}
 
 		avg_adjusted_ticks = total_adjusted_ticks / _num_worker_threads;
+
+		if (iter_warning)
+			_warning = true;
 			
 		if (g_verbose ) { //Report duration for this iteration
 			std::cout << "Iter " << i+1 << " had " << total_passes << " passes in total across " << _num_worker_threads << " threads, with " << bytes_per_pass << " bytes touched per pass:";
@@ -180,17 +202,17 @@ bool ThroughputBenchmark::_run_core() {
 			if (iter_warning) std::cout << " -- WARNING";
 			std::cout << std::endl;
 			
-			std::cout << "...ns in total across " << _num_worker_threads << " threads == " << total_adjusted_ticks * _timer.get_ns_per_tick() << " (adjusted by -" << total_elapsed_dummy_ticks * _timer.get_ns_per_tick() << ")";
+			std::cout << "...ns in total across " << _num_worker_threads << " threads == " << total_adjusted_ticks * helper_timer.get_ns_per_tick() << " (adjusted by -" << total_elapsed_dummy_ticks * helper_timer.get_ns_per_tick() << ")";
 			if (iter_warning) std::cout << " -- WARNING";
 			std::cout << std::endl;
 
-			std::cout << "...sec in total across " << _num_worker_threads << " threads == " << total_adjusted_ticks * _timer.get_ns_per_tick() / 1e9 << " (adjusted by -" << total_elapsed_dummy_ticks * _timer.get_ns_per_tick() / 1e9 << ")";
+			std::cout << "...sec in total across " << _num_worker_threads << " threads == " << total_adjusted_ticks * helper_timer.get_ns_per_tick() / 1e9 << " (adjusted by -" << total_elapsed_dummy_ticks * helper_timer.get_ns_per_tick() / 1e9 << ")";
 			if (iter_warning) std::cout << " -- WARNING";
 			std::cout << std::endl;
 		}
 		
 		//Compute metric for this iteration
-		_metricOnIter[i] = ((static_cast<double>(total_passes) * static_cast<double>(bytes_per_pass)) / static_cast<double>(MB))   /   ((static_cast<double>(avg_adjusted_ticks) * _timer.get_ns_per_tick()) / 1e9);
+		_metricOnIter[i] = ((static_cast<double>(total_passes) * static_cast<double>(bytes_per_pass)) / static_cast<double>(MB))   /   ((static_cast<double>(avg_adjusted_ticks) * helper_timer.get_ns_per_tick()) / 1e9);
 		_averageMetric += _metricOnIter[i];
 
 

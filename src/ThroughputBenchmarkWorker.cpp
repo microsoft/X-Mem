@@ -31,16 +31,7 @@
 #include <ThroughputBenchmarkWorker.h>
 #include <benchmark_kernels.h>
 #include <common.h>
-
-#if defined(ARCH_INTEL_X86_64) && defined(USE_TSC_TIMER)
-#include <x86_64/TSCTimer.h>
-#endif
-
-#ifdef _WIN32
-#ifdef USE_QPC_TIMER
-#include <win/QPCTimer.h>
-#endif
-#endif
+#include <Timer.h>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -63,27 +54,60 @@ ThroughputBenchmarkWorker::ThroughputBenchmarkWorker(
 	#ifdef USE_SIZE_BASED_BENCHMARKS
 		uint64_t passes_per_iteration,
 	#endif
-		BenchFunction bench_fptr,
-		BenchFunction dummy_fptr,
+		SequentialFunction kernel_fptr,
+		SequentialFunction kernel_dummy_fptr,
 		int32_t cpu_affinity
 	) :
-	__mem_array(mem_array),
-	__len(len),
-	__cpu_affinity(cpu_affinity),
-	__bench_fptr(bench_fptr),
-	__dummy_fptr(dummy_fptr),
-	__bytes_per_pass(0),
-	__passes(0),
-	__elapsed_ticks(0),
-	__elapsed_dummy_ticks(0),
-	__adjusted_ticks(0),
-	__warning(false),
+		__mem_array(mem_array),
+		__len(len),
+		__cpu_affinity(cpu_affinity),
+		__use_sequential_kernel_fptr(true),
+		__kernel_fptr_seq(kernel_fptr),
+		__kernel_dummy_fptr_seq(kernel_dummy_fptr),
+		__kernel_fptr_ran(NULL),
+		__kernel_dummy_fptr_ran(NULL),
+		__bytes_per_pass(0),
+		__passes(0),
+		__elapsed_ticks(0),
+		__elapsed_dummy_ticks(0),
+		__adjusted_ticks(0),
+		__warning(false),
 #ifdef USE_SIZE_BASED_BENCHMARKS
-	__passes_per_iteration(passes_per_iteration),
+		__passes_per_iteration(passes_per_iteration),
 #endif
-	__completed(false)
+		__completed(false)
 	{
+}
 
+ThroughputBenchmarkWorker::ThroughputBenchmarkWorker(
+		void* mem_array,
+		size_t len,
+	#ifdef USE_SIZE_BASED_BENCHMARKS
+		uint64_t passes_per_iteration,
+	#endif
+		RandomFunction kernel_fptr,
+		RandomFunction kernel_dummy_fptr,
+		int32_t cpu_affinity
+	) :
+		__mem_array(mem_array),
+		__len(len),
+		__cpu_affinity(cpu_affinity),
+		__use_sequential_kernel_fptr(false),
+		__kernel_fptr_seq(NULL),
+		__kernel_dummy_fptr_seq(NULL),
+		__kernel_fptr_ran(kernel_fptr),
+		__kernel_dummy_fptr_ran(kernel_dummy_fptr),
+		__bytes_per_pass(0),
+		__passes(0),
+		__elapsed_ticks(0),
+		__elapsed_dummy_ticks(0),
+		__adjusted_ticks(0),
+		__warning(false),
+#ifdef USE_SIZE_BASED_BENCHMARKS
+		__passes_per_iteration(passes_per_iteration),
+#endif
+		__completed(false)
+	{
 }
 
 ThroughputBenchmarkWorker::~ThroughputBenchmarkWorker() {
@@ -92,8 +116,11 @@ ThroughputBenchmarkWorker::~ThroughputBenchmarkWorker() {
 void ThroughputBenchmarkWorker::run() {
 	//Set up relevant state -- localized to this thread's stack
 	int32_t cpu_affinity = 0;
-	BenchFunction bench_fptr = NULL;
-	BenchFunction dummy_fptr = NULL;
+	bool use_sequential_kernel_fptr = false;
+	SequentialFunction kernel_fptr_seq = NULL;
+	SequentialFunction kernel_dummy_fptr_seq = NULL;
+	RandomFunction kernel_fptr_ran = NULL;
+	RandomFunction kernel_dummy_fptr_ran = NULL;
 	void* start_address = NULL;
 	void* end_address = NULL;
 	void* prime_start_address = NULL;
@@ -110,12 +137,7 @@ void ThroughputBenchmarkWorker::run() {
 #ifdef USE_TIME_BASED_BENCHMARKS
 	void* mem_array = NULL;
 	size_t len = 0;
-#ifdef USE_TSC_TIMER
-	TSCTimer helper_timer;
-#endif
-#ifdef USE_QPC_TIMER
-	QPCTimer helper_timer;
-#endif
+	Timer helper_timer;
 	uint64_t target_ticks = helper_timer.get_ticks_per_sec() * BENCHMARK_DURATION_SEC; //Rough target run duration in seconds 
 	uint64_t p = 0;
 	bytes_per_pass = THROUGHPUT_BENCHMARK_BYTES_PER_PASS;
@@ -132,8 +154,11 @@ void ThroughputBenchmarkWorker::run() {
 		passes = __passes_per_iteration;
 #endif
 		cpu_affinity = __cpu_affinity;
-		bench_fptr = __bench_fptr;
-		dummy_fptr = __dummy_fptr;
+		use_sequential_kernel_fptr = __use_sequential_kernel_fptr;
+		kernel_fptr_seq = __kernel_fptr_seq;
+		kernel_dummy_fptr_seq = __kernel_dummy_fptr_seq;
+		kernel_fptr_ran = __kernel_fptr_ran;
+		kernel_dummy_fptr_ran = __kernel_dummy_fptr_ran;
 		start_address = __mem_array;
 		end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(__mem_array)+bytes_per_pass);
 		prime_start_address = __mem_array; 
@@ -146,51 +171,39 @@ void ThroughputBenchmarkWorker::run() {
 	if (!locked)
 		std::cerr << "WARNING: Failed to lock thread to NUMA CPU Node " << __cpu_affinity << "! Results may not be correct." << std::endl;
 
-	//Increase scheduling priority for this thread
+	//Increase scheduling priority
 #ifdef _WIN32
-	DWORD originalPriorityClass = GetPriorityClass(GetCurrentProcess()); 	
-	DWORD originalPriority = GetThreadPriority(GetCurrentThread());
-	SetPriorityClass(GetCurrentProcess(), 0x80); //HIGH_PRIORITY_CLASS
-	SetThreadPriority(GetCurrentThread(), 15); //THREAD_PRIORITY_TIME_CRITICAL
+	DWORD originalPriorityClass;
+	DWORD originalPriority;
+	if (!boostSchedulingPriority(originalPriorityClass, originalPriority))
 #endif
 #ifdef __gnu_linux__
-	if (nice(-20) == EPERM) //Increase priority to maximum. This will require admin privileges and thus can fail. Note that this doesn't necessarily improve performance as Linux is still using a round-robin scheduler by default.
-		std::cerr << "WARNING: Failed to increase Linux thread scheduling priority using \"nice\" value of -20. This probably happened because you ran X-Mem without administrator privileges." << std::endl;
+	if (!boostSchedulingPriority())
 #endif
+		std::cerr << "WARNING: Failed to boost scheduling priority. Perhaps running in Administrator mode would help." << std::endl;
 
 	//Prime memory
 	forwSequentialWrite_Word64(prime_start_address, prime_end_address);  //initialize memory by writing and force page faults if pages are not resident in physical memory
-	forwSequentialRead_Word64(prime_start_address, prime_end_address); //dependent reads on the memory, make sure caches are ready, coherence, etc...
 	for (uint64_t i = 0; i < 4; i++) {
-		(*__bench_fptr)(start_address, end_address); //run the benchmark several times to ensure caches are warmed up for the algorithm and CPU is ready to go
+		forwSequentialRead_Word64(prime_start_address, prime_end_address); //dependent reads on the memory, make sure caches are ready, coherence, etc...
 	}
 
 	//Run the benchmark!
+	uintptr_t* next_address = static_cast<uintptr_t*>(mem_array);
 #ifdef USE_TIME_BASED_BENCHMARKS
 	//Run actual version of function and loop overhead
 	while (elapsed_ticks < target_ticks) {
-#ifdef USE_TSC_TIMER
-		start_tick = start_tsc_timer();
-#endif
-#ifdef USE_QPC_TIMER
-		start_tick = get_qpc_time();
-#endif
-		UNROLL1024(
-			(*bench_fptr)(start_address, end_address);
-			/*if (end_address > reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array)+len))
-				start_address = mem_array;
-			else
-				start_address = end_address;*/
-			start_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array)+(reinterpret_cast<uint64_t>(start_address)+bytes_per_pass) % len);
-			end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(start_address) + bytes_per_pass);
-		)
-#ifdef USE_TSC_TIMER
-		stop_tick = stop_tsc_timer();
-#endif
-#ifdef USE_QPC_TIMER
-		stop_tick = get_qpc_time();
-#endif
-
+		start_tick = start_timer();
+		if (use_sequential_kernel_fptr) { //sequential function semantics
+			UNROLL1024(
+				(*kernel_fptr_seq)(start_address, end_address);
+				start_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array)+(reinterpret_cast<uint64_t>(start_address)+bytes_per_pass) % len);
+				end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(start_address) + bytes_per_pass);
+			)
+		} else { //random function semantics
+			UNROLL256((*kernel_fptr_ran)(next_address, &next_address, 0);)
+		}
+		stop_tick = stop_timer();
 		elapsed_ticks += (stop_tick - start_tick);
 		passes+=1024;
 	}
@@ -199,65 +212,50 @@ void ThroughputBenchmarkWorker::run() {
 	p = 0;
 	start_address = mem_array;
 	end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array) + bytes_per_pass);
+	next_address = static_cast<uintptr_t*>(mem_array);
 	while (p < passes) {
-#ifdef USE_TSC_TIMER
-		start_tick = start_tsc_timer();
-#endif
-#ifdef USE_QPC_TIMER
-		start_tick = get_qpc_time();
-#endif
-		UNROLL1024(
-			(*dummy_fptr)(start_address, end_address);
-			/*if (end_address >= reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array)+len))
-				start_address = mem_array;
-			else
-				start_address = end_address;*/
-			start_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array)+(reinterpret_cast<uint64_t>(start_address)+bytes_per_pass) % len);
-			end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(start_address) + bytes_per_pass);
-		)
-#ifdef USE_TSC_TIMER
-		stop_tick = stop_tsc_timer();
-#endif
-#ifdef USE_QPC_TIMER
-		stop_tick = get_qpc_time();
-#endif
+		start_tick = start_timer();
+		if (use_sequential_kernel_fptr) { //sequential function semantics
+			UNROLL1024(
+				(*kernel_dummy_fptr_seq)(start_address, end_address);
+				start_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array)+(reinterpret_cast<uint64_t>(start_address)+bytes_per_pass) % len);
+				end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(start_address) + bytes_per_pass);
+			)
+		} else { //random function semantics
+			UNROLL256((*kernel_dummy_fptr_ran)(next_address, &next_address, 0);)
+		}
+
+		stop_tick = stop_timer();
 		elapsed_dummy_ticks += (stop_tick - start_tick);
 		p+=1024;
 	}
 
 #endif
+
 #ifdef USE_SIZE_BASED_BENCHMARKS
-#ifdef USE_TSC_TIMER
-	start_tick = start_tsc_timer();
-#endif
-#ifdef USE_QPC_TIMER
-	start_tick = get_qpc_time();
-#endif
-	for (uint64_t p = 0; p < __passes_per_iteration; p++)
-		(*bench_fptr)(start_address, end_address);
-#ifdef USE_TSC_TIMER
-	stop_tick = stop_tsc_timer();
-#endif
-#ifdef USE_QPC_TIMER
-	stop_tick = get_qpc_time();
-#endif
+	next_address = static_cast<uintptr_t*>(mem_array);
+	start_tick = start_timer();
+	if (use_sequential_kernel_fptr) { //sequential function semantics
+		for (uint64_t p = 0; p < __passes_per_iteration; p++)
+			(*kernel_fptr_seq)(start_address, end_address);
+	} else { //random function semantics
+		for (uint64_t p = 0; p < __passes_per_iteration; p++)
+			(*kernel_fptr_ran)(next_address, &next_address, 0);
+	}
+	stop_tick = stop_timer();
 	elapsed_ticks = stop_tick - start_tick;
 
 	//Time dummy version of function and loop overhead
-#ifdef USE_TSC_TIMER
-	start_tick = start_tsc_timer();
-#endif
-#ifdef USE_QPC_TIMER
-	start_tick = get_qpc_time();
-#endif
-	for (uint64_t p = 0; p < __passes_per_iteration; p++)
-		(*dummy_fptr)(start_address, end_address);
-#ifdef USE_TSC_TIMER
-	stop_tick = stop_tsc_timer();
-#endif
-#ifdef USE_QPC_TIMER
-	stop_tick = get_qpc_time();
-#endif
+	next_address = static_cast<uintptr_t*>(mem_array);
+	start_tick = start_timer();
+	if (use_sequential_kernel_fptr) { //sequential function semantics
+		for (uint64_t p = 0; p < __passes_per_iteration; p++)
+			(*kernel_dummy_fptr_seq)(start_address, end_address);
+	} else { //random function semantics
+		for (uint64_t p = 0; p < __passes_per_iteration; p++)
+			(*kernel_dummy_fptr_ran)(next_address, &next_address, 0);
+	}
+	stop_tick = stop_timer();
 	elapsed_dummy_ticks = stop_tick - start_tick;
 #endif
 
@@ -267,13 +265,12 @@ void ThroughputBenchmarkWorker::run() {
 
 	//Revert thread priority
 #ifdef _WIN32
-	SetPriorityClass(GetCurrentProcess(), originalPriorityClass);
-	SetThreadPriority(GetCurrentThread(), originalPriority);
+	if (!revertSchedulingPriority(originalPriorityClass, originalPriority))
 #endif
 #ifdef __gnu_linux__
-	if (nice(0) == EPERM) //Set priority to nominal. Note that this doesn't necessarily affect performance as Linux is still using a round-robin scheduler by default.
-		std::cerr << "WARNING: Failed to set Linux thread scheduling priority using default \"nice\" value of 0. This shouldn\'t have happened." << std::endl;
+	if (!revertSchedulingPriority())
 #endif
+		std::cerr << "WARNING: Failed to revert scheduling priority. Perhaps running in Administrator mode would help." << std::endl;
 
 	adjusted_ticks = elapsed_ticks - elapsed_dummy_ticks; //In some odd circumstance where dummy is slower than real function, this will go to extremely high value. This will generate a WARNING in the console, but otherwise the benchmark will not be invalidated.
 	

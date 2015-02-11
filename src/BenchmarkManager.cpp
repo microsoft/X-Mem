@@ -68,7 +68,6 @@ BenchmarkManager::BenchmarkManager(
 		__tp_benchmarks(),
 		__lat_benchmarks(),
 		__dram_power_readers(),
-		__timer(),
 		__results_file(),
 		__built_throughput_benchmarks(false),
 		__built_latency_benchmarks(false)
@@ -433,7 +432,6 @@ void BenchmarkManager::__buildThroughputBenchmarks() {
 									rw,
 									chunk,
 									stride,
-									__timer,
 									__dram_power_readers,
 									benchmark_name
 								);
@@ -477,7 +475,6 @@ void BenchmarkManager::__buildThroughputBenchmarks() {
 									rw,
 									chunk,
 									0,
-									__timer,
 									__dram_power_readers,
 									benchmark_name
 								);
@@ -533,7 +530,6 @@ void BenchmarkManager::__buildLatencyBenchmarks() {
 					READ,
 					CHUNK_64b,
 					0,
-					__timer,
 					__dram_power_readers,
 					benchmark_name
 				);

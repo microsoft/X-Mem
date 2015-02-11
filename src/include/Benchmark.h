@@ -32,15 +32,6 @@
 
 //Headers
 #include <common.h>
-#include <Timer.h>
-
-#if defined(ARCH_INTEL_X86_64) && defined(USE_TSC_TIMER)
-#include <x86_64/TSCTimer.h>
-#endif
-
-#if defined(_WIN32) && defined(USE_QPC_TIMER)
-#include <win/QPCTimer.h>
-#endif
 
 #include <PowerReader.h>
 #include <Thread.h>
@@ -78,7 +69,6 @@ namespace xmem {
 		 * @param rw_mode This indicates the general type of read/write mix used, e.g. pure reads or pure writes.
 		 * @param chunk_size Size of an individual memory access for load-generating worker threads.
 		 * @param stride_size For sequential access patterns, this is the address distance between successive accesses, counted in chunks. Negative values indicate a reversed access pattern. A stride of +/-1 is purely sequential.
-		 * @param timer A Timer object for benchmarking.
 		 * @param dram_power_readers A group of PowerReader objects for measuring DRAM power.
 		 * @param name The name of the benchmark to use when reporting to console.
 		 */
@@ -96,7 +86,6 @@ namespace xmem {
 			rw_mode_t rw_mode,
 			chunk_size_t chunk_size,
 			int64_t stride_size,
-			Timer& timer,
 			std::vector<PowerReader*> dram_power_readers,
 			std::string metricUnits,
 			std::string name
@@ -112,6 +101,11 @@ namespace xmem {
 		 * @returns True on benchmark success
 		 */
 		bool run();
+
+		/** 
+		 * @brief Prints a header piece of information describing the benchmark to the console.
+		 */
+		void print_benchmark_header() const;
 
 		/**
 		 * @brief Reports benchmark configuration details to the console.
@@ -276,9 +270,6 @@ namespace xmem {
 		rw_mode_t _rw_mode; /**< Read/write mode. */
 		chunk_size_t _chunk_size; /**< Chunk size of memory accesses in this benchmark. */
 		int64_t _stride_size; /**< Stride size in chunks for sequential pattern mode only. */
-
-		//Benchmark timing
-		Timer& _timer; /**< The reference timer for this benchmark. */
 		
 		//Power measurement
 		std::vector<PowerReader*> _dram_power_readers; /**< The power reading objects for measuring DRAM power on a per-socket basis during the benchmark. */

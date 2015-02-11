@@ -35,8 +35,9 @@
 
 namespace xmem {
 	/**
-	 * @brief This class abstracts a simple high resolution stopwatch timer.
-	 * WARNING: these objects are NOT thread safe.
+	 * @brief This class abstracts some characteristics of simple high resolution stopwatch timer.
+	 * However, due to the inability or complexity of abstracting shared hardware timers,
+	 * this class does not actually provide start and stop functions.
 	 */
 	class Timer {
 	public:
@@ -44,23 +45,6 @@ namespace xmem {
 		 * @brief Constructor. This may take a noticeable amount of time.
 		 */
 		Timer();
-
-		/**
-		 * @brief Starts the timer.
-		 */
-		virtual void start() = 0;
-
-		/**
-		 * @brief Stops the timer.
-		 * @returns Elapsed time since last start() call in ticks.
-		 */
-		virtual uint64_t stop() = 0;
-
-		/**
-		 * @brief Stops the timer.
-		 * @returns Elapsed time since last start() call in nanoseconds.
-		 */
-		double stop_in_ns();
 
 		/**
 		 * @brief Gets ticks per second for this timer.

@@ -63,7 +63,6 @@ namespace xmem {
 			rw_mode_t rw_mode,
 			chunk_size_t chunk_size,
 			int64_t stride_size,
-			Timer& timer,
 			std::vector<PowerReader*> dram_power_readers,
 			std::string name
 		);
