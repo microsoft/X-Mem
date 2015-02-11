@@ -35,6 +35,7 @@
 #include <cstddef>
 
 #ifdef _WIN32
+#include <windows.h>
 #include <intrin.h>
 #endif
 
@@ -44,7 +45,7 @@
 
 namespace xmem {
 
-#define VERSION "1.4.1"
+#define VERSION "1.4.2"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!

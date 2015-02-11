@@ -20,7 +20,7 @@ using namespace xmem;
 
 #pragma comment(lib, "advapi32.lib")
 
-BOOL SetPrivilege(
+BOOL xmem::SetPrivilege(
 	HANDLE hToken,          // access token handle
 	LPCTSTR lpszPrivilege,  // name of privilege to enable/disable
 	BOOL bEnablePrivilege   // to enable or disable privilege
@@ -69,7 +69,7 @@ BOOL SetPrivilege(
 	return TRUE;
 }
 
-DWORD CountSetBits(ULONG_PTR bitMask)
+DWORD xmem::CountSetBits(ULONG_PTR bitMask)
 {
 	DWORD LSHIFT = sizeof(ULONG_PTR)*8 - 1;
 	DWORD bitSetCount = 0;
@@ -85,7 +85,7 @@ DWORD CountSetBits(ULONG_PTR bitMask)
 	return bitSetCount;
 }
 
-void DumpMap(std::map<std::tstring, double> const &m)
+void xmem::DumpMap(std::map<std::tstring, double> const &m)
 {
 	std::map<std::tstring, double>::const_iterator itr = m.begin();
 	while (m.end() != itr)
@@ -95,7 +95,7 @@ void DumpMap(std::map<std::tstring, double> const &m)
 	}
 }
 
-double DumpMapValue(std::map<std::tstring, double> const &m)
+double xmem::DumpMapValue(std::map<std::tstring, double> const &m)
 {
 	std::map<std::tstring, double>::const_iterator itr = m.begin();
 	if (itr != m.end())

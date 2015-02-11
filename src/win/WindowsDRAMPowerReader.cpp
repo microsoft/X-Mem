@@ -81,7 +81,7 @@ void WindowsDRAMPowerReader::run() {
 				try {
 					std::map<std::tstring, double> querydata;
 					querydata = __pdhQuery->CollectQueryData();
-					result = common::win::third_party::DumpMapValue(querydata);
+					result = DumpMapValue(querydata);
 				}
 				catch (CPdhQuery::CException const &e) {
 					//tcout << e.What() << std::endl;
