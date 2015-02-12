@@ -2,4 +2,4 @@
 # Author: Mark Gottscho <mgottscho@ucla.edu>
 
 SConscript('SConscript_win', variant_dir = 'build/win/release', duplicate = 0, exports = {'MODE':'release'})
-SConscript('SConscript_win', variant_dir = 'build/win/debug', duplicate = 0, exports = {'MODE':'debug'})
+#SConscript('SConscript_win', variant_dir = 'build/win/debug', duplicate = 0, exports = {'MODE':'debug'})

@@ -351,7 +351,7 @@ bool LatencyBenchmark::_run_core() {
 		uint64_t load_total_adjusted_ticks = 0;
 		uint64_t load_total_elapsed_dummy_ticks = 0;
 		uint64_t load_bytes_per_pass = 0;
-		uint64_t load_avg_adjusted_ticks = 0;
+		double load_avg_adjusted_ticks = 0;
 		for (uint32_t t = 1; t < _num_worker_threads; t++) {
 			load_total_passes += workers[t]->getPasses();
 			load_total_adjusted_ticks += workers[t]->getAdjustedTicks();
@@ -361,16 +361,16 @@ bool LatencyBenchmark::_run_core() {
 		}
 
 		//Compute load metrics for this iteration
-		load_avg_adjusted_ticks = load_total_adjusted_ticks / (_num_worker_threads-1);
+		load_avg_adjusted_ticks = static_cast<double>(load_total_adjusted_ticks) / (_num_worker_threads-1);
 		if (_num_worker_threads > 1)
-			__loadMetricOnIter[i] = ((static_cast<double>(load_total_passes) * static_cast<double>(load_bytes_per_pass)) / static_cast<double>(MB))   /   ((static_cast<double>(load_avg_adjusted_ticks) * helper_timer.get_ns_per_tick()) / 1e9);
+			__loadMetricOnIter[i] = (((static_cast<double>(load_total_passes) * static_cast<double>(load_bytes_per_pass)) / static_cast<double>(MB)))   /  ((load_avg_adjusted_ticks * helper_timer.get_ns_per_tick()) / 1e9);
 
 		if (iter_warning)
 			_warning = true;
 	
 		if (g_verbose) { //Report metrics for this iteration
 			//Latency thread
-			std::cout << "Iter " << i+1 << " had " << lat_passes << " passes, with " << lat_accesses_per_pass << " accesses per pass:";
+			std::cout << "Iter " << i+1 << " had " << lat_passes << " latency measurement passes, with " << lat_accesses_per_pass << " accesses per pass:";
 			if (iter_warning) std::cout << " -- WARNING";
 			std::cout << std::endl;
 
@@ -387,17 +387,23 @@ bool LatencyBenchmark::_run_core() {
 			std::cout << std::endl;
 
 			//Load threads
-			std::cout << "...load clock ticks == " << load_total_adjusted_ticks << " (adjusted by -" << load_total_elapsed_dummy_ticks << ")";
-			if (iter_warning) std::cout << " -- WARNING";
-			std::cout << std::endl;
+			if (_num_worker_threads > 1) {
+				std::cout << "Iter " << i+1 << " had " << load_total_passes << " total load generation passes, with " << load_bytes_per_pass << " bytes per pass:";
+				if (iter_warning) std::cout << " -- WARNING";
+				std::cout << std::endl;
 
-			std::cout << "...load ns == " << load_total_adjusted_ticks * helper_timer.get_ns_per_tick() << " (adjusted by -" << load_total_elapsed_dummy_ticks * helper_timer.get_ns_per_tick() << ")";
-			if (iter_warning) std::cout << " -- WARNING";
-			std::cout << std::endl;
+				std::cout << "...load total clock ticks across " << _num_worker_threads-1 << " threads == " << load_total_adjusted_ticks << " (adjusted by -" << load_total_elapsed_dummy_ticks << ")";
+				if (iter_warning) std::cout << " -- WARNING";
+				std::cout << std::endl;
 
-			std::cout << "...load sec == " << load_total_adjusted_ticks * helper_timer.get_ns_per_tick() / 1e9 << " (adjusted by -" << load_total_elapsed_dummy_ticks * helper_timer.get_ns_per_tick() / 1e9 << ")";
-			if (iter_warning) std::cout << " -- WARNING";
-			std::cout << std::endl;
+				std::cout << "...load total ns across " << _num_worker_threads-1 << " threads == " << load_total_adjusted_ticks * helper_timer.get_ns_per_tick() << " (adjusted by -" << load_total_elapsed_dummy_ticks * helper_timer.get_ns_per_tick() << ")";
+				if (iter_warning) std::cout << " -- WARNING";
+				std::cout << std::endl;
+
+				std::cout << "...load total sec across " << _num_worker_threads-1 << " threads == " << load_total_adjusted_ticks * helper_timer.get_ns_per_tick() / 1e9 << " (adjusted by -" << load_total_elapsed_dummy_ticks * helper_timer.get_ns_per_tick() / 1e9 << ")";
+				if (iter_warning) std::cout << " -- WARNING";
+				std::cout << std::endl;
+			}
 
 		}
 		

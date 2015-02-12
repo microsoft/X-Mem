@@ -43,6 +43,7 @@
 #include <iostream>
 #include <random>
 #include <algorithm>
+#include <time.h>
 #ifdef __gnu_linux__
 #include <immintrin.h> //for Intel AVX intrinsics
 #endif
