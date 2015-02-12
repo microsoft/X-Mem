@@ -45,7 +45,7 @@
 
 namespace xmem {
 
-#define VERSION "1.4.3"
+#define VERSION "2.0"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -194,10 +194,6 @@ namespace xmem {
 #define USE_PASSES_CURVE_2 /**< RECOMMENDED ENABLED. The passes per iteration of a benchmark will be given by y = 4*2097152 / working_set_size_KB^2 */
 #endif //DO NOT COMMENT THIS OUT
 
-//Address randomization method for random-access kernels.
-#define RANDOM_CONSTRUCT_WITH_SHUFFLE /**< RECOMMENDED ENABLED. In random-access kernels, generate a pointer chasing pattern using a random shuffle, which has a chance of creating small cycles. Much faster to run but strictly less correct. O(N) */
-//#define RANDOM_CONSTRUCT_WITH_HAMILTONIAN_CYCLE /**< RECOMMENDED DISABLED. In random-access kernels, generate a pointer chasing pattern using a random directed Hamiltonian Cycle. Slow to compute as it is O(N^2), but strictly more correct than RANDOM_CONSTRUCT_WITH_SHUFFLE. */
-
 #define POWER_SAMPLING_PERIOD_SEC 1 /**< RECOMMENDED VALUE: 1. Sampling period in seconds for all power measurement mechanisms. */
 /***********************************************************************************************************/
 /***********************************************************************************************************/
@@ -246,14 +242,6 @@ namespace xmem {
 #if (defined(USE_PASSES_CURVE_1) && defined(USE_PASSES_CURVE_2)) || (!defined(USE_PASSES_CURVE_1) && !defined(USE_PASSES_CURVE_2))
 #error Exactly one passes curve must be defined.
 #endif
-#endif
-
-#if !defined(RANDOM_CONSTRUCT_WITH_SHUFFLE) && !defined(RANDOM_CONSTRUCT_WITH_HAMILTONIAN_CYCLE)
-#error One construction method for random-access kernels compile-time option must be selected!
-#endif
-
-#if defined(RANDOM_CONSTRUCT_WITH_SHUFFLE) && defined(RANDOM_CONSTRUCT_WITH_HAMILTONIAN_CYCLE)
-#error Only one construction method for random-access kernels compile-time option may be selected!
 #endif
 
 #if !defined(POWER_SAMPLING_PERIOD_SEC) || POWER_SAMPLING_PERIOD_SEC <= 0

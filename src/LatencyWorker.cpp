@@ -24,11 +24,11 @@
 /**
  * @file
  * 
- * @brief Implementation file for the LoadWorker class.
+ * @brief Implementation file for the LatencyWorker class.
  */
 
 //Headers
-#include <LoadWorker.h>
+#include <LatencyWorker.h>
 #include <benchmark_kernels.h>
 #include <common.h>
 #include <Timer.h>
@@ -47,33 +47,7 @@
 
 using namespace xmem;
 
-LoadWorker::LoadWorker(
-		void* mem_array,
-		size_t len,
-#ifdef USE_SIZE_BASED_BENCHMARKS
-		uint64_t passes_per_iteration,
-#endif
-		SequentialFunction kernel_fptr,
-		SequentialFunction kernel_dummy_fptr,
-		int32_t cpu_affinity
-	) :
-		MemoryWorker(
-			mem_array,
-			len,
-#ifdef USE_SIZE_BASED_BENCHMARKS
-			passes_per_iteration,
-#endif
-			cpu_affinity
-		),
-		__use_sequential_kernel_fptr(true),
-		__kernel_fptr_seq(kernel_fptr),
-		__kernel_dummy_fptr_seq(kernel_dummy_fptr),
-		__kernel_fptr_ran(NULL),
-		__kernel_dummy_fptr_ran(NULL)
-	{
-}
-
-LoadWorker::LoadWorker(
+LatencyWorker::LatencyWorker(
 		void* mem_array,
 		size_t len,
 	#ifdef USE_SIZE_BASED_BENCHMARKS
@@ -91,45 +65,35 @@ LoadWorker::LoadWorker(
 #endif
 			cpu_affinity
 		),
-		__use_sequential_kernel_fptr(false),
-		__kernel_fptr_seq(NULL),
-		__kernel_dummy_fptr_seq(NULL),
-		__kernel_fptr_ran(kernel_fptr),
-		__kernel_dummy_fptr_ran(kernel_fptr)
+		__kernel_fptr(kernel_fptr),
+		__kernel_dummy_fptr(kernel_dummy_fptr)
 	{
 }
 
-LoadWorker::~LoadWorker() {
+LatencyWorker::~LatencyWorker() {
 }
 
-void LoadWorker::run() {
+void LatencyWorker::run() {
 	//Set up relevant state -- localized to this thread's stack
 	int32_t cpu_affinity = 0;
-	bool use_sequential_kernel_fptr = false;
-	SequentialFunction kernel_fptr_seq = NULL;
-	SequentialFunction kernel_dummy_fptr_seq = NULL;
-	RandomFunction kernel_fptr_ran = NULL;
-	RandomFunction kernel_dummy_fptr_ran = NULL;
-	void* start_address = NULL;
-	void* end_address = NULL;
-	void* prime_start_address = NULL;
-	void* prime_end_address = NULL;
-	uint64_t bytes_per_pass = 0;
+	RandomFunction kernel_fptr = NULL;
+	RandomFunction kernel_dummy_fptr = NULL;
+	uintptr_t* next_address = NULL;
+	uint64_t bytes_per_pass = 0; 
 	uint64_t passes = 0;
+	uint64_t p = 0;
 	uint64_t start_tick = 0;
 	uint64_t stop_tick = 0;
 	uint64_t elapsed_ticks = 0;
 	uint64_t elapsed_dummy_ticks = 0;
 	uint64_t adjusted_ticks = 0;
 	bool warning = false;
-
+		
 #ifdef USE_TIME_BASED_BENCHMARKS
 	void* mem_array = NULL;
 	size_t len = 0;
 	Timer helper_timer;
 	uint64_t target_ticks = helper_timer.get_ticks_per_sec() * BENCHMARK_DURATION_SEC; //Rough target run duration in seconds 
-	uint64_t p = 0;
-	bytes_per_pass = THROUGHPUT_BENCHMARK_BYTES_PER_PASS;
 #endif
 	
 	//Grab relevant setup state thread-safely and keep it local
@@ -139,19 +103,12 @@ void LoadWorker::run() {
 		len = _len;
 #endif
 #ifdef USE_SIZE_BASED_BENCHMARKS
-		bytes_per_pass = _len;
 		passes = _passes_per_iteration;
 #endif
+		bytes_per_pass = LATENCY_BENCHMARK_UNROLL_LENGTH * 8;
 		cpu_affinity = _cpu_affinity;
-		use_sequential_kernel_fptr = __use_sequential_kernel_fptr;
-		kernel_fptr_seq = __kernel_fptr_seq;
-		kernel_dummy_fptr_seq = __kernel_dummy_fptr_seq;
-		kernel_fptr_ran = __kernel_fptr_ran;
-		kernel_dummy_fptr_ran = __kernel_dummy_fptr_ran;
-		start_address = _mem_array;
-		end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array)+bytes_per_pass);
-		prime_start_address = _mem_array; 
-		prime_end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + _len);
+		kernel_fptr = __kernel_fptr;
+		kernel_dummy_fptr = __kernel_dummy_fptr;
 		_releaseLock();
 	}
 	
@@ -173,79 +130,57 @@ void LoadWorker::run() {
 
 	//Prime memory
 	for (uint64_t i = 0; i < 4; i++) {
+		void* prime_start_address = mem_array; 
+		void* prime_end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array) + len);
 		forwSequentialRead_Word64(prime_start_address, prime_end_address); //dependent reads on the memory, make sure caches are ready, coherence, etc...
 	}
 
-	//Run the benchmark!
-	uintptr_t* next_address = static_cast<uintptr_t*>(mem_array);
+	//Run benchmark
 #ifdef USE_TIME_BASED_BENCHMARKS
 	//Run actual version of function and loop overhead
+	next_address = static_cast<uintptr_t*>(mem_array); 
 	while (elapsed_ticks < target_ticks) {
 		start_tick = start_timer();
-		if (use_sequential_kernel_fptr) { //sequential function semantics
-			UNROLL1024(
-				(*kernel_fptr_seq)(start_address, end_address);
-				start_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array)+(reinterpret_cast<uint64_t>(start_address)+bytes_per_pass) % len);
-				end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(start_address) + bytes_per_pass);
-			)
-		} else { //random function semantics
-			UNROLL256((*kernel_fptr_ran)(next_address, &next_address, 0);)
-		}
+		UNROLL256((*kernel_fptr)(next_address, &next_address, 0);)
 		stop_tick = stop_timer();
 		elapsed_ticks += (stop_tick - start_tick);
-		passes+=1024;
+		passes+=256;
 	}
 
 	//Run dummy version of function and loop overhead
-	p = 0;
-	start_address = mem_array;
-	end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array) + bytes_per_pass);
-	next_address = static_cast<uintptr_t*>(mem_array);
+	next_address = static_cast<uintptr_t*>(mem_array); 
 	while (p < passes) {
 		start_tick = start_timer();
-		if (use_sequential_kernel_fptr) { //sequential function semantics
-			UNROLL1024(
-				(*kernel_dummy_fptr_seq)(start_address, end_address);
-				start_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array)+(reinterpret_cast<uint64_t>(start_address)+bytes_per_pass) % len);
-				end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(start_address) + bytes_per_pass);
-			)
-		} else { //random function semantics
-			UNROLL256((*kernel_dummy_fptr_ran)(next_address, &next_address, 0);)
-		}
-
+		UNROLL256((*kernel_dummy_fptr)(next_address, &next_address, 0);)
 		stop_tick = stop_timer();
 		elapsed_dummy_ticks += (stop_tick - start_tick);
-		p+=1024;
+		p+=256;
 	}
-
 #endif
 
 #ifdef USE_SIZE_BASED_BENCHMARKS
-	next_address = static_cast<uintptr_t*>(mem_array);
+	//Time actual version of function and loop overhead
+	next_address = static_cast<uintptr_t*>(mem_array); 
 	start_tick = start_timer();
-	if (use_sequential_kernel_fptr) { //sequential function semantics
-		for (uint64_t p = 0; p < __passes_per_iteration; p++)
-			(*kernel_fptr_seq)(start_address, end_address);
-	} else { //random function semantics
-		for (uint64_t p = 0; p < __passes_per_iteration; p++)
-			(*kernel_fptr_ran)(next_address, &next_address, 0);
-	}
+	for (p = 0; p < passes; p++)
+		(*kernel_fptr)(next_address, &next_address, len);
 	stop_tick = stop_timer();
-	elapsed_ticks = stop_tick - start_tick;
+	elapsed_ticks += (start_tick - stop_tick);
 
 	//Time dummy version of function and loop overhead
-	next_address = static_cast<uintptr_t*>(mem_array);
+	next_address = static_cast<uintptr_t*>(_mem_array); 
 	start_tick = start_timer();
-	if (use_sequential_kernel_fptr) { //sequential function semantics
-		for (uint64_t p = 0; p < __passes_per_iteration; p++)
-			(*kernel_dummy_fptr_seq)(start_address, end_address);
-	} else { //random function semantics
-		for (uint64_t p = 0; p < __passes_per_iteration; p++)
-			(*kernel_dummy_fptr_ran)(next_address, &next_address, 0);
-	}
+	for (p = 0; p < passes; p++)
+		(*kernel_dummy_fptr)(next_address, &next_address, len);
 	stop_tick = stop_timer();
-	elapsed_dummy_ticks = stop_tick - start_tick;
+	elapsed_dummy_ticks += (start_tick - stop_tick);
 #endif
+
+	adjusted_ticks = elapsed_ticks - elapsed_dummy_ticks;
+	
+	//Warn if something looks fishy
+	if (elapsed_dummy_ticks >= elapsed_ticks || elapsed_ticks < MIN_ELAPSED_TICKS || adjusted_ticks < 0.5 * elapsed_ticks)
+		warning = true;
 
 	//Unset processor affinity
 	if (locked)
@@ -259,12 +194,6 @@ void LoadWorker::run() {
 	if (!revertSchedulingPriority())
 #endif
 		std::cerr << "WARNING: Failed to revert scheduling priority. Perhaps running in Administrator mode would help." << std::endl;
-
-	adjusted_ticks = elapsed_ticks - elapsed_dummy_ticks;
-	
-	//Warn if something looks fishy
-	if (elapsed_dummy_ticks >= elapsed_ticks || elapsed_ticks < MIN_ELAPSED_TICKS || adjusted_ticks < 0.5 * elapsed_ticks)
-		warning = true;
 
 	//Update the object state thread-safely
 	if (_acquireLock(-1)) {

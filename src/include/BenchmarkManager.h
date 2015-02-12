@@ -62,7 +62,7 @@ namespace xmem {
 		~BenchmarkManager();
 
 		/**
-		 * @brief Runs all possible benchmark configurations.
+		 * @brief Runs all benchmark configurations.
 		 * @returns True on success.
 		 */
 		bool runAll();
@@ -87,14 +87,10 @@ namespace xmem {
 		void __setupWorkingSets(size_t working_set_size);
 
 		/**
-		 * @brief Constructs and initializes all configured throughput benchmarks.
+		 * @brief Constructs and initializes all configured benchmarks.
+		 * @returns True on success.
 		 */
-		void __buildThroughputBenchmarks();
-
-		/**
-		 * @brief Constructs and initializes all configured latency benchmarks.
-		 */
-		void __buildLatencyBenchmarks();
+		bool __buildBenchmarks();
 
 		Configurator __config;
 
@@ -106,8 +102,7 @@ namespace xmem {
 		std::vector<LatencyBenchmark*> __lat_benchmarks; /**< Set of latency benchmarks. */
 		std::vector<PowerReader*> __dram_power_readers; /**< Set of power measurement objects for DRAM on each NUMA node. */
 		std::fstream __results_file; /**< The results CSV file. */
-		bool __built_throughput_benchmarks; /**< If true, finished building throughput benchmarks. */
-		bool __built_latency_benchmarks; /**< If true, finished building latency benchmarks. */
+		bool __built_benchmarks; /**< If true, finished building all benchmarks. */
 	};
 };
 

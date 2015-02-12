@@ -110,12 +110,12 @@ namespace xmem {
 		/**
 		 * @brief Reports benchmark configuration details to the console.
 		 */
-		void report_benchmark_info() const;
+		virtual void report_benchmark_info() const;
 
 		/**
 		 * @brief Reports results to the console.
 		 */
-		void report_results() const;
+		virtual void report_results() const;
 
 		/**
 		 * @brief Checks to see that the object is in a valid state.
@@ -141,6 +141,12 @@ namespace xmem {
 		 * @returns The average metric.
 		 */
 		double getAverageMetric() const;
+
+		/**
+		 * @brief Gets the units of the metric for this benchmark.
+		 * @returns A string representing the units for printing to console and file.
+		 */
+		std::string getMetricUnits() const;
 
 		/**
 		 * @brief Gets the average DRAM power over the benchmark.

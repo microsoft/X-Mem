@@ -230,6 +230,10 @@ double Benchmark::getAverageMetric() const {
 	else //bad call
 		return -1;
 }
+
+std::string Benchmark::getMetricUnits() const {
+	return _metricUnits;
+}
 			
 double Benchmark::getAverageDRAMPower(uint32_t socket_id) const {
 	if (_average_dram_power_socket.size() > socket_id)
@@ -300,16 +304,16 @@ bool Benchmark::_start_power_threads() {
 		if (_dram_power_readers[i] != NULL)  {
 			_dram_power_readers[i]->clear_and_reset(); //clear the state of the reader
 			mythread = new Thread(_dram_power_readers[i]);
-		}
-		_dram_power_threads.push_back(mythread);
-		if (mythread == NULL) {
-			std::cerr << "WARNING: Failed to allocate a DRAM power measurement thread." << std::endl;
-			success = false;
-		}
-		else {
-			if (!_dram_power_threads[i]->create_and_start()) { //Create and start the power threads
-				std::cerr << "WARNING: Failed to create and start a DRAM power measurement thread." << std::endl;
+			if (mythread == NULL) {
+				std::cerr << "WARNING: Failed to allocate a DRAM power measurement thread." << std::endl;
 				success = false;
+			}
+			else {
+				_dram_power_threads.push_back(mythread);
+				if (!_dram_power_threads[i]->create_and_start()) { //Create and start the power threads
+					std::cerr << "WARNING: Failed to create and start a DRAM power measurement thread." << std::endl;
+					success = false;
+				}
 			}
 		}
 	}
@@ -322,8 +326,8 @@ bool Benchmark::_stop_power_threads() {
 
 	//Indicate end to the power threads politely
 	for (uint32_t i = 0; i < _dram_power_threads.size(); i++) {
-		if (_dram_power_threads[i] != NULL && _dram_power_threads[i]->started()) {
-			if (!_dram_power_readers[i]->stop()) {
+		if (_dram_power_threads[i] != NULL) {
+			if (_dram_power_threads[i]->started() && !_dram_power_readers[i]->stop()) {
 				std::cerr << "WARNING: Failed to indicate end of power measurement to a power measurement object. The corresponding worker thread might not terminate." << std::endl;
 				success = false;
 			}
@@ -332,10 +336,12 @@ bool Benchmark::_stop_power_threads() {
 
 	//Wait for all worker threads to complete now that they were signaled to stop
 	for (uint32_t i = 0; i < _dram_power_threads.size(); i++) {
-		if (_dram_power_threads[i] != NULL && !_dram_power_threads[i]->join()) { //Give 3 seconds maximum to terminate each power thread.
-			std::cerr << "WARNING: A power measurement thread did not complete on time as expected! Forcing the thread to stop." << std::endl;
-			if (!_dram_power_threads[i]->cancel())
-				std::cerr << "WARNING: Failed to force stop a power measurement thread. Its behavior may be unpredictable." << std::endl;
+		if (_dram_power_threads[i] != NULL) {
+			if (!_dram_power_threads[i]->join()) { 
+				std::cerr << "WARNING: A power measurement thread failed to join! Forcing the thread to stop." << std::endl;
+				if (!_dram_power_threads[i]->cancel())
+					std::cerr << "WARNING: Failed to force stop a power measurement thread. Its behavior may be unpredictable." << std::endl;
+			}
 		}
 
 		//Collect power data

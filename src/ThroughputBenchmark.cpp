@@ -115,6 +115,10 @@ bool ThroughputBenchmark::_run_core() {
 
 	//For getting timer frequency info, etc.
 	Timer helper_timer;
+	
+	//Set up some stuff for worker threads
+	std::vector<LoadWorker*> workers;
+	std::vector<Thread*> worker_threads;
 
 	//Start power measurement
 	if (g_verbose) 
@@ -126,47 +130,36 @@ bool ThroughputBenchmark::_run_core() {
 	} else if (g_verbose)
 		std::cout << "done" << std::endl;
 
-	//Set up some stuff for worker threads
-	std::vector<LoadWorker*> workers;
-	std::vector<Thread*> worker_threads;
-
-	//Do a bunch of iterations of the core benchmark routines
+	//Run benchmark
 	if (g_verbose)
 		std::cout << "Running benchmark." << std::endl << std::endl;
 
+	//Do a bunch of iterations of the core benchmark routines
 	for (uint32_t i = 0; i < _iterations; i++) {
 		//Create workers and worker threads
-		workers.reserve(_num_worker_threads);
-		worker_threads.reserve(_num_worker_threads);
 		for (uint32_t t = 0; t < _num_worker_threads; t++) {
 			void* thread_mem_array = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + t * len_per_thread);
 			int32_t cpu_id = cpu_id_in_numa_node(_cpu_node, t);
 			if (cpu_id < 0)
 				std::cerr << "WARNING: Failed to find logical CPU " << t << " in NUMA node " << _cpu_node << std::endl;
 			if (_pattern_mode == SEQUENTIAL)
-				workers.push_back(new LoadWorker(
-									thread_mem_array,
-									len_per_thread,
+				workers.push_back(new LoadWorker(thread_mem_array,
+												 len_per_thread,
 #ifdef USE_SIZE_BASED_BENCHMARKS
-									_passes_per_iteration,
+									   			 _passes_per_iteration,
 #endif
-									kernel_fptr_seq,
-									kernel_dummy_fptr_seq,
-									cpu_id
-									)
-								);
+												 kernel_fptr_seq,
+												 kernel_dummy_fptr_seq,
+												 cpu_id));
 			else if (_pattern_mode == RANDOM)
-				workers.push_back(new LoadWorker(
-									thread_mem_array,
-									len_per_thread,
+				workers.push_back(new LoadWorker(thread_mem_array,
+												 len_per_thread,
 #ifdef USE_SIZE_BASED_BENCHMARKS
-									_passes_per_iteration,
+									   			 _passes_per_iteration,
 #endif
-									kernel_fptr_ran,
-									kernel_dummy_fptr_ran,
-									cpu_id
-									)
-								);
+												 kernel_fptr_ran,
+												 kernel_dummy_fptr_ran,
+												 cpu_id));
 			else
 				std::cerr << "WARNING: Invalid benchmark pattern mode." << std::endl;
 			worker_threads.push_back(new Thread(workers[t]));

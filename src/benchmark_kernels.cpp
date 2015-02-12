@@ -502,7 +502,7 @@ bool xmem::buildRandomPointerPermutation(void* start_address, void* end_address,
 	if (g_verbose)
 		std::cout << "Preparing a memory region under test. This might take a while...";
 
-	size_t length = static_cast<uint8_t*>(end_address) - static_cast<uint8_t*>(start_address); //casts to silence compiler warnings
+	size_t length = reinterpret_cast<uint8_t*>(end_address) - reinterpret_cast<uint8_t*>(start_address); //length of region in bytes
 	size_t num_pointers = 0; //Number of pointers that fit into the memory region of interest
 	switch (chunk_size) {
 		case CHUNK_64b:
@@ -515,15 +515,13 @@ bool xmem::buildRandomPointerPermutation(void* start_address, void* end_address,
 			num_pointers = length / sizeof(Word256_t);
 			break;
 		default:
-			std::cerr << std::endl << "ERROR: Chunk size must be at least 64 bits for random-access kernels. This should not have happened." << std::endl;
+			std::cerr << "ERROR: Chunk size must be at least 64 bits for building a random pointer permutation. This should not have happened." << std::endl;
 			return false;
 	}
 			
-	uintptr_t* mem_region_base = static_cast<uintptr_t*>(start_address); 
-
 	std::mt19937_64 gen(time(NULL)); //Mersenne Twister random number generator, seeded at current time
 	
-#ifdef RANDOM_CONSTRUCT_WITH_HAMILTONIAN_CYCLE
+	/*
 	//Build a random directed Hamiltonian Cycle across the memory region 
 
 	//Let W be the list of memory locations that have not been reached yet. Each entry is an index in mem_base.
@@ -560,15 +558,38 @@ bool xmem::buildRandomPointerPermutation(void* start_address, void* end_address,
 		//Chase this pointer to move to next step
 		v = w;
 	}
-#endif
+	*/
+	
+	//Do a random shuffle of memory pointers
+	Word64_t* mem_region_base = reinterpret_cast<Word64_t*>(start_address);
+	switch (chunk_size) {
+		case CHUNK_64b:
+			for (size_t i = 0; i < num_pointers; i++) { //Initialize pointers to point at themselves (identity mapping)
+				mem_region_base[i] = reinterpret_cast<Word64_t>(mem_region_base+i);
+			}
+			std::shuffle(mem_region_base, mem_region_base + num_pointers, gen);
+			break;
+		case CHUNK_128b:
+			for (size_t i = 0; i < num_pointers; i++) { //Initialize pointers to point at themselves (identity mapping)
+				mem_region_base[i*2] = reinterpret_cast<Word64_t>(mem_region_base+(i*2));
+				mem_region_base[(i*2)+1] = 0xFFFFFFFFFFFFFFFF; //1-fill upper 64 bits
+			}
+			std::shuffle(reinterpret_cast<Word128_t*>(mem_region_base), reinterpret_cast<Word128_t*>(mem_region_base) + num_pointers, gen);
+			break;
+		case CHUNK_256b:
+			for (size_t i = 0; i < num_pointers; i++) { //Initialize pointers to point at themselves (identity mapping)
+				mem_region_base[i*4] = reinterpret_cast<Word64_t>(mem_region_base+(i*4));
+				mem_region_base[(i*4)+1] = 0xFFFFFFFFFFFFFFFF; //1-fill upper 192 bits
+				mem_region_base[(i*4)+2] = 0xFFFFFFFFFFFFFFFF; 
+				mem_region_base[(i*4)+3] = 0xFFFFFFFFFFFFFFFF;
+			}
+			std::shuffle(reinterpret_cast<Word256_t*>(mem_region_base), reinterpret_cast<Word256_t*>(mem_region_base) + num_pointers, gen);
+			break;
+		default:
+			std::cerr << "ERROR: Got an invalid chunk size. This should not have happened." << std::endl;
+			return false;
+	}
 
-#ifdef RANDOM_CONSTRUCT_WITH_SHUFFLE
-	//Do a random shuffle of the indices
-	for (size_t i = 0; i < num_pointers; i++) //Initialize pointers to point at themselves (identity mapping)
-		mem_region_base[i] = reinterpret_cast<uintptr_t>(mem_region_base+static_cast<uintptr_t>(i));
-
-	std::shuffle(mem_region_base, mem_region_base + num_pointers, gen);
-#endif
 	if (g_verbose) {
 		std::cout << "done" << std::endl;
 		std::cout << std::endl;
