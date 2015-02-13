@@ -289,7 +289,7 @@ bool LatencyBenchmark::_run_core() {
 		//Create load workers and load worker threads
 		for (uint32_t t = 0; t < _num_worker_threads; t++) {
 			void* thread_mem_array = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + t*len_per_thread);
-			int32_t cpu_id = cpu_id_in_numa_node(_cpu_node, 0);
+			int32_t cpu_id = cpu_id_in_numa_node(_cpu_node, t);
 			if (cpu_id < 0)
 				std::cerr << "WARNING: Failed to find logical CPU " << t << " in NUMA node " << _cpu_node << std::endl;
 			if (t == 0) { //special case: thread 0 is always latency thread
