@@ -30,6 +30,7 @@
 //Headers
 #include <Benchmark.h>
 #include <common.h>
+#include <benchmark_kernels.h>
 #include <PowerReader.h>
 
 //Libraries
@@ -97,6 +98,11 @@ bool Benchmark::run() {
 
 	print_benchmark_header();
 	report_benchmark_info(); 
+
+	//Write to all of the memory region of interest to make sure
+	//pages are resident in physical memory and are not shared
+	forwSequentialWrite_Word64(_mem_array,
+							   reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + _len));
 
 	bool success = _run_core();
 	if (success) {
