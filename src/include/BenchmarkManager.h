@@ -45,78 +45,64 @@
 #include <fstream>
 
 namespace xmem {
-	namespace benchmark {
+	/**
+	 * @brief Manages running all benchmarks at a high level.
+	 */
+	class BenchmarkManager {
+	public:
 		/**
-		 * @brief Manages running all benchmarks at a high level.
+		 * @brief Constructor.
+		 * @param config The configuration object containing run-time options for this X-Mem execution instance.
 		 */
-		class BenchmarkManager {
-		public:
-			/**
-			 * @brief Constructor.
-			 * @param config The configuration object containing run-time options for this X-Mem execution instance.
-			 */
-			BenchmarkManager(config::Configurator &config);
+		BenchmarkManager(Configurator &config);
 
-			/**
-			 * @brief Destructor.
-			 */
-			~BenchmarkManager();
+		/**
+		 * @brief Destructor.
+		 */
+		~BenchmarkManager();
 
-			/**
-			 * @brief Runs all possible benchmark configurations.
-			 * @returns True on success.
-			 */
-			bool runAll();
+		/**
+		 * @brief Runs all benchmark configurations.
+		 * @returns True on success.
+		 */
+		bool runAll();
 
-			/**
-			 * @brief Runs the throughput benchmarks.
-			 * @returns True on benchmarking success.
-			 */
-			bool runThroughputBenchmarks();
+		/**
+		 * @brief Runs the throughput benchmarks.
+		 * @returns True on benchmarking success.
+		 */
+		bool runThroughputBenchmarks();
 
-			/**
-			 * @brief Runs the latency benchmark.
-			 * @returns True on benchmarking success.
-			 */
-			bool runLatencyBenchmarks();
+		/**
+		 * @brief Runs the latency benchmark.
+		 * @returns True on benchmarking success.
+		 */
+		bool runLatencyBenchmarks();
 
-		private:
-			/**
-			 * @brief Allocates memory for all working sets.
-			 * @param working_set_size Memory size in bytes, per enabled NUMA node.
-			 */
-			void __setupWorkingSets(size_t working_set_size);
+	private:
+		/**
+		 * @brief Allocates memory for all working sets.
+		 * @param working_set_size Memory size in bytes, per enabled NUMA node.
+		 */
+		void __setupWorkingSets(size_t working_set_size);
 
-			/**
-			 * @brief Constructs and initializes all configured throughput benchmarks.
-			 */
-			void __buildThroughputBenchmarks();
+		/**
+		 * @brief Constructs and initializes all configured benchmarks.
+		 * @returns True on success.
+		 */
+		bool __buildBenchmarks();
 
-			/**
-			 * @brief Constructs and initializes all configured latency benchmarks.
-			 */
-			void __buildLatencyBenchmarks();
+		Configurator __config;
 
-			config::Configurator __config;
-
-			uint32_t __num_numa_nodes; /**< Number of NUMA nodes in the system. */
-			uint32_t __benchmark_num_numa_nodes; /**< Number of NUMA nodes to use in benchmarks. */
-			std::vector<void*> __mem_arrays; /**< Memory regions to use in benchmarks. One for each benchmarked NUMA node. */
-			std::vector<size_t> __mem_array_lens; /**< Length of each memory region to use in benchmarks. */
-			std::vector<ThroughputBenchmark*> __tp_benchmarks; /**< Set of throughput benchmarks. */
-			std::vector<LatencyBenchmark*> __lat_benchmarks; /**< Set of latency benchmarks. */
-			std::vector<power::PowerReader*> __dram_power_readers; /**< Set of power measurement objects for DRAM on each NUMA node. */
-
-#if defined(_WIN32) && defined(USE_QPC_TIMER)
-			xmem::timers::win::QPCTimer __timer; /**< Timer object. TODO: Make this cleaner. We can't use these objects in thread safe manner so it isn't used in any multithreaded scenario at the moment. */
-#endif
-#if defined(ARCH_INTEL_X86_64) && defined(USE_TSC_TIMER)
-			xmem::timers::x86_64::TSCTimer __timer; /**< Timer object. TODO: Make this cleaner. We can't use these objects in thread safe manner so it isn't used in any multithreaded scenario at the moment. */
-#endif
-			std::fstream __results_file; /**< The results CSV file. */
-			bool __built_throughput_benchmarks; /**< If true, finished building throughput benchmarks. */
-			bool __built_latency_benchmarks; /**< If true, finished building latency benchmarks. */
-		};
+		uint32_t __num_numa_nodes; /**< Number of NUMA nodes in the system. */
+		uint32_t __benchmark_num_numa_nodes; /**< Number of NUMA nodes to use in benchmarks. */
+		std::vector<void*> __mem_arrays; /**< Memory regions to use in benchmarks. One for each benchmarked NUMA node. */
+		std::vector<size_t> __mem_array_lens; /**< Length of each memory region to use in benchmarks. */
+		std::vector<ThroughputBenchmark*> __tp_benchmarks; /**< Set of throughput benchmarks. */
+		std::vector<LatencyBenchmark*> __lat_benchmarks; /**< Set of latency benchmarks. */
+		std::vector<PowerReader*> __dram_power_readers; /**< Set of power measurement objects for DRAM on each NUMA node. */
+		std::fstream __results_file; /**< The results CSV file. */
+		bool __built_benchmarks; /**< If true, finished building all benchmarks. */
 	};
 };
 

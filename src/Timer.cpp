@@ -27,18 +27,41 @@
  * @brief Implementation file for the Timer class.
  */
 
+//Headers
 #include <Timer.h>
+#include <common.h>
 
-using namespace xmem::timers;
+//Libraries
+#ifdef _WIN32
+#include <windows.h> 
+#endif
+
+#ifdef __gnu_linux__
+#include <time.h>
+#endif
+
+using namespace xmem;
 
 Timer::Timer() :
 	_ticks_per_sec(0),
 	_ns_per_tick(0)
 {	
-}
-
-double Timer::stop_in_ns() {
-	return stop() * _ns_per_tick;
+	uint64_t start_tick;
+	uint64_t stop_tick;
+	
+	start_tick = start_timer();
+#ifdef _WIN32
+	Sleep(1000);
+#endif
+#ifdef __gnu_linux__
+	struct timespec duration, remainder;
+	duration.tv_sec = 1;
+	duration.tv_nsec = 0;
+	nanosleep(&duration, &remainder);
+#endif
+	stop_tick = stop_timer();
+	_ticks_per_sec = stop_tick - start_tick;
+	_ns_per_tick = 1/(static_cast<double>(_ticks_per_sec)) * 1e9;
 }
 
 uint64_t Timer::get_ticks_per_sec() {

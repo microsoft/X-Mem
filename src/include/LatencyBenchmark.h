@@ -39,94 +39,68 @@
 #include <string>
 
 namespace xmem {
-	namespace benchmark {
+
+	/**
+	 * @brief A type of benchmark that measures unloaded memory latency via random pointer chasing.
+	 */
+	class LatencyBenchmark : public Benchmark {
+	public:
+		
 		/**
-		 * @brief A type of benchmark that measures memory latency via random pointer chasing.
-		 * TODO: loaded latency tests
+		 * @brief Constructor. Parameters are passed directly to the Benchmark constructor. See Benchmark class documentation for parameter semantics.
 		 */
-		class LatencyBenchmark : public Benchmark {
-		public:
-			typedef int32_t(*LatencyBenchFunction)(uintptr_t*, uintptr_t**, size_t); //Core benchmark function pointer
-
-			/**
-			 * Constructor.
-			 * @param mem_array a pointer to a contiguous chunk of memory that has been allocated for benchmarking among the worker threads. This should be aligned to a 256-bit boundary and should be the working set size times number of threads large.
-			 * @param len Length of the raw_mem_array in bytes. This should be a multiple of 4 KB pages.
-			 * @param iterations Number of iterations (passes) to do of the complete benchmark.
-			 * @param cpu_node the logical CPU NUMA node to use in the benchmark
-			 * @param mem_node the logical memory NUMA node used in the benchmark
-			 * @param num_worker_threads number of worker threads to use in the benchmark
-			 * @param name name of the benchmark to use when reporting
-			 * @param timer pointer to an existing Timer object
-			 * @param dram_power_readers vector of pointers to PowerReader objects for measuring DRAM power
-			 */
-			LatencyBenchmark(
-				void* mem_array,
-				size_t len,
-				uint32_t iterations,
+		LatencyBenchmark(
+			void* mem_array,
+			size_t len,
+			uint32_t iterations,
 #ifdef USE_SIZE_BASED_BENCHMARKS
-				uint64_t passes_per_iteration,
+			uint64_t passes_per_iteration,
 #endif
-				uint32_t cpu_node,
-				uint32_t mem_node,
-				uint32_t num_worker_threads,
-				std::string name,
-				xmem::timers::Timer *timer,
-				std::vector<xmem::power::PowerReader*> dram_power_readers
-			);
-			
-			/**
-			 * @brief Destructor.
-			 */
-			virtual ~LatencyBenchmark();
+			uint32_t num_worker_threads,
+			uint32_t mem_node,
+			uint32_t cpu_node,
+			pattern_mode_t pattern_mode,
+			rw_mode_t rw_mode,
+			chunk_size_t chunk_size,
+			int64_t stride_size,
+			std::vector<PowerReader*> dram_power_readers,
+			std::string name
+		);
+		
+		/**
+		 * @brief Destructor.
+		 */
+		virtual ~LatencyBenchmark() {}
 
-			/**
-			 * @brief Runs the benchmark.
-			 * @returns True on success.
-			 */
-			virtual bool run();
+		/**
+		 * @brief Get the average load throughput in MB/sec that was imposed on the latency measurement during the given iteration.
+		 * @brief iter The iteration of interest.
+		 * @returns The average throughput in MB/sec.
+		 */
+		double getLoadMetricOnIter(uint32_t iter) const;		
+		
+		/**
+		 * @brief Get the overall average load throughput in MB/sec that was imposed on the latency measurement.
+		 * @returns The average throughput in MB/sec.
+		 */
+		double getAvgLoadMetric() const;		
+		
+		/**
+		 * @brief Reports benchmark configuration details to the console.
+		 */
+		virtual void report_benchmark_info() const;
 
-			/**
-			 * @brief Outputs the benchmark configuration to the console.
-			 */
-			virtual void report_benchmark_info();
+		/**
+		 * @brief Reports results to the console.
+		 */
+		virtual void report_results() const;
 
-			/**
-			 * @brief Outputs a report of the benchmark results to the console if run() returned true.
-			 */
-			virtual void report_results();
+	protected:
+		virtual bool _run_core();
 
-		private:
-			/**
-			 * @brief Primes the whole memory space to be used in the benchmark.
-			 * This is to warm up the caches and make sure the OS has physical pages allocated as well.
-			 * @param passes The number of priming passes to do.
-			 */
-			void __primeMemory(uint64_t passes);
-
-			/**
-			 * @brief The core benchmark method.
-			 * @returns True on success.
-			 */
-			bool __run_core();
-
-			/**
-			 * @brief Constructs a cycle of pointers in the whole memory space, such that each word will be reached exactly once. This is essentially a random linked list.
-			 * For successive iterations, the access pattern is identical.
-			 * @returns True on success.
-			 */
-			bool __buildRandomPointerPermutation();
-
-			/**
-			 * @brief Outputs a report of the benchmark results to the console if they ran.
-			 */
-			void __internal_report_results();
-
-			//////////////////////// VARIABLES //////////////////////////////
-
-			LatencyBenchFunction __bench_fptr; /**< Points to the memory test core routine to use. */
-			LatencyBenchFunction __dummy_fptr; /**< Points to a dummy version of the memory test core routine to use. */
-		};
+	private:
+		std::vector<double> __loadMetricOnIter; /**< Load metrics for each iteration of the benchmark. This is in MB/s. */
+		double __averageLoadMetric; /**< The average load throughput in MB/sec that was imposed on the latency measurement. */	
 	};
 };
 

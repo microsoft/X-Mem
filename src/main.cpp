@@ -45,7 +45,7 @@
 
 using namespace xmem;
 
-void common::print_welcome_message() {
+void xmem::print_welcome_message() {
 	//Greetings!
 	std::cout << "--------------------------------------------------------------------" << std::endl;
 	std::cout << "Extensible Memory Benchmarking Tool (X-Mem) v" << VERSION << " for";
@@ -67,26 +67,26 @@ void common::print_welcome_message() {
  *	@brief The main entry point to the program.
  */
 int main(int argc, char* argv[]) {
-	common::init_globals();
-	common::print_welcome_message();
+	init_globals();
+	print_welcome_message();
 		
 	//Get info about the runtime system
-	if (common::query_sys_info()) {
+	if (query_sys_info()) {
 		std::cerr << "ERROR occurred while querying CPU information." << std::endl;
 		return -1;
 	}
 		
-	config::Configurator config;
+	Configurator config;
 	bool configSuccess = !config.configureFromInput(argc, argv);
 
 	if (configSuccess) {
-		if (common::g_verbose) {
-			common::print_compile_time_options();
-			common::test_thread_affinities();
-			common::test_timers();
+		if (g_verbose) {
+			print_compile_time_options();
+			test_thread_affinities();
+			test_timers();
 		}
 
-		benchmark::BenchmarkManager benchmgr(config);
+		BenchmarkManager benchmgr(config);
 		if (config.throughputTestSelected()) {
 			benchmgr.runThroughputBenchmarks();
 		}

@@ -35,6 +35,7 @@
 #include <cstddef>
 
 #ifdef _WIN32
+#include <windows.h>
 #include <intrin.h>
 #endif
 
@@ -43,9 +44,8 @@
 #endif
 
 namespace xmem {
-	namespace common {
 
-#define VERSION "1.3.5"
+#define VERSION "2.0.2"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -170,15 +170,15 @@ namespace xmem {
 /***********************************************************************************************************/
 /***********************************************************************************************************/
 /*
- *	User-configurable compilation configuration
- *
- *  Feel free to change these as needed. To disable an option, simply comment out its #define statement. To enable an option, ensure it is not commented out.
- *	In some cases, such as chunk size, stride size, etc. for throughput benchmarks, all combinations of the options will be used! This might dramatically increase runtime.
- */
+*	User-configurable compilation configuration
+*
+*  Feel free to change these as needed. To disable an option, simply comment out its #define statement. To enable an option, ensure it is not commented out.
+*	In some cases, such as chunk size, stride size, etc. for throughput benchmarks, all combinations of the options will be used! This might dramatically increase runtime.
+*/
 
 //Which timer to use in the benchmarks. Only one may be selected!
-//#define USE_QPC_TIMER /**< RECOMMENDED ENABLED. WINDOWS ONLY. Use the Windows QueryPerformanceCounter timer API. This is a safe bet as it is more hardware-agnostic and has fewer quirks, but it has lower resolution than the TSC timer. */
-#define USE_TSC_TIMER /**< RECOMMENDED DISABLED. Use the Intel Time Stamp Counter native hardware timer. Only use this if you know what you are doing. */
+//#define USE_QPC_TIMER /**< RECOMMENDED DISABLED. WINDOWS ONLY. Use the Windows QueryPerformanceCounter timer API. This is a safe bet as it is more hardware-agnostic and has fewer quirks, but it has lower resolution than the TSC timer. */
+#define USE_TSC_TIMER /**< RECOMMENDED ENABLED. Use the Intel Time Stamp Counter native hardware timer. Only use this if you know what you are doing. */
 
 //Benchmarking methodology. Only one may be selected!
 #define USE_TIME_BASED_BENCHMARKS /**< RECOMMENDED ENABLED. All benchmarks run for an estimated amount of time, and the figures of merit are computed based on the amount of memory accesses completed in the time limit. This mode has more consistent runtime across different machines, memory performance, and working set sizes, but may have more conservative measurements for differing levels of cache hierarchy (overestimating latency and underestimating throughput). */
@@ -194,10 +194,6 @@ namespace xmem {
 #define USE_PASSES_CURVE_2 /**< RECOMMENDED ENABLED. The passes per iteration of a benchmark will be given by y = 4*2097152 / working_set_size_KB^2 */
 #endif //DO NOT COMMENT THIS OUT
 
-//Latency benchmark pointer chasing construction method
-#define USE_LATENCY_BENCHMARK_RANDOM_SHUFFLE_PATTERN /**< RECOMMENDED ENABLED. In latency benchmarks, generate the pointer chasing pattern using a random shuffle, which has a chance of creating small cycles. Much faster to run but strictly less correct. O(N) */
-//#define USE_LATENCY_BENCHMARK_RANDOM_HAMILTONIAN_CYCLE_PATTERN /**< RECOMMENDED DISABLED. In latency benchmarks, generate the pointer chasing pattern using a random directed Hamiltonian Cycle across the entire memory space under test. Slow to compute as it is O(N^2), but strictly more correct. */
-
 #define POWER_SAMPLING_PERIOD_SEC 1 /**< RECOMMENDED VALUE: 1. Sampling period in seconds for all power measurement mechanisms. */
 /***********************************************************************************************************/
 /***********************************************************************************************************/
@@ -208,6 +204,10 @@ namespace xmem {
 //Compile-time options checks
 #if defined(USE_QPC_TIMER) && !defined(_WIN32)
 #error USE_QPC_TIMER may only be defined for a Windows system!
+#endif 
+
+#if defined(USE_TSC_TIMER) && !defined(ARCH_INTEL_X86_64)
+#error USE_TSC_TIMER may only be defined for an Intel system!
 #endif 
 
 #if !defined(USE_QPC_TIMER) && !defined(USE_TSC_TIMER)
@@ -244,151 +244,190 @@ namespace xmem {
 #endif
 #endif
 
-#if !defined(USE_LATENCY_BENCHMARK_RANDOM_SHUFFLE_PATTERN) && !defined(USE_LATENCY_BENCHMARK_RANDOM_HAMILTONIAN_CYCLE_PATTERN)
-#error One latency benchmark pattern compile-time option must be selected!
-#endif
-
-#if defined(USE_LATENCY_BENCHMARK_RANDOM_SHUFFLE_PATTERN) && defined(USE_LATENCY_BENCHMARK_RANDOM_HAMILTONIAN_CYCLE_PATTERN)
-#error Only one latency benchmark pattern compile-time option must be selected!
-#endif
-
 #if !defined(POWER_SAMPLING_PERIOD_SEC) || POWER_SAMPLING_PERIOD_SEC <= 0
 #error POWER_SAMPLING_PERIOD_SEC must be defined and greater than 0!
 #endif
 
-		extern bool g_verbose;
-		extern size_t g_page_size;
-		extern size_t g_large_page_size;
-		extern uint32_t g_num_nodes;
-		extern uint32_t g_num_logical_cpus;
-		extern uint32_t g_num_physical_packages;
-		extern uint32_t g_starting_test_index;
-		extern uint32_t g_test_index;
+	extern bool g_verbose;
+	extern size_t g_page_size;
+	extern size_t g_large_page_size;
+	extern uint32_t g_num_nodes;
+	extern uint32_t g_num_logical_cpus;
+	extern uint32_t g_num_physical_packages;
+	extern uint32_t g_starting_test_index;
+	extern uint32_t g_test_index;
 
-		//Typedef the platform specific stuff to word sizes to match 4 different chunk options
-		typedef uint32_t Word32_t;
+	//Typedef the platform specific stuff to word sizes to match 4 different chunk options
+	typedef uint32_t Word32_t;
 #ifdef ARCH_INTEL_X86_64
-		typedef uint64_t Word64_t;
+	typedef uint64_t Word64_t;
 #endif
 #ifdef ARCH_INTEL_X86_64_AVX
-		typedef __m128i Word128_t;
-		typedef __m256i Word256_t;
+	typedef __m128i Word128_t;
+	typedef __m256i Word256_t;
 #endif
-		/**
-		 * @brief Memory access patterns are broadly categorized by sequential or random-access.
-		 */
-		typedef enum {
-			SEQUENTIAL,
-			RANDOM,
-			NUM_PATTERN_MODES
-		} pattern_mode_t;
+	/**
+	 * @brief Memory access patterns are broadly categorized by sequential or random-access.
+	 */
+	typedef enum {
+		SEQUENTIAL,
+		RANDOM,
+		NUM_PATTERN_MODES
+	} pattern_mode_t;
 
-		/**
-		 * @brief Memory access batterns are broadly categorized by reads and writes.
-		 */
-		typedef enum {
-			READ,
-			WRITE,
-			NUM_RW_MODES
-		} rw_mode_t;
+	/**
+	 * @brief Memory access batterns are broadly categorized by reads and writes.
+	 */
+	typedef enum {
+		READ,
+		WRITE,
+		NUM_RW_MODES
+	} rw_mode_t;
 
-		/**
-		 * @brief Legal memory read/write chunk sizes in bits.
-		 */
-		typedef enum {
-			CHUNK_32b,
-			CHUNK_64b,
-			CHUNK_128b,
-			CHUNK_256b,
-			NUM_CHUNK_SIZES
-		} chunk_size_t;
+	/**
+	 * @brief Legal memory read/write chunk sizes in bits.
+	 */
+	typedef enum {
+		CHUNK_32b,
+		CHUNK_64b,
+		CHUNK_128b,
+		CHUNK_256b,
+		NUM_CHUNK_SIZES
+	} chunk_size_t;
 
-		/**
-		* @brief Prints a basic welcome message to the console with useful information.
-		*/
-		void print_welcome_message();
+	/**
+	* @brief Prints a basic welcome message to the console with useful information.
+	*/
+	void print_welcome_message();
 
-		/**
-		 * @brief Prints the various C/C++ types to the console for this machine.
-		 */
-		void print_types_report();
+	/**
+	 * @brief Prints the various C/C++ types to the console for this machine.
+	 */
+	void print_types_report();
 
-		/**
-		 * @brief Prints compile-time option information to the console.
-		 */
-		void print_compile_time_options();
+	/**
+	 * @brief Prints compile-time option information to the console.
+	 */
+	void print_compile_time_options();
 
-		/**
-		 * @brief Tests any enabled timers and outputs results to the console for sanity checking.
-		 */
-		void test_timers();
+	/**
+	 * @brief Tests any enabled timers and outputs results to the console for sanity checking.
+	 */
+	void test_timers();
 
-		/**
-		 * @brief Checks to see if the calling thread can be locked to all logical CPUs in the system, and reports to the console the progress.
-		 */
-		void test_thread_affinities();
+	/**
+	 * @brief Checks to see if the calling thread can be locked to all logical CPUs in the system, and reports to the console the progress.
+	 */
+	void test_thread_affinities();
 
-		/**
-		 * @brief Sets the affinity of the calling thread to the lowest numbered logical CPU in the given NUMA node.
-		 * TODO: Improve this functionality, it is quite limiting.
-		 * @param numa_node The NUMA node number to select a CPU from.
-		 * @returns True on success.
-		 */
-		bool lock_thread_to_numa_node(uint32_t numa_node);
+	/**
+	 * @brief Sets the affinity of the calling thread to the lowest numbered logical CPU in the given NUMA node.
+	 * TODO: Improve this functionality, it is quite limiting.
+	 * @param numa_node The NUMA node number to select a CPU from.
+	 * @returns True on success.
+	 */
+	bool lock_thread_to_numa_node(uint32_t numa_node);
 
-		/**
-		 * @brief Clears the affinity of the calling thread to any given NUMA node.
-		 * @returns True on success.
-		 */
-		bool unlock_thread_to_numa_node();
+	/**
+	 * @brief Clears the affinity of the calling thread to any given NUMA node.
+	 * @returns True on success.
+	 */
+	bool unlock_thread_to_numa_node();
 
-		/**
-		 * @brief Sets the affinity of the calling thread to a given logical CPU.
-		 * @param cpu_id The logical CPU identifier to lock the thread to.
-		 * @returns True on success.
-		 */
-		bool lock_thread_to_cpu(uint32_t cpu_id);
+	/**
+	 * @brief Sets the affinity of the calling thread to a given logical CPU.
+	 * @param cpu_id The logical CPU identifier to lock the thread to.
+	 * @returns True on success.
+	 */
+	bool lock_thread_to_cpu(uint32_t cpu_id);
 
-		/**
-		 * @brief Clears the affinity of the calling thread to any given logical CPU.
-		 * @returns True on success.
-		 */
-		bool unlock_thread_to_cpu();
-		
-		/**
-		 * @brief Gets the CPU ID for a logical CPU of interest in a particular NUMA node.
-		 * For example, if numa_node is 1 and cpu_in_node is 2, and there are 4 logical CPUs per node, then this will give the answer 6 (6th CPU), assuming CPU IDs start at 0.
-		 * @param numa_node The NUMA node of interest.
-		 * @param cpu_in_node The Nth logical CPU in the node.
-		 * @returns The Nth logical CPU ID in the specified NUMA node. If none is found, returns -1.
-		 */
-		int32_t cpu_id_in_numa_node(uint32_t numa_node, uint32_t cpu_in_node);
+	/**
+	 * @brief Clears the affinity of the calling thread to any given logical CPU.
+	 * @returns True on success.
+	 */
+	bool unlock_thread_to_cpu();
+	
+	/**
+	 * @brief Gets the CPU ID for a logical CPU of interest in a particular NUMA node.
+	 * For example, if numa_node is 1 and cpu_in_node is 2, and there are 4 logical CPUs per node, then this will give the answer 6 (6th CPU), assuming CPU IDs start at 0.
+	 * @param numa_node The NUMA node of interest.
+	 * @param cpu_in_node The Nth logical CPU in the node.
+	 * @returns The Nth logical CPU ID in the specified NUMA node. If none is found, returns -1.
+	 */
+	int32_t cpu_id_in_numa_node(uint32_t numa_node, uint32_t cpu_in_node);
 
-		/**
-		 * @brief Computes the number of passes to use for a given working set size in KB, when size-based benchmarking mode is enabled at compile-time.
-		 * You may want to change this implementation to suit your needs. See the compile-time options in common.h.
-		 * @param working_set_size_KB The working set size of the memory in KB.
-		 * @returns The number of passes to use.
-		 */
-		size_t compute_number_of_passes(size_t working_set_size_KB);
+	/**
+	 * @brief Computes the number of passes to use for a given working set size in KB, when size-based benchmarking mode is enabled at compile-time.
+	 * You may want to change this implementation to suit your needs. See the compile-time options in common.h.
+	 * @param working_set_size_KB The working set size of the memory in KB.
+	 * @returns The number of passes to use.
+	 */
+	size_t compute_number_of_passes(size_t working_set_size_KB);
 
-		/**
-		 * @brief Queries the page sizes from the system and sets relevant global variables.
-		 * @returns False if the default value has to be used because the appropriate values could not be queried successfully from the OS.
-		 */
-		bool config_page_size();
+	/**
+	 * @brief Queries the page sizes from the system and sets relevant global variables.
+	 * @returns False if the default value has to be used because the appropriate values could not be queried successfully from the OS.
+	 */
+	bool config_page_size();
 
-		/**
-		 * @brief Initializes useful global variables.
-		 */
-		void init_globals();
+	/**
+	 * @brief Initializes useful global variables.
+	 */
+	void init_globals();
 
-		/**
-		 * @brief Sets up global variables based on system information at runtime.
-		 * @returns 0 on success.
-		 */
-		int32_t query_sys_info();
-	};
+	/**
+	 * @brief Sets up global variables based on system information at runtime.
+	 * @returns 0 on success.
+	 */
+	int32_t query_sys_info();
+
+	/**
+	 * @brief Query the timer for the start of a timed section of code.
+	 * @returns The starting tick for some timed section of code using the timer.
+	 */
+	uint64_t start_timer();
+
+	/**
+	 * @brief Query the timer for the end of a timed section of code.
+	 * @returns The ending tick for some timed section of code using the timer.
+	 */
+	uint64_t stop_timer();
+
+#ifdef _WIN32
+	/**
+	 * @brief Increases the scheduling priority of the calling thread.
+	 * @param originalPriorityClass The Windows priority class before priority was increased.
+	 * @param originalPriority The Windows priority before priority was increased.
+	 * @returns True on success.
+	 */
+	bool boostSchedulingPriority(DWORD& originalPriorityClass, DWORD& originalPriority);
+#endif
+
+#ifdef __gnu_linux__
+	/**
+	 * @brief Increases the scheduling priority of the calling thread.
+	 * @returns True on success.
+	 */
+	bool boostSchedulingPriority();
+#endif
+
+#ifdef _WIN32
+	/**
+	 * @brief Reverts the scheduling priority of the calling thread.
+	 * @param originalPriorityClass The Windows priority class before priority was increased.
+	 * @param originalPriority The Windows priority before priority was increased.
+	 * @returns True on success.
+	 */
+	bool revertSchedulingPriority(DWORD originalPriorityClass, DWORD originalPriority);
+#endif
+
+#ifdef __gnu_linux__
+	/**
+	 * @brief Reverts the scheduling priority of the calling thread.
+	 * @returns True on success.
+	 */
+	bool revertSchedulingPriority();
+#endif
 };
 
 #endif

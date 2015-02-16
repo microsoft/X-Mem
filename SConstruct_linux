@@ -2,4 +2,4 @@
 # Author: Mark Gottscho <mgottscho@ucla.edu>
 
 SConscript('SConscript_linux', variant_dir = 'build/linux/release', duplicate = 0, exports = {'MODE':'release'})
-SConscript('SConscript_linux', variant_dir = 'build/linux/debug', duplicate = 0, exports = {'MODE':'debug'})
+#SConscript('SConscript_linux', variant_dir = 'build/linux/debug', duplicate = 0, exports = {'MODE':'debug'})

@@ -42,7 +42,7 @@
 #include <pthread.h>
 #endif
 
-using namespace xmem::thread;
+using namespace xmem;
 
 Thread::Thread(Runnable* target) :
 	__target(target),

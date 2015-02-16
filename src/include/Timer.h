@@ -34,51 +34,33 @@
 #include <cstdint>
 
 namespace xmem {
-	namespace timers {
+	/**
+	 * @brief This class abstracts some characteristics of simple high resolution stopwatch timer.
+	 * However, due to the inability or complexity of abstracting shared hardware timers,
+	 * this class does not actually provide start and stop functions.
+	 */
+	class Timer {
+	public:
 		/**
-		 * @brief This class abstracts a simple high resolution stopwatch timer.
-		 * WARNING: these objects are NOT thread safe.
+		 * @brief Constructor. This may take a noticeable amount of time.
 		 */
-		class Timer {
-		public:
-			/**
-			 * @brief Constructor. This may take a noticeable amount of time.
-			 */
-			Timer();
+		Timer();
 
-			/**
-			 * @brief Starts the timer.
-			 */
-			virtual void start() = 0;
+		/**
+		 * @brief Gets ticks per second for this timer.
+		 * @returns The reported number of ticks per second.
+		 */
+		uint64_t get_ticks_per_sec();
 
-			/**
-			 * @brief Stops the timer.
-			 * @returns Elapsed time since last start() call in ticks.
-			 */
-			virtual uint64_t stop() = 0;
+		/**
+		 * @brief Gets nanoseconds per tick for this timer.
+		 * @returns the number of nanoseconds per tick
+		 */
+		double get_ns_per_tick();
 
-			/**
-			 * @brief Stops the timer.
-			 * @returns Elapsed time since last start() call in nanoseconds.
-			 */
-			double stop_in_ns();
-
-			/**
-			 * @brief Gets ticks per second for this timer.
-			 * @returns The reported number of ticks per second.
-			 */
-			uint64_t get_ticks_per_sec();
-
-			/**
-			 * @brief Gets nanoseconds per tick for this timer.
-			 * @returns the number of nanoseconds per tick
-			 */
-			double get_ns_per_tick();
-
-		protected:
-			uint64_t _ticks_per_sec; /**< Ticks per second for this timer. */
-			double _ns_per_tick; /**< Nanoseconds per tick for this timer. */
-		};
+	protected:
+		uint64_t _ticks_per_sec; /**< Ticks per second for this timer. */
+		double _ns_per_tick; /**< Nanoseconds per tick for this timer. */
 	};
 };
 
