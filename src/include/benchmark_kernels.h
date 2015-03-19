@@ -454,7 +454,7 @@ namespace xmem {
 	 * @brief Used for measuring the time spent doing everything in random Word 64 loops except for the memory access itself.
 	 * TODO update Doxygen comments
 	 */
-	int32_t dummy_randomLoop_Word64(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
+	int32_t dummy_randomLoop_Word64(uintptr_t*, uintptr_t**, size_t len);
 
 	/**
 	 * @brief Used for measuring the time spent doing everything in random Word 128 loops except for the memory access itself.

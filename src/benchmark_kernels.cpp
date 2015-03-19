@@ -1146,19 +1146,70 @@ int32_t xmem::dummy_revStride16Loop_Word256(void* start_address, void* end_addre
 /* ------------ RANDOM LOOP --------------*/
 
 int32_t xmem::dummy_randomLoop_Word32(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
+	//TODO and FIXME: cannot do a true random 32-bit read on 64-bit architectures. there are no 32-bit pointers.
+	//Need to prevent this from being called on 64-bit architectures. Or just remove entirely?
 	return 0;
 }
 
-int32_t xmem::dummy_randomLoop_Word64(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
+int32_t xmem::dummy_randomLoop_Word64(uintptr_t*, uintptr_t**, size_t len) {
+	volatile uintptr_t* placeholder = NULL; //Try to defeat compiler optimizations removing this method
+
+#ifdef USE_SIZE_BASED_BENCHMARKS
+	for (size_t i = 0; i < len / sizeof(uintptr_t); i += 512)
+		placeholder = NULL;
+#endif
+	
 	return 0;
 }
 
 int32_t xmem::dummy_randomLoop_Word128(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
+#ifdef _WIN32
+	return 0; //TODO
+#endif
+#ifdef __gnu_linux__
+	//FIXME: get rid of Intel intrinsics if possible!
+	//FIXME: the compiler doesn't really generate this the way I want with gcc at least. May have to hand-code in assembler.
+	volatile Word128_t* placeholder = reinterpret_cast<Word128_t*>(first_address);
+	register Word128_t val;
+	volatile Word64_t val_extract;
+	val = _mm_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
+
+#ifdef USE_TIME_BASED_BENCHMARKS
+	UNROLL256(val_extract = _mm_extract_epi64(val, 0);) //Extract 64 LSB.
+#endif
+#ifdef USE_SIZE_BASED_BENCHMARKS
+	for (size_t i = 0; i < len / sizeof(Word128_t); i += 256) {
+		UNROLL256(val_extract = _mm_extract_epi64(val, 0);) //Extract 64 LSB.
+	}
+#endif
+
 	return 0;
+#endif
 }
 
 int32_t xmem::dummy_randomLoop_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
+#ifdef _WIN32
+	return 0; //TODO
+#endif
+#ifdef __gnu_linux__
+	//FIXME: get rid of Intel intrinsics if possible!
+	//FIXME: the compiler doesn't really generate this the way I want with gcc at least. May have to hand-code in assembler.
+	volatile Word256_t* placeholder = reinterpret_cast<Word256_t*>(first_address);
+	register Word256_t val;
+	volatile Word64_t val_extract;
+	val = _mm256_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
+
+#ifdef USE_TIME_BASED_BENCHMARKS
+	UNROLL128(val_extract = _mm256_extract_epi64(val, 0);) //Extract 64 LSB.
+#endif
+#ifdef USE_SIZE_BASED_BENCHMARKS
+	for (size_t i = 0; i < len / sizeof(Word256_t); i += 128) {
+		UNROLL128(val_extract = _mm256256_extract_epi64(val, 0);) //Extract 64 LSB.
+	}
+#endif
+
 	return 0;
+#endif
 }
 
 /* -------------------- CORE BENCHMARK ROUTINES -------------------------- 
@@ -2301,7 +2352,6 @@ int32_t xmem::revStride16Write_Word256(void* start_address, void* end_address) {
 	return 0; //TODO
 #endif
 #ifdef __gnu_linux__
-	//FIXME: segfaults?
 	register Word256_t val;
 	val = _mm256_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
 	register uint64_t i = 0;
@@ -2319,35 +2369,140 @@ int32_t xmem::revStride16Write_Word256(void* start_address, void* end_address) {
 /* ------------ RANDOM READ --------------*/
 
 int32_t xmem::randomRead_Word32(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
+	//TODO and FIXME: cannot do a true random 32-bit read on 64-bit architectures. there are no 32-bit pointers.
+	//Need to prevent this from being called on 64-bit architectures. Or just remove entirely?
 	return 0;
 }
 
 int32_t xmem::randomRead_Word64(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
+	volatile uintptr_t* p = first_address;
+
+#ifdef USE_TIME_BASED_BENCHMARKS
+	UNROLL512(p = reinterpret_cast<uintptr_t*>(*p);)
+#endif
+#ifdef USE_SIZE_BASED_BENCHMARKS
+	for (size_t i = 0; i < len / sizeof(uintptr_t); i += 512) {
+		UNROLL512(p = reinterpret_cast<uintptr_t*>(*p);)
+	}
+#endif
+	*last_touched_address = const_cast<uintptr_t*>(p);
 	return 0;
 }
 
 int32_t xmem::randomRead_Word128(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
+#ifdef _WIN32
+	return 0; //TODO
+#endif
+#ifdef __gnu_linux__
+	//FIXME: get rid of Intel intrinsics if possible!
+	volatile Word128_t* p = reinterpret_cast<Word128_t*>(first_address);
+	register Word128_t val;
+
+#ifdef USE_TIME_BASED_BENCHMARKS
+	UNROLL256(val = *p; p = reinterpret_cast<Word128_t*>(_mm_extract_epi64(val, 0));) //Do 128-bit load. Then extract 64 LSB to use as next load address.
+#endif
+#ifdef USE_SIZE_BASED_BENCHMARKS
+	for (size_t i = 0; i < len / sizeof(Word128_t); i += 256) {
+		UNROLL256(val = *p; p = reinterpret_cast<Word128_t*>(_mm_extract_epi64(val, 0));) //Do 128-bit load. Then extract 64 LSB to use as next load address.
+	}
+#endif
+
+	*last_touched_address = reinterpret_cast<uintptr_t*>(const_cast<Word128_t*>(p)); //Trick compiler. First get rid of volatile qualifier, and then reinterpret pointer
 	return 0;
+#endif
 }
 
 int32_t xmem::randomRead_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
+#ifdef _WIN32
+	return 0; //TODO
+#endif
+#ifdef __gnu_linux__
+	//FIXME: get rid of Intel intrinsics if possible!
+	volatile Word256_t* p = reinterpret_cast<Word256_t*>(first_address);
+	register Word256_t val;
+
+#ifdef USE_TIME_BASED_BENCHMARKS
+	UNROLL128(val = *p; p = reinterpret_cast<Word256_t*>(_mm256_extract_epi64(val, 0));) //Do 256-bit load. Then extract 64 LSB to use as next load address.
+#endif
+#ifdef USE_SIZE_BASED_BENCHMARKS
+	for (size_t i = 0; i < len / sizeof(Word256_t); i += 128) {
+		UNROLL128(val = *p; p = reinterpret_cast<Word256_t*>(_mm256_extract_epi64(val, 0));) //Do 256-bit load. Then extract 64 LSB to use as next load address.
+	}
+#endif
+
+	*last_touched_address = reinterpret_cast<uintptr_t*>(const_cast<Word256_t*>(p)); //Trick compiler. First get rid of volatile qualifier, and then reinterpret pointer
 	return 0;
+#endif
 }
 
 /* ------------ RANDOM WRITE --------------*/
 
 int32_t xmem::randomWrite_Word32(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
+	//TODO and FIXME: cannot do a true random 32-bit read on 64-bit architectures. there are no 32-bit pointers.
+	//Need to prevent this from being called on 64-bit architectures. Or just remove entirely?
 	return 0;
 }
 
 int32_t xmem::randomWrite_Word64(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
+	//FIXME: right now the only way I can think of doing this is with a random read, followed by a write-back of the read value to preserve the random addresses. Maybe I should just make all randomWrite functions randomReadWrite or remove entirely.
+	volatile uintptr_t* p = first_address;
+
+#ifdef USE_TIME_BASED_BENCHMARKS
+	UNROLL512(p = reinterpret_cast<uintptr_t*>(*p); *p = reinterpret_cast<uintptr_t>(p);)
+#endif
+#ifdef USE_SIZE_BASED_BENCHMARKS
+	for (size_t i = 0; i < len / sizeof(uintptr_t); i += 512) {
+		UNROLL512(p = reinterpret_cast<uintptr_t*>(*p); *p = reinterpret_cast<uintptr_t>(p);)
+	}
+#endif
+	*last_touched_address = const_cast<uintptr_t*>(p);
 	return 0;
 }
 
 int32_t xmem::randomWrite_Word128(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
+	//FIXME: right now the only way I can think of doing this is with a random read, followed by a write-back of the read value to preserve the random addresses. Maybe I should just make all randomWrite functions randomReadWrite or remove entirely.
+#ifdef _WIN32
+	return 0; //TODO
+#endif
+#ifdef __gnu_linux__
+	//FIXME: get rid of Intel intrinsics if possible!
+	volatile Word128_t* p = reinterpret_cast<Word128_t*>(first_address);
+	register Word128_t val;
+
+#ifdef USE_TIME_BASED_BENCHMARKS
+	UNROLL256(val = *p; *p = val; p = reinterpret_cast<Word128_t*>(_mm_extract_epi64(val, 0));) //Do 128-bit load. Then do 128-bit store. Then extract 64 LSB to use as next load address.
+#endif
+#ifdef USE_SIZE_BASED_BENCHMARKS
+	for (size_t i = 0; i < len / sizeof(Word128_t); i += 256) {
+		UNROLL256(val = *p; *p = val; p = reinterpret_cast<Word128_t*>(_mm_extract_epi64(val, 0));) //Do 128-bit load. Then do 128-bit store. Then extract 64 LSB to use as next load address.
+	}
+#endif
+
+	*last_touched_address = reinterpret_cast<uintptr_t*>(const_cast<Word128_t*>(p)); //Trick compiler. First get rid of volatile qualifier, and then reinterpret pointer
 	return 0;
+#endif
 }
 
 int32_t xmem::randomWrite_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
+	//FIXME: right now the only way I can think of doing this is with a random read, followed by a write-back of the read value to preserve the random addresses. Maybe I should just make all randomWrite functions randomReadWrite or remove entirely.
+#ifdef _WIN32
+	return 0; //TODO
+#endif
+#ifdef __gnu_linux__
+	//FIXME: get rid of Intel intrinsics if possible!
+	volatile Word256_t* p = reinterpret_cast<Word256_t*>(first_address);
+	register Word256_t val;
+
+#ifdef USE_TIME_BASED_BENCHMARKS
+	UNROLL128(val = *p; *p = val; p = reinterpret_cast<Word256_t*>(_mm256_extract_epi64(val, 0));) //Do 256-bit load. Then do 256-bit store. Then extract 64 LSB to use as next load address.
+#endif
+#ifdef USE_SIZE_BASED_BENCHMARKS
+	for (size_t i = 0; i < len / sizeof(Word256_t); i += 128) {
+		UNROLL128(val = *p; *p = val; p = reinterpret_cast<Word256_t*>(_mm256_extract_epi64(val, 0));) //Do 256-bit load. Then do 256-bit store. Then extract 64 LSB to use as next load address.
+	}
+#endif
+
+	*last_touched_address = reinterpret_cast<uintptr_t*>(const_cast<Word256_t*>(p)); //Trick compiler. First get rid of volatile qualifier, and then reinterpret pointer
 	return 0;
+#endif
 }
