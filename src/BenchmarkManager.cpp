@@ -507,7 +507,7 @@ bool BenchmarkManager::__buildBenchmarks() {
 
 							//Special case: number of worker threads is 1, only need 1 latency thread in general to do unloaded latency tests.
 							if (__config.getNumWorkerThreads() > 1 || __lat_benchmarks.size() < 1) {
-								benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index++ << "L (Latency)"))->str();
+								benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index << "L (Latency)"))->str();
 #ifdef USE_SIZE_BASED_BENCHMARKS
 								//Determine number of passes for each benchmark. This is working set size-dependent, to ensure the timed duration of each run is sufficiently long, but not too long.
 								passes_per_iteration = compute_number_of_passes((mem_array_len / __config.getNumWorkerThreads()) / KB) / 4;
@@ -532,6 +532,8 @@ bool BenchmarkManager::__buildBenchmarks() {
 									return false;
 								}
 							}
+
+							g_test_index++;
 						}
 					}
 				}
@@ -574,7 +576,7 @@ bool BenchmarkManager::__buildBenchmarks() {
 						//Add the latency benchmark
 						//Special case: number of worker threads is 1, only need 1 latency thread in general to do unloaded latency tests.
 						if (__config.getNumWorkerThreads() > 1 || __lat_benchmarks.size() < 1) {
-							benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index++ << "L (Latency)"))->str();
+							benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index << "L (Latency)"))->str();
 #ifdef USE_SIZE_BASED_BENCHMARKS
 							//Determine number of passes for each benchmark. This is working set size-dependent, to ensure the timed duration of each run is sufficiently long, but not too long.
 							passes_per_iteration = compute_number_of_passes((mem_array_len / __config.getNumWorkerThreads()) / KB) / 4;
@@ -599,6 +601,8 @@ bool BenchmarkManager::__buildBenchmarks() {
 								return false;
 							}
 						}
+
+						g_test_index++;
 					}
 				}
 			}

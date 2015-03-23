@@ -95,7 +95,7 @@ LoadWorker::LoadWorker(
 		__kernel_fptr_seq(NULL),
 		__kernel_dummy_fptr_seq(NULL),
 		__kernel_fptr_ran(kernel_fptr),
-		__kernel_dummy_fptr_ran(kernel_fptr)
+		__kernel_dummy_fptr_ran(kernel_dummy_fptr)
 	{
 }
 
@@ -192,9 +192,9 @@ void LoadWorker::run() {
 			passes+=1024;
 		} else { //random function semantics
 			start_tick = start_timer();
-			UNROLL256((*kernel_fptr_ran)(next_address, &next_address, bytes_per_pass);)
+			UNROLL1024((*kernel_fptr_ran)(next_address, &next_address, bytes_per_pass);)
 			stop_tick = stop_timer();
-			passes+=256;
+			passes+=1024;
 		}
 		elapsed_ticks += (stop_tick - start_tick);
 	}
@@ -216,9 +216,9 @@ void LoadWorker::run() {
 			p+=1024;
 		} else { //random function semantics
 			start_tick = start_timer();
-			UNROLL256((*kernel_dummy_fptr_ran)(next_address, &next_address, bytes_per_pass);)
+			UNROLL1024((*kernel_dummy_fptr_ran)(next_address, &next_address, bytes_per_pass);)
 			stop_tick = stop_timer();
-			p+=256;
+			p+=1024;
 		}
 
 		elapsed_dummy_ticks += (stop_tick - start_tick);
@@ -271,7 +271,7 @@ void LoadWorker::run() {
 		std::cerr << "WARNING: Failed to revert scheduling priority. Perhaps running in Administrator mode would help." << std::endl;
 
 	adjusted_ticks = elapsed_ticks - elapsed_dummy_ticks;
-	
+
 	//Warn if something looks fishy
 	if (elapsed_dummy_ticks >= elapsed_ticks || elapsed_ticks < MIN_ELAPSED_TICKS || adjusted_ticks < 0.5 * elapsed_ticks)
 		warning = true;

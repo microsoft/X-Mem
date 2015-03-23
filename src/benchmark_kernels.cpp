@@ -2446,13 +2446,14 @@ int32_t xmem::randomWrite_Word32(uintptr_t* first_address, uintptr_t** last_touc
 int32_t xmem::randomWrite_Word64(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 	//FIXME: right now the only way I can think of doing this is with a random read, followed by a write-back of the read value to preserve the random addresses. Maybe I should just make all randomWrite functions randomReadWrite or remove entirely.
 	volatile uintptr_t* p = first_address;
+	volatile uintptr_t* p2 = NULL;
 
 #ifdef USE_TIME_BASED_BENCHMARKS
-	UNROLL512(p = reinterpret_cast<uintptr_t*>(*p); *p = reinterpret_cast<uintptr_t>(p);)
+	UNROLL512(p2 = reinterpret_cast<uintptr_t*>(*p); *p = reinterpret_cast<uintptr_t>(p2); p = p2;)
 #endif
 #ifdef USE_SIZE_BASED_BENCHMARKS
 	for (size_t i = 0; i < len / sizeof(uintptr_t); i += 512) {
-		UNROLL512(p = reinterpret_cast<uintptr_t*>(*p); *p = reinterpret_cast<uintptr_t>(p);)
+		UNROLL512(p2 = reinterpret_cast<uintptr_t*>(*p); *p = reinterpret_cast<uintptr_t>(p2); p = p2;)
 	}
 #endif
 	*last_touched_address = const_cast<uintptr_t*>(p);
