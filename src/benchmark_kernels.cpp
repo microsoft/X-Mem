@@ -448,10 +448,6 @@ bool xmem::determineRandomKernel(rw_mode_t rw_mode, chunk_size_t chunk_size, Ran
 	switch (rw_mode) {
 		case READ:
 			switch (chunk_size) {
-				case CHUNK_32b: 
-					*kernel_function = &randomRead_Word32;
-					*dummy_kernel_function = &dummy_randomLoop_Word32;
-					return true;
 				case CHUNK_64b:
 					*kernel_function = &randomRead_Word64;
 					*dummy_kernel_function = &dummy_randomLoop_Word64;
@@ -471,10 +467,6 @@ bool xmem::determineRandomKernel(rw_mode_t rw_mode, chunk_size_t chunk_size, Ran
 
 		case WRITE:
 			switch (chunk_size) {
-				case CHUNK_32b:
-					*kernel_function = &randomWrite_Word32;
-					*dummy_kernel_function = &dummy_randomLoop_Word32;
-					return true;
 				case CHUNK_64b:
 					*kernel_function = &randomWrite_Word64;
 					*dummy_kernel_function = &dummy_randomLoop_Word64;
@@ -1144,12 +1136,6 @@ int32_t xmem::dummy_revStride16Loop_Word256(void* start_address, void* end_addre
 }
 
 /* ------------ RANDOM LOOP --------------*/
-
-int32_t xmem::dummy_randomLoop_Word32(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
-	//TODO and FIXME: cannot do a true random 32-bit read on 64-bit architectures. there are no 32-bit pointers.
-	//Need to prevent this from being called on 64-bit architectures. Or just remove entirely?
-	return 0;
-}
 
 int32_t xmem::dummy_randomLoop_Word64(uintptr_t*, uintptr_t**, size_t len) {
 	volatile uintptr_t* placeholder = NULL; //Try to defeat compiler optimizations removing this method
@@ -2368,12 +2354,6 @@ int32_t xmem::revStride16Write_Word256(void* start_address, void* end_address) {
 
 /* ------------ RANDOM READ --------------*/
 
-int32_t xmem::randomRead_Word32(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
-	//TODO and FIXME: cannot do a true random 32-bit read on 64-bit architectures. there are no 32-bit pointers.
-	//Need to prevent this from being called on 64-bit architectures. Or just remove entirely?
-	return 0;
-}
-
 int32_t xmem::randomRead_Word64(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 	volatile uintptr_t* p = first_address;
 
@@ -2436,12 +2416,6 @@ int32_t xmem::randomRead_Word256(uintptr_t* first_address, uintptr_t** last_touc
 }
 
 /* ------------ RANDOM WRITE --------------*/
-
-int32_t xmem::randomWrite_Word32(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
-	//TODO and FIXME: cannot do a true random 32-bit read on 64-bit architectures. there are no 32-bit pointers.
-	//Need to prevent this from being called on 64-bit architectures. Or just remove entirely?
-	return 0;
-}
 
 int32_t xmem::randomWrite_Word64(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 	//FIXME: right now the only way I can think of doing this is with a random read, followed by a write-back of the read value to preserve the random addresses. Maybe I should just make all randomWrite functions randomReadWrite or remove entirely.

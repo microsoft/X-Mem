@@ -1,7 +1,7 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: Extensible Memory Benchmarking Tool v2.0.6
+X-Mem: Extensible Memory Benchmarking Tool v2.0.7
 ------------------------------------------------------------------------------------------------------------
 
 The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power. 
