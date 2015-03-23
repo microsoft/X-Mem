@@ -45,7 +45,7 @@
 
 namespace xmem {
 
-#define VERSION "2.0.5"
+#define VERSION "2.0.6"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!

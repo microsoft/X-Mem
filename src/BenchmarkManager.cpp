@@ -546,6 +546,9 @@ bool BenchmarkManager::__buildBenchmarks() {
 
 					for (uint32_t chunk_index = 0; chunk_index < chunks.size(); chunk_index++) { //iterate different chunk sizes
 						chunk_size_t chunk = chunks[chunk_index];
+
+						if (chunk == CHUNK_32b) //Special case: random load workers cannot use 32-bit chunks, so skip this benchmark combination
+							continue;
 						
 						//Add the throughput benchmark
 						benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index << "T (Throughput)"))->str();

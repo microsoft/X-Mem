@@ -399,7 +399,7 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		goto error;
 	}
 	
-	//Make sure at least one access pattern is selected if in throughput mode
+	//Make sure at least one read/write pattern is selected if in throughput mode
 	if (__runThroughput && !__use_reads && !__use_writes) { //This should never be triggered
 		std::cerr << "ERROR: Throughput benchmark was selected, but no read/write pattern was specified!" << std::endl;	
 		goto error;
@@ -413,7 +413,7 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		__use_chunk_64b = true;
 		__use_chunk_128b = true;
 		__use_chunk_256b = true;
-		__use_random_access_pattern = true;
+		__use_random_access_pattern = true; 
 		__use_sequential_access_pattern = true;
 		__use_reads = true;
 		__use_writes = true;
@@ -427,6 +427,11 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		__use_stride_n8 = true;
 		__use_stride_p16 = true;
 		__use_stride_n16 = true;
+	}
+	
+	//Notify that 32-bit chunks are not used on random throughput benchmarks
+	if (__runThroughput && __use_random_access_pattern && __use_chunk_32b) {
+		std::cerr << "NOTE: Random throughput benchmarks do not support 32-bit chunk sizes. These particular combinations will be skipped." << std::endl;
 	}
 
 	//Check for help or bad options
