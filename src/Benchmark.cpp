@@ -174,7 +174,10 @@ void Benchmark::report_benchmark_info() const {
 			std::cout << "read";
 			break;
 		case WRITE:
-			std::cout << "write";
+			if (_pattern_mode == RANDOM) //special case
+				std::cout << "read+write";
+			else
+				std::cout << "write";
 			break;
 		default:
 			std::cout << "UNKNOWN";

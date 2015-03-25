@@ -95,7 +95,7 @@ LoadWorker::LoadWorker(
 		__kernel_fptr_seq(NULL),
 		__kernel_dummy_fptr_seq(NULL),
 		__kernel_fptr_ran(kernel_fptr),
-		__kernel_dummy_fptr_ran(kernel_fptr)
+		__kernel_dummy_fptr_ran(kernel_dummy_fptr)
 	{
 }
 
@@ -181,19 +181,22 @@ void LoadWorker::run() {
 #ifdef USE_TIME_BASED_BENCHMARKS
 	//Run actual version of function and loop overhead
 	while (elapsed_ticks < target_ticks) {
-		start_tick = start_timer();
 		if (use_sequential_kernel_fptr) { //sequential function semantics
+			start_tick = start_timer();
 			UNROLL1024(
 				(*kernel_fptr_seq)(start_address, end_address);
 				start_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array)+(reinterpret_cast<uint64_t>(start_address)+bytes_per_pass) % len);
 				end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(start_address) + bytes_per_pass);
 			)
+			stop_tick = stop_timer();
+			passes+=1024;
 		} else { //random function semantics
-			UNROLL256((*kernel_fptr_ran)(next_address, &next_address, 0);)
+			start_tick = start_timer();
+			UNROLL1024((*kernel_fptr_ran)(next_address, &next_address, bytes_per_pass);)
+			stop_tick = stop_timer();
+			passes+=1024;
 		}
-		stop_tick = stop_timer();
 		elapsed_ticks += (stop_tick - start_tick);
-		passes+=1024;
 	}
 
 	//Run dummy version of function and loop overhead
@@ -202,48 +205,55 @@ void LoadWorker::run() {
 	end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array) + bytes_per_pass);
 	next_address = static_cast<uintptr_t*>(mem_array);
 	while (p < passes) {
-		start_tick = start_timer();
 		if (use_sequential_kernel_fptr) { //sequential function semantics
+			start_tick = start_timer();
 			UNROLL1024(
 				(*kernel_dummy_fptr_seq)(start_address, end_address);
 				start_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array)+(reinterpret_cast<uint64_t>(start_address)+bytes_per_pass) % len);
 				end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(start_address) + bytes_per_pass);
 			)
+			stop_tick = stop_timer();
+			p+=1024;
 		} else { //random function semantics
-			UNROLL256((*kernel_dummy_fptr_ran)(next_address, &next_address, 0);)
+			start_tick = start_timer();
+			UNROLL1024((*kernel_dummy_fptr_ran)(next_address, &next_address, bytes_per_pass);)
+			stop_tick = stop_timer();
+			p+=1024;
 		}
 
-		stop_tick = stop_timer();
 		elapsed_dummy_ticks += (stop_tick - start_tick);
-		p+=1024;
 	}
 
 #endif
 
 #ifdef USE_SIZE_BASED_BENCHMARKS
 	next_address = static_cast<uintptr_t*>(mem_array);
-	start_tick = start_timer();
 	if (use_sequential_kernel_fptr) { //sequential function semantics
+		start_tick = start_timer();
 		for (uint64_t p = 0; p < __passes_per_iteration; p++)
 			(*kernel_fptr_seq)(start_address, end_address);
+		stop_tick = stop_timer();
 	} else { //random function semantics
+		start_tick = start_timer();
 		for (uint64_t p = 0; p < __passes_per_iteration; p++)
-			(*kernel_fptr_ran)(next_address, &next_address, 0);
+			(*kernel_fptr_ran)(next_address, &next_address, bytes_per_pass);
+		stop_tick = stop_timer();
 	}
-	stop_tick = stop_timer();
 	elapsed_ticks = stop_tick - start_tick;
 
 	//Time dummy version of function and loop overhead
 	next_address = static_cast<uintptr_t*>(mem_array);
-	start_tick = start_timer();
 	if (use_sequential_kernel_fptr) { //sequential function semantics
+		start_tick = start_timer();
 		for (uint64_t p = 0; p < __passes_per_iteration; p++)
 			(*kernel_dummy_fptr_seq)(start_address, end_address);
+		stop_tick = stop_timer();
 	} else { //random function semantics
+		start_tick = start_timer();
 		for (uint64_t p = 0; p < __passes_per_iteration; p++)
-			(*kernel_dummy_fptr_ran)(next_address, &next_address, 0);
+			(*kernel_dummy_fptr_ran)(next_address, &next_address, bytes_per_pass);
+		stop_tick = stop_timer();
 	}
-	stop_tick = stop_timer();
 	elapsed_dummy_ticks = stop_tick - start_tick;
 #endif
 
@@ -261,7 +271,7 @@ void LoadWorker::run() {
 		std::cerr << "WARNING: Failed to revert scheduling priority. Perhaps running in Administrator mode would help." << std::endl;
 
 	adjusted_ticks = elapsed_ticks - elapsed_dummy_ticks;
-	
+
 	//Warn if something looks fishy
 	if (elapsed_dummy_ticks >= elapsed_ticks || elapsed_ticks < MIN_ELAPSED_TICKS || adjusted_ticks < 0.5 * elapsed_ticks)
 		warning = true;

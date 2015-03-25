@@ -445,16 +445,10 @@ namespace xmem {
 	/* ------------ RANDOM LOOP --------------*/
 
 	/**
-	 * @brief Used for measuring the time spent doing everything in random Word 32 loops except for the memory access itself.
-	 * TODO update Doxygen comments
-	 */
-	int32_t dummy_randomLoop_Word32(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
-
-	/**
 	 * @brief Used for measuring the time spent doing everything in random Word 64 loops except for the memory access itself.
 	 * TODO update Doxygen comments
 	 */
-	int32_t dummy_randomLoop_Word64(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
+	int32_t dummy_randomLoop_Word64(uintptr_t*, uintptr_t**, size_t len);
 
 	/**
 	 * @brief Used for measuring the time spent doing everything in random Word 128 loops except for the memory access itself.
@@ -1133,12 +1127,6 @@ namespace xmem {
 	/* ------------ RANDOM READ --------------*/
 
 	/**
-	 * @brief Walks over the allocated memory in random order, reading in 32-bit chunks.
-	 * TODO update Doxygen comments
-	 */
-	int32_t randomRead_Word32(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
-
-	/**
 	 * @brief Walks over the allocated memory in random order, reading in 64-bit chunks.
 	 * TODO update Doxygen comments
 	 */
@@ -1157,12 +1145,6 @@ namespace xmem {
 	int32_t randomRead_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 
 	/* ------------ RANDOM WRITE --------------*/
-
-	/**
-	 * @brief Walks over the allocated memory in random order, writing in 32-bit chunks.
-	 * TODO update Doxygen comments
-	 */
-	int32_t randomWrite_Word32(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 
 	/**
 	 * @brief Walks over the allocated memory in random order, writing in 64-bit chunks.
