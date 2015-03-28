@@ -33,6 +33,7 @@
 #include <win/WindowsDRAMPowerReader.h>
 #include <common.h>
 #include <win/win_CPdhQuery.h>
+#include <Timer.h>
 
 //Libraries
 #include <cstdint>
@@ -67,6 +68,7 @@ void WindowsDRAMPowerReader::run() {
 	bool done = false;
 
 	while (!done) {
+		uint64_t start_tick = start_timer();
 		if (_acquireLock(-1)) { //Wait indefinitely for the lock
 			if (_stop_signal) //we're done here, let's wrap up
 				done = true;
@@ -98,7 +100,9 @@ void WindowsDRAMPowerReader::run() {
 			}
 
 			calculateMetrics();
-			Sleep(static_cast<DWORD>(_sampling_period* 1000)); //FIXME: this assumes that the loop duration itself is negligible. This might not always be true. If the duration is non-negligible the sampling period will actually be longer than expected.
+			uint64_t stop_tick = stop_timer();
+			uint64_t elapsed_ticks = stop_tick - start_tick;
+			Sleep(static_cast<DWORD>((_sampling_period - (elapsed_ticks*g_ns_per_tick*1e-9)) * 1000); //Account for any loop overhead
 		}
 	}
 }

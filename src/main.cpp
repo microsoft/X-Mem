@@ -69,21 +69,21 @@ void xmem::print_welcome_message() {
 int main(int argc, char* argv[]) {
 	init_globals();
 	print_welcome_message();
-		
+	
 	//Get info about the runtime system
 	if (query_sys_info()) {
 		std::cerr << "ERROR occurred while querying CPU information." << std::endl;
 		return -1;
 	}
-		
+	
+	//Configure runtime based on user inputs
 	Configurator config;
 	bool configSuccess = !config.configureFromInput(argc, argv);
-
+		
 	if (configSuccess) {
 		if (g_verbose) {
 			print_compile_time_options();
 			test_thread_affinities();
-			test_timers();
 		}
 
 		BenchmarkManager benchmgr(config);

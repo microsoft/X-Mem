@@ -30,7 +30,6 @@
 //Headers
 #include <LatencyBenchmark.h>
 #include <common.h>
-#include <Timer.h>
 #include <benchmark_kernels.h>
 #include <MemoryWorker.h>
 #include <LatencyWorker.h>
@@ -261,9 +260,6 @@ bool LatencyBenchmark::_run_core() {
 		}
 	}
 
-	//For getting timer frequency info, etc.
-	Timer helper_timer;
-
 	//Set up some stuff for worker threads
 	std::vector<MemoryWorker*> workers;
 	std::vector<Thread*> worker_threads;
@@ -363,7 +359,7 @@ bool LatencyBenchmark::_run_core() {
 		//Compute load metrics for this iteration
 		load_avg_adjusted_ticks = static_cast<double>(load_total_adjusted_ticks) / (_num_worker_threads-1);
 		if (_num_worker_threads > 1)
-			__loadMetricOnIter[i] = (((static_cast<double>(load_total_passes) * static_cast<double>(load_bytes_per_pass)) / static_cast<double>(MB)))   /  ((load_avg_adjusted_ticks * helper_timer.get_ns_per_tick()) / 1e9);
+			__loadMetricOnIter[i] = (((static_cast<double>(load_total_passes) * static_cast<double>(load_bytes_per_pass)) / static_cast<double>(MB)))   /  ((load_avg_adjusted_ticks * g_ns_per_tick) / 1e9);
 
 		if (iter_warning)
 			_warning = true;
@@ -378,11 +374,11 @@ bool LatencyBenchmark::_run_core() {
 			if (iter_warning) std::cout << " -- WARNING";
 			std::cout << std::endl;
 
-			std::cout << "...lat ns == " << lat_adjusted_ticks * helper_timer.get_ns_per_tick() << " (adjusted by -" << lat_elapsed_dummy_ticks * helper_timer.get_ns_per_tick() << ")";
+			std::cout << "...lat ns == " << lat_adjusted_ticks * g_ns_per_tick << " (adjusted by -" << lat_elapsed_dummy_ticks * g_ns_per_tick << ")";
 			if (iter_warning) std::cout << " -- WARNING";
 			std::cout << std::endl;
 
-			std::cout << "...lat sec == " << lat_adjusted_ticks * helper_timer.get_ns_per_tick() / 1e9 << " (adjusted by -" << lat_elapsed_dummy_ticks * helper_timer.get_ns_per_tick() / 1e9 << ")";
+			std::cout << "...lat sec == " << lat_adjusted_ticks * g_ns_per_tick / 1e9 << " (adjusted by -" << lat_elapsed_dummy_ticks * g_ns_per_tick / 1e9 << ")";
 			if (iter_warning) std::cout << " -- WARNING";
 			std::cout << std::endl;
 
@@ -396,11 +392,11 @@ bool LatencyBenchmark::_run_core() {
 				if (iter_warning) std::cout << " -- WARNING";
 				std::cout << std::endl;
 
-				std::cout << "...load total ns across " << _num_worker_threads-1 << " threads == " << load_total_adjusted_ticks * helper_timer.get_ns_per_tick() << " (adjusted by -" << load_total_elapsed_dummy_ticks * helper_timer.get_ns_per_tick() << ")";
+				std::cout << "...load total ns across " << _num_worker_threads-1 << " threads == " << load_total_adjusted_ticks * g_ns_per_tick << " (adjusted by -" << load_total_elapsed_dummy_ticks * g_ns_per_tick << ")";
 				if (iter_warning) std::cout << " -- WARNING";
 				std::cout << std::endl;
 
-				std::cout << "...load total sec across " << _num_worker_threads-1 << " threads == " << load_total_adjusted_ticks * helper_timer.get_ns_per_tick() / 1e9 << " (adjusted by -" << load_total_elapsed_dummy_ticks * helper_timer.get_ns_per_tick() / 1e9 << ")";
+				std::cout << "...load total sec across " << _num_worker_threads-1 << " threads == " << load_total_adjusted_ticks * g_ns_per_tick / 1e9 << " (adjusted by -" << load_total_elapsed_dummy_ticks * g_ns_per_tick / 1e9 << ")";
 				if (iter_warning) std::cout << " -- WARNING";
 				std::cout << std::endl;
 			}
@@ -408,7 +404,7 @@ bool LatencyBenchmark::_run_core() {
 		}
 		
 		//Compute overall metrics for this iteration
-		_metricOnIter[i] = static_cast<double>(lat_adjusted_ticks * helper_timer.get_ns_per_tick())  /  static_cast<double>(lat_accesses_per_pass * lat_passes);
+		_metricOnIter[i] = static_cast<double>(lat_adjusted_ticks * g_ns_per_tick)  /  static_cast<double>(lat_accesses_per_pass * lat_passes);
 		_averageMetric += _metricOnIter[i];
 		__averageLoadMetric += __loadMetricOnIter[i];
 		

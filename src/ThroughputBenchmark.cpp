@@ -32,7 +32,6 @@
 #include <common.h>
 #include <LoadWorker.h>
 #include <Thread.h>
-#include <Timer.h>
 
 //Libraries
 #include <iostream>
@@ -113,9 +112,6 @@ bool ThroughputBenchmark::_run_core() {
 		return false;
 	}
 
-	//For getting timer frequency info, etc.
-	Timer helper_timer;
-	
 	//Set up some stuff for worker threads
 	std::vector<LoadWorker*> workers;
 	std::vector<Thread*> worker_threads;
@@ -202,17 +198,17 @@ bool ThroughputBenchmark::_run_core() {
 			if (iter_warning) std::cout << " -- WARNING";
 			std::cout << std::endl;
 			
-			std::cout << "...ns in total across " << _num_worker_threads << " threads == " << total_adjusted_ticks * helper_timer.get_ns_per_tick() << " (adjusted by -" << total_elapsed_dummy_ticks * helper_timer.get_ns_per_tick() << ")";
+			std::cout << "...ns in total across " << _num_worker_threads << " threads == " << total_adjusted_ticks * g_ns_per_tick << " (adjusted by -" << total_elapsed_dummy_ticks * g_ns_per_tick << ")";
 			if (iter_warning) std::cout << " -- WARNING";
 			std::cout << std::endl;
 
-			std::cout << "...sec in total across " << _num_worker_threads << " threads == " << total_adjusted_ticks * helper_timer.get_ns_per_tick() / 1e9 << " (adjusted by -" << total_elapsed_dummy_ticks * helper_timer.get_ns_per_tick() / 1e9 << ")";
+			std::cout << "...sec in total across " << _num_worker_threads << " threads == " << total_adjusted_ticks * g_ns_per_tick / 1e9 << " (adjusted by -" << total_elapsed_dummy_ticks * g_ns_per_tick / 1e9 << ")";
 			if (iter_warning) std::cout << " -- WARNING";
 			std::cout << std::endl;
 		}
 		
 		//Compute metric for this iteration
-		_metricOnIter[i] = ((static_cast<double>(total_passes) * static_cast<double>(bytes_per_pass)) / static_cast<double>(MB))   /   ((static_cast<double>(avg_adjusted_ticks) * helper_timer.get_ns_per_tick()) / 1e9);
+		_metricOnIter[i] = ((static_cast<double>(total_passes) * static_cast<double>(bytes_per_pass)) / static_cast<double>(MB))   /   ((static_cast<double>(avg_adjusted_ticks) * g_ns_per_tick) / 1e9);
 		_averageMetric += _metricOnIter[i];
 
 

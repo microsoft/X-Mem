@@ -31,7 +31,6 @@
 #include <LatencyWorker.h>
 #include <benchmark_kernels.h>
 #include <common.h>
-#include <Timer.h>
 
 //Libraries
 #include <iostream>
@@ -92,8 +91,7 @@ void LatencyWorker::run() {
 #ifdef USE_TIME_BASED_BENCHMARKS
 	void* mem_array = NULL;
 	size_t len = 0;
-	Timer helper_timer;
-	uint64_t target_ticks = helper_timer.get_ticks_per_sec() * BENCHMARK_DURATION_SEC; //Rough target run duration in seconds 
+	uint64_t target_ticks = g_ticks_per_sec * BENCHMARK_DURATION_SEC; //Rough target run duration in seconds 
 #endif
 	
 	//Grab relevant setup state thread-safely and keep it local

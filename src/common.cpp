@@ -69,6 +69,9 @@ namespace xmem {
 	uint32_t g_total_l4_caches; /**< Total number of L4 caches in the system. */
 	uint32_t g_starting_test_index; /**< Numeric identifier for the first benchmark test. */
 	uint32_t g_test_index; /**< Numeric identifier for the current benchmark test. */
+
+	uint64_t g_ticks_per_sec; /**< Timer ticks per second. */
+	double g_ns_per_tick; /**< Nanoseconds per timer tick. */
 };
 
 using namespace xmem;
@@ -173,9 +176,13 @@ void xmem::print_compile_time_options() {
 
 void xmem::test_timers() {
 	std::cout << std::endl << "Testing timers..." << std::endl;
+
 	Timer timer;
-	std::cout << "Calculated timer frequency: " << timer.get_ticks_per_sec() << " Hz == " << (double)(timer.get_ticks_per_sec()) / (1e6) << " MHz" << std::endl;
-	std::cout << "Derived timer ns per tick: " << timer.get_ns_per_tick() << std::endl;
+	g_ticks_per_sec = timer.get_ticks_per_sec();
+	g_ns_per_tick = timer.get_ns_per_tick();
+
+	std::cout << "Calculated timer frequency: " << g_ticks_per_sec << " Hz == " << (double)(g_ticks_per_sec) / (1e6) << " MHz" << std::endl;
+	std::cout << "Derived timer ns per tick: " << g_ns_per_tick << std::endl;
 	std::cout << std::endl;
 }
 	
@@ -330,12 +337,13 @@ void xmem::init_globals() {
 	g_total_l4_caches = DEFAULT_NUM_L4_CACHES;
 	g_page_size = DEFAULT_PAGE_SIZE;
 	g_large_page_size = DEFAULT_LARGE_PAGE_SIZE; 
+
+	g_ticks_per_sec = 0;
+	g_ns_per_tick = 0;
 }
 
 int32_t xmem::query_sys_info() {
-	if (g_verbose) {
-		std::cout << "Querying system information...";
-	}
+	std::cout << "Querying system information...";
 
 	//Windows only: get logical processor information data structures from OS
 #ifdef _WIN32
@@ -383,7 +391,7 @@ int32_t xmem::query_sys_info() {
 	std::vector<uint32_t> phys_package_ids;
 	uint32_t id = 0;
 	while (!in.eof()) {
-		in.getline(line, 512, '\n'); //FIXME: buffer overflow risk.
+		in.getline(line, 512, '\n'); 
 		std::string line_string(line);
 		if (line_string.find("physical id") != std::string::npos) {
 			sscanf(line, "physical id\t\t\t: %u", &id);
@@ -429,7 +437,7 @@ int32_t xmem::query_sys_info() {
 	std::vector<uint32_t> core_ids;
 	in.open("/proc/cpuinfo");
 	while (!in.eof()) {
-		in.getline(line, 512, '\n'); //FIXME: buffer overflow risk.
+		in.getline(line, 512, '\n'); 
 		std::string line_string(line);
 		if (line_string.find("core id") != std::string::npos) {
 			sscanf(line, "core id\t\t\t: %u", &id);
@@ -490,32 +498,33 @@ int32_t xmem::query_sys_info() {
 #endif
 
 	//Report
-	if (g_verbose) {
-		std::cout << "done" << std::endl;
-		std::cout << "Number of NUMA nodes: " << g_num_nodes << std::endl;
-		std::cout << "Number of physical processor packages: " << g_num_physical_packages << std::endl;
-		std::cout << "Number of physical processor cores: " << g_num_physical_cpus << std::endl;
-		std::cout << "Number of logical processor cores: " << g_num_logical_cpus << std::endl;
-		std::cout << "Number of processor L1/L2/L3/L4 caches: " 
-			<< g_total_l1_caches
-			<< "/"
-			<< g_total_l2_caches
-			<< "/" 
-			<< g_total_l3_caches
-			<< "/"
-			<< g_total_l4_caches
+	std::cout << "done" << std::endl;
+	std::cout << "Number of NUMA nodes: " << g_num_nodes << std::endl;
+	std::cout << "Number of physical processor packages: " << g_num_physical_packages << std::endl;
+	std::cout << "Number of physical processor cores: " << g_num_physical_cpus << std::endl;
+	std::cout << "Number of logical processor cores: " << g_num_logical_cpus << std::endl;
+	std::cout << "Number of processor L1/L2/L3/L4 caches: " 
+		<< g_total_l1_caches
+		<< "/"
+		<< g_total_l2_caches
+		<< "/" 
+		<< g_total_l3_caches
+		<< "/"
+		<< g_total_l4_caches
 #ifdef __gnu_linux__
-			<< " (guess)"
+		<< " (guess)"
 #endif
-			<< std::endl; 
-		std::cout << "Regular page size: " << g_page_size << " B" << std::endl;
-		std::cout << "Large page size: " << g_large_page_size << " B" << std::endl;
-	}
+		<< std::endl; 
+	std::cout << "Regular page size: " << g_page_size << " B" << std::endl;
+	std::cout << "Large page size: " << g_large_page_size << " B" << std::endl;
 
 #ifdef _WIN32
 	if (buffer)
 		free(buffer);
 #endif
+	
+	//Setup timer constants
+	test_timers();
 
 	return 0;
 }

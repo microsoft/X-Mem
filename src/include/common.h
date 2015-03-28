@@ -45,7 +45,7 @@
 
 namespace xmem {
 
-#define VERSION "2.0.7"
+#define VERSION "2.0.8"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -256,6 +256,9 @@ namespace xmem {
 	extern uint32_t g_num_physical_packages;
 	extern uint32_t g_starting_test_index;
 	extern uint32_t g_test_index;
+
+	extern uint64_t g_ticks_per_sec;
+	extern double g_ns_per_tick;
 
 	//Typedef the platform specific stuff to word sizes to match 4 different chunk options
 	typedef uint32_t Word32_t;
