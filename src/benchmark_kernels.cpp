@@ -688,7 +688,6 @@ int32_t xmem::dummy_forwSequentialLoop_Word128(void* start_address, void* end_ad
 
 int32_t xmem::dummy_forwSequentialLoop_Word256(void* start_address, void* end_address) {
 #ifdef _WIN32
-	//FIXME: this probably does not need to be a dedicated asm function.
 	return win_asm_dummy_forwSequentialLoop_Word256(static_cast<Word256_t*>(start_address), static_cast<Word256_t*>(end_address));
 #endif
 #ifdef __gnu_linux__
@@ -730,7 +729,6 @@ int32_t xmem::dummy_revSequentialLoop_Word128(void* start_address, void* end_add
 
 int32_t xmem::dummy_revSequentialLoop_Word256(void* start_address, void* end_address) {
 #ifdef _WIN32
-	//FIXME: this probably does not need to be a dedicated asm function.
 	return win_asm_dummy_revSequentialLoop_Word256(static_cast<Word256_t*>(end_address), static_cast<Word256_t*>(start_address));
 #endif
 #ifdef __gnu_linux__
@@ -2418,7 +2416,6 @@ int32_t xmem::randomRead_Word256(uintptr_t* first_address, uintptr_t** last_touc
 /* ------------ RANDOM WRITE --------------*/
 
 int32_t xmem::randomWrite_Word64(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
-	//FIXME: right now the only way I can think of doing this is with a random read, followed by a write-back of the read value to preserve the random addresses. Maybe I should just make all randomWrite functions randomReadWrite or remove entirely.
 	volatile uintptr_t* p = first_address;
 	volatile uintptr_t* p2 = NULL;
 
@@ -2435,7 +2432,6 @@ int32_t xmem::randomWrite_Word64(uintptr_t* first_address, uintptr_t** last_touc
 }
 
 int32_t xmem::randomWrite_Word128(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
-	//FIXME: right now the only way I can think of doing this is with a random read, followed by a write-back of the read value to preserve the random addresses. Maybe I should just make all randomWrite functions randomReadWrite or remove entirely.
 #ifdef _WIN32
 	return 0; //TODO
 #endif
@@ -2459,7 +2455,6 @@ int32_t xmem::randomWrite_Word128(uintptr_t* first_address, uintptr_t** last_tou
 }
 
 int32_t xmem::randomWrite_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
-	//FIXME: right now the only way I can think of doing this is with a random read, followed by a write-back of the read value to preserve the random addresses. Maybe I should just make all randomWrite functions randomReadWrite or remove entirely.
 #ifdef _WIN32
 	return 0; //TODO
 #endif

@@ -432,8 +432,7 @@ int32_t xmem::query_sys_info() {
 	//Get number of logical CPUs
 	g_num_logical_cpus = sysconf(_SC_NPROCESSORS_ONLN); //This isn't really portable -- requires glibc extensions to sysconf()
 
-
-	//Get number of physical CPUs. This is somewhat convoluted, but not sure of a better way on Linux. I don't want to assume anything about HyperThreading-like things. TODO: currently this assumes each processor package has an equal number of cores, e.g. same processor model.
+	//Get number of physical CPUs. This is somewhat convoluted, but not sure of a better way on Linux. I don't want to assume anything about HyperThreading-like things.
 	std::vector<uint32_t> core_ids;
 	in.open("/proc/cpuinfo");
 	while (!in.eof()) {
@@ -445,7 +444,7 @@ int32_t xmem::query_sys_info() {
 				core_ids.push_back(id); //add to list
 		}
 	}
-	g_num_physical_cpus = core_ids.size() * g_num_physical_packages;
+	g_num_physical_cpus = core_ids.size() * g_num_physical_packages; //FIXME: currently this assumes each processor package has an equal number of cores. This may not be true in general! Need more complicated /proc/cpuinfo parsing.
 	in.close();
 #endif
 
@@ -478,10 +477,11 @@ int32_t xmem::query_sys_info() {
 	}
 #endif
 #ifdef __gnu_linux__
-	g_total_l1_caches = g_num_physical_cpus; //TODO: this is an absolute guess. How to do this on Linux?
-	g_total_l2_caches = g_num_physical_cpus; //TODO: this is an absolute guess. How to do this on Linux?
-	g_total_l3_caches = g_num_physical_packages; //TODO: this is an absolute guess. How to do this on Linux?
-	g_total_l4_caches = 0; //TODO: this is an absolute guess. How to do this on Linux?
+	//FIXME: guessing number of caches on GNU/Linux, not sure how to get correct answer. This does not affect X-Mem functionality, however.
+	g_total_l1_caches = g_num_physical_cpus; 
+	g_total_l2_caches = g_num_physical_cpus; 
+	g_total_l3_caches = g_num_physical_packages; 
+	g_total_l4_caches = 0; 
 #endif
 
 	//Get page size
@@ -512,7 +512,7 @@ int32_t xmem::query_sys_info() {
 		<< "/"
 		<< g_total_l4_caches
 #ifdef __gnu_linux__
-		<< " (guess)"
+		<< " (guesses)"
 #endif
 		<< std::endl; 
 	std::cout << "Regular page size: " << g_page_size << " B" << std::endl;
