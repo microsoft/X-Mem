@@ -1,7 +1,7 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: Extensible Memory Benchmarking Tool v2.0.9
+X-Mem: Extensible Memory Benchmarking Tool v2.0.10
 ------------------------------------------------------------------------------------------------------------
 
 The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power. 
@@ -10,7 +10,7 @@ Originally authored by Mark Gottscho (Email: <mgottscho@ucla.edu>) as a Summer 2
 
 This project is under active development. Stay tuned for more updates.
 
-PROJECT REVISION DATE: March 27, 2015.
+PROJECT REVISION DATE: March 28, 2015.
 
 ------------------------------------------------------------------------------------------------------------
 LICENSE
@@ -75,6 +75,12 @@ Memory power:
 
 Documentation:
 	- Extensive Doxygen source code comments, PDF manual, HTML
+
+
+
+INCLUDED EXTENSIONS (under src/include/ext and src/ext directories):
+	- Loaded latency benchmark variant with load delays inserted as nop instructions between memory instructions.
+	  This is done for 64-bit chunks, forward sequential read load threads only at the moment.
 
 For feature requests, please refer to the contact information at the end of this README.
 

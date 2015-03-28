@@ -24,14 +24,14 @@
 /**
  * @file
  * 
- * @brief Header file for the LatencyBenchmark class.
+ * @brief Header file for the LatencyBenchmark_Delays class.
  */
 
-#ifndef __LATENCY_BENCHMARK_H
-#define __LATENCY_BENCHMARK_H
+#ifndef __LATENCY_BENCHMARK_DELAYS_H
+#define __LATENCY_BENCHMARK_DELAYS_H
 
 //Headers
-#include <Benchmark.h>
+#include <LatencyBenchmark.h>
 #include <common.h>
 
 //Libraries
@@ -41,15 +41,15 @@
 namespace xmem {
 
 	/**
-	 * @brief A type of benchmark that measures memory latency via random pointer chasing. Loading may be provided with separate threads which access memory as quickly as possible using given access patterns.
+	 * @brief A type of benchmark that measures loaded memory latency via random pointer chasing while load threads provide memory interference with delay injection to generate different degrees of loading.
 	 */
-	class LatencyBenchmark : public Benchmark {
+	class LatencyBenchmark_Delays : public LatencyBenchmark {
 	public:
 		
 		/**
-		 * @brief Constructor. Parameters are passed directly to the Benchmark constructor. See Benchmark class documentation for parameter semantics.
+		 * @brief Constructor. Parameters are passed directly to the LatencyBenchmark constructor. See LatencyBenchmark class documentation for parameter semantics. The access pattern is hard-coded to SEQUENTIAL, read/write pattern to READ, chunk size to CHUNK_64b, and stride to 1.
 		 */
-		LatencyBenchmark(
+		LatencyBenchmark_Delays(
 			void* mem_array,
 			size_t len,
 			uint32_t iterations,
@@ -59,10 +59,6 @@ namespace xmem {
 			uint32_t num_worker_threads,
 			uint32_t mem_node,
 			uint32_t cpu_node,
-			pattern_mode_t pattern_mode,
-			rw_mode_t rw_mode,
-			chunk_size_t chunk_size,
-			int64_t stride_size,
 			std::vector<PowerReader*> dram_power_readers,
 			std::string name
 		);
@@ -70,36 +66,10 @@ namespace xmem {
 		/**
 		 * @brief Destructor.
 		 */
-		virtual ~LatencyBenchmark() {}
-
-		/**
-		 * @brief Get the average load throughput in MB/sec that was imposed on the latency measurement during the given iteration.
-		 * @brief iter The iteration of interest.
-		 * @returns The average throughput in MB/sec.
-		 */
-		double getLoadMetricOnIter(uint32_t iter) const;		
-		
-		/**
-		 * @brief Get the overall average load throughput in MB/sec that was imposed on the latency measurement.
-		 * @returns The average throughput in MB/sec.
-		 */
-		double getAvgLoadMetric() const;		
-		
-		/**
-		 * @brief Reports benchmark configuration details to the console.
-		 */
-		virtual void report_benchmark_info() const;
-
-		/**
-		 * @brief Reports results to the console.
-		 */
-		virtual void report_results() const;
+		virtual ~LatencyBenchmark_Delays() {}
 
 	protected:
 		virtual bool _run_core();
-		
-		std::vector<double> _loadMetricOnIter; /**< Load metrics for each iteration of the benchmark. This is in MB/s. */
-		double _averageLoadMetric; /**< The average load throughput in MB/sec that was imposed on the latency measurement. */	
 	};
 };
 

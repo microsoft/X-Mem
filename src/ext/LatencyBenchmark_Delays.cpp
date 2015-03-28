@@ -24,11 +24,11 @@
 /**
  * @file
  * 
- * @brief Implementation file for the LatencyBenchmark class.
+ * @brief Implementation file for the LatencyBenchmark_Delays class.
  */
 
 //Headers
-#include <LatencyBenchmark.h>
+#include <LatencyBenchmark_Delays.h>
 #include <common.h>
 #include <benchmark_kernels.h>
 #include <MemoryWorker.h>
@@ -48,7 +48,7 @@
 
 using namespace xmem;
 		
-LatencyBenchmark::LatencyBenchmark(
+LatencyBenchmark_Delays::LatencyBenchmark_Delays(
 		void* mem_array,
 		size_t len,
 		uint32_t iterations,
@@ -58,14 +58,10 @@ LatencyBenchmark::LatencyBenchmark(
 		uint32_t num_worker_threads,
 		uint32_t mem_node,
 		uint32_t cpu_node,
-		pattern_mode_t pattern_mode,
-		rw_mode_t rw_mode,
-		chunk_size_t chunk_size,
-		int64_t stride_size,
 		std::vector<PowerReader*> dram_power_readers,
 		std::string name
 	) :
-		Benchmark(
+		LatencyBenchmark(
 			mem_array,
 			len,
 			iterations,
@@ -75,141 +71,17 @@ LatencyBenchmark::LatencyBenchmark(
 			num_worker_threads,
 			mem_node,
 			cpu_node,
-			pattern_mode,
-			rw_mode,
-			chunk_size,
-			stride_size,
+			SEQUENTIAL,
+			READ,
+			CHUNK_64b,
+			1,
 			dram_power_readers,
-			"ns/access",
 			name
-		),
-		_loadMetricOnIter(),
-		_averageLoadMetric(0)
+		)
 	{ 
-
-	for (uint32_t i = 0; i < _iterations; i++) 
-		_loadMetricOnIter.push_back(0);
 }
 
-void LatencyBenchmark::report_benchmark_info() const {
-	std::cout << "CPU NUMA Node: " << _cpu_node << std::endl;
-	std::cout << "Memory NUMA Node: " << _mem_node << std::endl;
-	std::cout << "Latency measurement chunk size: 64-bit" << std::endl;
-	std::cout << "Latency measurement access pattern: random read (pointer-chasing)" << std::endl;
-
-	if (_num_worker_threads > 1) {
-		std::cout << "Load Chunk Size: ";
-		switch (_chunk_size) {
-			case CHUNK_32b:
-				std::cout << "32-bit";
-				break;
-			case CHUNK_64b:
-				std::cout << "64-bit";
-				break;
-			case CHUNK_128b:
-				std::cout << "128-bit";
-				break;
-			case CHUNK_256b:
-				std::cout << "256-bit";
-				break;
-			default:
-				std::cout << "UNKNOWN";
-				break;
-		}
-		std::cout << std::endl;
-
-		std::cout << "Load Access Pattern: ";
-		switch (_pattern_mode) {
-			case SEQUENTIAL:
-				if (_stride_size > 0)
-					std::cout << "forward ";
-				else if (_stride_size < 0)
-					std::cout << "reverse ";
-				else 
-					std::cout << "UNKNOWN ";
-
-				if (_stride_size == 1 || _stride_size == -1)
-					std::cout << "sequential";
-				else 
-					std::cout << "strides of " << _stride_size << " chunks";
-				break;
-			case RANDOM:
-				std::cout << "random";
-				break;
-			default:
-				std::cout << "UNKNOWN";
-				break;
-		}
-		std::cout << std::endl;
-
-
-		std::cout << "Load Read/Write Mode: ";
-		switch (_rw_mode) {
-			case READ:
-				std::cout << "read";
-				break;
-			case WRITE:
-				std::cout << "write";
-				break;
-			default:
-				std::cout << "UNKNOWN";
-				break;
-		}
-		std::cout << std::endl;
-
-		std::cout << "Load number of worker threads: " << _num_worker_threads-1;
-		std::cout << std::endl;
-	}
-
-	std::cout << std::endl;
-}
-
-
-void LatencyBenchmark::report_results() const {
-	std::cout << std::endl;
-	std::cout << "*** RESULTS";
-	std::cout << "***" << std::endl;
-	std::cout << std::endl;
- 
-	if (_hasRun) {
-		for (uint32_t i = 0; i < _iterations; i++) {
-			std::cout << "Iter #" << i + 1 << ": " << _metricOnIter[i] << " " << _metricUnits << " @ " << _loadMetricOnIter[i] << " MB/s average imposed load";
-			if (_warning)
-				std::cout << " (WARNING)";
-			std::cout << std::endl;
-		}
-		std::cout << "Average: " << _averageMetric << " " << _metricUnits << " @ " << _averageLoadMetric << " MB/s average imposed load";
-		if (_warning)
-			std::cout << " (WARNING)";
-		std::cout << std::endl;
-		
-		for (uint32_t i = 0; i < _dram_power_readers.size(); i++) {
-			if (_dram_power_readers[i] != NULL) {
-				std::cout << _dram_power_readers[i]->name() << " Power Statistics..." << std::endl;
-				std::cout << "...Average Power: " << _dram_power_readers[i]->getAveragePower() * _dram_power_readers[i]->getPowerUnits() << " W" << std::endl;
-				std::cout << "...Peak Power: " << _dram_power_readers[i]->getPeakPower() * _dram_power_readers[i]->getPowerUnits() << " W" << std::endl;
-			}
-		}
-	}
-	else
-		std::cerr << "WARNING: Benchmark has not run yet. No reported results." << std::endl;
-}
-
-double LatencyBenchmark::getLoadMetricOnIter(uint32_t iter) const {
-	if (_hasRun && iter - 1 <= _iterations)
-		return _loadMetricOnIter[iter - 1];
-	else //bad call
-		return -1;
-}
-
-double LatencyBenchmark::getAvgLoadMetric() const {		
-	if (_hasRun)
-		return _averageLoadMetric;
-	else //bad call
-		return -1;
-}
-
-bool LatencyBenchmark::_run_core() {
+bool LatencyBenchmark_Delays::_run_core() {
 	size_t len_per_thread = _len / _num_worker_threads; //Carve up memory space so each worker has its own area to play in
 
 	//Set up latency measurement kernel function pointers

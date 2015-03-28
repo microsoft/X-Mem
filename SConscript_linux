@@ -10,12 +10,13 @@ env = Environment()
 
 # LINUX
 env.Append(CPPFLAGS = '-Wall -Wno-unused-but-set-variable -Wno-unused-variable -g -O3 -std=c++11 -mavx -fabi-version=6')
-env.Append(CPPPATH = ['src/include', '/usr/include', '/lib'])
+env.Append(CPPPATH = ['src/include', 'src/include/ext', '/usr/include', '/lib'])
 env.Append(LIBS = ['pthread', 'numa', 'hugetlbfs'])
 
 # List all C++ source files
 sources = [
 	Glob('src/*.cpp'), 
+	Glob('src/ext/*.cpp'), 
 	Glob('src/x86_64/*.cpp')
 ]
 
