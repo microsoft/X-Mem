@@ -47,6 +47,7 @@ namespace xmem {
 		UNKNOWN,
 		ALL,
 		CHUNK_SIZE,
+		EXTENSIONS,
 		OUTPUT_FILE,
 		HELP,
 		BASE_TEST_INDEX,
@@ -73,6 +74,7 @@ namespace xmem {
 		"Options:" },
 		{ ALL, 0, "a", "all", Arg::None, "    -a, --all    \tRun all possible benchmarks supported by X-Mem in terms of chunk sizes, strides, read/write, access patterns, etc. This will override any other user inputs for such arguments. X-Mem may run for a long time!" },
 		{ CHUNK_SIZE, 0, "c", "chunk_size", MyArg::PositiveInteger, "    -c, --chunk_size    \tA chunk size to use for throughput benchmarks, specified in bits. Allowed values: 32, 64, 128, and 256. If no chunk sizes specified, use 64-bit chunks by default. NOTE: Some chunk sizes may not be supported on your hardware."},
+		{ EXTENSIONS, 0, "e", "extensions", Arg::None, "    -e, --extensions    \tRun user-defined X-Mem extensions in addition to standard supported functionality." },
 		{ OUTPUT_FILE, 0, "f", "output_file", MyArg::Required, "    -f, --output_file    \tOutput filename to use. If not specified, no output file generated." },
 		{ HELP, 0, "h", "help", Arg::None, "    -h, --help    \tPrint usage and exit." },
 		{ BASE_TEST_INDEX, 0, "i", "base_test_index", MyArg::NonnegativeInteger, "    -i, --base_test_index    \tNumerical index of the first benchmark, for tracking unique test IDs." },
@@ -110,6 +112,7 @@ namespace xmem {
 
 		/**
 		 * @brief Specialized constructor for when you don't want to get config from input, and you want to pass it in directly.
+		 * @param runCustomExtensions Indicates if user-defined code should be run in addition to other standard functionality.
 		 * @param runLatency Indicates latency benchmarks should be run.
 		 * @param runThroughput Indicates throughput benchmarks should be run.
 		 * @param working_set_size_per_thread The total size of memory to test in all benchmarks, in bytes, per thread. This MUST be a multiple of 4KB pages.
@@ -141,6 +144,7 @@ namespace xmem {
 		 * @param use_stride_n16 If true, include stride of -16 for relevant benchmarks.
 		 */
 		Configurator(
+			bool runCustomExtensions,
 			bool runLatency,
 			bool runThroughput,
 			size_t working_set_size_per_thread,
@@ -179,6 +183,12 @@ namespace xmem {
 		 * @returns 0 on success.
 		 */
 		int32_t configureFromInput(int argc, char* argv[]);
+
+		/**
+		 * @brief Determines whether custom user extensions are enabled.
+		 * @returns True if custom extensions are enabled.
+		 */
+		bool customExtensionsEnabled() const { return __runCustomExtensions; }
 
 		/**
 		 * @brief Indicates if the latency test has been selected.
@@ -369,6 +379,8 @@ namespace xmem {
 		bool __checkSingleOptionOccurrence(Option* opt) const;
 
 		bool __configured; /**< If true, this object has been configured. configureFromInput() will only work if this is false. */
+
+		bool __runCustomExtensions; /**< If true, run custom extensions before standard features. */ 
 
 		bool __runLatency; /**< True if latency tests should be run. */
 		bool __runThroughput; /**< True if throughput tests should be run. */

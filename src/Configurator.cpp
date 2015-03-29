@@ -44,6 +44,7 @@ using namespace xmem;
 Configurator::Configurator(
 	) :
 	__configured(false),
+	__runCustomExtensions(false),
 	__runLatency(true),
 	__runThroughput(true),
 	__working_set_size_per_thread(DEFAULT_WORKING_SET_SIZE_PER_THREAD),
@@ -77,6 +78,7 @@ Configurator::Configurator(
 }
 
 Configurator::Configurator(
+	bool runCustomExtensions,
 	bool runLatency,
 	bool runThroughput,
 	size_t working_set_size_per_thread,
@@ -108,6 +110,7 @@ Configurator::Configurator(
 	bool use_stride_n16
 	) :
 	__configured(true),
+	__runCustomExtensions(runCustomExtensions),
 	__runLatency(runLatency),
 	__runThroughput(runThroughput),
 	__working_set_size_per_thread(working_set_size_per_thread),
@@ -434,6 +437,13 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		std::cerr << "NOTE: Random throughput benchmarks do not support 32-bit chunk sizes. These particular combinations will be skipped." << std::endl;
 	}
 
+	/******************* CUSTOM EXTENSIONS MODE *******************/
+	if (options[EXTENSIONS]) {
+		__runCustomExtensions = true;
+		//User-defined behaviors here
+	}
+	/**************************************************************/
+
 	//Check for help or bad options
 	if (options[HELP] || options[UNKNOWN] != NULL)
 		goto error;
@@ -442,6 +452,8 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	std::cout << std::endl;
 	if (__verbose) 
 		std::cout << "Verbose mode enabled." << std::endl;
+	if (__runCustomExtensions)
+		std::cout << "Custom extensions mode enabled." << std::endl;
 	if (__runLatency)
 		std::cout << "Latency test selected." << std::endl;
 	if (__runThroughput) {

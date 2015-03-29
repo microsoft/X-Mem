@@ -79,6 +79,12 @@ namespace xmem {
 		 */
 		bool runLatencyBenchmarks();
 
+		/**
+		 * @brief Runs user-defined custom extensions to X-Mem.
+		 * @returns True on success.
+		 */
+		bool runCustomExtensions();
+
 	private:
 		/**
 		 * @brief Allocates memory for all working sets.

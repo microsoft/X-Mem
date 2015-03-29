@@ -32,6 +32,10 @@
 #include <common.h>
 #include <Configurator.h>
 
+#ifdef EXT_LATENCY_DELAY_INJECTED_BENCHMARK
+#include <LatencyBenchmark_Delays.h>
+#endif
+
 #ifdef _WIN32
 #include <win/win_common_third_party.h>
 #include <win/WindowsDRAMPowerReader.h>
@@ -614,4 +618,56 @@ bool BenchmarkManager::__buildBenchmarks() {
 	
 	__built_benchmarks = true;
 	return true;
+}
+
+bool BenchmarkManager::runCustomExtensions() {
+#ifdef EXT_LATENCY_DELAY_INJECTED_BENCHMARK
+	//Assume that number of worker threads is >1. (Check before calling this function.)
+
+	std::vector<LatencyBenchmark_Delays*> del_lat_benchmarks;
+
+	//Build benchmarks
+	for (uint32_t mem_node = 0; mem_node < __benchmark_num_numa_nodes; mem_node++) { //iterate each memory NUMA node
+		void* mem_array = __mem_arrays[mem_node];			
+		size_t mem_array_len = __mem_array_lens[mem_node];
+
+		for (uint32_t cpu_node = 0; cpu_node < __benchmark_num_numa_nodes; cpu_node++) { //iterate each CPU node
+			for (uint32_t d = 0; d < 256; d*=2) { //Iterate different delay values
+		
+				std::string benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index++ << "LE (Latency with Delay Injection Extensions)"))->str();
+#ifdef USE_SIZE_BASED_BENCHMARKS
+				//Determine number of passes for each benchmark. This is working set size-dependent, to ensure the timed duration of each run is sufficiently long, but not too long.
+				passes_per_iteration = compute_number_of_passes((mem_array_len / __config.getNumWorkerThreads()) / KB) / 4;
+#endif
+				del_lat_benchmarks.push_back(new LatencyBenchmark_Delays(mem_array,
+																		 mem_array_len,
+																		 __config.getIterationsPerTest(),
+#ifdef USE_SIZE_BASED_BENCHMARKS
+																		 passes_per_iteration,
+#endif
+																		 __config.getNumWorkerThreads(),
+																		 mem_node,
+																		 cpu_node,
+																		 __dram_power_readers,
+																		 benchmark_name,
+																		 d));
+				if (del_lat_benchmarks[del_lat_benchmarks.size()-1] == NULL) {
+					std::cerr << "ERROR: Failed to build a LatencyBenchmark_Delays!" << std::endl;
+					return false;
+				}
+			}
+		}
+	}
+
+	//Run benchmarks
+	for (uint32_t i = 0; i < del_lat_benchmarks.size(); i++) {
+		del_lat_benchmarks[i]->run(); 
+		del_lat_benchmarks[i]->report_results(); //to console
+	}
+
+	return true;
+
+#else
+	return false;
+#endif
 }

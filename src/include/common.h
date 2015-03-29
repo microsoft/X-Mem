@@ -45,7 +45,7 @@
 
 namespace xmem {
 
-#define VERSION "2.0.10"
+#define VERSION "2.0.11"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -195,6 +195,9 @@ namespace xmem {
 #endif //DO NOT COMMENT THIS OUT
 
 #define POWER_SAMPLING_PERIOD_SEC 1 /**< RECOMMENDED VALUE: 1. Sampling period in seconds for all power measurement mechanisms. */
+
+#define EXT_LATENCY_DELAY_INJECTED_BENCHMARK /**< RECOMMENDED DISABLED. This allows for a custom extension to X-Mem that performs latency benchmarking with forward sequential 64-bit read-based load threads with variable delays injected in between memory accesses. */
+
 /***********************************************************************************************************/
 /***********************************************************************************************************/
 /***********************************************************************************************************/

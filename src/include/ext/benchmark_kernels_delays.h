@@ -30,9 +30,6 @@
 #ifndef __BENCHMARK_KERNELS_DELAYS_H
 #define __BENCHMARK_KERNELS_DELAYS_H
 
-//Headers
-#include <benchmark_kernels.h>
-
 //Libraries
 #include <cstdint>
 #ifdef _WIN32
@@ -61,6 +58,105 @@
 #define my_nop256() my_nop128(); my_nop128()
 
 namespace xmem {
+	
+	/***********************************************************************
+	 ***********************************************************************
+	 ******************* THROUGHPUT-RELATED BENCHMARK KERNELS **************
+	 ***********************************************************************
+	 ***********************************************************************/
+
+	/* --------------------- DUMMY BENCHMARK ROUTINES --------------------------- */
+	
+	/**
+	 * @brief Used for measuring the time spent doing everything in forward sequential Word 64 loops except for the memory access itself. Delay injections are included.
+	 * @param start_address The beginning of the memory region of interest.
+	 * @param end_address The end of the memory region of interest.
+	 * @returns Undefined.
+	 */
+	int32_t dummy_forwSequentialLoop_Word64_Delay0(void* start_address, void* end_address);
+	
+	/**
+	 * @brief Used for measuring the time spent doing everything in forward sequential Word 64 loops except for the memory access itself. Delay injections are included.
+	 * @param start_address The beginning of the memory region of interest.
+	 * @param end_address The end of the memory region of interest.
+	 * @returns Undefined.
+	 */
+	int32_t dummy_forwSequentialLoop_Word64_Delay1(void* start_address, void* end_address);
+	
+	/**
+	 * @brief Used for measuring the time spent doing everything in forward sequential Word 64 loops except for the memory access itself. Delay injections are included.
+	 * @param start_address The beginning of the memory region of interest.
+	 * @param end_address The end of the memory region of interest.
+	 * @returns Undefined.
+	 */
+	int32_t dummy_forwSequentialLoop_Word64_Delay2(void* start_address, void* end_address);
+	
+	/**
+	 * @brief Used for measuring the time spent doing everything in forward sequential Word 64 loops except for the memory access itself. Delay injections are included.
+	 * @param start_address The beginning of the memory region of interest.
+	 * @param end_address The end of the memory region of interest.
+	 * @returns Undefined.
+	 */
+	int32_t dummy_forwSequentialLoop_Word64_Delay4(void* start_address, void* end_address);
+	
+	/**
+	 * @brief Used for measuring the time spent doing everything in forward sequential Word 64 loops except for the memory access itself. Delay injections are included.
+	 * @param start_address The beginning of the memory region of interest.
+	 * @param end_address The end of the memory region of interest.
+	 * @returns Undefined.
+	 */
+	int32_t dummy_forwSequentialLoop_Word64_Delay8(void* start_address, void* end_address);
+	
+	/**
+	 * @brief Used for measuring the time spent doing everything in forward sequential Word 64 loops except for the memory access itself. Delay injections are included.
+	 * @param start_address The beginning of the memory region of interest.
+	 * @param end_address The end of the memory region of interest.
+	 * @returns Undefined.
+	 */
+	int32_t dummy_forwSequentialLoop_Word64_Delay16(void* start_address, void* end_address);
+	
+	/**
+	 * @brief Used for measuring the time spent doing everything in forward sequential Word 64 loops except for the memory access itself. Delay injections are included.
+	 * @param start_address The beginning of the memory region of interest.
+	 * @param end_address The end of the memory region of interest.
+	 * @returns Undefined.
+	 */
+	int32_t dummy_forwSequentialLoop_Word64_Delay32(void* start_address, void* end_address);
+	
+	/**
+	 * @brief Used for measuring the time spent doing everything in forward sequential Word 64 loops except for the memory access itself. Delay injections are included.
+	 * @param start_address The beginning of the memory region of interest.
+	 * @param end_address The end of the memory region of interest.
+	 * @returns Undefined.
+	 */
+	int32_t dummy_forwSequentialLoop_Word64_Delay64(void* start_address, void* end_address);
+	
+	/**
+	 * @brief Used for measuring the time spent doing everything in forward sequential Word 64 loops except for the memory access itself. Delay injections are included.
+	 * @param start_address The beginning of the memory region of interest.
+	 * @param end_address The end of the memory region of interest.
+	 * @returns Undefined.
+	 */
+	int32_t dummy_forwSequentialLoop_Word64_Delay128(void* start_address, void* end_address);
+	
+	/**
+	 * @brief Used for measuring the time spent doing everything in forward sequential Word 64 loops except for the memory access itself. Delay injections are included.
+	 * @param start_address The beginning of the memory region of interest.
+	 * @param end_address The end of the memory region of interest.
+	 * @returns Undefined.
+	 */
+	int32_t dummy_forwSequentialLoop_Word64_Delay256(void* start_address, void* end_address);
+
+	/* --------------------- CORE BENCHMARK ROUTINES --------------------------- */
+
+	/**
+	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 0 delays (nops) are inserted between memory instructions.
+	 * @param start_address The beginning of the memory region of interest.
+	 * @param end_address The end of the memory region of interest.
+	 * @returns Undefined.
+	 */
+	int32_t forwSequentialRead_Word64_Delay0(void* start_address, void* end_address);
+
 	
 	/**
 	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 0 delays (nops) are inserted between memory instructions.

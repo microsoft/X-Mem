@@ -27,6 +27,8 @@
  * @brief Header file for the LatencyBenchmark_Delays class.
  */
 
+#ifdef EXT_LATENCY_DELAY_INJECTED_BENCHMARK
+
 #ifndef __LATENCY_BENCHMARK_DELAYS_H
 #define __LATENCY_BENCHMARK_DELAYS_H
 
@@ -60,17 +62,34 @@ namespace xmem {
 			uint32_t mem_node,
 			uint32_t cpu_node,
 			std::vector<PowerReader*> dram_power_readers,
-			std::string name
+			std::string name,
+			uint32_t delay
 		);
 		
 		/**
 		 * @brief Destructor.
 		 */
 		virtual ~LatencyBenchmark_Delays() {}
+	
+		/**
+		 * @brief Reports benchmark configuration details to the console.
+		 */
+		virtual void report_benchmark_info() const;
+
+		/**
+		 * @brief Gets the delay injection used in load thread kernels. A delay of 5 corresponds to 5 nop instructions.
+		 * @returns The delay value.
+		 */
+		uint32_t getDelay() const;
 
 	protected:
 		virtual bool _run_core();
+
+	private:
+		uint32_t __delay; /**< Number of nops to insert between load thread memory instructions. This is a form of delay injection to reduce memory loading. */
 	};
 };
+
+#endif
 
 #endif

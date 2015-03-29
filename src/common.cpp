@@ -171,6 +171,9 @@ void xmem::print_compile_time_options() {
 #ifdef POWER_SAMPLING_PERIOD_SEC
 	std::cout << "POWER_SAMPLING_PERIOD_SEC == " << POWER_SAMPLING_PERIOD_SEC << std::endl;
 #endif
+#ifdef EXT_LATENCY_DELAY_INJECTED_BENCHMARK
+	std::cout << "EXT_LATENCY_DELAY_INJECTED_BENCHMARK" << std::endl;
+#endif
 	std::cout << std::endl;
 }
 

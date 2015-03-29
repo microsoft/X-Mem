@@ -94,6 +94,19 @@ int main(int argc, char* argv[]) {
 		if (config.latencyTestSelected()) {
 			benchmgr.runLatencyBenchmarks();
 		}
+
+		if (config.customExtensionsEnabled()) {
+			/***** USER-DEFINED FUNCTIONAL EXTENSIONS ******/
+#ifdef EXT_LATENCY_DELAY_INJECTED_BENCHMARK
+			if (config.getNumWorkerThreads() > 1)
+				benchmgr.runCustomExtensions();	
+			else {
+				std::cerr << "ERROR: Number of worker threads must be at least 1 to run the custom extensions." << std::endl;
+				return false;
+			}
+#endif
+			/***********************************************/
+		}
 	}
 
 	return !configSuccess;
