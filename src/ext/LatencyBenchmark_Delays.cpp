@@ -121,8 +121,8 @@ bool LatencyBenchmark_Delays::_run_core() {
 	if (_num_worker_threads > 1) { //If we only have one worker thread, it is used for latency measurement only, and no load threads will be used.
 		switch (__delay) {
 			case 0:
-				load_kernel_fptr = &forwSequentialRead_Word64_Delay0;
-				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay0;
+				load_kernel_fptr = &forwSequentialRead_Word64; //not an extended kernel
+				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64; //not an extended kernel
 				break;
 			case 1:
 				load_kernel_fptr = &forwSequentialRead_Word64_Delay1;
@@ -158,7 +158,15 @@ bool LatencyBenchmark_Delays::_run_core() {
 				break;
 			case 256:
 				load_kernel_fptr = &forwSequentialRead_Word64_Delay256;
-				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay256;
+				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay256plus;
+				break;
+			case 512:
+				load_kernel_fptr = &forwSequentialRead_Word64_Delay512;
+				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay256plus;
+				break;
+			case 1024:
+				load_kernel_fptr = &forwSequentialRead_Word64_Delay1024;
+				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay256plus;
 				break;
 			default:
 				std::cerr << "ERROR: Failed to find appropriate benchmark kernel." << std::endl;

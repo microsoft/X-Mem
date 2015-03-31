@@ -221,7 +221,6 @@ void LoadWorker::run() {
 
 		elapsed_dummy_ticks += (stop_tick - start_tick);
 	}
-
 #endif
 
 #ifdef USE_SIZE_BASED_BENCHMARKS

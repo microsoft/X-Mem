@@ -97,6 +97,9 @@ int main(int argc, char* argv[]) {
 
 		if (config.customExtensionsEnabled()) {
 			/***** USER-DEFINED FUNCTIONAL EXTENSIONS ******/
+			std::cout << std::endl;
+			std::cout << "Attempting custom X-Mem extensions mode..." << std::endl;
+			std::cout << std::endl;
 #ifdef EXT_LATENCY_DELAY_INJECTED_BENCHMARK
 			if (config.getNumWorkerThreads() > 1)
 				benchmgr.runCustomExtensions();	
@@ -104,6 +107,9 @@ int main(int argc, char* argv[]) {
 				std::cerr << "ERROR: Number of worker threads must be at least 1 to run the custom extensions." << std::endl;
 				return false;
 			}
+#else
+			std::cerr << "ERROR: No custom extensions are implemented in this build of X-Mem." << std::endl;
+			return false;
 #endif
 			/***********************************************/
 		}

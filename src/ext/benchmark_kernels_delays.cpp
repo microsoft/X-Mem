@@ -40,6 +40,7 @@
 #include <common.h>
 
 //Libraries
+#include <iostream>
 #ifdef _WIN32
 #include <intrin.h> //For Intel intrinsics
 #endif
@@ -58,19 +59,10 @@ using namespace xmem;
 
 /* -------------------- DUMMY BENCHMARK ROUTINES ------------------------- */
 
-int32_t xmem::dummy_forwSequentialLoop_Word64_Delay0(void* start_address, void* end_address) {
-	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
-	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
-		UNROLL512(wordptr++;) 
-		placeholder = 0;
-	}
-	return placeholder;
-}
-
 int32_t xmem::dummy_forwSequentialLoop_Word64_Delay1(void* start_address, void* end_address) {
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
-		UNROLL512(my_nop();) 
+		UNROLL256(wordptr++;) 
 		placeholder = 0;
 	}
 	return placeholder;
@@ -79,7 +71,7 @@ int32_t xmem::dummy_forwSequentialLoop_Word64_Delay1(void* start_address, void* 
 int32_t xmem::dummy_forwSequentialLoop_Word64_Delay2(void* start_address, void* end_address) {
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
-		UNROLL512(my_nop2();) 
+		UNROLL128(wordptr++;) 
 		placeholder = 0;
 	}
 	return placeholder;
@@ -88,7 +80,7 @@ int32_t xmem::dummy_forwSequentialLoop_Word64_Delay2(void* start_address, void* 
 int32_t xmem::dummy_forwSequentialLoop_Word64_Delay4(void* start_address, void* end_address) {
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
-		UNROLL512(my_nop4();) 
+		UNROLL64(wordptr++;) 
 		placeholder = 0;
 	}
 	return placeholder;
@@ -97,7 +89,7 @@ int32_t xmem::dummy_forwSequentialLoop_Word64_Delay4(void* start_address, void* 
 int32_t xmem::dummy_forwSequentialLoop_Word64_Delay8(void* start_address, void* end_address) {
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
-		UNROLL512(my_nop8();) 
+		UNROLL32(wordptr++;) 
 		placeholder = 0;
 	}
 	return placeholder;
@@ -106,7 +98,7 @@ int32_t xmem::dummy_forwSequentialLoop_Word64_Delay8(void* start_address, void* 
 int32_t xmem::dummy_forwSequentialLoop_Word64_Delay16(void* start_address, void* end_address) {
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
-		UNROLL512(my_nop16();) 
+		UNROLL16(wordptr++;) 
 		placeholder = 0;
 	}
 	return placeholder;
@@ -115,7 +107,7 @@ int32_t xmem::dummy_forwSequentialLoop_Word64_Delay16(void* start_address, void*
 int32_t xmem::dummy_forwSequentialLoop_Word64_Delay32(void* start_address, void* end_address) {
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
-		UNROLL512(my_nop32();) 
+		UNROLL8(wordptr++;) 
 		placeholder = 0;
 	}
 	return placeholder;
@@ -124,7 +116,7 @@ int32_t xmem::dummy_forwSequentialLoop_Word64_Delay32(void* start_address, void*
 int32_t xmem::dummy_forwSequentialLoop_Word64_Delay64(void* start_address, void* end_address) {
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
-		UNROLL512(my_nop64();) 
+		UNROLL4(wordptr++;) 
 		placeholder = 0;
 	}
 	return placeholder;
@@ -133,35 +125,28 @@ int32_t xmem::dummy_forwSequentialLoop_Word64_Delay64(void* start_address, void*
 int32_t xmem::dummy_forwSequentialLoop_Word64_Delay128(void* start_address, void* end_address) {
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
-		UNROLL512(my_nop128();) 
+		UNROLL2(wordptr++;) 
 		placeholder = 0;
 	}
 	return placeholder;
 }
 
-int32_t xmem::dummy_forwSequentialLoop_Word64_Delay256(void* start_address, void* end_address) {
+int32_t xmem::dummy_forwSequentialLoop_Word64_Delay256plus(void* start_address, void* end_address) {
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
-		UNROLL512(my_nop256();) 
+		wordptr++;
 		placeholder = 0;
 	}
 	return placeholder;
 }
 
-/* -------------------- CORE BENCHMARK ROUTINES -------------------------- */
 
-int32_t xmem::forwSequentialRead_Word64_Delay0(void* start_address, void* end_address) {
-	register Word64_t val;
-	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
-		UNROLL512(val = *wordptr++;)
-	}
-	return 0;
-}
+/* -------------------- CORE BENCHMARK ROUTINES -------------------------- */
 
 int32_t xmem::forwSequentialRead_Word64_Delay1(void* start_address, void* end_address) {
 	register Word64_t val;
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
-		UNROLL512(val = *wordptr++; my_nop();)
+		UNROLL256(val = *wordptr++; my_nop();)
 	}
 	return 0;
 }
@@ -169,7 +154,7 @@ int32_t xmem::forwSequentialRead_Word64_Delay1(void* start_address, void* end_ad
 int32_t xmem::forwSequentialRead_Word64_Delay2(void* start_address, void* end_address) {
 	register Word64_t val;
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
-		UNROLL512(val = *wordptr++; my_nop2();)
+		UNROLL128(val = *wordptr++; my_nop2();)
 	}
 	return 0;
 }
@@ -177,7 +162,7 @@ int32_t xmem::forwSequentialRead_Word64_Delay2(void* start_address, void* end_ad
 int32_t xmem::forwSequentialRead_Word64_Delay4(void* start_address, void* end_address) {
 	register Word64_t val;
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
-		UNROLL512(val = *wordptr++; my_nop4();)
+		UNROLL64(val = *wordptr++; my_nop4();)
 	}
 	return 0;
 }
@@ -185,7 +170,7 @@ int32_t xmem::forwSequentialRead_Word64_Delay4(void* start_address, void* end_ad
 int32_t xmem::forwSequentialRead_Word64_Delay8(void* start_address, void* end_address) {
 	register Word64_t val;
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
-		UNROLL512(val = *wordptr++; my_nop8();)
+		UNROLL32(val = *wordptr++; my_nop8();)
 	}
 	return 0;
 }
@@ -193,7 +178,7 @@ int32_t xmem::forwSequentialRead_Word64_Delay8(void* start_address, void* end_ad
 int32_t xmem::forwSequentialRead_Word64_Delay16(void* start_address, void* end_address) {
 	register Word64_t val;
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
-		UNROLL512(val = *wordptr++; my_nop16();)
+		UNROLL16(val = *wordptr++; my_nop16();)
 	}
 	return 0;
 }
@@ -201,7 +186,7 @@ int32_t xmem::forwSequentialRead_Word64_Delay16(void* start_address, void* end_a
 int32_t xmem::forwSequentialRead_Word64_Delay32(void* start_address, void* end_address) {
 	register Word64_t val;
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
-		UNROLL512(val = *wordptr++; my_nop32();)
+		UNROLL8(val = *wordptr++; my_nop32();)
 	}
 	return 0;
 }
@@ -209,7 +194,7 @@ int32_t xmem::forwSequentialRead_Word64_Delay32(void* start_address, void* end_a
 int32_t xmem::forwSequentialRead_Word64_Delay64(void* start_address, void* end_address) {
 	register Word64_t val;
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
-		UNROLL512(val = *wordptr++; my_nop64();)
+		UNROLL4(val = *wordptr++; my_nop64();)
 	}
 	return 0;
 }
@@ -217,7 +202,7 @@ int32_t xmem::forwSequentialRead_Word64_Delay64(void* start_address, void* end_a
 int32_t xmem::forwSequentialRead_Word64_Delay128(void* start_address, void* end_address) {
 	register Word64_t val;
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
-		UNROLL512(val = *wordptr++; my_nop128();)
+		UNROLL2(val = *wordptr++; my_nop128();)
 	}
 	return 0;
 }
@@ -225,7 +210,23 @@ int32_t xmem::forwSequentialRead_Word64_Delay128(void* start_address, void* end_
 int32_t xmem::forwSequentialRead_Word64_Delay256(void* start_address, void* end_address) {
 	register Word64_t val;
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
-		UNROLL512(val = *wordptr++; my_nop256();)
+		val = *wordptr++; my_nop256();
+	}
+	return 0;
+}
+
+int32_t xmem::forwSequentialRead_Word64_Delay512(void* start_address, void* end_address) {
+	register Word64_t val;
+	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
+		val = *wordptr++; my_nop512();
+	}
+	return 0;
+}
+
+int32_t xmem::forwSequentialRead_Word64_Delay1024(void* start_address, void* end_address) {
+	register Word64_t val;
+	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
+		val = *wordptr++; my_nop1024();
 	}
 	return 0;
 }

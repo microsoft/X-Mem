@@ -149,6 +149,8 @@ bool BenchmarkManager::runAll() {
 		success = success && runThroughputBenchmarks();
 	if (__config.latencyTestSelected())
 		success = success && runLatencyBenchmarks();
+	if (__config.customExtensionsEnabled())
+		success = success && runCustomExtensions();
 
 	return success;
 }
@@ -622,8 +624,6 @@ bool BenchmarkManager::__buildBenchmarks() {
 
 bool BenchmarkManager::runCustomExtensions() {
 #ifdef EXT_LATENCY_DELAY_INJECTED_BENCHMARK
-	//Assume that number of worker threads is >1. (Check before calling this function.)
-
 	std::vector<LatencyBenchmark_Delays*> del_lat_benchmarks;
 
 	//Build benchmarks
@@ -632,9 +632,12 @@ bool BenchmarkManager::runCustomExtensions() {
 		size_t mem_array_len = __mem_array_lens[mem_node];
 
 		for (uint32_t cpu_node = 0; cpu_node < __benchmark_num_numa_nodes; cpu_node++) { //iterate each CPU node
-			for (uint32_t d = 0; d < 256; d*=2) { //Iterate different delay values
+
+			uint32_t d = 0;
+			while (d <= 1024) { //Iterate different delay values
 		
 				std::string benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index++ << "LE (Latency with Delay Injection Extensions)"))->str();
+				
 #ifdef USE_SIZE_BASED_BENCHMARKS
 				//Determine number of passes for each benchmark. This is working set size-dependent, to ensure the timed duration of each run is sufficiently long, but not too long.
 				passes_per_iteration = compute_number_of_passes((mem_array_len / __config.getNumWorkerThreads()) / KB) / 4;
@@ -655,6 +658,11 @@ bool BenchmarkManager::runCustomExtensions() {
 					std::cerr << "ERROR: Failed to build a LatencyBenchmark_Delays!" << std::endl;
 					return false;
 				}
+
+				if (d == 0) //special case
+					d = 1;
+				else
+					d *= 2;
 			}
 		}
 	}
