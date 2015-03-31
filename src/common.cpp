@@ -169,7 +169,7 @@ void xmem::print_compile_time_options() {
 	std::cout << "USE_PASSES_CURVE_2" << std::endl;
 #endif
 #ifdef POWER_SAMPLING_PERIOD_SEC
-	std::cout << "POWER_SAMPLING_PERIOD_SEC == " << POWER_SAMPLING_PERIOD_SEC << std::endl;
+	std::cout << "POWER_SAMPLING_PERIOD_MS == " << POWER_SAMPLING_PERIOD_MS << std::endl;
 #endif
 #ifdef EXT_LATENCY_DELAY_INJECTED_BENCHMARK
 	std::cout << "EXT_LATENCY_DELAY_INJECTED_BENCHMARK" << std::endl;

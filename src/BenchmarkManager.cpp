@@ -81,7 +81,7 @@ BenchmarkManager::BenchmarkManager(
 		
 #ifdef _WIN32
 		//Put the thread on the last logical CPU in each NUMA node.
-		__dram_power_readers.push_back(new WindowsDRAMPowerReader(cpu_id_in_numa_node(i,g_num_logical_cpus / g_num_nodes - 1), POWER_SAMPLING_PERIOD_SEC, 1, power_obj_name, cpu_id_in_numa_node(i,g_num_logical_cpus / g_num_nodes - 1))); 
+		__dram_power_readers.push_back(new WindowsDRAMPowerReader(cpu_id_in_numa_node(i,g_num_logical_cpus / g_num_nodes - 1), POWER_SAMPLING_PERIOD_MS, 1, power_obj_name, cpu_id_in_numa_node(i,g_num_logical_cpus / g_num_nodes - 1))); 
 #endif
 #ifdef __gnu_linux__
 		//TODO: Implement derived PowerReaders for Linux systems.
@@ -642,7 +642,7 @@ bool BenchmarkManager::runCustomExtensions() {
 			uint32_t d = 0;
 			while (d <= 1024) { //Iterate different delay values
 		
-				std::string benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index++ << "LE (Latency with Delay Injection Extensions)"))->str();
+				std::string benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index++ << "E (Extension: Latency with Delay Injection)"))->str();
 				
 #ifdef USE_SIZE_BASED_BENCHMARKS
 				//Determine number of passes for each benchmark. This is working set size-dependent, to ensure the timed duration of each run is sufficiently long, but not too long.

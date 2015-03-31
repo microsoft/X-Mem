@@ -45,7 +45,7 @@
 
 namespace xmem {
 
-#define VERSION "2.1.1"
+#define VERSION "2.1.2"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -194,7 +194,7 @@ namespace xmem {
 #define USE_PASSES_CURVE_2 /**< RECOMMENDED ENABLED. The passes per iteration of a benchmark will be given by y = 4*2097152 / working_set_size_KB^2 */
 #endif //DO NOT COMMENT THIS OUT
 
-#define POWER_SAMPLING_PERIOD_SEC 1 /**< RECOMMENDED VALUE: 1. Sampling period in seconds for all power measurement mechanisms. */
+#define POWER_SAMPLING_PERIOD_MS 1000 /**< RECOMMENDED VALUE: 1000. Sampling period in milliseconds for all power measurement mechanisms. */
 
 //++++++++++++++++++ User-implemented extensions configuration here +++++++++++++++++++++
 //Only one extension may be enabled at a time.
@@ -252,8 +252,8 @@ namespace xmem {
 #endif
 #endif
 
-#if !defined(POWER_SAMPLING_PERIOD_SEC) || POWER_SAMPLING_PERIOD_SEC <= 0
-#error POWER_SAMPLING_PERIOD_SEC must be defined and greater than 0!
+#if !defined(POWER_SAMPLING_PERIOD_MS) || POWER_SAMPLING_PERIOD_MS <= 0
+#error POWER_SAMPLING_PERIOD_MS must be defined and greater than 0!
 #endif
 
 	extern bool g_verbose;

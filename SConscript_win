@@ -17,7 +17,7 @@ env.Append(CPPFLAGS = '/MD')
 # Static link
 #env.Append(CPPFLAGS = '/MT')
 
-env.Append(CPPPATH = ['src/include' 'src/include/ext'])
+env.Append(CPPPATH = ['src/include', 'src/include/ext'])
 
 # List all C++ source files
 sources = [

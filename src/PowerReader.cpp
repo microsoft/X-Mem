@@ -38,7 +38,7 @@
 
 using namespace xmem;
 
-PowerReader::PowerReader(double sampling_period, double power_units, std::string name, int32_t cpu_affinity) :
+PowerReader::PowerReader(uint64_t sampling_period, double power_units, std::string name, int32_t cpu_affinity) :
 	_stop_signal(false),
 	_power_units(power_units),
 	_name(name),
@@ -142,8 +142,8 @@ double PowerReader::getLastSample() {
 	return retval;
 }
 
-double PowerReader::getSamplingPeriod() {
-	double retval = 0;
+uint64_t PowerReader::getSamplingPeriod() {
+	uint64_t retval = 0;
 	if (_acquireLock(-1)) { //Wait indefinitely for the lock
 		retval = _sampling_period;
 		_releaseLock();
