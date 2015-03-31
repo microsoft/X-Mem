@@ -45,7 +45,7 @@
 
 namespace xmem {
 
-#define VERSION "2.0.12"
+#define VERSION "2.1.0"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -196,7 +196,12 @@ namespace xmem {
 
 #define POWER_SAMPLING_PERIOD_SEC 1 /**< RECOMMENDED VALUE: 1. Sampling period in seconds for all power measurement mechanisms. */
 
+//++++++++++++++++++ User-implemented extensions configuration here +++++++++++++++++++++
+//Only one extension may be enabled at a time.
 #define EXT_LATENCY_DELAY_INJECTED_BENCHMARK /**< RECOMMENDED DISABLED. This allows for a custom extension to X-Mem that performs latency benchmarking with forward sequential 64-bit read-based load threads with variable delays injected in between memory accesses. */
+#define EXTENSION_DESCRIPTION "Loaded latency benchmarks with delay injected kernels on load threads." /**< Only one EXTENSION_DESCRIPTION may be defined at a time. */
+
+//#define EXTENSION_DESCRIPTION "N/A"
 
 /***********************************************************************************************************/
 /***********************************************************************************************************/
@@ -317,9 +322,14 @@ namespace xmem {
 	void print_compile_time_options();
 
 	/**
-	 * @brief Tests any enabled timers and outputs results to the console for sanity checking.
+	 * @brief Initializes the timer and outputs results to the console for sanity checking.
 	 */
-	void test_timers();
+	void setup_timer();
+
+	/**
+	 * @brief Reports timer info to the console.
+	 */
+	void report_timer();
 
 	/**
 	 * @brief Checks to see if the calling thread can be locked to all logical CPUs in the system, and reports to the console the progress.
@@ -386,6 +396,11 @@ namespace xmem {
 	 * @returns 0 on success.
 	 */
 	int32_t query_sys_info();
+
+	/**
+	 * @brief Reports the system configuration to the console as indicated by global variables.
+	 */
+	void report_sys_info();
 
 	/**
 	 * @brief Query the timer for the start of a timed section of code.

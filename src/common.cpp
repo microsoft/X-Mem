@@ -177,13 +177,17 @@ void xmem::print_compile_time_options() {
 	std::cout << std::endl;
 }
 
-void xmem::test_timers() {
-	std::cout << std::endl << "Testing timers..." << std::endl;
+void xmem::setup_timer() {
+	std::cout << "Initializing timer...";
 
 	Timer timer;
 	g_ticks_per_sec = timer.get_ticks_per_sec();
 	g_ns_per_tick = timer.get_ns_per_tick();
 
+	std::cout << "done" << std::endl;
+}
+
+void xmem::report_timer() {
 	std::cout << "Calculated timer frequency: " << g_ticks_per_sec << " Hz == " << (double)(g_ticks_per_sec) / (1e6) << " MHz" << std::endl;
 	std::cout << "Derived timer ns per tick: " << g_ns_per_tick << std::endl;
 	std::cout << std::endl;
@@ -346,8 +350,6 @@ void xmem::init_globals() {
 }
 
 int32_t xmem::query_sys_info() {
-	std::cout << "Querying system information...";
-
 	//Windows only: get logical processor information data structures from OS
 #ifdef _WIN32
 	PSYSTEM_LOGICAL_PROCESSOR_INFORMATION buffer = NULL;
@@ -500,7 +502,16 @@ int32_t xmem::query_sys_info() {
 	g_large_page_size = gethugepagesize(); 
 #endif
 
-	//Report
+#ifdef _WIN32
+	if (buffer)
+		free(buffer);
+#endif
+
+	return 0;
+}
+
+void xmem::report_sys_info() {
+	
 	std::cout << "done" << std::endl;
 	std::cout << "Number of NUMA nodes: " << g_num_nodes << std::endl;
 	std::cout << "Number of physical processor packages: " << g_num_physical_packages << std::endl;
@@ -520,17 +531,8 @@ int32_t xmem::query_sys_info() {
 		<< std::endl; 
 	std::cout << "Regular page size: " << g_page_size << " B" << std::endl;
 	std::cout << "Large page size: " << g_large_page_size << " B" << std::endl;
-
-#ifdef _WIN32
-	if (buffer)
-		free(buffer);
-#endif
-	
-	//Setup timer constants
-	test_timers();
-
-	return 0;
 }
+
 
 uint64_t xmem::start_timer() {
 #ifdef USE_TSC_TIMER

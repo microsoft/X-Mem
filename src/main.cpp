@@ -81,10 +81,15 @@ int main(int argc, char* argv[]) {
 	bool configSuccess = !config.configureFromInput(argc, argv);
 		
 	if (configSuccess) {
+
 		if (g_verbose) {
 			print_compile_time_options();
 			test_thread_affinities();
 		}
+		
+		setup_timer();
+		if (g_verbose)
+			report_timer();
 
 		BenchmarkManager benchmgr(config);
 		if (config.throughputTestSelected()) {
@@ -98,13 +103,16 @@ int main(int argc, char* argv[]) {
 		if (config.customExtensionsEnabled()) {
 			/***** USER-DEFINED FUNCTIONAL EXTENSIONS ******/
 			std::cout << std::endl;
-			std::cout << "Attempting custom X-Mem extensions mode..." << std::endl;
+			std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+			std::cout << "++++++++++++ Starting custom X-Mem extensions ++++++++++++" << std::endl;
+			std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
 			std::cout << std::endl;
 #ifdef EXT_LATENCY_DELAY_INJECTED_BENCHMARK
+			std::cout << "EXTENSION DESCRIPTION: " << EXTENSION_DESCRIPTION << std::endl;
 			if (config.getNumWorkerThreads() > 1)
 				benchmgr.runCustomExtensions();	
 			else {
-				std::cerr << "ERROR: Number of worker threads must be at least 1 to run the custom extensions." << std::endl;
+				std::cerr << "ERROR: Number of worker threads must be at least 1." << std::endl;
 				return false;
 			}
 #else
