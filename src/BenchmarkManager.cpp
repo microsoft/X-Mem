@@ -111,6 +111,8 @@ BenchmarkManager::BenchmarkManager(
 				__results_file << "NAME? Peak Power (W),";
 			}
 		}
+		__results_file << "Extension Info,";
+		__results_file << "Notes,";
 		__results_file << std::endl;
 	}
 }
@@ -230,6 +232,8 @@ bool BenchmarkManager::runThroughputBenchmarks() {
 				__results_file << __tp_benchmarks[i]->getAverageDRAMPower(j) << ",";
 				__results_file << __tp_benchmarks[i]->getPeakDRAMPower(j) << ",";
 			}
+			__results_file << "N/A" << ",";
+			__results_file << "" << ",";
 			__results_file << std::endl;
 		}
 	}
@@ -320,9 +324,11 @@ bool BenchmarkManager::runLatencyBenchmarks() {
 			__results_file << __lat_benchmarks[i]->getAverageMetric() << ",";
 			__results_file << __lat_benchmarks[i]->getMetricUnits() << ",";
 			for (uint32_t j = 0; j < g_num_physical_packages; j++) {
-				__results_file << __tp_benchmarks[i]->getAverageDRAMPower(j) << ",";
-				__results_file << __tp_benchmarks[i]->getPeakDRAMPower(j) << ",";
+				__results_file << __lat_benchmarks[i]->getAverageDRAMPower(j) << ",";
+				__results_file << __lat_benchmarks[i]->getPeakDRAMPower(j) << ",";
 			}
+			__results_file << "N/A" << ",";
+			__results_file << "" << ",";
 			__results_file << std::endl;
 		}
 	}
@@ -671,6 +677,82 @@ bool BenchmarkManager::runCustomExtensions() {
 	for (uint32_t i = 0; i < del_lat_benchmarks.size(); i++) {
 		del_lat_benchmarks[i]->run(); 
 		del_lat_benchmarks[i]->report_results(); //to console
+		
+		//Write to results file if necessary
+		if (__config.useOutputFile()) {
+			__results_file << del_lat_benchmarks[i]->getName() << ",";
+			__results_file << del_lat_benchmarks[i]->getIterations() << ",";
+			__results_file << static_cast<uint64_t>(del_lat_benchmarks[i]->getLen() / del_lat_benchmarks[i]->getNumThreads() / KB) << ",";
+			__results_file << del_lat_benchmarks[i]->getNumThreads() << ",";
+			__results_file << del_lat_benchmarks[i]->getNumThreads()-1 << ",";
+			__results_file << del_lat_benchmarks[i]->getMemNode() << ",";
+			__results_file << del_lat_benchmarks[i]->getCPUNode() << ",";
+			if (del_lat_benchmarks[i]->getNumThreads() < 2) {
+				__results_file << "N/A" << ",";
+				__results_file << "N/A" << ",";
+				__results_file << "N/A" << ",";
+				__results_file << "N/A" << ",";
+			} else {
+				pattern_mode_t pattern = del_lat_benchmarks[i]->getPatternMode();
+				switch (pattern) {
+					case SEQUENTIAL:
+						__results_file << "SEQUENTIAL" << ",";
+						break;
+					case RANDOM:
+						__results_file << "RANDOM" << ",";
+						break;
+					default:
+						__results_file << "UNKNOWN" << ",";
+						break;
+				}
+
+				rw_mode_t rw_mode = del_lat_benchmarks[i]->getRWMode();
+				switch (rw_mode) {
+					case READ:
+						__results_file << "READ" << ",";
+						break;
+					case WRITE:
+						__results_file << "WRITE" << ",";
+						break;
+					default:
+						__results_file << "UNKNOWN" << ",";
+						break;
+				}
+
+				chunk_size_t chunk_size = del_lat_benchmarks[i]->getChunkSize();
+				switch (chunk_size) {
+					case CHUNK_32b:
+						__results_file << "32" << ",";
+						break;
+					case CHUNK_64b:
+						__results_file << "64" << ",";
+						break;
+					case CHUNK_128b:
+						__results_file << "128" << ",";
+						break;
+					case CHUNK_256b:
+						__results_file << "256" << ",";
+						break;
+					default:
+						__results_file << "UNKNOWN" << ",";
+						break;
+				}
+			
+				__results_file << del_lat_benchmarks[i]->getStrideSize() << ",";
+			}
+
+			__results_file << del_lat_benchmarks[i]->getAvgLoadMetric() << ",";
+			__results_file << "MB/s" << ",";
+			__results_file << del_lat_benchmarks[i]->getAverageMetric() << ",";
+			__results_file << del_lat_benchmarks[i]->getMetricUnits() << ",";
+			for (uint32_t j = 0; j < g_num_physical_packages; j++) {
+				__results_file << del_lat_benchmarks[i]->getAverageDRAMPower(j) << ",";
+				__results_file << del_lat_benchmarks[i]->getPeakDRAMPower(j) << ",";
+			}
+			__results_file << del_lat_benchmarks[i]->getDelay() << ",";
+			__results_file << "<-- load threads' memory access delay value in nops" << ",";
+			__results_file << std::endl;
+		}
 	}
 
 	return true;
