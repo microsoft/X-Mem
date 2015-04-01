@@ -69,22 +69,27 @@ void xmem::print_welcome_message() {
 int main(int argc, char* argv[]) {
 	init_globals();
 	print_welcome_message();
-		
+	
 	//Get info about the runtime system
 	if (query_sys_info()) {
 		std::cerr << "ERROR occurred while querying CPU information." << std::endl;
 		return -1;
 	}
-		
+	
+	//Configure runtime based on user inputs
 	Configurator config;
 	bool configSuccess = !config.configureFromInput(argc, argv);
-
+		
 	if (configSuccess) {
+
 		if (g_verbose) {
 			print_compile_time_options();
 			test_thread_affinities();
-			test_timers();
 		}
+		
+		setup_timer();
+		if (g_verbose)
+			report_timer();
 
 		BenchmarkManager benchmgr(config);
 		if (config.throughputTestSelected()) {
@@ -93,6 +98,28 @@ int main(int argc, char* argv[]) {
 
 		if (config.latencyTestSelected()) {
 			benchmgr.runLatencyBenchmarks();
+		}
+
+		if (config.customExtensionsEnabled()) {
+			/***** USER-DEFINED FUNCTIONAL EXTENSIONS ******/
+			std::cout << std::endl;
+			std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+			std::cout << "++++++++++++ Starting custom X-Mem extensions ++++++++++++" << std::endl;
+			std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+			std::cout << std::endl;
+#ifdef EXT_LATENCY_DELAY_INJECTED_BENCHMARK
+			std::cout << "EXTENSION DESCRIPTION: " << EXTENSION_DESCRIPTION << std::endl;
+			if (config.getNumWorkerThreads() > 1)
+				benchmgr.runCustomExtensions();	
+			else {
+				std::cerr << "ERROR: Number of worker threads must be at least 1." << std::endl;
+				return false;
+			}
+#else
+			std::cerr << "ERROR: No custom extensions are implemented in this build of X-Mem." << std::endl;
+			return false;
+#endif
+			/***********************************************/
 		}
 	}
 

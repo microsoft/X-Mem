@@ -44,6 +44,7 @@ using namespace xmem;
 Configurator::Configurator(
 	) :
 	__configured(false),
+	__runCustomExtensions(false),
 	__runLatency(true),
 	__runThroughput(true),
 	__working_set_size_per_thread(DEFAULT_WORKING_SET_SIZE_PER_THREAD),
@@ -77,6 +78,7 @@ Configurator::Configurator(
 }
 
 Configurator::Configurator(
+	bool runCustomExtensions,
 	bool runLatency,
 	bool runThroughput,
 	size_t working_set_size_per_thread,
@@ -108,6 +110,7 @@ Configurator::Configurator(
 	bool use_stride_n16
 	) :
 	__configured(true),
+	__runCustomExtensions(runCustomExtensions),
 	__runLatency(runLatency),
 	__runThroughput(runThroughput),
 	__working_set_size_per_thread(working_set_size_per_thread),
@@ -171,19 +174,29 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		std::cerr << "ERROR: Unknown option: " << std::string(unknown_opt->name, unknown_opt->namelen) << std::endl;
 		goto error;
 	}
-
-	//Check runtime modes
-	if (options[MEAS_LATENCY] || options[MEAS_THROUGHPUT]) { //User explicitly picked a mode, so override default selection
-		__runLatency = false;
-		__runThroughput = false;
+	
+	//Verbosity
+	if (options[VERBOSE]) {
+		__verbose = true; //What the user configuration is.
+		g_verbose = true; //What rest of X-Mem actually uses.
 	}
 
+	//Check runtime modes
+	if (options[MEAS_LATENCY] || options[MEAS_THROUGHPUT] || options[EXTENSIONS]) { //User explicitly picked a mode, so override default selection
+		__runLatency = false;
+		__runThroughput = false;
+		__runCustomExtensions = false;
+	}
+	
 	if (options[MEAS_LATENCY])
 		__runLatency = true;
 
 	if (options[MEAS_THROUGHPUT])
 		__runThroughput = true;
 
+	if (options[EXTENSIONS])
+		__runCustomExtensions = true;
+	
 	//Check working set size
 	if (options[WORKING_SET_SIZE_PER_THREAD]) { //Override default value with user-specified value
 		if (!__checkSingleOptionOccurrence(&options[WORKING_SET_SIZE_PER_THREAD]))
@@ -229,9 +242,6 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	
 	//Check chunk sizes
 	if (options[CHUNK_SIZE]) {
-		if (!__runThroughput) //These options only make sense for throughput benchmarks, but are otherwise harmless
-			std::cerr << "WARNING: Ignoring specified chunk sizes. These only apply to throughput benchmarks." << std::endl;
-
 		//Init... override default values
 		__use_chunk_32b = false;
 		__use_chunk_64b = false;
@@ -263,11 +273,6 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		}
 	}
 
-	if (options[VERBOSE]) {
-		__verbose = true; //What the user configuration is.
-		g_verbose = true; //What rest of X-Mem actually uses.
-	}
-
 	//Check iterations
 	if (options[ITERATIONS]) { //Override default value
 		if (!__checkSingleOptionOccurrence(&options[ITERATIONS]))
@@ -277,11 +282,8 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		__iterations = static_cast<uint32_t>(strtoul(options[ITERATIONS].arg, &endptr, 10));
 	}
 
-	//Check throughput benchmark access patterns
+	//Check throughput/loaded latency benchmark access patterns
 	if (options[RANDOM_ACCESS_PATTERN] || options[SEQUENTIAL_ACCESS_PATTERN]) { //override defaults
-		if (!__runThroughput) //These options only make sense for throughput benchmarks, but are otherwise harmless
-			std::cerr << "WARNING: Ignoring specified access patterns. These only apply to throughput benchmarks." << std::endl;
-
 		__use_random_access_pattern = false;
 		__use_sequential_access_pattern = false;
 	}
@@ -312,11 +314,8 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		__use_output_file = true;
 	}
 
-	//Check if reads and/or writes should be used in throughput benchmarks
+	//Check if reads and/or writes should be used in throughput and loaded latency benchmarks
 	if (options[USE_READS] || options[USE_WRITES]) { //override defaults
-		if (!__runThroughput) //These options only make sense for throughput benchmarks, but are otherwise harmless
-			std::cerr << "WARNING: Ignoring specified read/write patterns. These only apply to throughput benchmarks." << std::endl;
-
 		__use_reads = false;
 		__use_writes = false;
 	}
@@ -329,9 +328,6 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 
 	//Check stride sizes
 	if (options[STRIDE_SIZE]) { //override defaults
-		if (!__runThroughput) //These options only make sense for throughput benchmarks, but are otherwise harmless
-			std::cerr << "WARNING: Ignoring specified stride sizes. These only apply to throughput benchmarks." << std::endl;
-
 		__use_stride_p1 = false;
 		__use_stride_n1 = false;
 		__use_stride_p2 = false;
@@ -388,19 +384,19 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	}
 
 	//Make sure at least one mode is available
-	if (!__runLatency && !__runThroughput) {
+	if (!__runLatency && !__runThroughput && !__runCustomExtensions) {
 		std::cerr << "ERROR: At least one benchmark type must be selected." << std::endl;
 		goto error;
 	}
 
-	//Make sure at least one access pattern is selected if in throughput mode
-	if (__runThroughput && !__use_random_access_pattern && !__use_sequential_access_pattern) { //This should never be triggered
-		std::cerr << "ERROR: Throughput benchmark was selected, but no access pattern was specified!" << std::endl;	
+	//Make sure at least one access pattern is selectee
+	if (!__use_random_access_pattern && !__use_sequential_access_pattern) {
+		std::cerr << "ERROR: No access pattern was specified!" << std::endl;	
 		goto error;
 	}
 	
-	//Make sure at least one read/write pattern is selected if in throughput mode
-	if (__runThroughput && !__use_reads && !__use_writes) { //This should never be triggered
+	//Make sure at least one read/write pattern is selected
+	if (!__use_reads && !__use_writes) {
 		std::cerr << "ERROR: Throughput benchmark was selected, but no read/write pattern was specified!" << std::endl;	
 		goto error;
 	}
@@ -409,6 +405,7 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	if (options[ALL]) {
 		__runLatency = true;
 		__runThroughput = true;
+		__runCustomExtensions = true;
 		__use_chunk_32b = true;
 		__use_chunk_64b = true;
 		__use_chunk_128b = true;
@@ -430,47 +427,59 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	}
 	
 	//Notify that 32-bit chunks are not used on random throughput benchmarks
-	if (__runThroughput && __use_random_access_pattern && __use_chunk_32b) {
-		std::cerr << "NOTE: Random throughput benchmarks do not support 32-bit chunk sizes. These particular combinations will be skipped." << std::endl;
-	}
+	if (__use_random_access_pattern && __use_chunk_32b) 
+		std::cerr << "NOTE: Random-access load kernels used in throughput and loaded latency benchmarks do not support 32-bit chunk sizes. These particular combinations will be omitted." << std::endl;
 
 	//Check for help or bad options
 	if (options[HELP] || options[UNKNOWN] != NULL)
 		goto error;
 	
-	//Echo user settings
+	//Report final runtime configuration based on user inputs
 	std::cout << std::endl;
-	if (__verbose) 
-		std::cout << "Verbose mode enabled." << std::endl;
-	if (__runLatency)
-		std::cout << "Latency test selected." << std::endl;
-	if (__runThroughput) {
-		std::cout << "Throughput test selected." << std::endl;
-		std::cout << "---> Random access: \t\t";
+	if (__verbose) {
+		std::cout << "Verbose output enabled!" << std::endl;
+
+		std::cout << "Benchmarking modes:" << std::endl;
+		if (__runThroughput)
+			std::cout << "---> Throughput" << std::endl;
+		if (__runLatency) {
+			std::cout << "---> ";
+			if (__num_worker_threads > 1)
+				std::cout << "Loaded ";
+			else
+				std::cout << "Unloaded ";
+			std::cout << "latency" << std::endl;
+		}
+		if (__runCustomExtensions)
+			std::cout << "---> Custom extensions" << std::endl;
+		std::cout << std::endl;
+		
+		std::cout << "Benchmark settings:" << std::endl;
+		std::cout << "---> Random access: \t\t\t";
 		if (__use_random_access_pattern)
 			std::cout << "yes";
 		else
 			std::cout << "no";
 		std::cout << std::endl;
-		std::cout << "---> Sequential access: \t";
+		std::cout << "---> Sequential access: \t\t";
 		if (__use_sequential_access_pattern)
 			std::cout << "yes";
 		else
 			std::cout << "no";
 		std::cout << std::endl;
-		std::cout << "---> Use memory reads: \t\t";
+		std::cout << "---> Use memory reads: \t\t\t";
 		if (__use_reads)
 			std::cout << "yes";
 		else
 			std::cout << "no";
 		std::cout << std::endl;
-		std::cout << "---> Use memory writes: \t";
+		std::cout << "---> Use memory writes: \t\t";
 		if (__use_writes)
 			std::cout << "yes";
 		else
 			std::cout << "no";
 		std::cout << std::endl;
-		std::cout << "---> Chunk sizes:  \t\t";
+		std::cout << "---> Chunk sizes:  \t\t\t";
 		if (__use_chunk_32b)
 			std::cout << "32 ";
 		if (__use_chunk_64b)
@@ -480,7 +489,7 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		if (__use_chunk_256b)
 			std::cout << "256 ";
 		std::cout << std::endl;
-		std::cout << "---> Stride sizes:  \t\t";
+		std::cout << "---> Stride sizes:  \t\t\t";
 		if (__use_stride_p1)
 			std::cout << "1 ";
 		if (__use_stride_n1)
@@ -502,8 +511,26 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		if (__use_stride_n16)
 			std::cout << "-16 ";
 		std::cout << std::endl;
+		std::cout << "---> Number of worker threads:  \t";
+		std::cout << __num_worker_threads << std::endl;
+		std::cout << "---> NUMA enabled:   \t\t\t";
+		if (__numa_enabled)
+			std::cout << "yes" << std::endl;
+		else
+			std::cout << "no" << std::endl;
+		std::cout << "---> Large pages:    \t\t\t";
+		if (__use_large_pages)
+			std::cout << "yes" << std::endl;
+		else
+			std::cout << "no" << std::endl;
+		std::cout << "---> Iterations:  \t\t\t";
+		std::cout << __iterations << std::endl;
+		std::cout << "---> Starting test index:  \t\t";
+		std::cout << __starting_test_index << std::endl;
+		std::cout << std::endl;
 	}
-	std::cout << "Working set:  \t\t\t";
+
+	std::cout << "Working set per thread:  \t\t";
 	if (__use_large_pages) {
 		size_t num_large_pages = 0;
 		if (__working_set_size_per_thread <= g_large_page_size) //sub one large page, round up to one
@@ -516,20 +543,6 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	} else { 
 		std::cout << __working_set_size_per_thread << " B == " << __working_set_size_per_thread / KB  << " KB == " << __working_set_size_per_thread / MB << " MB (" << __working_set_size_per_thread/(g_page_size) << " pages)" << std::endl;	
 	}
-	std::cout << "Number of worker threads:  \t";
-	std::cout << __num_worker_threads << std::endl;
-	if (!__numa_enabled)
-		std::cout << "NUMA enabled:   \t\tno" << std::endl;
-	else
-		std::cout << "NUMA enabled:   \t\tyes" << std::endl;
-	if (__use_large_pages)
-		std::cout << "Large pages:    \t\tyes" << std::endl;
-	else
-		std::cout << "Large pages:    \t\tno" << std::endl;
-	std::cout << "Iterations:  \t\t\t";
-	std::cout << __iterations << std::endl;
-	std::cout << "Starting test index:  \t\t";
-	std::cout << __starting_test_index << std::endl;
 
 	//Free up options memory
 	if (options)

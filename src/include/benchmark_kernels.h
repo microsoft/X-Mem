@@ -81,7 +81,8 @@ namespace xmem {
 	/* --------------------- DUMMY BENCHMARK ROUTINES --------------------------- */
 
 	/**
-	 * @brief Mimics the __chasePointers() method but doesn't do the memory accesses.
+	 * @brief Mimics the chasePointers() method but doesn't do the memory accesses.
+	 * @param len The number of fake pointer deferences. May be unused.
 	 * @returns Undefined.
 	 */
 	int32_t dummy_chasePointers(uintptr_t*, uintptr_t**, size_t len);
@@ -92,7 +93,10 @@ namespace xmem {
 
 	/**
 	 * @brief Walks over the allocated memory in random order by chasing pointers.
-	 * TODO update Doxygen comments
+	 * @param first_address Starting address to deference.
+	 * @param last_touched_address The last visited address.
+	 * @param len The number of pointers to deference in a chain-like fashion.
+	 * @returns Undefined.
 	 */
 	int32_t chasePointers(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 	
@@ -445,20 +449,23 @@ namespace xmem {
 	/* ------------ RANDOM LOOP --------------*/
 
 	/**
-	 * @brief Used for measuring the time spent doing everything in random Word 64 loops except for the memory access itself.
-	 * TODO update Doxygen comments
+	 * @brief Mimics the randomRead_Word64 and randomWrite_Word64 functions except for the memory accesses.
+	 * @param len The number of pointers to deference in a chain-like fashion.
+	 * @returns Undefined.
 	 */
 	int32_t dummy_randomLoop_Word64(uintptr_t*, uintptr_t**, size_t len);
 
 	/**
-	 * @brief Used for measuring the time spent doing everything in random Word 128 loops except for the memory access itself.
-	 * TODO update Doxygen comments
+	 * @brief Mimics the randomRead_Word128 and randomWrite_Word128 functions except for the memory accesses.
+	 * @param len The number of pointers to deference in a chain-like fashion.
+	 * @returns Undefined.
 	 */
 	int32_t dummy_randomLoop_Word128(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 
 	/**
-	 * @brief Used for measuring the time spent doing everything in random Word 256 loops except for the memory access itself.
-	 * TODO update Doxygen comments
+	 * @brief Mimics the randomRead_Word256 and randomWrite_Word256 functions except for the memory accesses.
+	 * @param len The number of pointers to deference in a chain-like fashion.
+	 * @returns Undefined.
 	 */
 	int32_t dummy_randomLoop_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 
@@ -1127,40 +1134,58 @@ namespace xmem {
 	/* ------------ RANDOM READ --------------*/
 
 	/**
-	 * @brief Walks over the allocated memory in random order, reading in 64-bit chunks.
-	 * TODO update Doxygen comments
+	 * @brief Walks over the allocated memory in random order by chasing 64-bit pointers.
+	 * @param first_address Starting address to deference.
+	 * @param last_touched_address The last visited address.
+	 * @param len The number of pointers to deference in a chain-like fashion.
+	 * @returns Undefined.
 	 */
 	int32_t randomRead_Word64(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 
 	/**
-	 * @brief Walks over the allocated memory in random order, reading in 128-bit chunks.
-	 * TODO update Doxygen comments
+	 * @brief Walks over the allocated memory in random order by chasing 64-bit pointers embedded in 128-bit memory words.
+	 * @param first_address Starting address to deference.
+	 * @param last_touched_address The last visited address.
+	 * @param len The number of pointers to deference in a chain-like fashion.
+	 * @returns Undefined.
 	 */
 	int32_t randomRead_Word128(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 
 	/**
-	 * @brief Walks over the allocated memory in random order, reading in 256-bit chunks.
-	 * TODO update Doxygen comments
+	 * @brief Walks over the allocated memory in random order by chasing 64-bit pointers embedded in 256-bit memory words.
+	 * @param first_address Starting address to deference.
+	 * @param last_touched_address The last visited address.
+	 * @param len The number of pointers to deference in a chain-like fashion.
+	 * @returns Undefined.
 	 */
 	int32_t randomRead_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 
 	/* ------------ RANDOM WRITE --------------*/
 
 	/**
-	 * @brief Walks over the allocated memory in random order, writing in 64-bit chunks.
-	 * TODO update Doxygen comments
+	 * @brief Walks over the allocated memory in random order by chasing 64-bit pointers. A pointer is read and written back with the same value before chasing to the next pointer. Thus, each memory address is a read followed by immediate write operation. 
+	 * @param first_address Starting address to deference.
+	 * @param last_touched_address The last visited address.
+	 * @param len The number of pointers to deference in a chain-like fashion.
+	 * @returns Undefined.
 	 */
 	int32_t randomWrite_Word64(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 
 	/**
-	 * @brief Walks over the allocated memory in random order, writing in 128-bit chunks.
-	 * TODO update Doxygen comments
+	 * @brief Walks over the allocated memory in random order by chasing 64-bit pointers embedded within 128-bit words. A 128-bit word is read and written back with the same value before chasing to the next location extracted as a 64-bit address in the 128-bit word. Thus, each memory address is a read followed by immediate write operation as well as a vector word extraction. 
+	 * @param first_address Starting address to deference.
+	 * @param last_touched_address The last visited address.
+	 * @param len The number of pointers to deference in a chain-like fashion.
+	 * @returns Undefined.
 	 */
 	int32_t randomWrite_Word128(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 
 	/**
-	 * @brief Walks over the allocated memory in random order, writing in 256-bit chunks.
-	 * TODO update Doxygen comments
+	 * @brief Walks over the allocated memory in random order by chasing 64-bit pointers embedded within 256-bit words. A 256-bit word is read and written back with the same value before chasing to the next location extracted as a 64-bit address in the 256-bit word. Thus, each memory address is a read followed by immediate write operation as well as a vector word extraction. 
+	 * @param first_address Starting address to deference.
+	 * @param last_touched_address The last visited address.
+	 * @param len The number of pointers to deference in a chain-like fashion.
+	 * @returns Undefined.
 	 */
 	int32_t randomWrite_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 };

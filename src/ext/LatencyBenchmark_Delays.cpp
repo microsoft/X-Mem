@@ -24,13 +24,17 @@
 /**
  * @file
  * 
- * @brief Implementation file for the LatencyBenchmark class.
+ * @brief Implementation file for the LatencyBenchmark_Delays class.
  */
 
+
 //Headers
-#include <LatencyBenchmark.h>
 #include <common.h>
-#include <benchmark_kernels.h>
+
+#ifdef EXT_LATENCY_DELAY_INJECTED_BENCHMARK
+
+#include <LatencyBenchmark_Delays.h>
+#include <benchmark_kernels_delays.h>
 #include <MemoryWorker.h>
 #include <LatencyWorker.h>
 #include <LoadWorker.h>
@@ -48,7 +52,7 @@
 
 using namespace xmem;
 		
-LatencyBenchmark::LatencyBenchmark(
+LatencyBenchmark_Delays::LatencyBenchmark_Delays(
 		void* mem_array,
 		size_t len,
 		uint32_t iterations,
@@ -58,14 +62,11 @@ LatencyBenchmark::LatencyBenchmark(
 		uint32_t num_worker_threads,
 		uint32_t mem_node,
 		uint32_t cpu_node,
-		pattern_mode_t pattern_mode,
-		rw_mode_t rw_mode,
-		chunk_size_t chunk_size,
-		int64_t stride_size,
 		std::vector<PowerReader*> dram_power_readers,
-		std::string name
+		std::string name,
+		uint32_t delay
 	) :
-		Benchmark(
+		LatencyBenchmark(
 			mem_array,
 			len,
 			iterations,
@@ -75,141 +76,27 @@ LatencyBenchmark::LatencyBenchmark(
 			num_worker_threads,
 			mem_node,
 			cpu_node,
-			pattern_mode,
-			rw_mode,
-			chunk_size,
-			stride_size,
+			SEQUENTIAL,
+			READ,
+			CHUNK_64b,
+			1,
 			dram_power_readers,
-			"ns/access",
 			name
 		),
-		_loadMetricOnIter(),
-		_averageLoadMetric(0)
+		__delay(delay)
 	{ 
-
-	for (uint32_t i = 0; i < _iterations; i++) 
-		_loadMetricOnIter.push_back(0);
 }
 
-void LatencyBenchmark::report_benchmark_info() const {
-	std::cout << "CPU NUMA Node: " << _cpu_node << std::endl;
-	std::cout << "Memory NUMA Node: " << _mem_node << std::endl;
-	std::cout << "Latency measurement chunk size: 64-bit" << std::endl;
-	std::cout << "Latency measurement access pattern: random read (pointer-chasing)" << std::endl;
-
-	if (_num_worker_threads > 1) {
-		std::cout << "Load Chunk Size: ";
-		switch (_chunk_size) {
-			case CHUNK_32b:
-				std::cout << "32-bit";
-				break;
-			case CHUNK_64b:
-				std::cout << "64-bit";
-				break;
-			case CHUNK_128b:
-				std::cout << "128-bit";
-				break;
-			case CHUNK_256b:
-				std::cout << "256-bit";
-				break;
-			default:
-				std::cout << "UNKNOWN";
-				break;
-		}
-		std::cout << std::endl;
-
-		std::cout << "Load Access Pattern: ";
-		switch (_pattern_mode) {
-			case SEQUENTIAL:
-				if (_stride_size > 0)
-					std::cout << "forward ";
-				else if (_stride_size < 0)
-					std::cout << "reverse ";
-				else 
-					std::cout << "UNKNOWN ";
-
-				if (_stride_size == 1 || _stride_size == -1)
-					std::cout << "sequential";
-				else 
-					std::cout << "strides of " << _stride_size << " chunks";
-				break;
-			case RANDOM:
-				std::cout << "random";
-				break;
-			default:
-				std::cout << "UNKNOWN";
-				break;
-		}
-		std::cout << std::endl;
-
-
-		std::cout << "Load Read/Write Mode: ";
-		switch (_rw_mode) {
-			case READ:
-				std::cout << "read";
-				break;
-			case WRITE:
-				std::cout << "write";
-				break;
-			default:
-				std::cout << "UNKNOWN";
-				break;
-		}
-		std::cout << std::endl;
-
-		std::cout << "Load number of worker threads: " << _num_worker_threads-1;
-		std::cout << std::endl;
-	}
-
-	std::cout << std::endl;
+void LatencyBenchmark_Delays::report_benchmark_info() const {
+	LatencyBenchmark::report_benchmark_info();
+	std::cout << "Load worker kernel delay value: " << __delay << std::endl;
 }
 
-
-void LatencyBenchmark::report_results() const {
-	std::cout << std::endl;
-	std::cout << "*** RESULTS";
-	std::cout << "***" << std::endl;
-	std::cout << std::endl;
- 
-	if (_hasRun) {
-		for (uint32_t i = 0; i < _iterations; i++) {
-			std::cout << "Iter #" << i + 1 << ": " << _metricOnIter[i] << " " << _metricUnits << " @ " << _loadMetricOnIter[i] << " MB/s average imposed load";
-			if (_warning)
-				std::cout << " (WARNING)";
-			std::cout << std::endl;
-		}
-		std::cout << "Average: " << _averageMetric << " " << _metricUnits << " @ " << _averageLoadMetric << " MB/s average imposed load";
-		if (_warning)
-			std::cout << " (WARNING)";
-		std::cout << std::endl;
-		
-		for (uint32_t i = 0; i < _dram_power_readers.size(); i++) {
-			if (_dram_power_readers[i] != NULL) {
-				std::cout << _dram_power_readers[i]->name() << " Power Statistics..." << std::endl;
-				std::cout << "...Average Power: " << _dram_power_readers[i]->getAveragePower() * _dram_power_readers[i]->getPowerUnits() << " W" << std::endl;
-				std::cout << "...Peak Power: " << _dram_power_readers[i]->getPeakPower() * _dram_power_readers[i]->getPowerUnits() << " W" << std::endl;
-			}
-		}
-	}
-	else
-		std::cerr << "WARNING: Benchmark has not run yet. No reported results." << std::endl;
+uint32_t LatencyBenchmark_Delays::getDelay() const {
+	return __delay;
 }
 
-double LatencyBenchmark::getLoadMetricOnIter(uint32_t iter) const {
-	if (_hasRun && iter - 1 <= _iterations)
-		return _loadMetricOnIter[iter - 1];
-	else //bad call
-		return -1;
-}
-
-double LatencyBenchmark::getAvgLoadMetric() const {		
-	if (_hasRun)
-		return _averageLoadMetric;
-	else //bad call
-		return -1;
-}
-
-bool LatencyBenchmark::_run_core() {
+bool LatencyBenchmark_Delays::_run_core() {
 	size_t len_per_thread = _len / _num_worker_threads; //Carve up memory space so each worker has its own area to play in
 
 	//Set up latency measurement kernel function pointers
@@ -229,34 +116,61 @@ bool LatencyBenchmark::_run_core() {
 	}
 
 	//Set up load generation kernel function pointers
-	SequentialFunction load_kernel_fptr_seq = NULL;
-	SequentialFunction load_kernel_dummy_fptr_seq = NULL; 
-	RandomFunction load_kernel_fptr_ran = NULL;
-	RandomFunction load_kernel_dummy_fptr_ran = NULL; 
+	SequentialFunction load_kernel_fptr = NULL;
+	SequentialFunction load_kernel_dummy_fptr = NULL; 
 	if (_num_worker_threads > 1) { //If we only have one worker thread, it is used for latency measurement only, and no load threads will be used.
-		if (_pattern_mode == SEQUENTIAL) {
-			if (!determineSequentialKernel(_rw_mode, _chunk_size, _stride_size, &load_kernel_fptr_seq, &load_kernel_dummy_fptr_seq)) {
+		switch (__delay) {
+			case 0:
+				load_kernel_fptr = &forwSequentialRead_Word64; //not an extended kernel
+				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64; //not an extended kernel
+				break;
+			case 1:
+				load_kernel_fptr = &forwSequentialRead_Word64_Delay1;
+				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay1;
+				break;
+			case 2:
+				load_kernel_fptr = &forwSequentialRead_Word64_Delay2;
+				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay2;
+				break;
+			case 4:
+				load_kernel_fptr = &forwSequentialRead_Word64_Delay4;
+				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay4;
+				break;
+			case 8:
+				load_kernel_fptr = &forwSequentialRead_Word64_Delay8;
+				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay8;
+				break;
+			case 16:
+				load_kernel_fptr = &forwSequentialRead_Word64_Delay16;
+				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay16;
+				break;
+			case 32:
+				load_kernel_fptr = &forwSequentialRead_Word64_Delay32;
+				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay32;
+				break;
+			case 64:
+				load_kernel_fptr = &forwSequentialRead_Word64_Delay64;
+				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay64;
+				break;
+			case 128:
+				load_kernel_fptr = &forwSequentialRead_Word64_Delay128;
+				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay128;
+				break;
+			case 256:
+				load_kernel_fptr = &forwSequentialRead_Word64_Delay256;
+				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay256plus;
+				break;
+			case 512:
+				load_kernel_fptr = &forwSequentialRead_Word64_Delay512;
+				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay256plus;
+				break;
+			case 1024:
+				load_kernel_fptr = &forwSequentialRead_Word64_Delay1024;
+				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay256plus;
+				break;
+			default:
 				std::cerr << "ERROR: Failed to find appropriate benchmark kernel." << std::endl;
 				return false;
-			}
-		} else if (_pattern_mode == RANDOM) {
-			if (!determineRandomKernel(_rw_mode, _chunk_size, &load_kernel_fptr_ran, &load_kernel_dummy_fptr_ran)) {
-				std::cerr << "ERROR: Failed to find appropriate benchmark kernel." << std::endl;
-				return false;
-			}
-
-			//Build pointer indices for random-access load threads. Note that the pointers for each load thread must stay within its respective region, otherwise sharing may occur. 
-			for (uint32_t i = 1; i < _num_worker_threads; i++) {
-				if (!buildRandomPointerPermutation(reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + i*len_per_thread), //static casts to silence compiler warnings
-												   reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + (i+1)*len_per_thread), //static casts to silence compiler warnings
-							 					   _chunk_size)) {
-					std::cerr << "ERROR: Failed to build a random pointer permutation for a load generation thread!" << std::endl;
-					return false;
-				}
-			}
-		} else {
-			std::cerr << "ERROR: Got an invalid pattern mode." << std::endl;
-			return false;
 		}
 	}
 
@@ -298,26 +212,14 @@ bool LatencyBenchmark::_run_core() {
 												    lat_kernel_dummy_fptr,
 												    cpu_id));
 			} else {
-				if (_pattern_mode == SEQUENTIAL)
-					workers.push_back(new LoadWorker(thread_mem_array,
-													 len_per_thread,
+				workers.push_back(new LoadWorker(thread_mem_array,
+												 len_per_thread,
 #ifdef USE_SIZE_BASED_BENCHMARKS
-													 _passes_per_iteration,
+												 _passes_per_iteration,
 #endif
-													 load_kernel_fptr_seq,
-													 load_kernel_dummy_fptr_seq,
-													 cpu_id));
-				else if (_pattern_mode == RANDOM)
-					workers.push_back(new LoadWorker(thread_mem_array,
-													 len_per_thread,
-#ifdef USE_SIZE_BASED_BENCHMARKS
-													 _passes_per_iteration,
-#endif
-													 load_kernel_fptr_ran,
-													 load_kernel_dummy_fptr_ran,
-													 cpu_id));
-				else
-					std::cerr << "WARNING: Invalid benchmark pattern mode." << std::endl;
+												 load_kernel_fptr,
+												 load_kernel_dummy_fptr,
+												 cpu_id));
 			}
 			worker_threads.push_back(new Thread(workers[t]));
 		}
@@ -400,7 +302,6 @@ bool LatencyBenchmark::_run_core() {
 				if (iter_warning) std::cout << " -- WARNING";
 				std::cout << std::endl;
 			}
-
 		}
 		
 		//Compute overall metrics for this iteration
@@ -437,3 +338,5 @@ bool LatencyBenchmark::_run_core() {
 
 	return true;
 }
+
+#endif

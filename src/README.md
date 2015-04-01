@@ -1,7 +1,7 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: Extensible Memory Benchmarking Tool v2.0.7
+X-Mem: Extensible Memory Benchmarking Tool v2.1.2
 ------------------------------------------------------------------------------------------------------------
 
 The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power. 
@@ -10,7 +10,7 @@ Originally authored by Mark Gottscho (Email: <mgottscho@ucla.edu>) as a Summer 2
 
 This project is under active development. Stay tuned for more updates.
 
-PROJECT REVISION DATE: March 23, 2015.
+PROJECT REVISION DATE: March 31, 2015.
 
 ------------------------------------------------------------------------------------------------------------
 LICENSE
@@ -76,6 +76,12 @@ Memory power:
 Documentation:
 	- Extensive Doxygen source code comments, PDF manual, HTML
 
+
+
+INCLUDED EXTENSIONS (under src/include/ext and src/ext directories):
+	- Loaded latency benchmark variant with load delays inserted as nop instructions between memory instructions.
+	  This is done for 64-bit chunks, forward sequential read load threads only at the moment.
+
 For feature requests, please refer to the contact information at the end of this README.
 
 ------------------------------------------------------------------------------------------------------------
@@ -118,59 +124,159 @@ USAGE
 USAGE: xmem [options]
 
 Options:
-    -c, --chunk_size            A chunk size to use for throughput benchmarks,
-                                specified in bits. Allowed values: 32, 64, 128,
-                                and 256. If no chunk sizes specified, use 64-bit
-                                chunks by default. NOTE: Some chunk sizes may
-                                not be supported on your hardware.
-    -f, --output_file           Output filename to use. If not specified, no
-                                output file generated.
-    -h, --help                  Print usage and exit.
-    -i, --base_test_index       Numerical index of the first benchmark, for
-                                tracking unique test IDs.
-    -j, --num_worker_threads    Number of worker threads to use in relevant
-                                benchmarks. This may not exceed the number of
-                                logical CPUs in the system. For throughput
-                                benchmarks, this is the number of independent
-                                load-generating threads. For latency benchmarks,
-                                this is the number of independent
-                                load-generating threads plus one latency
-                                measurement thread.
-    -l, --latency               Measure memory latency
-    -n, --iterations            Iterations per benchmark test
-    -r, --random_access         Use a random access pattern on throughput
-                                benchmarks. WARNING: not yet implemented,
-                                results are not correct.
-    -s, --sequential_access     Use a sequential access pattern on throughput
-                                benchmarks
-    -t, --throughput            Measure memory throughput
-    -u, --force_uma             Test only CPU/memory NUMA node 0 instead of all
-                                combinations.
-    -v, --verbose               Verbose mode, increase detail in X-Mem console
-                                reporting.
+    -a, --all                   Run all possible benchmark modes and settings
+                                supported by X-Mem. This will override any other
+                                relevant user inputs. Note that X-Mem may run
+                                for a long time.
+    -c, --chunk_size            A chunk size in bits to use for load
+                                traffic-generating threads used in throughput
+                                and loaded latency benchmarks. A chunk is the
+                                size of each memory access in a benchmark.
+                                Allowed values: 32, 64, 128, and 256. If no
+                                chunk sizes specified, use 64-bit chunks by
+                                default. Note that some chunk sizes may not be
+                                supported on some hardware. 32-bit chunks are
+                                not compatible with random-access patterns;
+                                these combinations of settings will be skipped
+                                if they occur. DEFAULT: 64
+    -e, --extensions            Run custom X-Mem extensions defined by the user
+                                at build time.
+    -f, --output_file           Generate an output file in CSV format using the
+                                given filename.
+    -h, --help                  Print X-Mem usage and exit.
+    -i, --base_test_index       Base index for the first benchmark to run. This
+                                option is provided for user convenience in
+                                enumerating benchmark tests across several
+                                subsequent runs of X-Mem. DEFAULT: 1
+    -j, --num_worker_threads    Number of worker threads to use in benchmarks.
+                                This may not exceed the number of logical CPUs
+                                in the system. For throughput benchmarks, this
+                                is the number of independent load-generating
+                                threads. For latency benchmarks, this is the
+                                number of independent load-generating threads
+                                plus one latency measurement thread. In latency
+                                benchmarks, 1 worker thread indicates no loading
+                                is applied. DEFAULT: 1
+    -l, --latency               Unloaded or loaded latency benchmarking mode. If
+                                1 thread is used, unloaded latency is measured
+                                using 64-bit random reads. Otherwise, 1 thread
+                                is always dedicated to the 64-bit random read
+                                latency measurement, and remaining threads are
+                                used for load traffic generation using access
+                                patterns, chunk sizes, etc. specified by other
+                                arguments. See the throughput option for more
+                                information on load traffic generation.
+    -n, --iterations            Iterations per benchmark. Multiple independent
+                                iterations may be performed on each benchmark
+                                setting to ensure consistent results. DEFAULT: 1
+    -r, --random_access         Use a random access pattern for load
+                                traffic-generating threads used in throughput
+                                and loaded latency benchmarks.
+    -s, --sequential_access     Use a sequential and/or strided access pattern
+                                for load traffic generating-threads used in
+                                throughput and loaded latency benchmarks.
+    -t, --throughput            Throughput benchmarking mode. Aggregate
+                                throughput is measured across all worker
+                                threads. Each load traffic-generating worker in
+                                a particular benchmark runs an identical kernel.
+                                Multiple distinct benchmarks may be run
+                                depending on the specified benchmark settings
+                                (e.g., aggregated 64-bit and 256-bit sequential
+                                read throughput using strides of 1 and -8
+                                chunks).
+    -u, --ignore_numa           Force uniform memory access (UMA) mode. This
+                                only has an effect in non-uniform memory access
+                                (NUMA) systems. Limits benchmarking to CPU and
+                                memory NUMA node 0 instead of all intra-node and
+                                inter-node combinations. This mode can be useful
+                                in situations where the user is not interested
+                                in cross-node effects or node asymmetry. This
+                                option may also be required if large pages are
+                                desired on GNU/Linux systems due to lack of NUMA
+                                support in current versions of hugetlbfs. See
+                                the large_pages option.
+    -v, --verbose               Verbose mode increases the level of detail in
+                                X-Mem console reporting.
     -w, --working_set_size      Working set size per worker thread in KB. This
-                                must be a multiple of 4KB.
-    -L, --large_pages           Use large pages if possible. This may enable
-                                better memory performance, particularly for
-                                random-access patterns, but may not be supported
-                                on your system.
-    -R, --reads                 Use memory reads in throughput benchmarks.
-    -W, --writes                Use memory writes in throughput benchmarks.
-    -S, --stride_size           A stride size to use for sequential throughput
-                                benchmarks, specified in powers-of-two multiples
-                                of the chunk size(s). Allowed values: 1, -1, 2,
-                                -2, 4, -4, 8, -8, 16, -16. Positive indicates
-                                the forward direction (increasing addresses),
-                                while negative indicates the reverse direction.
+                                must be a multiple of 4KB. In all benchmarks,
+                                each worker thread works on its own "private"
+                                region of memory. For example, 4-thread
+                                throughput benchmarking with a working set size
+                                of 4 KB might result in measuring the aggregate
+                                throughput of four L1 caches corresponding to
+                                four physical cores, with no data sharing
+                                between threads. Similarly, an 8-thread loaded
+                                latency benchmark with a working set size of 64
+                                MB would use 512 MB of memory in total for
+                                benchmarking, with no data sharing between
+                                threads. This would result in performance
+                                measurement of the shared DRAM physical
+                                interface, the shared L3 cache, etc.
+    -L, --large_pages           Use large pages. This might enable better memory
+                                performance by reducing the
+                                translation-lookaside buffer (TLB) bottleneck.
+                                However, this is not supported on all systems.
+                                On GNU/Linux, you need hugetlbfs support with
+                                pre-reserved huge pages prior to running X-Mem.
+                                On GNU/Linux, you also must use the ignore_numa
+                                option, as hugetlbfs is not NUMA-aware at this
+                                time.
+    -R, --reads                 Use memory read-based patterns in load
+                                traffic-generating threads.
+    -W, --writes                Use memory write-based patterns in load
+                                traffic-generating threads.
+    -S, --stride_size           A stride size to use for load traffic-generating
+                                threads, specified in powers-of-two multiples of
+                                the chunk size(s). Allowed values: 1, -1, 2, -2,
+                                4, -4, 8, -8, 16, -16. Positive indicates the
+                                forward direction (increasing addresses), while
+                                negative indicates the reverse direction.
 
 If a given option is not specified, X-Mem defaults will be used where
 appropriate.
 
-Examples:
-    xmem --help
-    xmem -h
-    xmem -l --verbose -n5 --chunk_size=32 -s
-    xmem -t --latency -w524288 -f results.csv -c32 -c256 -i 101 -u -j2
++++++++++++++++++++++++++++ EXAMPLE USAGE +++++++++++++++++++++++++++++
+
+Print X-Mem usage message and exit. If --help or -h is specified, benchmarks
+will not run regardless of other options.
+
+        xmem --help
+        xmem -h
+
+
+Run unloaded latency benchmarks with 5 iterations of each distinct benchmark
+setting. The chunk size of 32 bits and sequential access pattern options will be
+ignored as they only apply to load traffic-generating threads, which are unused
+here as the default number of worker threads is 1. Console reporting will be
+verbose.
+
+        xmem -l --verbose -n5 --chunk_size=32 -s
+
+
+Run throughput and loaded latency benchmarks on a per-thread working set size of
+512 MB for a grand total of 1 GB of memory space. Use chunk sizes of 32 and 256
+bits for load traffic-generating threads, and ignore NUMA effects. Number the
+first benchmark test starting at 101 both in console reporting and CSV file
+output (results.csv).
+
+        xmem -t --latency -w524288 -f results.csv -c32 -c256 -i 101 -u -j2
+
+
+Run 3 iterations of throughput, loaded latency, and extended benchmark modes on
+a working set of 128 KB per thread. Use 4 worker threads in total. For load
+traffic-generating threads, use all combinations of read and write memory
+accesses, random-access patterns, forward sequential, and strided patterns of
+size -4 and -16 chunks. Ignore NUMA effects in the system and use large pages.
+Finally, increase verbosity of console output.
+
+        xmem -w128 -n3 -j4 -l -t --extensions -s -S1 -S-4 -r -S16 -R -W -u -L -v
+
+
+Run EVERYTHING and dump results to file.
+
+        xmem -a -v -ftest.csv
+
+Have fun! =]
 
 ------------------------------------------------------------------------------------------------------------
 BUILDING FROM SOURCE

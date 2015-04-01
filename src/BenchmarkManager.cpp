@@ -32,6 +32,10 @@
 #include <common.h>
 #include <Configurator.h>
 
+#ifdef EXT_LATENCY_DELAY_INJECTED_BENCHMARK
+#include <LatencyBenchmark_Delays.h>
+#endif
+
 #ifdef _WIN32
 #include <win/win_common_third_party.h>
 #include <win/WindowsDRAMPowerReader.h>
@@ -77,7 +81,7 @@ BenchmarkManager::BenchmarkManager(
 		
 #ifdef _WIN32
 		//Put the thread on the last logical CPU in each NUMA node.
-		__dram_power_readers.push_back(new WindowsDRAMPowerReader(cpu_id_in_numa_node(i,g_num_logical_cpus / g_num_nodes - 1), POWER_SAMPLING_PERIOD_SEC, 1, power_obj_name, cpu_id_in_numa_node(i,g_num_logical_cpus / g_num_nodes - 1))); 
+		__dram_power_readers.push_back(new WindowsDRAMPowerReader(cpu_id_in_numa_node(i,g_num_logical_cpus / g_num_nodes - 1), POWER_SAMPLING_PERIOD_MS, 1, power_obj_name, cpu_id_in_numa_node(i,g_num_logical_cpus / g_num_nodes - 1))); 
 #endif
 #ifdef __gnu_linux__
 		//TODO: Implement derived PowerReaders for Linux systems.
@@ -107,6 +111,8 @@ BenchmarkManager::BenchmarkManager(
 				__results_file << "NAME? Peak Power (W),";
 			}
 		}
+		__results_file << "Extension Info,";
+		__results_file << "Notes,";
 		__results_file << std::endl;
 	}
 }
@@ -145,6 +151,8 @@ bool BenchmarkManager::runAll() {
 		success = success && runThroughputBenchmarks();
 	if (__config.latencyTestSelected())
 		success = success && runLatencyBenchmarks();
+	if (__config.customExtensionsEnabled())
+		success = success && runCustomExtensions();
 
 	return success;
 }
@@ -224,6 +232,8 @@ bool BenchmarkManager::runThroughputBenchmarks() {
 				__results_file << __tp_benchmarks[i]->getAverageDRAMPower(j) << ",";
 				__results_file << __tp_benchmarks[i]->getPeakDRAMPower(j) << ",";
 			}
+			__results_file << "N/A" << ",";
+			__results_file << "" << ",";
 			__results_file << std::endl;
 		}
 	}
@@ -314,9 +324,11 @@ bool BenchmarkManager::runLatencyBenchmarks() {
 			__results_file << __lat_benchmarks[i]->getAverageMetric() << ",";
 			__results_file << __lat_benchmarks[i]->getMetricUnits() << ",";
 			for (uint32_t j = 0; j < g_num_physical_packages; j++) {
-				__results_file << __tp_benchmarks[i]->getAverageDRAMPower(j) << ",";
-				__results_file << __tp_benchmarks[i]->getPeakDRAMPower(j) << ",";
+				__results_file << __lat_benchmarks[i]->getAverageDRAMPower(j) << ",";
+				__results_file << __lat_benchmarks[i]->getPeakDRAMPower(j) << ",";
 			}
+			__results_file << "N/A" << ",";
+			__results_file << "" << ",";
 			__results_file << std::endl;
 		}
 	}
@@ -364,7 +376,7 @@ void BenchmarkManager::__setupWorkingSets(size_t working_set_size) {
 			__mem_arrays[numa_node] = VirtualAllocExNuma(GetCurrentProcess(), NULL, allocation_size, MEM_COMMIT | MEM_RESERVE | MEM_LARGE_PAGES, PAGE_READWRITE, numa_node); //Windows NUMA allocation. Make the allocation one page bigger than necessary so that we can do alignment.
 #endif
 #ifdef __gnu_linux__
-			__mem_arrays[numa_node] = get_huge_pages(allocation_size, GHP_DEFAULT); //TODO: hugetlbfs does not seem to be NUMA-aware. We may require NUMA awareness and huge pages to be mutually exclusive on Linux builds =( FIXME: I get segfaults in ThroughputBenchmark if allocation_size ends up requiring more than 1 huge page.
+			__mem_arrays[numa_node] = get_huge_pages(allocation_size, GHP_DEFAULT); //TODO: hugetlbfs does not seem to be NUMA-aware. We may require NUMA awareness and huge pages to be mutually exclusive on Linux builds =( 
 #endif
 		} else { //Non-large pages (nominal case)
 			//Under normal (not large-page) operation, working set size is a multiple of regular pages.
@@ -614,4 +626,138 @@ bool BenchmarkManager::__buildBenchmarks() {
 	
 	__built_benchmarks = true;
 	return true;
+}
+
+bool BenchmarkManager::runCustomExtensions() {
+#ifdef EXT_LATENCY_DELAY_INJECTED_BENCHMARK
+	std::vector<LatencyBenchmark_Delays*> del_lat_benchmarks;
+
+	//Build benchmarks
+	for (uint32_t mem_node = 0; mem_node < __benchmark_num_numa_nodes; mem_node++) { //iterate each memory NUMA node
+		void* mem_array = __mem_arrays[mem_node];			
+		size_t mem_array_len = __mem_array_lens[mem_node];
+
+		for (uint32_t cpu_node = 0; cpu_node < __benchmark_num_numa_nodes; cpu_node++) { //iterate each CPU node
+
+			uint32_t d = 0;
+			while (d <= 1024) { //Iterate different delay values
+		
+				std::string benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index++ << "E (Extension: Latency with Delay Injection)"))->str();
+				
+#ifdef USE_SIZE_BASED_BENCHMARKS
+				//Determine number of passes for each benchmark. This is working set size-dependent, to ensure the timed duration of each run is sufficiently long, but not too long.
+				passes_per_iteration = compute_number_of_passes((mem_array_len / __config.getNumWorkerThreads()) / KB) / 4;
+#endif
+				del_lat_benchmarks.push_back(new LatencyBenchmark_Delays(mem_array,
+																		 mem_array_len,
+																		 __config.getIterationsPerTest(),
+#ifdef USE_SIZE_BASED_BENCHMARKS
+																		 passes_per_iteration,
+#endif
+																		 __config.getNumWorkerThreads(),
+																		 mem_node,
+																		 cpu_node,
+																		 __dram_power_readers,
+																		 benchmark_name,
+																		 d));
+				if (del_lat_benchmarks[del_lat_benchmarks.size()-1] == NULL) {
+					std::cerr << "ERROR: Failed to build a LatencyBenchmark_Delays!" << std::endl;
+					return false;
+				}
+
+				if (d == 0) //special case
+					d = 1;
+				else
+					d *= 2;
+			}
+		}
+	}
+
+	//Run benchmarks
+	for (uint32_t i = 0; i < del_lat_benchmarks.size(); i++) {
+		del_lat_benchmarks[i]->run(); 
+		del_lat_benchmarks[i]->report_results(); //to console
+		
+		//Write to results file if necessary
+		if (__config.useOutputFile()) {
+			__results_file << del_lat_benchmarks[i]->getName() << ",";
+			__results_file << del_lat_benchmarks[i]->getIterations() << ",";
+			__results_file << static_cast<uint64_t>(del_lat_benchmarks[i]->getLen() / del_lat_benchmarks[i]->getNumThreads() / KB) << ",";
+			__results_file << del_lat_benchmarks[i]->getNumThreads() << ",";
+			__results_file << del_lat_benchmarks[i]->getNumThreads()-1 << ",";
+			__results_file << del_lat_benchmarks[i]->getMemNode() << ",";
+			__results_file << del_lat_benchmarks[i]->getCPUNode() << ",";
+			if (del_lat_benchmarks[i]->getNumThreads() < 2) {
+				__results_file << "N/A" << ",";
+				__results_file << "N/A" << ",";
+				__results_file << "N/A" << ",";
+				__results_file << "N/A" << ",";
+			} else {
+				pattern_mode_t pattern = del_lat_benchmarks[i]->getPatternMode();
+				switch (pattern) {
+					case SEQUENTIAL:
+						__results_file << "SEQUENTIAL" << ",";
+						break;
+					case RANDOM:
+						__results_file << "RANDOM" << ",";
+						break;
+					default:
+						__results_file << "UNKNOWN" << ",";
+						break;
+				}
+
+				rw_mode_t rw_mode = del_lat_benchmarks[i]->getRWMode();
+				switch (rw_mode) {
+					case READ:
+						__results_file << "READ" << ",";
+						break;
+					case WRITE:
+						__results_file << "WRITE" << ",";
+						break;
+					default:
+						__results_file << "UNKNOWN" << ",";
+						break;
+				}
+
+				chunk_size_t chunk_size = del_lat_benchmarks[i]->getChunkSize();
+				switch (chunk_size) {
+					case CHUNK_32b:
+						__results_file << "32" << ",";
+						break;
+					case CHUNK_64b:
+						__results_file << "64" << ",";
+						break;
+					case CHUNK_128b:
+						__results_file << "128" << ",";
+						break;
+					case CHUNK_256b:
+						__results_file << "256" << ",";
+						break;
+					default:
+						__results_file << "UNKNOWN" << ",";
+						break;
+				}
+			
+				__results_file << del_lat_benchmarks[i]->getStrideSize() << ",";
+			}
+
+			__results_file << del_lat_benchmarks[i]->getAvgLoadMetric() << ",";
+			__results_file << "MB/s" << ",";
+			__results_file << del_lat_benchmarks[i]->getAverageMetric() << ",";
+			__results_file << del_lat_benchmarks[i]->getMetricUnits() << ",";
+			for (uint32_t j = 0; j < g_num_physical_packages; j++) {
+				__results_file << del_lat_benchmarks[i]->getAverageDRAMPower(j) << ",";
+				__results_file << del_lat_benchmarks[i]->getPeakDRAMPower(j) << ",";
+			}
+			__results_file << del_lat_benchmarks[i]->getDelay() << ",";
+			__results_file << "<-- load threads' memory access delay value in nops" << ",";
+			__results_file << std::endl;
+		}
+	}
+
+	return true;
+
+#else
+	return false;
+#endif
 }

@@ -77,7 +77,7 @@ bool Thread::create_and_start() {
 	//We cannot use create() and start() on Linux because pthreads API does not allow for a thread created in the suspended state. So we just do it in one shot.
 	if (__target != NULL) {
 		pthread_attr_t attr;
-		if (pthread_attr_init(&attr)) //TODO: do we want just default flags?
+		if (pthread_attr_init(&attr)) //Currently using just default flags. This may not be the optimal choice in general.
 			return false;
 		if (pthread_create(&__thread_handle, &attr, &Thread::__run_launchpad, __target))
 			return false;

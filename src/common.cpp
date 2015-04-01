@@ -69,6 +69,9 @@ namespace xmem {
 	uint32_t g_total_l4_caches; /**< Total number of L4 caches in the system. */
 	uint32_t g_starting_test_index; /**< Numeric identifier for the first benchmark test. */
 	uint32_t g_test_index; /**< Numeric identifier for the current benchmark test. */
+
+	uint64_t g_ticks_per_sec; /**< Timer ticks per second. */
+	double g_ns_per_tick; /**< Nanoseconds per timer tick. */
 };
 
 using namespace xmem;
@@ -166,16 +169,27 @@ void xmem::print_compile_time_options() {
 	std::cout << "USE_PASSES_CURVE_2" << std::endl;
 #endif
 #ifdef POWER_SAMPLING_PERIOD_SEC
-	std::cout << "POWER_SAMPLING_PERIOD_SEC == " << POWER_SAMPLING_PERIOD_SEC << std::endl;
+	std::cout << "POWER_SAMPLING_PERIOD_MS == " << POWER_SAMPLING_PERIOD_MS << std::endl;
+#endif
+#ifdef EXT_LATENCY_DELAY_INJECTED_BENCHMARK
+	std::cout << "EXT_LATENCY_DELAY_INJECTED_BENCHMARK" << std::endl;
 #endif
 	std::cout << std::endl;
 }
 
-void xmem::test_timers() {
-	std::cout << std::endl << "Testing timers..." << std::endl;
+void xmem::setup_timer() {
+	std::cout << "Initializing timer...";
+
 	Timer timer;
-	std::cout << "Calculated timer frequency: " << timer.get_ticks_per_sec() << " Hz == " << (double)(timer.get_ticks_per_sec()) / (1e6) << " MHz" << std::endl;
-	std::cout << "Derived timer ns per tick: " << timer.get_ns_per_tick() << std::endl;
+	g_ticks_per_sec = timer.get_ticks_per_sec();
+	g_ns_per_tick = timer.get_ns_per_tick();
+
+	std::cout << "done" << std::endl;
+}
+
+void xmem::report_timer() {
+	std::cout << "Calculated timer frequency: " << g_ticks_per_sec << " Hz == " << (double)(g_ticks_per_sec) / (1e6) << " MHz" << std::endl;
+	std::cout << "Derived timer ns per tick: " << g_ns_per_tick << std::endl;
 	std::cout << std::endl;
 }
 	
@@ -330,13 +344,12 @@ void xmem::init_globals() {
 	g_total_l4_caches = DEFAULT_NUM_L4_CACHES;
 	g_page_size = DEFAULT_PAGE_SIZE;
 	g_large_page_size = DEFAULT_LARGE_PAGE_SIZE; 
+
+	g_ticks_per_sec = 0;
+	g_ns_per_tick = 0;
 }
 
 int32_t xmem::query_sys_info() {
-	if (g_verbose) {
-		std::cout << "Querying system information...";
-	}
-
 	//Windows only: get logical processor information data structures from OS
 #ifdef _WIN32
 	PSYSTEM_LOGICAL_PROCESSOR_INFORMATION buffer = NULL;
@@ -383,7 +396,7 @@ int32_t xmem::query_sys_info() {
 	std::vector<uint32_t> phys_package_ids;
 	uint32_t id = 0;
 	while (!in.eof()) {
-		in.getline(line, 512, '\n'); //FIXME: buffer overflow risk.
+		in.getline(line, 512, '\n'); 
 		std::string line_string(line);
 		if (line_string.find("physical id") != std::string::npos) {
 			sscanf(line, "physical id\t\t\t: %u", &id);
@@ -424,12 +437,11 @@ int32_t xmem::query_sys_info() {
 	//Get number of logical CPUs
 	g_num_logical_cpus = sysconf(_SC_NPROCESSORS_ONLN); //This isn't really portable -- requires glibc extensions to sysconf()
 
-
-	//Get number of physical CPUs. This is somewhat convoluted, but not sure of a better way on Linux. I don't want to assume anything about HyperThreading-like things. TODO: currently this assumes each processor package has an equal number of cores, e.g. same processor model.
+	//Get number of physical CPUs. This is somewhat convoluted, but not sure of a better way on Linux. I don't want to assume anything about HyperThreading-like things.
 	std::vector<uint32_t> core_ids;
 	in.open("/proc/cpuinfo");
 	while (!in.eof()) {
-		in.getline(line, 512, '\n'); //FIXME: buffer overflow risk.
+		in.getline(line, 512, '\n'); 
 		std::string line_string(line);
 		if (line_string.find("core id") != std::string::npos) {
 			sscanf(line, "core id\t\t\t: %u", &id);
@@ -437,7 +449,7 @@ int32_t xmem::query_sys_info() {
 				core_ids.push_back(id); //add to list
 		}
 	}
-	g_num_physical_cpus = core_ids.size() * g_num_physical_packages;
+	g_num_physical_cpus = core_ids.size() * g_num_physical_packages; //FIXME: currently this assumes each processor package has an equal number of cores. This may not be true in general! Need more complicated /proc/cpuinfo parsing.
 	in.close();
 #endif
 
@@ -470,10 +482,11 @@ int32_t xmem::query_sys_info() {
 	}
 #endif
 #ifdef __gnu_linux__
-	g_total_l1_caches = g_num_physical_cpus; //TODO: this is an absolute guess. How to do this on Linux?
-	g_total_l2_caches = g_num_physical_cpus; //TODO: this is an absolute guess. How to do this on Linux?
-	g_total_l3_caches = g_num_physical_packages; //TODO: this is an absolute guess. How to do this on Linux?
-	g_total_l4_caches = 0; //TODO: this is an absolute guess. How to do this on Linux?
+	//FIXME: guessing number of caches on GNU/Linux, not sure how to get correct answer. This does not affect X-Mem functionality, however.
+	g_total_l1_caches = g_num_physical_cpus; 
+	g_total_l2_caches = g_num_physical_cpus; 
+	g_total_l3_caches = g_num_physical_packages; 
+	g_total_l4_caches = 0; 
 #endif
 
 	//Get page size
@@ -489,29 +502,6 @@ int32_t xmem::query_sys_info() {
 	g_large_page_size = gethugepagesize(); 
 #endif
 
-	//Report
-	if (g_verbose) {
-		std::cout << "done" << std::endl;
-		std::cout << "Number of NUMA nodes: " << g_num_nodes << std::endl;
-		std::cout << "Number of physical processor packages: " << g_num_physical_packages << std::endl;
-		std::cout << "Number of physical processor cores: " << g_num_physical_cpus << std::endl;
-		std::cout << "Number of logical processor cores: " << g_num_logical_cpus << std::endl;
-		std::cout << "Number of processor L1/L2/L3/L4 caches: " 
-			<< g_total_l1_caches
-			<< "/"
-			<< g_total_l2_caches
-			<< "/" 
-			<< g_total_l3_caches
-			<< "/"
-			<< g_total_l4_caches
-#ifdef __gnu_linux__
-			<< " (guess)"
-#endif
-			<< std::endl; 
-		std::cout << "Regular page size: " << g_page_size << " B" << std::endl;
-		std::cout << "Large page size: " << g_large_page_size << " B" << std::endl;
-	}
-
 #ifdef _WIN32
 	if (buffer)
 		free(buffer);
@@ -519,6 +509,30 @@ int32_t xmem::query_sys_info() {
 
 	return 0;
 }
+
+void xmem::report_sys_info() {
+	
+	std::cout << "done" << std::endl;
+	std::cout << "Number of NUMA nodes: " << g_num_nodes << std::endl;
+	std::cout << "Number of physical processor packages: " << g_num_physical_packages << std::endl;
+	std::cout << "Number of physical processor cores: " << g_num_physical_cpus << std::endl;
+	std::cout << "Number of logical processor cores: " << g_num_logical_cpus << std::endl;
+	std::cout << "Number of processor L1/L2/L3/L4 caches: " 
+		<< g_total_l1_caches
+		<< "/"
+		<< g_total_l2_caches
+		<< "/" 
+		<< g_total_l3_caches
+		<< "/"
+		<< g_total_l4_caches
+#ifdef __gnu_linux__
+		<< " (guesses)"
+#endif
+		<< std::endl; 
+	std::cout << "Regular page size: " << g_page_size << " B" << std::endl;
+	std::cout << "Large page size: " << g_large_page_size << " B" << std::endl;
+}
+
 
 uint64_t xmem::start_timer() {
 #ifdef USE_TSC_TIMER
