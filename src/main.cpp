@@ -57,7 +57,7 @@ void xmem::print_welcome_message() {
 #endif
 	std::cout << std::endl;
 	std::cout << "Build date: " << BUILD_DATETIME << std::endl;
-	std::cout << "(C) Microsoft Corporation 2014" << std::endl;
+	std::cout << "(C) Microsoft Corporation 2015" << std::endl;
 	std::cout << "Originally authored by Mark Gottscho <mgottscho@ucla.edu>" << std::endl;
 	std::cout << "--------------------------------------------------------------------" << std::endl;
 	std::cout << std::endl;

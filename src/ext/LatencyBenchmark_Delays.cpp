@@ -62,6 +62,7 @@ LatencyBenchmark_Delays::LatencyBenchmark_Delays(
 		uint32_t num_worker_threads,
 		uint32_t mem_node,
 		uint32_t cpu_node,
+		chunk_size_t chunk_size,
 		std::vector<PowerReader*> dram_power_readers,
 		std::string name,
 		uint32_t delay
@@ -78,7 +79,7 @@ LatencyBenchmark_Delays::LatencyBenchmark_Delays(
 			cpu_node,
 			SEQUENTIAL,
 			READ,
-			CHUNK_64b,
+			chunk_size,
 			1,
 			dram_power_readers,
 			name
@@ -119,57 +120,119 @@ bool LatencyBenchmark_Delays::_run_core() {
 	SequentialFunction load_kernel_fptr = NULL;
 	SequentialFunction load_kernel_dummy_fptr = NULL; 
 	if (_num_worker_threads > 1) { //If we only have one worker thread, it is used for latency measurement only, and no load threads will be used.
-		switch (__delay) {
-			case 0:
-				load_kernel_fptr = &forwSequentialRead_Word64; //not an extended kernel
-				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64; //not an extended kernel
+		switch (_chunk_size) {
+			case CHUNK_64b:
+				switch (__delay) {
+					case 0:
+						load_kernel_fptr = &forwSequentialRead_Word64; //not an extended kernel
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64; //not an extended kernel
+						break;
+					case 1:
+						load_kernel_fptr = &forwSequentialRead_Word64_Delay1;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay1;
+						break;
+					case 2:
+						load_kernel_fptr = &forwSequentialRead_Word64_Delay2;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay2;
+						break;
+					case 4:
+						load_kernel_fptr = &forwSequentialRead_Word64_Delay4;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay4;
+						break;
+					case 8:
+						load_kernel_fptr = &forwSequentialRead_Word64_Delay8;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay8;
+						break;
+					case 16:
+						load_kernel_fptr = &forwSequentialRead_Word64_Delay16;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay16;
+						break;
+					case 32:
+						load_kernel_fptr = &forwSequentialRead_Word64_Delay32;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay32;
+						break;
+					case 64:
+						load_kernel_fptr = &forwSequentialRead_Word64_Delay64;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay64;
+						break;
+					case 128:
+						load_kernel_fptr = &forwSequentialRead_Word64_Delay128;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay128;
+						break;
+					case 256:
+						load_kernel_fptr = &forwSequentialRead_Word64_Delay256;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay256plus;
+						break;
+					case 512:
+						load_kernel_fptr = &forwSequentialRead_Word64_Delay512;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay256plus;
+						break;
+					case 1024:
+						load_kernel_fptr = &forwSequentialRead_Word64_Delay1024;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay256plus;
+						break;
+					default:
+						std::cerr << "ERROR: Failed to find appropriate benchmark kernel." << std::endl;
+						return false;
+				}
 				break;
-			case 1:
-				load_kernel_fptr = &forwSequentialRead_Word64_Delay1;
-				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay1;
-				break;
-			case 2:
-				load_kernel_fptr = &forwSequentialRead_Word64_Delay2;
-				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay2;
-				break;
-			case 4:
-				load_kernel_fptr = &forwSequentialRead_Word64_Delay4;
-				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay4;
-				break;
-			case 8:
-				load_kernel_fptr = &forwSequentialRead_Word64_Delay8;
-				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay8;
-				break;
-			case 16:
-				load_kernel_fptr = &forwSequentialRead_Word64_Delay16;
-				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay16;
-				break;
-			case 32:
-				load_kernel_fptr = &forwSequentialRead_Word64_Delay32;
-				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay32;
-				break;
-			case 64:
-				load_kernel_fptr = &forwSequentialRead_Word64_Delay64;
-				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay64;
-				break;
-			case 128:
-				load_kernel_fptr = &forwSequentialRead_Word64_Delay128;
-				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay128;
-				break;
-			case 256:
-				load_kernel_fptr = &forwSequentialRead_Word64_Delay256;
-				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay256plus;
-				break;
-			case 512:
-				load_kernel_fptr = &forwSequentialRead_Word64_Delay512;
-				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay256plus;
-				break;
-			case 1024:
-				load_kernel_fptr = &forwSequentialRead_Word64_Delay1024;
-				load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay256plus;
+			case CHUNK_256b:
+				switch (__delay) {
+					case 0:
+						load_kernel_fptr = &forwSequentialRead_Word256; //not an extended kernel
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word256; //not an extended kernel
+						break;
+					case 1:
+						load_kernel_fptr = &forwSequentialRead_Word256_Delay1;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word256_Delay1;
+						break;
+					case 2:
+						load_kernel_fptr = &forwSequentialRead_Word256_Delay2;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word256_Delay2;
+						break;
+					case 4:
+						load_kernel_fptr = &forwSequentialRead_Word256_Delay4;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word256_Delay4;
+						break;
+					case 8:
+						load_kernel_fptr = &forwSequentialRead_Word256_Delay8;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word256_Delay8;
+						break;
+					case 16:
+						load_kernel_fptr = &forwSequentialRead_Word256_Delay16;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word256_Delay16;
+						break;
+					case 32:
+						load_kernel_fptr = &forwSequentialRead_Word256_Delay32;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word256_Delay32;
+						break;
+					case 64:
+						load_kernel_fptr = &forwSequentialRead_Word256_Delay64;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word256_Delay64plus;
+						break;
+					case 128:
+						load_kernel_fptr = &forwSequentialRead_Word256_Delay128;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word256_Delay64plus;
+						break;
+					case 256:
+						load_kernel_fptr = &forwSequentialRead_Word256_Delay256;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word256_Delay64plus;
+						break;
+					case 512:
+						load_kernel_fptr = &forwSequentialRead_Word256_Delay512;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word256_Delay64plus;
+						break;
+					case 1024:
+						load_kernel_fptr = &forwSequentialRead_Word256_Delay1024;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word256_Delay64plus;
+						break;
+					default:
+						std::cerr << "ERROR: Failed to find appropriate benchmark kernel." << std::endl;
+						return false;
+				}
 				break;
 			default:
-				std::cerr << "ERROR: Failed to find appropriate benchmark kernel." << std::endl;
+				std::cerr << "ERROR: Chunk size must be 64-bit or 256-bit to run the delay-injected latency benchmark extension!" << std::endl;
 				return false;
 		}
 	}
