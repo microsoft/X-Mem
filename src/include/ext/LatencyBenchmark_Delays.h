@@ -49,7 +49,7 @@ namespace xmem {
 	public:
 		
 		/**
-		 * @brief Constructor. Parameters are passed directly to the LatencyBenchmark constructor. See LatencyBenchmark class documentation for parameter semantics. The access pattern is hard-coded to SEQUENTIAL, read/write pattern to READ, chunk size to CHUNK_64b, and stride to 1.
+		 * @brief Constructor. Parameters are passed directly to the LatencyBenchmark constructor. See LatencyBenchmark class documentation for parameter semantics. The access pattern is hard-coded to SEQUENTIAL, read/write pattern to READ, and stride to 1. Chunk size may be either 64-bit or 256-bit.
 		 */
 		LatencyBenchmark_Delays(
 			void* mem_array,
@@ -61,6 +61,7 @@ namespace xmem {
 			uint32_t num_worker_threads,
 			uint32_t mem_node,
 			uint32_t cpu_node,
+			chunk_size_t chunk_size,
 			std::vector<PowerReader*> dram_power_readers,
 			std::string name,
 			uint32_t delay

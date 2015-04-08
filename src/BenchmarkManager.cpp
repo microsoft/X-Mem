@@ -631,6 +631,11 @@ bool BenchmarkManager::__buildBenchmarks() {
 bool BenchmarkManager::runCustomExtensions() {
 #ifdef EXT_LATENCY_DELAY_INJECTED_BENCHMARK
 	std::vector<LatencyBenchmark_Delays*> del_lat_benchmarks;
+	
+	//Put the enumerations into vectors to make constructing benchmarks more loopable
+	std::vector<chunk_size_t> chunks;
+	chunks.push_back(CHUNK_64b); 
+	chunks.push_back(CHUNK_256b); 
 
 	//Build benchmarks
 	for (uint32_t mem_node = 0; mem_node < __benchmark_num_numa_nodes; mem_node++) { //iterate each memory NUMA node
@@ -639,36 +644,41 @@ bool BenchmarkManager::runCustomExtensions() {
 
 		for (uint32_t cpu_node = 0; cpu_node < __benchmark_num_numa_nodes; cpu_node++) { //iterate each CPU node
 
-			uint32_t d = 0;
-			while (d <= 1024) { //Iterate different delay values
-		
-				std::string benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index++ << "E (Extension: Latency with Delay Injection)"))->str();
-				
-#ifdef USE_SIZE_BASED_BENCHMARKS
-				//Determine number of passes for each benchmark. This is working set size-dependent, to ensure the timed duration of each run is sufficiently long, but not too long.
-				passes_per_iteration = compute_number_of_passes((mem_array_len / __config.getNumWorkerThreads()) / KB) / 4;
-#endif
-				del_lat_benchmarks.push_back(new LatencyBenchmark_Delays(mem_array,
-																		 mem_array_len,
-																		 __config.getIterationsPerTest(),
-#ifdef USE_SIZE_BASED_BENCHMARKS
-																		 passes_per_iteration,
-#endif
-																		 __config.getNumWorkerThreads(),
-																		 mem_node,
-																		 cpu_node,
-																		 __dram_power_readers,
-																		 benchmark_name,
-																		 d));
-				if (del_lat_benchmarks[del_lat_benchmarks.size()-1] == NULL) {
-					std::cerr << "ERROR: Failed to build a LatencyBenchmark_Delays!" << std::endl;
-					return false;
-				}
+			for (uint32_t chunk_index = 0; chunk_index < chunks.size(); chunk_index++) { //iterate different chunk sizes
+				chunk_size_t chunk = chunks[chunk_index];
 
-				if (d == 0) //special case
-					d = 1;
-				else
-					d *= 2;
+				uint32_t d = 0;
+				while (d <= 1024) { //Iterate different delay values
+			
+					std::string benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index++ << "E (Extension: Latency with Delay Injection)"))->str();
+					
+#ifdef USE_SIZE_BASED_BENCHMARKS
+					//Determine number of passes for each benchmark. This is working set size-dependent, to ensure the timed duration of each run is sufficiently long, but not too long.
+					passes_per_iteration = compute_number_of_passes((mem_array_len / __config.getNumWorkerThreads()) / KB) / 4;
+#endif
+					del_lat_benchmarks.push_back(new LatencyBenchmark_Delays(mem_array,
+																			 mem_array_len,
+																			 __config.getIterationsPerTest(),
+#ifdef USE_SIZE_BASED_BENCHMARKS
+																			 passes_per_iteration,
+#endif
+																			 __config.getNumWorkerThreads(),
+																			 mem_node,
+																			 cpu_node,
+																			 chunk,
+																			 __dram_power_readers,
+																			 benchmark_name,
+																			 d));
+					if (del_lat_benchmarks[del_lat_benchmarks.size()-1] == NULL) {
+						std::cerr << "ERROR: Failed to build a LatencyBenchmark_Delays!" << std::endl;
+						return false;
+					}
+
+					if (d == 0) //special case
+						d = 1;
+					else
+						d *= 2;
+				}
 			}
 		}
 	}
