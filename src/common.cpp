@@ -396,7 +396,17 @@ int32_t xmem::query_sys_info() {
 	std::vector<uint32_t> phys_package_ids;
 	uint32_t id = 0;
 	while (!in.eof()) {
-		in.getline(line, 512, '\n'); 
+		in.getline(line, 512, '\n');
+
+		// the line with CPU feature flags may exceed 512 B, leaving the stream in an error state and the remainder of the line unread
+		if(in.fail() && in.gcount() == 511) {
+			// clean up the stream
+			in.clear();
+			// eat the remaining line
+			in.ignore(std::numeric_limits<std::streamsize>::max(),
+				'\n');
+		}
+
 		std::string line_string(line);
 		if (line_string.find("physical id") != std::string::npos) {
 			sscanf(line, "physical id\t\t\t: %u", &id);
@@ -441,7 +451,17 @@ int32_t xmem::query_sys_info() {
 	std::vector<uint32_t> core_ids;
 	in.open("/proc/cpuinfo");
 	while (!in.eof()) {
-		in.getline(line, 512, '\n'); 
+		in.getline(line, 512, '\n');
+		
+		// the line with CPU feature flags may exceed 512 B, leaving the stream in an error state and the remainder of the line unread
+		if(in.fail() && in.gcount() == 511) {
+			// clean up the stream
+			in.clear();
+			// eat the remaining line
+			in.ignore(std::numeric_limits<std::streamsize>::max(),
+				'\n');
+		}
+
 		std::string line_string(line);
 		if (line_string.find("core id") != std::string::npos) {
 			sscanf(line, "core id\t\t\t: %u", &id);
