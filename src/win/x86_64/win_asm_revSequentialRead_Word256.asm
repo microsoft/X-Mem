@@ -35,7 +35,9 @@ win_asm_revSequentialRead_Word256 proc
 	jbe done		; if current word address is <= first word address, jump to done
 
 myloop:
-	vmovdqa ymm0, ymmword ptr [rax]			; Unroll 128 loads of 256-bit words (32 bytes is 20h) before checking loop condition.
+	; Unroll 128 loads of 256-bit words (32 bytes is 20h) before checking loop condition.
+
+	vmovdqa ymm0, ymmword ptr [rax]			
 	vmovdqa ymm0, ymmword ptr [rax-0020h]
 	vmovdqa ymm0, ymmword ptr [rax-0040h]
 	vmovdqa ymm0, ymmword ptr [rax-0060h]

@@ -28,7 +28,7 @@ win_asm_forwSequentialRead_Word128 proc
 ; rdx is address of the last 128-bit word in the array
 
 ; rax holds current 128-bit word address
-; ymm0 holds result from reading the memory 128-bit wide
+; xmm0 holds result from reading the memory 128-bit wide
 
 	mov rax,rcx		; initialize current word address to start of the array
 	cmp rax,rdx		; have we reached the last word yet?

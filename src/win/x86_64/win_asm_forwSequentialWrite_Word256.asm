@@ -32,19 +32,25 @@ win_asm_forwSequentialWrite_Word256 proc
 
 	mov rax,rcx		; initialize current word address to start of the array
 
-	; initialize ymm0 to the value to write to memory. We will use all 1s, e.g. 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	; initialize ymm0 to the value to write to memory. We will use all 1s, e.g. 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	; I am using the first 256-bits of the memory array to initialize ymm0. Is there a better way to do this?
 	mov qword ptr [rcx],0FFFFFFFFh
 	mov qword ptr [rcx+8h],0FFFFFFFFh
 	mov qword ptr [rcx+10h],0FFFFFFFFh
 	mov qword ptr [rcx+18h],0FFFFFFFFh
+	mov qword ptr [rcx+20h],0FFFFFFFFh
+	mov qword ptr [rcx+28h],0FFFFFFFFh
+	mov qword ptr [rcx+30h],0FFFFFFFFh
+	mov qword ptr [rcx+38h],0FFFFFFFFh
 	vmovdqu ymm0, ymmword ptr[rcx]
 
 	cmp rax,rdx		; have we reached the last word yet?
 	jae done		; if current word address is >= last word address, jump to done
 
 myloop:
-	vmovdqa ymmword ptr [rax], ymm0			; Unroll 128 loads of 256-bit words (32 bytes is 20h) before checking loop condition.
+	; Unroll 128 stores of 256-bit words (32 bytes is 20h) before checking loop condition.
+
+	vmovdqa ymmword ptr [rax+0000h], ymm0			
 	vmovdqa ymmword ptr [rax+0020h], ymm0
 	vmovdqa ymmword ptr [rax+0040h], ymm0
 	vmovdqa ymmword ptr [rax+0060h], ymm0

@@ -643,9 +643,9 @@ int32_t xmem::chasePointers(uintptr_t* first_address, uintptr_t** last_touched_a
 
 //128-bit
 extern "C" int win_asm_forwSequentialRead_Word128(Word128_t* first_word, Word128_t* last_word);
-//extern "C" int win_asm_revSequentialRead_Word128(Word128_t* last_word, Word128_t* first_word); //TODO
-//extern "C" int win_asm_forwSequentialWrite_Word128(Word128_t* first_word, Word128_t* last_word); //TODO
-//extern "C" int win_asm_revSequentialWrite_Word128(Word128_t* last_word, Word128_t* first_word); //TODO
+extern "C" int win_asm_revSequentialRead_Word128(Word128_t* last_word, Word128_t* first_word);
+extern "C" int win_asm_forwSequentialWrite_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int win_asm_revSequentialWrite_Word128(Word128_t* last_word, Word128_t* first_word); 
 
 //256-bit
 extern "C" int win_asm_forwSequentialRead_Word256(Word256_t* first_word, Word256_t* last_word);
@@ -656,7 +656,7 @@ extern "C" int win_asm_revSequentialWrite_Word256(Word256_t* last_word, Word256_
 //Dummies
 //128-bit
 extern "C" int win_asm_dummy_forwSequentialLoop_Word128(Word128_t* first_word, Word128_t* last_word);
-//extern "C" int win_asm_dummy_revSequentialLoop_Word128(Word128_t* first_word, Word128_t* last_word); //TODO
+extern "C" int win_asm_dummy_revSequentialLoop_Word128(Word128_t* first_word, Word128_t* last_word); 
 
 //256-bit
 extern "C" int win_asm_dummy_forwSequentialLoop_Word256(Word256_t* first_word, Word256_t* last_word);
@@ -1289,7 +1289,7 @@ int32_t xmem::revSequentialRead_Word64(void* start_address, void* end_address) {
 
 int32_t xmem::revSequentialRead_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO: Implement for Windows.
+	return win_asm_revSequentialRead_Word128(static_cast<Word128_t*>(end_address), static_cast<Word128_t*>(start_address));
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
@@ -1333,7 +1333,7 @@ int32_t xmem::forwSequentialWrite_Word64(void* start_address, void* end_address)
 
 int32_t xmem::forwSequentialWrite_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO: Implement for Windows.
+	return win_asm_forwSequentialWrite_Word128(static_cast<Word128_t*>(start_address), static_cast<Word128_t*>(end_address));
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
@@ -1377,7 +1377,7 @@ int32_t xmem::revSequentialWrite_Word64(void* start_address, void* end_address) 
 
 int32_t xmem::revSequentialWrite_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO: Implement for Windows.
+	return win_asm_revSequentialWrite_Word128(static_cast<Word128_t*>(end_address), static_cast<Word128_t*>(start_address));
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
