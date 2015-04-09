@@ -298,7 +298,7 @@ int32_t xmem::forwSequentialRead_Word64_Delay1024(void* start_address, void* end
 
 int32_t xmem::forwSequentialRead_Word256_Delay1(void* start_address, void* end_address) {
 #ifdef _WIN32
-	#error TODO: Not yet implemented.
+	#error TODO: Not yet implemented for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
@@ -311,7 +311,7 @@ int32_t xmem::forwSequentialRead_Word256_Delay1(void* start_address, void* end_a
 
 int32_t xmem::forwSequentialRead_Word256_Delay2(void* start_address, void* end_address) {
 #ifdef _WIN32
-	#error TODO: Not yet implemented.
+	#error TODO: Not yet implemented for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
@@ -324,7 +324,7 @@ int32_t xmem::forwSequentialRead_Word256_Delay2(void* start_address, void* end_a
 
 int32_t xmem::forwSequentialRead_Word256_Delay4(void* start_address, void* end_address) {
 #ifdef _WIN32
-	#error TODO: Not yet implemented.
+	#error TODO: Not yet implemented for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
@@ -337,7 +337,7 @@ int32_t xmem::forwSequentialRead_Word256_Delay4(void* start_address, void* end_a
 
 int32_t xmem::forwSequentialRead_Word256_Delay8(void* start_address, void* end_address) {
 #ifdef _WIN32
-	#error TODO: Not yet implemented.
+	#error TODO: Not yet implemented for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
@@ -350,7 +350,7 @@ int32_t xmem::forwSequentialRead_Word256_Delay8(void* start_address, void* end_a
 
 int32_t xmem::forwSequentialRead_Word256_Delay16(void* start_address, void* end_address) {
 #ifdef _WIN32
-	#error TODO: Not yet implemented.
+	#error TODO: Not yet implemented for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
@@ -363,7 +363,7 @@ int32_t xmem::forwSequentialRead_Word256_Delay16(void* start_address, void* end_
 
 int32_t xmem::forwSequentialRead_Word256_Delay32(void* start_address, void* end_address) {
 #ifdef _WIN32
-	#error TODO: Not yet implemented.
+	#error TODO: Not yet implemented for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
@@ -376,7 +376,7 @@ int32_t xmem::forwSequentialRead_Word256_Delay32(void* start_address, void* end_
 
 int32_t xmem::forwSequentialRead_Word256_Delay64(void* start_address, void* end_address) {
 #ifdef _WIN32
-	#error TODO: Not yet implemented.
+	#error TODO: Not yet implemented for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
@@ -389,7 +389,7 @@ int32_t xmem::forwSequentialRead_Word256_Delay64(void* start_address, void* end_
 
 int32_t xmem::forwSequentialRead_Word256_Delay128(void* start_address, void* end_address) {
 #ifdef _WIN32
-	#error TODO: Not yet implemented.
+	#error TODO: Not yet implemented for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
@@ -402,7 +402,7 @@ int32_t xmem::forwSequentialRead_Word256_Delay128(void* start_address, void* end
 
 int32_t xmem::forwSequentialRead_Word256_Delay256(void* start_address, void* end_address) {
 #ifdef _WIN32
-	#error TODO: Not yet implemented.
+	#error TODO: Not yet implemented for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
@@ -415,7 +415,7 @@ int32_t xmem::forwSequentialRead_Word256_Delay256(void* start_address, void* end
 
 int32_t xmem::forwSequentialRead_Word256_Delay512(void* start_address, void* end_address) {
 #ifdef _WIN32
-	#error TODO: Not yet implemented.
+	#error TODO: Not yet implemented for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
@@ -428,7 +428,7 @@ int32_t xmem::forwSequentialRead_Word256_Delay512(void* start_address, void* end
 
 int32_t xmem::forwSequentialRead_Word256_Delay1024(void* start_address, void* end_address) {
 #ifdef _WIN32
-	#error TODO: Not yet implemented.
+	#error TODO: Not yet implemented for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;

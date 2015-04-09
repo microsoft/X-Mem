@@ -633,11 +633,19 @@ int32_t xmem::chasePointers(uintptr_t* first_address, uintptr_t** last_touched_a
  ***********************************************************************/
 
 #ifdef _WIN32
+//TODO: make this also compile-conditional on x86-64 explicitly
+
 //Hand-coded assembly functions for the SSE2/AVX benchmark routines.
 //VC++ compiler does not support inline assembly in x86-64.
 //And the compiler optimizes away the vector instructions unless I use volatile.
 //But I can't use for example volatile Word256_t* because it is incompatible with _mm_load_si256() with VC++. 
 //Fortunately, I implemented the routine as a wrapper around a hand-coded assembler C function.
+
+//128-bit
+extern "C" int win_asm_forwSequentialRead_Word128(Word128_t* first_word, Word128_t* last_word);
+//extern "C" int win_asm_revSequentialRead_Word128(Word128_t* last_word, Word128_t* first_word); //TODO
+//extern "C" int win_asm_forwSequentialWrite_Word128(Word128_t* first_word, Word128_t* last_word); //TODO
+//extern "C" int win_asm_revSequentialWrite_Word128(Word128_t* last_word, Word128_t* first_word); //TODO
 
 //256-bit
 extern "C" int win_asm_forwSequentialRead_Word256(Word256_t* first_word, Word256_t* last_word);
@@ -646,6 +654,10 @@ extern "C" int win_asm_forwSequentialWrite_Word256(Word256_t* first_word, Word25
 extern "C" int win_asm_revSequentialWrite_Word256(Word256_t* last_word, Word256_t* first_word);
 
 //Dummies
+//128-bit
+extern "C" int win_asm_dummy_forwSequentialLoop_Word128(Word128_t* first_word, Word128_t* last_word);
+//extern "C" int win_asm_dummy_revSequentialLoop_Word128(Word128_t* first_word, Word128_t* last_word); //TODO
+
 //256-bit
 extern "C" int win_asm_dummy_forwSequentialLoop_Word256(Word256_t* first_word, Word256_t* last_word);
 extern "C" int win_asm_dummy_revSequentialLoop_Word256(Word256_t* first_word, Word256_t* last_word);
@@ -678,12 +690,17 @@ int32_t xmem::dummy_forwSequentialLoop_Word64(void* start_address, void* end_add
 }
 
 int32_t xmem::dummy_forwSequentialLoop_Word128(void* start_address, void* end_address) {
+#ifdef _WIN32
+	return win_asm_dummy_forwSequentialLoop_Word128(static_cast<Word128_t*>(start_address), static_cast<Word128_t*>(end_address));
+#endif
+#ifdef __gnu_linux__
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address), *endptr = static_cast<Word128_t*>(end_address); wordptr < endptr;) {
 		UNROLL256(wordptr++;) 
 		placeholder = 0;
 	}
 	return placeholder;
+#endif
 }
 
 int32_t xmem::dummy_forwSequentialLoop_Word256(void* start_address, void* end_address) {
@@ -1148,7 +1165,7 @@ int32_t xmem::dummy_randomLoop_Word64(uintptr_t*, uintptr_t**, size_t len) {
 
 int32_t xmem::dummy_randomLoop_Word128(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	//FIXME: get rid of Intel intrinsics if possible!
@@ -1173,7 +1190,7 @@ int32_t xmem::dummy_randomLoop_Word128(uintptr_t* first_address, uintptr_t** las
 
 int32_t xmem::dummy_randomLoop_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	//FIXME: get rid of Intel intrinsics if possible!
@@ -1230,7 +1247,7 @@ int32_t xmem::forwSequentialRead_Word64(void* start_address, void* end_address) 
 
 int32_t xmem::forwSequentialRead_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return win_asm_forwSequentialRead_Word128(static_cast<Word128_t*>(start_address), static_cast<Word128_t*>(end_address));
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
@@ -1272,7 +1289,7 @@ int32_t xmem::revSequentialRead_Word64(void* start_address, void* end_address) {
 
 int32_t xmem::revSequentialRead_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
@@ -1316,7 +1333,7 @@ int32_t xmem::forwSequentialWrite_Word64(void* start_address, void* end_address)
 
 int32_t xmem::forwSequentialWrite_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
@@ -1360,7 +1377,7 @@ int32_t xmem::revSequentialWrite_Word64(void* start_address, void* end_address) 
 
 int32_t xmem::revSequentialWrite_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
@@ -1414,7 +1431,7 @@ int32_t xmem::forwStride2Read_Word64(void* start_address, void* end_address) {
 
 int32_t xmem::forwStride2Read_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val; 
@@ -1431,7 +1448,7 @@ int32_t xmem::forwStride2Read_Word128(void* start_address, void* end_address) {
 
 int32_t xmem::forwStride2Read_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val; 
@@ -1472,7 +1489,7 @@ int32_t xmem::revStride2Read_Word64(void* start_address, void* end_address) {
 
 int32_t xmem::revStride2Read_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val; 
@@ -1489,7 +1506,7 @@ int32_t xmem::revStride2Read_Word128(void* start_address, void* end_address) {
 
 int32_t xmem::revStride2Read_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val; 
@@ -1532,7 +1549,7 @@ int32_t xmem::forwStride2Write_Word64(void* start_address, void* end_address) {
 
 int32_t xmem::forwStride2Write_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
@@ -1550,7 +1567,7 @@ int32_t xmem::forwStride2Write_Word128(void* start_address, void* end_address) {
 
 int32_t xmem::forwStride2Write_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
@@ -1592,7 +1609,7 @@ int32_t xmem::revStride2Write_Word64(void* start_address, void* end_address) {
 
 int32_t xmem::revStride2Write_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
@@ -1610,7 +1627,7 @@ int32_t xmem::revStride2Write_Word128(void* start_address, void* end_address) {
 
 int32_t xmem::revStride2Write_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
@@ -1654,7 +1671,7 @@ int32_t xmem::forwStride4Read_Word64(void* start_address, void* end_address) {
 
 int32_t xmem::forwStride4Read_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val; 
@@ -1671,7 +1688,7 @@ int32_t xmem::forwStride4Read_Word128(void* start_address, void* end_address) {
 
 int32_t xmem::forwStride4Read_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val; 
@@ -1712,7 +1729,7 @@ int32_t xmem::revStride4Read_Word64(void* start_address, void* end_address) {
 
 int32_t xmem::revStride4Read_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val; 
@@ -1729,7 +1746,7 @@ int32_t xmem::revStride4Read_Word128(void* start_address, void* end_address) {
 
 int32_t xmem::revStride4Read_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val; 
@@ -1772,7 +1789,7 @@ int32_t xmem::forwStride4Write_Word64(void* start_address, void* end_address) {
 
 int32_t xmem::forwStride4Write_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
@@ -1790,7 +1807,7 @@ int32_t xmem::forwStride4Write_Word128(void* start_address, void* end_address) {
 
 int32_t xmem::forwStride4Write_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
@@ -1832,7 +1849,7 @@ int32_t xmem::revStride4Write_Word64(void* start_address, void* end_address) {
 
 int32_t xmem::revStride4Write_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
@@ -1850,7 +1867,7 @@ int32_t xmem::revStride4Write_Word128(void* start_address, void* end_address) {
 
 int32_t xmem::revStride4Write_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
@@ -1894,7 +1911,7 @@ int32_t xmem::forwStride8Read_Word64(void* start_address, void* end_address) {
 
 int32_t xmem::forwStride8Read_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val; 
@@ -1911,7 +1928,7 @@ int32_t xmem::forwStride8Read_Word128(void* start_address, void* end_address) {
 
 int32_t xmem::forwStride8Read_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val; 
@@ -1952,7 +1969,7 @@ int32_t xmem::revStride8Read_Word64(void* start_address, void* end_address) {
 
 int32_t xmem::revStride8Read_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val; 
@@ -1969,7 +1986,7 @@ int32_t xmem::revStride8Read_Word128(void* start_address, void* end_address) {
 
 int32_t xmem::revStride8Read_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val; 
@@ -2012,7 +2029,7 @@ int32_t xmem::forwStride8Write_Word64(void* start_address, void* end_address) {
 
 int32_t xmem::forwStride8Write_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
@@ -2030,7 +2047,7 @@ int32_t xmem::forwStride8Write_Word128(void* start_address, void* end_address) {
 
 int32_t xmem::forwStride8Write_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
@@ -2072,7 +2089,7 @@ int32_t xmem::revStride8Write_Word64(void* start_address, void* end_address) {
 
 int32_t xmem::revStride8Write_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
@@ -2090,7 +2107,7 @@ int32_t xmem::revStride8Write_Word128(void* start_address, void* end_address) {
 
 int32_t xmem::revStride8Write_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
@@ -2134,7 +2151,7 @@ int32_t xmem::forwStride16Read_Word64(void* start_address, void* end_address) {
 
 int32_t xmem::forwStride16Read_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val; 
@@ -2151,7 +2168,7 @@ int32_t xmem::forwStride16Read_Word128(void* start_address, void* end_address) {
 
 int32_t xmem::forwStride16Read_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val; 
@@ -2192,7 +2209,7 @@ int32_t xmem::revStride16Read_Word64(void* start_address, void* end_address) {
 
 int32_t xmem::revStride16Read_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val; 
@@ -2209,7 +2226,7 @@ int32_t xmem::revStride16Read_Word128(void* start_address, void* end_address) {
 
 int32_t xmem::revStride16Read_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val; 
@@ -2314,7 +2331,7 @@ int32_t xmem::revStride16Write_Word64(void* start_address, void* end_address) {
 
 int32_t xmem::revStride16Write_Word128(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
@@ -2333,7 +2350,7 @@ int32_t xmem::revStride16Write_Word128(void* start_address, void* end_address) {
 
 int32_t xmem::revStride16Write_Word256(void* start_address, void* end_address) { 
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
@@ -2369,7 +2386,7 @@ int32_t xmem::randomRead_Word64(uintptr_t* first_address, uintptr_t** last_touch
 
 int32_t xmem::randomRead_Word128(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	//FIXME: get rid of Intel intrinsics if possible!
@@ -2392,7 +2409,7 @@ int32_t xmem::randomRead_Word128(uintptr_t* first_address, uintptr_t** last_touc
 
 int32_t xmem::randomRead_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	//FIXME: get rid of Intel intrinsics if possible!
@@ -2433,7 +2450,7 @@ int32_t xmem::randomWrite_Word64(uintptr_t* first_address, uintptr_t** last_touc
 
 int32_t xmem::randomWrite_Word128(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	//FIXME: get rid of Intel intrinsics if possible!
@@ -2456,7 +2473,7 @@ int32_t xmem::randomWrite_Word128(uintptr_t* first_address, uintptr_t** last_tou
 
 int32_t xmem::randomWrite_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 #ifdef _WIN32
-	return 0; //TODO
+	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	//FIXME: get rid of Intel intrinsics if possible!
