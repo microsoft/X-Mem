@@ -27,8 +27,8 @@
  * @brief Header file for benchmark kernel functions with integrated delays for doing the actual work we care about. :)
  */
 
-#ifndef __BENCHMARK_KERNELS_DELAYS_H
-#define __BENCHMARK_KERNELS_DELAYS_H
+#ifndef __DELAY_INJECTED_BENCHMARK_KERNELS_H
+#define __DELAY_INJECTED_BENCHMARK_KERNELS_H
 
 //Libraries
 #include <cstdint>

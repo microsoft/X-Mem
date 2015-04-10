@@ -81,7 +81,6 @@ int main(int argc, char* argv[]) {
 	bool configSuccess = !config.configureFromInput(argc, argv);
 		
 	if (configSuccess) {
-
 		if (g_verbose) {
 			print_compile_time_options();
 			test_thread_affinities();
@@ -100,26 +99,34 @@ int main(int argc, char* argv[]) {
 			benchmgr.runLatencyBenchmarks();
 		}
 
-		if (config.customExtensionsEnabled()) {
-			/***** USER-DEFINED FUNCTIONAL EXTENSIONS ******/
+		if (config.extensionsEnabled()) {
 			std::cout << std::endl;
 			std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
 			std::cout << "++++++++++++ Starting custom X-Mem extensions ++++++++++++" << std::endl;
 			std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
 			std::cout << std::endl;
-#ifdef EXT_LATENCY_DELAY_INJECTED_BENCHMARK
-			std::cout << "EXTENSION DESCRIPTION: " << EXTENSION_DESCRIPTION << std::endl;
-			if (config.getNumWorkerThreads() > 1)
-				benchmgr.runCustomExtensions();	
-			else {
-				std::cerr << "ERROR: Number of worker threads must be at least 1." << std::endl;
-				return false;
+
+			/***** USER-DEFINED FUNCTIONAL EXTENSIONS ******/
+#ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
+			if (config.runExtDelayInjectedLoadedLatencyBenchmark()) {
+				std::cout << "EXTENSION " << EXT_NUM_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK << ": Loaded latency benchmarks with delay injected kernels on load threads." << std::endl;
+				benchmgr.runExtDelayInjectedLoadedLatencyBenchmark();	
 			}
-#else
-			std::cerr << "ERROR: No custom extensions are implemented in this build of X-Mem." << std::endl;
-			return false;
+#endif
+
+#ifdef EXT_STREAM_BENCHMARK
+			if (config.runExtStreamBenchmark()) {
+				std::cout << "EXTENSION " << EXT_NUM_STREAM_BENCHMARK << ": STREAM-like throughput benchmark using stream copy, add, and triad kernels." << std::endl;
+				benchmgr.runExtStreamBenchmark();
+			}
 #endif
 			/***********************************************/
+
+			std::cout << std::endl;
+			std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+			std::cout << "++++++++++++ Finished custom X-Mem extensions ++++++++++++" << std::endl;
+			std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+			std::cout << std::endl;
 		}
 	}
 

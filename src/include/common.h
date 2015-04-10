@@ -45,7 +45,7 @@
 
 namespace xmem {
 
-#define VERSION "2.1.5"
+#define VERSION "2.1.6"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -198,10 +198,8 @@ namespace xmem {
 
 //++++++++++++++++++ User-implemented extensions configuration here +++++++++++++++++++++
 //Only one extension may be enabled at a time.
-#define EXT_LATENCY_DELAY_INJECTED_BENCHMARK /**< RECOMMENDED DISABLED. This allows for a custom extension to X-Mem that performs latency benchmarking with forward sequential 64-bit read-based load threads with variable delays injected in between memory accesses. */
-#define EXTENSION_DESCRIPTION "Loaded latency benchmarks with delay injected kernels on load threads." /**< Only one EXTENSION_DESCRIPTION may be defined at a time. */
-
-//#define EXTENSION_DESCRIPTION "N/A"
+#define EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK /**< RECOMMENDED ENABLED. This allows for a custom extension to X-Mem that performs latency benchmarking with forward sequential 64-bit and 256-bit read-based load threads with variable delays injected in between memory accesses. */
+//#define EXT_STREAM_BENCHMARK /**< RECOMMENDED DISABLED. This allows for a custom extension to X-Mem that performs stream copy, add, and triad kernels similar to those of the well-known STREAM throughput benchmark. */
 
 /***********************************************************************************************************/
 /***********************************************************************************************************/
@@ -305,6 +303,16 @@ namespace xmem {
 		CHUNK_256b,
 		NUM_CHUNK_SIZES
 	} chunk_size_t;
+
+	typedef enum {
+#ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
+		EXT_NUM_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK,
+#endif
+#ifdef EXT_STREAM_BENCHMARK
+		EXT_NUM_STREAM_BENCHMARK,
+#endif
+		NUM_EXTENSIONS
+	} ext_t;
 
 	/**
 	* @brief Prints a basic welcome message to the console with useful information.

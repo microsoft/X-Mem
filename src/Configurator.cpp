@@ -44,7 +44,13 @@ using namespace xmem;
 Configurator::Configurator(
 	) :
 	__configured(false),
-	__runCustomExtensions(false),
+	__runExtensions(false),
+#ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
+	__run_ext_delay_injected_loaded_latency_benchmark(false),
+#endif
+#ifdef EXT_STREAM_BENCHMARK
+	__run_ext_stream_benchmark(false),
+#endif
 	__runLatency(true),
 	__runThroughput(true),
 	__working_set_size_per_thread(DEFAULT_WORKING_SET_SIZE_PER_THREAD),
@@ -77,8 +83,14 @@ Configurator::Configurator(
 	{
 }
 
-Configurator::Configurator(
-	bool runCustomExtensions,
+/*Configurator::Configurator(
+	bool runExtensions,
+#ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
+	bool run_ext_delay_injected_loaded_latency_benchmark,
+#endif
+#ifdef EXT_STREAM_BENCHMARK
+	bool run_ext_stream_benchmark,
+#endif
 	bool runLatency,
 	bool runThroughput,
 	size_t working_set_size_per_thread,
@@ -110,7 +122,13 @@ Configurator::Configurator(
 	bool use_stride_n16
 	) :
 	__configured(true),
-	__runCustomExtensions(runCustomExtensions),
+	__runExtensions(runExtensions),
+#ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
+	__run_ext_delay_injected_loaded_latency_benchmark(run_ext_delay_injected_loaded_latency_benchmark),
+#endif
+#ifdef EXT_STREAM_BENCHMARK
+	__run_ext_stream_benchmark(run_ext_stream_benchmark),
+#endif
 	__runLatency(runLatency),
 	__runThroughput(runThroughput),
 	__working_set_size_per_thread(working_set_size_per_thread),
@@ -141,7 +159,7 @@ Configurator::Configurator(
 	__use_stride_p16(use_stride_p16),
 	__use_stride_n16(use_stride_n16)
 	{
-}
+}*/
 
 int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	if (__configured) { //If this object was already configured, cannot override from user inputs. This is to prevent an invalid state.
@@ -160,8 +178,10 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	Parser parse(usage, argc, argv, options, buffer); //Parse input
 
 	//Check for parser error
-	if (parse.error())
+	if (parse.error()) {
+		std::cerr << "ERROR: Argument parsing failed. You could try running \"xmem --help\" for usage information." << std::endl;
 		goto error;
+	}
 
 	//X-Mem doesn't have any non-option arguments, so we will presume the user wants a help message.
 	if (parse.nonOptionsCount() > 0) {
@@ -182,10 +202,10 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	}
 
 	//Check runtime modes
-	if (options[MEAS_LATENCY] || options[MEAS_THROUGHPUT] || options[EXTENSIONS]) { //User explicitly picked a mode, so override default selection
+	if (options[MEAS_LATENCY] || options[MEAS_THROUGHPUT] || options[EXTENSION]) { //User explicitly picked at least one mode, so override default selection
 		__runLatency = false;
 		__runThroughput = false;
-		__runCustomExtensions = false;
+		__runExtensions = false;
 	}
 	
 	if (options[MEAS_LATENCY])
@@ -194,8 +214,53 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	if (options[MEAS_THROUGHPUT])
 		__runThroughput = true;
 
-	if (options[EXTENSIONS])
-		__runCustomExtensions = true;
+	//Check extensions
+	if (options[EXTENSION]) {
+		if (NUM_EXTENSIONS <= 0) { //no compiled-in extensions, this must fail.
+			std::cerr << "ERROR: No X-Mem extensions were included at build time." << std::endl;
+			goto error;
+		}
+
+		__runExtensions = true;
+		
+		//Init... override default values
+#ifdef EXT_DELAY_INJECTED_LATENCY_BENCHMARK
+		__run_ext_delay_injected_loaded_latency_benchmark = false;
+#endif
+#ifdef EXT_STREAM_BENCHMARK
+		__run_ext_stream_benchmark = false;
+#endif
+		
+		Option* curr = options[EXTENSION];
+		while (curr) { //EXTENSION may occur more than once, this is perfectly OK.
+			char* endptr = NULL;
+			uint32_t ext_num = static_cast<uint32_t>(strtoul(curr->arg, &endptr, 10));
+			switch (ext_num) {
+#ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
+				case EXT_NUM_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK:
+					__run_ext_delay_injected_loaded_latency_benchmark = true;
+					break;
+#endif
+#ifdef EXT_STREAM_BENCHMARK
+				case EXT_NUM_STREAM_BENCHMARK:
+					__run_ext_stream_benchmark = true;
+					break;
+#endif
+				default:
+					//If no extensions are enabled, then we should not have reached this point anyway.
+					std::cerr << "ERROR: Invalid extension number " << ext_num << ". Allowed values: " << std::endl 
+#ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
+					<< "---> Delay-injected latency benchmark: " << EXT_NUM_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
+#endif
+#ifdef EXT_STREAM_BENCHMARK
+					<< "---> STREAM-like benchmark: " << EXT_NUM_STREAM_BENCHMARK
+#endif
+					<< std::endl;
+					goto error;
+			}
+			curr = curr->next();
+		}
+	}
 	
 	//Check working set size
 	if (options[WORKING_SET_SIZE_PER_THREAD]) { //Override default value with user-specified value
@@ -384,7 +449,7 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	}
 
 	//Make sure at least one mode is available
-	if (!__runLatency && !__runThroughput && !__runCustomExtensions) {
+	if (!__runLatency && !__runThroughput && !__runExtensions) {
 		std::cerr << "ERROR: At least one benchmark type must be selected." << std::endl;
 		goto error;
 	}
@@ -405,7 +470,7 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	if (options[ALL]) {
 		__runLatency = true;
 		__runThroughput = true;
-		__runCustomExtensions = true;
+		__runExtensions = true;
 		__use_chunk_32b = true;
 		__use_chunk_64b = true;
 		__use_chunk_128b = true;
@@ -432,7 +497,7 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 
 	//Check for help or bad options
 	if (options[HELP] || options[UNKNOWN] != NULL)
-		goto error;
+		goto errorWithUsage;
 	
 	//Report final runtime configuration based on user inputs
 	std::cout << std::endl;
@@ -450,8 +515,8 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 				std::cout << "Unloaded ";
 			std::cout << "latency" << std::endl;
 		}
-		if (__runCustomExtensions)
-			std::cout << "---> Custom extensions" << std::endl;
+		if (__runExtensions)
+			std::cout << "---> Extensions" << std::endl;
 		std::cout << std::endl;
 		
 		std::cout << "Benchmark settings:" << std::endl;
@@ -552,8 +617,10 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 
 	return 0;
 
-	error:
+	errorWithUsage:
 		printUsage(std::cerr, usage); //Display help message
+
+	error:
 
 		//Free up options memory
 		if (options)

@@ -24,17 +24,17 @@
 /**
  * @file
  * 
- * @brief Implementation file for the LatencyBenchmark_Delays class.
+ * @brief Implementation file for the DelayInjectedLatencyBenchmark class.
  */
 
 
 //Headers
 #include <common.h>
 
-#ifdef EXT_LATENCY_DELAY_INJECTED_BENCHMARK
+#ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
 
-#include <LatencyBenchmark_Delays.h>
-#include <benchmark_kernels_delays.h>
+#include <DelayInjectedLoadedLatencyBenchmark.h>
+#include <delay_injected_benchmark_kernels.h>
 #include <MemoryWorker.h>
 #include <LatencyWorker.h>
 #include <LoadWorker.h>
@@ -52,7 +52,7 @@
 
 using namespace xmem;
 		
-LatencyBenchmark_Delays::LatencyBenchmark_Delays(
+DelayInjectedLoadedLatencyBenchmark::DelayInjectedLoadedLatencyBenchmark(
 		void* mem_array,
 		size_t len,
 		uint32_t iterations,
@@ -88,16 +88,16 @@ LatencyBenchmark_Delays::LatencyBenchmark_Delays(
 	{ 
 }
 
-void LatencyBenchmark_Delays::report_benchmark_info() const {
+void DelayInjectedLoadedLatencyBenchmark::report_benchmark_info() const {
 	LatencyBenchmark::report_benchmark_info();
 	std::cout << "Load worker kernel delay value: " << __delay << std::endl;
 }
 
-uint32_t LatencyBenchmark_Delays::getDelay() const {
+uint32_t DelayInjectedLoadedLatencyBenchmark::getDelay() const {
 	return __delay;
 }
 
-bool LatencyBenchmark_Delays::_run_core() {
+bool DelayInjectedLoadedLatencyBenchmark::_run_core() {
 	size_t len_per_thread = _len / _num_worker_threads; //Carve up memory space so each worker has its own area to play in
 
 	//Set up latency measurement kernel function pointers

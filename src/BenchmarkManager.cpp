@@ -32,8 +32,12 @@
 #include <common.h>
 #include <Configurator.h>
 
-#ifdef EXT_LATENCY_DELAY_INJECTED_BENCHMARK
-#include <LatencyBenchmark_Delays.h>
+#ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
+#include <DelayInjectedLoadedLatencyBenchmark.h>
+#endif
+
+#ifdef EXT_STREAM_BENCHMARK
+#include <StreamBenchmark.h> //TODO: implement this class
 #endif
 
 #ifdef _WIN32
@@ -151,8 +155,6 @@ bool BenchmarkManager::runAll() {
 		success = success && runThroughputBenchmarks();
 	if (__config.latencyTestSelected())
 		success = success && runLatencyBenchmarks();
-	if (__config.customExtensionsEnabled())
-		success = success && runCustomExtensions();
 
 	return success;
 }
@@ -628,9 +630,14 @@ bool BenchmarkManager::__buildBenchmarks() {
 	return true;
 }
 
-bool BenchmarkManager::runCustomExtensions() {
-#ifdef EXT_LATENCY_DELAY_INJECTED_BENCHMARK
-	std::vector<LatencyBenchmark_Delays*> del_lat_benchmarks;
+#ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
+bool BenchmarkManager::runExtDelayInjectedLoadedLatencyBenchmark() {
+	if (__config.getNumWorkerThreads() < 2) {	
+		std::cerr << "ERROR: Number of worker threads must be at least 1." << std::endl;
+		return false;
+	}
+
+	std::vector<DelayInjectedLoadedLatencyBenchmark*> del_lat_benchmarks;
 	
 	//Put the enumerations into vectors to make constructing benchmarks more loopable
 	std::vector<chunk_size_t> chunks;
@@ -650,13 +657,13 @@ bool BenchmarkManager::runCustomExtensions() {
 				uint32_t d = 0;
 				while (d <= 1024) { //Iterate different delay values
 			
-					std::string benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index++ << "E (Extension: Latency with Delay Injection)"))->str();
+					std::string benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index++ << "E" << EXT_NUM_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK << " (Extension: Delay-Injected Loaded Latency)"))->str();
 					
 #ifdef USE_SIZE_BASED_BENCHMARKS
 					//Determine number of passes for each benchmark. This is working set size-dependent, to ensure the timed duration of each run is sufficiently long, but not too long.
 					passes_per_iteration = compute_number_of_passes((mem_array_len / __config.getNumWorkerThreads()) / KB) / 4;
 #endif
-					del_lat_benchmarks.push_back(new LatencyBenchmark_Delays(mem_array,
+					del_lat_benchmarks.push_back(new DelayInjectedLoadedLatencyBenchmark(mem_array,
 																			 mem_array_len,
 																			 __config.getIterationsPerTest(),
 #ifdef USE_SIZE_BASED_BENCHMARKS
@@ -670,7 +677,7 @@ bool BenchmarkManager::runCustomExtensions() {
 																			 benchmark_name,
 																			 d));
 					if (del_lat_benchmarks[del_lat_benchmarks.size()-1] == NULL) {
-						std::cerr << "ERROR: Failed to build a LatencyBenchmark_Delays!" << std::endl;
+						std::cerr << "ERROR: Failed to build a DelayInjectedLoadedLatencyBenchmark!" << std::endl;
 						return false;
 					}
 
@@ -766,8 +773,12 @@ bool BenchmarkManager::runCustomExtensions() {
 	}
 
 	return true;
-
-#else
-	return false;
-#endif
 }
+#endif
+
+#ifdef EXT_STREAM_BENCHMARK
+bool BenchmarkManager::runExtStreamBenchmark() {
+	//TODO: implement me
+	return true;
+}
+#endif

@@ -47,7 +47,7 @@ namespace xmem {
 		UNKNOWN,
 		ALL,
 		CHUNK_SIZE,
-		EXTENSIONS,
+		EXTENSION,
 		OUTPUT_FILE,
 		HELP,
 		BASE_TEST_INDEX,
@@ -74,7 +74,7 @@ namespace xmem {
 		"Options:" },
 		{ ALL, 0, "a", "all", Arg::None, "    -a, --all    \tRun all possible benchmark modes and settings supported by X-Mem. This will override any other relevant user inputs. Note that X-Mem may run for a long time." },
 		{ CHUNK_SIZE, 0, "c", "chunk_size", MyArg::PositiveInteger, "    -c, --chunk_size    \tA chunk size in bits to use for load traffic-generating threads used in throughput and loaded latency benchmarks. A chunk is the size of each memory access in a benchmark. Allowed values: 32, 64, 128, and 256. If no chunk sizes specified, use 64-bit chunks by default. Note that some chunk sizes may not be supported on some hardware. 32-bit chunks are not compatible with random-access patterns; these combinations of settings will be skipped if they occur. DEFAULT: 64"},
-		{ EXTENSIONS, 0, "e", "extensions", Arg::None, "    -e, --extensions    \tRun custom X-Mem extensions defined by the user at build time." },
+		{ EXTENSION, 0, "e", "extension", MyArg::NonnegativeInteger, "    -e, --extension    \tRun an X-Mem extension defined by the user at build time. The integer argument specifies a single unique extension. This option may be included multiple times. Note that the extension behavior may or may not depend on the other X-Mem options as its semantics are defined by the extension author." },
 		{ OUTPUT_FILE, 0, "f", "output_file", MyArg::Required, "    -f, --output_file    \tGenerate an output file in CSV format using the given filename." },
 		{ HELP, 0, "h", "help", Arg::None, "    -h, --help    \tPrint X-Mem usage and exit." },
 		{ BASE_TEST_INDEX, 0, "i", "base_test_index", MyArg::NonnegativeInteger, "    -i, --base_test_index    \tBase index for the first benchmark to run. This option is provided for user convenience in enumerating benchmark tests across several subsequent runs of X-Mem. DEFAULT: 1" },
@@ -115,9 +115,9 @@ namespace xmem {
 		"        xmem -t --latency -w524288 -f results.csv -c32 -c256 -i 101 -u -j2\n"
 		"\n"
 		"\n"
-		"Run 3 iterations of throughput, loaded latency, and extended benchmark modes on a working set of 128 KB per thread. Use 4 worker threads in total. For load traffic-generating threads, use all combinations of read and write memory accesses, random-access patterns, forward sequential, and strided patterns of size -4 and -16 chunks. Ignore NUMA effects in the system and use large pages. Finally, increase verbosity of console output.\n"
+		"Run 3 iterations of throughput and loaded latency on a working set of 128 KB per thread. Use 4 worker threads in total. For load traffic-generating threads, use all combinations of read and write memory accesses, random-access patterns, forward sequential, and strided patterns of size -4 and -16 chunks. Ignore NUMA effects in the system and use large pages. Finally, increase verbosity of console output. Finally, run custom user extensions with indices 0 and 1. Note that these may not necessarily obey other input parameters as their behavior is defined by the extension author.\n"
 		"\n"
-		"        xmem -w128 -n3 -j4 -l -t --extensions -s -S1 -S-4 -r -S16 -R -W -u -L -v\n"
+		"        xmem -w128 -n3 -j4 -l -t --extension=0 -e1 -s -S1 -S-4 -r -S16 -R -W -u -L -v\n"
 		"\n"
 		"\n"
 		"Run EVERYTHING and dump results to file.\n"
@@ -141,7 +141,9 @@ namespace xmem {
 
 		/**
 		 * @brief Specialized constructor for when you don't want to get config from input, and you want to pass it in directly.
-		 * @param runCustomExtensions Indicates if user-defined code should be run in addition to other standard functionality.
+		 * @param runExtensions Indicates if user-defined code should be run in addition to other standard functionality.
+		 * @param run_ext_delay_injected_loaded_latency_benchmark If true, and this extension is included at compile-time, run the delay-injected loaded latency benchmark extension.
+		 * @param run_ext_stream_benchmark If true, and this extension is included at compile-time, run the STREAM-like benchmark extension.
 		 * @param runLatency Indicates latency benchmarks should be run.
 		 * @param runThroughput Indicates throughput benchmarks should be run.
 		 * @param working_set_size_per_thread The total size of memory to test in all benchmarks, in bytes, per thread. This MUST be a multiple of 4KB pages.
@@ -172,8 +174,14 @@ namespace xmem {
 		 * @param use_stride_p16 If true, include stride of +16 for relevant benchmarks.
 		 * @param use_stride_n16 If true, include stride of -16 for relevant benchmarks.
 		 */
-		Configurator(
-			bool runCustomExtensions,
+		/*Configurator(
+			bool runExtensions,
+#ifdef EXT_DELAY_INJECTED_LATENCY_BENCHMARK
+			bool run_ext_delay_injected_loaded_latency_benchmark,
+#endif
+#ifdef EXT_STREAM_BENCHMARK
+			bool run_ext_stream_benchmark,
+#endif
 			bool runLatency,
 			bool runThroughput,
 			size_t working_set_size_per_thread,
@@ -203,7 +211,7 @@ namespace xmem {
 			bool use_stride_n8,
 			bool use_stride_p16,
 			bool use_stride_n16
-		);
+		);*/
 
 		/**
 		 * @brief Configures the tool based on user's command-line inputs.
@@ -214,10 +222,26 @@ namespace xmem {
 		int32_t configureFromInput(int argc, char* argv[]);
 
 		/**
-		 * @brief Determines whether custom user extensions are enabled.
-		 * @returns True if custom extensions are enabled.
+		 * @brief Determines whether user extensions are enabled.
+		 * @returns True if extensions are enabled.
 		 */
-		bool customExtensionsEnabled() const { return __runCustomExtensions; }
+		bool extensionsEnabled() const { return __runExtensions; }
+
+#ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
+		/**
+		 * @brief If included at compile-time, determines whether the delay-injected loaded latency benchmark extension should be run.
+		 * @returns True if it should be run.
+		 */
+		bool runExtDelayInjectedLoadedLatencyBenchmark() const { return __run_ext_delay_injected_loaded_latency_benchmark; }
+#endif
+
+#ifdef EXT_STREAM_BENCHMARK
+		/**
+		 * @brief If included at compile-time, determines whether the STREAM-like benchmark extension should be run.
+		 * @returns True if it should be run.
+		 */
+		bool runExtStreamBenchmark() const { return __run_ext_stream_benchmark; }
+#endif
 
 		/**
 		 * @brief Indicates if the latency test has been selected.
@@ -409,7 +433,13 @@ namespace xmem {
 
 		bool __configured; /**< If true, this object has been configured. configureFromInput() will only work if this is false. */
 
-		bool __runCustomExtensions; /**< If true, run custom extensions before standard features. */ 
+		bool __runExtensions; /**< If true, run extensions. */
+#ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
+		bool __run_ext_delay_injected_loaded_latency_benchmark; /**< If true, then run the delay-injected loaded latency benchmark extension. */
+#endif
+#ifdef EXT_STREAM_BENCHMARK
+		bool __run_ext_stream_benchmark; /**< If true, then run the STREAM-like benchmark extension. */
+#endif
 
 		bool __runLatency; /**< True if latency tests should be run. */
 		bool __runThroughput; /**< True if throughput tests should be run. */

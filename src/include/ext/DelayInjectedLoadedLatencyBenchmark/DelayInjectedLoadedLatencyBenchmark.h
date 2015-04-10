@@ -24,13 +24,13 @@
 /**
  * @file
  * 
- * @brief Header file for the LatencyBenchmark_Delays class.
+ * @brief Header file for the DelayInjectedLoadedLatencyBenchmark class.
  */
 
-#ifdef EXT_LATENCY_DELAY_INJECTED_BENCHMARK
+#ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
 
-#ifndef __LATENCY_BENCHMARK_DELAYS_H
-#define __LATENCY_BENCHMARK_DELAYS_H
+#ifndef __DELAY_INJECTED_LOADED_LATENCY_BENCHMARK_H
+#define __DELAY_INJECTED_LOADED_LATENCY_BENCHMARK_H
 
 //Headers
 #include <LatencyBenchmark.h>
@@ -45,13 +45,13 @@ namespace xmem {
 	/**
 	 * @brief A type of benchmark that measures loaded memory latency via random pointer chasing while load threads provide memory interference with delay injection to generate different degrees of loading.
 	 */
-	class LatencyBenchmark_Delays : public LatencyBenchmark {
+	class DelayInjectedLoadedLatencyBenchmark : public LatencyBenchmark {
 	public:
 		
 		/**
 		 * @brief Constructor. Parameters are passed directly to the LatencyBenchmark constructor. See LatencyBenchmark class documentation for parameter semantics. The access pattern is hard-coded to SEQUENTIAL, read/write pattern to READ, and stride to 1. Chunk size may be either 64-bit or 256-bit.
 		 */
-		LatencyBenchmark_Delays(
+		DelayInjectedLoadedLatencyBenchmark(
 			void* mem_array,
 			size_t len,
 			uint32_t iterations,
@@ -70,7 +70,7 @@ namespace xmem {
 		/**
 		 * @brief Destructor.
 		 */
-		virtual ~LatencyBenchmark_Delays() {}
+		virtual ~DelayInjectedLoadedLatencyBenchmark() {}
 	
 		/**
 		 * @brief Reports benchmark configuration details to the console.

@@ -62,7 +62,7 @@ namespace xmem {
 		~BenchmarkManager();
 
 		/**
-		 * @brief Runs all benchmark configurations.
+		 * @brief Runs all benchmark configurations (does not include extensions).
 		 * @returns True on success.
 		 */
 		bool runAll();
@@ -79,11 +79,21 @@ namespace xmem {
 		 */
 		bool runLatencyBenchmarks();
 
+#ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
 		/**
-		 * @brief Runs user-defined custom extensions to X-Mem.
+		 * @brief Runs the delay-injected loaded latency benchmark extension.
 		 * @returns True on success.
 		 */
-		bool runCustomExtensions();
+		bool runExtDelayInjectedLoadedLatencyBenchmark();
+#endif
+
+#ifdef EXT_STREAM_BENCHMARK
+		/**
+		 * @brief Runs the STREAM-like benchmark extension.
+		 * @returns True on success.
+		 */
+		bool runExtStreamBenchmark();
+#endif
 
 	private:
 		/**

@@ -1,7 +1,7 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: Extensible Memory Benchmarking Tool v2.1.5
+X-Mem: Extensible Memory Benchmarking Tool v2.1.6
 ------------------------------------------------------------------------------------------------------------
 
 The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power. 
@@ -10,7 +10,7 @@ Originally authored by Mark Gottscho (Email: <mgottscho@ucla.edu>) as a Summer 2
 
 This project is under active development. Stay tuned for more updates.
 
-PROJECT REVISION DATE: April 9, 2015.
+PROJECT REVISION DATE: April 10, 2015.
 
 ------------------------------------------------------------------------------------------------------------
 LICENSE
@@ -139,8 +139,13 @@ Options:
                                 not compatible with random-access patterns;
                                 these combinations of settings will be skipped
                                 if they occur. DEFAULT: 64
-    -e, --extensions            Run custom X-Mem extensions defined by the user
-                                at build time.
+    -e, --extension             Run an X-Mem extension defined by the user at
+                                build time. The integer argument specifies a
+                                single unique extension. This option may be
+                                included multiple times. Note that the extension
+                                behavior may or may not depend on the other
+                                X-Mem options as its semantics are defined by
+                                the extension author.
     -f, --output_file           Generate an output file in CSV format using the
                                 given filename.
     -h, --help                  Print X-Mem usage and exit.
@@ -235,7 +240,9 @@ Options:
 If a given option is not specified, X-Mem defaults will be used where
 appropriate.
 
-+++++++++++++++++++++++++++ EXAMPLE USAGE +++++++++++++++++++++++++++++
+=======================================================================
+============================ EXAMPLE USAGE ============================
+=======================================================================
 
 Print X-Mem usage message and exit. If --help or -h is specified, benchmarks
 will not run regardless of other options.
@@ -262,14 +269,17 @@ output (results.csv).
         xmem -t --latency -w524288 -f results.csv -c32 -c256 -i 101 -u -j2
 
 
-Run 3 iterations of throughput, loaded latency, and extended benchmark modes on
-a working set of 128 KB per thread. Use 4 worker threads in total. For load
-traffic-generating threads, use all combinations of read and write memory
-accesses, random-access patterns, forward sequential, and strided patterns of
-size -4 and -16 chunks. Ignore NUMA effects in the system and use large pages.
-Finally, increase verbosity of console output.
+Run 3 iterations of throughput and loaded latency on a working set of 128 KB per
+thread. Use 4 worker threads in total. For load traffic-generating threads, use
+all combinations of read and write memory accesses, random-access patterns,
+forward sequential, and strided patterns of size -4 and -16 chunks. Ignore NUMA
+effects in the system and use large pages. Finally, increase verbosity of
+console output. Finally, run custom user extensions with indices 0 and 1. Note
+that these may not necessarily obey other input parameters as their behavior is
+defined by the extension author.
 
-        xmem -w128 -n3 -j4 -l -t --extensions -s -S1 -S-4 -r -S16 -R -W -u -L -v
+        xmem -w128 -n3 -j4 -l -t --extension=0 -e1 -s -S1 -S-4 -r -S16 -R -W -u
+-L -v
 
 
 Run EVERYTHING and dump results to file.
@@ -277,6 +287,7 @@ Run EVERYTHING and dump results to file.
         xmem -a -v -ftest.csv
 
 Have fun! =]
+
 
 ------------------------------------------------------------------------------------------------------------
 BUILDING FROM SOURCE

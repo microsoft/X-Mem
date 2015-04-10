@@ -24,7 +24,7 @@
 /**
  * @file
  * 
- * @brief Implementation file for benchmark kernel functions for doing the actual work we care about. :)
+ * @brief Implementation file for benchmark kernel functions for the delay-injected loaded latency benchmark.
  *
  * Optimization tricks include:
  *   - UNROLL macros to manual loop unrolling. This reduces the relative branch overhead of the loop.
@@ -36,7 +36,7 @@
  */
 
 //Headers
-#include <benchmark_kernels_delays.h>
+#include <delay_injected_benchmark_kernels.h>
 #include <common.h>
 
 //Libraries
