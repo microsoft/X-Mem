@@ -736,6 +736,9 @@ int32_t xmem::dummy_revSequentialLoop_Word64(void* start_address, void* end_addr
 }
 
 int32_t xmem::dummy_revSequentialLoop_Word128(void* start_address, void* end_address) {
+#ifdef _WIN32
+	return win_asm_dummy_revSequentialLoop_Word128(static_cast<Word128_t*>(end_address), static_cast<Word128_t*>(start_address));
+#endif
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address), *begptr = static_cast<Word128_t*>(start_address); wordptr > begptr;) {
 		UNROLL256(wordptr--;) 

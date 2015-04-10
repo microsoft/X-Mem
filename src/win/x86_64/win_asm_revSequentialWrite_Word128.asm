@@ -41,7 +41,7 @@ win_asm_revSequentialWrite_Word128 proc
 	vmovdqu xmm0, xmmword ptr[rdx]
 
 	cmp rax,rdx		; have we reached the first word yet?
-	jae done		; if current word address is <= first word address, jump to done
+	jbe done		; if current word address is <= first word address, jump to done
 
 myloop:
 	; Unroll 256 stores of 128-bit words (16 bytes is 10h) before checking loop condition.
@@ -305,7 +305,7 @@ myloop:
 	sub rax,1000h							; End of one unrolled loop iteration. Decrement pointer by 256 words of size 16 bytes, which is 4096 bytes.
 	
 	cmp rax,rdx		; have we reached the last word yet?
-	jae done		; if current word address is <= first word address, jump to done
+	jbe done		; if current word address is <= first word address, jump to done
 	jmp myloop		; continue loop
 
 done:
