@@ -471,6 +471,12 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		__runLatency = true;
 		__runThroughput = true;
 		__runExtensions = true;
+#ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
+		__run_ext_delay_injected_loaded_latency_benchmark = true;
+#endif
+#ifdef EXT_STREAM_BENCHMARK
+		__run_ext_stream_benchmark = true;
+#endif
 		__use_chunk_32b = true;
 		__use_chunk_64b = true;
 		__use_chunk_128b = true;
