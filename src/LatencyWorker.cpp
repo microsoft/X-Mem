@@ -78,9 +78,9 @@ void LatencyWorker::run() {
 	RandomFunction kernel_fptr = NULL;
 	RandomFunction kernel_dummy_fptr = NULL;
 	uintptr_t* next_address = NULL;
-	uint64_t bytes_per_pass = 0; 
-	uint64_t passes = 0;
-	uint64_t p = 0;
+	uint32_t bytes_per_pass = 0; 
+	uint32_t passes = 0;
+	uint32_t p = 0;
 	tick_t start_tick = 0;
 	tick_t stop_tick = 0;
 	tick_t elapsed_ticks = 0;

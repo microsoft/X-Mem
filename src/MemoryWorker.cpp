@@ -71,7 +71,7 @@ size_t MemoryWorker::getLen() {
 }
 
 uint32_t MemoryWorker::getBytesPerPass() {
-	size_t retval = 0;
+	uint32_t retval = 0;
 	if (_acquireLock(-1)) {
 		retval = _bytes_per_pass;
 		_releaseLock();
@@ -81,7 +81,7 @@ uint32_t MemoryWorker::getBytesPerPass() {
 }
 
 uint32_t MemoryWorker::getPasses() {
-	size_t retval = 0;
+	uint32_t retval = 0;
 	if (_acquireLock(-1)) {
 		retval = _passes;
 		_releaseLock();
