@@ -46,7 +46,7 @@ Benchmark::Benchmark(
 		size_t len,
 		uint32_t iterations,
 #ifdef USE_SIZE_BASED_BENCHMARKS
-		uint64_t passes_per_iteration,
+		uint32_t passes_per_iteration,
 #endif
 		uint32_t num_worker_threads,
 		uint32_t mem_node,
@@ -54,7 +54,7 @@ Benchmark::Benchmark(
 		pattern_mode_t pattern_mode,
 		rw_mode_t rw_mode,
 		chunk_size_t chunk_size,
-		int64_t stride_size,
+		int32_t stride_size,
 		std::vector<PowerReader*> dram_power_readers,
 		std::string metricUnits,
 		std::string name
@@ -267,7 +267,7 @@ uint32_t Benchmark::getIterations() const {
 }
 
 #ifdef USE_SIZE_BASED_BENCHMARKS
-uint64_t Benchmark::getPassesPerIteration() const {
+uint32_t Benchmark::getPassesPerIteration() const {
 	return _passes_per_iteration;
 }
 #endif
@@ -276,7 +276,7 @@ chunk_size_t Benchmark::getChunkSize() const {
 	return _chunk_size;
 }
 
-int64_t Benchmark::getStrideSize() const {
+int32_t Benchmark::getStrideSize() const {
 	return _stride_size;
 }
 

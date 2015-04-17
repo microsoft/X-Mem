@@ -50,7 +50,7 @@ LoadWorker::LoadWorker(
 		void* mem_array,
 		size_t len,
 #ifdef USE_SIZE_BASED_BENCHMARKS
-		uint64_t passes_per_iteration,
+		uint32_t passes_per_iteration,
 #endif
 		SequentialFunction kernel_fptr,
 		SequentialFunction kernel_dummy_fptr,
@@ -76,7 +76,7 @@ LoadWorker::LoadWorker(
 		void* mem_array,
 		size_t len,
 	#ifdef USE_SIZE_BASED_BENCHMARKS
-		uint64_t passes_per_iteration,
+		uint32_t passes_per_iteration,
 	#endif
 		RandomFunction kernel_fptr,
 		RandomFunction kernel_dummy_fptr,
@@ -113,20 +113,20 @@ void LoadWorker::run() {
 	void* end_address = NULL;
 	void* prime_start_address = NULL;
 	void* prime_end_address = NULL;
-	uint64_t bytes_per_pass = 0;
-	uint64_t passes = 0;
-	uint64_t start_tick = 0;
-	uint64_t stop_tick = 0;
-	uint64_t elapsed_ticks = 0;
-	uint64_t elapsed_dummy_ticks = 0;
-	uint64_t adjusted_ticks = 0;
+	uint32_t bytes_per_pass = 0;
+	uint32_t passes = 0;
+	tick_t start_tick = 0;
+	tick_t stop_tick = 0;
+	tick_t elapsed_ticks = 0;
+	tick_t elapsed_dummy_ticks = 0;
+	tick_t adjusted_ticks = 0;
 	bool warning = false;
 
 #ifdef USE_TIME_BASED_BENCHMARKS
 	void* mem_array = NULL;
 	size_t len = 0;
-	uint64_t target_ticks = g_ticks_per_sec * BENCHMARK_DURATION_SEC; //Rough target run duration in seconds 
-	uint64_t p = 0;
+	tick_t target_ticks = g_ticks_per_ms * BENCHMARK_DURATION_MS; //Rough target run duration in ticks
+	uint32_t p = 0;
 	bytes_per_pass = THROUGHPUT_BENCHMARK_BYTES_PER_PASS;
 #endif
 	
@@ -170,7 +170,7 @@ void LoadWorker::run() {
 		std::cerr << "WARNING: Failed to boost scheduling priority. Perhaps running in Administrator mode would help." << std::endl;
 
 	//Prime memory
-	for (uint64_t i = 0; i < 4; i++) {
+	for (uint32_t i = 0; i < 4; i++) {
 		forwSequentialRead_Word64(prime_start_address, prime_end_address); //dependent reads on the memory, make sure caches are ready, coherence, etc...
 	}
 
@@ -227,12 +227,12 @@ void LoadWorker::run() {
 	next_address = static_cast<uintptr_t*>(mem_array);
 	if (use_sequential_kernel_fptr) { //sequential function semantics
 		start_tick = start_timer();
-		for (uint64_t p = 0; p < __passes_per_iteration; p++)
+		for (uint32_t p = 0; p < __passes_per_iteration; p++)
 			(*kernel_fptr_seq)(start_address, end_address);
 		stop_tick = stop_timer();
 	} else { //random function semantics
 		start_tick = start_timer();
-		for (uint64_t p = 0; p < __passes_per_iteration; p++)
+		for (uint32_t p = 0; p < __passes_per_iteration; p++)
 			(*kernel_fptr_ran)(next_address, &next_address, bytes_per_pass);
 		stop_tick = stop_timer();
 	}
@@ -242,12 +242,12 @@ void LoadWorker::run() {
 	next_address = static_cast<uintptr_t*>(mem_array);
 	if (use_sequential_kernel_fptr) { //sequential function semantics
 		start_tick = start_timer();
-		for (uint64_t p = 0; p < __passes_per_iteration; p++)
+		for (uint32_t p = 0; p < __passes_per_iteration; p++)
 			(*kernel_dummy_fptr_seq)(start_address, end_address);
 		stop_tick = stop_timer();
 	} else { //random function semantics
 		start_tick = start_timer();
-		for (uint64_t p = 0; p < __passes_per_iteration; p++)
+		for (uint32_t p = 0; p < __passes_per_iteration; p++)
 			(*kernel_dummy_fptr_ran)(next_address, &next_address, bytes_per_pass);
 		stop_tick = stop_timer();
 	}

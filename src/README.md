@@ -1,7 +1,7 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: Extensible Memory Benchmarking Tool v2.1.8
+X-Mem: Extensible Memory Benchmarking Tool v2.1.9
 ------------------------------------------------------------------------------------------------------------
 
 The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power. 
@@ -132,13 +132,15 @@ Options:
                                 traffic-generating threads used in throughput
                                 and loaded latency benchmarks. A chunk is the
                                 size of each memory access in a benchmark.
-                                Allowed values: 32, 64, 128, and 256. If no
-                                chunk sizes specified, use 64-bit chunks by
+                                Allowed values: 32, 64, 128, and 256
+                                (platform-dependent). If no chunk sizes
+                                specified, use the native platform chunks by
                                 default. Note that some chunk sizes may not be
                                 supported on some hardware. 32-bit chunks are
                                 not compatible with random-access patterns;
                                 these combinations of settings will be skipped
-                                if they occur. DEFAULT: 64
+                                if they occur. DEFAULT: 64 on 64-bit systems, 32
+                                on 32-bit systems.
     -e, --extension             Run an X-Mem extension defined by the user at
                                 build time. The integer argument specifies a
                                 single unique extension. This option may be
@@ -287,7 +289,6 @@ Run EVERYTHING and dump results to file.
         xmem -a -v -ftest.csv
 
 Have fun! =]
-
 
 ------------------------------------------------------------------------------------------------------------
 BUILDING FROM SOURCE

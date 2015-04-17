@@ -43,29 +43,34 @@
 using namespace xmem;
 
 Timer::Timer() :
-	_ticks_per_sec(0),
+	_ticks_per_ms(0),
 	_ns_per_tick(0)
 {	
-	uint64_t start_tick;
-	uint64_t stop_tick;
+#ifdef ARCH_64BIT
+	uint64_t
+#else
+	uint32_t
+#endif
+	start_tick, stop_tick;
+
 	
 	start_tick = start_timer();
 #ifdef _WIN32
-	Sleep(1000);
+	Sleep(100);
 #endif
 #ifdef __gnu_linux__
 	struct timespec duration, remainder;
-	duration.tv_sec = 1;
-	duration.tv_nsec = 0;
+	duration.tv_sec = 0;
+	duration.tv_nsec = 1e8;
 	nanosleep(&duration, &remainder);
 #endif
 	stop_tick = stop_timer();
-	_ticks_per_sec = stop_tick - start_tick;
-	_ns_per_tick = 1/(static_cast<double>(_ticks_per_sec)) * 1e9;
+	_ticks_per_ms = (stop_tick - start_tick) / 100;
+	_ns_per_tick = 1/(static_cast<double>(_ticks_per_ms)) * 1e6;
 }
 
-uint64_t Timer::get_ticks_per_sec() {
-	return _ticks_per_sec;
+tick_t Timer::get_ticks_per_ms() {
+	return _ticks_per_ms;
 }
 
 double Timer::get_ns_per_tick() {

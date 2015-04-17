@@ -77,7 +77,7 @@ namespace xmem {
 			size_t len,
 			uint32_t iterations,
 #ifdef USE_SIZE_BASED_BENCHMARKS
-			uint64_t passes_per_iteration,
+			uint32_t passes_per_iteration,
 #endif
 			uint32_t num_worker_threads,
 			uint32_t mem_node,
@@ -85,7 +85,7 @@ namespace xmem {
 			pattern_mode_t pattern_mode,
 			rw_mode_t rw_mode,
 			chunk_size_t chunk_size,
-			int64_t stride_size,
+			int32_t stride_size,
 			std::vector<PowerReader*> dram_power_readers,
 			std::string metricUnits,
 			std::string name
@@ -177,7 +177,7 @@ namespace xmem {
 		 * @brief Gets the number of passes in each iteration.
 		 * @returns The number of passes per iteration for this benchmark.
 		 */
-		uint64_t getPassesPerIteration() const;
+		uint32_t getPassesPerIteration() const;
 #endif
 
 		/**
@@ -190,7 +190,7 @@ namespace xmem {
 		 * @brief Gets the stride size for this benchmark.
 		 * @returns The stride size in chunks.
 		 */
-		int64_t getStrideSize() const;
+		int32_t getStrideSize() const;
 
 		/**
 		 * @brief Gets the CPU NUMA node used in this benchmark.
@@ -257,7 +257,7 @@ namespace xmem {
 		//Benchmark repetition
 		uint32_t _iterations; /**< Number of iterations used in this benchmark. */
 #ifdef USE_SIZE_BASED_BENCHMARKS
-		uint64_t _passes_per_iteration; /**< Number of passes per iteration in this benchmark. */
+		uint32_t _passes_per_iteration; /**< Number of passes per iteration in this benchmark. */
 #endif
 	
 		//Threading and affinity
@@ -269,7 +269,7 @@ namespace xmem {
 		pattern_mode_t _pattern_mode; /**< Access pattern mode. */
 		rw_mode_t _rw_mode; /**< Read/write mode. */
 		chunk_size_t _chunk_size; /**< Chunk size of memory accesses in this benchmark. */
-		int64_t _stride_size; /**< Stride size in chunks for sequential pattern mode only. */
+		int32_t _stride_size; /**< Stride size in chunks for sequential pattern mode only. */
 		
 		//Power measurement
 		std::vector<PowerReader*> _dram_power_readers; /**< The power reading objects for measuring DRAM power on a per-socket basis during the benchmark. */

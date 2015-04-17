@@ -30,6 +30,9 @@
 #ifndef __TIMER_H
 #define __TIMER_H
 
+//Headers
+#include <common.h>
+
 //Libraries
 #include <cstdint>
 
@@ -47,10 +50,10 @@ namespace xmem {
 		Timer();
 
 		/**
-		 * @brief Gets ticks per second for this timer.
-		 * @returns The reported number of ticks per second.
+		 * @brief Gets ticks per ms for this timer.
+		 * @returns The reported number of ticks per ms.
 		 */
-		uint64_t get_ticks_per_sec();
+		tick_t get_ticks_per_ms();
 
 		/**
 		 * @brief Gets nanoseconds per tick for this timer.
@@ -59,7 +62,7 @@ namespace xmem {
 		double get_ns_per_tick();
 
 	protected:
-		uint64_t _ticks_per_sec; /**< Ticks per second for this timer. */
+		tick_t _ticks_per_ms; /**< Ticks per ms for this timer. */
 		double _ns_per_tick; /**< Nanoseconds per tick for this timer. */
 	};
 };

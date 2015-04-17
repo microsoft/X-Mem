@@ -81,17 +81,17 @@ void LatencyWorker::run() {
 	uint64_t bytes_per_pass = 0; 
 	uint64_t passes = 0;
 	uint64_t p = 0;
-	uint64_t start_tick = 0;
-	uint64_t stop_tick = 0;
-	uint64_t elapsed_ticks = 0;
-	uint64_t elapsed_dummy_ticks = 0;
-	uint64_t adjusted_ticks = 0;
+	tick_t start_tick = 0;
+	tick_t stop_tick = 0;
+	tick_t elapsed_ticks = 0;
+	tick_t elapsed_dummy_ticks = 0;
+	tick_t adjusted_ticks = 0;
 	bool warning = false;
 		
 #ifdef USE_TIME_BASED_BENCHMARKS
 	void* mem_array = NULL;
 	size_t len = 0;
-	uint64_t target_ticks = g_ticks_per_sec * BENCHMARK_DURATION_SEC; //Rough target run duration in seconds 
+	tick_t target_ticks = g_ticks_per_ms * BENCHMARK_DURATION_MS; //Rough target run duration in ticks
 #endif
 	
 	//Grab relevant setup state thread-safely and keep it local

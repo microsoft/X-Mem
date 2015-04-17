@@ -175,7 +175,7 @@ bool BenchmarkManager::runThroughputBenchmarks() {
 		if (__config.useOutputFile()) {
 			__results_file << __tp_benchmarks[i]->getName() << ",";
 			__results_file << __tp_benchmarks[i]->getIterations() << ",";
-			__results_file << static_cast<uint64_t>(__tp_benchmarks[i]->getLen() / __tp_benchmarks[i]->getNumThreads() / KB) << ",";
+			__results_file << static_cast<size_t>(__tp_benchmarks[i]->getLen() / __tp_benchmarks[i]->getNumThreads() / KB) << ",";
 			__results_file << __tp_benchmarks[i]->getNumThreads() << ",";
 			__results_file << __tp_benchmarks[i]->getNumThreads() << ",";
 			__results_file << __tp_benchmarks[i]->getMemNode() << ",";
@@ -262,7 +262,7 @@ bool BenchmarkManager::runLatencyBenchmarks() {
 		if (__config.useOutputFile()) {
 			__results_file << __lat_benchmarks[i]->getName() << ",";
 			__results_file << __lat_benchmarks[i]->getIterations() << ",";
-			__results_file << static_cast<uint64_t>(__lat_benchmarks[i]->getLen() / __lat_benchmarks[i]->getNumThreads() / KB) << ",";
+			__results_file << static_cast<size_t>(__lat_benchmarks[i]->getLen() / __lat_benchmarks[i]->getNumThreads() / KB) << ",";
 			__results_file << __lat_benchmarks[i]->getNumThreads() << ",";
 			__results_file << __lat_benchmarks[i]->getNumThreads()-1 << ",";
 			__results_file << __lat_benchmarks[i]->getMemNode() << ",";
@@ -446,7 +446,7 @@ bool BenchmarkManager::__buildBenchmarks() {
 	if (__config.useWrites())
 		rws.push_back(WRITE);
 	
-	std::vector<int64_t> strides;
+	std::vector<int32_t> strides;
 	if (__config.useStrideP1())
 		strides.push_back(1);
 	if (__config.useStrideN1())
@@ -489,7 +489,7 @@ bool BenchmarkManager::__buildBenchmarks() {
 						chunk_size_t chunk = chunks[chunk_index];
 
 						for (uint32_t stride_index = 0; stride_index < strides.size(); stride_index++) {  //iterate different stride lengths
-							int64_t stride = strides[stride_index];
+							int32_t stride = strides[stride_index];
 							
 							//Add the throughput benchmark
 							benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index << "T (Throughput)"))->str();
@@ -699,7 +699,7 @@ bool BenchmarkManager::runExtDelayInjectedLoadedLatencyBenchmark() {
 		if (__config.useOutputFile()) {
 			__results_file << del_lat_benchmarks[i]->getName() << ",";
 			__results_file << del_lat_benchmarks[i]->getIterations() << ",";
-			__results_file << static_cast<uint64_t>(del_lat_benchmarks[i]->getLen() / del_lat_benchmarks[i]->getNumThreads() / KB) << ",";
+			__results_file << static_cast<size_t>(del_lat_benchmarks[i]->getLen() / del_lat_benchmarks[i]->getNumThreads() / KB) << ",";
 			__results_file << del_lat_benchmarks[i]->getNumThreads() << ",";
 			__results_file << del_lat_benchmarks[i]->getNumThreads()-1 << ",";
 			__results_file << del_lat_benchmarks[i]->getMemNode() << ",";

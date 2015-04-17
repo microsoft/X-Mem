@@ -83,6 +83,7 @@ Configurator::Configurator(
 	{
 }
 
+//TODO: delete this monstrosity
 /*Configurator::Configurator(
 	bool runExtensions,
 #ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK

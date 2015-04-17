@@ -39,7 +39,7 @@ namespace xmem {
 		 */
 		static ArgStatus NonnegativeInteger(const Option& option, bool msg) {
 			char* endptr = 0;
-			int64_t tmp = -1;
+			int32_t tmp = -1;
 			if (option.arg != 0)
 				tmp = strtol(option.arg, &endptr, 10);
 			if (endptr != option.arg && *endptr == 0 && tmp >= 0)
@@ -55,7 +55,7 @@ namespace xmem {
 		 */
 		static ArgStatus PositiveInteger(const Option& option, bool msg) {
 			char* endptr = 0;
-			int64_t tmp = -1;
+			int32_t tmp = -1;
 			if (option.arg != 0)
 				tmp = strtol(option.arg, &endptr, 10);
 			if (endptr != option.arg && *endptr == 0 && tmp > 0)

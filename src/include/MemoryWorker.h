@@ -31,6 +31,7 @@
 #define __MEMORY_WORKER_H
 
 //Headers
+#include <common.h>
 #include <Runnable.h>
 
 //Libraries
@@ -54,7 +55,7 @@ namespace xmem {
 				void* mem_array,
 				size_t len,
 #ifdef USE_SIZE_BASED_BENCHMARKS
-				uint64_t passes_per_iteration,
+				uint32_t passes_per_iteration,
 #endif
 				int32_t cpu_affinity
 			);
@@ -79,31 +80,31 @@ namespace xmem {
 			 * @brief Gets the number of bytes used in each pass of the benchmark by this worker.
 			 * @returns Number of bytes in each pass.
 			 */
-			uint64_t getBytesPerPass();
+			uint32_t getBytesPerPass();
 
 			/**
 			 * @brief Gets the number of passes for this worker.
 			 * @returns The number of passes.
 			 */
-			uint64_t getPasses();
+			uint32_t getPasses();
 
 			/**
 			 * @brief Gets the elapsed ticks for this worker on the core benchmark kernel.
 			 * @returns The number of elapsed ticks.
 			 */
-			uint64_t getElapsedTicks();
+			tick_t getElapsedTicks();
 
 			/**
 			 * @brief Gets the elapsed ticks for this worker on the dummy version of the core benchmark kernel.
 			 * @returns The number of elapsed dummy ticks.
 			 */
-			uint64_t getElapsedDummyTicks();
+			tick_t getElapsedDummyTicks();
 
 			/**
 			 * @brief Gets the adjusted ticks for this worker. This is elapsed ticks minus elapsed dummy ticks.
 			 * @returns The adjusted ticks for this worker.
 			 */
-			uint64_t getAdjustedTicks();
+			tick_t getAdjustedTicks();
 
 			/**
 			 * @brief Indicates whether worker's results may be questionable/inaccurate/invalid.
@@ -116,15 +117,15 @@ namespace xmem {
 			void* _mem_array; /**< The memory region for this worker. */
 			size_t _len; /**< The length of the memory region for this worker. */
 			int32_t _cpu_affinity; /**< The logical CPU affinity for this worker. */
-			uint64_t _bytes_per_pass; /**< Number of bytes accessed in each kernel pass. */
-			uint64_t _passes; /**< Number of passes. */
-			uint64_t _elapsed_ticks; /**< Total elapsed ticks on the kernel routine. */
-			uint64_t _elapsed_dummy_ticks; /**< Total elapsed ticks on the dummy kernel routine. */
-			uint64_t _adjusted_ticks; /**< Elapsed ticks minus dummy elapsed ticks. */
+			uint32_t _bytes_per_pass; /**< Number of bytes accessed in each kernel pass. */
+			uint32_t _passes; /**< Number of passes. */
+			tick_t _elapsed_ticks; /**< Total elapsed ticks on the kernel routine. */
+			tick_t _elapsed_dummy_ticks; /**< Total elapsed ticks on the dummy kernel routine. */
+			tick_t _adjusted_ticks; /**< Elapsed ticks minus dummy elapsed ticks. */
 			bool _warning; /**< If true, results may be suspect. */
 			bool _completed; /**< If true, worker completed. */
 #ifdef USE_SIZE_BASED_BENCHMARKS
-			uint64_t _passes_per_iteration; /**< Number of passes per iteration. */
+			uint32_t _passes_per_iteration; /**< Number of passes per iteration. */
 #endif
 	};
 };

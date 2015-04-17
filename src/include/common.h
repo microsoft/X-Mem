@@ -45,7 +45,7 @@
 
 namespace xmem {
 
-#define VERSION "2.1.8"
+#define VERSION "2.1.9"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -207,7 +207,7 @@ namespace xmem {
 //#define USE_SIZE_BASED_BENCHMARKS /**< RECOMMENDED DISABLED. All benchmarks run for an estimated amount of memory accesses, and the figures of merit are computed based on the length of time required to run the benchmark. This mode may have highly varying runtime across different machines, memory performance, and working set sizes, but may have more optimistic measurements across differing levels of cache hierarchy (underestimating latency and overestimating throughput). TODO: remove this feature entirely at some point, it just complicates things... */
 
 #ifdef USE_TIME_BASED_BENCHMARKS //DO NOT COMMENT THIS OUT!
-#define BENCHMARK_DURATION_SEC 4 /**< RECOMMENDED VALUE: At least 2. Number of seconds to run in each benchmark. */
+#define BENCHMARK_DURATION_MS 250 /**< RECOMMENDED VALUE: At least 1000. Number of milliseconds to run in each benchmark. */
 #define THROUGHPUT_BENCHMARK_BYTES_PER_PASS 4096 /**< RECOMMENDED VALUE: 4096. Number of bytes read or written per pass of any ThroughputBenchmark. This must be less than or equal to the minimum working set size, which is currently 4 KB. */
 #endif //DO NOT COMMENT THIS OUT
 
@@ -258,11 +258,11 @@ namespace xmem {
 #endif
 
 #ifdef USE_TIME_BASED_BENCHMARKS
-#ifndef BENCHMARK_DURATION_SEC
-#error BENCHMARK_DURATION_SEC must be defined!
+#ifndef BENCHMARK_DURATION_MS
+#error BENCHMARK_DURATION_MS must be defined!
 #endif
-#if BENCHMARK_DURATION_SEC <= 0
-#error BENCHMARK_DURATION_SEC must be a positive integer!
+#if BENCHMARK_DURATION_MS <= 0
+#error BENCHMARK_DURATION_MS must be positive!
 #endif
 #ifndef THROUGHPUT_BENCHMARK_BYTES_PER_PASS
 #error THROUGHPUT_BENCHMARK_BYTES_PER_PASS must be defined!
@@ -284,6 +284,16 @@ namespace xmem {
 #error POWER_SAMPLING_PERIOD_MS must be defined and greater than 0!
 #endif
 
+#ifdef ARCH_64BIT
+	typedef uint64_t tick_t;
+#else
+	/*typedef union {
+		uint32_t upper;
+		uint32_t lower;
+	} tick_t;*/
+	typedef uint32_t tick_t; //FIXME: this will easily roll over on a ~GHz machine over a 4-second benchmark! On 32-bit systems, we either need to reduce benchmark duration to about 250 ms or find a way to hack 64-bit timer with rollover. So far the 250 ms approach seems to work OK.
+#endif
+
 	extern bool g_verbose;
 	extern size_t g_page_size;
 	extern size_t g_large_page_size;
@@ -293,11 +303,7 @@ namespace xmem {
 	extern uint32_t g_starting_test_index;
 	extern uint32_t g_test_index;
 
-#ifdef ARCH_64BIT
-	extern uint64_t g_ticks_per_sec;
-#else
-	extern uint32_t g_ticks_per_sec;
-#endif
+	extern tick_t g_ticks_per_ms;
 
 	extern double g_ns_per_tick;
 
@@ -315,6 +321,7 @@ namespace xmem {
 #ifdef ARCH_INTEL_X86_64_AVX
 	typedef __m256i Word256_t; //Not possible on current ARM systems.
 #endif
+
 
 	/**
 	 * @brief Memory access patterns are broadly categorized by sequential or random-access.
@@ -461,13 +468,13 @@ namespace xmem {
 	 * @brief Query the timer for the start of a timed section of code.
 	 * @returns The starting tick for some timed section of code using the timer.
 	 */
-	uint64_t start_timer();
+	tick_t start_timer();
 
 	/**
 	 * @brief Query the timer for the end of a timed section of code.
 	 * @returns The ending tick for some timed section of code using the timer.
 	 */
-	uint64_t stop_timer();
+	tick_t stop_timer();
 
 #ifdef _WIN32
 	/**

@@ -73,7 +73,7 @@ namespace xmem {
 		{ UNKNOWN, 0, "", "", Arg::None, "\nUSAGE: xmem [options]\n\n"
 		"Options:" },
 		{ ALL, 0, "a", "all", Arg::None, "    -a, --all    \tRun all possible benchmark modes and settings supported by X-Mem. This will override any other relevant user inputs. Note that X-Mem may run for a long time." },
-		{ CHUNK_SIZE, 0, "c", "chunk_size", MyArg::PositiveInteger, "    -c, --chunk_size    \tA chunk size in bits to use for load traffic-generating threads used in throughput and loaded latency benchmarks. A chunk is the size of each memory access in a benchmark. Allowed values: 32, 64, 128, and 256. If no chunk sizes specified, use 64-bit chunks by default. Note that some chunk sizes may not be supported on some hardware. 32-bit chunks are not compatible with random-access patterns; these combinations of settings will be skipped if they occur. DEFAULT: 64"},
+		{ CHUNK_SIZE, 0, "c", "chunk_size", MyArg::PositiveInteger, "    -c, --chunk_size    \tA chunk size in bits to use for load traffic-generating threads used in throughput and loaded latency benchmarks. A chunk is the size of each memory access in a benchmark. Allowed values: 32, 64, 128, and 256 (platform-dependent). If no chunk sizes specified, use the native platform chunks by default. Note that some chunk sizes may not be supported on some hardware. 32-bit chunks are not compatible with random-access patterns; these combinations of settings will be skipped if they occur. DEFAULT: 64 on 64-bit systems, 32 on 32-bit systems."},
 		{ EXTENSION, 0, "e", "extension", MyArg::NonnegativeInteger, "    -e, --extension    \tRun an X-Mem extension defined by the user at build time. The integer argument specifies a single unique extension. This option may be included multiple times. Note that the extension behavior may or may not depend on the other X-Mem options as its semantics are defined by the extension author." },
 		{ OUTPUT_FILE, 0, "f", "output_file", MyArg::Required, "    -f, --output_file    \tGenerate an output file in CSV format using the given filename." },
 		{ HELP, 0, "h", "help", Arg::None, "    -h, --help    \tPrint X-Mem usage and exit." },
@@ -139,6 +139,7 @@ namespace xmem {
 		 */
 		Configurator();
 
+		//TODO: delete this monstrosity
 		/**
 		 * @brief Specialized constructor for when you don't want to get config from input, and you want to pass it in directly.
 		 * @param runExtensions Indicates if user-defined code should be run in addition to other standard functionality.

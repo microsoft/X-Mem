@@ -45,7 +45,7 @@ ThroughputBenchmark::ThroughputBenchmark(
 		size_t len,
 		uint32_t iterations,
 #ifdef USE_SIZE_BASED_BENCHMARKS
-		uint64_t passes_per_iteration,
+		uint32_t passes_per_iteration,
 #endif
 		uint32_t num_worker_threads,
 		uint32_t mem_node,
@@ -53,7 +53,7 @@ ThroughputBenchmark::ThroughputBenchmark(
 		pattern_mode_t pattern_mode,
 		rw_mode_t rw_mode,
 		chunk_size_t chunk_size,
-		int64_t stride_size,
+		int32_t stride_size,
 		std::vector<PowerReader*> dram_power_readers,
 		std::string name
 	) :
@@ -171,11 +171,11 @@ bool ThroughputBenchmark::_run_core() {
 				std::cerr << "WARNING: A worker thread failed to complete correctly!" << std::endl;
 
 		//Compute throughput achieved with all workers
-		uint64_t total_passes = 0;
-		uint64_t total_adjusted_ticks = 0;
-		uint64_t avg_adjusted_ticks = 0;
-		uint64_t total_elapsed_dummy_ticks = 0;
-		uint64_t bytes_per_pass = workers[0]->getBytesPerPass(); //all should be the same.
+		uint32_t total_passes = 0;
+		tick_t total_adjusted_ticks = 0;
+		tick_t avg_adjusted_ticks = 0;
+		tick_t total_elapsed_dummy_ticks = 0;
+		uint32_t bytes_per_pass = workers[0]->getBytesPerPass(); //all should be the same.
 		bool iter_warning = false;
 		for (uint32_t t = 0; t < _num_worker_threads; t++) {
 			total_passes += workers[t]->getPasses();

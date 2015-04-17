@@ -29,6 +29,7 @@
 
 //Headers
 #include <MemoryWorker.h>
+#include <common.h>
 
 using namespace xmem;
 
@@ -36,7 +37,7 @@ MemoryWorker::MemoryWorker(
 		void* mem_array,
 		size_t len,
 	#ifdef USE_SIZE_BASED_BENCHMARKS
-		uint64_t passes_per_iteration,
+		uint32_t passes_per_iteration,
 	#endif
 		int32_t cpu_affinity
 	) :
@@ -69,7 +70,7 @@ size_t MemoryWorker::getLen() {
 	return retval;
 }
 
-uint64_t MemoryWorker::getBytesPerPass() {
+uint32_t MemoryWorker::getBytesPerPass() {
 	size_t retval = 0;
 	if (_acquireLock(-1)) {
 		retval = _bytes_per_pass;
@@ -79,7 +80,7 @@ uint64_t MemoryWorker::getBytesPerPass() {
 	return retval;
 }
 
-uint64_t MemoryWorker::getPasses() {
+uint32_t MemoryWorker::getPasses() {
 	size_t retval = 0;
 	if (_acquireLock(-1)) {
 		retval = _passes;
@@ -89,8 +90,8 @@ uint64_t MemoryWorker::getPasses() {
 	return retval;
 }
 				
-uint64_t MemoryWorker::getElapsedTicks() {
-	uint64_t retval = 0;
+tick_t MemoryWorker::getElapsedTicks() {
+	tick_t retval = 0;
 	if (_acquireLock(-1)) {
 		retval = _elapsed_ticks;
 		_releaseLock();
@@ -99,8 +100,8 @@ uint64_t MemoryWorker::getElapsedTicks() {
 	return retval;
 }
 
-uint64_t MemoryWorker::getElapsedDummyTicks() {
-	uint64_t retval = 0;
+tick_t MemoryWorker::getElapsedDummyTicks() {
+	tick_t retval = 0;
 	if (_acquireLock(-1)) {
 		retval = _elapsed_dummy_ticks;
 		_releaseLock();
@@ -109,8 +110,8 @@ uint64_t MemoryWorker::getElapsedDummyTicks() {
 	return retval;
 }
 
-uint64_t MemoryWorker::getAdjustedTicks() {
-	uint64_t retval = 0;
+tick_t MemoryWorker::getAdjustedTicks() {
+	tick_t retval = 0;
 	if (_acquireLock(-1)) {
 		retval = _adjusted_ticks;
 		_releaseLock();

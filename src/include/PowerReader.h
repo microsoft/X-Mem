@@ -53,7 +53,7 @@ namespace xmem {
 		 * @param name The human-friendly name of this object.
 		 * @param cpu_affinity The logical CPU to be used by the thread calling this object's run() method. If negative, any CPU is OK (no affinity).
 		 */
-		PowerReader(uint64_t sampling_period, double power_units, std::string name, int32_t cpu_affinity);
+		PowerReader(uint32_t sampling_period, double power_units, std::string name, int32_t cpu_affinity);
 
 		/**
 		 * @brief Destructor.
@@ -119,7 +119,7 @@ namespace xmem {
 		 * @brief Gets the sampling period.
 		 * @returns The sampling period of the measurements in milliseconds.
 		 */
-		uint64_t getSamplingPeriod();
+		uint32_t getSamplingPeriod();
 
 		/**
 		 * @brief Gets the units of samples in watts.
@@ -150,7 +150,7 @@ namespace xmem {
 		double _average_power; /**< The average power. */
 		double _peak_power; /**< The peak power observed. */
 		size_t _num_samples; /**< The number of samples collected. */
-		uint64_t _sampling_period; /**< Power sampling period in milliseconds. */
+		uint32_t _sampling_period; /**< Power sampling period in milliseconds. */
 		//
 		/////
 	};

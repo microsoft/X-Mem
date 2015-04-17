@@ -41,7 +41,7 @@
 
 using namespace xmem;
 
-WindowsDRAMPowerReader::WindowsDRAMPowerReader(uint32_t counter_cpu_index, uint64_t sampling_period, double power_units, std::string name, int32_t cpu_affinity) :
+WindowsDRAMPowerReader::WindowsDRAMPowerReader(uint32_t counter_cpu_index, uint32_t sampling_period, double power_units, std::string name, int32_t cpu_affinity) :
 	PowerReader(sampling_period, power_units, name, cpu_affinity),
 	__counter_cpu_index(counter_cpu_index),
 	__perf_counter_name(""),
@@ -68,7 +68,7 @@ void WindowsDRAMPowerReader::run() {
 	bool done = false;
 
 	while (!done) {
-		uint64_t start_tick = start_timer();
+		tick_t start_tick = start_timer();
 		if (_acquireLock(-1)) { //Wait indefinitely for the lock
 			if (_stop_signal) //we're done here, let's wrap up
 				done = true;

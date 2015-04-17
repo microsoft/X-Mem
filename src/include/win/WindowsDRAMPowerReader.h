@@ -56,7 +56,7 @@ namespace xmem {
 		 * @param power_units The power units for each sample in watts.
 		 * @param cpu_affinity The CPU affinity for this object's run() method for any thread that calls it. If negative, no affinity preference.
 		 */
-		WindowsDRAMPowerReader(uint32_t counter_cpu_index, uint64_t sampling_period, double power_units, std::string name, int32_t cpu_affinity);
+		WindowsDRAMPowerReader(uint32_t counter_cpu_index, uint32_t sampling_period, double power_units, std::string name, int32_t cpu_affinity);
 
 		/**
 		 * @brief Destructor.

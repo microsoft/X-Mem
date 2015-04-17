@@ -72,13 +72,7 @@ namespace xmem {
 	uint32_t g_total_l4_caches; /**< Total number of L4 caches in the system. */
 	uint32_t g_starting_test_index; /**< Numeric identifier for the first benchmark test. */
 	uint32_t g_test_index; /**< Numeric identifier for the current benchmark test. */
-
-#ifdef ARCH_64BIT
-	uint64_t g_ticks_per_sec; /**< Timer ticks per second. */
-#else
-	uint32_t g_ticks_per_sec; /**< Timer ticks per second. */
-#endif
-
+	tick_t g_ticks_per_ms; /**< Timer ticks per ms. */
 	double g_ns_per_tick; /**< Nanoseconds per timer tick. */
 };
 
@@ -220,14 +214,14 @@ void xmem::setup_timer() {
 	std::cout << "Initializing timer...";
 
 	Timer timer;
-	g_ticks_per_sec = timer.get_ticks_per_sec();
+	g_ticks_per_ms = timer.get_ticks_per_ms();
 	g_ns_per_tick = timer.get_ns_per_tick();
 
 	std::cout << "done" << std::endl;
 }
 
 void xmem::report_timer() {
-	std::cout << "Calculated timer frequency: " << g_ticks_per_sec << " Hz == " << (double)(g_ticks_per_sec) / (1e6) << " MHz" << std::endl;
+	std::cout << "Calculated timer frequency: " << g_ticks_per_ms * 1000 << " Hz == " << (double)(g_ticks_per_ms*1000) / (1e6) << " MHz" << std::endl;
 	std::cout << "Derived timer ns per tick: " << g_ns_per_tick << std::endl;
 	std::cout << std::endl;
 }
@@ -384,7 +378,7 @@ void xmem::init_globals() {
 	g_page_size = DEFAULT_PAGE_SIZE;
 	g_large_page_size = DEFAULT_LARGE_PAGE_SIZE; 
 
-	g_ticks_per_sec = 0;
+	g_ticks_per_ms = 0;
 	g_ns_per_tick = 0;
 }
 
@@ -592,12 +586,7 @@ void xmem::report_sys_info() {
 	std::cout << "Large page size: " << g_large_page_size << " B" << std::endl;
 }
 
-#ifdef ARCH_64BIT
-uint64_t
-#else
-uint32_t
-#endif
-xmem::start_timer() {
+tick_t xmem::start_timer() {
 #ifdef USE_TSC_TIMER
 #ifdef _WIN32
 	int32_t dontcare[4];
@@ -630,26 +619,17 @@ xmem::start_timer() {
 #ifdef USE_QPC_TIMER
 	LARGE_INTEGER tmp;
 	QueryPerformanceCounter(&tmp);
-#ifdef ARCH_64BIT
-	return static_cast<uint64_t>(tmp.QuadPart);
-#else
-	return static_cast<uint32_t>(tmp.LowPart);
-#endif
+	return static_cast<tick_t>(tmp.QuadPart);
 #endif
 
 	//TODO: POSIX OS timer
 }
 
-#ifdef ARCH_64BIT
-uint64_t
-#else
-uint32_t
-#endif
-xmem::stop_timer() {
+tick_t xmem::stop_timer() {
 	//TODO: ARM hardware timer
 #ifdef USE_TSC_TIMER
 #ifdef _WIN32
-	uint64_t tick;
+	tick_t tick;
 	uint32_t filler;
 	int32_t dontcare[4];
 	tick = __rdtscp(&filler); //Get clock tick. This is a partially serializing instruction. All previous instructions must finish
@@ -657,7 +637,7 @@ xmem::stop_timer() {
 	return tick;
 #endif
 #ifdef __gnu_linux__
-	uint64_t tick;
+	tick_t tick;
 	uint32_t filler;
 	volatile int32_t dc0 = 0;
 	volatile int32_t dc1, dc2, dc3, dc4;
@@ -684,11 +664,7 @@ xmem::stop_timer() {
 #ifdef USE_QPC_TIMER
 	LARGE_INTEGER tmp;
 	QueryPerformanceCounter(&tmp);
-#ifdef ARCH_64BIT
-	return static_cast<uint64_t>(tmp.QuadPart);
-#else
-	return static_cast<uint32_t>(tmp.LowPart);
-#endif
+	return static_cast<tick_t>(tmp.QuadPart);
 #endif
 	
 	//TODO: POSIX OS timer
