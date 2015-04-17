@@ -62,7 +62,7 @@ namespace xmem {
 #ifdef _M_X64 //Intel x86-64
 #define ARCH_INTEL_X86_64
 #define ARCH_INTEL
-#define ARCH_64BIT_CAPABLE
+#define ARCH_64BIT
 #endif
 
 #ifdef _M_IX86_FP //Intel x86-64 SSE2 extensions
@@ -82,7 +82,7 @@ namespace xmem {
 
 #ifdef _AMD64 //AMD64
 #define ARCH_AMD64
-#define ARCH_64BIT_CAPABLE
+#define ARCH_64BIT
 #define ARCH_INTEL
 #endif
 
