@@ -41,13 +41,6 @@
 
 //Libraries
 #include <iostream>
-#ifdef _WIN32
-#include <intrin.h> //For Intel intrinsics
-#endif
-
-#ifdef __gnu_linux__
-#include <immintrin.h> //for Intel intrinsics
-#endif
 
 using namespace xmem;
 

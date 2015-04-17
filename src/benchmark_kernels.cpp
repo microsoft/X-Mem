@@ -44,8 +44,16 @@
 #include <random>
 #include <algorithm>
 #include <time.h>
-#ifdef __gnu_linux__
+#if defined(__gnu_linux__) && defined(ARCH_INTEL_X86_64)
 #include <immintrin.h> //for Intel AVX intrinsics
+#endif
+
+#ifdef ARCH_INTEL_X86_64
+#define my_set_128b_word(w, x) _mm_set_epi64x(w, x)
+#define my_set_256b_word(w, x, y, z) _mm256_set_epi64x(w, x, y, z)
+
+#define my_64b_extractLSB_128b(w) _mm_extract_epi64(w, 0)
+#define my_64b_extractLSB_256b(w) _mm256_extract_epi64(w, 0)
 #endif
 
 using namespace xmem;
@@ -1171,19 +1179,18 @@ int32_t xmem::dummy_randomLoop_Word128(uintptr_t* first_address, uintptr_t** las
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
-	//FIXME: get rid of Intel intrinsics if possible!
-	//FIXME: the compiler doesn't really generate this the way I want with gcc at least. May have to hand-code in assembler.
+	//TODO: check that the compiler generates this code correctly
 	volatile Word128_t* placeholder = reinterpret_cast<Word128_t*>(first_address);
 	register Word128_t val;
 	volatile Word64_t val_extract;
-	val = _mm_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
+	val = my_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 
 #ifdef USE_TIME_BASED_BENCHMARKS
-	UNROLL256(val_extract = _mm_extract_epi64(val, 0);) //Extract 64 LSB.
+	UNROLL256(val_extract = my_64b_extractLSB_128b(val);) //Extract 64 LSB.
 #endif
 #ifdef USE_SIZE_BASED_BENCHMARKS
 	for (size_t i = 0; i < len / sizeof(Word128_t); i += 256) {
-		UNROLL256(val_extract = _mm_extract_epi64(val, 0);) //Extract 64 LSB.
+		UNROLL256(val_extract = my_64b_extractLSB_128b(val);) //Extract 64 LSB.
 	}
 #endif
 
@@ -1196,19 +1203,18 @@ int32_t xmem::dummy_randomLoop_Word256(uintptr_t* first_address, uintptr_t** las
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
-	//FIXME: get rid of Intel intrinsics if possible!
-	//FIXME: the compiler doesn't really generate this the way I want with gcc at least. May have to hand-code in assembler.
+	//TODO: check that the compiler generates this code correctly
 	volatile Word256_t* placeholder = reinterpret_cast<Word256_t*>(first_address);
 	register Word256_t val;
 	volatile Word64_t val_extract;
-	val = _mm256_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
+	val = my_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 
 #ifdef USE_TIME_BASED_BENCHMARKS
-	UNROLL128(val_extract = _mm256_extract_epi64(val, 0);) //Extract 64 LSB.
+	UNROLL128(val_extract = my_64b_extractLSB_256b(val);) //Extract 64 LSB.
 #endif
 #ifdef USE_SIZE_BASED_BENCHMARKS
 	for (size_t i = 0; i < len / sizeof(Word256_t); i += 128) {
-		UNROLL128(val_extract = _mm256256_extract_epi64(val, 0);) //Extract 64 LSB.
+		UNROLL128(val_extract = my_64b_extractLSB_256b(val);) //Extract 64 LSB.
 	}
 #endif
 
@@ -1340,7 +1346,7 @@ int32_t xmem::forwSequentialWrite_Word128(void* start_address, void* end_address
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
-	val = _mm_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
+	val = my_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address), *endptr = static_cast<Word128_t*>(end_address); wordptr < endptr;) {
 		UNROLL256(*wordptr++ = val;) 
 	}
@@ -1354,7 +1360,7 @@ int32_t xmem::forwSequentialWrite_Word256(void* start_address, void* end_address
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
-	val = _mm256_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
+	val = my_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address), *endptr = static_cast<Word256_t*>(end_address); wordptr < endptr;) {
 		UNROLL128(*wordptr++ = val;) 
 	}
@@ -1384,7 +1390,7 @@ int32_t xmem::revSequentialWrite_Word128(void* start_address, void* end_address)
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
-	val = _mm_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
+	val = my_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address), *begptr = static_cast<Word128_t*>(start_address); wordptr > begptr;) {
 		UNROLL256(*wordptr-- = val;)
 	}
@@ -1398,7 +1404,7 @@ int32_t xmem::revSequentialWrite_Word256(void* start_address, void* end_address)
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
-	val = _mm256_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
+	val = my_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address), *begptr = static_cast<Word256_t*>(start_address); wordptr > begptr;) {
 		UNROLL128(*wordptr-- = val;)
 	}
@@ -1556,7 +1562,7 @@ int32_t xmem::forwStride2Write_Word128(void* start_address, void* end_address) {
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
-	val = _mm_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
+	val = my_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address); i < len; i += 128) {
@@ -1574,7 +1580,7 @@ int32_t xmem::forwStride2Write_Word256(void* start_address, void* end_address) {
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
-	val = _mm256_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
+	val = my_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 64) {
@@ -1616,7 +1622,7 @@ int32_t xmem::revStride2Write_Word128(void* start_address, void* end_address) {
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
-	val = _mm_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
+	val = my_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 128) {
@@ -1634,7 +1640,7 @@ int32_t xmem::revStride2Write_Word256(void* start_address, void* end_address) {
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
-	val = _mm256_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
+	val = my_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 64) {
@@ -1796,7 +1802,7 @@ int32_t xmem::forwStride4Write_Word128(void* start_address, void* end_address) {
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
-	val = _mm_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
+	val = my_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 64) {
@@ -1814,7 +1820,7 @@ int32_t xmem::forwStride4Write_Word256(void* start_address, void* end_address) {
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
-	val = _mm256_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
+	val = my_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 32) {
@@ -1856,7 +1862,7 @@ int32_t xmem::revStride4Write_Word128(void* start_address, void* end_address) {
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
-	val = _mm_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
+	val = my_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 64) {
@@ -1874,7 +1880,7 @@ int32_t xmem::revStride4Write_Word256(void* start_address, void* end_address) {
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
-	val = _mm256_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
+	val = my_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 32) {
@@ -2036,7 +2042,7 @@ int32_t xmem::forwStride8Write_Word128(void* start_address, void* end_address) {
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
-	val = _mm_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
+	val = my_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address); i < len; i += 32) {
@@ -2054,7 +2060,7 @@ int32_t xmem::forwStride8Write_Word256(void* start_address, void* end_address) {
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
-	val = _mm256_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
+	val = my_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 16) {
@@ -2096,7 +2102,7 @@ int32_t xmem::revStride8Write_Word128(void* start_address, void* end_address) {
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
-	val = _mm_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
+	val = my_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 32) {
@@ -2114,7 +2120,7 @@ int32_t xmem::revStride8Write_Word256(void* start_address, void* end_address) {
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
-	val = _mm256_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
+	val = my_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 16) {
@@ -2276,7 +2282,7 @@ int32_t xmem::forwStride16Write_Word128(void* start_address, void* end_address) 
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
-	val = _mm_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
+	val = my_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address); i < len; i += 16) {
@@ -2294,7 +2300,7 @@ int32_t xmem::forwStride16Write_Word256(void* start_address, void* end_address) 
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
-	val = _mm256_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
+	val = my_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 8) {
@@ -2338,7 +2344,7 @@ int32_t xmem::revStride16Write_Word128(void* start_address, void* end_address) {
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
-	val = _mm_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
+	val = my_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 16) {
@@ -2357,7 +2363,7 @@ int32_t xmem::revStride16Write_Word256(void* start_address, void* end_address) {
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
-	val = _mm256_set_epi64x(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
+	val = my_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
 	register uint64_t i = 0;
 	register uint64_t len = (reinterpret_cast<uint64_t>(end_address)-reinterpret_cast<uint64_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 8) {
@@ -2392,16 +2398,15 @@ int32_t xmem::randomRead_Word128(uintptr_t* first_address, uintptr_t** last_touc
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
-	//FIXME: get rid of Intel intrinsics if possible!
 	volatile Word128_t* p = reinterpret_cast<Word128_t*>(first_address);
 	register Word128_t val;
 
 #ifdef USE_TIME_BASED_BENCHMARKS
-	UNROLL256(val = *p; p = reinterpret_cast<Word128_t*>(_mm_extract_epi64(val, 0));) //Do 128-bit load. Then extract 64 LSB to use as next load address.
+	UNROLL256(val = *p; p = reinterpret_cast<Word128_t*>(my_64b_extractLSB_128b(val));) //Do 128-bit load. Then extract 64 LSB to use as next load address.
 #endif
 #ifdef USE_SIZE_BASED_BENCHMARKS
 	for (size_t i = 0; i < len / sizeof(Word128_t); i += 256) {
-		UNROLL256(val = *p; p = reinterpret_cast<Word128_t*>(_mm_extract_epi64(val, 0));) //Do 128-bit load. Then extract 64 LSB to use as next load address.
+		UNROLL256(val = *p; p = reinterpret_cast<Word128_t*>(my_64b_extractLSB_128b(val));) //Do 128-bit load. Then extract 64 LSB to use as next load address.
 	}
 #endif
 
@@ -2415,16 +2420,15 @@ int32_t xmem::randomRead_Word256(uintptr_t* first_address, uintptr_t** last_touc
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
-	//FIXME: get rid of Intel intrinsics if possible!
 	volatile Word256_t* p = reinterpret_cast<Word256_t*>(first_address);
 	register Word256_t val;
 
 #ifdef USE_TIME_BASED_BENCHMARKS
-	UNROLL128(val = *p; p = reinterpret_cast<Word256_t*>(_mm256_extract_epi64(val, 0));) //Do 256-bit load. Then extract 64 LSB to use as next load address.
+	UNROLL128(val = *p; p = reinterpret_cast<Word256_t*>(my_64b_extractLSB_256b(val));) //Do 256-bit load. Then extract 64 LSB to use as next load address.
 #endif
 #ifdef USE_SIZE_BASED_BENCHMARKS
 	for (size_t i = 0; i < len / sizeof(Word256_t); i += 128) {
-		UNROLL128(val = *p; p = reinterpret_cast<Word256_t*>(_mm256_extract_epi64(val, 0));) //Do 256-bit load. Then extract 64 LSB to use as next load address.
+		UNROLL128(val = *p; p = reinterpret_cast<Word256_t*>(my_64b_extractLSB_256b(val));) //Do 256-bit load. Then extract 64 LSB to use as next load address.
 	}
 #endif
 
@@ -2456,16 +2460,15 @@ int32_t xmem::randomWrite_Word128(uintptr_t* first_address, uintptr_t** last_tou
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
-	//FIXME: get rid of Intel intrinsics if possible!
 	volatile Word128_t* p = reinterpret_cast<Word128_t*>(first_address);
 	register Word128_t val;
 
 #ifdef USE_TIME_BASED_BENCHMARKS
-	UNROLL256(val = *p; *p = val; p = reinterpret_cast<Word128_t*>(_mm_extract_epi64(val, 0));) //Do 128-bit load. Then do 128-bit store. Then extract 64 LSB to use as next load address.
+	UNROLL256(val = *p; *p = val; p = reinterpret_cast<Word128_t*>(my_64b_extractLSB_128b(val));) //Do 128-bit load. Then do 128-bit store. Then extract 64 LSB to use as next load address.
 #endif
 #ifdef USE_SIZE_BASED_BENCHMARKS
 	for (size_t i = 0; i < len / sizeof(Word128_t); i += 256) {
-		UNROLL256(val = *p; *p = val; p = reinterpret_cast<Word128_t*>(_mm_extract_epi64(val, 0));) //Do 128-bit load. Then do 128-bit store. Then extract 64 LSB to use as next load address.
+		UNROLL256(val = *p; *p = val; p = reinterpret_cast<Word128_t*>(my_64b_extractLSB_128b(val));) //Do 128-bit load. Then do 128-bit store. Then extract 64 LSB to use as next load address.
 	}
 #endif
 
@@ -2479,16 +2482,15 @@ int32_t xmem::randomWrite_Word256(uintptr_t* first_address, uintptr_t** last_tou
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
-	//FIXME: get rid of Intel intrinsics if possible!
 	volatile Word256_t* p = reinterpret_cast<Word256_t*>(first_address);
 	register Word256_t val;
 
 #ifdef USE_TIME_BASED_BENCHMARKS
-	UNROLL128(val = *p; *p = val; p = reinterpret_cast<Word256_t*>(_mm256_extract_epi64(val, 0));) //Do 256-bit load. Then do 256-bit store. Then extract 64 LSB to use as next load address.
+	UNROLL128(val = *p; *p = val; p = reinterpret_cast<Word256_t*>(my_64b_extractLSB_256b(val));) //Do 256-bit load. Then do 256-bit store. Then extract 64 LSB to use as next load address.
 #endif
 #ifdef USE_SIZE_BASED_BENCHMARKS
 	for (size_t i = 0; i < len / sizeof(Word256_t); i += 128) {
-		UNROLL128(val = *p; *p = val; p = reinterpret_cast<Word256_t*>(_mm256_extract_epi64(val, 0));) //Do 256-bit load. Then do 256-bit store. Then extract 64 LSB to use as next load address.
+		UNROLL128(val = *p; *p = val; p = reinterpret_cast<Word256_t*>(my_64b_extractLSB_256b(val));) //Do 256-bit load. Then do 256-bit store. Then extract 64 LSB to use as next load address.
 	}
 #endif
 

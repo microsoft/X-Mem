@@ -46,9 +46,12 @@
 #include <fstream> //for std::ifstream
 #include <vector> //for std::vector
 #include <algorithm> //for std::find
+
+#ifdef ARCH_INTEL
 #include <immintrin.h> //for timer
 #include <cpuid.h> //for timer
 #include <x86intrin.h> //for timer
+#endif
 
 extern "C" {
 #include <hugetlbfs.h> //for getting huge page size
@@ -60,7 +63,7 @@ namespace xmem {
 	size_t g_page_size; /**< Default page size on the system, in bytes. */
 	size_t g_large_page_size; /**< Large page size on the system, in bytes. */
 	uint32_t g_num_nodes; /**< Number of NUMA nodes in the system. */
-	uint32_t g_num_logical_cpus; /**< Number of logical CPU cores in the system. This may be different than physical CPUs, e.g. Intel hyperthreading. */
+	uint32_t g_num_logical_cpus; /**< Number of logical CPU cores in the system. This may be different than physical CPUs, e.g. simultaneous multithreading. */
 	uint32_t g_num_physical_cpus; /**< Number of physical CPU cores in the system. */
 	uint32_t g_num_physical_packages; /**< Number of physical CPU packages in the system. Generally this is the same as number of NUMA nodes, unless UMA emulation is done in hardware. */
 	uint32_t g_total_l1_caches; /**< Total number of L1 caches in the system. */
@@ -70,7 +73,12 @@ namespace xmem {
 	uint32_t g_starting_test_index; /**< Numeric identifier for the first benchmark test. */
 	uint32_t g_test_index; /**< Numeric identifier for the current benchmark test. */
 
+#ifdef ARCH_64BIT
 	uint64_t g_ticks_per_sec; /**< Timer ticks per second. */
+#else
+	uint32_t g_ticks_per_sec; /**< Timer ticks per second. */
+#endif
+
 	double g_ns_per_tick; /**< Nanoseconds per timer tick. */
 };
 
@@ -91,15 +99,27 @@ void xmem::print_types_report() {
 	std::cout << "int8_t:  \t\t\t" << sizeof(int8_t) << std::endl;
 	std::cout << "int16_t:  \t\t\t" << sizeof(int16_t) << std::endl;
 	std::cout << "int32_t:  \t\t\t" << sizeof(int32_t) << std::endl;
+#ifdef ARCH_64BIT
 	std::cout << "int64_t:  \t\t\t" << sizeof(int64_t) << std::endl;
+#endif
 	std::cout << std::endl;
 	std::cout << "uint8_t:  \t\t\t" << sizeof(uint8_t) << std::endl;
 	std::cout << "uint16_t:  \t\t\t" << sizeof(uint16_t) << std::endl;
 	std::cout << "uint32_t:  \t\t\t" << sizeof(uint32_t) << std::endl;
+#ifdef ARCH_64BIT
 	std::cout << "uint64_t:  \t\t\t" << sizeof(uint64_t) << std::endl;
+#endif
 	std::cout << std::endl;
-	std::cout << "__m128i:  \t\t\t" << sizeof(__m128i) << std::endl;
-	std::cout << "__m256i:  \t\t\t" << sizeof(__m256i) << std::endl;
+	std::cout << "Word32_t:  \t\t\t" << sizeof(Word32_t) << std::endl;
+#ifdef ARCH_64BIT
+	std::cout << "Word64_t:  \t\t\t" << sizeof(Word64_t) << std::endl;
+#endif
+#if defined(ARCH_INTEL_X86_64_AVX) || defined(ARCH_ARM_NEON)
+	std::cout << "Word128_t: \t\t\t" << sizeof(Word128_t) << std::endl;
+#endif
+#if defined(ARCH_INTEL_X86_64_AVX)
+	std::cout << "Word256_t: \t\t\t" << sizeof(Word256_t) << std::endl;
+#endif
 	std::cout << std::endl;
 	std::cout << "void*:  \t\t\t" << sizeof(void*) << std::endl;
 	std::cout << "uintptr_t:  \t\t\t" << sizeof(uintptr_t) << std::endl;
@@ -117,6 +137,9 @@ void xmem::print_compile_time_options() {
 #endif
 #ifdef __gnu_linux__
 	std::cout <<  "GNU/Linux" << std::endl;
+#endif
+#ifdef ARCH_INTEL
+	std::cout << "ARCH_INTEL" << std::endl;
 #endif
 #ifdef ARCH_INTEL_X86
 	std::cout << "ARCH_INTEL_X86" << std::endl;
@@ -139,17 +162,30 @@ void xmem::print_compile_time_options() {
 #ifdef ARCH_ARM
 	std::cout << "ARCH_ARM" << std::endl;
 #endif
+#ifdef ARCH_64BIT
+	std::cout << "ARCH_64BIT" << std::endl;
+#endif
 	std::cout << std::endl;
 	std::cout << "This binary was built with the following compile-time options:" << std::endl;
 #ifdef NDEBUG
 	std::cout << "NDEBUG" << std::endl;
 #endif
+#ifdef USE_OS_TIMER
+	std::cout << "USE_OS_TIMER" << std::endl;
+#endif
+#ifdef USE_HW_TIMER
+	std::cout << "USE_HW_TIMER" << std::endl;
+#endif
 #ifdef USE_QPC_TIMER
 	std::cout << "USE_QPC_TIMER" << std::endl;
+#endif
+#ifdef USE_POSIX_TIMER
+	std::cout << "USE_POSIX_TIMER" << std::endl;
 #endif
 #ifdef USE_TSC_TIMER
 	std::cout << "USE_TSC_TIMER" << std::endl;
 #endif
+	//TODO: ARM timer
 #ifdef USE_TIME_BASED_BENCHMARKS
 	std::cout << "USE_TIME_BASED_BENCHMARKS" << std::endl;
 #endif
@@ -274,11 +310,11 @@ int32_t xmem::cpu_id_in_numa_node(uint32_t numa_node, uint32_t cpu_in_node) {
 	int32_t cpu_id = -1;
 	uint32_t rank_in_node = 0;
 #ifdef _WIN32
-	uint64_t processorMask = 0;
+	ULONGLONG processorMask = 0;
 	GetNumaNodeProcessorMask(numa_node, &processorMask);
 	//Select Nth CPU in the node
 	uint32_t shifts = 0;
-	uint64_t shiftmask = processorMask;
+	ULONGLONG shiftmask = processorMask;
 	bool done = false;
 	while (!done && shifts < sizeof(shiftmask)*8) {
 		if ((shiftmask & 0x1) == 0x1) { //current CPU is in the NUMA node
@@ -521,7 +557,7 @@ int32_t xmem::query_sys_info() {
 	g_large_page_size = GetLargePageMinimum();
 #endif
 #ifdef __gnu_linux__
-	g_page_size = static_cast<uint64_t>(sysconf(_SC_PAGESIZE));
+	g_page_size = static_cast<size_t>(sysconf(_SC_PAGESIZE));
 	g_large_page_size = gethugepagesize(); 
 #endif
 
@@ -556,8 +592,12 @@ void xmem::report_sys_info() {
 	std::cout << "Large page size: " << g_large_page_size << " B" << std::endl;
 }
 
-
-uint64_t xmem::start_timer() {
+#ifdef ARCH_64BIT
+uint64_t
+#else
+uint32_t
+#endif
+xmem::start_timer() {
 #ifdef USE_TSC_TIMER
 #ifdef _WIN32
 	int32_t dontcare[4];
@@ -584,15 +624,29 @@ uint64_t xmem::start_timer() {
 	*/
 #endif
 #endif
+	
+	//TODO: ARM hardware timer
 
 #ifdef USE_QPC_TIMER
 	LARGE_INTEGER tmp;
 	QueryPerformanceCounter(&tmp);
+#ifdef ARCH_64BIT
 	return static_cast<uint64_t>(tmp.QuadPart);
+#else
+	return static_cast<uint32_t>(tmp.LowPart);
 #endif
+#endif
+
+	//TODO: POSIX OS timer
 }
 
-uint64_t xmem::stop_timer() {
+#ifdef ARCH_64BIT
+uint64_t
+#else
+uint32_t
+#endif
+xmem::stop_timer() {
+	//TODO: ARM hardware timer
 #ifdef USE_TSC_TIMER
 #ifdef _WIN32
 	uint64_t tick;
@@ -624,12 +678,20 @@ uint64_t xmem::stop_timer() {
 	*/
 #endif
 #endif
+	
+	//TODO: ARM hardware timer
 
 #ifdef USE_QPC_TIMER
 	LARGE_INTEGER tmp;
 	QueryPerformanceCounter(&tmp);
+#ifdef ARCH_64BIT
 	return static_cast<uint64_t>(tmp.QuadPart);
+#else
+	return static_cast<uint32_t>(tmp.LowPart);
 #endif
+#endif
+	
+	//TODO: POSIX OS timer
 }
 
 #ifdef _WIN32

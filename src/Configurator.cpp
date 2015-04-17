@@ -526,31 +526,31 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		std::cout << std::endl;
 		
 		std::cout << "Benchmark settings:" << std::endl;
-		std::cout << "---> Random access: \t\t\t";
+		std::cout << "---> Random access:                   ";
 		if (__use_random_access_pattern)
 			std::cout << "yes";
 		else
 			std::cout << "no";
 		std::cout << std::endl;
-		std::cout << "---> Sequential access: \t\t";
+		std::cout << "---> Sequential access:               ";
 		if (__use_sequential_access_pattern)
 			std::cout << "yes";
 		else
 			std::cout << "no";
 		std::cout << std::endl;
-		std::cout << "---> Use memory reads: \t\t\t";
+		std::cout << "---> Use memory reads:                ";
 		if (__use_reads)
 			std::cout << "yes";
 		else
 			std::cout << "no";
 		std::cout << std::endl;
-		std::cout << "---> Use memory writes: \t\t";
+		std::cout << "---> Use memory writes:               ";
 		if (__use_writes)
 			std::cout << "yes";
 		else
 			std::cout << "no";
 		std::cout << std::endl;
-		std::cout << "---> Chunk sizes:  \t\t\t";
+		std::cout << "---> Chunk sizes:                     ";
 		if (__use_chunk_32b)
 			std::cout << "32 ";
 		if (__use_chunk_64b)
@@ -560,7 +560,7 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		if (__use_chunk_256b)
 			std::cout << "256 ";
 		std::cout << std::endl;
-		std::cout << "---> Stride sizes:  \t\t\t";
+		std::cout << "---> Stride sizes:                    ";
 		if (__use_stride_p1)
 			std::cout << "1 ";
 		if (__use_stride_n1)
@@ -582,26 +582,26 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		if (__use_stride_n16)
 			std::cout << "-16 ";
 		std::cout << std::endl;
-		std::cout << "---> Number of worker threads:  \t";
+		std::cout << "---> Number of worker threads:        ";
 		std::cout << __num_worker_threads << std::endl;
-		std::cout << "---> NUMA enabled:   \t\t\t";
+		std::cout << "---> NUMA enabled:                    ";
 		if (__numa_enabled)
 			std::cout << "yes" << std::endl;
 		else
 			std::cout << "no" << std::endl;
-		std::cout << "---> Large pages:    \t\t\t";
+		std::cout << "---> Large pages:                     ";
 		if (__use_large_pages)
 			std::cout << "yes" << std::endl;
 		else
 			std::cout << "no" << std::endl;
-		std::cout << "---> Iterations:  \t\t\t";
+		std::cout << "---> Iterations:                      ";
 		std::cout << __iterations << std::endl;
-		std::cout << "---> Starting test index:  \t\t";
+		std::cout << "---> Starting test index:             ";
 		std::cout << __starting_test_index << std::endl;
 		std::cout << std::endl;
 	}
 
-	std::cout << "Working set per thread:  \t\t";
+		std::cout << "Working set per thread:               ";
 	if (__use_large_pages) {
 		size_t num_large_pages = 0;
 		if (__working_set_size_per_thread <= g_large_page_size) //sub one large page, round up to one

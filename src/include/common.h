@@ -39,13 +39,13 @@
 #include <intrin.h>
 #endif
 
-#ifdef __gnu_linux__
+#if defined(__gnu_linux__) && (defined(_M_IX64) || defined(__x86_64__))
 #include <immintrin.h>
 #endif
 
 namespace xmem {
 
-#define VERSION "2.1.7"
+#define VERSION "2.1.8"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -56,31 +56,41 @@ namespace xmem {
 
 #ifdef _M_IX86 //Intel x86
 #define ARCH_INTEL_X86
+#define ARCH_INTEL
 #endif
 
 #ifdef _M_X64 //Intel x86-64
 #define ARCH_INTEL_X86_64
+#define ARCH_INTEL
+#define ARCH_64BIT_CAPABLE
 #endif
 
 #ifdef _M_IX86_FP //Intel x86-64 SSE2 extensions
 #define ARCH_INTEL_X86_64_SSE2
+#define ARCH_INTEL
 #endif
 
 #ifdef __AVX__ //Intel x86-64 AVX extensions
 #define ARCH_INTEL_X86_64_AVX
+#define ARCH_INTEL
 #endif
 
 #ifdef __AVX2__ //Intel x86-64 AVX2 extensions
 #define ARCH_INTEL_X86_64_AVX2
+#define ARCH_INTEL
 #endif
 
 #ifdef _AMD64 //AMD64
 #define ARCH_AMD64
+#define ARCH_64BIT_CAPABLE
+#define ARCH_INTEL
 #endif
 
 #ifdef _M_ARM //ARM architecture
 #define ARCH_ARM
 #endif
+
+//TODO: ARM 64-bit support
 
 #endif
 
@@ -89,31 +99,40 @@ namespace xmem {
 
 #ifdef __i386__ //Intel x86
 #define ARCH_INTEL_X86
+#define ARCH_INTEL
 #endif
 
 #ifdef __x86_64__ //Intel x86-64
 #define ARCH_INTEL_X86_64
+#define ARCH_64BIT
+#define ARCH_INTEL
 #endif
 
 #ifdef __SSE2__ //Intel x86-64 SSE2 extensions
 #define ARCH_INTEL_X86_64_SSE2
+#define ARCH_INTEL
 #endif
 
 #ifdef __AVX__ //Intel x86-64 AVX extensions
 #define ARCH_INTEL_X86_64_AVX
+#define ARCH_INTEL
 #endif
 
 #ifdef __AVX2__ //Intel x86-64 AVX2 extensions
 #define ARCH_INTEL_X86_64_AVX2
+#define ARCH_INTEL
 #endif
 
 #ifdef __amd64__ //AMD64
 #define ARCH_AMD64
+#define ARCH_64BIT
 #endif
 
 #ifdef __arm__ //ARM architecture
 #define ARCH_ARM
 #endif
+
+//TODO: ARM 64-bit support
 
 #endif
 
@@ -126,7 +145,10 @@ namespace xmem {
 #define MB_256 268435456
 #define MB_512 536870912
 #define GB 1073741824
+
+#ifdef ARCH_64BIT
 #define GB_4 4294967296
+#endif
 
 //Default compile-time constants
 #define DEFAULT_PAGE_SIZE 4*KB /**< Default platform page size in bytes. This generally should not be relied on, but is a failsafe. */
@@ -177,12 +199,12 @@ namespace xmem {
 */
 
 //Which timer to use in the benchmarks. Only one may be selected!
-//#define USE_QPC_TIMER /**< RECOMMENDED DISABLED. WINDOWS ONLY. Use the Windows QueryPerformanceCounter timer API. This is a safe bet as it is more hardware-agnostic and has fewer quirks, but it has lower resolution than the TSC timer. */
-#define USE_TSC_TIMER /**< RECOMMENDED ENABLED. Use the Intel Time Stamp Counter native hardware timer. Only use this if you know what you are doing. */
+//#define USE_OS_TIMER /**< RECOMMENDED ENABLED. If enabled, uses the QPC timer on Windows and the POSIX clock_gettime() on GNU/Linux for all timing purposes. */
+#define USE_HW_TIMER /**< RECOMMENDED DISABLED. If enabled, uses the platform-specific hardware timer (e.g., TSC on Intel x86-64). This may be less portable or have other implementation-specific quirks but for most purposes should work fine. */
 
 //Benchmarking methodology. Only one may be selected!
 #define USE_TIME_BASED_BENCHMARKS /**< RECOMMENDED ENABLED. All benchmarks run for an estimated amount of time, and the figures of merit are computed based on the amount of memory accesses completed in the time limit. This mode has more consistent runtime across different machines, memory performance, and working set sizes, but may have more conservative measurements for differing levels of cache hierarchy (overestimating latency and underestimating throughput). */
-//#define USE_SIZE_BASED_BENCHMARKS /**< RECOMMENDED DISABLED. All benchmarks run for an estimated amount of memory accesses, and the figures of merit are computed based on the length of time required to run the benchmark. This mode may have highly varying runtime across different machines, memory performance, and working set sizes, but may have more optimistic measurements across differing levels of cache hierarchy (underestimating latency and overestimating throughput). */
+//#define USE_SIZE_BASED_BENCHMARKS /**< RECOMMENDED DISABLED. All benchmarks run for an estimated amount of memory accesses, and the figures of merit are computed based on the length of time required to run the benchmark. This mode may have highly varying runtime across different machines, memory performance, and working set sizes, but may have more optimistic measurements across differing levels of cache hierarchy (underestimating latency and overestimating throughput). TODO: remove this feature entirely at some point, it just complicates things... */
 
 #ifdef USE_TIME_BASED_BENCHMARKS //DO NOT COMMENT THIS OUT!
 #define BENCHMARK_DURATION_SEC 4 /**< RECOMMENDED VALUE: At least 2. Number of seconds to run in each benchmark. */
@@ -207,23 +229,30 @@ namespace xmem {
 /***********************************************************************************************************/
 
 
-//Compile-time options checks
-#if defined(USE_QPC_TIMER) && !defined(_WIN32)
-#error USE_QPC_TIMER may only be defined for a Windows system!
-#endif 
-
-#if defined(USE_TSC_TIMER) && !defined(ARCH_INTEL_X86_64)
-#error USE_TSC_TIMER may only be defined for an Intel system!
-#endif 
-
-#if !defined(USE_QPC_TIMER) && !defined(USE_TSC_TIMER)
-#error One type of timer must be selected!
+//Compile-time options checks: timers
+#ifdef USE_OS_TIMER
+#ifdef _WIN32
+#define USE_QPC_TIMER 
+#endif
+#ifdef __gnu_linux__
+#define USE_POSIX_TIMER
+#endif
 #endif
 
-#if defined(USE_QPC_TIMER) && defined(USE_TSC_TIMER)
-#error Only one type of timer may be specified!
+#ifdef USE_HW_TIMER
+#ifdef ARCH_INTEL
+#define USE_TSC_TIMER
+#endif
+#ifdef ARCH_ARM
+#error TODO: Implement ARM hardware timer.
+#endif
 #endif
 
+#if defined(USE_OS_TIMER) && defined(USE_HW_TIMER)
+#error Only one type of timer may be defined!
+#endif 
+
+//Compile-time options checks: benchmarking type: size or time-limited
 #if (defined(USE_TIME_BASED_BENCHMARKS) && defined(USE_SIZE_BASED_BENCHMARKS)) || (!defined(USE_TIME_BASED_BENCHMARKS) && !defined(USE_SIZE_BASED_BENCHMARKS))
 #error Exactly one of USE_TIME_BASED_BENCHMARKS and USE_SIZE_BASED_BENCHMARKS must be defined!
 #endif
@@ -250,6 +279,7 @@ namespace xmem {
 #endif
 #endif
 
+//Compile-time options checks: power sampling frequency. TODO: this should probably be a runtime option
 #if !defined(POWER_SAMPLING_PERIOD_MS) || POWER_SAMPLING_PERIOD_MS <= 0
 #error POWER_SAMPLING_PERIOD_MS must be defined and greater than 0!
 #endif
@@ -263,18 +293,29 @@ namespace xmem {
 	extern uint32_t g_starting_test_index;
 	extern uint32_t g_test_index;
 
+#ifdef ARCH_64BIT
 	extern uint64_t g_ticks_per_sec;
+#else
+	extern uint32_t g_ticks_per_sec;
+#endif
+
 	extern double g_ns_per_tick;
 
 	//Typedef the platform specific stuff to word sizes to match 4 different chunk options
 	typedef uint32_t Word32_t;
-#ifdef ARCH_INTEL_X86_64
+#if defined(ARCH_64BIT) || defined(ARCH_ARM_NEON)
 	typedef uint64_t Word64_t;
 #endif
 #ifdef ARCH_INTEL_X86_64_AVX
 	typedef __m128i Word128_t;
-	typedef __m256i Word256_t;
 #endif
+#ifdef ARCH_ARM_NEON
+	#error TODO: Implement ARM NEON support for 128-bit memory operations.
+#endif
+#ifdef ARCH_INTEL_X86_64_AVX
+	typedef __m256i Word256_t; //Not possible on current ARM systems.
+#endif
+
 	/**
 	 * @brief Memory access patterns are broadly categorized by sequential or random-access.
 	 */
@@ -298,9 +339,15 @@ namespace xmem {
 	 */
 	typedef enum {
 		CHUNK_32b,
+#if defined(ARCH_64BIT) || defined(ARCH_ARM_NEON)
 		CHUNK_64b,
+#endif
+#if defined(ARCH_INTEL_X86_64_AVX) || defined(ARCH_ARM_NEON)
 		CHUNK_128b,
+#endif
+#if defined(ARCH_INTEL_X86_64_AVX)	
 		CHUNK_256b,
+#endif
 		NUM_CHUNK_SIZES
 	} chunk_size_t;
 
