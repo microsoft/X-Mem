@@ -302,26 +302,41 @@ namespace xmem {
 	extern uint32_t g_num_physical_packages;
 	extern uint32_t g_starting_test_index;
 	extern uint32_t g_test_index;
-
 	extern tick_t g_ticks_per_ms;
-
 	extern double g_ns_per_tick;
 
 	//Typedef the platform specific stuff to word sizes to match 4 different chunk options
-	typedef uint32_t Word32_t;
+	//TODO: better way to detect 64-bit ARM other than NEON extensions?
 #if defined(ARCH_64BIT) || defined(ARCH_ARM_NEON)
-	typedef uint64_t Word64_t;
+#define HAS_WORD_64
+#endif
+#if defined(ARCH_INTEL_X86_64_AVX) || defined(ARCH_ARM_NEON)
+#define HAS_WORD_128
 #endif
 #ifdef ARCH_INTEL_X86_64_AVX
+#define HAS_WORD_256
+#endif
+
+	typedef uint32_t Word32_t; 
+#ifdef HAS_WORD_64
+	typedef uint64_t Word64_t;
+#endif
+#ifdef HAS_WORD_128
+#ifdef ARCH_INTEL
 	typedef __m128i Word128_t;
 #endif
-#ifdef ARCH_ARM_NEON
+#ifdef ARCH_ARM
 	#error TODO: Implement ARM NEON support for 128-bit memory operations.
 #endif
+#endif
+#ifdef HAS_WORD_256
 #ifdef ARCH_INTEL_X86_64_AVX
 	typedef __m256i Word256_t; //Not possible on current ARM systems.
 #endif
-
+#ifdef ARCH_ARM
+	#error ARM does not support 256-bit memory operations, this should not have happened.
+#endif
+#endif
 
 	/**
 	 * @brief Memory access patterns are broadly categorized by sequential or random-access.
@@ -346,13 +361,13 @@ namespace xmem {
 	 */
 	typedef enum {
 		CHUNK_32b,
-#if defined(ARCH_64BIT) || defined(ARCH_ARM_NEON)
+#ifdef HAS_WORD_64
 		CHUNK_64b,
 #endif
-#if defined(ARCH_INTEL_X86_64_AVX) || defined(ARCH_ARM_NEON)
+#ifdef HAS_WORD_128
 		CHUNK_128b,
 #endif
-#if defined(ARCH_INTEL_X86_64_AVX)	
+#ifdef HAS_WORD_256
 		CHUNK_256b,
 #endif
 		NUM_CHUNK_SIZES

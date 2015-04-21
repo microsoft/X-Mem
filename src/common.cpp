@@ -105,13 +105,13 @@ void xmem::print_types_report() {
 #endif
 	std::cout << std::endl;
 	std::cout << "Word32_t:  \t\t\t" << sizeof(Word32_t) << std::endl;
-#ifdef ARCH_64BIT
+#ifdef HAS_WORD_64
 	std::cout << "Word64_t:  \t\t\t" << sizeof(Word64_t) << std::endl;
 #endif
-#if defined(ARCH_INTEL_X86_64_AVX) || defined(ARCH_ARM_NEON)
+#ifdef HAS_WORD_128
 	std::cout << "Word128_t: \t\t\t" << sizeof(Word128_t) << std::endl;
 #endif
-#if defined(ARCH_INTEL_X86_64_AVX)
+#ifdef HAS_WORD_256
 	std::cout << "Word256_t: \t\t\t" << sizeof(Word256_t) << std::endl;
 #endif
 	std::cout << std::endl;

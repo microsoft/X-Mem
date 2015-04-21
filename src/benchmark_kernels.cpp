@@ -58,7 +58,7 @@
 
 using namespace xmem;
 
-bool xmem::determineSequentialKernel(rw_mode_t rw_mode, chunk_size_t chunk_size, int64_t stride_size, SequentialFunction* kernel_function, SequentialFunction* dummy_kernel_function) {
+bool xmem::determineSequentialKernel(rw_mode_t rw_mode, chunk_size_t chunk_size, int32_t stride_size, SequentialFunction* kernel_function, SequentialFunction* dummy_kernel_function) {
 	switch (rw_mode) {
 		case READ:
 			switch (chunk_size) {
