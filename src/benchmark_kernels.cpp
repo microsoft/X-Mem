@@ -56,6 +56,8 @@
 #define my_64b_extractLSB_256b(w) _mm256_extract_epi64(w, 0)
 #endif
 
+//TODO: ARM intrinsics
+
 using namespace xmem;
 
 bool xmem::determineSequentialKernel(rw_mode_t rw_mode, chunk_size_t chunk_size, int32_t stride_size, SequentialFunction* kernel_function, SequentialFunction* dummy_kernel_function) {
@@ -109,6 +111,7 @@ bool xmem::determineSequentialKernel(rw_mode_t rw_mode, chunk_size_t chunk_size,
 							return true;
 					}
 					return true;
+#ifdef HAS_WORD_64
 				case CHUNK_64b:
 					switch (stride_size) {
 						case 1:
@@ -155,6 +158,8 @@ bool xmem::determineSequentialKernel(rw_mode_t rw_mode, chunk_size_t chunk_size,
 							return false;
 					}
 					return true;
+#endif
+#ifdef HAS_WORD_128
 				case CHUNK_128b:
 					switch (stride_size) {
 						case 1:
@@ -201,6 +206,8 @@ bool xmem::determineSequentialKernel(rw_mode_t rw_mode, chunk_size_t chunk_size,
 							return false;
 					}
 					return true;
+#endif
+#ifdef HAS_WORD_256
 				case CHUNK_256b:
 					switch (stride_size) {
 						case 1:
@@ -247,6 +254,7 @@ bool xmem::determineSequentialKernel(rw_mode_t rw_mode, chunk_size_t chunk_size,
 							return false;
 					}
 					return true;
+#endif
 
 				default:
 					return false;
@@ -301,6 +309,7 @@ bool xmem::determineSequentialKernel(rw_mode_t rw_mode, chunk_size_t chunk_size,
 							return false;
 					}
 					return true;
+#ifdef HAS_WORD_64
 				case CHUNK_64b:
 					switch (stride_size) {
 						case 1:
@@ -347,6 +356,8 @@ bool xmem::determineSequentialKernel(rw_mode_t rw_mode, chunk_size_t chunk_size,
 							return false;
 					}
 					return true;
+#endif
+#ifdef HAS_WORD_128
 				case CHUNK_128b:
 					switch (stride_size) {
 						case 1:
@@ -393,6 +404,8 @@ bool xmem::determineSequentialKernel(rw_mode_t rw_mode, chunk_size_t chunk_size,
 							return false;
 					}
 					return true;
+#endif
+#ifdef HAS_WORD_256
 				case CHUNK_256b:
 					switch (stride_size) {
 						case 1:
@@ -439,6 +452,7 @@ bool xmem::determineSequentialKernel(rw_mode_t rw_mode, chunk_size_t chunk_size,
 							return false;
 					}
 					return true;
+#endif
 
 				default:
 					return false;
@@ -456,18 +470,31 @@ bool xmem::determineRandomKernel(rw_mode_t rw_mode, chunk_size_t chunk_size, Ran
 	switch (rw_mode) {
 		case READ:
 			switch (chunk_size) {
+				//special case on 32-bit architectures only.
+#ifndef HAS_WORD_64
+				case CHUNK_32b:
+					*kernel_function = &randomRead_Word32;
+					*dummy_kernel_function = &dummy_randomLoop_Word32;
+					return true;
+#endif
+#ifdef HAS_WORD_64
 				case CHUNK_64b:
 					*kernel_function = &randomRead_Word64;
 					*dummy_kernel_function = &dummy_randomLoop_Word64;
 					return true;
+#endif
+#ifdef HAS_WORD_128
 				case CHUNK_128b:
 					*kernel_function = &randomRead_Word128;
 					*dummy_kernel_function = &dummy_randomLoop_Word128;
 					return true;
+#endif
+#ifdef HAS_WORD_256
 				case CHUNK_256b:
 					*kernel_function = &randomRead_Word256;
 					*dummy_kernel_function = &dummy_randomLoop_Word256;
 					return true;
+#endif
 				default:
 					return false;
 			}
@@ -475,18 +502,31 @@ bool xmem::determineRandomKernel(rw_mode_t rw_mode, chunk_size_t chunk_size, Ran
 
 		case WRITE:
 			switch (chunk_size) {
+				//special case on 32-bit architectures only.
+#ifndef HAS_WORD_64
+				case CHUNK_32b:
+					*kernel_function = &randomWrite_Word32;
+					*dummy_kernel_function = &dummy_randomLoop_Word32;
+					return true;
+#endif
+#ifdef HAS_WORD_64
 				case CHUNK_64b:
 					*kernel_function = &randomWrite_Word64;
 					*dummy_kernel_function = &dummy_randomLoop_Word64;
 					return true;
+#endif
+#ifdef HAS_WORD_128
 				case CHUNK_128b:
 					*kernel_function = &randomWrite_Word128;
 					*dummy_kernel_function = &dummy_randomLoop_Word128;
 					return true;
+#endif
+#ifdef HAS_WORD_256
 				case CHUNK_256b:
 					*kernel_function = &randomWrite_Word256;
 					*dummy_kernel_function = &dummy_randomLoop_Word256;
 					return true;
+#endif
 				default:
 					return false;
 			}
@@ -506,23 +546,44 @@ bool xmem::buildRandomPointerPermutation(void* start_address, void* end_address,
 	size_t length = reinterpret_cast<uint8_t*>(end_address) - reinterpret_cast<uint8_t*>(start_address); //length of region in bytes
 	size_t num_pointers = 0; //Number of pointers that fit into the memory region of interest
 	switch (chunk_size) {
+		//special case on 32-bit architectures only.
+#ifndef HAS_WORD_64
+		case CHUNK_32b:
+			num_pointers = length / sizeof(Word32_t);
+			break;
+#endif
+#ifdef HAS_WORD_64
 		case CHUNK_64b:
 			num_pointers = length / sizeof(Word64_t);
 			break;
+#endif
+#ifdef HAS_WORD_128
 		case CHUNK_128b:
 			num_pointers = length / sizeof(Word128_t);
 			break;
+#endif
+#ifdef HAS_WORD_256
 		case CHUNK_256b:
 			num_pointers = length / sizeof(Word256_t);
 			break;
+#endif
 		default:
-			std::cerr << "ERROR: Chunk size must be at least 64 bits for building a random pointer permutation. This should not have happened." << std::endl;
+			std::cerr << "ERROR: Chunk size must be at least "
+			//special case for 32-bit architectures
+#ifndef HAS_WORD_64
+			<<"32"
+#endif
+#ifdef HAS_WORD_64
+			<<"64"
+#endif
+			<< "bits for building a random pointer permutation. This should not have happened." << std::endl;
 			return false;
 	}
 			
 	std::mt19937_64 gen(time(NULL)); //Mersenne Twister random number generator, seeded at current time
 	
 	/*
+	//TODO: probably remove this.
 	//Build a random directed Hamiltonian Cycle across the memory region 
 
 	//Let W be the list of memory locations that have not been reached yet. Each entry is an index in mem_base.
@@ -562,30 +623,70 @@ bool xmem::buildRandomPointerPermutation(void* start_address, void* end_address,
 	*/
 	
 	//Do a random shuffle of memory pointers
+#ifndef HAS_WORD_64 //special case for 32-bit architectures
+	Word32_t* mem_region_base = reinterpret_cast<Word32_t*>(start_address);
+#endif
+#ifdef HAS_WORD_64
 	Word64_t* mem_region_base = reinterpret_cast<Word64_t*>(start_address);
+#endif
 	switch (chunk_size) {
+		//special case for 32-bit architectures
+#ifndef HAS_WORD_64
+		case CHUNK_32b:
+			for (size_t i = 0; i < num_pointers; i++) { //Initialize pointers to point at themselves (identity mapping)
+				mem_region_base[i] = reinterpret_cast<Word32_t>(mem_region_base+i);
+			}
+			std::shuffle(mem_region_base, mem_region_base + num_pointers, gen);
+			break;
+#endif
+#ifdef HAS_WORD_64
 		case CHUNK_64b:
 			for (size_t i = 0; i < num_pointers; i++) { //Initialize pointers to point at themselves (identity mapping)
 				mem_region_base[i] = reinterpret_cast<Word64_t>(mem_region_base+i);
 			}
 			std::shuffle(mem_region_base, mem_region_base + num_pointers, gen);
 			break;
+#endif
+#ifdef HAS_WORD_128
 		case CHUNK_128b:
 			for (size_t i = 0; i < num_pointers; i++) { //Initialize pointers to point at themselves (identity mapping)
+#ifndef HAS_WORD_64 //special case for 32-bit architectures
+				mem_region_base[i*4] = reinterpret_cast<Word32_t>(mem_region_base+(i*4));
+				mem_region_base[(i*4)+1] = 0xFFFFFFFF; //1-fill upper 96 bits
+				mem_region_base[(i*4)+2] = 0xFFFFFFFF; 
+				mem_region_base[(i*4)+3] = 0xFFFFFFFF; 
+#endif
+#ifdef HAS_WORD_64
 				mem_region_base[i*2] = reinterpret_cast<Word64_t>(mem_region_base+(i*2));
 				mem_region_base[(i*2)+1] = 0xFFFFFFFFFFFFFFFF; //1-fill upper 64 bits
+#endif
 			}
 			std::shuffle(reinterpret_cast<Word128_t*>(mem_region_base), reinterpret_cast<Word128_t*>(mem_region_base) + num_pointers, gen);
 			break;
+#endif
+#ifdef HAS_WORD_256
 		case CHUNK_256b:
 			for (size_t i = 0; i < num_pointers; i++) { //Initialize pointers to point at themselves (identity mapping)
+#ifndef HAS_WORD_64 //special case for 32-bit architectures
+				mem_region_base[i*8] = reinterpret_cast<Word32_t>(mem_region_base+(i*8));
+				mem_region_base[(i*8)+1] = 0xFFFFFFFF; //1-fill upper 224 bits
+				mem_region_base[(i*8)+2] = 0xFFFFFFFF;
+				mem_region_base[(i*8)+3] = 0xFFFFFFFF;
+				mem_region_base[(i*8)+4] = 0xFFFFFFFF;
+				mem_region_base[(i*8)+5] = 0xFFFFFFFF;
+				mem_region_base[(i*8)+6] = 0xFFFFFFFF;
+				mem_region_base[(i*8)+7] = 0xFFFFFFFF;
+#endif
+#ifdef HAS_WORD_64
 				mem_region_base[i*4] = reinterpret_cast<Word64_t>(mem_region_base+(i*4));
 				mem_region_base[(i*4)+1] = 0xFFFFFFFFFFFFFFFF; //1-fill upper 192 bits
 				mem_region_base[(i*4)+2] = 0xFFFFFFFFFFFFFFFF; 
 				mem_region_base[(i*4)+3] = 0xFFFFFFFFFFFFFFFF;
+#endif
 			}
 			std::shuffle(reinterpret_cast<Word256_t*>(mem_region_base), reinterpret_cast<Word256_t*>(mem_region_base) + num_pointers, gen);
 			break;
+#endif
 		default:
 			std::cerr << "ERROR: Got an invalid chunk size. This should not have happened." << std::endl;
 			return false;
@@ -610,7 +711,12 @@ bool xmem::buildRandomPointerPermutation(void* start_address, void* end_address,
 int32_t xmem::dummy_chasePointers(uintptr_t*, uintptr_t**, size_t len) {
 	volatile uintptr_t placeholder = 0; //Try to defeat compiler optimizations removing this method
 #ifdef USE_SIZE_BASED_BENCHMARKS
+#ifndef HAS_WORD_64 //special case for 32-bit architectures
+	for (size_t i = 0; i < len / sizeof(uintptr_t); i += 1024)
+#endif
+#ifdef HAS_WORD_64
 	for (size_t i = 0; i < len / sizeof(uintptr_t); i += 512)
+#endif
 		placeholder = 0;
 #endif
 	return 0;
@@ -622,11 +728,22 @@ int32_t xmem::chasePointers(uintptr_t* first_address, uintptr_t** last_touched_a
 	volatile uintptr_t* p = first_address;
 
 #ifdef USE_TIME_BASED_BENCHMARKS
+#ifndef HAS_WORD_64 //special case for 32-bit architectures
+	UNROLL1024(p = reinterpret_cast<uintptr_t*>(*p);)
+#endif
+#ifdef HAS_WORD_64
 	UNROLL512(p = reinterpret_cast<uintptr_t*>(*p);)
 #endif
+#endif
 #ifdef USE_SIZE_BASED_BENCHMARKS
+#ifndef HAS_WORD_64 //special case for 32-bit architectures
+	for (size_t i = 0; i < len / sizeof(uintptr_t); i += 1024) {
+		UNROLL1024(p = reinterpret_cast<uintptr_t*>(*p);)
+#endif
+#ifdef HAS_WORD_64
 	for (size_t i = 0; i < len / sizeof(uintptr_t); i += 512) {
 		UNROLL512(p = reinterpret_cast<uintptr_t*>(*p);)
+#endif
 	}
 #endif
 	*last_touched_address = const_cast<uintptr_t*>(p);
