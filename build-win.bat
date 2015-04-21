@@ -2,7 +2,7 @@
 
 :: Author: Mark Gottscho <mgottscho@ucla.edu>
 
-echo Building X-Mem for Windows...
+echo Building X-Mem for Windows x86-64...
 
 :: Do a little trick to ensure build datetime are correct
 :: DO NOT remove this code -- otherwise X-Mem will fail to build.
@@ -13,7 +13,7 @@ echo #define BUILD_DATETIME "%build_datetime%">>src\include\build_datetime.h
 echo #endif>>src\include\build_datetime.h
 
 :: Build
-call scons -f SConstruct_win
+call scons -f SConstruct_win_x64
 
 :: Check if build was successful
 if ERRORLEVEL 1 goto buildFailure

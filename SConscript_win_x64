@@ -1,4 +1,4 @@
-# SConscript file for Windows build only
+# SConscript file for Windows x86-64 build only
 # Author: Mark Gottscho <mgottscho@ucla.edu>
 
 import os
