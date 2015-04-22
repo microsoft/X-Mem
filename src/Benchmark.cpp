@@ -128,15 +128,21 @@ void Benchmark::report_benchmark_info() const {
 		case CHUNK_32b:
 			std::cout << "32-bit";
 			break;
+#ifdef HAS_WORD_64
 		case CHUNK_64b:
 			std::cout << "64-bit";
 			break;
+#endif
+#ifdef HAS_WORD_128
 		case CHUNK_128b:
 			std::cout << "128-bit";
 			break;
+#endif
+#ifdef HAS_WORD_256
 		case CHUNK_256b:
 			std::cout << "256-bit";
 			break;
+#endif
 		default:
 			std::cout << "UNKNOWN";
 			break;

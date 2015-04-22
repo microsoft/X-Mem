@@ -1,0 +1,26 @@
+# SConscript file for GNU/Linux x86-64 with AVX build only
+# Author: Mark Gottscho <mgottscho@ucla.edu>
+
+import os
+
+# Initialize build environment
+env = Environment()
+
+# Customize build settings
+
+# LINUX
+env.Append(CPPFLAGS = '-Wall -Wno-unused-but-set-variable -Wno-unused-variable -g -O3 -std=c++11 -fabi-version=6')
+env.Append(CPPPATH = ['src/include', '/usr/include', '/lib'])
+env.Append(CPPPATH = ['src/include/ext/DelayInjectedLoadedLatencyBenchmark']) # Extension: Delay-injected loaded latency benchmark
+env.Append(CPPPATH = ['src/include/ext/StreamBenchmark']) # Extension: Stream benchmark
+env.Append(LIBS = ['pthread', 'numa', 'hugetlbfs'])
+
+# List all C++ source files
+sources = [
+	Glob('src/*.cpp'), 
+	Glob('src/ext/*/*.cpp'), # All extensions
+]
+
+defaultBuild = env.Program(target = 'xmem', source = sources)
+
+Default(defaultBuild)

@@ -1,4 +1,4 @@
-# SConscript file for Windows x86-64 build only
+# SConscript file for Windows x86-64 with AVX extensions build only
 # Author: Mark Gottscho <mgottscho@ucla.edu>
 
 import os
@@ -11,7 +11,7 @@ env = Environment(MSVC_USE_SCRIPT = 'C:\\Program Files (x86)\\Microsoft Visual S
 
 # Customize build settings
 env.Append(ASFLAGS = '/c /nologo /WX /Zi /W3 /errorReport:prompt')
-env.Append(CPPFLAGS = '/c /Zi /nologo /W3 /wd4101 /WX- /MP /O2 /Oi /Ot /D WIN32 /D NDEBUG /D _CONSOLE /Gm- /EHsc /GS /fp:precise /Zc:wchar_t /Zc:forScope /Gd /TP /errorReport:queue ')
+env.Append(CPPFLAGS = '/c /Zi /nologo /W3 /wd4101 /WX- /MP /O2 /Oi /Ot /D WIN32 /D NDEBUG /D _CONSOLE /Gm- /EHsc /GS /arch:AVX /fp:precise /Zc:wchar_t /Zc:forScope /Gd /TP /errorReport:queue ')
 # Dynamic link
 env.Append(CPPFLAGS = '/MD')
 # Static link

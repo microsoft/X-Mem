@@ -47,7 +47,7 @@ using namespace xmem;
 
 void xmem::print_welcome_message() {
 	//Greetings!
-	std::cout << "--------------------------------------------------------------------" << std::endl;
+	std::cout << "--------------------------------------------------------------------------------" << std::endl;
 	std::cout << "Extensible Memory Benchmarking Tool (X-Mem) v" << VERSION << " for";
 #ifdef _WIN32
 	std::cout << " Windows";
@@ -55,11 +55,18 @@ void xmem::print_welcome_message() {
 #ifdef __gnu_linux__
 	std::cout << " GNU/Linux";
 #endif
+	std::cout << " on";
+#ifdef ARCH_INTEL
+	std::cout << " Intel ISAs";
+#endif
+#ifdef ARCH_ARM
+	std::cout << " ARM ISAs";
+#endif
 	std::cout << std::endl;
 	std::cout << "Build date: " << BUILD_DATETIME << std::endl;
 	std::cout << "(C) Microsoft Corporation 2015" << std::endl;
 	std::cout << "Originally authored by Mark Gottscho <mgottscho@ucla.edu>" << std::endl;
-	std::cout << "--------------------------------------------------------------------" << std::endl;
+	std::cout << "--------------------------------------------------------------------------------" << std::endl;
 	std::cout << std::endl;
 }
 
@@ -83,6 +90,7 @@ int main(int argc, char* argv[]) {
 	if (configSuccess) {
 		if (g_verbose) {
 			print_compile_time_options();
+			print_types_report();
 			test_thread_affinities();
 		}
 		

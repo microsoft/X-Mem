@@ -211,15 +211,21 @@ bool BenchmarkManager::runThroughputBenchmarks() {
 				case CHUNK_32b:
 					__results_file << "32" << ",";
 					break;
+#ifdef HAS_WORD_64
 				case CHUNK_64b:
 					__results_file << "64" << ",";
 					break;
+#endif
+#ifdef HAS_WORD_128
 				case CHUNK_128b:
 					__results_file << "128" << ",";
 					break;
+#endif
+#ifdef HAS_WORD_256
 				case CHUNK_256b:
 					__results_file << "256" << ",";
 					break;
+#endif
 				default:
 					__results_file << "UNKNOWN" << ",";
 					break;
@@ -304,15 +310,21 @@ bool BenchmarkManager::runLatencyBenchmarks() {
 					case CHUNK_32b:
 						__results_file << "32" << ",";
 						break;
+#ifdef HAS_WORD_64
 					case CHUNK_64b:
 						__results_file << "64" << ",";
 						break;
+#endif
+#ifdef HAS_WORD_128
 					case CHUNK_128b:
 						__results_file << "128" << ",";
 						break;
+#endif
+#ifdef HAS_WORD_256
 					case CHUNK_256b:
 						__results_file << "256" << ",";
 						break;
+#endif
 					default:
 						__results_file << "UNKNOWN" << ",";
 						break;
@@ -433,12 +445,18 @@ bool BenchmarkManager::__buildBenchmarks() {
 	std::vector<chunk_size_t> chunks;
 	if (__config.useChunk32b())
 		chunks.push_back(CHUNK_32b); 
+#ifdef HAS_WORD_64
 	if (__config.useChunk64b())
 		chunks.push_back(CHUNK_64b); 
+#endif
+#ifdef HAS_WORD_128
 	if (__config.useChunk128b())
 		chunks.push_back(CHUNK_128b); 
+#endif
+#ifdef HAS_WORD_256
 	if (__config.useChunk256b())
 		chunks.push_back(CHUNK_256b); 
+#endif
 
 	std::vector<rw_mode_t> rws;
 	if (__config.useReads())
@@ -641,8 +659,12 @@ bool BenchmarkManager::runExtDelayInjectedLoadedLatencyBenchmark() {
 	
 	//Put the enumerations into vectors to make constructing benchmarks more loopable
 	std::vector<chunk_size_t> chunks;
+#ifdef HAS_WORD_64
 	chunks.push_back(CHUNK_64b); 
+#endif
+#ifdef HAS_WORD_256
 	chunks.push_back(CHUNK_256b); 
+#endif
 
 	//Build benchmarks
 	for (uint32_t mem_node = 0; mem_node < __benchmark_num_numa_nodes; mem_node++) { //iterate each memory NUMA node
@@ -741,15 +763,21 @@ bool BenchmarkManager::runExtDelayInjectedLoadedLatencyBenchmark() {
 					case CHUNK_32b:
 						__results_file << "32" << ",";
 						break;
+#ifdef HAS_WORD_64
 					case CHUNK_64b:
 						__results_file << "64" << ",";
 						break;
+#endif
+#ifdef HAS_WORD_128
 					case CHUNK_128b:
 						__results_file << "128" << ",";
 						break;
+#endif
+#ifdef HAS_WORD_256
 					case CHUNK_256b:
 						__results_file << "256" << ",";
 						break;
+#endif
 					default:
 						__results_file << "UNKNOWN" << ",";
 						break;

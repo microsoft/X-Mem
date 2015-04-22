@@ -159,6 +159,15 @@ void xmem::print_compile_time_options() {
 #ifdef ARCH_64BIT
 	std::cout << "ARCH_64BIT" << std::endl;
 #endif
+#ifdef HAS_WORD_64
+	std::cout << "HAS_WORD_64" << std::endl;
+#endif
+#ifdef HAS_WORD_128
+	std::cout << "HAS_WORD_128" << std::endl;
+#endif
+#ifdef HAS_WORD_256
+	std::cout << "HAS_WORD_256" << std::endl;
+#endif
 	std::cout << std::endl;
 	std::cout << "This binary was built with the following compile-time options:" << std::endl;
 #ifdef NDEBUG

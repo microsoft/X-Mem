@@ -1,5 +1,5 @@
 # SConstruct file for Windows x86-64 build only
 # Author: Mark Gottscho <mgottscho@ucla.edu>
 
-SConscript('SConscript_win_x64', variant_dir = 'build/win/release', duplicate = 0, exports = {'MODE':'release'})
-#SConscript('SConscript_win_x64', variant_dir = 'build/win/debug', duplicate = 0, exports = {'MODE':'debug'})
+SConscript('SConscript_win_x64', variant_dir = 'build/win/x64/release', duplicate = 0, exports = {'MODE':'release'})
+#SConscript('SConscript_win_x64', variant_dir = 'build/win/x64/debug', duplicate = 0, exports = {'MODE':'debug'})

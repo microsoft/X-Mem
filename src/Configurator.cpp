@@ -56,9 +56,15 @@ Configurator::Configurator(
 	__working_set_size_per_thread(DEFAULT_WORKING_SET_SIZE_PER_THREAD),
 	__num_worker_threads(DEFAULT_NUM_WORKER_THREADS),
 	__use_chunk_32b(false),
+#ifdef HAS_WORD_64
 	__use_chunk_64b(true),
+#endif
+#ifdef HAS_WORD_128
 	__use_chunk_128b(false),
+#endif
+#ifdef HAS_WORD_256
 	__use_chunk_256b(false),
+#endif
 	__numa_enabled(true),
 	__iterations(1),
 	__use_random_access_pattern(false),
@@ -310,9 +316,15 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	if (options[CHUNK_SIZE]) {
 		//Init... override default values
 		__use_chunk_32b = false;
+#ifdef HAS_WORD_64
 		__use_chunk_64b = false;
+#endif
+#ifdef HAS_WORD_128
 		__use_chunk_128b = false;
+#endif
+#ifdef HAS_WORD_256
 		__use_chunk_256b = false;
+#endif
 		
 		Option* curr = options[CHUNK_SIZE];
 		while (curr) { //CHUNK_SIZE may occur more than once, this is perfectly OK.
@@ -322,17 +334,33 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 				case 32:
 					__use_chunk_32b = true;
 					break;
+#ifdef HAS_WORD_64
 				case 64:
 					__use_chunk_64b = true;
 					break;
+#endif
+#ifdef HAS_WORD_128
 				case 128: 
 					__use_chunk_128b = true;
 					break;
+#endif
+#ifdef HAS_WORD_256
 				case 256:
 					__use_chunk_256b = true;
 					break;
+#endif
 				default:
-					std::cerr << "ERROR: Invalid chunk size " << chunk_size << ". Chunk sizes can be 32, 64, 128, or 256 bits." << std::endl;
+					std::cerr << "ERROR: Invalid chunk size " << chunk_size << ". Chunk sizes can be 32 "
+#ifdef HAS_WORD_64
+					<< "64 "
+#endif
+#ifdef HAS_WORD_128_
+					<< "128 "
+#endif
+#ifdef HAS_WORD_256
+					<< "256 "
+#endif
+					<< "bits on this system." << std::endl;
 					goto error;
 			}
 			curr = curr->next();
@@ -479,9 +507,15 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		__run_ext_stream_benchmark = true;
 #endif
 		__use_chunk_32b = true;
+#ifdef HAS_WORD_64
 		__use_chunk_64b = true;
+#endif
+#ifdef HAS_WORD_128
 		__use_chunk_128b = true;
+#endif
+#ifdef HAS_WORD_256
 		__use_chunk_256b = true;
+#endif
 		__use_random_access_pattern = true; 
 		__use_sequential_access_pattern = true;
 		__use_reads = true;
@@ -498,9 +532,11 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		__use_stride_n16 = true;
 	}
 	
-	//Notify that 32-bit chunks are not used on random throughput benchmarks
+#ifdef HAS_WORD_64
+	//Notify that 32-bit chunks are not used on random throughput benchmarks on 64-bit machines
 	if (__use_random_access_pattern && __use_chunk_32b) 
-		std::cerr << "NOTE: Random-access load kernels used in throughput and loaded latency benchmarks do not support 32-bit chunk sizes. These particular combinations will be omitted." << std::endl;
+		std::cerr << "NOTE: Random-access load kernels used in throughput and loaded latency benchmarks do not support 32-bit chunk sizes on 64-bit machines. These particular combinations will be omitted." << std::endl;
+#endif
 
 	//Check for help or bad options
 	if (options[HELP] || options[UNKNOWN] != NULL)
@@ -554,12 +590,18 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		std::cout << "---> Chunk sizes:                     ";
 		if (__use_chunk_32b)
 			std::cout << "32 ";
+#ifdef HAS_WORD_64
 		if (__use_chunk_64b)
 			std::cout << "64 ";
+#endif
+#ifdef HAS_WORD_128
 		if (__use_chunk_128b)
 			std::cout << "128 ";
+#endif
+#ifdef HAS_WORD_256
 		if (__use_chunk_256b)
 			std::cout << "256 ";
+#endif
 		std::cout << std::endl;
 		std::cout << "---> Stride sizes:                    ";
 		if (__use_stride_p1)

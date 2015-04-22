@@ -1,0 +1,5 @@
+# SConstruct file for GNU/Linux x86-64 with AVX extensions build only
+# Author: Mark Gottscho <mgottscho@ucla.edu>
+
+SConscript('SConscript_linux_x64_avx', variant_dir = 'build/linux/x64_avx/release', duplicate = 0, exports = {'MODE':'release'})
+#SConscript('SConscript_linux_x64_avx', variant_dir = 'build/linux/x64_avx/debug', duplicate = 0, exports = {'MODE':'debug'})

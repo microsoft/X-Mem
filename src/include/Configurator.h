@@ -73,7 +73,7 @@ namespace xmem {
 		{ UNKNOWN, 0, "", "", Arg::None, "\nUSAGE: xmem [options]\n\n"
 		"Options:" },
 		{ ALL, 0, "a", "all", Arg::None, "    -a, --all    \tRun all possible benchmark modes and settings supported by X-Mem. This will override any other relevant user inputs. Note that X-Mem may run for a long time." },
-		{ CHUNK_SIZE, 0, "c", "chunk_size", MyArg::PositiveInteger, "    -c, --chunk_size    \tA chunk size in bits to use for load traffic-generating threads used in throughput and loaded latency benchmarks. A chunk is the size of each memory access in a benchmark. Allowed values: 32, 64, 128, and 256 (platform-dependent). If no chunk sizes specified, use the native platform chunks by default. Note that some chunk sizes may not be supported on some hardware. 32-bit chunks are not compatible with random-access patterns; these combinations of settings will be skipped if they occur. DEFAULT: 64 on 64-bit systems, 32 on 32-bit systems."},
+		{ CHUNK_SIZE, 0, "c", "chunk_size", MyArg::PositiveInteger, "    -c, --chunk_size    \tA chunk size in bits to use for load traffic-generating threads used in throughput and loaded latency benchmarks. A chunk is the size of each memory access in a benchmark. Allowed values: 32 64 128 and 256 (platform dependent). Note that some chunk sizes may not be supported on all hardware. 32-bit chunks are not compatible with random-access patterns on 64-bit machines; these combinations of settings will be skipped if they occur. DEFAULT: 64 on 64-bit systems, 32 on 32-bit systems."},
 		{ EXTENSION, 0, "e", "extension", MyArg::NonnegativeInteger, "    -e, --extension    \tRun an X-Mem extension defined by the user at build time. The integer argument specifies a single unique extension. This option may be included multiple times. Note that the extension behavior may or may not depend on the other X-Mem options as its semantics are defined by the extension author." },
 		{ OUTPUT_FILE, 0, "f", "output_file", MyArg::Required, "    -f, --output_file    \tGenerate an output file in CSV format using the given filename." },
 		{ HELP, 0, "h", "help", Arg::None, "    -h, --help    \tPrint X-Mem usage and exit." },
@@ -268,23 +268,29 @@ namespace xmem {
 		 */
 		bool useChunk32b() const { return __use_chunk_32b; }
 
+#ifdef HAS_WORD_64
 		/**
 		 * @brief Determines if chunk size of 64 bits should be used in relevant benchmarks.
 		 * @returns True if 64-bit chunks should be used.
 		 */
 		bool useChunk64b() const { return __use_chunk_64b; }
+#endif
 
+#ifdef HAS_WORD_128
 		/**
 		 * @brief Determines if chunk size of 128 bits should be used in relevant benchmarks.
 		 * @returns True if 128-bit chunks should be used.
 		 */
 		bool useChunk128b() const { return __use_chunk_128b; }
+#endif
 
+#ifdef HAS_WORD_256
 		/**
 		 * @brief Determines if chunk size of 256 bits should be used in relevant benchmarks.
 		 * @returns True if 256-bit chunks should be used.
 		 */
 		bool useChunk256b() const { return __use_chunk_256b; }
+#endif
 
 		/**
 		 * @brief Determines if the benchmarks should test for all CPU/memory NUMA combinations.
@@ -447,9 +453,15 @@ namespace xmem {
 		size_t __working_set_size_per_thread; /**< Working set size in bytes for each thread, if applicable. */
 		uint32_t __num_worker_threads; /**< Number of load threads to use for throughput benchmarks, loaded latency benchmarks, and stress tests. */
 		bool __use_chunk_32b; /**< If true, use chunk sizes of 32-bits where applicable. */
+#ifdef HAS_WORD_64
 		bool __use_chunk_64b; /**< If true, use chunk sizes of 64-bits where applicable. */
+#endif
+#ifdef HAS_WORD_128
 		bool __use_chunk_128b; /**< If true, use chunk sizes of 128-bits where applicable. */
+#endif
+#ifdef HAS_WORD_256
 		bool __use_chunk_256b; /**< If true, use chunk sizes of 256-bits where applicable. */
+#endif
 		bool __numa_enabled; /**< If true, test all combinations of CPU/memory NUMA nodes. Otherwise, just use node 0. */
 		uint32_t __iterations; /**< Number of iterations to run for each benchmark test. */
 		bool __use_random_access_pattern; /**< If true, run throughput benchmarks with random access pattern. */

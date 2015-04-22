@@ -121,6 +121,7 @@ bool DelayInjectedLoadedLatencyBenchmark::_run_core() {
 	SequentialFunction load_kernel_dummy_fptr = NULL; 
 	if (_num_worker_threads > 1) { //If we only have one worker thread, it is used for latency measurement only, and no load threads will be used.
 		switch (_chunk_size) {
+#ifdef HAS_WORD_64
 			case CHUNK_64b:
 				switch (__delay) {
 					case 0:
@@ -176,6 +177,8 @@ bool DelayInjectedLoadedLatencyBenchmark::_run_core() {
 						return false;
 				}
 				break;
+#endif
+#ifdef HAS_WORD_256
 			case CHUNK_256b:
 				switch (__delay) {
 					case 0:
@@ -231,6 +234,7 @@ bool DelayInjectedLoadedLatencyBenchmark::_run_core() {
 						return false;
 				}
 				break;
+#endif
 			default:
 				std::cerr << "ERROR: Chunk size must be 64-bit or 256-bit to run the delay-injected latency benchmark extension!" << std::endl;
 				return false;

@@ -1,7 +1,7 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: Extensible Memory Benchmarking Tool v2.1.10
+X-Mem: Extensible Memory Benchmarking Tool v2.1.11
 ------------------------------------------------------------------------------------------------------------
 
 The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power. 
@@ -54,33 +54,33 @@ Extensibility: modularity via C++ object-oriented principles
 	- Supports rapid addition of new benchmark kernel routines
 	- Example: stream triad algorithm, impact of false sharing, etc. are possible with minor changes
 
-Cross-platform: Currently implemented for Windows and GNU/Linux on x86-64 CPUs
+Cross-platform: Currently implemented for Windows and GNU/Linux on x86-64, x86-64 with AVX extensions CPUs
 	- Designed to allow straightforward porting to other operating systems and ISAs
-	- GNU/Linux on ARM port planned
+	- 32-bit x86 port under development
+	- ARM port under development
 
 Memory throughput:
 	- Accurate measurement of sustained memory throughput to all levels of cache and memory
 	- Regular access patterns: forward & reverse sequential as well as strides of 2, 4, 8, and 16 words
 	- Random access patterns
 	- Read and write
-	- 32, 64, 128, 256-bit width memory instructions
+	- 32, 64, 128, 256-bit width memory instructions where applicable on each architecture
 
 Memory latency: 
 	- Accurate measurement of round-trip memory latency to all levels of cache and memory
 	- Loaded and unloaded latency via use of multithreaded load generation
 
 Memory power:
-	- Currently collecting DRAM power via custom driver exposed in Windows performance counter API
 	- Support custom power instrumentation through a simple interface that end-users can implement
+	- Can collect DRAM power via custom driver exposed in Windows performance counter API
 
 Documentation:
 	- Extensive Doxygen source code comments, PDF manual, HTML
 
 
-
 INCLUDED EXTENSIONS (under src/include/ext and src/ext directories):
 	- Loaded latency benchmark variant with load delays inserted as nop instructions between memory instructions.
-	  This is done for 64-bit chunks, forward sequential read load threads only at the moment.
+	  This is done for 64 and 256-bit chunks on x86-64 with AVX extensions, forward sequential read load threads only at the moment.
 
 For feature requests, please refer to the contact information at the end of this README.
 
@@ -92,21 +92,24 @@ There are a few runtime prerequisites in order for the software to run correctly
 
 HARDWARE:
 
-- Intel x86-64 CPU supporting AVX extensions (Sandy Bridge or later).
+- Intel x86-64 CPU with optional support for AVX extensions. AMD CPUs should also work although this has not been tested.
+- COMING SOON: Intel 32-bit x86 CPU
+- COMING SOON: ARMv7 CPUs
 
 WINDOWS:
 
-- Microsoft Windows 64-bit, 8.0 or later, Server 2012 or later.
+- Microsoft Windows 8.0 64-bit or later, Server 2012 or later.
 - Microsoft Visual C++ 2013 Redistributables (64-bit)
-- Potentially, Administrator privileges, in order to:
-	- use large pages, if the --large_pages option is selected (see USAGE, below)
+- COMING SOON: Windows 32-bit
+- You MAY need Administrator privileges, in order to:
+	- Use large pages, if the --large_pages option is selected (see USAGE, below)
 	- The first time you use --large_pages on a given Windows machine, you may need to ensure that your Windows user account has the necessary rights to allow lockable memory pages. To do this on Windows 8, run gpedit.msc --> Local Computer Policy --> Computer Configuration --> Windows Settings --> Security Settings --> Local Policies --> User Rights Assignment --> Add your username to "Lock pages in memory". Then log out and then log back in.
-	- use the PowerReader interface, depending on end-user implementation
-	- elevate thread priority and pin threads to logical CPUs for improved performance and benchmarking consistency
+	- Use the PowerReader interface, depending on end-user implementation
+	- Elevate thread priority and pin threads to logical CPUs for improved performance and benchmarking consistency
 
 GNU/LINUX:
 
-- GNU utilities with support for C++11. Tested with gcc 4.8.2 on Ubuntu 14.04 LTS.
+- GNU utilities with support for C++11. Tested with gcc 4.8.2 on Ubuntu 14.04 LTS for x86-64 CPU.
 - libhugetlbfs. You can obtain it at <http://libhugetlbfs.sourceforge.net>. On Ubuntu systems, you can install using "sudo apt-get install libhugetlbfs0".
 - Potentially, administrator privileges, if you plan to use the --large_pages option.
 	- During runtime, if the --large_pages option is selected, you may need to first manually ensure that large pages are available from the OS. This can be done by running "hugeadm --pool-list". It is recommended to set minimum pool to 1GB (in order to measure DRAM effectively). If needed, this can be done by running "hugeadm --pool-pages-min 2MB:512". Alternatively, run the linux_setup_runtime_hugetlbfs.sh script that is provided with X-Mem. 
@@ -132,15 +135,13 @@ Options:
                                 traffic-generating threads used in throughput
                                 and loaded latency benchmarks. A chunk is the
                                 size of each memory access in a benchmark.
-                                Allowed values: 32, 64, 128, and 256
-                                (platform-dependent). If no chunk sizes
-                                specified, use the native platform chunks by
-                                default. Note that some chunk sizes may not be
-                                supported on some hardware. 32-bit chunks are
-                                not compatible with random-access patterns;
-                                these combinations of settings will be skipped
-                                if they occur. DEFAULT: 64 on 64-bit systems, 32
-                                on 32-bit systems.
+                                Allowed values: 32 64 128 and 256 (platform
+                                dependent). Note that some chunk sizes may not
+                                be supported on all hardware. 32-bit chunks are
+                                not compatible with random-access patterns on
+                                64-bit machines; these combinations of settings
+                                will be skipped if they occur. DEFAULT: 64 on
+                                64-bit systems, 32 on 32-bit systems.
     -e, --extension             Run an X-Mem extension defined by the user at
                                 build time. The integer argument specifies a
                                 single unique extension. This option may be
@@ -294,11 +295,9 @@ Have fun! =]
 BUILDING FROM SOURCE
 ------------------------------------------------------------------------------------------------------------
 
-Before building the source, enable and disable the relevant compile-time options in src/include/common.h, under the section "User-configurable compilation configuration". Please read the comments by each #define statement to understand the context of each option.
+After you have set the desired compile-time options, build the source. On Windows, running build-win.bat should suffice. On GNU/Linux, run build-linux.sh. Each takes a single argument specifying the target architecture.
 
-After you have set the desired compile-time options, build the source. On Windows, running build-win.bat should suffice. On GNU/Linux, run build-linux.sh.
-
-If you customize your build, make sure you use the "Release" mode for your OS. Do not include debug capabilities as it can dramatically affect performance of the benchmarks, leading to pessimistic results.
+If you customize your build, make sure you use the "Release" mode for your OS/compiler. Do not include debug capabilities as it can dramatically affect performance of the benchmarks, leading to pessimistic results.
 
 ------------------------------------------------------------------------------------------------------------
 BUILD PREREQUISITES
@@ -355,8 +354,6 @@ CONTACT, FEEDBACK, AND BUG REPORTS
 ------------------------------------------------------------------------------------------------------------
 
 For questions, comments, criticism, bug reports, and other feedback for this software, please contact Mark Gottscho via email at <mgottscho@ucla.edu> or via web at <http://www.seas.ucla.edu/~gottscho>.
-
-For inquiries about this work while conducted at Microsoft, please contact Dr. Mohammed Shoaib at <mohammed.shoaib@microsoft.com> or Dr. Sriram Govindan at <srgovin@microsoft.com>.
 
 ------------------------------------------------------------------------------------------------------------
 ACKNOWLEDGMENT

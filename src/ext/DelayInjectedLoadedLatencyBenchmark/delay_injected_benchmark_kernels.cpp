@@ -52,6 +52,7 @@ using namespace xmem;
 
 /* -------------------- DUMMY BENCHMARK ROUTINES ------------------------- */
 
+#ifdef HAS_WORD_64
 int32_t xmem::dummy_forwSequentialLoop_Word64_Delay1(void* start_address, void* end_address) {
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
@@ -132,7 +133,9 @@ int32_t xmem::dummy_forwSequentialLoop_Word64_Delay256plus(void* start_address, 
 	}
 	return placeholder;
 }
+#endif
 
+#ifdef HAS_WORD_256
 int32_t xmem::dummy_forwSequentialLoop_Word256_Delay1(void* start_address, void* end_address) {
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address), *endptr = static_cast<Word256_t*>(end_address); wordptr < endptr;) {
@@ -195,9 +198,11 @@ int32_t xmem::dummy_forwSequentialLoop_Word256_Delay64plus(void* start_address, 
 	}
 	return placeholder;
 }
+#endif
 
 /* -------------------- CORE BENCHMARK ROUTINES -------------------------- */
 
+#ifdef HAS_WORD_64
 int32_t xmem::forwSequentialRead_Word64_Delay1(void* start_address, void* end_address) {
 	register Word64_t val;
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address), *endptr = static_cast<Word64_t*>(end_address); wordptr < endptr;) {
@@ -285,10 +290,10 @@ int32_t xmem::forwSequentialRead_Word64_Delay1024(void* start_address, void* end
 	}
 	return 0;
 }
+#endif
 
 
-
-
+#ifdef HAS_WORD_256
 int32_t xmem::forwSequentialRead_Word256_Delay1(void* start_address, void* end_address) {
 #ifdef _WIN32
 	return 0; //TODO: Not yet implemented for Windows.
@@ -431,3 +436,4 @@ int32_t xmem::forwSequentialRead_Word256_Delay1024(void* start_address, void* en
 	return 0;
 #endif
 }
+#endif
