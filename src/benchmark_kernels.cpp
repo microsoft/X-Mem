@@ -917,7 +917,7 @@ int32_t xmem::dummy_revSequentialLoop_Word256(void* start_address, void* end_add
 int32_t xmem::dummy_forwStride2Loop_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(start_address); i < len; i += 512) {
 		UNROLL512(wordptr += 2;)
 		if (wordptr >= static_cast<Word32_t*>(end_address)) //end, modulo
@@ -930,7 +930,7 @@ int32_t xmem::dummy_forwStride2Loop_Word32(void* start_address, void* end_addres
 int32_t xmem::dummy_forwStride2Loop_Word64(void* start_address, void* end_address) {
 	register Word64_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address); i < len; i += 256) {
 		UNROLL256(wordptr += 2;)
 		if (wordptr >= static_cast<Word64_t*>(end_address)) //end, modulo
@@ -944,7 +944,7 @@ int32_t xmem::dummy_forwStride2Loop_Word64(void* start_address, void* end_addres
 int32_t xmem::dummy_forwStride2Loop_Word128(void* start_address, void* end_address) {
 	register Word128_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address); i < len; i += 128) {
 		UNROLL128(wordptr += 2;)
 		if (wordptr >= static_cast<Word128_t*>(end_address)) //end, modulo
@@ -958,7 +958,7 @@ int32_t xmem::dummy_forwStride2Loop_Word128(void* start_address, void* end_addre
 int32_t xmem::dummy_forwStride2Loop_Word256(void* start_address, void* end_address) {
 	register Word256_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 64) {
 		UNROLL64(wordptr += 2;)
 		if (wordptr >= static_cast<Word256_t*>(end_address)) //end, modulo
@@ -971,7 +971,7 @@ int32_t xmem::dummy_forwStride2Loop_Word256(void* start_address, void* end_addre
 int32_t xmem::dummy_revStride2Loop_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address); i < len; i += 512) {
 		UNROLL512(wordptr -= 2;)
 		if (wordptr <= static_cast<Word32_t*>(start_address)) //end, modulo
@@ -984,7 +984,7 @@ int32_t xmem::dummy_revStride2Loop_Word32(void* start_address, void* end_address
 int32_t xmem::dummy_revStride2Loop_Word64(void* start_address, void* end_address) {
 	register Word64_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(end_address); i < len; i += 256) {
 		UNROLL256(wordptr -= 2;)
 		if (wordptr <= static_cast<Word64_t*>(start_address)) //end, modulo
@@ -998,7 +998,7 @@ int32_t xmem::dummy_revStride2Loop_Word64(void* start_address, void* end_address
 int32_t xmem::dummy_revStride2Loop_Word128(void* start_address, void* end_address) {
 	register Word128_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 128) {
 		UNROLL128(wordptr -= 2;)
 		if (wordptr <= static_cast<Word128_t*>(start_address)) //end, modulo
@@ -1012,7 +1012,7 @@ int32_t xmem::dummy_revStride2Loop_Word128(void* start_address, void* end_addres
 int32_t xmem::dummy_revStride2Loop_Word256(void* start_address, void* end_address) { 
 	register Word256_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 64) {
 		UNROLL64(wordptr -= 2;)
 		if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
@@ -1027,7 +1027,7 @@ int32_t xmem::dummy_revStride2Loop_Word256(void* start_address, void* end_addres
 int32_t xmem::dummy_forwStride4Loop_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(start_address); i < len; i += 256) {
 		UNROLL256(wordptr += 4;)
 		if (wordptr >= static_cast<Word32_t*>(end_address)) //end, modulo
@@ -1040,7 +1040,7 @@ int32_t xmem::dummy_forwStride4Loop_Word32(void* start_address, void* end_addres
 int32_t xmem::dummy_forwStride4Loop_Word64(void* start_address, void* end_address) {
 	register Word64_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address); i < len; i += 128) {
 		UNROLL128(wordptr += 4;)
 		if (wordptr >= static_cast<Word64_t*>(end_address)) //end, modulo
@@ -1054,7 +1054,7 @@ int32_t xmem::dummy_forwStride4Loop_Word64(void* start_address, void* end_addres
 int32_t xmem::dummy_forwStride4Loop_Word128(void* start_address, void* end_address) {
 	register Word128_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address); i < len; i += 64) {
 		UNROLL64(wordptr += 4;)
 		if (wordptr >= static_cast<Word128_t*>(end_address)) //end, modulo
@@ -1068,7 +1068,7 @@ int32_t xmem::dummy_forwStride4Loop_Word128(void* start_address, void* end_addre
 int32_t xmem::dummy_forwStride4Loop_Word256(void* start_address, void* end_address) {
 	register Word256_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 32) {
 		UNROLL32(wordptr += 4;)
 		if (wordptr >= static_cast<Word256_t*>(end_address)) //end, modulo
@@ -1081,7 +1081,7 @@ int32_t xmem::dummy_forwStride4Loop_Word256(void* start_address, void* end_addre
 int32_t xmem::dummy_revStride4Loop_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address); i < len; i += 256) {
 		UNROLL256(wordptr -= 4;)
 		if (wordptr <= static_cast<Word32_t*>(start_address)) //end, modulo
@@ -1094,7 +1094,7 @@ int32_t xmem::dummy_revStride4Loop_Word32(void* start_address, void* end_address
 int32_t xmem::dummy_revStride4Loop_Word64(void* start_address, void* end_address) {
 	register Word64_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(end_address); i < len; i += 128) {
 		UNROLL128(wordptr -= 4;)
 		if (wordptr <= static_cast<Word64_t*>(start_address)) //end, modulo
@@ -1108,7 +1108,7 @@ int32_t xmem::dummy_revStride4Loop_Word64(void* start_address, void* end_address
 int32_t xmem::dummy_revStride4Loop_Word128(void* start_address, void* end_address) {
 	register Word128_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 64) {
 		UNROLL64(wordptr -= 4;)
 		if (wordptr <= static_cast<Word128_t*>(start_address)) //end, modulo
@@ -1122,7 +1122,7 @@ int32_t xmem::dummy_revStride4Loop_Word128(void* start_address, void* end_addres
 int32_t xmem::dummy_revStride4Loop_Word256(void* start_address, void* end_address) {
 	register Word256_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 32) {
 		UNROLL32(wordptr -= 4;)
 		if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
@@ -1137,7 +1137,7 @@ int32_t xmem::dummy_revStride4Loop_Word256(void* start_address, void* end_addres
 int32_t xmem::dummy_forwStride8Loop_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(start_address); i < len; i += 128) {
 		UNROLL128(wordptr += 8;)
 		if (wordptr >= static_cast<Word32_t*>(end_address)) //end, modulo
@@ -1150,7 +1150,7 @@ int32_t xmem::dummy_forwStride8Loop_Word32(void* start_address, void* end_addres
 int32_t xmem::dummy_forwStride8Loop_Word64(void* start_address, void* end_address) {
 	register Word64_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address); i < len; i += 64) {
 		UNROLL64(wordptr += 8;)
 		if (wordptr >= static_cast<Word64_t*>(end_address)) //end, modulo
@@ -1164,7 +1164,7 @@ int32_t xmem::dummy_forwStride8Loop_Word64(void* start_address, void* end_addres
 int32_t xmem::dummy_forwStride8Loop_Word128(void* start_address, void* end_address) {
 	register Word128_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address); i < len; i += 32) {
 		UNROLL32(wordptr += 8;)
 		if (wordptr >= static_cast<Word128_t*>(end_address)) //end, modulo
@@ -1178,7 +1178,7 @@ int32_t xmem::dummy_forwStride8Loop_Word128(void* start_address, void* end_addre
 int32_t xmem::dummy_forwStride8Loop_Word256(void* start_address, void* end_address) {
 	register Word256_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 16) {
 		UNROLL16(wordptr += 8;)
 		if (wordptr >= static_cast<Word256_t*>(end_address)) //end, modulo
@@ -1191,7 +1191,7 @@ int32_t xmem::dummy_forwStride8Loop_Word256(void* start_address, void* end_addre
 int32_t xmem::dummy_revStride8Loop_Word32(void* start_address, void* end_address) { 
 	register Word32_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address); i < len; i += 128) {
 		UNROLL128(wordptr -= 8;)
 		if (wordptr <= static_cast<Word32_t*>(start_address)) //end, modulo
@@ -1204,7 +1204,7 @@ int32_t xmem::dummy_revStride8Loop_Word32(void* start_address, void* end_address
 int32_t xmem::dummy_revStride8Loop_Word64(void* start_address, void* end_address) { 
 	register Word64_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(end_address); i < len; i += 64) {
 		UNROLL64(wordptr -= 8;)
 		if (wordptr <= static_cast<Word64_t*>(start_address)) //end, modulo
@@ -1218,7 +1218,7 @@ int32_t xmem::dummy_revStride8Loop_Word64(void* start_address, void* end_address
 int32_t xmem::dummy_revStride8Loop_Word128(void* start_address, void* end_address) { 
 	register Word128_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 32) {
 		UNROLL32(wordptr -= 8;)
 		if (wordptr <= static_cast<Word128_t*>(start_address)) //end, modulo
@@ -1232,7 +1232,7 @@ int32_t xmem::dummy_revStride8Loop_Word128(void* start_address, void* end_addres
 int32_t xmem::dummy_revStride8Loop_Word256(void* start_address, void* end_address) { 
 	register Word256_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 16) {
 		UNROLL16(wordptr -= 8;)
 		if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
@@ -1247,7 +1247,7 @@ int32_t xmem::dummy_revStride8Loop_Word256(void* start_address, void* end_addres
 int32_t xmem::dummy_forwStride16Loop_Word32(void* start_address, void* end_address) { 
 	register Word32_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(start_address); i < len; i += 64) {
 		UNROLL64(wordptr += 16;)
 		if (wordptr >= static_cast<Word32_t*>(end_address)) //end, modulo
@@ -1260,7 +1260,7 @@ int32_t xmem::dummy_forwStride16Loop_Word32(void* start_address, void* end_addre
 int32_t xmem::dummy_forwStride16Loop_Word64(void* start_address, void* end_address) { 
 	register Word64_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address); i < len; i += 32) {
 		UNROLL32(wordptr += 16;)
 		if (wordptr >= static_cast<Word64_t*>(end_address)) //end, modulo
@@ -1274,7 +1274,7 @@ int32_t xmem::dummy_forwStride16Loop_Word64(void* start_address, void* end_addre
 int32_t xmem::dummy_forwStride16Loop_Word128(void* start_address, void* end_address) { 
 	register Word128_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address); i < len; i += 16) {
 		UNROLL16(wordptr += 16;)
 		if (wordptr >= static_cast<Word128_t*>(end_address)) //end, modulo
@@ -1288,7 +1288,7 @@ int32_t xmem::dummy_forwStride16Loop_Word128(void* start_address, void* end_addr
 int32_t xmem::dummy_forwStride16Loop_Word256(void* start_address, void* end_address) { 
 	register Word256_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 32) {
 		UNROLL8(wordptr += 16;)
 		if (wordptr >= static_cast<Word256_t*>(end_address)) //end, modulo
@@ -1301,7 +1301,7 @@ int32_t xmem::dummy_forwStride16Loop_Word256(void* start_address, void* end_addr
 int32_t xmem::dummy_revStride16Loop_Word32(void* start_address, void* end_address) { 
 	register Word32_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address); i < len; i += 64) {
 		UNROLL64(wordptr -= 16;)
 		if (wordptr <= static_cast<Word32_t*>(start_address)) //end, modulo
@@ -1314,7 +1314,7 @@ int32_t xmem::dummy_revStride16Loop_Word32(void* start_address, void* end_addres
 int32_t xmem::dummy_revStride16Loop_Word64(void* start_address, void* end_address) { 
 	register Word64_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(end_address); i < len; i += 32) {
 		UNROLL32(wordptr -= 16;)
 		if (wordptr <= static_cast<Word64_t*>(start_address)) //end, modulo
@@ -1328,7 +1328,7 @@ int32_t xmem::dummy_revStride16Loop_Word64(void* start_address, void* end_addres
 int32_t xmem::dummy_revStride16Loop_Word128(void* start_address, void* end_address) { 
 	register Word128_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 16) {
 		UNROLL16(wordptr -= 16;)
 		if (wordptr <= static_cast<Word128_t*>(start_address)) //end, modulo
@@ -1342,7 +1342,7 @@ int32_t xmem::dummy_revStride16Loop_Word128(void* start_address, void* end_addre
 int32_t xmem::dummy_revStride16Loop_Word256(void* start_address, void* end_address) { 
 	register Word256_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 8) {
 		UNROLL8(wordptr -= 16;)
 		if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
@@ -1671,7 +1671,7 @@ int32_t xmem::revSequentialWrite_Word256(void* start_address, void* end_address)
 int32_t xmem::forwStride2Read_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(start_address); i < len; i += 512) {
 		UNROLL512(val = *wordptr; wordptr += 2;) 
 		if (wordptr >= static_cast<Word32_t*>(end_address)) //end, modulo
@@ -1684,7 +1684,7 @@ int32_t xmem::forwStride2Read_Word32(void* start_address, void* end_address) {
 int32_t xmem::forwStride2Read_Word64(void* start_address, void* end_address) { 
 	register Word64_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address); i < len; i += 256) {
 		UNROLL256(val = *wordptr; wordptr += 2;) 
 		if (wordptr >= static_cast<Word64_t*>(end_address)) //end, modulo
@@ -1702,7 +1702,7 @@ int32_t xmem::forwStride2Read_Word128(void* start_address, void* end_address) {
 #ifdef __gnu_linux__
 	register Word128_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address); i < len; i += 128) {
 		UNROLL128(val = *wordptr; wordptr += 2;) 
 		if (wordptr >= static_cast<Word128_t*>(end_address)) //end, modulo
@@ -1721,7 +1721,7 @@ int32_t xmem::forwStride2Read_Word256(void* start_address, void* end_address) {
 #ifdef __gnu_linux__
 	register Word256_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 64) {
 		UNROLL64(val = *wordptr; wordptr += 2;) 
 		if (wordptr >= static_cast<Word256_t*>(end_address)) //end, modulo
@@ -1735,7 +1735,7 @@ int32_t xmem::forwStride2Read_Word256(void* start_address, void* end_address) {
 int32_t xmem::revStride2Read_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address); i < len; i += 512) {
 		UNROLL512(val = *wordptr; wordptr -= 2;) 
 		if (wordptr <= static_cast<Word32_t*>(start_address)) //end, modulo
@@ -1748,7 +1748,7 @@ int32_t xmem::revStride2Read_Word32(void* start_address, void* end_address) {
 int32_t xmem::revStride2Read_Word64(void* start_address, void* end_address) { 
 	register Word64_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(end_address); i < len; i += 256) {
 		UNROLL256(val = *wordptr; wordptr -= 2;)
 		if (wordptr <= static_cast<Word64_t*>(start_address)) //end, modulo
@@ -1766,7 +1766,7 @@ int32_t xmem::revStride2Read_Word128(void* start_address, void* end_address) {
 #ifdef __gnu_linux__
 	register Word128_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = (static_cast<uint32_t>reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 128) {
 		UNROLL128(val = *wordptr; wordptr -= 2;)
 		if (wordptr <= static_cast<Word128_t*>(start_address)) //end, modulo
@@ -1785,7 +1785,7 @@ int32_t xmem::revStride2Read_Word256(void* start_address, void* end_address) {
 #ifdef __gnu_linux__
 	register Word256_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 64) {
 		UNROLL64(val = *wordptr; wordptr -= 2;)
 		if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
@@ -1801,7 +1801,7 @@ int32_t xmem::revStride2Read_Word256(void* start_address, void* end_address) {
 int32_t xmem::forwStride2Write_Word32(void* start_address, void* end_address) {
 	register Word32_t val = 0xFFFFFFFF; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(start_address); i < len; i += 512) {
 		UNROLL512(*wordptr = val; wordptr += 2;)
 		if (wordptr >= static_cast<Word32_t*>(end_address)) //end, modulo
@@ -1814,7 +1814,7 @@ int32_t xmem::forwStride2Write_Word32(void* start_address, void* end_address) {
 int32_t xmem::forwStride2Write_Word64(void* start_address, void* end_address) {
 	register Word64_t val = 0xFFFFFFFFFFFFFFFF; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address); i < len; i += 256) {
 		UNROLL256(*wordptr = val; wordptr += 2;)
 		if (wordptr >= static_cast<Word64_t*>(end_address)) //end, modulo
@@ -1833,7 +1833,7 @@ int32_t xmem::forwStride2Write_Word128(void* start_address, void* end_address) {
 	register Word128_t val;
 	val = my_64b_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address); i < len; i += 128) {
 		UNROLL128(*wordptr = val; wordptr += 2;)
 		if (wordptr >= static_cast<Word128_t*>(end_address)) //end, modulo
@@ -1853,7 +1853,7 @@ int32_t xmem::forwStride2Write_Word256(void* start_address, void* end_address) {
 	register Word256_t val;
 	val = my_64b_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 64) {
 		UNROLL64(*wordptr = val; wordptr += 2;)
 		if (wordptr >= static_cast<Word256_t*>(end_address)) //end, modulo
@@ -1867,7 +1867,7 @@ int32_t xmem::forwStride2Write_Word256(void* start_address, void* end_address) {
 int32_t xmem::revStride2Write_Word32(void* start_address, void* end_address) { 
 	register Word32_t val = 0xFFFFFFFF; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address); i < len; i += 512) {
 		UNROLL512(*wordptr = val; wordptr -= 2;)
 		if (wordptr <= static_cast<Word32_t*>(start_address)) //end, modulo
@@ -1880,7 +1880,7 @@ int32_t xmem::revStride2Write_Word32(void* start_address, void* end_address) {
 int32_t xmem::revStride2Write_Word64(void* start_address, void* end_address) { 
 	register Word64_t val = 0xFFFFFFFFFFFFFFFF; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(end_address); i < len; i += 256) {
 		UNROLL256(*wordptr = val; wordptr -= 2;)
 		if (wordptr <= static_cast<Word64_t*>(start_address)) //end, modulo
@@ -1899,7 +1899,7 @@ int32_t xmem::revStride2Write_Word128(void* start_address, void* end_address) {
 	register Word128_t val;
 	val = my_64b_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 128) {
 		UNROLL128(*wordptr = val; wordptr -= 2;)
 		if (wordptr <= static_cast<Word128_t*>(start_address)) //end, modulo
@@ -1919,7 +1919,7 @@ int32_t xmem::revStride2Write_Word256(void* start_address, void* end_address) {
 	register Word256_t val;
 	val = my_64b_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 64) {
 		UNROLL64(*wordptr = val; wordptr -= 2;)
 		if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
@@ -1935,7 +1935,7 @@ int32_t xmem::revStride2Write_Word256(void* start_address, void* end_address) {
 int32_t xmem::forwStride4Read_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(start_address); i < len; i += 256) {
 		UNROLL256(val = *wordptr; wordptr += 4;) 
 		if (wordptr >= static_cast<Word32_t*>(end_address)) //end, modulo
@@ -1948,7 +1948,7 @@ int32_t xmem::forwStride4Read_Word32(void* start_address, void* end_address) {
 int32_t xmem::forwStride4Read_Word64(void* start_address, void* end_address) { 
 	register Word64_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address); i < len; i += 128) {
 		UNROLL128(val = *wordptr; wordptr += 4;) 
 		if (wordptr >= static_cast<Word64_t*>(end_address)) //end, modulo
@@ -1966,7 +1966,7 @@ int32_t xmem::forwStride4Read_Word128(void* start_address, void* end_address) {
 #ifdef __gnu_linux__
 	register Word128_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address); i < len; i += 64) {
 		UNROLL64(val = *wordptr; wordptr += 4;) 
 		if (wordptr >= static_cast<Word128_t*>(end_address)) //end, modulo
@@ -1985,7 +1985,7 @@ int32_t xmem::forwStride4Read_Word256(void* start_address, void* end_address) {
 #ifdef __gnu_linux__
 	register Word256_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 32) {
 		UNROLL32(val = *wordptr; wordptr += 4;) 
 		if (wordptr >= static_cast<Word256_t*>(end_address)) //end, modulo
@@ -1999,7 +1999,7 @@ int32_t xmem::forwStride4Read_Word256(void* start_address, void* end_address) {
 int32_t xmem::revStride4Read_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address); i < len; i += 256) {
 		UNROLL256(val = *wordptr; wordptr -= 4;) 
 		if (wordptr <= static_cast<Word32_t*>(start_address)) //end, modulo
@@ -2012,7 +2012,7 @@ int32_t xmem::revStride4Read_Word32(void* start_address, void* end_address) {
 int32_t xmem::revStride4Read_Word64(void* start_address, void* end_address) { 
 	register Word64_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(end_address); i < len; i += 128) {
 		UNROLL128(val = *wordptr; wordptr -= 4;)
 		if (wordptr <= static_cast<Word64_t*>(start_address)) //end, modulo
@@ -2030,7 +2030,7 @@ int32_t xmem::revStride4Read_Word128(void* start_address, void* end_address) {
 #ifdef __gnu_linux__
 	register Word128_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 64) {
 		UNROLL64(val = *wordptr; wordptr -= 4;)
 		if (wordptr <= static_cast<Word128_t*>(start_address)) //end, modulo
@@ -2049,7 +2049,7 @@ int32_t xmem::revStride4Read_Word256(void* start_address, void* end_address) {
 #ifdef __gnu_linux__
 	register Word256_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 32) {
 		UNROLL32(val = *wordptr; wordptr -= 4;)
 		if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
@@ -2065,7 +2065,7 @@ int32_t xmem::revStride4Read_Word256(void* start_address, void* end_address) {
 int32_t xmem::forwStride4Write_Word32(void* start_address, void* end_address) {
 	register Word32_t val = 0xFFFFFFFF; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(start_address); i < len; i += 256) {
 		UNROLL256(*wordptr = val; wordptr += 4;)
 		if (wordptr >= static_cast<Word32_t*>(end_address)) //end, modulo
@@ -2078,7 +2078,7 @@ int32_t xmem::forwStride4Write_Word32(void* start_address, void* end_address) {
 int32_t xmem::forwStride4Write_Word64(void* start_address, void* end_address) {
 	register Word64_t val = 0xFFFFFFFFFFFFFFFF; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(end_address); i < len; i += 128) {
 		UNROLL128(*wordptr = val; wordptr += 4;)
 		if (wordptr >= static_cast<Word64_t*>(end_address)) //end, modulo
@@ -2097,7 +2097,7 @@ int32_t xmem::forwStride4Write_Word128(void* start_address, void* end_address) {
 	register Word128_t val;
 	val = my_64b_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 64) {
 		UNROLL64(*wordptr = val; wordptr += 4;)
 		if (wordptr >= static_cast<Word128_t*>(end_address)) //end, modulo
@@ -2117,7 +2117,7 @@ int32_t xmem::forwStride4Write_Word256(void* start_address, void* end_address) {
 	register Word256_t val;
 	val = my_64b_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 32) {
 		UNROLL32(*wordptr = val; wordptr += 4;)
 		if (wordptr >= static_cast<Word256_t*>(end_address)) //end, modulo
@@ -2131,7 +2131,7 @@ int32_t xmem::forwStride4Write_Word256(void* start_address, void* end_address) {
 int32_t xmem::revStride4Write_Word32(void* start_address, void* end_address) { 
 	register Word32_t val = 0xFFFFFFFF; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address); i < len; i += 256) {
 		UNROLL256(*wordptr = val; wordptr -= 4;)
 		if (wordptr <= static_cast<Word32_t*>(start_address)) //end, modulo
@@ -2144,7 +2144,7 @@ int32_t xmem::revStride4Write_Word32(void* start_address, void* end_address) {
 int32_t xmem::revStride4Write_Word64(void* start_address, void* end_address) { 
 	register Word64_t val = 0xFFFFFFFFFFFFFFFF; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(end_address); i < len; i += 128) {
 		UNROLL128(*wordptr = val; wordptr -= 4;)
 		if (wordptr <= static_cast<Word64_t*>(start_address)) //end, modulo
@@ -2163,7 +2163,7 @@ int32_t xmem::revStride4Write_Word128(void* start_address, void* end_address) {
 	register Word128_t val;
 	val = my_64b_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 64) {
 		UNROLL64(*wordptr = val; wordptr -= 4;)
 		if (wordptr <= static_cast<Word128_t*>(start_address)) //end, modulo
@@ -2183,7 +2183,7 @@ int32_t xmem::revStride4Write_Word256(void* start_address, void* end_address) {
 	register Word256_t val;
 	val = my_64b_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 32) {
 		UNROLL32(*wordptr = val; wordptr -= 4;)
 		if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
@@ -2199,7 +2199,7 @@ int32_t xmem::revStride4Write_Word256(void* start_address, void* end_address) {
 int32_t xmem::forwStride8Read_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(start_address); i < len; i += 128) {
 		UNROLL128(val = *wordptr; wordptr += 8;) 
 		if (wordptr >= static_cast<Word32_t*>(end_address)) //end, modulo
@@ -2212,7 +2212,7 @@ int32_t xmem::forwStride8Read_Word32(void* start_address, void* end_address) {
 int32_t xmem::forwStride8Read_Word64(void* start_address, void* end_address) { 
 	register Word64_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address); i < len; i += 64) {
 		UNROLL64(val = *wordptr; wordptr += 8;) 
 		if (wordptr >= static_cast<Word64_t*>(end_address)) //end, modulo
@@ -2230,7 +2230,7 @@ int32_t xmem::forwStride8Read_Word128(void* start_address, void* end_address) {
 #ifdef __gnu_linux__
 	register Word128_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address); i < len; i += 32) {
 		UNROLL32(val = *wordptr; wordptr += 8;) 
 		if (wordptr >= static_cast<Word128_t*>(end_address)) //end, modulo
@@ -2249,7 +2249,7 @@ int32_t xmem::forwStride8Read_Word256(void* start_address, void* end_address) {
 #ifdef __gnu_linux__
 	register Word256_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 16) {
 		UNROLL16(val = *wordptr; wordptr += 8;) 
 		if (wordptr >= static_cast<Word256_t*>(end_address)) //end, modulo
@@ -2263,7 +2263,7 @@ int32_t xmem::forwStride8Read_Word256(void* start_address, void* end_address) {
 int32_t xmem::revStride8Read_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address); i < len; i += 128) {
 		UNROLL128(val = *wordptr; wordptr -= 8;) 
 		if (wordptr <= static_cast<Word32_t*>(start_address)) //end, modulo
@@ -2276,7 +2276,7 @@ int32_t xmem::revStride8Read_Word32(void* start_address, void* end_address) {
 int32_t xmem::revStride8Read_Word64(void* start_address, void* end_address) { 
 	register Word64_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(end_address); i < len; i += 64) {
 		UNROLL64(val = *wordptr; wordptr -= 8;)
 		if (wordptr <= static_cast<Word64_t*>(start_address)) //end, modulo
@@ -2294,7 +2294,7 @@ int32_t xmem::revStride8Read_Word128(void* start_address, void* end_address) {
 #ifdef __gnu_linux__
 	register Word128_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 32) {
 		UNROLL32(val = *wordptr; wordptr -= 8;)
 		if (wordptr <= static_cast<Word128_t*>(start_address)) //end, modulo
@@ -2313,7 +2313,7 @@ int32_t xmem::revStride8Read_Word256(void* start_address, void* end_address) {
 #ifdef __gnu_linux__
 	register Word256_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 16) {
 		UNROLL16(val = *wordptr; wordptr -= 8;)
 		if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
@@ -2329,7 +2329,7 @@ int32_t xmem::revStride8Read_Word256(void* start_address, void* end_address) {
 int32_t xmem::forwStride8Write_Word32(void* start_address, void* end_address) {
 	register Word32_t val = 0xFFFFFFFF; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(start_address); i < len; i += 128) {
 		UNROLL128(*wordptr = val; wordptr += 8;)
 		if (wordptr >= static_cast<Word32_t*>(end_address)) //end, modulo
@@ -2342,7 +2342,7 @@ int32_t xmem::forwStride8Write_Word32(void* start_address, void* end_address) {
 int32_t xmem::forwStride8Write_Word64(void* start_address, void* end_address) {
 	register Word64_t val = 0xFFFFFFFFFFFFFFFF; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address); i < len; i += 64) {
 		UNROLL64(*wordptr = val; wordptr += 8;)
 		if (wordptr >= static_cast<Word64_t*>(end_address)) //end, modulo
@@ -2361,7 +2361,7 @@ int32_t xmem::forwStride8Write_Word128(void* start_address, void* end_address) {
 	register Word128_t val;
 	val = my_64b_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address); i < len; i += 32) {
 		UNROLL32(*wordptr = val; wordptr += 8;)
 		if (wordptr >= static_cast<Word128_t*>(end_address)) //end, modulo
@@ -2381,7 +2381,7 @@ int32_t xmem::forwStride8Write_Word256(void* start_address, void* end_address) {
 	register Word256_t val;
 	val = my_64b_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 16) {
 		UNROLL16(*wordptr = val; wordptr += 8;)
 		if (wordptr >= static_cast<Word256_t*>(end_address)) //end, modulo
@@ -2395,7 +2395,7 @@ int32_t xmem::forwStride8Write_Word256(void* start_address, void* end_address) {
 int32_t xmem::revStride8Write_Word32(void* start_address, void* end_address) { 
 	register Word32_t val = 0xFFFFFFFF; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address); i < len; i += 128) {
 		UNROLL128(*wordptr = val; wordptr -= 8;)
 		if (wordptr <= static_cast<Word32_t*>(start_address)) //end, modulo
@@ -2408,7 +2408,7 @@ int32_t xmem::revStride8Write_Word32(void* start_address, void* end_address) {
 int32_t xmem::revStride8Write_Word64(void* start_address, void* end_address) { 
 	register Word64_t val = 0xFFFFFFFFFFFFFFFF; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(end_address); i < len; i += 64) {
 		UNROLL64(*wordptr = val; wordptr -= 8;)
 		if (wordptr <= static_cast<Word64_t*>(start_address)) //end, modulo
@@ -2427,7 +2427,7 @@ int32_t xmem::revStride8Write_Word128(void* start_address, void* end_address) {
 	register Word128_t val;
 	val = my_64b_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 32) {
 		UNROLL32(*wordptr = val; wordptr -= 8;)
 		if (wordptr <= static_cast<Word128_t*>(start_address)) //end, modulo
@@ -2447,7 +2447,7 @@ int32_t xmem::revStride8Write_Word256(void* start_address, void* end_address) {
 	register Word256_t val;
 	val = my_64b_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 16) {
 		UNROLL16(*wordptr = val; wordptr -= 8;)
 		if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
@@ -2463,7 +2463,7 @@ int32_t xmem::revStride8Write_Word256(void* start_address, void* end_address) {
 int32_t xmem::forwStride16Read_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(start_address); i < len; i += 64) {
 		UNROLL64(val = *wordptr; wordptr += 16;) 
 		if (wordptr >= static_cast<Word32_t*>(end_address)) //end, modulo
@@ -2476,7 +2476,7 @@ int32_t xmem::forwStride16Read_Word32(void* start_address, void* end_address) {
 int32_t xmem::forwStride16Read_Word64(void* start_address, void* end_address) { 
 	register Word64_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address); i < len; i += 32) {
 		UNROLL32(val = *wordptr; wordptr += 16;) 
 		if (wordptr >= static_cast<Word64_t*>(end_address)) //end, modulo
@@ -2494,7 +2494,7 @@ int32_t xmem::forwStride16Read_Word128(void* start_address, void* end_address) {
 #ifdef __gnu_linux__
 	register Word128_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address); i < len; i += 16) {
 		UNROLL16(val = *wordptr; wordptr += 16;) 
 		if (wordptr >= static_cast<Word128_t*>(end_address)) //end, modulo
@@ -2513,7 +2513,7 @@ int32_t xmem::forwStride16Read_Word256(void* start_address, void* end_address) {
 #ifdef __gnu_linux__
 	register Word256_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 8) {
 		UNROLL8(val = *wordptr; wordptr += 16;) 
 		if (wordptr >= static_cast<Word256_t*>(end_address)) //end, modulo
@@ -2527,7 +2527,7 @@ int32_t xmem::forwStride16Read_Word256(void* start_address, void* end_address) {
 int32_t xmem::revStride16Read_Word32(void* start_address, void* end_address) {
 	register Word32_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address); i < len; i += 64) {
 		UNROLL64(val = *wordptr; wordptr -= 16;) 
 		if (wordptr <= static_cast<Word32_t*>(start_address)) //end, modulo
@@ -2540,7 +2540,7 @@ int32_t xmem::revStride16Read_Word32(void* start_address, void* end_address) {
 int32_t xmem::revStride16Read_Word64(void* start_address, void* end_address) { 
 	register Word64_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(end_address); i < len; i += 32) {
 		UNROLL32(val = *wordptr; wordptr -= 16;)
 		if (wordptr <= static_cast<Word64_t*>(start_address)) //end, modulo
@@ -2558,7 +2558,7 @@ int32_t xmem::revStride16Read_Word128(void* start_address, void* end_address) {
 #ifdef __gnu_linux__
 	register Word128_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 16) {
 		UNROLL16(val = *wordptr; wordptr -= 16;)
 		if (wordptr <= static_cast<Word128_t*>(start_address)) //end, modulo
@@ -2577,7 +2577,7 @@ int32_t xmem::revStride16Read_Word256(void* start_address, void* end_address) {
 #ifdef __gnu_linux__
 	register Word256_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 8) {
 		UNROLL8(val = *wordptr; wordptr -= 16;)
 		if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
@@ -2593,7 +2593,7 @@ int32_t xmem::revStride16Read_Word256(void* start_address, void* end_address) {
 int32_t xmem::forwStride16Write_Word32(void* start_address, void* end_address) {
 	register Word32_t val = 0xFFFFFFFF; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(start_address); i < len; i += 64) {
 		UNROLL64(*wordptr = val; wordptr += 16;)
 		if (wordptr >= static_cast<Word32_t*>(end_address)) //end, modulo
@@ -2606,7 +2606,7 @@ int32_t xmem::forwStride16Write_Word32(void* start_address, void* end_address) {
 int32_t xmem::forwStride16Write_Word64(void* start_address, void* end_address) {
 	register Word64_t val = 0xFFFFFFFFFFFFFFFF; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address); i < len; i += 32) {
 		UNROLL32(*wordptr = val; wordptr += 16;)
 		if (wordptr >= static_cast<Word64_t*>(end_address)) //end, modulo
@@ -2625,7 +2625,7 @@ int32_t xmem::forwStride16Write_Word128(void* start_address, void* end_address) 
 	register Word128_t val;
 	val = my_64b_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address); i < len; i += 16) {
 		UNROLL16(*wordptr = val; wordptr += 16;)
 		if (wordptr >= static_cast<Word128_t*>(end_address)) //end, modulo
@@ -2645,7 +2645,7 @@ int32_t xmem::forwStride16Write_Word256(void* start_address, void* end_address) 
 	register Word256_t val;
 	val = my_64b_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 8) {
 		UNROLL8(*wordptr = val; wordptr += 16;)
 		if (wordptr >= static_cast<Word256_t*>(end_address)) //end, modulo
@@ -2659,7 +2659,7 @@ int32_t xmem::forwStride16Write_Word256(void* start_address, void* end_address) 
 int32_t xmem::revStride16Write_Word32(void* start_address, void* end_address) { 
 	register Word32_t val = 0xFFFFFFFF; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word32_t);
 	for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address); i < len; i += 64) {
 		UNROLL64(*wordptr = val; wordptr -= 16;)
 		if (wordptr <= static_cast<Word32_t*>(start_address)) //end, modulo
@@ -2673,7 +2673,7 @@ int32_t xmem::revStride16Write_Word32(void* start_address, void* end_address) {
 int32_t xmem::revStride16Write_Word64(void* start_address, void* end_address) { 
 	register Word64_t val = 0xFFFFFFFFFFFFFFFF; 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
 	for (volatile Word64_t* wordptr = static_cast<Word64_t*>(end_address); i < len; i += 32) {
 		UNROLL32(*wordptr = val; wordptr -= 16;)
 		if (wordptr <= static_cast<Word64_t*>(start_address)) //end, modulo
@@ -2693,7 +2693,7 @@ int32_t xmem::revStride16Write_Word128(void* start_address, void* end_address) {
 	register Word128_t val;
 	val = my_64b_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 16) {
 		UNROLL16(*wordptr = val; wordptr -= 16;)
 		if (wordptr <= static_cast<Word128_t*>(start_address)) //end, modulo
@@ -2714,7 +2714,7 @@ int32_t xmem::revStride16Write_Word256(void* start_address, void* end_address) {
 	register Word256_t val;
 	val = my_64b_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
 	register uint32_t i = 0;
-	register uint32_t len = (reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
 	for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 8) {
 		UNROLL8(*wordptr = val; wordptr -= 16;)
 		if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
