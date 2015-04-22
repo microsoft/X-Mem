@@ -50,7 +50,7 @@ LatencyWorker::LatencyWorker(
 		void* mem_array,
 		size_t len,
 	#ifdef USE_SIZE_BASED_BENCHMARKS
-		uint64_t passes_per_iteration,
+		uint32_t passes_per_iteration,
 	#endif
 		RandomFunction kernel_fptr,
 		RandomFunction kernel_dummy_fptr,
@@ -127,7 +127,7 @@ void LatencyWorker::run() {
 		std::cerr << "WARNING: Failed to boost scheduling priority. Perhaps running in Administrator mode would help." << std::endl;
 
 	//Prime memory
-	for (uint64_t i = 0; i < 4; i++) {
+	for (uint32_t i = 0; i < 4; i++) {
 		void* prime_start_address = mem_array; 
 		void* prime_end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array) + len);
 		forwSequentialRead_Word64(prime_start_address, prime_end_address); //dependent reads on the memory, make sure caches are ready, coherence, etc...

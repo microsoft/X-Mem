@@ -46,13 +46,7 @@ Timer::Timer() :
 	_ticks_per_ms(0),
 	_ns_per_tick(0)
 {	
-#ifdef ARCH_64BIT
-	uint64_t
-#else
-	uint32_t
-#endif
-	start_tick, stop_tick;
-
+	tick_t start_tick, stop_tick;
 	
 	start_tick = start_timer();
 #ifdef _WIN32

@@ -100,8 +100,8 @@ void WindowsDRAMPowerReader::run() {
 			}
 
 			calculateMetrics();
-			uint64_t stop_tick = stop_timer();
-			uint64_t elapsed_ticks = stop_tick - start_tick;
+			tick_t stop_tick = stop_timer();
+			tick_t elapsed_ticks = stop_tick - start_tick;
 			Sleep(static_cast<DWORD>(_sampling_period - elapsed_ticks*g_ns_per_tick*1e-9*1000)); //Account for any loop overhead
 		}
 	}

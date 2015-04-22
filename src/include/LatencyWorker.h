@@ -54,7 +54,7 @@ namespace xmem {
 				void* mem_array,
 				size_t len,
 #ifdef USE_SIZE_BASED_BENCHMARKS
-				uint64_t passes_per_iteration,
+				uint32_t passes_per_iteration,
 #endif
 				RandomFunction kernel_fptr,
 				RandomFunction kernel_dummy_fptr,

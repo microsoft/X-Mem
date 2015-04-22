@@ -1,7 +1,7 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: Extensible Memory Benchmarking Tool v2.1.9
+X-Mem: Extensible Memory Benchmarking Tool v2.1.10
 ------------------------------------------------------------------------------------------------------------
 
 The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power. 
@@ -10,7 +10,7 @@ Originally authored by Mark Gottscho (Email: <mgottscho@ucla.edu>) as a Summer 2
 
 This project is under active development. Stay tuned for more updates.
 
-PROJECT REVISION DATE: April 16, 2015.
+PROJECT REVISION DATE: April 21, 2015.
 
 ------------------------------------------------------------------------------------------------------------
 LICENSE

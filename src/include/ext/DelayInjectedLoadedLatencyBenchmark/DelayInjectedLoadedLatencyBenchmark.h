@@ -56,7 +56,7 @@ namespace xmem {
 			size_t len,
 			uint32_t iterations,
 #ifdef USE_SIZE_BASED_BENCHMARKS
-			uint64_t passes_per_iteration,
+			uint32_t passes_per_iteration,
 #endif
 			uint32_t num_worker_threads,
 			uint32_t mem_node,

@@ -183,7 +183,7 @@ void LoadWorker::run() {
 			start_tick = start_timer();
 			UNROLL1024(
 				(*kernel_fptr_seq)(start_address, end_address);
-				start_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array)+(reinterpret_cast<uint64_t>(start_address)+bytes_per_pass) % len);
+				start_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array)+(reinterpret_cast<uintptr_t>(start_address)+bytes_per_pass) % len);
 				end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(start_address) + bytes_per_pass);
 			)
 			stop_tick = stop_timer();
@@ -207,7 +207,7 @@ void LoadWorker::run() {
 			start_tick = start_timer();
 			UNROLL1024(
 				(*kernel_dummy_fptr_seq)(start_address, end_address);
-				start_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array)+(reinterpret_cast<uint64_t>(start_address)+bytes_per_pass) % len);
+				start_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array)+(reinterpret_cast<uintptr_t>(start_address)+bytes_per_pass) % len);
 				end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(start_address) + bytes_per_pass);
 			)
 			stop_tick = stop_timer();
