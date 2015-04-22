@@ -1766,7 +1766,7 @@ int32_t xmem::revStride2Read_Word128(void* start_address, void* end_address) {
 #ifdef __gnu_linux__
 	register Word128_t val; 
 	register uint32_t i = 0;
-	register uint32_t len = (static_cast<uint32_t>reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
+	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 128) {
 		UNROLL128(val = *wordptr; wordptr -= 2;)
 		if (wordptr <= static_cast<Word128_t*>(start_address)) //end, modulo
