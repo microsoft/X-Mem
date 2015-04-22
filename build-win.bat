@@ -21,7 +21,8 @@ if ERRORLEVEL 1 goto buildFailure
 
 :: Copy executable
 copy build\win\%ARCH%\release\xmem.exe .\xmem.exe
-echo Done! The executable is at the top of the project tree: xmem.exe
+copy build\win\%ARCH%\release\xmem.exe bin\xmem-win-%ARCH%.exe
+echo Done! The executable xmem is at the top of the project tree, and at bin\xmem-win-$ARCH
 exit /B 0
 
 :buildFailure

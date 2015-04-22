@@ -28,7 +28,8 @@ scons -f SConstruct_linux_$ARCH
 if [[ $? -eq 0 ]]; then
 	# Copy executable
 	cp build/linux/$ARCH/release/xmem ./xmem
-	echo Done! The executable is at the top of the project tree: xmem
+	cp build/linux/$ARCH/release/xmem bin/xmem-linux-$ARCH
+	echo Done! The executable xmem is at the top of the project tree, and at bin/xmem-linux-$ARCH
 	exit 0
 else
 	echo X-Mem for GNU/Linux on $ARCH build FAILED.

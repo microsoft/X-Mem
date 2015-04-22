@@ -53,6 +53,10 @@
 #include <x86intrin.h> //for timer
 #endif
 
+#ifdef USE_POSIX_TIMER
+#include <time.h>
+#endif
+
 extern "C" {
 #include <hugetlbfs.h> //for getting huge page size
 }
@@ -631,7 +635,11 @@ tick_t xmem::start_timer() {
 	return static_cast<tick_t>(tmp.QuadPart);
 #endif
 
-	//TODO: POSIX OS timer
+#ifdef USE_POSIX_TIMER
+	struct timespec tp;
+	clock_gettime(CLOCK_MONOTONIC, &tp);
+	return static_cast<tick_t>(tp.tv_sec*1e9+tp.tv_nsec); //Return time in nanoseconds
+#endif
 }
 
 tick_t xmem::stop_timer() {
@@ -676,7 +684,11 @@ tick_t xmem::stop_timer() {
 	return static_cast<tick_t>(tmp.QuadPart);
 #endif
 	
-	//TODO: POSIX OS timer
+#ifdef USE_POSIX_TIMER
+	struct timespec tp;
+	clock_gettime(CLOCK_MONOTONIC, &tp);
+	return static_cast<tick_t>(tp.tv_sec*1e9+tp.tv_nsec); //Return time in nanoseconds
+#endif
 }
 
 #ifdef _WIN32

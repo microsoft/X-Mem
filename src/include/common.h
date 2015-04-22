@@ -45,7 +45,7 @@
 
 namespace xmem {
 
-#define VERSION "2.1.11"
+#define VERSION "2.1.12"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -199,8 +199,8 @@ namespace xmem {
 */
 
 //Which timer to use in the benchmarks. Only one may be selected!
-//#define USE_OS_TIMER /**< RECOMMENDED ENABLED. If enabled, uses the QPC timer on Windows and the POSIX clock_gettime() on GNU/Linux for all timing purposes. */
-#define USE_HW_TIMER /**< RECOMMENDED DISABLED. If enabled, uses the platform-specific hardware timer (e.g., TSC on Intel x86-64). This may be less portable or have other implementation-specific quirks but for most purposes should work fine. */
+#define USE_OS_TIMER /**< RECOMMENDED ENABLED. If enabled, uses the QPC timer on Windows and the POSIX clock_gettime() on GNU/Linux for all timing purposes. */
+//#define USE_HW_TIMER /**< RECOMMENDED DISABLED. If enabled, uses the platform-specific hardware timer (e.g., TSC on Intel x86-64). This may be less portable or have other implementation-specific quirks but for most purposes should work fine. */
 
 //Benchmarking methodology. Only one may be selected!
 #define USE_TIME_BASED_BENCHMARKS /**< RECOMMENDED ENABLED. All benchmarks run for an estimated amount of time, and the figures of merit are computed based on the amount of memory accesses completed in the time limit. This mode has more consistent runtime across different machines, memory performance, and working set sizes, but may have more conservative measurements for differing levels of cache hierarchy (overestimating latency and underestimating throughput). */
