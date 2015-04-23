@@ -147,20 +147,20 @@ void xmem::print_compile_time_options() {
 #ifdef ARCH_INTEL_X86_64
 	std::cout << "ARCH_INTEL_X86_64" << std::endl;
 #endif
-#ifdef ARCH_INTEL_X86_64_SSE
-	std::cout << "ARCH_INTEL_X86_64_SSE" << std::endl;
+#ifdef ARCH_INTEL_SSE
+	std::cout << "ARCH_INTEL_SSE" << std::endl;
 #endif
-#ifdef ARCH_INTEL_X86_64_SSE2
-	std::cout << "ARCH_INTEL_X86_64_SSE2" << std::endl;
+#ifdef ARCH_INTEL_SSE2
+	std::cout << "ARCH_INTEL_SSE2" << std::endl;
 #endif
-#ifdef ARCH_INTEL_X86_64_SSE3
-	std::cout << "ARCH_INTEL_X86_64_SSE3" << std::endl;
+#ifdef ARCH_INTEL_SSE3
+	std::cout << "ARCH_INTEL_SSE3" << std::endl;
 #endif
-#ifdef ARCH_INTEL_X86_64_AVX
-	std::cout << "ARCH_INTEL_X86_64_AVX" << std::endl;
+#ifdef ARCH_INTEL_AVX
+	std::cout << "ARCH_INTEL_AVX" << std::endl;
 #endif
-#ifdef ARCH_INTEL_X86_64_AVX2
-	std::cout << "ARCH_INTEL_X86_64_AVX2" << std::endl;
+#ifdef ARCH_INTEL_AVX2
+	std::cout << "ARCH_INTEL_AVX2" << std::endl;
 #endif
 #ifdef ARCH_AMD64
 	std::cout << "ARCH_AMD64" << std::endl;

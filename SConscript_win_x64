@@ -23,11 +23,9 @@ env.Append(CPPPATH = ['src/include/ext/StreamBenchmark']) # Extension: Stream be
 
 # List all C++ source files
 sources = [
-	Glob('src/win/x86_64/*.asm'), # Have some hand-coded assembler files for Windows x86-64 only
 	Glob('src/*.cpp'), 
 	Glob('src/ext/*/*.cpp'), # All extensions
 	Glob('src/win/*.cpp'),
-	Glob('src/x86_64/*.cpp')
 ]
 
 defaultBuild = env.Program(target = 'xmem', source = sources)

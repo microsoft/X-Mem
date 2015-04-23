@@ -44,12 +44,14 @@
 #include <random>
 #include <algorithm>
 #include <time.h>
-#if defined(__gnu_linux__) && defined(ARCH_INTEL_X86_64) && (defined(HAS_WORD_128) || defined(HAS_WORD_256))
+#if defined(ARCH_INTEL_X86_64) && (defined(HAS_WORD_128) || defined(HAS_WORD_256))
 //Intel intrinsics
 #include <emmintrin.h>
 #include <immintrin.h>
 #include <smmintrin.h>
 #endif
+
+using namespace xmem;
 
 #if defined(__gnu_linux__) && defined(ARCH_INTEL_X86_64) && (defined(HAS_WORD_128) || defined(HAS_WORD_256))
 #define my_32b_set_128b_word(a, b, c, d) _mm_set_epi32(a, b, c, d) //SSE2 intrinsic, corresponds to ??? instruction. Header: emmintrin.h
@@ -78,35 +80,34 @@
 
 #ifdef HAS_WORD_128
 //128-bit
-extern "C" int win_x86_64_asm_forwSequentialRead_Word128(Word128_t* first_word, Word128_t* last_word);
-extern "C" int win_x86_64_asm_revSequentialRead_Word128(Word128_t* last_word, Word128_t* first_word);
-extern "C" int win_x86_64_asm_forwSequentialWrite_Word128(Word128_t* first_word, Word128_t* last_word);
-extern "C" int win_x86_64_asm_revSequentialWrite_Word128(Word128_t* last_word, Word128_t* first_word); 
+extern "C" int32_t win_x86_64_asm_forwSequentialRead_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_revSequentialRead_Word128(Word128_t* last_word, Word128_t* first_word);
+extern "C" int32_t win_x86_64_asm_forwSequentialWrite_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_revSequentialWrite_Word128(Word128_t* last_word, Word128_t* first_word); 
 #endif
 
 #ifdef HAS_WORD_256
 //256-bit
-extern "C" int win_x86_64_asm_forwSequentialRead_Word256(Word256_t* first_word, Word256_t* last_word);
-extern "C" int win_x86_64_asm_revSequentialRead_Word256(Word256_t* last_word, Word256_t* first_word);
-extern "C" int win_x86_64_asm_forwSequentialWrite_Word256(Word256_t* first_word, Word256_t* last_word);
-extern "C" int win_x86_64_asm_revSequentialWrite_Word256(Word256_t* last_word, Word256_t* first_word);
+extern "C" int32_t win_x86_64_asm_forwSequentialRead_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_revSequentialRead_Word256(Word256_t* last_word, Word256_t* first_word);
+extern "C" int32_t win_x86_64_asm_forwSequentialWrite_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_revSequentialWrite_Word256(Word256_t* last_word, Word256_t* first_word);
 #endif
 
 //Dummies
 #ifdef HAS_WORD_128
 //128-bit
-extern "C" int win_x86_64_asm_dummy_forwSequentialLoop_Word128(Word128_t* first_word, Word128_t* last_word);
-extern "C" int win_x86_64_asm_dummy_revSequentialLoop_Word128(Word128_t* first_word, Word128_t* last_word); 
+extern "C" int32_t win_x86_64_asm_dummy_forwSequentialLoop_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_dummy_revSequentialLoop_Word128(Word128_t* first_word, Word128_t* last_word); 
 #endif
 
 #ifdef HAS_WORD_256
 //256-bit
-extern "C" int win_x86_64_asm_dummy_forwSequentialLoop_Word256(Word256_t* first_word, Word256_t* last_word);
-extern "C" int win_x86_64_asm_dummy_revSequentialLoop_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_dummy_forwSequentialLoop_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_dummy_revSequentialLoop_Word256(Word256_t* first_word, Word256_t* last_word);
 #endif
 #endif
 
-using namespace xmem;
 
 bool xmem::determineSequentialKernel(rw_mode_t rw_mode, chunk_size_t chunk_size, int32_t stride_size, SequentialFunction* kernel_function, SequentialFunction* dummy_kernel_function) {
 	switch (rw_mode) {

@@ -27,7 +27,6 @@ sources = [
 	Glob('src/*.cpp'), 
 	Glob('src/ext/*/*.cpp'), # All extensions
 	Glob('src/win/*.cpp'),
-	Glob('src/x86_64/*.cpp')
 ]
 
 defaultBuild = env.Program(target = 'xmem', source = sources)

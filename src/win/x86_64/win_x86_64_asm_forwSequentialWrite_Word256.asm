@@ -21,7 +21,7 @@
 ; SOFTWARE.
 
 .code
-win_asm_forwSequentialWrite_Word256 proc
+win_x86_64_asm_forwSequentialWrite_Word256 proc
 
 ; Arguments:
 ; rcx is address of the first 256-bit word in the array
@@ -189,5 +189,5 @@ done:
 	xor eax,eax		; return 0
 	ret
 
-win_asm_forwSequentialWrite_Word256 endp
+win_x86_64_asm_forwSequentialWrite_Word256 endp
 end

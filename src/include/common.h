@@ -36,11 +36,11 @@
 
 #ifdef _WIN32
 #include <windows.h>
-#include <intrin.h>
 #endif
 
-#if defined(__gnu_linux__) && (defined(_M_IX64) || defined(__x86_64__))
-#include <immintrin.h>
+#if defined(__x86_64__) || defined(_M_X64)
+#include <emmintrin.h> //for Intel __m128i datatype
+#include <immintrin.h> //for Intel __m256i datatype
 #endif
 
 namespace xmem {
@@ -66,25 +66,25 @@ namespace xmem {
 #define HAS_NUMA
 #endif
 
-#ifdef _M_IX86_FP //Intel x86-64 SSE2 extensions
+#ifdef _M_IX86_FP //Intel SSE/SSE2 extensions
 #define ARCH_INTEL
 #if _M_IX86_FP == 1
-#define ARCH_INTEL_X86_64_SSE
+#define ARCH_INTEL_SSE
 #endif
 #if _M_IX86_FP == 2
-#define ARCH_INTEL_X86_64_SSE
-#define ARCH_INTEL_X86_64_SSE2
+#define ARCH_INTEL_SSE
+#define ARCH_INTEL_SSE2
 #endif
 #endif
 
-#ifdef __AVX__ //Intel x86-64 AVX extensions
+#ifdef __AVX__ //Intel AVX extensions
 #define ARCH_INTEL
-#define ARCH_INTEL_X86_64_AVX
+#define ARCH_INTEL_AVX
 #endif
 
-#ifdef __AVX2__ //Intel x86-64 AVX2 extensions
+#ifdef __AVX2__ //Intel AVX2 extensions
 #define ARCH_INTEL
-#define ARCH_INTEL_X86_64_AVX2
+#define ARCH_INTEL_AVX2
 #endif
 
 #ifdef _M_AMD64 //AMD64
@@ -125,29 +125,29 @@ namespace xmem {
 #define HAS_NUMA
 #endif
 
-#ifdef __SSE__ //Intel x86-64 SSE extensions
+#ifdef __SSE__ //Intel SSE extensions
 #define ARCH_INTEL
-#define ARCH_INTEL_X86_64_SSE
+#define ARCH_INTEL_SSE
 #endif
 
-#ifdef __SSE2__ //Intel x86-64 SSE2 extensions
+#ifdef __SSE2__ //Intel SSE2 extensions
 #define ARCH_INTEL
-#define ARCH_INTEL_X86_64_SSE2
+#define ARCH_INTEL_SSE2
 #endif
 
-#ifdef __SSE3__ //Intel x86-64 SSE3 extensions
+#ifdef __SSE3__ //Intel SSE3 extensions
 #define ARCH_INTEL
-#define ARCH_INTEL_X86_64_SSE3
+#define ARCH_INTEL_SSE3
 #endif
 
-#ifdef __AVX__ //Intel x86-64 AVX extensions
+#ifdef __AVX__ //Intel AVX extensions
 #define ARCH_INTEL
-#define ARCH_INTEL_X86_64_AVX
+#define ARCH_INTEL_AVX
 #endif
 
-#ifdef __AVX2__ //Intel x86-64 AVX2 extensions
+#ifdef __AVX2__ //Intel AVX2 extensions
 #define ARCH_INTEL
-#define ARCH_INTEL_X86_64_AVX2
+#define ARCH_INTEL_AVX2
 #endif
 
 #ifdef __amd64__ //AMD64
@@ -333,10 +333,10 @@ namespace xmem {
 #if defined(ARCH_64BIT) || defined(ARCH_ARM_NEON)
 #define HAS_WORD_64
 #endif
-#if defined(ARCH_INTEL_X86_64_AVX) || defined(ARCH_ARM_NEON)
+#if defined(ARCH_INTEL_AVX) || defined(ARCH_ARM_NEON)
 #define HAS_WORD_128
 #endif
-#ifdef ARCH_INTEL_X86_64_AVX
+#ifdef ARCH_INTEL_AVX
 #define HAS_WORD_256
 #endif
 
@@ -349,11 +349,11 @@ namespace xmem {
 	typedef __m128i Word128_t;
 #endif
 #ifdef ARCH_ARM
-	#error TODO: Implement ARM NEON support for 128-bit memory operations.
+	#error TODO: Implement for ARM
 #endif
 #endif
 #ifdef HAS_WORD_256
-#ifdef ARCH_INTEL_X86_64_AVX
+#ifdef ARCH_INTEL
 	typedef __m256i Word256_t; //Not possible on current ARM systems.
 #endif
 #ifdef ARCH_ARM

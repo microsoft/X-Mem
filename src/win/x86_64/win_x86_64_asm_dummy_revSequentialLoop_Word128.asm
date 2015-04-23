@@ -23,7 +23,7 @@
 
 
 .code
-win_asm_dummy_revSequentialLoop_Word128 proc
+win_x86_64_asm_dummy_revSequentialLoop_Word128 proc
 
 ; Arguments:
 ; rcx is address of the last 128-bit word in the array
@@ -49,5 +49,5 @@ done:
 	xor eax,eax		; return 0
 	ret
 
-win_asm_dummy_revSequentialLoop_Word128 endp
+win_x86_64_asm_dummy_revSequentialLoop_Word128 endp
 end
