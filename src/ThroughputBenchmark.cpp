@@ -44,9 +44,6 @@ ThroughputBenchmark::ThroughputBenchmark(
 		void* mem_array,
 		size_t len,
 		uint32_t iterations,
-#ifdef USE_SIZE_BASED_BENCHMARKS
-		uint32_t passes_per_iteration,
-#endif
 		uint32_t num_worker_threads,
 		uint32_t mem_node,
 		uint32_t cpu_node,
@@ -61,9 +58,6 @@ ThroughputBenchmark::ThroughputBenchmark(
 		mem_array,
 		len,
 		iterations,
-#ifdef USE_SIZE_BASED_BENCHMARKS
-		passes_per_iteration,
-#endif
 		num_worker_threads,
 		mem_node,
 		cpu_node,
@@ -141,18 +135,12 @@ bool ThroughputBenchmark::_run_core() {
 			if (_pattern_mode == SEQUENTIAL)
 				workers.push_back(new LoadWorker(thread_mem_array,
 												 len_per_thread,
-#ifdef USE_SIZE_BASED_BENCHMARKS
-									   			 _passes_per_iteration,
-#endif
 												 kernel_fptr_seq,
 												 kernel_dummy_fptr_seq,
 												 cpu_id));
 			else if (_pattern_mode == RANDOM)
 				workers.push_back(new LoadWorker(thread_mem_array,
 												 len_per_thread,
-#ifdef USE_SIZE_BASED_BENCHMARKS
-									   			 _passes_per_iteration,
-#endif
 												 kernel_fptr_ran,
 												 kernel_dummy_fptr_ran,
 												 cpu_id));

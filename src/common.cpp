@@ -147,8 +147,14 @@ void xmem::print_compile_time_options() {
 #ifdef ARCH_INTEL_X86_64
 	std::cout << "ARCH_INTEL_X86_64" << std::endl;
 #endif
+#ifdef ARCH_INTEL_X86_64_SSE
+	std::cout << "ARCH_INTEL_X86_64_SSE" << std::endl;
+#endif
 #ifdef ARCH_INTEL_X86_64_SSE2
 	std::cout << "ARCH_INTEL_X86_64_SSE2" << std::endl;
+#endif
+#ifdef ARCH_INTEL_X86_64_SSE3
+	std::cout << "ARCH_INTEL_X86_64_SSE3" << std::endl;
 #endif
 #ifdef ARCH_INTEL_X86_64_AVX
 	std::cout << "ARCH_INTEL_X86_64_AVX" << std::endl;
@@ -161,6 +167,24 @@ void xmem::print_compile_time_options() {
 #endif
 #ifdef ARCH_ARM
 	std::cout << "ARCH_ARM" << std::endl;
+#endif
+#ifdef ARCH_ARM_64
+	std::cout << "ARCH_ARM_64" << std::endl;
+#endif
+#ifdef ARCH_ARM_V7
+	std::cout << "ARCH_ARM_V7" << std::endl;
+#endif
+#ifdef ARCH_ARM_V8
+	std::cout << "ARCH_ARM_V8" << std::endl;
+#endif
+#ifdef ARCH_ARM_VFP_V3
+	std::cout << "ARCH_ARM_VFP_V3" << std::endl;
+#endif
+#ifdef ARCH_ARM_VFP_V4
+	std::cout << "ARCH_ARM_VFP_V4" << std::endl;
+#endif
+#ifdef ARCH_ARM_NEON
+	std::cout << "ARCH_ARM_NEON" << std::endl;
 #endif
 #ifdef ARCH_64BIT
 	std::cout << "ARCH_64BIT" << std::endl;
@@ -198,23 +222,11 @@ void xmem::print_compile_time_options() {
 	std::cout << "USE_TSC_TIMER" << std::endl;
 #endif
 	//TODO: ARM timer
-#ifdef USE_TIME_BASED_BENCHMARKS
-	std::cout << "USE_TIME_BASED_BENCHMARKS" << std::endl;
-#endif
 #ifdef BENCHMARK_DURATION_SEC
 	std::cout << "BENCHMARK_DURATION_SEC = " << BENCHMARK_DURATION_SEC << std::endl; //This must be defined
 #endif
 #ifdef THROUGHPUT_BENCHMARK_BYTES_PER_PASS
 	std::cout << "THROUGHPUT_BENCHMARK_BYTES_PER_PASS == " << THROUGHPUT_BENCHMARK_BYTES_PER_PASS << std::endl;
-#endif
-#ifdef USE_SIZE_BASED_BENCHMARKS
-	std::cout << "USE_SIZE_BASED_BENCHMARKS" << std::endl;
-#endif
-#ifdef USE_PASSES_CURVE_1
-	std::cout << "USE_PASSES_CURVE_1" << std::endl;
-#endif
-#ifdef USE_PASSES_CURVE_2
-	std::cout << "USE_PASSES_CURVE_2" << std::endl;
 #endif
 #ifdef POWER_SAMPLING_PERIOD_SEC
 	std::cout << "POWER_SAMPLING_PERIOD_MS == " << POWER_SAMPLING_PERIOD_MS << std::endl;
@@ -379,20 +391,6 @@ int32_t xmem::cpu_id_in_numa_node(uint32_t numa_node, uint32_t cpu_in_node) {
 #endif
 }
 	
-size_t xmem::compute_number_of_passes(size_t working_set_size_KB) {
-	size_t passes = 0;
-#ifdef USE_PASSES_CURVE_1
-	passes = 65536 / working_set_size_KB;
-#else
-#ifdef USE_PASSES_CURVE_2
-	passes = (4*2097152) / working_set_size_KB^2;
-#endif
-#endif
-	if (passes < 1)
-		passes = 1;
-	return passes;
-}
-
 void xmem::init_globals() {
 	//Initialize global variables to defaults.
 	g_verbose = false;

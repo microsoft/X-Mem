@@ -56,9 +56,6 @@ DelayInjectedLoadedLatencyBenchmark::DelayInjectedLoadedLatencyBenchmark(
 		void* mem_array,
 		size_t len,
 		uint32_t iterations,
-#ifdef USE_SIZE_BASED_BENCHMARKS
-		uint32_t passes_per_iteration,
-#endif
 		uint32_t num_worker_threads,
 		uint32_t mem_node,
 		uint32_t cpu_node,
@@ -71,9 +68,6 @@ DelayInjectedLoadedLatencyBenchmark::DelayInjectedLoadedLatencyBenchmark(
 			mem_array,
 			len,
 			iterations,
-#ifdef USE_SIZE_BASED_BENCHMARKS
-			passes_per_iteration,
-#endif
 			num_worker_threads,
 			mem_node,
 			cpu_node,
@@ -277,18 +271,12 @@ bool DelayInjectedLoadedLatencyBenchmark::_run_core() {
 			if (t == 0) { //special case: thread 0 is always latency thread
 				workers.push_back(new LatencyWorker(thread_mem_array,
 												    len_per_thread,
-#ifdef USE_SIZE_BASED_BENCHMARKS
-												    _passes_per_iteration,
-#endif
 												    lat_kernel_fptr,
 												    lat_kernel_dummy_fptr,
 												    cpu_id));
 			} else {
 				workers.push_back(new LoadWorker(thread_mem_array,
 												 len_per_thread,
-#ifdef USE_SIZE_BASED_BENCHMARKS
-												 _passes_per_iteration,
-#endif
 												 load_kernel_fptr,
 												 load_kernel_dummy_fptr,
 												 cpu_id));

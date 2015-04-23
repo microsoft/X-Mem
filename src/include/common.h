@@ -45,7 +45,7 @@
 
 namespace xmem {
 
-#define VERSION "2.1.13"
+#define VERSION "2.1.14"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -55,43 +55,58 @@ namespace xmem {
 #ifdef _WIN32
 
 #ifdef _M_IX86 //Intel x86
-#define ARCH_INTEL_X86
 #define ARCH_INTEL
+#define ARCH_INTEL_X86
 #endif
 
 #ifdef _M_X64 //Intel x86-64
-#define ARCH_INTEL_X86_64
 #define ARCH_INTEL
+#define ARCH_INTEL_X86_64
 #define ARCH_64BIT
 #define HAS_NUMA
 #endif
 
 #ifdef _M_IX86_FP //Intel x86-64 SSE2 extensions
-#define ARCH_INTEL_X86_64_SSE2
 #define ARCH_INTEL
+#if _M_IX86_FP == 1
+#define ARCH_INTEL_X86_64_SSE
+#endif
+#if _M_IX86_FP == 2
+#define ARCH_INTEL_X86_64_SSE
+#define ARCH_INTEL_X86_64_SSE2
+#endif
 #endif
 
 #ifdef __AVX__ //Intel x86-64 AVX extensions
-#define ARCH_INTEL_X86_64_AVX
 #define ARCH_INTEL
+#define ARCH_INTEL_X86_64_AVX
 #endif
 
 #ifdef __AVX2__ //Intel x86-64 AVX2 extensions
-#define ARCH_INTEL_X86_64_AVX2
 #define ARCH_INTEL
+#define ARCH_INTEL_X86_64_AVX2
 #endif
 
-#ifdef _AMD64 //AMD64
+#ifdef _M_AMD64 //AMD64
+#define ARCH_INTEL
 #define ARCH_AMD64
 #define ARCH_64BIT
-#define ARCH_INTEL
 #endif
 
 #ifdef _M_ARM //ARM architecture
 #define ARCH_ARM
+#define ARCH_ARM_NEON //FIXME: I don't think there is a way to explicitly check for NEON support on Windows, so I suppose it is always present on any Windows-supported ARM platform anyway.
 #endif
 
-//TODO: ARM 64-bit support
+#ifdef _M_ARM_FP //ARM extensions
+#if _M_ARM_FP >= 30 && _M_ARM_FP <= 39
+#define ARCH_ARM_VFP_V3
+#endif
+#if _M_ARM_FP >= 40 && _M_ARM_FP <= 49
+#define ARCH_ARM_VFP_V3
+#define ARCH_ARM_VFP_V4
+#endif
+#endif
 
 #endif
 
@@ -99,42 +114,78 @@ namespace xmem {
 #ifdef __gnu_linux__
 
 #ifdef __i386__ //Intel x86
-#define ARCH_INTEL_X86
 #define ARCH_INTEL
+#define ARCH_INTEL_X86
 #endif
 
 #ifdef __x86_64__ //Intel x86-64
+#define ARCH_INTEL
 #define ARCH_INTEL_X86_64
 #define ARCH_64BIT
-#define ARCH_INTEL
 #define HAS_NUMA
 #endif
 
-#ifdef __SSE2__ //Intel x86-64 SSE2 extensions
-#define ARCH_INTEL_X86_64_SSE2
+#ifdef __SSE__ //Intel x86-64 SSE extensions
 #define ARCH_INTEL
+#define ARCH_INTEL_X86_64_SSE
+#endif
+
+#ifdef __SSE2__ //Intel x86-64 SSE2 extensions
+#define ARCH_INTEL
+#define ARCH_INTEL_X86_64_SSE2
+#endif
+
+#ifdef __SSE3__ //Intel x86-64 SSE3 extensions
+#define ARCH_INTEL
+#define ARCH_INTEL_X86_64_SSE3
 #endif
 
 #ifdef __AVX__ //Intel x86-64 AVX extensions
-#define ARCH_INTEL_X86_64_AVX
 #define ARCH_INTEL
+#define ARCH_INTEL_X86_64_AVX
 #endif
 
 #ifdef __AVX2__ //Intel x86-64 AVX2 extensions
-#define ARCH_INTEL_X86_64_AVX2
 #define ARCH_INTEL
+#define ARCH_INTEL_X86_64_AVX2
 #endif
 
 #ifdef __amd64__ //AMD64
+#define ARCH_INTEL
 #define ARCH_AMD64
 #define ARCH_64BIT
 #endif
 
 #ifdef __arm__ //ARM architecture
 #define ARCH_ARM
+#define ARCH_ARM_VFP_V3 //FIXME: this is assumed, as I don't know how to check directly
 #endif
 
-//TODO: ARM 64-bit support
+#ifdef __aarch64__ //ARM 64-bit
+#define ARCH_ARM
+#define ARCH_ARM_64
+#define ARCH_ARM_VFP_V4 //FIXME: this is assumed, as I don't know how to check directly
+#define ARCH_64BIT
+#endif
+
+#ifdef __ARM_ARCH_7__ //ARMv7
+#define ARCH_ARM
+#define ARCH_ARM_V7
+#endif
+
+#ifdef __ARM_ARCH_8__ //ARMv8
+#define ARCH_ARM
+#define ARCH_ARM_V8
+#define ARCH_ARM_64
+#define ARCH_ARM_VFP_V4 //FIXME: this is assumed, as I don't know how to check directly
+#define ARCH_64BIT
+#endif
+
+#ifdef __ARM_NEON__ //ARM NEON extensions
+#define ARCH_ARM
+#define ARCH_ARM_NEON
+#define ARCH_ARM_VFP_V4 //FIXME: this is assumed, as I don't know how to check directly
+#endif
 
 #endif
 
@@ -204,19 +255,8 @@ namespace xmem {
 #define USE_OS_TIMER /**< RECOMMENDED ENABLED. If enabled, uses the QPC timer on Windows and the POSIX clock_gettime() on GNU/Linux for all timing purposes. */
 //#define USE_HW_TIMER /**< RECOMMENDED DISABLED. If enabled, uses the platform-specific hardware timer (e.g., TSC on Intel x86-64). This may be less portable or have other implementation-specific quirks but for most purposes should work fine. */
 
-//Benchmarking methodology. Only one may be selected!
-#define USE_TIME_BASED_BENCHMARKS /**< RECOMMENDED ENABLED. All benchmarks run for an estimated amount of time, and the figures of merit are computed based on the amount of memory accesses completed in the time limit. This mode has more consistent runtime across different machines, memory performance, and working set sizes, but may have more conservative measurements for differing levels of cache hierarchy (overestimating latency and underestimating throughput). */
-//#define USE_SIZE_BASED_BENCHMARKS /**< RECOMMENDED DISABLED. All benchmarks run for an estimated amount of memory accesses, and the figures of merit are computed based on the length of time required to run the benchmark. This mode may have highly varying runtime across different machines, memory performance, and working set sizes, but may have more optimistic measurements across differing levels of cache hierarchy (underestimating latency and overestimating throughput). TODO: remove this feature entirely at some point, it just complicates things... */
-
-#ifdef USE_TIME_BASED_BENCHMARKS //DO NOT COMMENT THIS OUT!
 #define BENCHMARK_DURATION_MS 250 /**< RECOMMENDED VALUE: At least 1000. Number of milliseconds to run in each benchmark. */
 #define THROUGHPUT_BENCHMARK_BYTES_PER_PASS 4096 /**< RECOMMENDED VALUE: 4096. Number of bytes read or written per pass of any ThroughputBenchmark. This must be less than or equal to the minimum working set size, which is currently 4 KB. */
-#endif //DO NOT COMMENT THIS OUT
-
-#ifdef USE_SIZE_BASED_BENCHMARKS //DO NOT COMMENT THIS OUT
-//#define USE_PASSES_CURVE_1 /**< RECOMMENDED DISABLED. The passes per iteration of a benchmark will be given by y = 65536 / working_set_size_KB */
-#define USE_PASSES_CURVE_2 /**< RECOMMENDED ENABLED. The passes per iteration of a benchmark will be given by y = 4*2097152 / working_set_size_KB^2 */
-#endif //DO NOT COMMENT THIS OUT
 
 #define POWER_SAMPLING_PERIOD_MS 1000 /**< RECOMMENDED VALUE: 1000. Sampling period in milliseconds for all power measurement mechanisms. */
 
@@ -254,31 +294,12 @@ namespace xmem {
 #error Only one type of timer may be defined!
 #endif 
 
-//Compile-time options checks: benchmarking type: size or time-limited
-#if (defined(USE_TIME_BASED_BENCHMARKS) && defined(USE_SIZE_BASED_BENCHMARKS)) || (!defined(USE_TIME_BASED_BENCHMARKS) && !defined(USE_SIZE_BASED_BENCHMARKS))
-#error Exactly one of USE_TIME_BASED_BENCHMARKS and USE_SIZE_BASED_BENCHMARKS must be defined!
-#endif
-
-#ifdef USE_TIME_BASED_BENCHMARKS
-#ifndef BENCHMARK_DURATION_MS
-#error BENCHMARK_DURATION_MS must be defined!
-#endif
 #if BENCHMARK_DURATION_MS <= 0
 #error BENCHMARK_DURATION_MS must be positive!
 #endif
-#ifndef THROUGHPUT_BENCHMARK_BYTES_PER_PASS
-#error THROUGHPUT_BENCHMARK_BYTES_PER_PASS must be defined!
-#else
+
 #if THROUGHPUT_BENCHMARK_BYTES_PER_PASS > DEFAULT_PAGE_SIZE || THROUGHPUT_BENCHMARK_BYTES_PER_PASS <= 0
 #error THROUGHPUT_BENCHMARK_BYTES_PER_PASS must be less than or equal to the minimum possible working set size. It also must be a positive integer.
-#endif
-#endif
-#endif
-
-#ifdef USE_SIZE_BASED_BENCHMARKS
-#if (defined(USE_PASSES_CURVE_1) && defined(USE_PASSES_CURVE_2)) || (!defined(USE_PASSES_CURVE_1) && !defined(USE_PASSES_CURVE_2))
-#error Exactly one passes curve must be defined.
-#endif
 #endif
 
 //Compile-time options checks: power sampling frequency. TODO: this should probably be a runtime option

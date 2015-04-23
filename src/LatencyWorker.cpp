@@ -49,9 +49,6 @@ using namespace xmem;
 LatencyWorker::LatencyWorker(
 		void* mem_array,
 		size_t len,
-	#ifdef USE_SIZE_BASED_BENCHMARKS
-		uint32_t passes_per_iteration,
-	#endif
 		RandomFunction kernel_fptr,
 		RandomFunction kernel_dummy_fptr,
 		int32_t cpu_affinity
@@ -59,9 +56,6 @@ LatencyWorker::LatencyWorker(
 		MemoryWorker(
 			mem_array,
 			len,
-#ifdef USE_SIZE_BASED_BENCHMARKS
-			passes_per_iteration,
-#endif
 			cpu_affinity
 		),
 		__kernel_fptr(kernel_fptr),
@@ -87,22 +81,14 @@ void LatencyWorker::run() {
 	tick_t elapsed_dummy_ticks = 0;
 	tick_t adjusted_ticks = 0;
 	bool warning = false;
-		
-#ifdef USE_TIME_BASED_BENCHMARKS
 	void* mem_array = NULL;
 	size_t len = 0;
 	tick_t target_ticks = g_ticks_per_ms * BENCHMARK_DURATION_MS; //Rough target run duration in ticks
-#endif
 	
 	//Grab relevant setup state thread-safely and keep it local
 	if (_acquireLock(-1)) {
-#ifdef USE_TIME_BASED_BENCHMARKS
 		mem_array = _mem_array;
 		len = _len;
-#endif
-#ifdef USE_SIZE_BASED_BENCHMARKS
-		passes = _passes_per_iteration;
-#endif
 		bytes_per_pass = LATENCY_BENCHMARK_UNROLL_LENGTH * 8;
 		cpu_affinity = _cpu_affinity;
 		kernel_fptr = __kernel_fptr;
@@ -134,7 +120,6 @@ void LatencyWorker::run() {
 	}
 
 	//Run benchmark
-#ifdef USE_TIME_BASED_BENCHMARKS
 	//Run actual version of function and loop overhead
 	next_address = static_cast<uintptr_t*>(mem_array); 
 	while (elapsed_ticks < target_ticks) {
@@ -154,25 +139,6 @@ void LatencyWorker::run() {
 		elapsed_dummy_ticks += (stop_tick - start_tick);
 		p+=256;
 	}
-#endif
-
-#ifdef USE_SIZE_BASED_BENCHMARKS
-	//Time actual version of function and loop overhead
-	next_address = static_cast<uintptr_t*>(mem_array); 
-	start_tick = start_timer();
-	for (p = 0; p < passes; p++)
-		(*kernel_fptr)(next_address, &next_address, len);
-	stop_tick = stop_timer();
-	elapsed_ticks += (start_tick - stop_tick);
-
-	//Time dummy version of function and loop overhead
-	next_address = static_cast<uintptr_t*>(_mem_array); 
-	start_tick = start_timer();
-	for (p = 0; p < passes; p++)
-		(*kernel_dummy_fptr)(next_address, &next_address, len);
-	stop_tick = stop_timer();
-	elapsed_dummy_ticks += (start_tick - stop_tick);
-#endif
 
 	adjusted_ticks = elapsed_ticks - elapsed_dummy_ticks;
 	

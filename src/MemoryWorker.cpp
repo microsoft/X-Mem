@@ -36,9 +36,6 @@ using namespace xmem;
 MemoryWorker::MemoryWorker(
 		void* mem_array,
 		size_t len,
-	#ifdef USE_SIZE_BASED_BENCHMARKS
-		uint32_t passes_per_iteration,
-	#endif
 		int32_t cpu_affinity
 	) :
 		_mem_array(mem_array),
@@ -50,9 +47,6 @@ MemoryWorker::MemoryWorker(
 		_elapsed_dummy_ticks(0),
 		_adjusted_ticks(0),
 		_warning(false),
-#ifdef USE_SIZE_BASED_BENCHMARKS
-		_passes_per_iteration(passes_per_iteration),
-#endif
 		_completed(false)
 	{
 }

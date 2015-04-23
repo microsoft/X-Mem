@@ -48,15 +48,11 @@ namespace xmem {
 			 * @brief Constructor.
 			 * @param mem_array Pointer to the memory region to use by this worker.
 			 * @param len Length of the memory region to use by this worker.
-			 * @param passes_per_iteration for size-based benchmarking, this is the number of passes to execute in a single benchmark iteration.
 			 * @param cpu_affinity Logical CPU identifier to lock this worker's thread to.
 			 */
 			MemoryWorker(
 				void* mem_array,
 				size_t len,
-#ifdef USE_SIZE_BASED_BENCHMARKS
-				uint32_t passes_per_iteration,
-#endif
 				int32_t cpu_affinity
 			);
 			
@@ -124,9 +120,6 @@ namespace xmem {
 			tick_t _adjusted_ticks; /**< Elapsed ticks minus dummy elapsed ticks. */
 			bool _warning; /**< If true, results may be suspect. */
 			bool _completed; /**< If true, worker completed. */
-#ifdef USE_SIZE_BASED_BENCHMARKS
-			uint32_t _passes_per_iteration; /**< Number of passes per iteration. */
-#endif
 	};
 };
 

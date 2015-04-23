@@ -61,7 +61,6 @@ namespace xmem {
 		 * @param mem_array A pointer to a contiguous chunk of memory that has been allocated for benchmarking among potentially several worker threads. This should be aligned to a 256-bit boundary.
 		 * @param len Length of mem_array in bytes. This must be a multiple of 4 KB and should be at least the per-thread working set size times the number of worker threads.
 		 * @param iterations Number of iterations of the complete benchmark. Used to average results and provide a measure of consistency and reproducibility.
-		 * @param passes_per_iteration Number of passes to do in each iteration, to ensure timed section of code is "long enough".
 		 * @param num_worker_threads The number of worker threads to use in the benchmark.
 		 * @param mem_node The logical memory NUMA node used in the benchmark.
 		 * @param cpu_node The logical CPU NUMA node to use for the benchmark.
@@ -76,9 +75,6 @@ namespace xmem {
 			void* mem_array,
 			size_t len,
 			uint32_t iterations,
-#ifdef USE_SIZE_BASED_BENCHMARKS
-			uint32_t passes_per_iteration,
-#endif
 			uint32_t num_worker_threads,
 			uint32_t mem_node,
 			uint32_t cpu_node,
@@ -172,14 +168,6 @@ namespace xmem {
 		 */
 		uint32_t getIterations() const;
 
-#ifdef USE_SIZE_BASED_BENCHMARKS
-		/**
-		 * @brief Gets the number of passes in each iteration.
-		 * @returns The number of passes per iteration for this benchmark.
-		 */
-		uint32_t getPassesPerIteration() const;
-#endif
-
 		/**
 		 * @brief Gets the width of memory access used in this benchmark.
 		 * @returns The chunk size for this benchmark.
@@ -256,9 +244,6 @@ namespace xmem {
 
 		//Benchmark repetition
 		uint32_t _iterations; /**< Number of iterations used in this benchmark. */
-#ifdef USE_SIZE_BASED_BENCHMARKS
-		uint32_t _passes_per_iteration; /**< Number of passes per iteration in this benchmark. */
-#endif
 	
 		//Threading and affinity
 		uint32_t _num_worker_threads; /**< The number of worker threads used in this benchmark. */

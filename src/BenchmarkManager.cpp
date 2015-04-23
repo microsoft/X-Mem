@@ -527,16 +527,9 @@ bool BenchmarkManager::__buildBenchmarks() {
 							
 							//Add the throughput benchmark
 							benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index << "T (Throughput)"))->str();
-#ifdef USE_SIZE_BASED_BENCHMARKS
-							//Determine number of passes for each benchmark. This is working set size-dependent, to ensure the timed duration of each run is sufficiently long, but not too long.
-							size_t passes_per_iteration = compute_number_of_passes((mem_array_len / __config.getNumWorkerThreads()) / KB);
-#endif
 							__tp_benchmarks.push_back(new ThroughputBenchmark(mem_array,
 																		 mem_array_len,
 																		 __config.getIterationsPerTest(),
-#ifdef USE_SIZE_BASED_BENCHMARKS
-																		 passes_per_iteration,
-#endif
 																		 __config.getNumWorkerThreads(),
 																		 mem_node,
 																		 cpu_node,
@@ -556,16 +549,9 @@ bool BenchmarkManager::__buildBenchmarks() {
 							//Special case: number of worker threads is 1, only need 1 latency thread in general to do unloaded latency tests.
 							if (__config.getNumWorkerThreads() > 1 || __lat_benchmarks.size() < 1) {
 								benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index << "L (Latency)"))->str();
-#ifdef USE_SIZE_BASED_BENCHMARKS
-								//Determine number of passes for each benchmark. This is working set size-dependent, to ensure the timed duration of each run is sufficiently long, but not too long.
-								passes_per_iteration = compute_number_of_passes((mem_array_len / __config.getNumWorkerThreads()) / KB) / 4;
-#endif
 								__lat_benchmarks.push_back(new LatencyBenchmark(mem_array,
 																				mem_array_len,
 																				__config.getIterationsPerTest(),
-#ifdef USE_SIZE_BASED_BENCHMARKS
-																				passes_per_iteration,
-#endif
 																				__config.getNumWorkerThreads(),
 																				mem_node,
 																				cpu_node,
@@ -600,16 +586,9 @@ bool BenchmarkManager::__buildBenchmarks() {
 						
 						//Add the throughput benchmark
 						benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index << "T (Throughput)"))->str();
-#ifdef USE_SIZE_BASED_BENCHMARKS
-						//Determine number of passes for each benchmark. This is working set size-dependent, to ensure the timed duration of each run is sufficiently long, but not too long.
-						size_t passes_per_iteration = compute_number_of_passes((mem_array_len / __config.getNumWorkerThreads()) / KB);
-#endif
 						__tp_benchmarks.push_back(new ThroughputBenchmark(mem_array,
 																		  mem_array_len,
 																		  __config.getIterationsPerTest(),
-#ifdef USE_SIZE_BASED_BENCHMARKS
-																		  passes_per_iteration,
-#endif
 																		  __config.getNumWorkerThreads(),
 																		  mem_node,
 																		  cpu_node,
@@ -628,16 +607,9 @@ bool BenchmarkManager::__buildBenchmarks() {
 						//Special case: number of worker threads is 1, only need 1 latency thread in general to do unloaded latency tests.
 						if (__config.getNumWorkerThreads() > 1 || __lat_benchmarks.size() < 1) {
 							benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index << "L (Latency)"))->str();
-#ifdef USE_SIZE_BASED_BENCHMARKS
-							//Determine number of passes for each benchmark. This is working set size-dependent, to ensure the timed duration of each run is sufficiently long, but not too long.
-							passes_per_iteration = compute_number_of_passes((mem_array_len / __config.getNumWorkerThreads()) / KB) / 4;
-#endif
 							__lat_benchmarks.push_back(new LatencyBenchmark(mem_array,
 																			mem_array_len,
 																			__config.getIterationsPerTest(),
-#ifdef USE_SIZE_BASED_BENCHMARKS
-																			passes_per_iteration,
-#endif
 																			__config.getNumWorkerThreads(),
 																			mem_node,
 																			cpu_node,
@@ -697,16 +669,9 @@ bool BenchmarkManager::runExtDelayInjectedLoadedLatencyBenchmark() {
 			
 					std::string benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index++ << "E" << EXT_NUM_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK << " (Extension: Delay-Injected Loaded Latency)"))->str();
 					
-#ifdef USE_SIZE_BASED_BENCHMARKS
-					//Determine number of passes for each benchmark. This is working set size-dependent, to ensure the timed duration of each run is sufficiently long, but not too long.
-					passes_per_iteration = compute_number_of_passes((mem_array_len / __config.getNumWorkerThreads()) / KB) / 4;
-#endif
 					del_lat_benchmarks.push_back(new DelayInjectedLoadedLatencyBenchmark(mem_array,
 																			 mem_array_len,
 																			 __config.getIterationsPerTest(),
-#ifdef USE_SIZE_BASED_BENCHMARKS
-																			 passes_per_iteration,
-#endif
 																			 __config.getNumWorkerThreads(),
 																			 mem_node,
 																			 cpu_node,

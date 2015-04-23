@@ -44,24 +44,66 @@
 #include <random>
 #include <algorithm>
 #include <time.h>
-#if defined(__gnu_linux__) && defined(ARCH_INTEL_X86_64)
-#include <immintrin.h> //for Intel AVX intrinsics
+#if defined(__gnu_linux__) && defined(ARCH_INTEL_X86_64) && (defined(HAS_WORD_128) || defined(HAS_WORD_256))
+//Intel intrinsics
+#include <emmintrin.h>
+#include <immintrin.h>
+#include <smmintrin.h>
 #endif
 
-#ifdef ARCH_INTEL_X86_64
-#define my_32b_set_128b_word(a, b, c, d) _mm_set_epi32x(a, b, c, d)
-#define my_32b_set_256b_word(a, b, c, d, e, f, g, h) _mm256_set_epi32x(a, b, c, d, e, f, g, h)
-#define my_64b_set_128b_word(a, b) _mm_set_epi64x(a, b)
-#define my_64b_set_256b_word(a, b, c, d) _mm256_set_epi64x(a, b, c, d)
+#if defined(__gnu_linux__) && defined(ARCH_INTEL_X86_64) && (defined(HAS_WORD_128) || defined(HAS_WORD_256))
+#define my_32b_set_128b_word(a, b, c, d) _mm_set_epi32(a, b, c, d) //SSE2 intrinsic, corresponds to ??? instruction. Header: emmintrin.h
+#define my_32b_set_256b_word(a, b, c, d, e, f, g, h) _mm256_set_epi32(a, b, c, d, e, f, g, h) //AVX intrinsic, corresponds to ??? instruction. Header: immintrin.h
+#define my_64b_set_128b_word(a, b) _mm_set_epi64x(a, b) //SSE2 intrinsic, corresponds to ??? instruction. Header: emmintrin.h
+#define my_64b_set_256b_word(a, b, c, d) _mm256_set_epi64x(a, b, c, d) //AVX intrinsic, corresponds to ??? instruction. Header: immintrin.h
 
-#define my_32b_extractLSB_128b(w) _mm_extract_epi32(w, 0)
-#define my_32b_extractLSB_256b(w) _mm256_extract_epi32(w, 0)
-#define my_64b_extractLSB_128b(w) _mm_extract_epi64(w, 0)
-#define my_64b_extractLSB_256b(w) _mm256_extract_epi64(w, 0)
+#define my_32b_extractLSB_128b(w) _mm_extract_epi32(w, 0) //SSE 4.1 intrinsic, corresponds to "pextrd" instruction. Header: smmintrin.h
+#define my_32b_extractLSB_256b(w) _mm256_extract_epi32(w, 0) //AVX intrinsic, corresponds to ??? instruction. Header: immintrin.h
+#define my_64b_extractLSB_128b(w) _mm_extract_epi64(w, 0) //SSE 4.1 intrinsic, corresponds to "pextrq" instruction. Header: smmintrin.h
+#define my_64b_extractLSB_256b(w) _mm256_extract_epi64(w, 0) //AVX intrinsic, corresponds to ??? instruction. Header: immintrin.h
 #endif
 
 #ifdef ARCH_ARM
-#error TODO: ARM intrinsics
+#error TODO: ARM intrinsics?
+#endif
+
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+/* Hand-coded assembly functions for the 128-bit and 256-bit benchmark kernels on Windows x86-64 where applicable.
+ * These are needed because the VC++ compiler, like gcc, optimizes away the vector instructions unless I use the volatile keyword.
+ * But I can't use something like volatile Word256_t* because it is incompatible with _mm_load_si256() with VC++, etc.
+ * Then, an alternative is to use inline assembly for Windows. However, the VC++ compiler does not support inline assembly in x86-64!
+ * The only remaining choice for this unfortunate circumstance is to use hand-coded assembly on Windows x86-64 builds.
+ * In this special case, I implemented the routine as a wrapper around the assembler function.
+ */
+
+#ifdef HAS_WORD_128
+//128-bit
+extern "C" int win_x86_64_asm_forwSequentialRead_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int win_x86_64_asm_revSequentialRead_Word128(Word128_t* last_word, Word128_t* first_word);
+extern "C" int win_x86_64_asm_forwSequentialWrite_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int win_x86_64_asm_revSequentialWrite_Word128(Word128_t* last_word, Word128_t* first_word); 
+#endif
+
+#ifdef HAS_WORD_256
+//256-bit
+extern "C" int win_x86_64_asm_forwSequentialRead_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int win_x86_64_asm_revSequentialRead_Word256(Word256_t* last_word, Word256_t* first_word);
+extern "C" int win_x86_64_asm_forwSequentialWrite_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int win_x86_64_asm_revSequentialWrite_Word256(Word256_t* last_word, Word256_t* first_word);
+#endif
+
+//Dummies
+#ifdef HAS_WORD_128
+//128-bit
+extern "C" int win_x86_64_asm_dummy_forwSequentialLoop_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int win_x86_64_asm_dummy_revSequentialLoop_Word128(Word128_t* first_word, Word128_t* last_word); 
+#endif
+
+#ifdef HAS_WORD_256
+//256-bit
+extern "C" int win_x86_64_asm_dummy_forwSequentialLoop_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int win_x86_64_asm_dummy_revSequentialLoop_Word256(Word256_t* first_word, Word256_t* last_word);
+#endif
 #endif
 
 using namespace xmem;
@@ -588,63 +630,15 @@ bool xmem::buildRandomPointerPermutation(void* start_address, void* end_address,
 			
 	std::mt19937_64 gen(time(NULL)); //Mersenne Twister random number generator, seeded at current time
 	
-	/*
-	//TODO: probably remove this.
-	//Build a random directed Hamiltonian Cycle across the memory region 
-
-	//Let W be the list of memory locations that have not been reached yet. Each entry is an index in mem_base.
-	std::vector<size_t> W;
-	size_t w_index = 0;
-
-	//Initialize W to contain all memory locations, where each memory location appears exactly once in the list. The order does not strictly matter.
-	W.resize(num_pointers);
-	for (w_index = 0; w_index < num_pointers; w_index++) {
-		W.at(w_index) = w_index;
-	}
-	
-	//Build the directed Hamiltonian Cycle
-	size_t v = 0; //the current memory location. Always start at the first location for the Hamiltonian Cycle construction
-	size_t w = 0; //the next memory location
-	w_index = 0;
-	while (W.size() > 0) { //while we have not reached all memory locations
-		W.erase(W.begin() + w_index);
-
-		//Normal case
-		if (W.size() > 0) {
-			//Choose the next w_index at random from W
-			w_index = gen() % W.size();
-
-			//Extract the memory location corresponding to this w_index
-			w = W[w_index];
-		} else { //Last element visited needs to point at head of memory to complete the cycle
-			w = 0;
-		}
-
-		//Create pointer v --> w. This corresponds to a directed edge in the graph with nodes v and w.
-		mem_region_base[v] = reinterpret_cast<uintptr_t>(mem_region_base + w);
-
-		//Chase this pointer to move to next step
-		v = w;
-	}
-	*/
-	
-	//Do a random shuffle of memory pointers
-#ifndef HAS_WORD_64 //special case for 32-bit architectures
-	Word32_t* mem_region_base = reinterpret_cast<Word32_t*>(start_address);
-#endif
+	//Do a random shuffle of memory pointers. 
+	//I had originally used a random Hamiltonian Cycle generator, but this was much slower and aside from
+	//rare instances, did not make any difference in random-access performance measurement.
 #ifdef HAS_WORD_64
 	Word64_t* mem_region_base = reinterpret_cast<Word64_t*>(start_address);
+#else //special case for 32-bit architectures
+	Word32_t* mem_region_base = reinterpret_cast<Word32_t*>(start_address);
 #endif
 	switch (chunk_size) {
-		//special case for 32-bit architectures
-#ifndef HAS_WORD_64
-		case CHUNK_32b:
-			for (size_t i = 0; i < num_pointers; i++) { //Initialize pointers to point at themselves (identity mapping)
-				mem_region_base[i] = reinterpret_cast<Word32_t>(mem_region_base+i);
-			}
-			std::shuffle(mem_region_base, mem_region_base + num_pointers, gen);
-			break;
-#endif
 #ifdef HAS_WORD_64
 		case CHUNK_64b:
 			for (size_t i = 0; i < num_pointers; i++) { //Initialize pointers to point at themselves (identity mapping)
@@ -652,19 +646,25 @@ bool xmem::buildRandomPointerPermutation(void* start_address, void* end_address,
 			}
 			std::shuffle(mem_region_base, mem_region_base + num_pointers, gen);
 			break;
+#else //special case for 32-bit architectures
+		case CHUNK_32b:
+			for (size_t i = 0; i < num_pointers; i++) { //Initialize pointers to point at themselves (identity mapping)
+				mem_region_base[i] = reinterpret_cast<Word32_t>(mem_region_base+i);
+			}
+			std::shuffle(mem_region_base, mem_region_base + num_pointers, gen);
+			break;
 #endif
 #ifdef HAS_WORD_128
 		case CHUNK_128b:
 			for (size_t i = 0; i < num_pointers; i++) { //Initialize pointers to point at themselves (identity mapping)
-#ifndef HAS_WORD_64 //special case for 32-bit architectures
+#ifdef HAS_WORD_64
+				mem_region_base[i*2] = reinterpret_cast<Word64_t>(mem_region_base+(i*2));
+				mem_region_base[(i*2)+1] = 0xFFFFFFFFFFFFFFFF; //1-fill upper 64 bits
+#else //special case for 32-bit architectures
 				mem_region_base[i*4] = reinterpret_cast<Word32_t>(mem_region_base+(i*4));
 				mem_region_base[(i*4)+1] = 0xFFFFFFFF; //1-fill upper 96 bits
 				mem_region_base[(i*4)+2] = 0xFFFFFFFF; 
 				mem_region_base[(i*4)+3] = 0xFFFFFFFF; 
-#endif
-#ifdef HAS_WORD_64
-				mem_region_base[i*2] = reinterpret_cast<Word64_t>(mem_region_base+(i*2));
-				mem_region_base[(i*2)+1] = 0xFFFFFFFFFFFFFFFF; //1-fill upper 64 bits
 #endif
 			}
 			std::shuffle(reinterpret_cast<Word128_t*>(mem_region_base), reinterpret_cast<Word128_t*>(mem_region_base) + num_pointers, gen);
@@ -673,7 +673,12 @@ bool xmem::buildRandomPointerPermutation(void* start_address, void* end_address,
 #ifdef HAS_WORD_256
 		case CHUNK_256b:
 			for (size_t i = 0; i < num_pointers; i++) { //Initialize pointers to point at themselves (identity mapping)
-#ifndef HAS_WORD_64 //special case for 32-bit architectures
+#ifdef HAS_WORD_64
+				mem_region_base[i*4] = reinterpret_cast<Word64_t>(mem_region_base+(i*4));
+				mem_region_base[(i*4)+1] = 0xFFFFFFFFFFFFFFFF; //1-fill upper 192 bits
+				mem_region_base[(i*4)+2] = 0xFFFFFFFFFFFFFFFF; 
+				mem_region_base[(i*4)+3] = 0xFFFFFFFFFFFFFFFF;
+#else //special case for 32-bit architectures
 				mem_region_base[i*8] = reinterpret_cast<Word32_t>(mem_region_base+(i*8));
 				mem_region_base[(i*8)+1] = 0xFFFFFFFF; //1-fill upper 224 bits
 				mem_region_base[(i*8)+2] = 0xFFFFFFFF;
@@ -682,12 +687,6 @@ bool xmem::buildRandomPointerPermutation(void* start_address, void* end_address,
 				mem_region_base[(i*8)+5] = 0xFFFFFFFF;
 				mem_region_base[(i*8)+6] = 0xFFFFFFFF;
 				mem_region_base[(i*8)+7] = 0xFFFFFFFF;
-#endif
-#ifdef HAS_WORD_64
-				mem_region_base[i*4] = reinterpret_cast<Word64_t>(mem_region_base+(i*4));
-				mem_region_base[(i*4)+1] = 0xFFFFFFFFFFFFFFFF; //1-fill upper 192 bits
-				mem_region_base[(i*4)+2] = 0xFFFFFFFFFFFFFFFF; 
-				mem_region_base[(i*4)+3] = 0xFFFFFFFFFFFFFFFF;
 #endif
 			}
 			std::shuffle(reinterpret_cast<Word256_t*>(mem_region_base), reinterpret_cast<Word256_t*>(mem_region_base) + num_pointers, gen);
@@ -716,10 +715,6 @@ bool xmem::buildRandomPointerPermutation(void* start_address, void* end_address,
 
 int32_t xmem::dummy_chasePointers(uintptr_t*, uintptr_t**, size_t len) {
 	volatile uintptr_t placeholder = 0; //Try to defeat compiler optimizations removing this method
-#ifdef USE_SIZE_BASED_BENCHMARKS
-	for (size_t i = 0; i < len / sizeof(uintptr_t); i += 512)
-		placeholder = 0;
-#endif
 	return 0;
 }
 
@@ -727,15 +722,7 @@ int32_t xmem::dummy_chasePointers(uintptr_t*, uintptr_t**, size_t len) {
 
 int32_t xmem::chasePointers(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 	volatile uintptr_t* p = first_address;
-
-#ifdef USE_TIME_BASED_BENCHMARKS
 	UNROLL512(p = reinterpret_cast<uintptr_t*>(*p);)
-#endif
-#ifdef USE_SIZE_BASED_BENCHMARKS
-	for (size_t i = 0; i < len / sizeof(uintptr_t); i += 512) {
-		UNROLL512(p = reinterpret_cast<uintptr_t*>(*p);)
-	}
-#endif
 	*last_touched_address = const_cast<uintptr_t*>(p);
 	return 0;
 }
@@ -746,45 +733,6 @@ int32_t xmem::chasePointers(uintptr_t* first_address, uintptr_t** last_touched_a
  ******************* THROUGHPUT-RELATED BENCHMARK KERNELS **************
  ***********************************************************************
  ***********************************************************************/
-
-#if defined(_WIN32) && defined(ARCH_INTEL)
-//TODO: will we need ARM asm on Win?
-
-//Hand-coded assembly functions for the SSE2/AVX benchmark routines.
-//VC++ compiler does not support inline assembly in x86-64.
-//And the compiler optimizes away the vector instructions unless I use volatile.
-//But I can't use for example volatile Word256_t* because it is incompatible with _mm_load_si256() with VC++. 
-//Fortunately, I implemented the routine as a wrapper around a hand-coded assembler C function.
-
-#ifdef HAS_WORD_128
-//128-bit
-extern "C" int win_asm_forwSequentialRead_Word128(Word128_t* first_word, Word128_t* last_word);
-extern "C" int win_asm_revSequentialRead_Word128(Word128_t* last_word, Word128_t* first_word);
-extern "C" int win_asm_forwSequentialWrite_Word128(Word128_t* first_word, Word128_t* last_word);
-extern "C" int win_asm_revSequentialWrite_Word128(Word128_t* last_word, Word128_t* first_word); 
-#endif
-
-#ifdef HAS_WORD_256
-//256-bit
-extern "C" int win_asm_forwSequentialRead_Word256(Word256_t* first_word, Word256_t* last_word);
-extern "C" int win_asm_revSequentialRead_Word256(Word256_t* last_word, Word256_t* first_word);
-extern "C" int win_asm_forwSequentialWrite_Word256(Word256_t* first_word, Word256_t* last_word);
-extern "C" int win_asm_revSequentialWrite_Word256(Word256_t* last_word, Word256_t* first_word);
-#endif
-
-//Dummies
-#ifdef HAS_WORD_128
-//128-bit
-extern "C" int win_asm_dummy_forwSequentialLoop_Word128(Word128_t* first_word, Word128_t* last_word);
-extern "C" int win_asm_dummy_revSequentialLoop_Word128(Word128_t* first_word, Word128_t* last_word); 
-#endif
-
-#ifdef HAS_WORD_256
-//256-bit
-extern "C" int win_asm_dummy_forwSequentialLoop_Word256(Word256_t* first_word, Word256_t* last_word);
-extern "C" int win_asm_dummy_revSequentialLoop_Word256(Word256_t* first_word, Word256_t* last_word);
-#endif
-#endif
 
 /* --------------------- DUMMY BENCHMARK ROUTINES --------------------------- */
 
@@ -816,8 +764,8 @@ int32_t xmem::dummy_forwSequentialLoop_Word64(void* start_address, void* end_add
 
 #ifdef HAS_WORD_128
 int32_t xmem::dummy_forwSequentialLoop_Word128(void* start_address, void* end_address) {
-#ifdef _WIN32
-	return win_asm_dummy_forwSequentialLoop_Word128(static_cast<Word128_t*>(start_address), static_cast<Word128_t*>(end_address));
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+	return win_x86_64_asm_dummy_forwSequentialLoop_Word128(static_cast<Word128_t*>(start_address), static_cast<Word128_t*>(end_address));
 #endif
 #ifdef __gnu_linux__
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
@@ -832,8 +780,8 @@ int32_t xmem::dummy_forwSequentialLoop_Word128(void* start_address, void* end_ad
 
 #ifdef HAS_WORD_256
 int32_t xmem::dummy_forwSequentialLoop_Word256(void* start_address, void* end_address) {
-#ifdef _WIN32
-	return win_asm_dummy_forwSequentialLoop_Word256(static_cast<Word256_t*>(start_address), static_cast<Word256_t*>(end_address));
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+	return win_x86_64_asm_dummy_forwSequentialLoop_Word256(static_cast<Word256_t*>(start_address), static_cast<Word256_t*>(end_address));
 #endif
 #ifdef __gnu_linux__
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
@@ -868,8 +816,8 @@ int32_t xmem::dummy_revSequentialLoop_Word64(void* start_address, void* end_addr
 
 #ifdef HAS_WORD_128
 int32_t xmem::dummy_revSequentialLoop_Word128(void* start_address, void* end_address) {
-#ifdef _WIN32
-	return win_asm_dummy_revSequentialLoop_Word128(static_cast<Word128_t*>(end_address), static_cast<Word128_t*>(start_address));
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+	return win_x86_64_asm_dummy_revSequentialLoop_Word128(static_cast<Word128_t*>(end_address), static_cast<Word128_t*>(start_address));
 #endif
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
 	for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address), *begptr = static_cast<Word128_t*>(start_address); wordptr > begptr;) {
@@ -882,8 +830,8 @@ int32_t xmem::dummy_revSequentialLoop_Word128(void* start_address, void* end_add
 
 #ifdef HAS_WORD_256
 int32_t xmem::dummy_revSequentialLoop_Word256(void* start_address, void* end_address) {
-#ifdef _WIN32
-	return win_asm_dummy_revSequentialLoop_Word256(static_cast<Word256_t*>(end_address), static_cast<Word256_t*>(start_address));
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+	return win_x86_64_asm_dummy_revSequentialLoop_Word256(static_cast<Word256_t*>(end_address), static_cast<Word256_t*>(start_address));
 #endif
 #ifdef __gnu_linux__
 	volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
@@ -1341,12 +1289,6 @@ int32_t xmem::dummy_revStride16Loop_Word256(void* start_address, void* end_addre
 #ifndef HAS_WORD_64 //special case: 32-bit architectures
 int32_t xmem::dummy_randomLoop_Word32(uintptr_t*, uintptr_t**, size_t len) {
 	volatile uintptr_t* placeholder = NULL; //Try to defeat compiler optimizations removing this method
-
-#ifdef USE_SIZE_BASED_BENCHMARKS
-	for (size_t i = 0; i < len / sizeof(uintptr_t); i += 1024)
-		placeholder = NULL;
-#endif
-	
 	return 0;
 }
 #endif
@@ -1354,19 +1296,13 @@ int32_t xmem::dummy_randomLoop_Word32(uintptr_t*, uintptr_t**, size_t len) {
 #ifdef HAS_WORD_64
 int32_t xmem::dummy_randomLoop_Word64(uintptr_t*, uintptr_t**, size_t len) {
 	volatile uintptr_t* placeholder = NULL; //Try to defeat compiler optimizations removing this method
-
-#ifdef USE_SIZE_BASED_BENCHMARKS
-	for (size_t i = 0; i < len / sizeof(uintptr_t); i += 512)
-		placeholder = NULL;
-#endif
-	
 	return 0;
 }
 #endif
 
 #ifdef HAS_WORD_128
 int32_t xmem::dummy_randomLoop_Word128(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -1376,23 +1312,11 @@ int32_t xmem::dummy_randomLoop_Word128(uintptr_t* first_address, uintptr_t** las
 	volatile uintptr_t val_extract;
 	val = my_64b_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 
-#ifdef USE_TIME_BASED_BENCHMARKS
 #ifndef HAS_WORD_64 //special case: 32-bit machines
 	UNROLL256(val_extract = my_32b_extractLSB_128b(val);) //Extract 32 LSB.
 #endif
 #ifdef HAS_WORD_64
 	UNROLL256(val_extract = my_64b_extractLSB_128b(val);) //Extract 64 LSB.
-#endif
-#endif
-#ifdef USE_SIZE_BASED_BENCHMARKS
-	for (size_t i = 0; i < len / sizeof(Word128_t); i += 256) {
-#ifndef HAS_WORD_64 //special case: 32-bit machines
-		UNROLL256(val_extract = my_32b_extractLSB_128b(val);) //Extract 32 LSB.
-#endif
-#ifdef HAS_WORD_64
-		UNROLL256(val_extract = my_64b_extractLSB_128b(val);) //Extract 64 LSB.
-#endif
-	}
 #endif
 
 	return 0;
@@ -1402,7 +1326,7 @@ int32_t xmem::dummy_randomLoop_Word128(uintptr_t* first_address, uintptr_t** las
 
 #ifdef HAS_WORD_256
 int32_t xmem::dummy_randomLoop_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -1412,23 +1336,11 @@ int32_t xmem::dummy_randomLoop_Word256(uintptr_t* first_address, uintptr_t** las
 	volatile uintptr_t val_extract;
 	val = my_64b_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 
-#ifdef USE_TIME_BASED_BENCHMARKS
 #ifndef HAS_WORD_64 //special case: 32-bit machines
 		UNROLL128(val_extract = my_32b_extractLSB_256b(val);) //Extract 32 LSB.
 #endif
 #ifdef HAS_WORD_64
 		UNROLL128(val_extract = my_64b_extractLSB_256b(val);) //Extract 64 LSB.
-#endif
-#endif
-#ifdef USE_SIZE_BASED_BENCHMARKS
-	for (size_t i = 0; i < len / sizeof(Word256_t); i += 128) {
-#ifndef HAS_WORD_64 //special case: 32-bit machines
-		UNROLL128(val_extract = my_32b_extractLSB_256b(val);) //Extract 32 LSB.
-#endif
-#ifdef HAS_WORD_64
-		UNROLL128(val_extract = my_64b_extractLSB_256b(val);) //Extract 64 LSB.
-#endif
-	}
 #endif
 
 	return 0;
@@ -1472,8 +1384,8 @@ int32_t xmem::forwSequentialRead_Word64(void* start_address, void* end_address) 
 
 #ifdef HAS_WORD_128
 int32_t xmem::forwSequentialRead_Word128(void* start_address, void* end_address) { 
-#ifdef _WIN32
-	return win_asm_forwSequentialRead_Word128(static_cast<Word128_t*>(start_address), static_cast<Word128_t*>(end_address));
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+	return win_x86_64_asm_forwSequentialRead_Word128(static_cast<Word128_t*>(start_address), static_cast<Word128_t*>(end_address));
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
@@ -1487,8 +1399,8 @@ int32_t xmem::forwSequentialRead_Word128(void* start_address, void* end_address)
 
 #ifdef HAS_WORD_256
 int32_t xmem::forwSequentialRead_Word256(void* start_address, void* end_address) { 
-#ifdef _WIN32
-	return win_asm_forwSequentialRead_Word256(static_cast<Word256_t*>(start_address), static_cast<Word256_t*>(end_address));
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+	return win_x86_64_asm_forwSequentialRead_Word256(static_cast<Word256_t*>(start_address), static_cast<Word256_t*>(end_address));
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
@@ -1520,8 +1432,8 @@ int32_t xmem::revSequentialRead_Word64(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_128
 int32_t xmem::revSequentialRead_Word128(void* start_address, void* end_address) { 
-#ifdef _WIN32
-	return win_asm_revSequentialRead_Word128(static_cast<Word128_t*>(end_address), static_cast<Word128_t*>(start_address));
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+	return win_x86_64_asm_revSequentialRead_Word128(static_cast<Word128_t*>(end_address), static_cast<Word128_t*>(start_address));
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
@@ -1535,8 +1447,8 @@ int32_t xmem::revSequentialRead_Word128(void* start_address, void* end_address) 
 
 #ifdef HAS_WORD_256
 int32_t xmem::revSequentialRead_Word256(void* start_address, void* end_address) {
-#ifdef _WIN32
-	return win_asm_revSequentialRead_Word256(static_cast<Word256_t*>(end_address), static_cast<Word256_t*>(start_address));
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+	return win_x86_64_asm_revSequentialRead_Word256(static_cast<Word256_t*>(end_address), static_cast<Word256_t*>(start_address));
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
@@ -1570,8 +1482,8 @@ int32_t xmem::forwSequentialWrite_Word64(void* start_address, void* end_address)
 
 #ifdef HAS_WORD_128
 int32_t xmem::forwSequentialWrite_Word128(void* start_address, void* end_address) { 
-#ifdef _WIN32
-	return win_asm_forwSequentialWrite_Word128(static_cast<Word128_t*>(start_address), static_cast<Word128_t*>(end_address));
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+	return win_x86_64_asm_forwSequentialWrite_Word128(static_cast<Word128_t*>(start_address), static_cast<Word128_t*>(end_address));
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
@@ -1586,8 +1498,8 @@ int32_t xmem::forwSequentialWrite_Word128(void* start_address, void* end_address
 
 #ifdef HAS_WORD_256
 int32_t xmem::forwSequentialWrite_Word256(void* start_address, void* end_address) {
-#ifdef _WIN32
-	return win_asm_forwSequentialWrite_Word256(static_cast<Word256_t*>(start_address), static_cast<Word256_t*>(end_address));
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+	return win_x86_64_asm_forwSequentialWrite_Word256(static_cast<Word256_t*>(start_address), static_cast<Word256_t*>(end_address));
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
@@ -1620,8 +1532,8 @@ int32_t xmem::revSequentialWrite_Word64(void* start_address, void* end_address) 
 
 #ifdef HAS_WORD_128
 int32_t xmem::revSequentialWrite_Word128(void* start_address, void* end_address) { 
-#ifdef _WIN32
-	return win_asm_revSequentialWrite_Word128(static_cast<Word128_t*>(end_address), static_cast<Word128_t*>(start_address));
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+	return win_x86_64_asm_revSequentialWrite_Word128(static_cast<Word128_t*>(end_address), static_cast<Word128_t*>(start_address));
 #endif
 #ifdef __gnu_linux__
 	register Word128_t val;
@@ -1636,8 +1548,8 @@ int32_t xmem::revSequentialWrite_Word128(void* start_address, void* end_address)
 
 #ifdef HAS_WORD_256
 int32_t xmem::revSequentialWrite_Word256(void* start_address, void* end_address) {
-#ifdef _WIN32
-	return win_asm_revSequentialWrite_Word256(static_cast<Word256_t*>(end_address), static_cast<Word256_t*>(start_address));
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+	return win_x86_64_asm_revSequentialWrite_Word256(static_cast<Word256_t*>(end_address), static_cast<Word256_t*>(start_address));
 #endif
 #ifdef __gnu_linux__
 	register Word256_t val;
@@ -1680,7 +1592,7 @@ int32_t xmem::forwStride2Read_Word64(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_128
 int32_t xmem::forwStride2Read_Word128(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -1699,7 +1611,7 @@ int32_t xmem::forwStride2Read_Word128(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_256
 int32_t xmem::forwStride2Read_Word256(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -1744,7 +1656,7 @@ int32_t xmem::revStride2Read_Word64(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_128
 int32_t xmem::revStride2Read_Word128(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -1763,7 +1675,7 @@ int32_t xmem::revStride2Read_Word128(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_256
 int32_t xmem::revStride2Read_Word256(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -1810,7 +1722,7 @@ int32_t xmem::forwStride2Write_Word64(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_128
 int32_t xmem::forwStride2Write_Word128(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -1830,7 +1742,7 @@ int32_t xmem::forwStride2Write_Word128(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_256
 int32_t xmem::forwStride2Write_Word256(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -1876,7 +1788,7 @@ int32_t xmem::revStride2Write_Word64(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_128
 int32_t xmem::revStride2Write_Word128(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -1896,7 +1808,7 @@ int32_t xmem::revStride2Write_Word128(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_256
 int32_t xmem::revStride2Write_Word256(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -1944,7 +1856,7 @@ int32_t xmem::forwStride4Read_Word64(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_128
 int32_t xmem::forwStride4Read_Word128(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -1963,7 +1875,7 @@ int32_t xmem::forwStride4Read_Word128(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_256
 int32_t xmem::forwStride4Read_Word256(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -2008,7 +1920,7 @@ int32_t xmem::revStride4Read_Word64(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_128
 int32_t xmem::revStride4Read_Word128(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -2027,7 +1939,7 @@ int32_t xmem::revStride4Read_Word128(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_256
 int32_t xmem::revStride4Read_Word256(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -2074,7 +1986,7 @@ int32_t xmem::forwStride4Write_Word64(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_128
 int32_t xmem::forwStride4Write_Word128(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -2094,7 +2006,7 @@ int32_t xmem::forwStride4Write_Word128(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_256
 int32_t xmem::forwStride4Write_Word256(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -2140,7 +2052,7 @@ int32_t xmem::revStride4Write_Word64(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_128
 int32_t xmem::revStride4Write_Word128(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -2160,7 +2072,7 @@ int32_t xmem::revStride4Write_Word128(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_256
 int32_t xmem::revStride4Write_Word256(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -2208,7 +2120,7 @@ int32_t xmem::forwStride8Read_Word64(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_128
 int32_t xmem::forwStride8Read_Word128(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -2227,7 +2139,7 @@ int32_t xmem::forwStride8Read_Word128(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_256
 int32_t xmem::forwStride8Read_Word256(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -2272,7 +2184,7 @@ int32_t xmem::revStride8Read_Word64(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_128
 int32_t xmem::revStride8Read_Word128(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -2291,7 +2203,7 @@ int32_t xmem::revStride8Read_Word128(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_256
 int32_t xmem::revStride8Read_Word256(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -2338,7 +2250,7 @@ int32_t xmem::forwStride8Write_Word64(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_128
 int32_t xmem::forwStride8Write_Word128(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -2358,7 +2270,7 @@ int32_t xmem::forwStride8Write_Word128(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_256
 int32_t xmem::forwStride8Write_Word256(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -2404,7 +2316,7 @@ int32_t xmem::revStride8Write_Word64(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_128
 int32_t xmem::revStride8Write_Word128(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -2424,7 +2336,7 @@ int32_t xmem::revStride8Write_Word128(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_256
 int32_t xmem::revStride8Write_Word256(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -2472,7 +2384,7 @@ int32_t xmem::forwStride16Read_Word64(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_128
 int32_t xmem::forwStride16Read_Word128(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -2491,7 +2403,7 @@ int32_t xmem::forwStride16Read_Word128(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_256
 int32_t xmem::forwStride16Read_Word256(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -2536,7 +2448,7 @@ int32_t xmem::revStride16Read_Word64(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_128
 int32_t xmem::revStride16Read_Word128(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -2555,7 +2467,7 @@ int32_t xmem::revStride16Read_Word128(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_256
 int32_t xmem::revStride16Read_Word256(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -2602,7 +2514,7 @@ int32_t xmem::forwStride16Write_Word64(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_128
 int32_t xmem::forwStride16Write_Word128(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0;
 #endif
 #ifdef __gnu_linux__
@@ -2622,7 +2534,7 @@ int32_t xmem::forwStride16Write_Word128(void* start_address, void* end_address) 
 
 #ifdef HAS_WORD_256
 int32_t xmem::forwStride16Write_Word256(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0;
 #endif
 #ifdef __gnu_linux__
@@ -2670,7 +2582,7 @@ int32_t xmem::revStride16Write_Word64(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_128
 int32_t xmem::revStride16Write_Word128(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -2691,7 +2603,7 @@ int32_t xmem::revStride16Write_Word128(void* start_address, void* end_address) {
 
 #ifdef HAS_WORD_256
 int32_t xmem::revStride16Write_Word256(void* start_address, void* end_address) { 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
@@ -2716,14 +2628,7 @@ int32_t xmem::revStride16Write_Word256(void* start_address, void* end_address) {
 int32_t xmem::randomRead_Word32(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 	volatile uintptr_t* p = first_address;
 
-#ifdef USE_TIME_BASED_BENCHMARKS
 	UNROLL1024(p = reinterpret_cast<uintptr_t*>(*p);)
-#endif
-#ifdef USE_SIZE_BASED_BENCHMARKS
-	for (size_t i = 0; i < len / sizeof(uintptr_t); i += 1024) {
-		UNROLL1024(p = reinterpret_cast<uintptr_t*>(*p);)
-	}
-#endif
 	*last_touched_address = const_cast<uintptr_t*>(p);
 	return 0;
 }
@@ -2733,14 +2638,7 @@ int32_t xmem::randomRead_Word32(uintptr_t* first_address, uintptr_t** last_touch
 int32_t xmem::randomRead_Word64(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
 	volatile uintptr_t* p = first_address;
 
-#ifdef USE_TIME_BASED_BENCHMARKS
 	UNROLL512(p = reinterpret_cast<uintptr_t*>(*p);)
-#endif
-#ifdef USE_SIZE_BASED_BENCHMARKS
-	for (size_t i = 0; i < len / sizeof(uintptr_t); i += 512) {
-		UNROLL512(p = reinterpret_cast<uintptr_t*>(*p);)
-	}
-#endif
 	*last_touched_address = const_cast<uintptr_t*>(p);
 	return 0;
 }
@@ -2748,30 +2646,18 @@ int32_t xmem::randomRead_Word64(uintptr_t* first_address, uintptr_t** last_touch
 
 #ifdef HAS_WORD_128
 int32_t xmem::randomRead_Word128(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	volatile Word128_t* p = reinterpret_cast<Word128_t*>(first_address);
 	register Word128_t val;
 
-#ifdef USE_TIME_BASED_BENCHMARKS
 #ifndef HAS_WORD_64 //special case: 32-bit machine
 	UNROLL256(val = *p; p = reinterpret_cast<Word128_t*>(my_32b_extractLSB_128b(val));) //Do 128-bit load. Then extract 32 LSB to use as next load address.
 #endif
 #ifdef HAS_WORD_64
 	UNROLL256(val = *p; p = reinterpret_cast<Word128_t*>(my_64b_extractLSB_128b(val));) //Do 128-bit load. Then extract 64 LSB to use as next load address.
-#endif
-#endif
-#ifdef USE_SIZE_BASED_BENCHMARKS
-	for (size_t i = 0; i < len / sizeof(Word128_t); i += 256) {
-#ifndef HAS_WORD_64 //special case: 32-bit machine
-		UNROLL256(val = *p; p = reinterpret_cast<Word128_t*>(my_32b_extractLSB_128b(val));) //Do 128-bit load. Then extract 32 LSB to use as next load address.
-#endif
-#ifdef HAS_WORD_64
-		UNROLL256(val = *p; p = reinterpret_cast<Word128_t*>(my_64b_extractLSB_128b(val));) //Do 128-bit load. Then extract 64 LSB to use as next load address.
-#endif
-	}
 #endif
 
 	*last_touched_address = reinterpret_cast<uintptr_t*>(const_cast<Word128_t*>(p)); //Trick compiler. First get rid of volatile qualifier, and then reinterpret pointer
@@ -2782,30 +2668,18 @@ int32_t xmem::randomRead_Word128(uintptr_t* first_address, uintptr_t** last_touc
 
 #ifdef HAS_WORD_256
 int32_t xmem::randomRead_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	volatile Word256_t* p = reinterpret_cast<Word256_t*>(first_address);
 	register Word256_t val;
 
-#ifdef USE_TIME_BASED_BENCHMARKS
 #ifndef HAS_WORD_64 //special case: 32-bit machine
 	UNROLL128(val = *p; p = reinterpret_cast<Word256_t*>(my_32b_extractLSB_256b(val));) //Do 256-bit load. Then extract 32 LSB to use as next load address.
 #endif
 #ifdef HAS_WORD_64
 	UNROLL128(val = *p; p = reinterpret_cast<Word256_t*>(my_64b_extractLSB_256b(val));) //Do 256-bit load. Then extract 64 LSB to use as next load address.
-#endif
-#endif
-#ifdef USE_SIZE_BASED_BENCHMARKS
-	for (size_t i = 0; i < len / sizeof(Word256_t); i += 128) {
-#ifndef HAS_WORD_64 //special case: 32-bit machine
-		UNROLL128(val = *p; p = reinterpret_cast<Word256_t*>(my_32b_extractLSB_256b(val));) //Do 256-bit load. Then extract 32 LSB to use as next load address.
-#endif
-#ifdef HAS_WORD_64
-		UNROLL128(val = *p; p = reinterpret_cast<Word256_t*>(my_64b_extractLSB_256b(val));) //Do 256-bit load. Then extract 64 LSB to use as next load address.
-#endif
-	}
 #endif
 
 	*last_touched_address = reinterpret_cast<uintptr_t*>(const_cast<Word256_t*>(p)); //Trick compiler. First get rid of volatile qualifier, and then reinterpret pointer
@@ -2821,14 +2695,7 @@ int32_t xmem::randomWrite_Word32(uintptr_t* first_address, uintptr_t** last_touc
 	volatile uintptr_t* p = first_address;
 	volatile uintptr_t* p2 = NULL;
 
-#ifdef USE_TIME_BASED_BENCHMARKS
 	UNROLL1024(p2 = reinterpret_cast<uintptr_t*>(*p); *p = reinterpret_cast<uintptr_t>(p2); p = p2;)
-#endif
-#ifdef USE_SIZE_BASED_BENCHMARKS
-	for (size_t i = 0; i < len / sizeof(uintptr_t); i += 1024) {
-		UNROLL1024(p2 = reinterpret_cast<uintptr_t*>(*p); *p = reinterpret_cast<uintptr_t>(p2); p = p2;)
-	}
-#endif
 	*last_touched_address = const_cast<uintptr_t*>(p);
 	return 0;
 }
@@ -2839,14 +2706,7 @@ int32_t xmem::randomWrite_Word64(uintptr_t* first_address, uintptr_t** last_touc
 	volatile uintptr_t* p = first_address;
 	volatile uintptr_t* p2 = NULL;
 
-#ifdef USE_TIME_BASED_BENCHMARKS
 	UNROLL512(p2 = reinterpret_cast<uintptr_t*>(*p); *p = reinterpret_cast<uintptr_t>(p2); p = p2;)
-#endif
-#ifdef USE_SIZE_BASED_BENCHMARKS
-	for (size_t i = 0; i < len / sizeof(uintptr_t); i += 512) {
-		UNROLL512(p2 = reinterpret_cast<uintptr_t*>(*p); *p = reinterpret_cast<uintptr_t>(p2); p = p2;)
-	}
-#endif
 	*last_touched_address = const_cast<uintptr_t*>(p);
 	return 0;
 }
@@ -2854,30 +2714,18 @@ int32_t xmem::randomWrite_Word64(uintptr_t* first_address, uintptr_t** last_touc
 
 #ifdef HAS_WORD_128
 int32_t xmem::randomWrite_Word128(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	volatile Word128_t* p = reinterpret_cast<Word128_t*>(first_address);
 	register Word128_t val;
 
-#ifdef USE_TIME_BASED_BENCHMARKS
 #ifndef HAS_WORD_64 //special case: 32-bit machine
 	UNROLL256(val = *p; *p = val; p = reinterpret_cast<Word128_t*>(my_32b_extractLSB_128b(val));) //Do 128-bit load. Then do 128-bit store. Then extract 32 LSB to use as next load address.
 #endif
 #ifdef HAS_WORD_64
 	UNROLL256(val = *p; *p = val; p = reinterpret_cast<Word128_t*>(my_64b_extractLSB_128b(val));) //Do 128-bit load. Then do 128-bit store. Then extract 64 LSB to use as next load address.
-#endif
-#endif
-#ifdef USE_SIZE_BASED_BENCHMARKS
-	for (size_t i = 0; i < len / sizeof(Word128_t); i += 256) {
-#ifndef HAS_WORD_64 //special case: 32-bit machine
-		UNROLL256(val = *p; *p = val; p = reinterpret_cast<Word128_t*>(my_32b_extractLSB_128b(val));) //Do 128-bit load. Then do 128-bit store. Then extract 32 LSB to use as next load address.
-#endif
-#ifdef HAS_WORD_64
-		UNROLL256(val = *p; *p = val; p = reinterpret_cast<Word128_t*>(my_64b_extractLSB_128b(val));) //Do 128-bit load. Then do 128-bit store. Then extract 64 LSB to use as next load address.
-#endif
-	}
 #endif
 
 	*last_touched_address = reinterpret_cast<uintptr_t*>(const_cast<Word128_t*>(p)); //Trick compiler. First get rid of volatile qualifier, and then reinterpret pointer
@@ -2888,30 +2736,18 @@ int32_t xmem::randomWrite_Word128(uintptr_t* first_address, uintptr_t** last_tou
 
 #ifdef HAS_WORD_256
 int32_t xmem::randomWrite_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 	return 0; //TODO: Implement for Windows.
 #endif
 #ifdef __gnu_linux__
 	volatile Word256_t* p = reinterpret_cast<Word256_t*>(first_address);
 	register Word256_t val;
 
-#ifdef USE_TIME_BASED_BENCHMARKS
 #ifndef HAS_WORD_64 //special case: 32-bit machine
 	UNROLL128(val = *p; *p = val; p = reinterpret_cast<Word256_t*>(my_32b_extractLSB_256b(val));) //Do 256-bit load. Then do 256-bit store. Then extract 32 LSB to use as next load address.
 #endif
 #ifdef HAS_WORD_64
 	UNROLL128(val = *p; *p = val; p = reinterpret_cast<Word256_t*>(my_64b_extractLSB_256b(val));) //Do 256-bit load. Then do 256-bit store. Then extract 64 LSB to use as next load address.
-#endif
-#endif
-#ifdef USE_SIZE_BASED_BENCHMARKS
-	for (size_t i = 0; i < len / sizeof(Word256_t); i += 128) {
-#ifndef HAS_WORD_64 //special case: 32-bit machine
-		UNROLL128(val = *p; *p = val; p = reinterpret_cast<Word256_t*>(my_32b_extractLSB_256b(val));) //Do 256-bit load. Then do 256-bit store. Then extract 32 LSB to use as next load address.
-#endif
-#ifdef HAS_WORD_64
-		UNROLL128(val = *p; *p = val; p = reinterpret_cast<Word256_t*>(my_64b_extractLSB_256b(val));) //Do 256-bit load. Then do 256-bit store. Then extract 64 LSB to use as next load address.
-#endif
-	}
 #endif
 
 	*last_touched_address = reinterpret_cast<uintptr_t*>(const_cast<Word256_t*>(p)); //Trick compiler. First get rid of volatile qualifier, and then reinterpret pointer

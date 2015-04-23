@@ -49,9 +49,6 @@ using namespace xmem;
 LoadWorker::LoadWorker(
 		void* mem_array,
 		size_t len,
-#ifdef USE_SIZE_BASED_BENCHMARKS
-		uint32_t passes_per_iteration,
-#endif
 		SequentialFunction kernel_fptr,
 		SequentialFunction kernel_dummy_fptr,
 		int32_t cpu_affinity
@@ -59,9 +56,6 @@ LoadWorker::LoadWorker(
 		MemoryWorker(
 			mem_array,
 			len,
-#ifdef USE_SIZE_BASED_BENCHMARKS
-			passes_per_iteration,
-#endif
 			cpu_affinity
 		),
 		__use_sequential_kernel_fptr(true),
@@ -75,9 +69,6 @@ LoadWorker::LoadWorker(
 LoadWorker::LoadWorker(
 		void* mem_array,
 		size_t len,
-	#ifdef USE_SIZE_BASED_BENCHMARKS
-		uint32_t passes_per_iteration,
-	#endif
 		RandomFunction kernel_fptr,
 		RandomFunction kernel_dummy_fptr,
 		int32_t cpu_affinity
@@ -85,9 +76,6 @@ LoadWorker::LoadWorker(
 		MemoryWorker(
 			mem_array,
 			len,
-#ifdef USE_SIZE_BASED_BENCHMARKS
-			passes_per_iteration,
-#endif
 			cpu_affinity
 		),
 		__use_sequential_kernel_fptr(false),
@@ -121,25 +109,16 @@ void LoadWorker::run() {
 	tick_t elapsed_dummy_ticks = 0;
 	tick_t adjusted_ticks = 0;
 	bool warning = false;
-
-#ifdef USE_TIME_BASED_BENCHMARKS
 	void* mem_array = NULL;
 	size_t len = 0;
 	tick_t target_ticks = g_ticks_per_ms * BENCHMARK_DURATION_MS; //Rough target run duration in ticks
 	uint32_t p = 0;
 	bytes_per_pass = THROUGHPUT_BENCHMARK_BYTES_PER_PASS;
-#endif
 	
 	//Grab relevant setup state thread-safely and keep it local
 	if (_acquireLock(-1)) {
-#ifdef USE_TIME_BASED_BENCHMARKS
 		mem_array = _mem_array;
 		len = _len;
-#endif
-#ifdef USE_SIZE_BASED_BENCHMARKS
-		bytes_per_pass = _len;
-		passes = _passes_per_iteration;
-#endif
 		cpu_affinity = _cpu_affinity;
 		use_sequential_kernel_fptr = __use_sequential_kernel_fptr;
 		kernel_fptr_seq = __kernel_fptr_seq;
@@ -176,7 +155,6 @@ void LoadWorker::run() {
 
 	//Run the benchmark!
 	uintptr_t* next_address = static_cast<uintptr_t*>(mem_array);
-#ifdef USE_TIME_BASED_BENCHMARKS
 	//Run actual version of function and loop overhead
 	while (elapsed_ticks < target_ticks) {
 		if (use_sequential_kernel_fptr) { //sequential function semantics
@@ -221,38 +199,6 @@ void LoadWorker::run() {
 
 		elapsed_dummy_ticks += (stop_tick - start_tick);
 	}
-#endif
-
-#ifdef USE_SIZE_BASED_BENCHMARKS
-	next_address = static_cast<uintptr_t*>(mem_array);
-	if (use_sequential_kernel_fptr) { //sequential function semantics
-		start_tick = start_timer();
-		for (uint32_t p = 0; p < __passes_per_iteration; p++)
-			(*kernel_fptr_seq)(start_address, end_address);
-		stop_tick = stop_timer();
-	} else { //random function semantics
-		start_tick = start_timer();
-		for (uint32_t p = 0; p < __passes_per_iteration; p++)
-			(*kernel_fptr_ran)(next_address, &next_address, bytes_per_pass);
-		stop_tick = stop_timer();
-	}
-	elapsed_ticks = stop_tick - start_tick;
-
-	//Time dummy version of function and loop overhead
-	next_address = static_cast<uintptr_t*>(mem_array);
-	if (use_sequential_kernel_fptr) { //sequential function semantics
-		start_tick = start_timer();
-		for (uint32_t p = 0; p < __passes_per_iteration; p++)
-			(*kernel_dummy_fptr_seq)(start_address, end_address);
-		stop_tick = stop_timer();
-	} else { //random function semantics
-		start_tick = start_timer();
-		for (uint32_t p = 0; p < __passes_per_iteration; p++)
-			(*kernel_dummy_fptr_ran)(next_address, &next_address, bytes_per_pass);
-		stop_tick = stop_timer();
-	}
-	elapsed_dummy_ticks = stop_tick - start_tick;
-#endif
 
 	//Unset processor affinity
 	if (locked)

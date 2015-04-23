@@ -45,9 +45,6 @@ Benchmark::Benchmark(
 		void* mem_array,
 		size_t len,
 		uint32_t iterations,
-#ifdef USE_SIZE_BASED_BENCHMARKS
-		uint32_t passes_per_iteration,
-#endif
 		uint32_t num_worker_threads,
 		uint32_t mem_node,
 		uint32_t cpu_node,
@@ -62,9 +59,6 @@ Benchmark::Benchmark(
 		_mem_array(mem_array),
 		_len(len),
 		_iterations(iterations),
-#ifdef USE_SIZE_BASED_BENCHMARKS
-		_passes_per_iteration(passes_per_iteration),
-#endif
 		_num_worker_threads(num_worker_threads),
 		_mem_node(mem_node),
 		_cpu_node(cpu_node),
@@ -271,12 +265,6 @@ size_t Benchmark::getLen() const {
 uint32_t Benchmark::getIterations() const {
 	return _iterations;
 }
-
-#ifdef USE_SIZE_BASED_BENCHMARKS
-uint32_t Benchmark::getPassesPerIteration() const {
-	return _passes_per_iteration;
-}
-#endif
 
 chunk_size_t Benchmark::getChunkSize() const {
 	return _chunk_size;

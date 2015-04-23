@@ -53,9 +53,6 @@ namespace xmem {
 			LatencyWorker(
 				void* mem_array,
 				size_t len,
-#ifdef USE_SIZE_BASED_BENCHMARKS
-				uint32_t passes_per_iteration,
-#endif
 				RandomFunction kernel_fptr,
 				RandomFunction kernel_dummy_fptr,
 				int32_t cpu_affinity
