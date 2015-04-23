@@ -46,8 +46,13 @@ Timer::Timer() :
 	_ticks_per_ms(0),
 	_ns_per_tick(0)
 {	
+
+#if defined(_WIN32) && defined(USE_QPC_TIMER) //special case
+	LARGE_INTEGER freq;
+	BOOL success = QueryPerformanceFrequency(&freq);
+	_ticks_per_ms = static_cast<tick_t>(freq.QuadPart)/1000;
+#else
 	tick_t start_tick, stop_tick;
-	
 	start_tick = start_timer();
 #ifdef _WIN32
 	Sleep(100);
@@ -60,6 +65,7 @@ Timer::Timer() :
 #endif
 	stop_tick = stop_timer();
 	_ticks_per_ms = (stop_tick - start_tick) / 100;
+#endif
 	_ns_per_tick = 1/(static_cast<double>(_ticks_per_ms)) * 1e6;
 }
 

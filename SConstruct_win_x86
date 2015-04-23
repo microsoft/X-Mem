@@ -1,0 +1,5 @@
+# SConstruct file for Windows x86 build only
+# Author: Mark Gottscho <mgottscho@ucla.edu>
+
+SConscript('SConscript_win_x86', variant_dir = 'build/win/x86/release', duplicate = 0, exports = {'MODE':'release'})
+#SConscript('SConscript_win_x86', variant_dir = 'build/win/x86/debug', duplicate = 0, exports = {'MODE':'debug'})

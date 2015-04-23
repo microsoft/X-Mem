@@ -1,0 +1,39 @@
+# SConscript file for Windows x86 build only
+# Author: Mark Gottscho <mgottscho@ucla.edu>
+
+import os
+
+# Initialize build environment for Windows x86, using Visual Studio 2013
+env = Environment(MSVC_USE_SCRIPT = 'C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\VC\\bin\\vcvars32.bat', AS = 'ml', MSVC_BATCH = 1)
+
+# Copy OS environment path to scons environment. TODO: Is this needed?
+#env['ENV']['PATH'] = os.environ['PATH']
+
+# Customize build settings
+env.Append(ASFLAGS = '/c /nologo /WX /Zi /W3 /errorReport:prompt')
+env.Append(CPPFLAGS = '/c /Zi /nologo /W3 /wd4101 /WX- /MP /O2 /Oi /Ot /D WIN32 /D NDEBUG /D _CONSOLE /Gm- /EHsc /GS /fp:precise /Zc:wchar_t /Zc:forScope /Gd /TP /errorReport:queue ')
+# Dynamic link
+env.Append(CPPFLAGS = '/MD')
+# Static link
+#env.Append(CPPFLAGS = '/MT')
+
+env.Append(CPPPATH = ['src/include'])
+env.Append(CPPPATH = ['src/include/ext/DelayInjectedLoadedLatencyBenchmark']) # Extension: Delay-injected loaded latency benchmark
+env.Append(CPPPATH = ['src/include/ext/StreamBenchmark']) # Extension: Stream benchmark
+
+# List all C++ source files
+sources = [
+	#Glob('src/win/x86_64/*.asm'), # Have some hand-coded assembler files for Windows x86-64 only
+	Glob('src/*.cpp'), 
+	Glob('src/ext/*/*.cpp'), # All extensions
+	Glob('src/win/*.cpp'),
+	#Glob('src/x86_64/*.cpp')
+]
+
+defaultBuild = env.Program(target = 'xmem', source = sources)
+
+# TODO: Build a MS Visual Studio project file?
+
+# TODO: Build a MS Visual Studio solution file?
+
+Default(defaultBuild)

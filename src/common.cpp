@@ -436,7 +436,6 @@ int32_t xmem::query_sys_info() {
 	uint32_t id = 0;
 #endif
 
-#ifdef HAS_NUMA
 	//Get NUMA info
 #ifdef _WIN32
 	curr = buffer;
@@ -451,6 +450,7 @@ int32_t xmem::query_sys_info() {
 	}
 #endif
 #ifdef __gnu_linux__
+#ifdef HAS_NUMA
 	if (numa_available() == -1) { //Check that NUMA is available.
 		std::cerr << "WARNING: NUMA API is not available on this system." << std::endl;
 		return -1;
@@ -458,6 +458,10 @@ int32_t xmem::query_sys_info() {
 
 	//Get number of nodes. This is easy.
 	g_num_nodes = numa_max_node()+1;
+#endif
+#ifndef HAS_NUMA //special case
+	g_num_nodes = 1;
+#endif
 
 	//Get number of physical packages. This is somewhat convoluted, but not sure of a better way on Linux. Technically there could be on-chip NUMA, so...
 	std::vector<uint32_t> phys_package_ids;
@@ -481,7 +485,6 @@ int32_t xmem::query_sys_info() {
 		}
 	}
 	g_num_physical_packages = phys_package_ids.size();
-#endif
 #endif
 
 	//Get number of CPUs
