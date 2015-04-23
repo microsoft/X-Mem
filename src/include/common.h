@@ -45,7 +45,7 @@
 
 namespace xmem {
 
-#define VERSION "2.1.12"
+#define VERSION "2.1.13"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -63,6 +63,7 @@ namespace xmem {
 #define ARCH_INTEL_X86_64
 #define ARCH_INTEL
 #define ARCH_64BIT
+#define HAS_NUMA
 #endif
 
 #ifdef _M_IX86_FP //Intel x86-64 SSE2 extensions
@@ -106,6 +107,7 @@ namespace xmem {
 #define ARCH_INTEL_X86_64
 #define ARCH_64BIT
 #define ARCH_INTEL
+#define HAS_NUMA
 #endif
 
 #ifdef __SSE2__ //Intel x86-64 SSE2 extensions
@@ -155,10 +157,10 @@ namespace xmem {
 #define DEFAULT_LARGE_PAGE_SIZE 2*MB /**< Default platform large page size in bytes. This generally should not be relied on, but is a failsafe. */
 #define DEFAULT_WORKING_SET_SIZE_PER_THREAD DEFAULT_PAGE_SIZE /**< Default working set size in bytes. */
 #define DEFAULT_NUM_WORKER_THREADS 1 /**< Default number of worker threads to use. */
-#define DEFAULT_NUM_NODES 0 /**< Default number of NUMA nodes. */
-#define DEFAULT_NUM_PHYSICAL_PACKAGES 0 /**< Default number of physical packages. */
-#define DEFAULT_NUM_PHYSICAL_CPUS 0 /**< Default number of physical CPU cores. */
-#define DEFAULT_NUM_LOGICAL_CPUS 0 /**< Default number of logical CPU cores. */
+#define DEFAULT_NUM_NODES 1 /**< Default number of NUMA nodes. */
+#define DEFAULT_NUM_PHYSICAL_PACKAGES 1 /**< Default number of physical packages. */
+#define DEFAULT_NUM_PHYSICAL_CPUS 1 /**< Default number of physical CPU cores. */
+#define DEFAULT_NUM_LOGICAL_CPUS 1 /**< Default number of logical CPU cores. */
 #define DEFAULT_NUM_L1_CACHES 0 /**< Default number of L1 caches. */
 #define DEFAULT_NUM_L2_CACHES 0 /**< Default number of L2 caches. */
 #define DEFAULT_NUM_L3_CACHES 0 /**< Default number of L3 caches. */
@@ -439,7 +441,7 @@ namespace xmem {
 	 * @returns True on success.
 	 */
 	bool unlock_thread_to_cpu();
-	
+
 	/**
 	 * @brief Gets the CPU ID for a logical CPU of interest in a particular NUMA node.
 	 * For example, if numa_node is 1 and cpu_in_node is 2, and there are 4 logical CPUs per node, then this will give the answer 6 (6th CPU), assuming CPU IDs start at 0.

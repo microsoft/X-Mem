@@ -42,7 +42,9 @@
 #ifdef __gnu_linux__
 #include <unistd.h>
 #include <pthread.h>
+#ifdef HAS_NUMA
 #include <numa.h>
+#endif
 #include <fstream> //for std::ifstream
 #include <vector> //for std::vector
 #include <algorithm> //for std::find
@@ -162,6 +164,9 @@ void xmem::print_compile_time_options() {
 #endif
 #ifdef ARCH_64BIT
 	std::cout << "ARCH_64BIT" << std::endl;
+#endif
+#ifdef HAS_NUMA
+	std::cout << "HAS_NUMA" << std::endl;
 #endif
 #ifdef HAS_WORD_64
 	std::cout << "HAS_WORD_64" << std::endl;
@@ -312,8 +317,18 @@ bool xmem::unlock_thread_to_cpu() {
 	return (!pthread_setaffinity_np(tid, sizeof(cpu_set_t), &cpus));
 #endif
 }
-		
+	
 int32_t xmem::cpu_id_in_numa_node(uint32_t numa_node, uint32_t cpu_in_node) {
+#ifndef HAS_NUMA
+	if (numa_node != 0) {
+		std::cerr << "WARNING: NUMA is not supported on this X-Mem build." << std::endl;
+		return -1;
+	}
+
+	return cpu_in_node;
+#endif
+
+#ifdef HAS_NUMA
 	int32_t cpu_id = -1;
 	uint32_t rank_in_node = 0;
 #ifdef _WIN32
@@ -361,6 +376,7 @@ int32_t xmem::cpu_id_in_numa_node(uint32_t numa_node, uint32_t cpu_in_node) {
 		free(bm_ptr);
 #endif
 	return cpu_id;
+#endif
 }
 	
 size_t xmem::compute_number_of_passes(size_t working_set_size_KB) {
@@ -413,6 +429,14 @@ int32_t xmem::query_sys_info() {
 	retval = GetLogicalProcessorInformation(buffer, &len); //try again
 #endif
 
+#ifdef __gnu_linux__
+	std::ifstream in;
+	in.open("/proc/cpuinfo");
+	char line[512];
+	uint32_t id = 0;
+#endif
+
+#ifdef HAS_NUMA
 	//Get NUMA info
 #ifdef _WIN32
 	curr = buffer;
@@ -436,11 +460,7 @@ int32_t xmem::query_sys_info() {
 	g_num_nodes = numa_max_node()+1;
 
 	//Get number of physical packages. This is somewhat convoluted, but not sure of a better way on Linux. Technically there could be on-chip NUMA, so...
-	std::ifstream in;
-	in.open("/proc/cpuinfo");
-	char line[512];
 	std::vector<uint32_t> phys_package_ids;
-	uint32_t id = 0;
 	while (!in.eof()) {
 		in.getline(line, 512, '\n');
 
@@ -461,7 +481,7 @@ int32_t xmem::query_sys_info() {
 		}
 	}
 	g_num_physical_packages = phys_package_ids.size();
-	in.close();
+#endif
 #endif
 
 	//Get number of CPUs
@@ -495,7 +515,6 @@ int32_t xmem::query_sys_info() {
 
 	//Get number of physical CPUs. This is somewhat convoluted, but not sure of a better way on Linux. I don't want to assume anything about HyperThreading-like things.
 	std::vector<uint32_t> core_ids;
-	in.open("/proc/cpuinfo");
 	while (!in.eof()) {
 		in.getline(line, 512, '\n');
 		
@@ -516,7 +535,6 @@ int32_t xmem::query_sys_info() {
 		}
 	}
 	g_num_physical_cpus = core_ids.size() * g_num_physical_packages; //FIXME: currently this assumes each processor package has an equal number of cores. This may not be true in general! Need more complicated /proc/cpuinfo parsing.
-	in.close();
 #endif
 
 	//Get number of caches
@@ -566,6 +584,7 @@ int32_t xmem::query_sys_info() {
 #ifdef __gnu_linux__
 	g_page_size = static_cast<size_t>(sysconf(_SC_PAGESIZE));
 	g_large_page_size = gethugepagesize(); 
+	in.close();
 #endif
 
 #ifdef _WIN32

@@ -55,8 +55,11 @@ Configurator::Configurator(
 	__runThroughput(true),
 	__working_set_size_per_thread(DEFAULT_WORKING_SET_SIZE_PER_THREAD),
 	__num_worker_threads(DEFAULT_NUM_WORKER_THREADS),
-	__use_chunk_32b(false),
+#ifndef HAS_WORD_64
+	__use_chunk_32b(true),
+#endif
 #ifdef HAS_WORD_64
+	__use_chunk_32b(false),
 	__use_chunk_64b(true),
 #endif
 #ifdef HAS_WORD_128
@@ -65,7 +68,12 @@ Configurator::Configurator(
 #ifdef HAS_WORD_256
 	__use_chunk_256b(false),
 #endif
+#ifdef HAS_NUMA
 	__numa_enabled(true),
+#endif
+#ifndef HAS_NUMA
+	__numa_enabled(false),
+#endif
 	__iterations(1),
 	__use_random_access_pattern(false),
 	__use_sequential_access_pattern(true),
@@ -285,7 +293,7 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	}
 	
 	//Check NUMA selection
-	if (options[NUMA_DISABLE])
+	if (options[NUMA_DISABLE]) //NUMA is not supported currently on anything but x86-64 systems anyway.
 		__numa_enabled = false;
 	
 	//Check if large pages should be used for allocation of memory under test.
@@ -627,11 +635,13 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		std::cout << std::endl;
 		std::cout << "---> Number of worker threads:        ";
 		std::cout << __num_worker_threads << std::endl;
+#ifdef HAS_NUMA
 		std::cout << "---> NUMA enabled:                    ";
 		if (__numa_enabled)
 			std::cout << "yes" << std::endl;
 		else
 			std::cout << "no" << std::endl;
+#endif
 		std::cout << "---> Large pages:                     ";
 		if (__use_large_pages)
 			std::cout << "yes" << std::endl;

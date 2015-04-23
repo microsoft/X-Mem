@@ -94,7 +94,8 @@ LatencyBenchmark::LatencyBenchmark(
 void LatencyBenchmark::report_benchmark_info() const {
 	std::cout << "CPU NUMA Node: " << _cpu_node << std::endl;
 	std::cout << "Memory NUMA Node: " << _mem_node << std::endl;
-	std::cout << "Latency measurement chunk size: 64-bit" << std::endl;
+	std::cout << "Latency measurement chunk size: ";
+	std::cout << sizeof(uintptr_t)*8 << "-bit" << std::endl;
 	std::cout << "Latency measurement access pattern: random read (pointer-chasing)" << std::endl;
 
 	if (_num_worker_threads > 1) {
@@ -223,13 +224,18 @@ bool LatencyBenchmark::_run_core() {
 	RandomFunction lat_kernel_dummy_fptr = &dummy_chasePointers;
 
 	//Initialize memory regions for all threads by writing to them, causing the memory to be physically resident.
-	forwSequentialWrite_Word64(_mem_array,
+	forwSequentialWrite_Word32(_mem_array,
 							   reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array)+_len)); //static casts to silence compiler warnings
 
 	//Build pointer indices for random-access latency thread. We assume that latency thread is the first one, so we use beginning of memory region.
 	if (!buildRandomPointerPermutation(_mem_array,
 									   reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array)+len_per_thread), //static casts to silence compiler warnings
+#ifndef HAS_WORD_64 //special case: 32-bit architectures
+									   CHUNK_32b)) { 
+#endif
+#ifdef HAS_WORD_64
 									   CHUNK_64b)) { 
+#endif
 		std::cerr << "ERROR: Failed to build a random pointer permutation for the latency measurement thread!" << std::endl;
 		return false;
 	}

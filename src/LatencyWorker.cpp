@@ -130,7 +130,7 @@ void LatencyWorker::run() {
 	for (uint32_t i = 0; i < 4; i++) {
 		void* prime_start_address = mem_array; 
 		void* prime_end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array) + len);
-		forwSequentialRead_Word64(prime_start_address, prime_end_address); //dependent reads on the memory, make sure caches are ready, coherence, etc...
+		forwSequentialRead_Word32(prime_start_address, prime_end_address); //dependent reads on the memory, make sure caches are ready, coherence, etc...
 	}
 
 	//Run benchmark

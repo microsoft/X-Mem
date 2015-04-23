@@ -13,7 +13,9 @@ env.Append(CPPFLAGS = '-Wall -Wno-unused-but-set-variable -Wno-unused-variable -
 env.Append(CPPPATH = ['src/include', '/usr/include', '/lib'])
 env.Append(CPPPATH = ['src/include/ext/DelayInjectedLoadedLatencyBenchmark']) # Extension: Delay-injected loaded latency benchmark
 env.Append(CPPPATH = ['src/include/ext/StreamBenchmark']) # Extension: Stream benchmark
-env.Append(LIBS = ['pthread', 'numa', 'hugetlbfs'])
+env.Append(LIBPATH = ['/usr/lib32'])
+env.Append(LIBS = ['pthread', 'hugetlbfs'])
+env.Append(LINKFLAGS = ['-m32'])
 
 # List all C++ source files
 sources = [

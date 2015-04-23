@@ -57,7 +57,9 @@
 #endif
 
 #ifdef __gnu_linux__
+#ifdef HAS_NUMA
 #include <numa.h>
+#endif
 extern "C" {
 #include <hugetlbfs.h> //for allocating and freeing huge pages
 }
@@ -72,6 +74,9 @@ BenchmarkManager::BenchmarkManager(
 		__num_numa_nodes(g_num_nodes),
 		__benchmark_num_numa_nodes(g_num_nodes),
 		__mem_arrays(),
+#ifndef HAS_NUMA
+		__orig_malloc_addr(NULL),
+#endif
 		__mem_array_lens(),
 		__tp_benchmarks(),
 		__lat_benchmarks(),
@@ -140,7 +145,12 @@ BenchmarkManager::~BenchmarkManager() {
 			if (__config.useLargePages())
 				free_huge_pages(__mem_arrays[i]);
 			else
+#ifdef HAS_NUMA
 				numa_free(__mem_arrays[i], __mem_array_lens[i]); 
+#endif
+#ifndef HAS_NUMA
+				free(__orig_malloc_addr); //this is somewhat of a band-aid
+#endif
 #endif
 		}
 	//Close results file
@@ -399,8 +409,14 @@ void BenchmarkManager::__setupWorkingSets(size_t working_set_size) {
 			__mem_arrays[numa_node] = VirtualAllocExNuma(GetCurrentProcess(), NULL, allocation_size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE, numa_node); //Windows NUMA allocation. Make the allocation one page bigger than necessary so that we can do alignment.
 #endif
 #ifdef __gnu_linux__
+#ifdef HAS_NUMA
 			numa_set_strict(1); //Enforce NUMA memory allocation to land on specified node or fail otherwise. Alternative node fallback is forbidden.
 			__mem_arrays[numa_node] = numa_alloc_onnode(allocation_size, numa_node);
+#endif
+#ifndef HAS_NUMA //special case
+			__mem_arrays[numa_node] = malloc(allocation_size);
+			__orig_malloc_addr = __mem_arrays[numa_node];
+#endif
 #endif
 		}
 		

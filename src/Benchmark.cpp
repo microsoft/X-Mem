@@ -101,7 +101,7 @@ bool Benchmark::run() {
 
 	//Write to all of the memory region of interest to make sure
 	//pages are resident in physical memory and are not shared
-	forwSequentialWrite_Word64(_mem_array,
+	forwSequentialWrite_Word32(_mem_array,
 							   reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + _len));
 
 	bool success = _run_core();

@@ -113,6 +113,9 @@ namespace xmem {
 		uint32_t __num_numa_nodes; /**< Number of NUMA nodes in the system. */
 		uint32_t __benchmark_num_numa_nodes; /**< Number of NUMA nodes to use in benchmarks. */
 		std::vector<void*> __mem_arrays; /**< Memory regions to use in benchmarks. One for each benchmarked NUMA node. */
+#ifndef HAS_NUMA
+		void* __orig_malloc_addr; /**< Points to the original address returned by the malloc() for __mem_arrays on non-NUMA machines. Special case. */
+#endif
 		std::vector<size_t> __mem_array_lens; /**< Length of each memory region to use in benchmarks. */
 		std::vector<ThroughputBenchmark*> __tp_benchmarks; /**< Set of throughput benchmarks. */
 		std::vector<LatencyBenchmark*> __lat_benchmarks; /**< Set of latency benchmarks. */

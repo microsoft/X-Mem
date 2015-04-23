@@ -1377,7 +1377,7 @@ namespace xmem {
 	/* ------------ RANDOM WRITE --------------*/
 
 	//32-bit machines only
-#ifdef HAS_WORD_64
+#ifndef HAS_WORD_64
 	/**
 	 * @brief Walks over the allocated memory in random order by chasing 32-bit pointers. A pointer is read and written back with the same value before chasing to the next pointer. Thus, each memory address is a read followed by immediate write operation. 
 	 * @param first_address Starting address to deference.
