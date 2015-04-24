@@ -70,9 +70,10 @@ using namespace xmem;
 #endif
 
 #if defined(ARCH_ARM) && defined(ARCH_ARM_NEON)
+#define my_32b_set_128b_word(a, b) vcombine_u32(a, b)
 #define my_64b_set_128b_word(a, b) vcombine_u64(a, b)
 
-#define my_32b_extractLSB_128b(w) vget_low_u32(w) //NEON intrinsic, corresponds to "vmov" instruction. Header: arm_neon.h
+#define my_32b_extractLSB_128b(w) static_cast<uint32_t>(vget_low_u64(w)) //NEON intrinsic, corresponds to "vmov" instruction. Header: arm_neon.h
 #define my_64b_extractLSB_128b(w) vget_low_u64(w) //NEON intrinsic, corresponds to "vmov" instruction. Header: arm_neon.h
 #endif
 
@@ -1320,11 +1321,10 @@ int32_t xmem::dummy_randomLoop_Word128(uintptr_t* first_address, uintptr_t** las
 	volatile uintptr_t val_extract;
 	val = my_64b_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 
-#ifndef HAS_WORD_64 //special case: 32-bit machines
-	UNROLL256(val_extract = my_32b_extractLSB_128b(val);) //Extract 32 LSB.
-#endif
 #ifdef HAS_WORD_64
 	UNROLL256(val_extract = my_64b_extractLSB_128b(val);) //Extract 64 LSB.
+#else //special case: 32-bit machines
+	UNROLL256(val_extract = my_32b_extractLSB_128b(val);) //Extract 32 LSB.
 #endif
 
 	return 0;
@@ -1344,11 +1344,10 @@ int32_t xmem::dummy_randomLoop_Word256(uintptr_t* first_address, uintptr_t** las
 	volatile uintptr_t val_extract;
 	val = my_64b_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
 
-#ifndef HAS_WORD_64 //special case: 32-bit machines
-		UNROLL128(val_extract = my_32b_extractLSB_256b(val);) //Extract 32 LSB.
-#endif
 #ifdef HAS_WORD_64
 		UNROLL128(val_extract = my_64b_extractLSB_256b(val);) //Extract 64 LSB.
+#else //special case: 32-bit machines
+		UNROLL128(val_extract = my_32b_extractLSB_256b(val);) //Extract 32 LSB.
 #endif
 
 	return 0;
@@ -2661,11 +2660,10 @@ int32_t xmem::randomRead_Word128(uintptr_t* first_address, uintptr_t** last_touc
 	volatile Word128_t* p = reinterpret_cast<Word128_t*>(first_address);
 	register Word128_t val;
 
-#ifndef HAS_WORD_64 //special case: 32-bit machine
-	UNROLL256(val = *p; p = reinterpret_cast<Word128_t*>(my_32b_extractLSB_128b(val));) //Do 128-bit load. Then extract 32 LSB to use as next load address.
-#endif
 #ifdef HAS_WORD_64
 	UNROLL256(val = *p; p = reinterpret_cast<Word128_t*>(my_64b_extractLSB_128b(val));) //Do 128-bit load. Then extract 64 LSB to use as next load address.
+#else //special case: 32-bit machine
+	UNROLL256(val = *p; p = reinterpret_cast<Word128_t*>(my_32b_extractLSB_128b(val));) //Do 128-bit load. Then extract 32 LSB to use as next load address.
 #endif
 
 	*last_touched_address = reinterpret_cast<uintptr_t*>(const_cast<Word128_t*>(p)); //Trick compiler. First get rid of volatile qualifier, and then reinterpret pointer
@@ -2683,11 +2681,10 @@ int32_t xmem::randomRead_Word256(uintptr_t* first_address, uintptr_t** last_touc
 	volatile Word256_t* p = reinterpret_cast<Word256_t*>(first_address);
 	register Word256_t val;
 
-#ifndef HAS_WORD_64 //special case: 32-bit machine
-	UNROLL128(val = *p; p = reinterpret_cast<Word256_t*>(my_32b_extractLSB_256b(val));) //Do 256-bit load. Then extract 32 LSB to use as next load address.
-#endif
 #ifdef HAS_WORD_64
 	UNROLL128(val = *p; p = reinterpret_cast<Word256_t*>(my_64b_extractLSB_256b(val));) //Do 256-bit load. Then extract 64 LSB to use as next load address.
+#else //special case: 32-bit machine
+	UNROLL128(val = *p; p = reinterpret_cast<Word256_t*>(my_32b_extractLSB_256b(val));) //Do 256-bit load. Then extract 32 LSB to use as next load address.
 #endif
 
 	*last_touched_address = reinterpret_cast<uintptr_t*>(const_cast<Word256_t*>(p)); //Trick compiler. First get rid of volatile qualifier, and then reinterpret pointer
@@ -2729,11 +2726,10 @@ int32_t xmem::randomWrite_Word128(uintptr_t* first_address, uintptr_t** last_tou
 	volatile Word128_t* p = reinterpret_cast<Word128_t*>(first_address);
 	register Word128_t val;
 
-#ifndef HAS_WORD_64 //special case: 32-bit machine
-	UNROLL256(val = *p; *p = val; p = reinterpret_cast<Word128_t*>(my_32b_extractLSB_128b(val));) //Do 128-bit load. Then do 128-bit store. Then extract 32 LSB to use as next load address.
-#endif
 #ifdef HAS_WORD_64
 	UNROLL256(val = *p; *p = val; p = reinterpret_cast<Word128_t*>(my_64b_extractLSB_128b(val));) //Do 128-bit load. Then do 128-bit store. Then extract 64 LSB to use as next load address.
+#else //special case: 32-bit machine
+	UNROLL256(val = *p; *p = val; p = reinterpret_cast<Word128_t*>(my_32b_extractLSB_128b(val));) //Do 128-bit load. Then do 128-bit store. Then extract 32 LSB to use as next load address.
 #endif
 
 	*last_touched_address = reinterpret_cast<uintptr_t*>(const_cast<Word128_t*>(p)); //Trick compiler. First get rid of volatile qualifier, and then reinterpret pointer
@@ -2751,11 +2747,10 @@ int32_t xmem::randomWrite_Word256(uintptr_t* first_address, uintptr_t** last_tou
 	volatile Word256_t* p = reinterpret_cast<Word256_t*>(first_address);
 	register Word256_t val;
 
-#ifndef HAS_WORD_64 //special case: 32-bit machine
-	UNROLL128(val = *p; *p = val; p = reinterpret_cast<Word256_t*>(my_32b_extractLSB_256b(val));) //Do 256-bit load. Then do 256-bit store. Then extract 32 LSB to use as next load address.
-#endif
 #ifdef HAS_WORD_64
 	UNROLL128(val = *p; *p = val; p = reinterpret_cast<Word256_t*>(my_64b_extractLSB_256b(val));) //Do 256-bit load. Then do 256-bit store. Then extract 64 LSB to use as next load address.
+#else //special case: 32-bit machine
+	UNROLL128(val = *p; *p = val; p = reinterpret_cast<Word256_t*>(my_32b_extractLSB_256b(val));) //Do 256-bit load. Then do 256-bit store. Then extract 32 LSB to use as next load address.
 #endif
 
 	*last_touched_address = reinterpret_cast<uintptr_t*>(const_cast<Word256_t*>(p)); //Trick compiler. First get rid of volatile qualifier, and then reinterpret pointer

@@ -1,0 +1,5 @@
+# SConstruct file for ARM64 build only
+# Author: Mark Gottscho <mgottscho@ucla.edu>
+
+SConscript('SConscript_linux_arm64', variant_dir = 'build/linux/arm64/release', duplicate = 0, exports = {'MODE':'release'})
+#SConscript('SConscript_linux_arm64', variant_dir = 'build/linux/arm64/debug', duplicate = 0, exports = {'MODE':'debug'})

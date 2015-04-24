@@ -335,7 +335,9 @@ namespace xmem {
 	extern double g_ns_per_tick;
 
 	//Typedef the platform specific stuff to word sizes to match 4 different chunk options
-#define HAS_WORD_64 //For now, assume this is always available, even on native 32-bit architectures. The compiler will emulate 64-bit operations.
+#if defined(ARCH_64BIT)
+#define HAS_WORD_64 
+#endif
 
 #if defined(ARCH_INTEL_AVX) || defined(ARCH_ARM_NEON)
 #define HAS_WORD_128
