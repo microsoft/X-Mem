@@ -246,13 +246,15 @@ void xmem::print_compile_time_options() {
 }
 
 void xmem::setup_timer() {
-	std::cout << "Initializing timer...";
+	if (g_verbose)
+		std::cout << "\nInitializing timer...";
 
 	Timer timer;
 	g_ticks_per_ms = timer.get_ticks_per_ms();
 	g_ns_per_tick = timer.get_ns_per_tick();
 
-	std::cout << "done" << std::endl;
+	if (g_verbose)
+		std::cout << "done" << std::endl;
 }
 
 void xmem::report_timer() {
@@ -535,7 +537,7 @@ int32_t xmem::query_sys_info() {
 
 		std::string line_string(line);
 		if (line_string.find("core id") != std::string::npos) {
-			sscanf(line, "core id\t\t\t: %u", &id);
+			sscanf(line, "core id\t\t\t: %u", &id); //FIXME: this does not seem to work on Linux /proc/cpuinfo
 			if (std::find(core_ids.begin(), core_ids.end(), id) == core_ids.end()) //have not seen this physical core yet
 				core_ids.push_back(id); //add to list
 		}
@@ -606,24 +608,43 @@ int32_t xmem::query_sys_info() {
 }
 
 void xmem::report_sys_info() {
-	
-	std::cout << "done" << std::endl;
-	std::cout << "Number of NUMA nodes: " << g_num_nodes << std::endl;
-	std::cout << "Number of physical processor packages: " << g_num_physical_packages << std::endl;
-	std::cout << "Number of physical processor cores: " << g_num_physical_cpus << std::endl;
-	std::cout << "Number of logical processor cores: " << g_num_logical_cpus << std::endl;
-	std::cout << "Number of processor L1/L2/L3/L4 caches: " 
-		<< g_total_l1_caches
-		<< "/"
-		<< g_total_l2_caches
-		<< "/" 
-		<< g_total_l3_caches
-		<< "/"
-		<< g_total_l4_caches
+	std::cout << std::endl;
+	std::cout << "Number of NUMA nodes: " << g_num_nodes;
+	if (g_num_nodes == DEFAULT_NUM_NODES)
+		std::cout << "?";
+	std::cout << std::endl;
+	std::cout << "Number of physical processor packages: " << g_num_physical_packages;
+	if (g_num_physical_packages == DEFAULT_NUM_PHYSICAL_PACKAGES)
+		std::cout << "?";
+	std::cout << std::endl;
+	std::cout << "Number of physical processor cores: " << g_num_physical_cpus;
+	if (g_num_physical_cpus == DEFAULT_NUM_PHYSICAL_CPUS)
+		std::cout << "?";
+	std::cout << std::endl;
+	std::cout << "Number of logical processor cores: " << g_num_logical_cpus;
+	if (g_num_logical_cpus == DEFAULT_NUM_LOGICAL_CPUS)
+		std::cout << "?";
+	std::cout << std::endl;
+	std::cout << "Number of processor L1/L2/L3/L4 caches: ";
+	std::cout << g_total_l1_caches;
+	if (g_total_l1_caches == DEFAULT_NUM_L1_CACHES)
+		std::cout << "?";
+	std::cout << "/";
+	std::cout << g_total_l2_caches;
+	if (g_total_l2_caches == DEFAULT_NUM_L2_CACHES)
+		std::cout << "?";
+	std::cout << "/";
+	std::cout << g_total_l3_caches;
+	if (g_total_l3_caches == DEFAULT_NUM_L3_CACHES)
+		std::cout << "?";
+	std::cout << "/";
+	std::cout << g_total_l4_caches;
+	if (g_total_l4_caches == DEFAULT_NUM_L4_CACHES)
+		std::cout << "?";
 #ifdef __gnu_linux__
-		<< " (guesses)"
+	std::cout << " (guesses)";
 #endif
-		<< std::endl; 
+	std::cout << std::endl; 
 	std::cout << "Regular page size: " << g_page_size << " B" << std::endl;
 #ifdef HAS_LARGE_PAGES
 	std::cout << "Large page size: " << g_large_page_size << " B" << std::endl;

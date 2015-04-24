@@ -91,6 +91,7 @@ int main(int argc, char* argv[]) {
 		if (g_verbose) {
 			print_compile_time_options();
 			print_types_report();
+			report_sys_info();
 			test_thread_affinities();
 		}
 		
