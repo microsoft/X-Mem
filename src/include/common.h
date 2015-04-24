@@ -45,7 +45,7 @@
 
 namespace xmem {
 
-#define VERSION "2.1.14"
+#define VERSION "2.1.15"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -64,6 +64,7 @@ namespace xmem {
 #define ARCH_INTEL_X86_64
 #define ARCH_64BIT
 #define HAS_NUMA
+#define HAS_LARGE_PAGES
 #endif
 
 #ifdef _M_IX86_FP //Intel SSE/SSE2 extensions
@@ -123,6 +124,7 @@ namespace xmem {
 #define ARCH_INTEL_X86_64
 #define ARCH_64BIT
 #define HAS_NUMA
+#define HAS_LARGE_PAGES
 #endif
 
 #ifdef __SSE__ //Intel SSE extensions

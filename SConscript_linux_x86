@@ -10,11 +10,11 @@ env = Environment()
 
 # LINUX
 env.Append(CPPFLAGS = '-Wall -Wno-unused-but-set-variable -Wno-unused-variable -g -O3 -m32 -std=c++11 -fabi-version=6')
-env.Append(CPPPATH = ['src/include', '/usr/include', '/lib'])
+env.Append(CPPPATH = ['src/include'])
 env.Append(CPPPATH = ['src/include/ext/DelayInjectedLoadedLatencyBenchmark']) # Extension: Delay-injected loaded latency benchmark
 env.Append(CPPPATH = ['src/include/ext/StreamBenchmark']) # Extension: Stream benchmark
 env.Append(LIBPATH = ['/usr/lib32'])
-env.Append(LIBS = ['pthread', 'hugetlbfs'])
+env.Append(LIBS = ['pthread'])
 env.Append(LINKFLAGS = ['-m32'])
 
 # List all C++ source files

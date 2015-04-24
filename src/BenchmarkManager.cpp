@@ -60,9 +60,11 @@
 #ifdef HAS_NUMA
 #include <numa.h>
 #endif
+#ifdef HAS_LARGE_PAGES
 extern "C" {
 #include <hugetlbfs.h> //for allocating and freeing huge pages
 }
+#endif
 #endif
 
 using namespace xmem;
@@ -142,13 +144,14 @@ BenchmarkManager::~BenchmarkManager() {
 			VirtualFreeEx(GetCurrentProcess(), __mem_arrays[i], 0, MEM_RELEASE);
 #endif
 #ifdef __gnu_linux__
+#ifdef HAS_LARGE_PAGES
 			if (__config.useLargePages())
 				free_huge_pages(__mem_arrays[i]);
 			else
+#endif
 #ifdef HAS_NUMA
 				numa_free(__mem_arrays[i], __mem_array_lens[i]); 
-#endif
-#ifndef HAS_NUMA
+#else
 				free(__orig_malloc_addr); //this is somewhat of a band-aid
 #endif
 #endif
@@ -374,6 +377,7 @@ void BenchmarkManager::__setupWorkingSets(size_t working_set_size) {
 	for (uint32_t numa_node = 0; numa_node < __benchmark_num_numa_nodes; numa_node++) {
 		size_t allocation_size = 0;
 
+#ifdef HAS_LARGE_PAGES
 		if (__config.useLargePages()) {
 			size_t remainder = 0;
 			//For large pages, working set size could be less than a single large page. So let's allocate the right amount of memory, which is the working set size rounded up to nearest large page, which could be more than we actually use.
@@ -400,9 +404,10 @@ void BenchmarkManager::__setupWorkingSets(size_t working_set_size) {
 			__mem_arrays[numa_node] = VirtualAllocExNuma(GetCurrentProcess(), NULL, allocation_size, MEM_COMMIT | MEM_RESERVE | MEM_LARGE_PAGES, PAGE_READWRITE, numa_node); //Windows NUMA allocation. Make the allocation one page bigger than necessary so that we can do alignment.
 #endif
 #ifdef __gnu_linux__
-			__mem_arrays[numa_node] = get_huge_pages(allocation_size, GHP_DEFAULT); //TODO: hugetlbfs does not seem to be NUMA-aware. We may require NUMA awareness and huge pages to be mutually exclusive on Linux builds =( 
+			__mem_arrays[numa_node] = get_huge_pages(allocation_size, GHP_DEFAULT); 
 #endif
 		} else { //Non-large pages (nominal case)
+#endif
 			//Under normal (not large-page) operation, working set size is a multiple of regular pages.
 			allocation_size = __config.getNumWorkerThreads() * working_set_size + g_page_size; 
 #ifdef _WIN32
@@ -418,7 +423,9 @@ void BenchmarkManager::__setupWorkingSets(size_t working_set_size) {
 			__orig_malloc_addr = __mem_arrays[numa_node];
 #endif
 #endif
+#ifdef HAS_LARGE_PAGES
 		}
+#endif
 		
 		if (__mem_arrays[numa_node] != nullptr)
 			__mem_array_lens[numa_node] = __config.getNumWorkerThreads() * working_set_size;

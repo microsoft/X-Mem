@@ -59,9 +59,11 @@
 #include <time.h>
 #endif
 
+#ifdef HAS_LARGE_PAGES
 extern "C" {
 #include <hugetlbfs.h> //for getting huge page size
 }
+#endif
 #endif
 
 namespace xmem {
@@ -191,6 +193,9 @@ void xmem::print_compile_time_options() {
 #endif
 #ifdef HAS_NUMA
 	std::cout << "HAS_NUMA" << std::endl;
+#endif
+#ifdef HAS_LARGE_PAGES
+	std::cout << "HAS_LARGE_PAGES" << std::endl;
 #endif
 #ifdef HAS_WORD_64
 	std::cout << "HAS_WORD_64" << std::endl;
@@ -580,11 +585,15 @@ int32_t xmem::query_sys_info() {
 	GetSystemInfo(&sysinfo);
 	DWORD pgsz = sysinfo.dwPageSize;
 	g_page_size = pgsz;
+#ifdef HAS_LARGE_PAGES
 	g_large_page_size = GetLargePageMinimum();
+#endif
 #endif
 #ifdef __gnu_linux__
 	g_page_size = static_cast<size_t>(sysconf(_SC_PAGESIZE));
+#ifdef HAS_LARGE_PAGES
 	g_large_page_size = gethugepagesize(); 
+#endif
 	in.close();
 #endif
 
@@ -616,7 +625,9 @@ void xmem::report_sys_info() {
 #endif
 		<< std::endl; 
 	std::cout << "Regular page size: " << g_page_size << " B" << std::endl;
+#ifdef HAS_LARGE_PAGES
 	std::cout << "Large page size: " << g_large_page_size << " B" << std::endl;
+#endif
 }
 
 tick_t xmem::start_timer() {

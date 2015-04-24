@@ -298,13 +298,17 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	
 	//Check if large pages should be used for allocation of memory under test.
 	if (options[USE_LARGE_PAGES]) {
-#ifdef __gnu_linux__
+#if defined(__gnu_linux__) && defined(ARCH_INTEL)
 		if (__numa_enabled) { //For now, large pages are not --simultaneously-- supported alongside NUMA. This is due to lack of NUMA support in hugetlbfs on GNU/Linux.
-			std::cerr << "ERROR: On GNU/Linux version of X-Mem, large pages are not simultaneously supported alongside NUMA due to reasons outside our control. If you want large pages, then force UMA using the \"-u\" option explicitly." << std::endl;
+			std::cerr << "ERROR: On GNU/Linux version of X-Mem for Intel architectures, large pages are not simultaneously supported alongside NUMA due to reasons outside our control. If you want large pages, then force UMA using the \"-u\" option explicitly." << std::endl;
 			goto error;
 		}
 #endif
+#ifndef HAS_LARGE_PAGES
+		std::cerr << "WARNING: Huge pages are not supported on this build. Regular-sized pages will be used." << std::endl;
+#else
 		__use_large_pages = true;
+#endif
 	}
 
 	//Check number of worker threads
