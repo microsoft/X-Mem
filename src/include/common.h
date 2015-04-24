@@ -43,9 +43,13 @@
 #include <immintrin.h> //for Intel __m256i datatype
 #endif
 
+#if defined(__arm__) || defined(_M_ARM)
+#include <arm_neon.h> //For ARM uint64x2_t datatype
+#endif
+
 namespace xmem {
 
-#define VERSION "2.1.15"
+#define VERSION "2.1.16"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -331,10 +335,8 @@ namespace xmem {
 	extern double g_ns_per_tick;
 
 	//Typedef the platform specific stuff to word sizes to match 4 different chunk options
-	//TODO: better way to detect 64-bit ARM other than NEON extensions?
-#if defined(ARCH_64BIT) || defined(ARCH_ARM_NEON)
-#define HAS_WORD_64
-#endif
+#define HAS_WORD_64 //For now, assume this is always available, even on native 32-bit architectures. The compiler will emulate 64-bit operations.
+
 #if defined(ARCH_INTEL_AVX) || defined(ARCH_ARM_NEON)
 #define HAS_WORD_128
 #endif
@@ -350,8 +352,8 @@ namespace xmem {
 #ifdef ARCH_INTEL
 	typedef __m128i Word128_t;
 #endif
-#ifdef ARCH_ARM
-	#error TODO: Implement for ARM
+#if defined(ARCH_ARM) && defined(ARCH_ARM_NEON)
+	typedef uint64x2_t Word128_t;
 #endif
 #endif
 #ifdef HAS_WORD_256

@@ -51,6 +51,10 @@
 #include <smmintrin.h>
 #endif
 
+#if defined(ARCH_ARM) && defined(ARCH_ARM_NEON)
+#include <arm_neon.h>
+#endif
+
 using namespace xmem;
 
 #if defined(__gnu_linux__) && defined(ARCH_INTEL_X86_64) && (defined(HAS_WORD_128) || defined(HAS_WORD_256))
@@ -65,7 +69,12 @@ using namespace xmem;
 #define my_64b_extractLSB_256b(w) _mm256_extract_epi64(w, 0) //AVX intrinsic, corresponds to ??? instruction. Header: immintrin.h
 #endif
 
-//TODO: ARM intrinsics?
+#if defined(ARCH_ARM) && defined(ARCH_ARM_NEON)
+#define my_64b_set_128b_word(a, b) vcombine_u64(a, b)
+
+#define my_32b_extractLSB_128b(w) vget_low_u32(w) //NEON intrinsic, corresponds to "vmov" instruction. Header: arm_neon.h
+#define my_64b_extractLSB_128b(w) vget_low_u64(w) //NEON intrinsic, corresponds to "vmov" instruction. Header: arm_neon.h
+#endif
 
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 /* Hand-coded assembly functions for the 128-bit and 256-bit benchmark kernels on Windows x86-64 where applicable.

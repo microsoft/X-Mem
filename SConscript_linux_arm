@@ -9,7 +9,7 @@ env = Environment(CXX = "arm-linux-gnueabihf-g++-4.8")
 # Customize build settings
 
 # LINUX
-env.Append(CPPFLAGS = '-Wall -Wno-unused-but-set-variable -Wno-unused-variable -g -O3 -std=c++11 -fabi-version=6')
+env.Append(CPPFLAGS = '-Wall -Wno-unused-but-set-variable -Wno-unused-variable -g -O3 -std=c++11 -fabi-version=6 -mfloat-abi=hard -mfpu=vfpv3 -mfpu=neon')
 env.Append(CPPPATH = ['src/include'])
 env.Append(CPPPATH = ['src/include/ext/DelayInjectedLoadedLatencyBenchmark']) # Extension: Delay-injected loaded latency benchmark
 env.Append(CPPPATH = ['src/include/ext/StreamBenchmark']) # Extension: Stream benchmark
