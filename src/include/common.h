@@ -335,10 +335,9 @@ namespace xmem {
 	extern double g_ns_per_tick;
 
 	//Typedef the platform specific stuff to word sizes to match 4 different chunk options
-#if defined(ARCH_64BIT)
+#if defined(ARCH_64BIT) || defined(ARCH_ARM_NEON)
 #define HAS_WORD_64 
 #endif
-
 #if defined(ARCH_INTEL_AVX) || defined(ARCH_ARM_NEON)
 #define HAS_WORD_128
 #endif
