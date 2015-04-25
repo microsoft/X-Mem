@@ -1,0 +1,5 @@
+# SConstruct file for ARM with VFP/NEON build only
+# Author: Mark Gottscho <mgottscho@ucla.edu>
+
+SConscript('SConscript_linux_arm_neon', variant_dir = 'build/linux/arm_neon/release', duplicate = 0, exports = {'MODE':'release'})
+#SConscript('SConscript_linux_arm_neon', variant_dir = 'build/linux/arm_neon/debug', duplicate = 0, exports = {'MODE':'debug'})

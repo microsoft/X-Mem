@@ -43,7 +43,7 @@
 #include <immintrin.h> //for Intel __m256i datatype
 #endif
 
-#if defined(__arm__) || defined(_M_ARM)
+#if defined(__ARM_NEON)
 #include <arm_neon.h> //For ARM uint64x2_t datatype
 #endif
 
@@ -187,7 +187,7 @@ namespace xmem {
 #define ARCH_64BIT
 #endif
 
-#ifdef __ARM_NEON__ //ARM NEON extensions
+#ifdef __ARM_NEON //ARM NEON extensions
 #define ARCH_ARM
 #define ARCH_ARM_NEON
 #define ARCH_ARM_VFP_V4 //FIXME: this is assumed, as I don't know how to check directly
