@@ -1,7 +1,7 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: Extensible Memory Benchmarking Tool v2.1.16
+X-Mem: Extensible Memory Benchmarking Tool v2.2.0
 ------------------------------------------------------------------------------------------------------------
 
 The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power. 
@@ -50,13 +50,13 @@ Flexibility: Easy reconfiguration for different combinations of tests
 	- Multi-threading support
 	- Large page support
 
-Extensibility: modularity via C++ object-oriented principles
+Extensibility: Modularity via C++ object-oriented principles
 	- Supports rapid addition of new benchmark kernel routines
 	- Example: stream triad algorithm, impact of false sharing, etc. are possible with minor changes
 
 Cross-platform: Currently implemented for Windows and GNU/Linux on x86, x86-64, and x86-64 with AVX extensions CPUs
 	- Designed to allow straightforward porting to other operating systems and ISAs
-	- ARM port under development
+	- ARM port under development (currently implemented for GNU/Linux for 32-bit and 64-bit ARM)
 
 Memory throughput:
 	- Accurate measurement of sustained memory throughput to all levels of cache and memory
@@ -79,7 +79,7 @@ Documentation:
 
 INCLUDED EXTENSIONS (under src/include/ext and src/ext directories):
 	- Loaded latency benchmark variant with load delays inserted as nop instructions between memory instructions.
-	  This is done for 64 and 256-bit chunks on x86-64 with AVX extensions, forward sequential read load threads only at the moment.
+	  This is done for 32, 64, 128, and 256-bit load chunk sizes where applicable using the forward sequential read pattern.
 
 For feature requests, please refer to the contact information at the end of this README.
 
@@ -91,8 +91,8 @@ There are a few runtime prerequisites in order for the software to run correctly
 
 HARDWARE:
 
-- Intel x86 or x86-64 CPU with optional support for AVX extensions. AMD CPUs should also work although this has not been tested.
-- COMING SOON: ARM CPUs
+- Intel x86, x86-64, or x86-64 with AVX CPU. AMD CPUs should also work although this has not been tested.
+- ARM Cortex-A series processors with VFP and NEON extensions. Specifically tested on ARM Cortex A9 (32-bit) which is ARMv7. 64-bit builds for ARMv8-A should also work but have not been tested.
 
 WINDOWS:
 

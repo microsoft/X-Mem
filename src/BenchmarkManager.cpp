@@ -654,8 +654,12 @@ bool BenchmarkManager::runExtDelayInjectedLoadedLatencyBenchmark() {
 	
 	//Put the enumerations into vectors to make constructing benchmarks more loopable
 	std::vector<chunk_size_t> chunks;
+	chunks.push_back(CHUNK_32b); 
 #ifdef HAS_WORD_64
 	chunks.push_back(CHUNK_64b); 
+#endif
+#ifdef HAS_WORD_128
+	chunks.push_back(CHUNK_128b); 
 #endif
 #ifdef HAS_WORD_256
 	chunks.push_back(CHUNK_256b); 

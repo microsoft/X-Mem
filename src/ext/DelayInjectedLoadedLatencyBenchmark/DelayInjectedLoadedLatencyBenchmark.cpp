@@ -120,6 +120,61 @@ bool DelayInjectedLoadedLatencyBenchmark::_run_core() {
 	SequentialFunction load_kernel_dummy_fptr = NULL; 
 	if (_num_worker_threads > 1) { //If we only have one worker thread, it is used for latency measurement only, and no load threads will be used.
 		switch (_chunk_size) {
+			case CHUNK_32b:
+				switch (__delay) {
+					case 0:
+						load_kernel_fptr = &forwSequentialRead_Word32; //not an extended kernel
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word32; //not an extended kernel
+						break;
+					case 1:
+						load_kernel_fptr = &forwSequentialRead_Word32_Delay1;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word32_Delay1;
+						break;
+					case 2:
+						load_kernel_fptr = &forwSequentialRead_Word32_Delay2;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word32_Delay2;
+						break;
+					case 4:
+						load_kernel_fptr = &forwSequentialRead_Word32_Delay4;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word32_Delay4;
+						break;
+					case 8:
+						load_kernel_fptr = &forwSequentialRead_Word32_Delay8;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word32_Delay8;
+						break;
+					case 16:
+						load_kernel_fptr = &forwSequentialRead_Word32_Delay16;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word32_Delay16;
+						break;
+					case 32:
+						load_kernel_fptr = &forwSequentialRead_Word32_Delay32;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word32_Delay32;
+						break;
+					case 64:
+						load_kernel_fptr = &forwSequentialRead_Word32_Delay64;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word32_Delay64;
+						break;
+					case 128:
+						load_kernel_fptr = &forwSequentialRead_Word32_Delay128;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word32_Delay128;
+						break;
+					case 256:
+						load_kernel_fptr = &forwSequentialRead_Word32_Delay256;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word32_Delay256;
+						break;
+					case 512:
+						load_kernel_fptr = &forwSequentialRead_Word32_Delay512;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word32_Delay512plus;
+						break;
+					case 1024:
+						load_kernel_fptr = &forwSequentialRead_Word32_Delay1024;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word32_Delay512plus;
+						break;
+					default:
+						std::cerr << "ERROR: Failed to find appropriate benchmark kernel." << std::endl;
+						return false;
+				}
+				break;
 #ifdef HAS_WORD_64
 			case CHUNK_64b:
 				switch (__delay) {
@@ -170,6 +225,63 @@ bool DelayInjectedLoadedLatencyBenchmark::_run_core() {
 					case 1024:
 						load_kernel_fptr = &forwSequentialRead_Word64_Delay1024;
 						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word64_Delay256plus;
+						break;
+					default:
+						std::cerr << "ERROR: Failed to find appropriate benchmark kernel." << std::endl;
+						return false;
+				}
+				break;
+#endif
+#ifdef HAS_WORD_128
+			case CHUNK_128b:
+				switch (__delay) {
+					case 0:
+						load_kernel_fptr = &forwSequentialRead_Word128; //not an extended kernel
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word128; //not an extended kernel
+						break;
+					case 1:
+						load_kernel_fptr = &forwSequentialRead_Word128_Delay1;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word128_Delay1;
+						break;
+					case 2:
+						load_kernel_fptr = &forwSequentialRead_Word128_Delay2;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word128_Delay2;
+						break;
+					case 4:
+						load_kernel_fptr = &forwSequentialRead_Word128_Delay4;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word128_Delay4;
+						break;
+					case 8:
+						load_kernel_fptr = &forwSequentialRead_Word128_Delay8;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word128_Delay8;
+						break;
+					case 16:
+						load_kernel_fptr = &forwSequentialRead_Word128_Delay16;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word128_Delay16;
+						break;
+					case 32:
+						load_kernel_fptr = &forwSequentialRead_Word128_Delay32;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word128_Delay32;
+						break;
+					case 64:
+						load_kernel_fptr = &forwSequentialRead_Word128_Delay64;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word128_Delay64;
+						break;
+					case 128:
+						load_kernel_fptr = &forwSequentialRead_Word128_Delay128;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word128_Delay128plus;
+						break;
+					case 256:
+						load_kernel_fptr = &forwSequentialRead_Word128_Delay256;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word128_Delay128plus;
+						break;
+					case 512:
+						load_kernel_fptr = &forwSequentialRead_Word128_Delay512;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word128_Delay128plus;
+						break;
+					case 1024:
+						load_kernel_fptr = &forwSequentialRead_Word128_Delay1024;
+						load_kernel_dummy_fptr = &dummy_forwSequentialLoop_Word128_Delay128plus;
 						break;
 					default:
 						std::cerr << "ERROR: Failed to find appropriate benchmark kernel." << std::endl;

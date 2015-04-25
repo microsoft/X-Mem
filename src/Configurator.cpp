@@ -55,12 +55,11 @@ Configurator::Configurator(
 	__runThroughput(true),
 	__working_set_size_per_thread(DEFAULT_WORKING_SET_SIZE_PER_THREAD),
 	__num_worker_threads(DEFAULT_NUM_WORKER_THREADS),
-#ifndef HAS_WORD_64
-	__use_chunk_32b(true),
-#endif
 #ifdef HAS_WORD_64
 	__use_chunk_32b(false),
 	__use_chunk_64b(true),
+#else
+	__use_chunk_32b(true),
 #endif
 #ifdef HAS_WORD_128
 	__use_chunk_128b(false),
@@ -70,8 +69,7 @@ Configurator::Configurator(
 #endif
 #ifdef HAS_NUMA
 	__numa_enabled(true),
-#endif
-#ifndef HAS_NUMA
+#else
 	__numa_enabled(false),
 #endif
 	__iterations(1),
@@ -96,85 +94,6 @@ Configurator::Configurator(
 	__use_stride_n16(false)
 	{
 }
-
-//TODO: delete this monstrosity
-/*Configurator::Configurator(
-	bool runExtensions,
-#ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
-	bool run_ext_delay_injected_loaded_latency_benchmark,
-#endif
-#ifdef EXT_STREAM_BENCHMARK
-	bool run_ext_stream_benchmark,
-#endif
-	bool runLatency,
-	bool runThroughput,
-	size_t working_set_size_per_thread,
-	uint32_t num_worker_threads,
-	bool use_chunk_32b,
-	bool use_chunk_64b,
-	bool use_chunk_128b,
-	bool use_chunk_256b,
-	bool numa_enabled,
-	uint32_t iterations_per_test,
-	bool use_random_access_pattern,
-	bool use_sequential_access_pattern,
-	uint32_t starting_test_index,
-	std::string filename,
-	bool use_output_file,
-	bool verbose,
-	bool use_large_pages,
-	bool use_reads,
-	bool use_writes,
-	bool use_stride_p1,
-	bool use_stride_n1,
-	bool use_stride_p2,
-	bool use_stride_n2,
-	bool use_stride_p4,
-	bool use_stride_n4,
-	bool use_stride_p8,
-	bool use_stride_n8,
-	bool use_stride_p16,
-	bool use_stride_n16
-	) :
-	__configured(true),
-	__runExtensions(runExtensions),
-#ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
-	__run_ext_delay_injected_loaded_latency_benchmark(run_ext_delay_injected_loaded_latency_benchmark),
-#endif
-#ifdef EXT_STREAM_BENCHMARK
-	__run_ext_stream_benchmark(run_ext_stream_benchmark),
-#endif
-	__runLatency(runLatency),
-	__runThroughput(runThroughput),
-	__working_set_size_per_thread(working_set_size_per_thread),
-	__num_worker_threads(num_worker_threads),
-	__use_chunk_32b(use_chunk_32b),
-	__use_chunk_64b(use_chunk_64b),
-	__use_chunk_128b(use_chunk_128b),
-	__use_chunk_256b(use_chunk_256b),
-	__numa_enabled(numa_enabled),
-	__iterations(iterations_per_test),
-	__use_random_access_pattern(use_random_access_pattern),
-	__use_sequential_access_pattern(use_sequential_access_pattern),
-	__starting_test_index(starting_test_index),
-	__filename(filename),
-	__use_output_file(use_output_file),
-	__verbose(verbose),
-	__use_large_pages(use_large_pages),
-	__use_reads(use_reads),
-	__use_writes(use_writes),
-	__use_stride_p1(use_stride_p1),
-	__use_stride_n1(use_stride_n1),
-	__use_stride_p2(use_stride_p2),
-	__use_stride_n2(use_stride_n2),
-	__use_stride_p4(use_stride_p4),
-	__use_stride_n4(use_stride_n4),
-	__use_stride_p8(use_stride_p8),
-	__use_stride_n8(use_stride_n8),
-	__use_stride_p16(use_stride_p16),
-	__use_stride_n16(use_stride_n16)
-	{
-}*/
 
 int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	if (__configured) { //If this object was already configured, cannot override from user inputs. This is to prevent an invalid state.
@@ -293,8 +212,12 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 	}
 	
 	//Check NUMA selection
-	if (options[NUMA_DISABLE]) //NUMA is not supported currently on anything but x86-64 systems anyway.
+	if (options[NUMA_DISABLE]) {
 		__numa_enabled = false;
+#ifndef HAS_NUMA
+		std::cerr << "WARNING: NUMA is not supported on this build, so the NUMA-disable option has no effect." << std::endl;
+#endif
+	}
 	
 	//Check if large pages should be used for allocation of memory under test.
 	if (options[USE_LARGE_PAGES]) {
@@ -639,18 +562,24 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 		std::cout << std::endl;
 		std::cout << "---> Number of worker threads:        ";
 		std::cout << __num_worker_threads << std::endl;
-#ifdef HAS_NUMA
 		std::cout << "---> NUMA enabled:                    ";
+#ifdef HAS_NUMA
 		if (__numa_enabled)
 			std::cout << "yes" << std::endl;
 		else
 			std::cout << "no" << std::endl;
+#else
+		std::cout << "not supported" << std::endl;
 #endif
 		std::cout << "---> Large pages:                     ";
+#ifdef HAS_LARGE_PAGES
 		if (__use_large_pages)
 			std::cout << "yes" << std::endl;
 		else
 			std::cout << "no" << std::endl;
+#else
+		std::cout << "not supported" << std::endl;
+#endif
 		std::cout << "---> Iterations:                      ";
 		std::cout << __iterations << std::endl;
 		std::cout << "---> Starting test index:             ";
