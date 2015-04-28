@@ -42,7 +42,9 @@
 
 #ifdef _WIN32
 #include <win/win_common_third_party.h>
-#include <win/WindowsDRAMPowerReader.h>
+#ifndef ARCH_ARM
+#include <win/WindowsDRAMPowerReader.h> //Lacking library support for Windows on ARM
+#endif
 #endif
 
 //Libraries
@@ -91,8 +93,12 @@ BenchmarkManager::BenchmarkManager(
 		std::string power_obj_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Socket " << i << " DRAM"))->str();
 		
 #ifdef _WIN32
+#ifndef ARCH_ARM //lacking library support for Windows on ARM
 		//Put the thread on the last logical CPU in each NUMA node.
 		__dram_power_readers.push_back(new WindowsDRAMPowerReader(cpu_id_in_numa_node(i,g_num_logical_cpus / g_num_nodes - 1), POWER_SAMPLING_PERIOD_MS, 1, power_obj_name, cpu_id_in_numa_node(i,g_num_logical_cpus / g_num_nodes - 1))); 
+#else
+		__dram_power_readers.push_back(NULL);
+#endif
 #endif
 #ifdef __gnu_linux__
 		//TODO: Implement derived PowerReaders for Linux systems.

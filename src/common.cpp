@@ -81,7 +81,7 @@ namespace xmem {
 	uint32_t g_starting_test_index; /**< Numeric identifier for the first benchmark test. */
 	uint32_t g_test_index; /**< Numeric identifier for the current benchmark test. */
 	tick_t g_ticks_per_ms; /**< Timer ticks per ms. */
-	double g_ns_per_tick; /**< Nanoseconds per timer tick. */
+	float g_ns_per_tick; /**< Nanoseconds per timer tick. */
 };
 
 using namespace xmem;

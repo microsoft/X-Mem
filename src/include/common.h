@@ -100,7 +100,10 @@ namespace xmem {
 
 #ifdef _M_ARM //ARM architecture
 #define ARCH_ARM
-#define ARCH_ARM_NEON //FIXME: I don't think there is a way to explicitly check for NEON support on Windows, so I suppose it is always present on any Windows-supported ARM platform anyway.
+#endif
+
+#ifdef __ARM_NEON
+#define ARCH_ARM_NEON //FIXME: I don't think there is a way to explicitly enable/disable NEON support on Windows, so I stole the gcc preprocessor definition __ARM_NEON for this.
 #endif
 
 #ifdef _M_ARM_FP //ARM extensions
@@ -332,7 +335,7 @@ namespace xmem {
 	extern uint32_t g_starting_test_index;
 	extern uint32_t g_test_index;
 	extern tick_t g_ticks_per_ms;
-	extern double g_ns_per_tick;
+	extern float g_ns_per_tick;
 
 	//Typedef the platform specific stuff to word sizes to match 4 different chunk options
 #if defined(ARCH_64BIT) || defined(ARCH_ARM_NEON)

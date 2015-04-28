@@ -66,13 +66,13 @@ Timer::Timer() :
 	stop_tick = stop_timer();
 	_ticks_per_ms = static_cast<tick_t>((stop_tick - start_tick) / BENCHMARK_DURATION_MS);
 #endif
-	_ns_per_tick = 1/(static_cast<float>(_ticks_per_ms)) * 1e6;
+	_ns_per_tick = 1/(static_cast<float>(_ticks_per_ms)) * static_cast<float>(1e6);
 }
 
 tick_t Timer::get_ticks_per_ms() {
 	return _ticks_per_ms;
 }
 
-double Timer::get_ns_per_tick() {
+float Timer::get_ns_per_tick() {
 	return _ns_per_tick;
 }

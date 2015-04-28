@@ -59,7 +59,7 @@ namespace xmem {
 		 * @brief Gets nanoseconds per tick for this timer.
 		 * @returns the number of nanoseconds per tick
 		 */
-		double get_ns_per_tick();
+		float get_ns_per_tick();
 
 	protected:
 		tick_t _ticks_per_ms; /**< Ticks per ms for this timer. */

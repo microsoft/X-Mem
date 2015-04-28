@@ -1,0 +1,5 @@
+# SConstruct file for Windows ARM with NEON build only
+# Author: Mark Gottscho <mgottscho@ucla.edu>
+
+SConscript('SConscript_win_arm_neon', variant_dir = 'build/win/arm_neon/release', duplicate = 0, exports = {'MODE':'release'})
+#SConscript('SConscript_win_arm_neon', variant_dir = 'build/win/arm_neon/debug', duplicate = 0, exports = {'MODE':'debug'})
