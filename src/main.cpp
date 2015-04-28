@@ -47,7 +47,7 @@ using namespace xmem;
 
 void xmem::print_welcome_message() {
 	//Greetings!
-	std::cout << "--------------------------------------------------------------------------------" << std::endl;
+	std::cout << "------------------------------------------------------------------------------------------" << std::endl;
 	std::cout << "Extensible Memory Benchmarking Tool (X-Mem) v" << VERSION << " for";
 #ifdef _WIN32
 	std::cout << " Windows";
@@ -56,17 +56,29 @@ void xmem::print_welcome_message() {
 	std::cout << " GNU/Linux";
 #endif
 	std::cout << " on";
-#ifdef ARCH_INTEL
-	std::cout << " Intel ISAs";
+#ifdef ARCH_INTEL_X86_64
+	std::cout << " Intel x86-64";
+#endif
+#ifdef ARCH_INTEL_AVX
+	std::cout << " Intel x86-64 with AVX";
+#endif
+#ifdef ARCH_INTEL_X86
+	std::cout << " Intel x86 (32-bit)";
 #endif
 #ifdef ARCH_ARM
-	std::cout << " ARM ISAs";
+	std::cout << " ARM (32-bit)";
+#endif
+#ifdef ARCH_ARM_64
+	std::cout << " ARMv8 (64-bit)";
+#endif
+#ifdef ARCH_ARM_NEON
+	std::cout << " ARM (32-bit) with NEON";
 #endif
 	std::cout << std::endl;
 	std::cout << "Build date: " << BUILD_DATETIME << std::endl;
 	std::cout << "(C) Microsoft Corporation 2015" << std::endl;
 	std::cout << "Originally authored by Mark Gottscho <mgottscho@ucla.edu>" << std::endl;
-	std::cout << "--------------------------------------------------------------------------------" << std::endl;
+	std::cout << "------------------------------------------------------------------------------------------" << std::endl;
 	std::cout << std::endl;
 }
 
