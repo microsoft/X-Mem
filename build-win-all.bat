@@ -2,6 +2,6 @@
 
 :: Author: Mark Gottscho <mgottscho@ucla.edu>
 
-build-win.bat x64 &
-build-win.bat x64_avx &
-build-win.bat x86 &
+call build-win.bat x64
+call build-win.bat x64_avx
+call build-win.bat x86
