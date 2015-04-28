@@ -88,44 +88,44 @@ using namespace xmem;
 
 void xmem::print_types_report() {
 	std::cout << std::endl << "These are the system type sizes:" << std::endl;
-	std::cout << "short:  \t\t\t" << sizeof(short) << std::endl;
-	std::cout << "int:  \t\t\t\t" << sizeof(int) << std::endl;
-	std::cout << "long:  \t\t\t\t" << sizeof(long) << std::endl;
-	std::cout << "long long:  \t\t\t" << sizeof(long long) << std::endl;
+	std::cout << "short:                   " << sizeof(short) << std::endl;
+	std::cout << "int:                     " << sizeof(int) << std::endl;
+	std::cout << "long:                    " << sizeof(long) << std::endl;
+	std::cout << "long long:               " << sizeof(long long) << std::endl;
 	std::cout << std::endl;
-	std::cout << "unsigned short:  \t\t" << sizeof(unsigned short) << std::endl;
-	std::cout << "unsigned:  \t\t\t" << sizeof(unsigned) << std::endl;
-	std::cout << "unsigned long:  \t\t" << sizeof(unsigned long) << std::endl;
-	std::cout << "unsigned long long:  \t\t" << sizeof(unsigned long long) << std::endl;
+	std::cout << "unsigned short:          " << sizeof(unsigned short) << std::endl;
+	std::cout << "unsigned:                " << sizeof(unsigned) << std::endl;
+	std::cout << "unsigned long:           " << sizeof(unsigned long) << std::endl;
+	std::cout << "unsigned long long:      " << sizeof(unsigned long long) << std::endl;
 	std::cout << std::endl;
-	std::cout << "int8_t:  \t\t\t" << sizeof(int8_t) << std::endl;
-	std::cout << "int16_t:  \t\t\t" << sizeof(int16_t) << std::endl;
-	std::cout << "int32_t:  \t\t\t" << sizeof(int32_t) << std::endl;
+	std::cout << "int8_t:                  " << sizeof(int8_t) << std::endl;
+	std::cout << "int16_t:                 " << sizeof(int16_t) << std::endl;
+	std::cout << "int32_t:                 " << sizeof(int32_t) << std::endl;
 #ifdef ARCH_64BIT
-	std::cout << "int64_t:  \t\t\t" << sizeof(int64_t) << std::endl;
+	std::cout << "int64_t:                 " << sizeof(int64_t) << std::endl;
 #endif
 	std::cout << std::endl;
-	std::cout << "uint8_t:  \t\t\t" << sizeof(uint8_t) << std::endl;
-	std::cout << "uint16_t:  \t\t\t" << sizeof(uint16_t) << std::endl;
-	std::cout << "uint32_t:  \t\t\t" << sizeof(uint32_t) << std::endl;
+	std::cout << "uint8_t:                 " << sizeof(uint8_t) << std::endl;
+	std::cout << "uint16_t:                " << sizeof(uint16_t) << std::endl;
+	std::cout << "uint32_t:                " << sizeof(uint32_t) << std::endl;
 #ifdef ARCH_64BIT
-	std::cout << "uint64_t:  \t\t\t" << sizeof(uint64_t) << std::endl;
+	std::cout << "uint64_t:                " << sizeof(uint64_t) << std::endl;
 #endif
 	std::cout << std::endl;
-	std::cout << "Word32_t:  \t\t\t" << sizeof(Word32_t) << std::endl;
+	std::cout << "Word32_t:                " << sizeof(Word32_t) << std::endl;
 #ifdef HAS_WORD_64
-	std::cout << "Word64_t:  \t\t\t" << sizeof(Word64_t) << std::endl;
+	std::cout << "Word64_t:                " << sizeof(Word64_t) << std::endl;
 #endif
 #ifdef HAS_WORD_128
-	std::cout << "Word128_t: \t\t\t" << sizeof(Word128_t) << std::endl;
+	std::cout << "Word128_t:               " << sizeof(Word128_t) << std::endl;
 #endif
 #ifdef HAS_WORD_256
-	std::cout << "Word256_t: \t\t\t" << sizeof(Word256_t) << std::endl;
+	std::cout << "Word256_t:               " << sizeof(Word256_t) << std::endl;
 #endif
 	std::cout << std::endl;
-	std::cout << "void*:  \t\t\t" << sizeof(void*) << std::endl;
-	std::cout << "uintptr_t:  \t\t\t" << sizeof(uintptr_t) << std::endl;
-	std::cout << "size_t:  \t\t\t" << sizeof(size_t) << std::endl;
+	std::cout << "void*:                   " << sizeof(void*) << std::endl;
+	std::cout << "uintptr_t:               " << sizeof(uintptr_t) << std::endl;
+	std::cout << "size_t:                  " << sizeof(size_t) << std::endl;
 }
 
 void xmem::print_compile_time_options() {
