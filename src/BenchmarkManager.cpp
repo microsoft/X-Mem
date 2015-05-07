@@ -526,6 +526,7 @@ bool BenchmarkManager::__buildBenchmarks() {
 		size_t mem_array_len = __mem_array_lens[mem_node];
 
 		for (uint32_t cpu_node = 0; cpu_node < __benchmark_num_numa_nodes; cpu_node++) { //iterate each CPU node
+			bool buildLatBench = true; //Want to get at least one latency benchmark for all NUMA node combos
 
 			//DO SEQUENTIAL/STRIDED TESTS
 			if (__config.useSequentialAccessPattern()) {
@@ -560,7 +561,7 @@ bool BenchmarkManager::__buildBenchmarks() {
 							//Add the latency benchmark
 
 							//Special case: number of worker threads is 1, only need 1 latency thread in general to do unloaded latency tests.
-							if (__config.getNumWorkerThreads() > 1 || __lat_benchmarks.size() < 1) {
+							if (__config.getNumWorkerThreads() > 1 || buildLatBench) {
 								benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index << "L (Latency)"))->str();
 								__lat_benchmarks.push_back(new LatencyBenchmark(mem_array,
 																				mem_array_len,
@@ -578,6 +579,7 @@ bool BenchmarkManager::__buildBenchmarks() {
 									std::cerr << "ERROR: Failed to build a LatencyBenchmark!" << std::endl;
 									return false;
 								}
+								buildLatBench = false; //Wait for next NUMA combo
 							}
 
 							g_test_index++;
@@ -618,7 +620,7 @@ bool BenchmarkManager::__buildBenchmarks() {
 							
 						//Add the latency benchmark
 						//Special case: number of worker threads is 1, only need 1 latency thread in general to do unloaded latency tests.
-						if (__config.getNumWorkerThreads() > 1 || __lat_benchmarks.size() < 1) {
+						if (__config.getNumWorkerThreads() > 1 || buildLatBench) {
 							benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index << "L (Latency)"))->str();
 							__lat_benchmarks.push_back(new LatencyBenchmark(mem_array,
 																			mem_array_len,
@@ -636,6 +638,8 @@ bool BenchmarkManager::__buildBenchmarks() {
 								std::cerr << "ERROR: Failed to build a LatencyBenchmark!" << std::endl;
 								return false;
 							}
+							
+							buildLatBench = false; //Wait for next NUMA combo
 						}
 
 						g_test_index++;
