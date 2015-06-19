@@ -92,6 +92,22 @@ extern "C" int32_t win_x86_64_asm_forwSequentialRead_Word128(Word128_t* first_wo
 extern "C" int32_t win_x86_64_asm_revSequentialRead_Word128(Word128_t* last_word, Word128_t* first_word);
 extern "C" int32_t win_x86_64_asm_forwSequentialWrite_Word128(Word128_t* first_word, Word128_t* last_word);
 extern "C" int32_t win_x86_64_asm_revSequentialWrite_Word128(Word128_t* last_word, Word128_t* first_word); 
+extern "C" int32_t win_x86_64_asm_forwStride2Read_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_revStride2Read_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_forwStride2Write_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_revStride2Write_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_forwStride4Read_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_revStride4Read_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_forwStride4Write_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_revStride4Write_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_forwStride8Read_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_revStride8Read_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_forwStride8Write_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_revStride8Write_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_forwStride16Read_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_revStride16Read_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_forwStride16Write_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_revStride16Write_Word128(Word128_t* first_word, Word128_t* last_word);
 #endif
 
 #ifdef HAS_WORD_256
@@ -100,6 +116,22 @@ extern "C" int32_t win_x86_64_asm_forwSequentialRead_Word256(Word256_t* first_wo
 extern "C" int32_t win_x86_64_asm_revSequentialRead_Word256(Word256_t* last_word, Word256_t* first_word);
 extern "C" int32_t win_x86_64_asm_forwSequentialWrite_Word256(Word256_t* first_word, Word256_t* last_word);
 extern "C" int32_t win_x86_64_asm_revSequentialWrite_Word256(Word256_t* last_word, Word256_t* first_word);
+extern "C" int32_t win_x86_64_asm_forwStride2Read_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_revStride2Read_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_forwStride2Write_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_revStride2Write_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_forwStride4Read_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_revStride4Read_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_forwStride4Write_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_revStride4Write_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_forwStride8Read_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_revStride8Read_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_forwStride8Write_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_revStride8Write_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_forwStride16Read_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_revStride16Read_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_forwStride16Write_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_revStride16Write_Word256(Word256_t* first_word, Word256_t* last_word);
 #endif
 
 //Dummies
@@ -107,12 +139,28 @@ extern "C" int32_t win_x86_64_asm_revSequentialWrite_Word256(Word256_t* last_wor
 //128-bit
 extern "C" int32_t win_x86_64_asm_dummy_forwSequentialLoop_Word128(Word128_t* first_word, Word128_t* last_word);
 extern "C" int32_t win_x86_64_asm_dummy_revSequentialLoop_Word128(Word128_t* first_word, Word128_t* last_word); 
+extern "C" int32_t win_x86_64_asm_dummy_forwStride2Loop_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_dummy_revStride2Loop_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_dummy_forwStride4Loop_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_dummy_revStride4Loop_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_dummy_forwStride8Loop_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_dummy_revStride8Loop_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_dummy_forwStride16Loop_Word128(Word128_t* first_word, Word128_t* last_word);
+extern "C" int32_t win_x86_64_asm_dummy_revStride16Loop_Word128(Word128_t* first_word, Word128_t* last_word);
 #endif
 
 #ifdef HAS_WORD_256
 //256-bit
 extern "C" int32_t win_x86_64_asm_dummy_forwSequentialLoop_Word256(Word256_t* first_word, Word256_t* last_word);
 extern "C" int32_t win_x86_64_asm_dummy_revSequentialLoop_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_dummy_forwStride2Loop_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_dummy_revStride2Loop_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_dummy_forwStride4Loop_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_dummy_revStride4Loop_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_dummy_forwStride8Loop_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_dummy_revStride8Loop_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_dummy_forwStride16Loop_Word256(Word256_t* first_word, Word256_t* last_word);
+extern "C" int32_t win_x86_64_asm_dummy_revStride16Loop_Word256(Word256_t* first_word, Word256_t* last_word);
 #endif
 #endif
 
@@ -882,6 +930,9 @@ int32_t xmem::dummy_forwStride2Loop_Word64(void* start_address, void* end_addres
 
 #ifdef HAS_WORD_128
 int32_t xmem::dummy_forwStride2Loop_Word128(void* start_address, void* end_address) {
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+	return win_x86_64_asm_dummy_forwStride2Loop_Word128(static_cast<Word128_t*>(start_address), static_cast<Word128_t*>(end_address));
+#else
 	register Word128_t val; 
 	register uint32_t i = 0;
 	register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
@@ -891,6 +942,7 @@ int32_t xmem::dummy_forwStride2Loop_Word128(void* start_address, void* end_addre
 			wordptr -= len;
 	}
 	return 0;
+#endif
 }
 #endif
 
@@ -1589,7 +1641,7 @@ int32_t xmem::forwStride2Read_Word64(void* start_address, void* end_address) {
 #ifdef HAS_WORD_128
 int32_t xmem::forwStride2Read_Word128(void* start_address, void* end_address) { 
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
-	return 0; //TODO: Implement for Windows.
+	return win_x86_64_asm_forwStride2Read_Word128(static_cast<Word128_t*>(start_address), static_cast<Word128_t*>(end_address));
 #else
 	register Word128_t val; 
 	register uint32_t i = 0;
