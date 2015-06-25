@@ -19,6 +19,8 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
+ * Author: Mark Gottscho <mgottscho@ucla.edu>
  */
 
 /**
@@ -46,110 +48,110 @@
 using namespace xmem;
 
 void xmem::print_welcome_message() {
-	//Greetings!
-	std::cout << "------------------------------------------------------------------------------------------" << std::endl;
-	std::cout << "Extensible Memory Benchmarking Tool (X-Mem) v" << VERSION << " for";
+    //Greetings!
+    std::cout << "------------------------------------------------------------------------------------------" << std::endl;
+    std::cout << "Extensible Memory Benchmarking Tool (X-Mem) v" << VERSION << " for";
 #ifdef _WIN32
-	std::cout << " Windows";
+    std::cout << " Windows";
 #endif
 #ifdef __gnu_linux__
-	std::cout << " GNU/Linux";
+    std::cout << " GNU/Linux";
 #endif
-	std::cout << " on";
+    std::cout << " on";
 #ifdef ARCH_INTEL_X86_64
-	std::cout << " Intel x86-64";
+    std::cout << " Intel x86-64";
 #endif
 #ifdef ARCH_INTEL_AVX
-	std::cout << " Intel x86-64 with AVX";
+    std::cout << " Intel x86-64 with AVX";
 #endif
 #ifdef ARCH_INTEL_X86
-	std::cout << " Intel x86 (32-bit)";
+    std::cout << " Intel x86 (32-bit)";
 #endif
 #ifdef ARCH_ARM
-	std::cout << " ARM (32-bit)";
+    std::cout << " ARM (32-bit)";
 #endif
 #ifdef ARCH_ARM_64
-	std::cout << " ARMv8 (64-bit)";
+    std::cout << " ARMv8 (64-bit)";
 #endif
 #ifdef ARCH_ARM_NEON
-	std::cout << " ARM (32-bit) with NEON";
+    std::cout << " ARM (32-bit) with NEON";
 #endif
-	std::cout << std::endl;
-	std::cout << "Build date: " << BUILD_DATETIME << std::endl;
-	std::cout << "(C) Microsoft Corporation 2015" << std::endl;
-	std::cout << "Originally authored by Mark Gottscho <mgottscho@ucla.edu>" << std::endl;
-	std::cout << "------------------------------------------------------------------------------------------" << std::endl;
-	std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << "Build date: " << BUILD_DATETIME << std::endl;
+    std::cout << "(C) Microsoft Corporation 2015" << std::endl;
+    std::cout << "Originally authored by Mark Gottscho <mgottscho@ucla.edu>" << std::endl;
+    std::cout << "------------------------------------------------------------------------------------------" << std::endl;
+    std::cout << std::endl;
 }
 
 /**
- *	@brief The main entry point to the program.
+ *  @brief The main entry point to the program.
  */
 int main(int argc, char* argv[]) {
-	init_globals();
-	print_welcome_message();
-	
-	//Get info about the runtime system
-	if (query_sys_info()) {
-		std::cerr << "ERROR occurred while querying CPU information." << std::endl;
-		return -1;
-	}
-	
-	//Configure runtime based on user inputs
-	Configurator config;
-	bool configSuccess = !config.configureFromInput(argc, argv);
-		
-	if (configSuccess) {
-		if (g_verbose) {
-			print_compile_time_options();
-			print_types_report();
-			report_sys_info();
-			test_thread_affinities();
-		}
-		
-		setup_timer();
-		if (g_verbose)
-			report_timer();
+    init_globals();
+    print_welcome_message();
+    
+    //Get info about the runtime system
+    if (query_sys_info()) {
+        std::cerr << "ERROR occurred while querying CPU information." << std::endl;
+        return -1;
+    }
+    
+    //Configure runtime based on user inputs
+    Configurator config;
+    bool configSuccess = !config.configureFromInput(argc, argv);
+        
+    if (configSuccess) {
+        if (g_verbose) {
+            print_compile_time_options();
+            print_types_report();
+            report_sys_info();
+            test_thread_affinities();
+        }
+        
+        setup_timer();
+        if (g_verbose)
+            report_timer();
 
-		BenchmarkManager benchmgr(config);
-		if (config.throughputTestSelected()) {
-			benchmgr.runThroughputBenchmarks();
-		}
+        BenchmarkManager benchmgr(config);
+        if (config.throughputTestSelected()) {
+            benchmgr.runThroughputBenchmarks();
+        }
 
-		if (config.latencyTestSelected()) {
-			benchmgr.runLatencyBenchmarks();
-		}
+        if (config.latencyTestSelected()) {
+            benchmgr.runLatencyBenchmarks();
+        }
 
-		if (config.extensionsEnabled()) {
-			std::cout << std::endl;
-			std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-			std::cout << "++++++++++++ Starting custom X-Mem extensions ++++++++++++" << std::endl;
-			std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-			std::cout << std::endl;
+        if (config.extensionsEnabled()) {
+            std::cout << std::endl;
+            std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+            std::cout << "++++++++++++ Starting custom X-Mem extensions ++++++++++++" << std::endl;
+            std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+            std::cout << std::endl;
 
-			/***** USER-DEFINED FUNCTIONAL EXTENSIONS ******/
+            /***** USER-DEFINED FUNCTIONAL EXTENSIONS ******/
 #ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
-			if (config.runExtDelayInjectedLoadedLatencyBenchmark()) {
-				std::cout << "EXTENSION " << EXT_NUM_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK << ": Loaded latency benchmarks with delay injected kernels on load threads." << std::endl;
-				benchmgr.runExtDelayInjectedLoadedLatencyBenchmark();	
-			}
+            if (config.runExtDelayInjectedLoadedLatencyBenchmark()) {
+                std::cout << "EXTENSION " << EXT_NUM_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK << ": Loaded latency benchmarks with delay injected kernels on load threads." << std::endl;
+                benchmgr.runExtDelayInjectedLoadedLatencyBenchmark();   
+            }
 #endif
 
 #ifdef EXT_STREAM_BENCHMARK
-			if (config.runExtStreamBenchmark()) {
-				std::cout << "EXTENSION " << EXT_NUM_STREAM_BENCHMARK << ": STREAM-like throughput benchmark using stream copy, add, and triad kernels." << std::endl;
-				benchmgr.runExtStreamBenchmark();
-			}
+            if (config.runExtStreamBenchmark()) {
+                std::cout << "EXTENSION " << EXT_NUM_STREAM_BENCHMARK << ": STREAM-like throughput benchmark using stream copy, add, and triad kernels." << std::endl;
+                benchmgr.runExtStreamBenchmark();
+            }
 #endif
-			/***********************************************/
+            /***********************************************/
 
-			std::cout << std::endl;
-			std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-			std::cout << "++++++++++++ Finished custom X-Mem extensions ++++++++++++" << std::endl;
-			std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-			std::cout << std::endl;
-		}
-	}
+            std::cout << std::endl;
+            std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+            std::cout << "++++++++++++ Finished custom X-Mem extensions ++++++++++++" << std::endl;
+            std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+            std::cout << std::endl;
+        }
+    }
 
-	return !configSuccess;
+    return !configSuccess;
 }

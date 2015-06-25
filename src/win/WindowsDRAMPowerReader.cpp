@@ -19,6 +19,8 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
+ * Author: Mark Gottscho <mgottscho@ucla.edu>
  */
 
 /**
@@ -42,69 +44,69 @@
 using namespace xmem;
 
 WindowsDRAMPowerReader::WindowsDRAMPowerReader(uint32_t counter_cpu_index, uint32_t sampling_period, double power_units, std::string name, int32_t cpu_affinity) :
-	PowerReader(sampling_period, power_units, name, cpu_affinity),
-	__counter_cpu_index(counter_cpu_index),
-	__perf_counter_name(""),
-	__pdhQuery(NULL)
+    PowerReader(sampling_period, power_units, name, cpu_affinity),
+    __counter_cpu_index(counter_cpu_index),
+    __perf_counter_name(""),
+    __pdhQuery(NULL)
 {
-	__perf_counter_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "\\CPU Power Counters(" << __counter_cpu_index << ")\\DRAM Power"))->str();
-	try {
-		__pdhQuery = new CPdhQuery(__perf_counter_name);
-	}
-	catch (CPdhQuery::CException const &e) {
-		//tcout << e.What() << std::endl;
-	}
-	if (__pdhQuery == NULL) {
-		std::cerr << "WARNING: Unable to collect DRAM power." << std::endl;
-	}
+    __perf_counter_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "\\CPU Power Counters(" << __counter_cpu_index << ")\\DRAM Power"))->str();
+    try {
+        __pdhQuery = new CPdhQuery(__perf_counter_name);
+    }
+    catch (CPdhQuery::CException const &e) {
+        //tcout << e.What() << std::endl;
+    }
+    if (__pdhQuery == NULL) {
+        std::cerr << "WARNING: Unable to collect DRAM power." << std::endl;
+    }
 }
 
 WindowsDRAMPowerReader::~WindowsDRAMPowerReader() {
-	if (__pdhQuery != NULL)
-		delete __pdhQuery;
+    if (__pdhQuery != NULL)
+        delete __pdhQuery;
 }
 
 void WindowsDRAMPowerReader::run() {
-	bool done = false;
+    bool done = false;
 
-	while (!done) {
-		tick_t start_tick = start_timer();
-		if (_acquireLock(-1)) { //Wait indefinitely for the lock
-			if (_stop_signal) //we're done here, let's wrap up
-				done = true;
-			_releaseLock();
-		}
+    while (!done) {
+        tick_t start_tick = start_timer();
+        if (_acquireLock(-1)) { //Wait indefinitely for the lock
+            if (_stop_signal) //we're done here, let's wrap up
+                done = true;
+            _releaseLock();
+        }
 
-		if (!done) {
-			//Read power from performance counter
-			double result = 0;
+        if (!done) {
+            //Read power from performance counter
+            double result = 0;
 
-			if (__pdhQuery != NULL) { //It might be NULL for different reasons, like the required performance counter is not present on the system. This is not fatal.
-				try {
-					std::map<std::tstring, double> querydata;
-					querydata = __pdhQuery->CollectQueryData();
-					result = DumpMapValue(querydata);
-				}
-				catch (CPdhQuery::CException const &e) {
-					//tcout << e.What() << std::endl;
-				}
-			}
+            if (__pdhQuery != NULL) { //It might be NULL for different reasons, like the required performance counter is not present on the system. This is not fatal.
+                try {
+                    std::map<std::tstring, double> querydata;
+                    querydata = __pdhQuery->CollectQueryData();
+                    result = DumpMapValue(querydata);
+                }
+                catch (CPdhQuery::CException const &e) {
+                    //tcout << e.What() << std::endl;
+                }
+            }
 
-			//Thread-safe update of power trace
-			if (_acquireLock(-1)) { //Wait indefinitely for the lock
-				if (_num_samples >= _power_trace.capacity())
-					_power_trace.reserve(_power_trace.capacity() + 256); //add more space
-				_power_trace.push_back(static_cast<double>(result));
-				_num_samples++;
-				_releaseLock();
-			}
+            //Thread-safe update of power trace
+            if (_acquireLock(-1)) { //Wait indefinitely for the lock
+                if (_num_samples >= _power_trace.capacity())
+                    _power_trace.reserve(_power_trace.capacity() + 256); //add more space
+                _power_trace.push_back(static_cast<double>(result));
+                _num_samples++;
+                _releaseLock();
+            }
 
-			calculateMetrics();
-			tick_t stop_tick = stop_timer();
-			tick_t elapsed_ticks = stop_tick - start_tick;
-			Sleep(static_cast<DWORD>(_sampling_period - elapsed_ticks*g_ns_per_tick*1e-9*1000)); //Account for any loop overhead
-		}
-	}
+            calculateMetrics();
+            tick_t stop_tick = stop_timer();
+            tick_t elapsed_ticks = stop_tick - start_tick;
+            Sleep(static_cast<DWORD>(_sampling_period - elapsed_ticks*g_ns_per_tick*1e-9*1000)); //Account for any loop overhead
+        }
+    }
 }
 
 #else

@@ -19,6 +19,8 @@
 ; LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 ; OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 ; SOFTWARE.
+;
+; Author: Mark Gottscho <mgottscho@ucla.edu>
 
 
 .code
@@ -28,26 +30,27 @@ win_x86_64_asm_dummy_forwStride2Loop_Word128 proc
 ; rcx is address of the first 128-bit word in the array
 ; rdx is address of the last 128-bit word in the array
 
-; rax holds current 128-bit word address
-; rbx holds number of words accessed
-; rcx holds the target total number of words to access
+; rax holds number of words accessed
+; rcx holds the first 128-bit word address
+; rdx holds the target total number of words to access
 ; xmm0 holds result from reading the memory 128-bit wide
 
-	mov rax,rcx		; initialize current word address to start of the array
-	mov rbx,0 		; initialize number of words accessed to 0
-	mov rcx,256		; initialize target total number of words to access
-	cmp rbx,rcx		; have we completed the target total number of words to access?
-	jae done		; if the number of words accessed >= the target number, then we are done
+    xor rax,rax     ; initialize number of words accessed to 0
+    sub rdx,rcx     ; Get total number of 128-bit words between starting and ending addresses
+    shr rdx,4       
+    cmp rax,rdx     ; have we completed the target total number of words to access?
+    jae done        ; if the number of words accessed >= the target number, then we are done
 
 myloop:
-	add rbx,128		; Just did 128 accesses
+    add rax,128     ; Just did 128 accesses
 
-	cmp rbx,rcx		; have we completed 256 accesses in total yet (total of 4096 B)?
-	jb myloop 		; make another unrolled pass on the memory
-	
+    cmp rax,rdx     ; have we completed the target number of accesses in total yet?
+    jb myloop       ; make another unrolled pass on the memory
+    
 done:
-	xor eax,eax		; return 0
-	ret
+    xor eax,eax     ; return 0
+    ret
+
 
 win_x86_64_asm_dummy_forwStride2Loop_Word128 endp
 end

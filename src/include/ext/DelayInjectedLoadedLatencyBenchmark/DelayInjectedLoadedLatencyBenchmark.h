@@ -19,6 +19,8 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
+ * Author: Mark Gottscho <mgottscho@ucla.edu>
  */
 
 /**
@@ -42,50 +44,50 @@
 
 namespace xmem {
 
-	/**
-	 * @brief A type of benchmark that measures loaded memory latency via random pointer chasing while load threads provide memory interference with delay injection to generate different degrees of loading.
-	 */
-	class DelayInjectedLoadedLatencyBenchmark : public LatencyBenchmark {
-	public:
-		
-		/**
-		 * @brief Constructor. Parameters are passed directly to the LatencyBenchmark constructor. See LatencyBenchmark class documentation for parameter semantics. The access pattern is hard-coded to SEQUENTIAL, read/write pattern to READ, and stride to 1. Chunk size may be either 64-bit or 256-bit.
-		 */
-		DelayInjectedLoadedLatencyBenchmark(
-			void* mem_array,
-			size_t len,
-			uint32_t iterations,
-			uint32_t num_worker_threads,
-			uint32_t mem_node,
-			uint32_t cpu_node,
-			chunk_size_t chunk_size,
-			std::vector<PowerReader*> dram_power_readers,
-			std::string name,
-			uint32_t delay
-		);
-		
-		/**
-		 * @brief Destructor.
-		 */
-		virtual ~DelayInjectedLoadedLatencyBenchmark() {}
-	
-		/**
-		 * @brief Reports benchmark configuration details to the console.
-		 */
-		virtual void report_benchmark_info() const;
+    /**
+     * @brief A type of benchmark that measures loaded memory latency via random pointer chasing while load threads provide memory interference with delay injection to generate different degrees of loading.
+     */
+    class DelayInjectedLoadedLatencyBenchmark : public LatencyBenchmark {
+    public:
+        
+        /**
+         * @brief Constructor. Parameters are passed directly to the LatencyBenchmark constructor. See LatencyBenchmark class documentation for parameter semantics. The access pattern is hard-coded to SEQUENTIAL, read/write pattern to READ, and stride to 1. Chunk size may be either 64-bit or 256-bit.
+         */
+        DelayInjectedLoadedLatencyBenchmark(
+            void* mem_array,
+            size_t len,
+            uint32_t iterations,
+            uint32_t num_worker_threads,
+            uint32_t mem_node,
+            uint32_t cpu_node,
+            chunk_size_t chunk_size,
+            std::vector<PowerReader*> dram_power_readers,
+            std::string name,
+            uint32_t delay
+        );
+        
+        /**
+         * @brief Destructor.
+         */
+        virtual ~DelayInjectedLoadedLatencyBenchmark() {}
+    
+        /**
+         * @brief Reports benchmark configuration details to the console.
+         */
+        virtual void report_benchmark_info() const;
 
-		/**
-		 * @brief Gets the delay injection used in load thread kernels. A delay of 5 corresponds to 5 nop instructions.
-		 * @returns The delay value.
-		 */
-		uint32_t getDelay() const;
+        /**
+         * @brief Gets the delay injection used in load thread kernels. A delay of 5 corresponds to 5 nop instructions.
+         * @returns The delay value.
+         */
+        uint32_t getDelay() const;
 
-	protected:
-		virtual bool _run_core();
+    protected:
+        virtual bool _run_core();
 
-	private:
-		uint32_t __delay; /**< Number of nops to insert between load thread memory instructions. This is a form of delay injection to reduce memory loading. */
-	};
+    private:
+        uint32_t __delay; /**< Number of nops to insert between load thread memory instructions. This is a form of delay injection to reduce memory loading. */
+    };
 };
 
 #endif

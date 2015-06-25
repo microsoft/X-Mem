@@ -19,6 +19,8 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
+ * Author: Mark Gottscho <mgottscho@ucla.edu>
  */
 
 /**
@@ -63,651 +65,651 @@
 #define my_nop1024() my_nop512(); my_nop512()
 
 namespace xmem {
-	
-	/***********************************************************************
-	 ***********************************************************************
-	 ******************* THROUGHPUT-RELATED BENCHMARK KERNELS **************
-	 ***********************************************************************
-	 ***********************************************************************/
-	
-	/* -------------------- DUMMY BENCHMARK ROUTINES -------------------------- */
-	
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 32 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word32_Delay1(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 32 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word32_Delay2(void* start_address, void* end_address);
+    
+    /***********************************************************************
+     ***********************************************************************
+     ******************* THROUGHPUT-RELATED BENCHMARK KERNELS **************
+     ***********************************************************************
+     ***********************************************************************/
+    
+    /* -------------------- DUMMY BENCHMARK ROUTINES -------------------------- */
+    
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 32 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word32_Delay1(void* start_address, void* end_address);
+    
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 32 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word32_Delay2(void* start_address, void* end_address);
 
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 32 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word32_Delay4(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 32 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word32_Delay8(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 32 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word32_Delay16(void* start_address, void* end_address);
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 32 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word32_Delay4(void* start_address, void* end_address);
+    
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 32 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word32_Delay8(void* start_address, void* end_address);
+    
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 32 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word32_Delay16(void* start_address, void* end_address);
 
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 32 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word32_Delay32(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 32 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word32_Delay64(void* start_address, void* end_address);
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 32 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word32_Delay32(void* start_address, void* end_address);
+    
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 32 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word32_Delay64(void* start_address, void* end_address);
 
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 32 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word32_Delay128(void* start_address, void* end_address);
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 32 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word32_Delay128(void* start_address, void* end_address);
 
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 32 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word32_Delay256(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 32 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word32_Delay512plus(void* start_address, void* end_address);
-	
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 32 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word32_Delay256(void* start_address, void* end_address);
+    
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 32 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word32_Delay512plus(void* start_address, void* end_address);
+    
 #ifdef HAS_WORD_64
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 64 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word64_Delay1(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 64 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word64_Delay2(void* start_address, void* end_address);
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 64 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word64_Delay1(void* start_address, void* end_address);
+    
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 64 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word64_Delay2(void* start_address, void* end_address);
 
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 64 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word64_Delay4(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 64 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word64_Delay8(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 64 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word64_Delay16(void* start_address, void* end_address);
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 64 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word64_Delay4(void* start_address, void* end_address);
+    
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 64 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word64_Delay8(void* start_address, void* end_address);
+    
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 64 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word64_Delay16(void* start_address, void* end_address);
 
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 64 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word64_Delay32(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 64 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word64_Delay64(void* start_address, void* end_address);
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 64 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word64_Delay32(void* start_address, void* end_address);
+    
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 64 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word64_Delay64(void* start_address, void* end_address);
 
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 64 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word64_Delay128(void* start_address, void* end_address);
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 64 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word64_Delay128(void* start_address, void* end_address);
 
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 64 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word64_Delay256plus(void* start_address, void* end_address);
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 64 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word64_Delay256plus(void* start_address, void* end_address);
 #endif
 
 #ifdef HAS_WORD_128
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 128 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word128_Delay1(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 128 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word128_Delay2(void* start_address, void* end_address);
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 128 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word128_Delay1(void* start_address, void* end_address);
+    
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 128 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word128_Delay2(void* start_address, void* end_address);
 
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 128 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word128_Delay4(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 128 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word128_Delay8(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 128 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word128_Delay16(void* start_address, void* end_address);
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 128 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word128_Delay4(void* start_address, void* end_address);
+    
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 128 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word128_Delay8(void* start_address, void* end_address);
+    
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 128 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word128_Delay16(void* start_address, void* end_address);
 
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 128 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word128_Delay32(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 128 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word128_Delay64(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 128 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word128_Delay128plus(void* start_address, void* end_address);
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 128 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word128_Delay32(void* start_address, void* end_address);
+    
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 128 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word128_Delay64(void* start_address, void* end_address);
+    
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 128 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word128_Delay128plus(void* start_address, void* end_address);
 #endif
 
-#ifdef HAS_WORD_256	
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 256 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word256_Delay1(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 256 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word256_Delay2(void* start_address, void* end_address);
+#ifdef HAS_WORD_256 
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 256 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word256_Delay1(void* start_address, void* end_address);
+    
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 256 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word256_Delay2(void* start_address, void* end_address);
 
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 256 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word256_Delay4(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 256 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word256_Delay8(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 256 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word256_Delay16(void* start_address, void* end_address);
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 256 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word256_Delay4(void* start_address, void* end_address);
+    
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 256 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word256_Delay8(void* start_address, void* end_address);
+    
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 256 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word256_Delay16(void* start_address, void* end_address);
 
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 256 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word256_Delay32(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 256 loops except for the memory access and delays themselves.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t dummy_forwSequentialLoop_Word256_Delay64plus(void* start_address, void* end_address);
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 256 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word256_Delay32(void* start_address, void* end_address);
+    
+    /**
+     * @brief Used for measuring the time spent doing everything in delay-injected forward sequential Word 256 loops except for the memory access and delays themselves.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word256_Delay64plus(void* start_address, void* end_address);
 #endif
 
-	/* --------------------- CORE BENCHMARK ROUTINES --------------------------- */
+    /* --------------------- CORE BENCHMARK ROUTINES --------------------------- */
 
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 32-bit chunks. 1 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word32_Delay1(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 32-bit chunks. 2 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word32_Delay2(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 32-bit chunks. 4 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word32_Delay4(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 32-bit chunks. 8 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word32_Delay8(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 32-bit chunks. 16 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word32_Delay16(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 32-bit chunks. 32 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word32_Delay32(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 32-bit chunks. 64 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word32_Delay64(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 32-bit chunks. 128 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word32_Delay128(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 32-bit chunks. 256 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word32_Delay256(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 32-bit chunks. 512 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word32_Delay512(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 32-bit chunks. 1024 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word32_Delay1024(void* start_address, void* end_address);
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 32-bit chunks. 1 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word32_Delay1(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 32-bit chunks. 2 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word32_Delay2(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 32-bit chunks. 4 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word32_Delay4(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 32-bit chunks. 8 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word32_Delay8(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 32-bit chunks. 16 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word32_Delay16(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 32-bit chunks. 32 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word32_Delay32(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 32-bit chunks. 64 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word32_Delay64(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 32-bit chunks. 128 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word32_Delay128(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 32-bit chunks. 256 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word32_Delay256(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 32-bit chunks. 512 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word32_Delay512(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 32-bit chunks. 1024 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word32_Delay1024(void* start_address, void* end_address);
 
 #ifdef HAS_WORD_64
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 1 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word64_Delay1(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 2 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word64_Delay2(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 4 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word64_Delay4(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 8 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word64_Delay8(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 16 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word64_Delay16(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 32 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word64_Delay32(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 64 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word64_Delay64(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 128 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word64_Delay128(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 256 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word64_Delay256(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 512 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word64_Delay512(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 1024 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word64_Delay1024(void* start_address, void* end_address);
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 1 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word64_Delay1(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 2 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word64_Delay2(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 4 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word64_Delay4(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 8 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word64_Delay8(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 16 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word64_Delay16(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 32 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word64_Delay32(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 64 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word64_Delay64(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 128 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word64_Delay128(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 256 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word64_Delay256(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 512 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word64_Delay512(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 1024 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word64_Delay1024(void* start_address, void* end_address);
 #endif
 
 #ifdef HAS_WORD_128
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks. 1 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word128_Delay1(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks. 2 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word128_Delay2(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks. 4 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word128_Delay4(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks. 8 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word128_Delay8(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks. 16 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word128_Delay16(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks. 32 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word128_Delay32(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks. 64 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word128_Delay64(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks. 128 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word128_Delay128(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks. 256 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word128_Delay256(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks. 512 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word128_Delay512(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks. 1024 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word128_Delay1024(void* start_address, void* end_address);
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks. 1 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word128_Delay1(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks. 2 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word128_Delay2(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks. 4 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word128_Delay4(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks. 8 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word128_Delay8(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks. 16 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word128_Delay16(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks. 32 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word128_Delay32(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks. 64 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word128_Delay64(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks. 128 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word128_Delay128(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks. 256 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word128_Delay256(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks. 512 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word128_Delay512(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 128-bit chunks. 1024 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word128_Delay1024(void* start_address, void* end_address);
 #endif
 
 #ifdef HAS_WORD_256
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 1 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word256_Delay1(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 2 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word256_Delay2(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 4 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word256_Delay4(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 8 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word256_Delay8(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 16 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word256_Delay16(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 32 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word256_Delay32(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 64 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word256_Delay64(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 128 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word256_Delay128(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 256 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word256_Delay256(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 512 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word256_Delay512(void* start_address, void* end_address);
-	
-	/**
-	 * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 1024 delays (nops) are inserted between memory instructions.
-	 * @param start_address The beginning of the memory region of interest.
-	 * @param end_address The end of the memory region of interest.
-	 * @returns Undefined.
-	 */
-	int32_t forwSequentialRead_Word256_Delay1024(void* start_address, void* end_address);
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 1 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word256_Delay1(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 2 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word256_Delay2(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 4 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word256_Delay4(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 8 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word256_Delay8(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 16 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word256_Delay16(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 32 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word256_Delay32(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 64 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word256_Delay64(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 128 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word256_Delay128(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 256 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word256_Delay256(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 512 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word256_Delay512(void* start_address, void* end_address);
+    
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 64-bit chunks. 1024 delays (nops) are inserted between memory instructions.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word256_Delay1024(void* start_address, void* end_address);
 #endif
 };
 

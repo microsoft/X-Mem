@@ -19,6 +19,8 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
+ * Author: Mark Gottscho <mgottscho@ucla.edu>
  */
 
 /**
@@ -44,35 +46,35 @@
 #include <string>
 
 namespace xmem {
-	/**
-	 * @brief A class for measuring socket-level DRAM power from the Windows OS performance counter interface.
-	 */
-	class WindowsDRAMPowerReader : public PowerReader {
-	public:
-		/**
-		 * @brief Constructor.
-		 * @param counter_cpu_index Which CPU's DRAM power counter to sample. A single hardware counter might be shared across different CPUs.
-		 * @param sampling_period The time between power samples in milliseconds.
-		 * @param power_units The power units for each sample in watts.
-		 * @param cpu_affinity The CPU affinity for this object's run() method for any thread that calls it. If negative, no affinity preference.
-		 */
-		WindowsDRAMPowerReader(uint32_t counter_cpu_index, uint32_t sampling_period, double power_units, std::string name, int32_t cpu_affinity);
+    /**
+     * @brief A class for measuring socket-level DRAM power from the Windows OS performance counter interface.
+     */
+    class WindowsDRAMPowerReader : public PowerReader {
+    public:
+        /**
+         * @brief Constructor.
+         * @param counter_cpu_index Which CPU's DRAM power counter to sample. A single hardware counter might be shared across different CPUs.
+         * @param sampling_period The time between power samples in milliseconds.
+         * @param power_units The power units for each sample in watts.
+         * @param cpu_affinity The CPU affinity for this object's run() method for any thread that calls it. If negative, no affinity preference.
+         */
+        WindowsDRAMPowerReader(uint32_t counter_cpu_index, uint32_t sampling_period, double power_units, std::string name, int32_t cpu_affinity);
 
-		/**
-		 * @brief Destructor.
-		 */
-		~WindowsDRAMPowerReader();
+        /**
+         * @brief Destructor.
+         */
+        ~WindowsDRAMPowerReader();
 
-		/**
-		 * @brief Starts measuring power at the rate implied by the sampling_period passed in the constructor. Terminates when stop() is called.
-		 */
-		virtual void run();
+        /**
+         * @brief Starts measuring power at the rate implied by the sampling_period passed in the constructor. Terminates when stop() is called.
+         */
+        virtual void run();
 
-	private:
-		uint32_t __counter_cpu_index; /**< The CPU index to use when measuring performance counters. */
-		std::string __perf_counter_name; /**< The performance counter name exposed by the OS. */
-		CPdhQuery* __pdhQuery; /**< Pointer to the object used to query OS for the performance counter. If this is NULL, it means we cannot access it for some reason, perhaps permissions. This is not fatal and should be handled gracefully. */
-	};
+    private:
+        uint32_t __counter_cpu_index; /**< The CPU index to use when measuring performance counters. */
+        std::string __perf_counter_name; /**< The performance counter name exposed by the OS. */
+        CPdhQuery* __pdhQuery; /**< Pointer to the object used to query OS for the performance counter. If this is NULL, it means we cannot access it for some reason, perhaps permissions. This is not fatal and should be handled gracefully. */
+    };
 };
 
 #else

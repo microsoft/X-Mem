@@ -19,6 +19,8 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
+ * Author: Mark Gottscho <mgottscho@ucla.edu>
  */
 
 /**
@@ -40,37 +42,37 @@
 
 namespace xmem {
 
-	/**
-	 * @brief A type of benchmark that measures memory throughput.
-	 */
-	class ThroughputBenchmark : public Benchmark {
-	public:
-		/**
-		 * @brief Constructor. Parameters are passed directly to the Benchmark constructor. See Benchmark class documentation for parameter semantics.
-		 */
-		ThroughputBenchmark(
-			void* mem_array,
-			size_t len,
-			uint32_t iterations,
-			uint32_t num_worker_threads,
-			uint32_t mem_node,
-			uint32_t cpu_node,
-			pattern_mode_t pattern_mode,
-			rw_mode_t rw_mode,
-			chunk_size_t chunk_size,
-			int32_t stride_size,
-			std::vector<PowerReader*> dram_power_readers,
-			std::string name
-		);
+    /**
+     * @brief A type of benchmark that measures memory throughput.
+     */
+    class ThroughputBenchmark : public Benchmark {
+    public:
+        /**
+         * @brief Constructor. Parameters are passed directly to the Benchmark constructor. See Benchmark class documentation for parameter semantics.
+         */
+        ThroughputBenchmark(
+            void* mem_array,
+            size_t len,
+            uint32_t iterations,
+            uint32_t num_worker_threads,
+            uint32_t mem_node,
+            uint32_t cpu_node,
+            pattern_mode_t pattern_mode,
+            rw_mode_t rw_mode,
+            chunk_size_t chunk_size,
+            int32_t stride_size,
+            std::vector<PowerReader*> dram_power_readers,
+            std::string name
+        );
 
-		/**
-		 * @brief Destructor.
-		 */
-		virtual ~ThroughputBenchmark() {}
+        /**
+         * @brief Destructor.
+         */
+        virtual ~ThroughputBenchmark() {}
 
-	protected:
-		virtual bool _run_core();
-	};
+    protected:
+        virtual bool _run_core();
+    };
 };
 
 #endif

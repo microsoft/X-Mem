@@ -19,6 +19,8 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
+ * Author: Mark Gottscho <mgottscho@ucla.edu>
  */
 
 /**
@@ -37,34 +39,34 @@
 #include <cstdint>
 
 namespace xmem {
-	/**
-	 * @brief This class abstracts some characteristics of simple high resolution stopwatch timer.
-	 * However, due to the inability or complexity of abstracting shared hardware timers,
-	 * this class does not actually provide start and stop functions.
-	 */
-	class Timer {
-	public:
-		/**
-		 * @brief Constructor. This may take a noticeable amount of time.
-		 */
-		Timer();
+    /**
+     * @brief This class abstracts some characteristics of simple high resolution stopwatch timer.
+     * However, due to the inability or complexity of abstracting shared hardware timers,
+     * this class does not actually provide start and stop functions.
+     */
+    class Timer {
+    public:
+        /**
+         * @brief Constructor. This may take a noticeable amount of time.
+         */
+        Timer();
 
-		/**
-		 * @brief Gets ticks per ms for this timer.
-		 * @returns The reported number of ticks per ms.
-		 */
-		tick_t get_ticks_per_ms();
+        /**
+         * @brief Gets ticks per ms for this timer.
+         * @returns The reported number of ticks per ms.
+         */
+        tick_t get_ticks_per_ms();
 
-		/**
-		 * @brief Gets nanoseconds per tick for this timer.
-		 * @returns the number of nanoseconds per tick
-		 */
-		float get_ns_per_tick();
+        /**
+         * @brief Gets nanoseconds per tick for this timer.
+         * @returns the number of nanoseconds per tick
+         */
+        float get_ns_per_tick();
 
-	protected:
-		tick_t _ticks_per_ms; /**< Ticks per ms for this timer. */
-		float _ns_per_tick; /**< Nanoseconds per tick for this timer. */
-	};
+    protected:
+        tick_t _ticks_per_ms; /**< Ticks per ms for this timer. */
+        float _ns_per_tick; /**< Nanoseconds per tick for this timer. */
+    };
 };
 
 #endif

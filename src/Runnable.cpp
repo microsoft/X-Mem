@@ -19,6 +19,8 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
+ * Author: Mark Gottscho <mgottscho@ucla.edu>
  */
 
 /**
@@ -46,122 +48,122 @@ using namespace xmem;
 
 Runnable::Runnable() :
 #ifdef _WIN32
-	_mutex(0) 
+    _mutex(0) 
 #endif
 #ifdef __gnu_linux__
-	_mutex(PTHREAD_MUTEX_INITIALIZER)
+    _mutex(PTHREAD_MUTEX_INITIALIZER)
 #endif
-	{
+    {
 #ifdef _WIN32
-	if ((_mutex = CreateMutex(NULL, false, NULL)) == NULL)
-		std::cerr << "WARNING: Failed to create mutex for a Runnable object! Thread-safe operation may not be possible." << std::endl;
+    if ((_mutex = CreateMutex(NULL, false, NULL)) == NULL)
+        std::cerr << "WARNING: Failed to create mutex for a Runnable object! Thread-safe operation may not be possible." << std::endl;
 #endif
 }
 
 Runnable::~Runnable() {
 #ifdef _WIN32
-	if (_mutex != NULL)
-		ReleaseMutex(_mutex); //Don't need to check return code. If it fails, the lock might not have been held anyway.
+    if (_mutex != NULL)
+        ReleaseMutex(_mutex); //Don't need to check return code. If it fails, the lock might not have been held anyway.
 #endif
 
 #ifdef __gnu_linux__
-	int32_t retval = pthread_mutex_destroy(&_mutex); 
-	if (retval) {
-		if (retval == EBUSY)
-			std::cerr << "WARNING: Failed to destroy a mutex, as it was busy!" << std::endl;
-		else if (retval == EINVAL)
-			std::cerr << "WARNING: Failed to destroy a mutex, as it was invalid!" << std::endl;
-		else
-			std::cerr << "WARNING: Failed to destroy a mutex for an unknown reason, error number " << retval << "!" << std::endl;
-	}
+    int32_t retval = pthread_mutex_destroy(&_mutex); 
+    if (retval) {
+        if (retval == EBUSY)
+            std::cerr << "WARNING: Failed to destroy a mutex, as it was busy!" << std::endl;
+        else if (retval == EINVAL)
+            std::cerr << "WARNING: Failed to destroy a mutex, as it was invalid!" << std::endl;
+        else
+            std::cerr << "WARNING: Failed to destroy a mutex for an unknown reason, error number " << retval << "!" << std::endl;
+    }
 #endif
 }
 
 bool Runnable::_acquireLock(int32_t timeout) {
 #ifdef _WIN32
-	if (_mutex == NULL)
-		return false;
+    if (_mutex == NULL)
+        return false;
 #endif
 
 #ifdef _WIN32
-	DWORD reason;
+    DWORD reason;
 #endif
 
 #ifdef __gnu_linux__
-	int32_t reason;
+    int32_t reason;
 #endif
 
-	if (timeout < 0) {
+    if (timeout < 0) {
 #ifdef _WIN32
-		reason = WaitForSingleObject(_mutex, INFINITE);
-		if (reason == WAIT_OBJECT_0) //success
+        reason = WaitForSingleObject(_mutex, INFINITE);
+        if (reason == WAIT_OBJECT_0) //success
 #endif
 #ifdef __gnu_linux__
-		reason = pthread_mutex_lock(&_mutex);
-		if (!reason) //success
+        reason = pthread_mutex_lock(&_mutex);
+        if (!reason) //success
 #endif
-			return true;
-		else {
-			std::cerr << "WARNING: Failed to acquire lock in a Runnable object! Error code " 
+            return true;
+        else {
+            std::cerr << "WARNING: Failed to acquire lock in a Runnable object! Error code " 
 #ifdef _WIN32
-			<< GetLastError() 
+            << GetLastError() 
 #endif
 #ifdef __gnu_linux__
-			<< reason
+            << reason
 #endif
-			<< std::endl;
-			return false;
-		}
-	} else {
+            << std::endl;
+            return false;
+        }
+    } else {
 #ifdef _WIN32
-		reason = WaitForSingleObject(_mutex, timeout);
-		if (reason == WAIT_OBJECT_0) //success
+        reason = WaitForSingleObject(_mutex, timeout);
+        if (reason == WAIT_OBJECT_0) //success
 #endif
 #ifdef __gnu_linux__
-		struct timespec t;
-		t.tv_sec = static_cast<time_t>(timeout/1000);
-		t.tv_nsec = static_cast<time_t>((timeout % 1000) * 1e6);
-		reason = pthread_mutex_timedlock(&_mutex, &t);
-		if (!reason) //success
+        struct timespec t;
+        t.tv_sec = static_cast<time_t>(timeout/1000);
+        t.tv_nsec = static_cast<time_t>((timeout % 1000) * 1e6);
+        reason = pthread_mutex_timedlock(&_mutex, &t);
+        if (!reason) //success
 #endif
-			return true;
+            return true;
 #ifdef _WIN32
-		else if (reason != WAIT_TIMEOUT) {
+        else if (reason != WAIT_TIMEOUT) {
 #endif
 #ifdef __gnu_linux__
-		else if (reason != ETIMEDOUT) {
+        else if (reason != ETIMEDOUT) {
 #endif
-			std::cerr << "WARNING: Failed to acquire lock in a Runnable object! Error code "
+            std::cerr << "WARNING: Failed to acquire lock in a Runnable object! Error code "
 #ifdef _WIN32
-			<< GetLastError() 
+            << GetLastError() 
 #endif
-#ifdef __gnu_linux__		
-			<< reason
+#ifdef __gnu_linux__        
+            << reason
 #endif
-			<< std::endl;
-			return false;
-		}
-	}
-	
-	return false;
+            << std::endl;
+            return false;
+        }
+    }
+    
+    return false;
 }
 
 bool Runnable::_releaseLock() {
 #ifdef _WIN32
-	if (ReleaseMutex(_mutex))
+    if (ReleaseMutex(_mutex))
 #endif
 #ifdef __gnu_linux__
-	int32_t retval = pthread_mutex_unlock(&_mutex);
-	if (!retval)
+    int32_t retval = pthread_mutex_unlock(&_mutex);
+    if (!retval)
 #endif
-		return true;
-	std::cerr << "WARNING: Failed to release lock in a Runnable object! Error code "
+        return true;
+    std::cerr << "WARNING: Failed to release lock in a Runnable object! Error code "
 #ifdef _WIN32
-	<< GetLastError()
+    << GetLastError()
 #endif
 #ifdef __gnu_linux__
-	<< retval
+    << retval
 #endif
-	<< std::endl;
-	return false;
+    << std::endl;
+    return false;
 }

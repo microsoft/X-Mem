@@ -19,6 +19,8 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
+ * Author: Mark Gottscho <mgottscho@ucla.edu>
  */
 
 /**
@@ -34,92 +36,92 @@
 using namespace xmem;
 
 MemoryWorker::MemoryWorker(
-		void* mem_array,
-		size_t len,
-		int32_t cpu_affinity
-	) :
-		_mem_array(mem_array),
-		_len(len),
-		_cpu_affinity(cpu_affinity),
-		_bytes_per_pass(0),
-		_passes(0),
-		_elapsed_ticks(0),
-		_elapsed_dummy_ticks(0),
-		_adjusted_ticks(0),
-		_warning(false),
-		_completed(false)
-	{
+        void* mem_array,
+        size_t len,
+        int32_t cpu_affinity
+    ) :
+        _mem_array(mem_array),
+        _len(len),
+        _cpu_affinity(cpu_affinity),
+        _bytes_per_pass(0),
+        _passes(0),
+        _elapsed_ticks(0),
+        _elapsed_dummy_ticks(0),
+        _adjusted_ticks(0),
+        _warning(false),
+        _completed(false)
+    {
 }
 
 MemoryWorker::~MemoryWorker() {
 }
 
 size_t MemoryWorker::getLen() {
-	size_t retval = 0;
-	if (_acquireLock(-1)) {
-		retval = _len;
-		_releaseLock();
-	}
+    size_t retval = 0;
+    if (_acquireLock(-1)) {
+        retval = _len;
+        _releaseLock();
+    }
 
-	return retval;
+    return retval;
 }
 
 uint32_t MemoryWorker::getBytesPerPass() {
-	uint32_t retval = 0;
-	if (_acquireLock(-1)) {
-		retval = _bytes_per_pass;
-		_releaseLock();
-	}
+    uint32_t retval = 0;
+    if (_acquireLock(-1)) {
+        retval = _bytes_per_pass;
+        _releaseLock();
+    }
 
-	return retval;
+    return retval;
 }
 
 uint32_t MemoryWorker::getPasses() {
-	uint32_t retval = 0;
-	if (_acquireLock(-1)) {
-		retval = _passes;
-		_releaseLock();
-	}
+    uint32_t retval = 0;
+    if (_acquireLock(-1)) {
+        retval = _passes;
+        _releaseLock();
+    }
 
-	return retval;
+    return retval;
 }
-				
+                
 tick_t MemoryWorker::getElapsedTicks() {
-	tick_t retval = 0;
-	if (_acquireLock(-1)) {
-		retval = _elapsed_ticks;
-		_releaseLock();
-	}
+    tick_t retval = 0;
+    if (_acquireLock(-1)) {
+        retval = _elapsed_ticks;
+        _releaseLock();
+    }
 
-	return retval;
+    return retval;
 }
 
 tick_t MemoryWorker::getElapsedDummyTicks() {
-	tick_t retval = 0;
-	if (_acquireLock(-1)) {
-		retval = _elapsed_dummy_ticks;
-		_releaseLock();
-	}
+    tick_t retval = 0;
+    if (_acquireLock(-1)) {
+        retval = _elapsed_dummy_ticks;
+        _releaseLock();
+    }
 
-	return retval;
+    return retval;
 }
 
 tick_t MemoryWorker::getAdjustedTicks() {
-	tick_t retval = 0;
-	if (_acquireLock(-1)) {
-		retval = _adjusted_ticks;
-		_releaseLock();
-	}
+    tick_t retval = 0;
+    if (_acquireLock(-1)) {
+        retval = _adjusted_ticks;
+        _releaseLock();
+    }
 
-	return retval;
+    return retval;
 }
 
 bool MemoryWorker::hadWarning() {
-	bool retval = true;
-	if (_acquireLock(-1)) {
-		retval = _warning;
-		_releaseLock();
-	}
+    bool retval = true;
+    if (_acquireLock(-1)) {
+        retval = _warning;
+        _releaseLock();
+    }
 
-	return retval;
+    return retval;
 }

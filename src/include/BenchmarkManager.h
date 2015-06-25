@@ -19,6 +19,8 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
+ * Author: Mark Gottscho <mgottscho@ucla.edu>
  */
 
 /**
@@ -45,84 +47,84 @@
 #include <fstream>
 
 namespace xmem {
-	/**
-	 * @brief Manages running all benchmarks at a high level.
-	 */
-	class BenchmarkManager {
-	public:
-		/**
-		 * @brief Constructor.
-		 * @param config The configuration object containing run-time options for this X-Mem execution instance.
-		 */
-		BenchmarkManager(Configurator &config);
+    /**
+     * @brief Manages running all benchmarks at a high level.
+     */
+    class BenchmarkManager {
+    public:
+        /**
+         * @brief Constructor.
+         * @param config The configuration object containing run-time options for this X-Mem execution instance.
+         */
+        BenchmarkManager(Configurator &config);
 
-		/**
-		 * @brief Destructor.
-		 */
-		~BenchmarkManager();
+        /**
+         * @brief Destructor.
+         */
+        ~BenchmarkManager();
 
-		/**
-		 * @brief Runs all benchmark configurations (does not include extensions).
-		 * @returns True on success.
-		 */
-		bool runAll();
+        /**
+         * @brief Runs all benchmark configurations (does not include extensions).
+         * @returns True on success.
+         */
+        bool runAll();
 
-		/**
-		 * @brief Runs the throughput benchmarks.
-		 * @returns True on benchmarking success.
-		 */
-		bool runThroughputBenchmarks();
+        /**
+         * @brief Runs the throughput benchmarks.
+         * @returns True on benchmarking success.
+         */
+        bool runThroughputBenchmarks();
 
-		/**
-		 * @brief Runs the latency benchmark.
-		 * @returns True on benchmarking success.
-		 */
-		bool runLatencyBenchmarks();
+        /**
+         * @brief Runs the latency benchmark.
+         * @returns True on benchmarking success.
+         */
+        bool runLatencyBenchmarks();
 
 #ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
-		/**
-		 * @brief Runs the delay-injected loaded latency benchmark extension.
-		 * @returns True on success.
-		 */
-		bool runExtDelayInjectedLoadedLatencyBenchmark();
+        /**
+         * @brief Runs the delay-injected loaded latency benchmark extension.
+         * @returns True on success.
+         */
+        bool runExtDelayInjectedLoadedLatencyBenchmark();
 #endif
 
 #ifdef EXT_STREAM_BENCHMARK
-		/**
-		 * @brief Runs the STREAM-like benchmark extension.
-		 * @returns True on success.
-		 */
-		bool runExtStreamBenchmark();
+        /**
+         * @brief Runs the STREAM-like benchmark extension.
+         * @returns True on success.
+         */
+        bool runExtStreamBenchmark();
 #endif
 
-	private:
-		/**
-		 * @brief Allocates memory for all working sets.
-		 * @param working_set_size Memory size in bytes, per enabled NUMA node.
-		 */
-		void __setupWorkingSets(size_t working_set_size);
+    private:
+        /**
+         * @brief Allocates memory for all working sets.
+         * @param working_set_size Memory size in bytes, per enabled NUMA node.
+         */
+        void __setupWorkingSets(size_t working_set_size);
 
-		/**
-		 * @brief Constructs and initializes all configured benchmarks.
-		 * @returns True on success.
-		 */
-		bool __buildBenchmarks();
+        /**
+         * @brief Constructs and initializes all configured benchmarks.
+         * @returns True on success.
+         */
+        bool __buildBenchmarks();
 
-		Configurator __config;
+        Configurator __config;
 
-		uint32_t __num_numa_nodes; /**< Number of NUMA nodes in the system. */
-		uint32_t __benchmark_num_numa_nodes; /**< Number of NUMA nodes to use in benchmarks. */
-		std::vector<void*> __mem_arrays; /**< Memory regions to use in benchmarks. One for each benchmarked NUMA node. */
+        uint32_t __num_numa_nodes; /**< Number of NUMA nodes in the system. */
+        uint32_t __benchmark_num_numa_nodes; /**< Number of NUMA nodes to use in benchmarks. */
+        std::vector<void*> __mem_arrays; /**< Memory regions to use in benchmarks. One for each benchmarked NUMA node. */
 #ifndef HAS_NUMA
-		void* __orig_malloc_addr; /**< Points to the original address returned by the malloc() for __mem_arrays on non-NUMA machines. Special case. */
+        void* __orig_malloc_addr; /**< Points to the original address returned by the malloc() for __mem_arrays on non-NUMA machines. Special case. */
 #endif
-		std::vector<size_t> __mem_array_lens; /**< Length of each memory region to use in benchmarks. */
-		std::vector<ThroughputBenchmark*> __tp_benchmarks; /**< Set of throughput benchmarks. */
-		std::vector<LatencyBenchmark*> __lat_benchmarks; /**< Set of latency benchmarks. */
-		std::vector<PowerReader*> __dram_power_readers; /**< Set of power measurement objects for DRAM on each NUMA node. */
-		std::fstream __results_file; /**< The results CSV file. */
-		bool __built_benchmarks; /**< If true, finished building all benchmarks. */
-	};
+        std::vector<size_t> __mem_array_lens; /**< Length of each memory region to use in benchmarks. */
+        std::vector<ThroughputBenchmark*> __tp_benchmarks; /**< Set of throughput benchmarks. */
+        std::vector<LatencyBenchmark*> __lat_benchmarks; /**< Set of latency benchmarks. */
+        std::vector<PowerReader*> __dram_power_readers; /**< Set of power measurement objects for DRAM on each NUMA node. */
+        std::fstream __results_file; /**< The results CSV file. */
+        bool __built_benchmarks; /**< If true, finished building all benchmarks. */
+    };
 };
 
 #endif

@@ -1,7 +1,7 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: Extensible Memory Benchmarking Tool v2.2.3
+X-Mem: Extensible Memory Benchmarking Tool v2.2.4
 ------------------------------------------------------------------------------------------------------------
 
 The flexible open-source research tool for characterizing memory hierarchy throughput, latency, and power. 
@@ -10,7 +10,7 @@ Originally authored by Mark Gottscho (Email: <mgottscho@ucla.edu>) as a Summer 2
 
 This project is under active development. Stay tuned for more updates.
 
-PROJECT REVISION DATE: May 6, 2015.
+PROJECT REVISION DATE: June 24, 2015.
 
 ------------------------------------------------------------------------------------------------------------
 LICENSE
@@ -18,7 +18,7 @@ LICENSE
 
 The MIT License (MIT)
 
-Copyright (c) 2015 Microsoft
+Copyright (c) 2014 Microsoft
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -45,43 +45,43 @@ FEATURES
 This tool is provided as open source with the hope of being useful to the broader research and development community. Here are some of X-Mem's features.
 
 Flexibility: Easy reconfiguration for different combinations of tests
-	- Working sets in increments of 4KB, allowing cache up to main memory-level benchmarking
-	- NUMA support
-	- Multi-threading support
-	- Large page support
+    - Working sets in increments of 4KB, allowing cache up to main memory-level benchmarking
+    - NUMA support
+    - Multi-threading support
+    - Large page support
 
 Extensibility: Modularity via C++ object-oriented principles
-	- Supports rapid addition of new benchmark kernel routines
-	- Example: stream triad algorithm, impact of false sharing, etc. are possible with minor changes
+    - Supports rapid addition of new benchmark kernel routines
+    - Example: stream triad algorithm, impact of false sharing, etc. are possible with minor changes
 
 Cross-platform: Currently implemented for two OSes and architecture families
-	- Windows: Intel x86 (32-bit), x86-64, and x86-64 with AVX extensions
-	- GNU/Linux: Intel x86 (32-bit), x86-64, and x86-64 with AVX extensions, ARM (32-bit), ARM (32-bit) with NEON, ARMv8 (64-bit)
-	- Designed to allow straightforward porting to other operating systems and ISAs
-	- ARM on Windows currently not possible due to some incompatibilites and/or lack of support. This may be resolved in the future.
+    - Windows: Intel x86 (32-bit), x86-64, and x86-64 with AVX extensions
+    - GNU/Linux: Intel x86 (32-bit), x86-64, and x86-64 with AVX extensions, ARM (32-bit), ARM (32-bit) with NEON, ARMv8 (64-bit)
+    - Designed to allow straightforward porting to other operating systems and ISAs
+    - ARM on Windows currently not possible due to some incompatibilites and/or lack of support. This may be resolved in the future.
 
 Memory throughput:
-	- Accurate measurement of sustained memory throughput to all levels of cache and memory
-	- Regular access patterns: forward & reverse sequential as well as strides of 2, 4, 8, and 16 words
-	- Random access patterns
-	- Read and write
-	- 32, 64, 128, 256-bit width memory instructions where applicable on each architecture
+    - Accurate measurement of sustained memory throughput to all levels of cache and memory
+    - Regular access patterns: forward & reverse sequential as well as strides of 2, 4, 8, and 16 words
+    - Random access patterns
+    - Read and write
+    - 32, 64, 128, 256-bit width memory instructions where applicable on each architecture
 
 Memory latency: 
-	- Accurate measurement of round-trip memory latency to all levels of cache and memory
-	- Loaded and unloaded latency via use of multithreaded load generation
+    - Accurate measurement of round-trip memory latency to all levels of cache and memory
+    - Loaded and unloaded latency via use of multithreaded load generation
 
 Memory power:
-	- Support custom power instrumentation through a simple interface that end-users can implement
-	- Can collect DRAM power via custom driver exposed in Windows performance counter API
+    - Support custom power instrumentation through a simple interface that end-users can implement
+    - Can collect DRAM power via custom driver exposed in Windows performance counter API
 
 Documentation:
-	- Extensive Doxygen source code comments, PDF manual, HTML
+    - Extensive Doxygen source code comments, PDF manual, HTML
 
 
 INCLUDED EXTENSIONS (under src/include/ext and src/ext directories):
-	- Loaded latency benchmark variant with load delays inserted as nop instructions between memory instructions.
-	  This is done for 32, 64, 128, and 256-bit load chunk sizes where applicable using the forward sequential read pattern.
+    - Loaded latency benchmark variant with load delays inserted as nop instructions between memory instructions.
+      This is done for 32, 64, 128, and 256-bit load chunk sizes where applicable using the forward sequential read pattern.
 
 For feature requests, please refer to the contact information at the end of this README.
 
@@ -102,17 +102,17 @@ WINDOWS:
 - Microsoft Visual C++ 2013 Redistributables (32-bit) -- for x86 (32-bit) builds
 - Microsoft Visual C++ 2013 Redistributables (64-bit) -- for x86-64 and x86-64 with AVX builds
 - You MAY need Administrator privileges, in order to:
-	- Use large pages, if the --large_pages option is selected (see USAGE, below)
-	- The first time you use --large_pages on a given Windows machine, you may need to ensure that your Windows user account has the necessary rights to allow lockable memory pages. To do this on Windows 8, run gpedit.msc --> Local Computer Policy --> Computer Configuration --> Windows Settings --> Security Settings --> Local Policies --> User Rights Assignment --> Add your username to "Lock pages in memory". Then log out and then log back in.
-	- Use the PowerReader interface, depending on end-user implementation
-	- Elevate thread priority and pin threads to logical CPUs for improved performance and benchmarking consistency
+    - Use large pages, if the --large_pages option is selected (see USAGE, below)
+    - The first time you use --large_pages on a given Windows machine, you may need to ensure that your Windows user account has the necessary rights to allow lockable memory pages. To do this on Windows 8, run gpedit.msc --> Local Computer Policy --> Computer Configuration --> Windows Settings --> Security Settings --> Local Policies --> User Rights Assignment --> Add your username to "Lock pages in memory". Then log out and then log back in.
+    - Use the PowerReader interface, depending on end-user implementation
+    - Elevate thread priority and pin threads to logical CPUs for improved performance and benchmarking consistency
 
 GNU/LINUX:
 
 - GNU utilities with support for C++11. Tested with gcc 4.8.2 on Ubuntu 14.04 LTS for x86 (32-bit), x86-64, and x86-64 with AVX on Intel Sandy Bridge, Ivy Bridge, and Haswell families.
 - libhugetlbfs. You can obtain it at <http://libhugetlbfs.sourceforge.net>. On Ubuntu systems, you can install using "sudo apt-get install libhugetlbfs0".
 - Potentially, administrator privileges, if you plan to use the --large_pages option.
-	- During runtime, if the --large_pages option is selected, you may need to first manually ensure that large pages are available from the OS. This can be done by running "hugeadm --pool-list". It is recommended to set minimum pool to 1GB (in order to measure DRAM effectively). If needed, this can be done by running "hugeadm --pool-pages-min 2MB:512". Alternatively, run the linux_setup_runtime_hugetlbfs.sh script that is provided with X-Mem. 
+    - During runtime, if the --large_pages option is selected, you may need to first manually ensure that large pages are available from the OS. This can be done by running "hugeadm --pool-list". It is recommended to set minimum pool to 1GB (in order to measure DRAM effectively). If needed, this can be done by running "hugeadm --pool-pages-min 2MB:512". Alternatively, run the linux_setup_runtime_hugetlbfs.sh script that is provided with X-Mem. 
 
 ------------------------------------------------------------------------------------------------------------
 INSTALLATION
@@ -361,4 +361,4 @@ For questions, comments, criticism, bug reports, and other feedback for this sof
 ACKNOWLEDGMENT
 ------------------------------------------------------------------------------------------------------------
 
-Mark Gottscho would like to thank Dr. Mohammed Shoaib of Microsoft Research and Dr. Sriram Govindan of Microsoft for their mentorship in the creation of this software. Further thanks to Dr. Bikash Sharma, Mark Santaniello, Mike Andrewartha, and Laura Caulfield of Microsoft for their contributions, feedback, and assistance. Thank you as well to Dr. Jie Liu of Microsoft Research, Dr. Badriddine Khessib and Dr. Kushagra Vaid of Microsoft, and Prof. Puneet Gupta of UCLA for giving me the opportunity to create this work. Finally, Mark would like to thank Dr. Fedor Pikus of Mentor Graphics for teaching him some useful HPC programming techniques.
+Mark Gottscho would like to thank Dr. Mohammed Shoaib of Microsoft Research and Dr. Sriram Govindan of Microsoft for their mentorship in the creation of this software. Further thanks to Dr. Bikash Sharma, Mark Santaniello, Mike Andrewartha, and Laura Caulfield of Microsoft for their contributions, feedback, and assistance. Thank you as well to Dr. Jie Liu of Microsoft Research, Dr. Badriddine Khessib and Dr. Kushagra Vaid of Microsoft, and Prof. Puneet Gupta of UCLA for giving Mark the opportunity to create this work. Finally, Mark would like to thank Dr. Fedor Pikus of Mentor Graphics for teaching him some useful HPC programming techniques.
