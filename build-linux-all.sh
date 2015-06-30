@@ -25,8 +25,14 @@
 # Author: Mark Gottscho <mgottscho@ucla.edu>
 
 ./build-linux.sh x64 &
+sleep 1
 ./build-linux.sh x64_avx &
+sleep 1
 ./build-linux.sh x86 &
+sleep 1
 ./build-linux.sh arm &
+sleep 1
 ./build-linux.sh arm_neon &
+sleep 1
 ./build-linux.sh arm64 &
+sleep 1

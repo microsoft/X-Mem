@@ -42,6 +42,7 @@ call scons -f SConstruct_win_%ARCH%
 if ERRORLEVEL 1 goto buildFailure
 
 :: Copy executable
+mkdir bin
 copy build\win\%ARCH%\release\xmem.exe .\xmem.exe
 copy build\win\%ARCH%\release\xmem.exe bin\xmem-win-%ARCH%.exe
 echo Done! The executable xmem is at the top of the project tree, and at bin\xmem-win-%ARCH%

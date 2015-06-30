@@ -49,6 +49,7 @@ scons -f SConstruct_linux_$ARCH
 # Check if build was successful
 if [[ $? -eq 0 ]]; then
     # Copy executable
+    mkdir bin
     cp build/linux/$ARCH/release/xmem ./xmem
     cp build/linux/$ARCH/release/xmem bin/xmem-linux-$ARCH
     echo Done! The executable xmem is at the top of the project tree, and at bin/xmem-linux-$ARCH
