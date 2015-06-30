@@ -37,5 +37,6 @@ echo Cleaning build of X-Mem for GNU/Linux on $ARCH\...
 scons -c -f SConstruct_linux_$ARCH
 rm -rf build/linux/$ARCH
 rm xmem
+rm bin/xmem-linux*
 
 echo Done!
