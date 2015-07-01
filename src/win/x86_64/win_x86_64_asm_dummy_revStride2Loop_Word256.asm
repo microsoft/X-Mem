@@ -36,7 +36,7 @@ win_x86_64_asm_dummy_revStride2Loop_Word256 proc
 
     mov rax,rcx     ; Temporarily save last word address
     sub rcx,rdx     ; Get total number of 256-bit words between starting and ending addresses
-    shr rcx,4       
+    shr rcx,5       
     mov rdx,rcx     ; Set target number of words
     mov rcx,rax     ; Restore last word address
     xor rax,rax     ; initialize number of words accessed to 0

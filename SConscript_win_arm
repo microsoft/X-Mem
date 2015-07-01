@@ -39,6 +39,7 @@ env.Append(CPPFLAGS = '/Gy ')
 env.Append(CPPFLAGS = '/MD')
 # Static link
 #env.Append(CPPFLAGS = '/MT')
+env['PDB'] = 'xmem.pdb'
 
 env.Append(CPPPATH = ['src/include'])
 env.Append(CPPPATH = ['src/include/ext/DelayInjectedLoadedLatencyBenchmark']) # Extension: Delay-injected loaded latency benchmark

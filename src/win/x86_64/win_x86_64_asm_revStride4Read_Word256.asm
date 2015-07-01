@@ -23,7 +23,7 @@
 ; Author: Mark Gottscho <mgottscho@ucla.edu>
 
 .code
-win_x86_64_asm_revStride2Read_Word256 proc
+win_x86_64_asm_revStride4Read_Word256 proc
 
 ; Arguments:
 ; rcx is address of the last 256-bit word in the array
@@ -44,73 +44,41 @@ win_x86_64_asm_revStride2Read_Word256 proc
     jae done        ; if the number of words accessed >= the target number, then we are done
 
 myloop:
-    ; Unroll 64 loads of 256-bit words (32 bytes is 20h) in strides of 2 words before checking loop condition.
+    ; Unroll 32 loads of 256-bit words (32 bytes is 20h) in strides of 4 words before checking loop condition.
     vmovdqa ymm0, ymmword ptr [rcx-0000h]
-    vmovdqa ymm0, ymmword ptr [rcx-0040h]
     vmovdqa ymm0, ymmword ptr [rcx-0080h]
-    vmovdqa ymm0, ymmword ptr [rcx-00C0h]
     vmovdqa ymm0, ymmword ptr [rcx-0100h]               
-    vmovdqa ymm0, ymmword ptr [rcx-0140h]
     vmovdqa ymm0, ymmword ptr [rcx-0180h]
-    vmovdqa ymm0, ymmword ptr [rcx-01C0h]
     vmovdqa ymm0, ymmword ptr [rcx-0200h]               
-    vmovdqa ymm0, ymmword ptr [rcx-0240h]
     vmovdqa ymm0, ymmword ptr [rcx-0280h]
-    vmovdqa ymm0, ymmword ptr [rcx-02C0h]
     vmovdqa ymm0, ymmword ptr [rcx-0300h]               
-    vmovdqa ymm0, ymmword ptr [rcx-0340h]
     vmovdqa ymm0, ymmword ptr [rcx-0380h]
-    vmovdqa ymm0, ymmword ptr [rcx-03C0h]
     vmovdqa ymm0, ymmword ptr [rcx-0400h]               
-    vmovdqa ymm0, ymmword ptr [rcx-0440h]
     vmovdqa ymm0, ymmword ptr [rcx-0480h]
-    vmovdqa ymm0, ymmword ptr [rcx-04C0h]
     vmovdqa ymm0, ymmword ptr [rcx-0500h]               
-    vmovdqa ymm0, ymmword ptr [rcx-0540h]
     vmovdqa ymm0, ymmword ptr [rcx-0580h]
-    vmovdqa ymm0, ymmword ptr [rcx-05C0h]
     vmovdqa ymm0, ymmword ptr [rcx-0600h]               
-    vmovdqa ymm0, ymmword ptr [rcx-0640h]
     vmovdqa ymm0, ymmword ptr [rcx-0680h]
-    vmovdqa ymm0, ymmword ptr [rcx-06C0h]
     vmovdqa ymm0, ymmword ptr [rcx-0700h]               
-    vmovdqa ymm0, ymmword ptr [rcx-0740h]
     vmovdqa ymm0, ymmword ptr [rcx-0780h]
-    vmovdqa ymm0, ymmword ptr [rcx-07C0h]
     vmovdqa ymm0, ymmword ptr [rcx-0800h]               
-    vmovdqa ymm0, ymmword ptr [rcx-0840h]
     vmovdqa ymm0, ymmword ptr [rcx-0880h]
-    vmovdqa ymm0, ymmword ptr [rcx-08C0h]
     vmovdqa ymm0, ymmword ptr [rcx-0900h]               
-    vmovdqa ymm0, ymmword ptr [rcx-0940h]
     vmovdqa ymm0, ymmword ptr [rcx-0980h]
-    vmovdqa ymm0, ymmword ptr [rcx-09C0h]
     vmovdqa ymm0, ymmword ptr [rcx-0A00h]               
-    vmovdqa ymm0, ymmword ptr [rcx-0A40h]
     vmovdqa ymm0, ymmword ptr [rcx-0A80h]
-    vmovdqa ymm0, ymmword ptr [rcx-0AC0h]
     vmovdqa ymm0, ymmword ptr [rcx-0B00h]               
-    vmovdqa ymm0, ymmword ptr [rcx-0B40h]
     vmovdqa ymm0, ymmword ptr [rcx-0B80h]
-    vmovdqa ymm0, ymmword ptr [rcx-0BC0h]
     vmovdqa ymm0, ymmword ptr [rcx-0C00h]               
-    vmovdqa ymm0, ymmword ptr [rcx-0C40h]
     vmovdqa ymm0, ymmword ptr [rcx-0C80h]
-    vmovdqa ymm0, ymmword ptr [rcx-0CC0h]
     vmovdqa ymm0, ymmword ptr [rcx-0D00h]               
-    vmovdqa ymm0, ymmword ptr [rcx-0D40h]
     vmovdqa ymm0, ymmword ptr [rcx-0D80h]
-    vmovdqa ymm0, ymmword ptr [rcx-0DC0h]
     vmovdqa ymm0, ymmword ptr [rcx-0E00h]               
-    vmovdqa ymm0, ymmword ptr [rcx-0E40h]
     vmovdqa ymm0, ymmword ptr [rcx-0E80h]
-    vmovdqa ymm0, ymmword ptr [rcx-0EC0h]
     vmovdqa ymm0, ymmword ptr [rcx-0F00h]               
-    vmovdqa ymm0, ymmword ptr [rcx-0F40h]
     vmovdqa ymm0, ymmword ptr [rcx-0F80h]
-    vmovdqa ymm0, ymmword ptr [rcx-0FC0h]
 
-    add rax,64     ; Just did 64 accesses
+    add rax,32     ; Just did 32 accesses
 
     cmp rax,rdx     ; have we completed the target number of accesses in total yet?
     jb myloop       ; make another unrolled pass on the memory
@@ -119,5 +87,5 @@ done:
     xor eax,eax     ; return 0
     ret
 
-win_x86_64_asm_revStride2Read_Word256 endp
+win_x86_64_asm_revStride4Read_Word256 endp
 end

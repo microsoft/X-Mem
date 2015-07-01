@@ -23,20 +23,23 @@
 ; Author: Mark Gottscho <mgottscho@ucla.edu>
 
 .code
-win_x86_64_asm_dummy_forwStride2Loop_Word256 proc
+win_x86_64_asm_dummy_revStride4Loop_Word128 proc
 
 ; Arguments:
-; rcx is address of the first 256-bit word in the array
-; rdx is address of the last 256-bit word in the array
+; rcx is address of the last 128-bit word in the array
+; rdx is address of the first 128-bit word in the array
 
 ; rax holds number of words accessed
-; rcx holds the first 256-bit word address
+; rcx holds the last 128-bit word address
 ; rdx holds the target total number of words to access
-; xmm0 holds result from reading the memory 256-bit wide
+; xmm0 holds result from reading the memory 128-bit wide
 
+    mov rax,rcx     ; Temporarily save last word address
+    sub rcx,rdx     ; Get total number of 128-bit words between starting and ending addresses
+    shr rcx,4       
+    mov rdx,rcx     ; Set target number of words
+    mov rcx,rax     ; Restore last word address
     xor rax,rax     ; initialize number of words accessed to 0
-    sub rdx,rcx     ; Get total number of 256-bit words between starting and ending addresses
-    shr rdx,5       
     cmp rax,rdx     ; have we completed the target total number of words to access?
     jae done        ; if the number of words accessed >= the target number, then we are done
 
@@ -51,5 +54,5 @@ done:
     xor eax,eax     ; return 0
     ret
 
-win_x86_64_asm_dummy_forwStride2Loop_Word256 endp
+win_x86_64_asm_dummy_revStride4Loop_Word128 endp
 end

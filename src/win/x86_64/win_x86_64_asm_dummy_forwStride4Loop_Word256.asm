@@ -23,7 +23,7 @@
 ; Author: Mark Gottscho <mgottscho@ucla.edu>
 
 .code
-win_x86_64_asm_dummy_forwStride2Loop_Word256 proc
+win_x86_64_asm_dummy_forwStride4Loop_Word256 proc
 
 ; Arguments:
 ; rcx is address of the first 256-bit word in the array
@@ -42,7 +42,7 @@ win_x86_64_asm_dummy_forwStride2Loop_Word256 proc
 
 myloop:
 
-    add rax,64     ; Just did 64 accesses
+    add rax,32     ; Just did 32 accesses
 
     cmp rax,rdx     ; have we completed the target number of accesses in total yet?
     jb myloop       ; make another unrolled pass on the memory
@@ -51,5 +51,5 @@ done:
     xor eax,eax     ; return 0
     ret
 
-win_x86_64_asm_dummy_forwStride2Loop_Word256 endp
+win_x86_64_asm_dummy_forwStride4Loop_Word256 endp
 end

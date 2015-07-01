@@ -37,6 +37,7 @@ env.Append(CPPFLAGS = '/c /Zi /nologo /W3 /wd4101 /WX- /MP /O2 /Oi /Ot /D WIN32 
 env.Append(CPPFLAGS = '/MD')
 # Static link
 #env.Append(CPPFLAGS = '/MT')
+env['PDB'] = 'xmem.pdb'
 
 env.Append(CPPPATH = ['src/include'])
 env.Append(CPPPATH = ['src/include/ext/DelayInjectedLoadedLatencyBenchmark']) # Extension: Delay-injected loaded latency benchmark
