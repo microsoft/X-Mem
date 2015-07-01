@@ -35,4 +35,3 @@ sleep 1
 ./build-linux.sh arm_neon &
 sleep 1
 ./build-linux.sh arm64 &
-sleep 1
