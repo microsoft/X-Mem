@@ -1,12 +1,12 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: A Cross-Platform and Extensible Memory Characterization Tool for the Cloud v2.2.7
+X-Mem: A Cross-Platform and Extensible Memory Characterization Tool for the Cloud v2.3.0
 ------------------------------------------------------------------------------------------------------------
 
 X-Mem is a flexible open-source research tool for characterizing memory hierarchy throughput, latency, power, and more. The tool was developed jointly by Microsoft and the UCLA NanoCAD Lab. This project was started by Mark Gottscho (Email: mgottscho@ucla.edu) as a Summer 2014 PhD intern at Microsoft Research. X-Mem is released freely and open-source under the MIT License. The project is under active development. Stay tuned for more updates.
 
-PROJECT REVISION DATE: June 30, 2015.
+PROJECT REVISION DATE: July 2, 2015.
 
 ------------------------------------------------------------------------------------------------------------
 VERSION CONTROL AND OBTAINING SOURCE CODE
@@ -59,43 +59,43 @@ FEATURES
 This tool is provided as open source with the hope of being useful to the broader research and development community. Here are some of X-Mem's features.
 
 Flexibility: Easy reconfiguration for different combinations of tests
-    - Working sets in increments of 4KB, allowing cache up to main memory-level benchmarking
-    - NUMA support
-    - Multi-threading support
-    - Large page support
+- Working sets in increments of 4KB, allowing cache up to main memory-level benchmarking
+- NUMA support
+- Multi-threading support
+- Large page support
 
 Extensibility: Modularity via C++ object-oriented principles
-    - Supports rapid addition of new benchmark kernel routines
-    - Example: stream triad algorithm, impact of false sharing, etc. are possible with minor changes
+- Supports rapid addition of new benchmark kernel routines
+- Example: stream triad algorithm, impact of false sharing, etc. are possible with minor changes
 
 Cross-platform: Currently implemented for two OSes and architecture families
-    - Windows: Intel x86 (32-bit), x86-64, and x86-64 with AVX extensions
-    - GNU/Linux: Intel x86 (32-bit), x86-64, and x86-64 with AVX extensions, ARM (32-bit), ARM (32-bit) with NEON, ARMv8 (64-bit)
-    - Designed to allow straightforward porting to other operating systems and ISAs
-    - ARM on Windows currently not possible due to some incompatibilites and/or lack of support. This may be resolved in the future.
+- Windows: Intel x86 (32-bit), x86-64, and x86-64 with AVX extensions
+- GNU/Linux: Intel x86 (32-bit), x86-64, and x86-64 with AVX extensions, ARM (32-bit), ARM (32-bit) with NEON, ARMv8 (64-bit)
+- Designed to allow straightforward porting to other operating systems and ISAs
+- ARM on Windows currently not possible due to some incompatibilites and/or lack of support. This may be resolved in the future.
 
 Memory throughput:
-    - Accurate measurement of sustained memory throughput to all levels of cache and memory
-    - Regular access patterns: forward & reverse sequential as well as strides of 2, 4, 8, and 16 words
-    - Random access patterns
-    - Read and write
-    - 32, 64, 128, 256-bit width memory instructions where applicable on each architecture
+- Accurate measurement of sustained memory throughput to all levels of cache and memory
+- Regular access patterns: forward & reverse sequential as well as strides of 2, 4, 8, and 16 words
+- Random access patterns
+- Read and write
+- 32, 64, 128, 256-bit width memory instructions where applicable on each architecture
 
 Memory latency: 
-    - Accurate measurement of round-trip memory latency to all levels of cache and memory
-    - Loaded and unloaded latency via use of multithreaded load generation
+- Accurate measurement of round-trip memory latency to all levels of cache and memory
+- Loaded and unloaded latency via use of multithreaded load generation
 
 Memory power:
-    - Support custom power instrumentation through a simple interface that end-users can implement
-    - Can collect DRAM power via custom driver exposed in Windows performance counter API
+- Support custom power instrumentation through a simple interface that end-users can implement
+- Can collect DRAM power via custom driver exposed in Windows performance counter API
 
 Documentation:
-    - Extensive Doxygen source code comments, PDF manual, HTML
+- Extensive Doxygen source code comments, PDF manual, HTML
 
 
 INCLUDED EXTENSIONS (under src/include/ext and src/ext directories):
-    - Loaded latency benchmark variant with load delays inserted as nop instructions between memory instructions.
-      This is done for 32, 64, 128, and 256-bit load chunk sizes where applicable using the forward sequential read pattern.
+- Loaded latency benchmark variant with load delays inserted as nop instructions between memory instructions.
+	- This is done for 32, 64, 128, and 256-bit load chunk sizes where applicable using the forward sequential read pattern.
 
 For feature requests, please refer to the contact information at the end of this README.
 
@@ -112,7 +112,7 @@ HARDWARE:
 
 WINDOWS:
 
-- Microsoft Windows 8.0 64-bit or later, Server 2012 or later.
+- Microsoft Windows 8.1 64-bit or later, Server 2012 R2 or later.
 - Microsoft Visual C++ 2013 Redistributables (32-bit) -- for x86 (32-bit) builds
 - Microsoft Visual C++ 2013 Redistributables (64-bit) -- for x86-64 and x86-64 with AVX builds
 - You MAY need Administrator privileges, in order to:

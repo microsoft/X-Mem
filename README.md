@@ -1,12 +1,12 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: A Cross-Platform and Extensible Memory Characterization Tool for the Cloud v2.2.8
+X-Mem: A Cross-Platform and Extensible Memory Characterization Tool for the Cloud v2.3.0
 ------------------------------------------------------------------------------------------------------------
 
 X-Mem is a flexible open-source research tool for characterizing memory hierarchy throughput, latency, power, and more. The tool was developed jointly by Microsoft and the UCLA NanoCAD Lab. This project was started by Mark Gottscho (Email: mgottscho@ucla.edu) as a Summer 2014 PhD intern at Microsoft Research. X-Mem is released freely and open-source under the MIT License. The project is under active development. Stay tuned for more updates.
 
-PROJECT REVISION DATE: June 30, 2015.
+PROJECT REVISION DATE: July 2, 2015.
 
 ------------------------------------------------------------------------------------------------------------
 VERSION CONTROL AND OBTAINING SOURCE CODE
