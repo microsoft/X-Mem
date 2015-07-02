@@ -1184,6 +1184,9 @@ int32_t xmem::dummy_forwStride8Loop_Word64(void* start_address, void* end_addres
 
 #ifdef HAS_WORD_128
 int32_t xmem::dummy_forwStride8Loop_Word128(void* start_address, void* end_address) {
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    return win_x86_64_asm_dummy_forwStride8Loop_Word128(static_cast<Word128_t*>(start_address), static_cast<Word128_t*>(end_address));
+#else
     register Word128_t val; 
     register uint32_t i = 0;
     register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
@@ -1193,11 +1196,15 @@ int32_t xmem::dummy_forwStride8Loop_Word128(void* start_address, void* end_addre
             wordptr -= len;
     }
     return 0;
+#endif
 }
 #endif
 
 #ifdef HAS_WORD_256
 int32_t xmem::dummy_forwStride8Loop_Word256(void* start_address, void* end_address) {
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    return win_x86_64_asm_dummy_forwStride8Loop_Word256(static_cast<Word256_t*>(start_address), static_cast<Word256_t*>(end_address));
+#else
     register Word256_t val; 
     register uint32_t i = 0;
     register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
@@ -1207,6 +1214,7 @@ int32_t xmem::dummy_forwStride8Loop_Word256(void* start_address, void* end_addre
             wordptr -= len;
     }
     return 0;
+#endif
 }
 #endif
 
@@ -1238,6 +1246,9 @@ int32_t xmem::dummy_revStride8Loop_Word64(void* start_address, void* end_address
 
 #ifdef HAS_WORD_128
 int32_t xmem::dummy_revStride8Loop_Word128(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    return win_x86_64_asm_dummy_revStride8Loop_Word128(static_cast<Word128_t*>(end_address), static_cast<Word128_t*>(start_address));
+#else
     register Word128_t val; 
     register uint32_t i = 0;
     register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
@@ -1247,11 +1258,15 @@ int32_t xmem::dummy_revStride8Loop_Word128(void* start_address, void* end_addres
             wordptr += len;
     }
     return 0;
+#endif
 }
 #endif
 
 #ifdef HAS_WORD_256
 int32_t xmem::dummy_revStride8Loop_Word256(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    return win_x86_64_asm_dummy_revStride8Loop_Word256(static_cast<Word256_t*>(end_address), static_cast<Word256_t*>(start_address));
+#else
     register Word256_t val; 
     register uint32_t i = 0;
     register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
@@ -1261,6 +1276,7 @@ int32_t xmem::dummy_revStride8Loop_Word256(void* start_address, void* end_addres
             wordptr += len;
     }
     return 0;
+#endif
 }
 #endif
 
@@ -2183,7 +2199,7 @@ int32_t xmem::forwStride8Read_Word64(void* start_address, void* end_address) {
 #ifdef HAS_WORD_128
 int32_t xmem::forwStride8Read_Word128(void* start_address, void* end_address) { 
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
-    return 0; //TODO: Implement for Windows.
+    return win_x86_64_asm_forwStride8Read_Word128(static_cast<Word128_t*>(start_address), static_cast<Word128_t*>(end_address));
 #else
     register Word128_t val; 
     register uint32_t i = 0;
@@ -2201,7 +2217,7 @@ int32_t xmem::forwStride8Read_Word128(void* start_address, void* end_address) {
 #ifdef HAS_WORD_256
 int32_t xmem::forwStride8Read_Word256(void* start_address, void* end_address) { 
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
-    return 0; //TODO: Implement for Windows.
+    return win_x86_64_asm_forwStride8Read_Word256(static_cast<Word256_t*>(start_address), static_cast<Word256_t*>(end_address));
 #else
     register Word256_t val; 
     register uint32_t i = 0;
@@ -2245,7 +2261,7 @@ int32_t xmem::revStride8Read_Word64(void* start_address, void* end_address) {
 #ifdef HAS_WORD_128
 int32_t xmem::revStride8Read_Word128(void* start_address, void* end_address) { 
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
-    return 0; //TODO: Implement for Windows.
+    return win_x86_64_asm_revStride8Read_Word128(static_cast<Word128_t*>(end_address), static_cast<Word128_t*>(start_address));
 #else
     register Word128_t val; 
     register uint32_t i = 0;
@@ -2263,7 +2279,7 @@ int32_t xmem::revStride8Read_Word128(void* start_address, void* end_address) {
 #ifdef HAS_WORD_256
 int32_t xmem::revStride8Read_Word256(void* start_address, void* end_address) { 
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
-    return 0; //TODO: Implement for Windows.
+    return win_x86_64_asm_revStride8Read_Word256(static_cast<Word256_t*>(end_address), static_cast<Word256_t*>(start_address));
 #else
     register Word256_t val; 
     register uint32_t i = 0;
@@ -2309,7 +2325,7 @@ int32_t xmem::forwStride8Write_Word64(void* start_address, void* end_address) {
 #ifdef HAS_WORD_128
 int32_t xmem::forwStride8Write_Word128(void* start_address, void* end_address) { 
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
-    return 0; //TODO: Implement for Windows.
+    return win_x86_64_asm_forwStride8Write_Word128(static_cast<Word128_t*>(start_address), static_cast<Word128_t*>(end_address));
 #else
     register Word128_t val;
     val = my_64b_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
@@ -2328,7 +2344,7 @@ int32_t xmem::forwStride8Write_Word128(void* start_address, void* end_address) {
 #ifdef HAS_WORD_256
 int32_t xmem::forwStride8Write_Word256(void* start_address, void* end_address) { 
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
-    return 0; //TODO: Implement for Windows.
+    return win_x86_64_asm_forwStride8Write_Word256(static_cast<Word256_t*>(start_address), static_cast<Word256_t*>(end_address));
 #else
     register Word256_t val;
     val = my_64b_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
@@ -2373,7 +2389,7 @@ int32_t xmem::revStride8Write_Word64(void* start_address, void* end_address) {
 #ifdef HAS_WORD_128
 int32_t xmem::revStride8Write_Word128(void* start_address, void* end_address) { 
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
-    return 0; //TODO: Implement for Windows.
+    return win_x86_64_asm_revStride8Write_Word128(static_cast<Word128_t*>(end_address), static_cast<Word128_t*>(start_address));
 #else
     register Word128_t val;
     val = my_64b_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
@@ -2392,7 +2408,7 @@ int32_t xmem::revStride8Write_Word128(void* start_address, void* end_address) {
 #ifdef HAS_WORD_256
 int32_t xmem::revStride8Write_Word256(void* start_address, void* end_address) { 
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
-    return 0; //TODO: Implement for Windows.
+    return win_x86_64_asm_revStride8Write_Word256(static_cast<Word256_t*>(end_address), static_cast<Word256_t*>(start_address));
 #else
     register Word256_t val;
     val = my_64b_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
