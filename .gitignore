@@ -14,7 +14,7 @@ build/
 x64/
 Release/
 Debug/
-vc120.pdb
+*.pdb
 *.suo
 *.sdf
 *.opensdf
