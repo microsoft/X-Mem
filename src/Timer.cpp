@@ -55,18 +55,18 @@ Timer::Timer() :
 	tick_t start_tick, stop_tick;
 	start_tick = start_timer();
 #ifdef _WIN32
-	Sleep(100);
+	Sleep(BENCHMARK_DURATION_MS);
 #endif
 #ifdef __gnu_linux__
 	struct timespec duration, remainder;
 	duration.tv_sec = 0;
-	duration.tv_nsec = 1e8;
+	duration.tv_nsec = BENCHMARK_DURATION_MS * 1e6; 
 	nanosleep(&duration, &remainder);
 #endif
 	stop_tick = stop_timer();
-	_ticks_per_ms = (stop_tick - start_tick) / 100;
+	_ticks_per_ms = static_cast<tick_t>((stop_tick - start_tick) / BENCHMARK_DURATION_MS);
 #endif
-	_ns_per_tick = 1/(static_cast<double>(_ticks_per_ms)) * 1e6;
+	_ns_per_tick = 1/(static_cast<float>(_ticks_per_ms)) * 1e6;
 }
 
 tick_t Timer::get_ticks_per_ms() {

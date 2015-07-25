@@ -32,10 +32,10 @@
 
 //Libraries
 #include <cstdint>
-#ifdef _WIN32
+#if defined(_WIN32) && defined(ARCH_INTEL_AVX)
 #include <intrin.h> //For Intel intrinsics
 #endif
-#ifdef __gnu_linux__
+#if defined(__gnu_linux__) && defined(ARCH_INTEL_AVX)
 #include <immintrin.h> //For Intel intrinsics
 #endif
 

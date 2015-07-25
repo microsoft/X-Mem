@@ -63,7 +63,7 @@ namespace xmem {
 
 	protected:
 		tick_t _ticks_per_ms; /**< Ticks per ms for this timer. */
-		double _ns_per_tick; /**< Nanoseconds per tick for this timer. */
+		float _ns_per_tick; /**< Nanoseconds per tick for this timer. */
 	};
 };
 

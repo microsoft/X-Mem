@@ -65,9 +65,7 @@ using namespace xmem;
 #define my_64b_extractLSB_256b(w) _mm256_extract_epi64(w, 0) //AVX intrinsic, corresponds to ??? instruction. Header: immintrin.h
 #endif
 
-#ifdef ARCH_ARM
-#error TODO: ARM intrinsics?
-#endif
+//TODO: ARM intrinsics?
 
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 /* Hand-coded assembly functions for the 128-bit and 256-bit benchmark kernels on Windows x86-64 where applicable.
