@@ -4,7 +4,7 @@ README
 X-Mem: A Cross-Platform and Extensible Memory Characterization Tool for the Cloud v2.3.1
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem is a flexible open-source research tool for characterizing memory hierarchy throughput, latency, power, and more. The tool was developed jointly by Microsoft and the UCLA NanoCAD Lab. This project was started by Mark Gottscho (Email: mgottscho@ucla.edu) as a Summer 2014 PhD intern at Microsoft Research. X-Mem is released freely and open-source under the MIT License. The project is under active development. Stay tuned for more updates.
+X-Mem is a flexible open-source research tool for characterizing memory hierarchy throughput, latency, power, and more. The tool was developed jointly by Microsoft and the UCLA NanoCAD Lab. This project was started by Mark Gottscho (Email: mgottscho@ucla.edu) as a Summer 2014 PhD intern at Microsoft Research. X-Mem is released freely and open-source under the MIT License. The project is under active development. We are working on a peer-reviewed publication. More information will be coming soon -- stay tuned for updates!
 
 PROJECT REVISION DATE: August 3, 2015.
 
@@ -50,54 +50,54 @@ SOFTWARE.
 DESIGN PHILOSOPHY
 ------------------------------------------------------------------------------------------------------------
 
-Previous memory benchmarking tools such as STREAM/STREAM2, lmbench3, and mlc all had various shortcomings that made them inadequate for emerging needs in the cloud. In particular, cloud systems present four key challenges that we addressed with X-Mem. Stay tuned for updates -- more information will be coming soon.
+Previous memory benchmarking tools such as STREAM/STREAM2, lmbench3, and mlc all had various shortcomings that made them inadequate for emerging needs in the cloud. In particular, cloud systems present four key challenges that we addressed with X-Mem. 
 
 ------------------------------------------------------------------------------------------------------------
 FEATURES
 ------------------------------------------------------------------------------------------------------------
 
-This tool is provided as open source with the hope of being useful to the broader research and development community. Here are some of X-Mem's features.
+This tool is provided as open source with the hope of being useful to the broader research and development community. Here is a non-exhaustive list of X-Mem's features.
 
-Flexibility: Easy reconfiguration for different combinations of tests
-- Working sets in increments of 4KB, allowing cache up to main memory-level benchmarking
-- NUMA support
-- Multi-threading support
-- Large page support
+Flexibility: Easy reconfiguration for different combinations of tests.
+- Working sets in increments of 4KB, allowing cache up to main memory-level benchmarking.
+- NUMA support.
+- Multi-threading support.
+- Large page support.
 
-Extensibility: Modularity via C++ object-oriented principles
-- Supports rapid addition of new benchmark kernel routines
-- Example: stream triad algorithm, impact of false sharing, etc. are possible with minor changes
+Extensibility: Modularity via C++11 object-oriented principles.
+- Supports rapid addition of new benchmark kernel routines.
+- Example: stream triad algorithm, impact of false sharing, etc. are possible with minor changes.
 
-Cross-platform: Currently implemented for two OSes and architecture families
-- Windows: Intel x86 (32-bit), x86-64, and x86-64 with AVX extensions
-- GNU/Linux: Intel x86 (32-bit), x86-64, and x86-64 with AVX extensions, ARM (32-bit), ARM (32-bit) with NEON, ARMv8 (64-bit)
-- Designed to allow straightforward porting to other operating systems and ISAs
-- ARM on Windows currently not possible due to some incompatibilites and/or lack of support. This may be resolved in the future.
+Cross-platform: Currently implemented for two OSes and architecture families.
+- GNU/Linux: Intel x86 (32-bit), x86-64, and x86-64 with AVX extensions, ARM (32-bit), ARM (32-bit) with NEON, ARMv8 (64-bit). Tested specifically with Ubuntu 12.04, 14.04, and CentOS 7.
+- Windows: Intel x86 (32-bit), x86-64, and x86-64 with AVX extensions. Tested specifically with Windows 8.1 and Server 2012 R2.
+- ARM on Windows can compile using VC++, but cannot link due to a lack of library support for desktop/command-line ARM apps. This may be resolved in the future.
+- Designed to allow straightforward porting to other operating systems and ISAs.
 
 Memory throughput:
-- Accurate measurement of sustained memory throughput to all levels of cache and memory
-- Regular access patterns: forward & reverse sequential as well as strides of 2, 4, 8, and 16 words
-- Random access patterns
-- Read and write
-- 32, 64, 128, 256-bit width memory instructions where applicable on each architecture
+- Accurate measurement of sustained memory throughput to all levels of cache and memory.
+- Regular access patterns: forward & reverse sequential as well as strides of 2, 4, 8, and 16 words.
+- Random access patterns.
+- Read and write.
+- 32, 64, 128, 256-bit width memory instructions where applicable on each architecture.
 
 Memory latency: 
-- Accurate measurement of round-trip memory latency to all levels of cache and memory
-- Loaded and unloaded latency via use of multithreaded load generation
+- Accurate measurement of round-trip memory latency to all levels of cache and memory.
+- Loaded and unloaded latency via use of multithreaded load generation.
 
 Memory power:
-- Support custom power instrumentation through a simple interface that end-users can implement
-- Can collect DRAM power via custom driver exposed in Windows performance counter API
+- Support custom power instrumentation through a simple interface that end-users can implement.
+- Can collect DRAM power via custom driver exposed in Windows performance counter API.
 
 Documentation:
-- Extensive Doxygen source code comments, PDF manual, HTML
-
+- Extensive Doxygen source code comments, PDF manual, HTML.
 
 INCLUDED EXTENSIONS (under src/include/ext and src/ext directories):
 - Loaded latency benchmark variant with load delays inserted as nop instructions between memory instructions.
 	- This is done for 32, 64, 128, and 256-bit load chunk sizes where applicable using the forward sequential read pattern.
+- Other extensions may be released in the future. If you have a development request, or would like to mainstream your own extension, let us know!
 
-For feature requests, please refer to the contact information at the end of this README.
+Feel free to contact us for any other feature requests.
 
 ------------------------------------------------------------------------------------------------------------
 RUNTIME PREREQUISITES
@@ -107,8 +107,8 @@ There are a few runtime prerequisites in order for the software to run correctly
 
 HARDWARE:
 
-- Intel x86, x86-64, or x86-64 with AVX CPU. AMD CPUs should also work although this has not been tested!
-- ARM Cortex-A series processors with VFP and NEON extensions. Specifically tested on ARM Cortex A9 (32-bit) which is ARMv7. 64-bit builds for ARMv8-A should also work but have not been tested. GNU/Linux builds only. You can attempt Windows, but I have issues linking the 32-bit version and compiling the NEON version. Also, as far as I can see there is no Windows support for ARMv8 at all.
+- Intel x86, x86-64, or x86-64 with AVX CPU. AMD CPUs that are compatible with Intel Architecture ISAs should also work although this has not been tested extensively.
+- ARM Cortex-A series processors with VFP and NEON extensions. Specifically tested on ARM Cortex A9 (32-bit) which is ARMv7. 64-bit builds for ARMv8-A should also work but have not been tested. GNU/Linux builds only. ARM on Windows can compile using VC++, but cannot link due to a lack of library support for desktop/command-line ARM apps. This may be resolved in the future. If you can get this working, let us know!
 
 WINDOWS:
 
@@ -156,13 +156,13 @@ There are a few software build prerequisites, depending on your platform.
 
 WINDOWS:
 
-- Any version of Visual Studio 2013 64-bit (also known as version 12.0).
+- Any version of Visual Studio 2013 64-bit (also known as version 12.0). UPDATE 8/3/2015: Visual Studio 2015 is now released on Windows 10, but X-Mem has not been tested yet on this platform.
 - Python 2.7. You can obtain it at <http://www.python.org>.
 - SCons build system. You can obtain it at <http://www.scons.org>. Build tested with SCons 2.3.4.
 
 GNU/LINUX:
 
-- bash shell. Other shells could work but are untested.
+- bash shell. Other shells will probably work but are untested.
 - gcc with support for the C++11 standard. Tested with gcc version 4.8.2 on Ubuntu 14.04 LTS for x86 (32-bit), x86-64, x86-64 with AVX builds.
 - gcc cross-compiler for ARM targets (assumed build on x86-64 Ubuntu host).
 - Python 2.7. You can obtain it at <http://www.python.org>. On Ubuntu systems, you can install using "sudo apt-get install python2.7". You may need some other Python 2.7 packages as well.
@@ -204,4 +204,4 @@ For questions, comments, criticism, bug reports, and other feedback for this sof
 ACKNOWLEDGMENT
 ------------------------------------------------------------------------------------------------------------
 
-Mark Gottscho would like to thank Dr. Mohammed Shoaib of Microsoft Research and Dr. Sriram Govindan of Microsoft for their mentorship in the creation of this software. Further thanks to Dr. Bikash Sharma, Mark Santaniello, Mike Andrewartha, and Laura Caulfield of Microsoft for their contributions, feedback, and assistance. Thank you as well to Dr. Jie Liu of Microsoft Research, Dr. Badriddine Khessib and Dr. Kushagra Vaid of Microsoft, and Prof. Puneet Gupta of UCLA for giving Mark the opportunity to create this work. Finally, Mark would like to thank Dr. Fedor Pikus of Mentor Graphics for teaching him some useful HPC programming techniques.
+Mark Gottscho would like to thank Dr. Mohammed Shoaib of Microsoft Research and Dr. Sriram Govindan of Microsoft for their mentorship in the creation of this software. Further thanks to Dr. Bikash Sharma, Mark Santaniello, Mike Andrewartha, and Laura Caulfield of Microsoft for their contributions, feedback, and assistance. Thank you as well to Dr. Jie Liu of Microsoft Research, Dr. Badriddine Khessib and Dr. Kushagra Vaid of Microsoft, and Prof. Puneet Gupta of UCLA for giving Mark the opportunity to create this work. Finally, Mark would like to thank Dr. Fedor Pikus of Mentor Graphics for teaching him some useful programming techniques.

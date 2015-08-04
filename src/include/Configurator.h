@@ -77,7 +77,7 @@ namespace xmem {
     const Descriptor usage[] = {
         { UNKNOWN, 0, "", "", Arg::None, "\nUSAGE: xmem [options]\n\n"
         "Options:" },
-        { ALL, 0, "a", "all", Arg::None, "    -a, --all    \tRun all possible benchmark modes and settings supported by X-Mem. This will override any other relevant user inputs. Note that X-Mem may run for a long time." },
+        { ALL, 0, "a", "all", Arg::None, "    -a, --all    \tRun all possible benchmark modes and settings supported by X-Mem. This will override any other relevant user inputs. Note that X-Mem may run for a long time. This does not run extension modes and does not specify the large page option." },
         { CHUNK_SIZE, 0, "c", "chunk_size", MyArg::PositiveInteger, "    -c, --chunk_size    \tA chunk size in bits to use for load traffic-generating threads used in throughput and loaded latency benchmarks. A chunk is the size of each memory access in a benchmark. Allowed values: 32 64 128 and 256 (platform dependent). Note that some chunk sizes may not be supported on all hardware. 32-bit chunks are not compatible with random-access patterns on 64-bit machines; these combinations of settings will be skipped if they occur. DEFAULT: 64 on 64-bit systems, 32 on 32-bit systems."},
         { EXTENSION, 0, "e", "extension", MyArg::NonnegativeInteger, "    -e, --extension    \tRun an X-Mem extension defined by the user at build time. The integer argument specifies a single unique extension. This option may be included multiple times. Note that the extension behavior may or may not depend on the other X-Mem options as its semantics are defined by the extension author." },
         { OUTPUT_FILE, 0, "f", "output_file", MyArg::Required, "    -f, --output_file    \tGenerate an output file in CSV format using the given filename." },
@@ -117,7 +117,7 @@ namespace xmem {
         "        xmem -l --verbose -n5 --chunk_size=32 -s\n"
         "\n"
         "\n"
-        "Run throughput and loaded latency benchmarks on a per-thread working set size of 512 MB for a grand total of 1 GB of memory space. Use chunk sizes of 32 and 256 bits for load traffic-generating threads, and ignore NUMA effects. Number the first benchmark test starting at 101 both in console reporting and CSV file output (results.csv).\n"
+        "Run throughput and loaded latency benchmarks on a per-thread working set size of 512 MB for a grand total of 1 GB of memory space for two worker threads. Use chunk sizes of 32 and 256 bits for load traffic-generating threads, and ignore NUMA effects. Number the first benchmark test starting at 101 both in console reporting and CSV file output (results.csv).\n"
         "\n"
         "        xmem -t --latency -w524288 -f results.csv -c32 -c256 -i 101 -u -j2\n"
         "\n"
@@ -127,9 +127,14 @@ namespace xmem {
         "        xmem -w128 -n3 -j4 -l -t --extension=0 -e1 -s -S1 -S-4 -r -S16 -R -W -u -L -v\n"
         "\n"
         "\n"
-        "Run EVERYTHING and dump results to file.\n"
+        "Measure sequential write throughput to remote DRAM from socket 0 using 12 worker threads and chunk size of 256-bits.\n"
         "\n"
-        "        xmem -a -v -ftest.csv\n"
+        "        xmem -j12 -c256 -C0 -M1 -W -w262144 -s"
+        "\n"
+        "\n"
+        "Run all default capabilities with verbose console output, and dump all results to a CSV file. Large pages will be used for all memory under test. Extension modes will not be used.\n"
+        "\n"
+        "        xmem -a -v -ftest.csv -L\n"
         "\n"
         "Have fun! =]\n"
         },

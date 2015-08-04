@@ -62,7 +62,7 @@ void xmem::print_welcome_message() {
     std::cout << " Intel x86-64";
 #endif
 #ifdef ARCH_INTEL_AVX
-    std::cout << " Intel x86-64 with AVX";
+    std::cout << " (AVX)";
 #endif
 #ifdef ARCH_INTEL_X86
     std::cout << " Intel x86 (32-bit)";
