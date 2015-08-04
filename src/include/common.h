@@ -51,7 +51,7 @@
 
 namespace xmem {
 
-#define VERSION "2.3.0"
+#define VERSION "2.3.1"
 
 #if !defined(_WIN32) && !defined(__gnu_linux__)
 #error Neither Windows/GNULinux build environments were detected!
@@ -331,7 +331,7 @@ namespace xmem {
     extern bool g_verbose;
     extern size_t g_page_size;
     extern size_t g_large_page_size;
-    extern uint32_t g_num_nodes;
+    extern uint32_t g_num_numa_nodes;
     extern uint32_t g_num_logical_cpus;
     extern uint32_t g_num_physical_packages;
     extern uint32_t g_starting_test_index;

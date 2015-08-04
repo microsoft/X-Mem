@@ -112,11 +112,11 @@ namespace xmem {
 
         Configurator __config;
 
-        uint32_t __num_numa_nodes; /**< Number of NUMA nodes in the system. */
-        uint32_t __benchmark_num_numa_nodes; /**< Number of NUMA nodes to use in benchmarks. */
+        std::list<uint32_t> __cpu_numa_node_affinities; /**< List of CPU nodes to affinitize for benchmark experiments. */
+        std::list<uint32_t> __memory_numa_node_affinities; /**< List of memory nodes to affinitize for benchmark experiments. */
         std::vector<void*> __mem_arrays; /**< Memory regions to use in benchmarks. One for each benchmarked NUMA node. */
 #ifndef HAS_NUMA
-        void* __orig_malloc_addr; /**< Points to the original address returned by the malloc() for __mem_arrays on non-NUMA machines. Special case. */
+        void* __orig_malloc_addr; /**< Points to the original address returned by the malloc() for __mem_arrays on non-NUMA machines. Special case. FIXME: do we need this? seems awkward */
 #endif
         std::vector<size_t> __mem_array_lens; /**< Length of each memory region to use in benchmarks. */
         std::vector<ThroughputBenchmark*> __tp_benchmarks; /**< Set of throughput benchmarks. */

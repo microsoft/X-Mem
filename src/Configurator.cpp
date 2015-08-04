@@ -74,6 +74,8 @@ Configurator::Configurator(
 #else
     __numa_enabled(false),
 #endif
+    __cpu_numa_node_affinities(),
+    __memory_numa_node_affinities(),
     __iterations(1),
     __use_random_access_pattern(false),
     __use_sequential_access_pattern(true),
@@ -216,9 +218,77 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
     //Check NUMA selection
     if (options[NUMA_DISABLE]) {
         __numa_enabled = false;
+        __cpu_numa_node_affinities.push_back(0);
+        __memory_numa_node_affinities.push_back(0);
 #ifndef HAS_NUMA
         std::cerr << "WARNING: NUMA is not supported on this build, so the NUMA-disable option has no effect." << std::endl;
 #endif
+    }
+  
+    if (options[CPU_NUMA_NODE_AFFINITY]) {
+        if (!__numa_enabled)
+            std::cerr << "WARNING: NUMA is disabled, so you cannot specify CPU NUMA node affinity directly. Overriding to only use node 0 for CPU affinity." << std::endl;
+        else {
+            Option* curr = options[CPU_NUMA_NODE_AFFINITY];
+            while (curr) { //CPU_NUMA_NODE_AFFINITY may occur more than once, this is perfectly OK.
+                char* endptr = NULL;
+                uint32_t cpu_numa_node_affinity = static_cast<uint32_t>(strtoul(curr->arg, &endptr, 10));
+                if (cpu_numa_node_affinity >= g_num_numa_nodes) {
+                    std::cerr << "ERROR: CPU NUMA node affinity of " << cpu_numa_node_affinity << " is not supported. There are only " << g_num_numa_nodes << " nodes in this system." << std::endl;
+                    goto error;
+                }
+                
+                bool found = false;
+                for (auto it = __cpu_numa_node_affinities.cbegin(); it != __cpu_numa_node_affinities.cend(); it++) {
+                    if (*it == cpu_numa_node_affinity)
+                        found = true;
+                }
+
+                if (!found)
+                    __cpu_numa_node_affinities.push_back(cpu_numa_node_affinity);
+
+                curr = curr->next();
+            }
+
+            __cpu_numa_node_affinities.sort();
+        }
+    }
+    else if (__numa_enabled) { //Default: use all CPU NUMA nodes
+        for (uint32_t i = 0; i < g_num_numa_nodes; i++)
+            __cpu_numa_node_affinities.push_back(i);
+    }
+    
+    if (options[MEMORY_NUMA_NODE_AFFINITY]) {
+        if (!__numa_enabled)
+            std::cerr << "WARNING: NUMA is disabled, so you cannot specify memory NUMA node affinity directly. Overriding to only use node 0 for memory affinity." << std::endl;
+        else {
+            Option* curr = options[MEMORY_NUMA_NODE_AFFINITY];
+            while (curr) { //MEMORY_NUMA_NODE_AFFINITY may occur more than once, this is perfectly OK.
+                char* endptr = NULL;
+                uint32_t memory_numa_node_affinity = static_cast<uint32_t>(strtoul(curr->arg, &endptr, 10));
+                if (memory_numa_node_affinity >= g_num_numa_nodes) {
+                    std::cerr << "ERROR: memory NUMA node affinity of " << memory_numa_node_affinity << " is not supported. There are only " << g_num_numa_nodes << " nodes in this system." << std::endl;
+                    goto error;
+                }
+                
+                bool found = false;
+                for (auto it = __memory_numa_node_affinities.cbegin(); it != __memory_numa_node_affinities.cend(); it++) {
+                    if (*it == memory_numa_node_affinity)
+                        found = true;
+                }
+
+                if (!found)
+                    __memory_numa_node_affinities.push_back(memory_numa_node_affinity);
+
+                curr = curr->next();
+            }
+
+            __memory_numa_node_affinities.sort();
+        }
+    }
+    else if (__numa_enabled) { //Default: use all memory NUMA nodes
+        for (uint32_t i = 0; i < g_num_numa_nodes; i++)
+            __memory_numa_node_affinities.push_back(i);
     }
     
     //Check if large pages should be used for allocation of memory under test.
@@ -570,6 +640,14 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
             std::cout << "yes" << std::endl;
         else
             std::cout << "no" << std::endl;
+        std::cout << "------> CPU NUMA node affinities:     ";
+        for (auto it = __cpu_numa_node_affinities.cbegin(); it != __cpu_numa_node_affinities.cend(); it++)
+            std::cout << *it << " ";
+        std::cout << std::endl;
+        std::cout << "------> Memory NUMA node affinities:  ";
+        for (auto it = __memory_numa_node_affinities.cbegin(); it != __memory_numa_node_affinities.cend(); it++)
+            std::cout << *it << " ";
+        std::cout << std::endl;
 #else
         std::cout << "not supported" << std::endl;
 #endif

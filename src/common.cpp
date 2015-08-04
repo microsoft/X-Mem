@@ -72,7 +72,7 @@ namespace xmem {
     bool g_verbose = false; /**< If true, be more verbose with console reporting. */
     size_t g_page_size; /**< Default page size on the system, in bytes. */
     size_t g_large_page_size; /**< Large page size on the system, in bytes. */
-    uint32_t g_num_nodes; /**< Number of NUMA nodes in the system. */
+    uint32_t g_num_numa_nodes; /**< Number of NUMA nodes in the system. */
     uint32_t g_num_logical_cpus; /**< Number of logical CPU cores in the system. This may be different than physical CPUs, e.g. simultaneous multithreading. */
     uint32_t g_num_physical_cpus; /**< Number of physical CPU cores in the system. */
     uint32_t g_num_physical_packages; /**< Number of physical CPU packages in the system. Generally this is the same as number of NUMA nodes, unless UMA emulation is done in hardware. */
@@ -403,7 +403,7 @@ int32_t xmem::cpu_id_in_numa_node(uint32_t numa_node, uint32_t cpu_in_node) {
 void xmem::init_globals() {
     //Initialize global variables to defaults.
     g_verbose = false;
-    g_num_nodes = DEFAULT_NUM_NODES;
+    g_num_numa_nodes = DEFAULT_NUM_NODES;
     g_num_physical_packages = DEFAULT_NUM_PHYSICAL_PACKAGES;
     g_num_physical_cpus = DEFAULT_NUM_PHYSICAL_CPUS;
     g_num_logical_cpus = DEFAULT_NUM_LOGICAL_CPUS;
@@ -449,7 +449,7 @@ int32_t xmem::query_sys_info() {
     offset = 0;
     while (offset + sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION) <= len) {
         if (curr->Relationship == RelationNumaNode)
-            g_num_nodes++;
+            g_num_numa_nodes++;
         else if (curr->Relationship == RelationProcessorPackage)
             g_num_physical_packages++;
         curr++;
@@ -464,10 +464,10 @@ int32_t xmem::query_sys_info() {
     }
 
     //Get number of nodes. This is easy.
-    g_num_nodes = numa_max_node()+1;
+    g_num_numa_nodes = numa_max_node()+1;
 #endif
 #ifndef HAS_NUMA //special case
-    g_num_nodes = 1;
+    g_num_numa_nodes = 1;
 #endif
 
     //Get number of physical packages. This is somewhat convoluted, but not sure of a better way on Linux. Technically there could be on-chip NUMA, so...
@@ -611,8 +611,8 @@ int32_t xmem::query_sys_info() {
 
 void xmem::report_sys_info() {
     std::cout << std::endl;
-    std::cout << "Number of NUMA nodes: " << g_num_nodes;
-    if (g_num_nodes == DEFAULT_NUM_NODES)
+    std::cout << "Number of NUMA nodes: " << g_num_numa_nodes;
+    if (g_num_numa_nodes == DEFAULT_NUM_NODES)
         std::cout << "?";
     std::cout << std::endl;
     std::cout << "Number of physical processor packages: " << g_num_physical_packages;

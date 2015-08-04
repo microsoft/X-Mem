@@ -40,6 +40,7 @@
 //Libraries
 #include <cstdint>
 #include <string>
+#include <list>
 
 namespace xmem {
     /**
@@ -62,7 +63,9 @@ namespace xmem {
         NUMA_DISABLE,
         VERBOSE,
         WORKING_SET_SIZE_PER_THREAD,
+        CPU_NUMA_NODE_AFFINITY,
         USE_LARGE_PAGES,
+        MEMORY_NUMA_NODE_AFFINITY,
         USE_READS,
         USE_WRITES,
         STRIDE_SIZE
@@ -86,10 +89,12 @@ namespace xmem {
         { RANDOM_ACCESS_PATTERN, 0, "r", "random_access", Arg::None, "    -r, --random_access    \tUse a random access pattern for load traffic-generating threads used in throughput and loaded latency benchmarks." },
         { SEQUENTIAL_ACCESS_PATTERN, 0, "s", "sequential_access", Arg::None, "    -s, --sequential_access    \tUse a sequential and/or strided access pattern for load traffic generating-threads used in throughput and loaded latency benchmarks." },
         { MEAS_THROUGHPUT, 0, "t", "throughput", Arg::None, "    -t, --throughput    \tThroughput benchmarking mode. Aggregate throughput is measured across all worker threads. Each load traffic-generating worker in a particular benchmark runs an identical kernel. Multiple distinct benchmarks may be run depending on the specified benchmark settings (e.g., aggregated 64-bit and 256-bit sequential read throughput using strides of 1 and -8 chunks)." },
-        { NUMA_DISABLE, 0, "u", "ignore_numa", Arg::None, "    -u, --ignore_numa    \tForce uniform memory access (UMA) mode. This only has an effect in non-uniform memory access (NUMA) systems. Limits benchmarking to CPU and memory NUMA node 0 instead of all intra-node and inter-node combinations. This mode can be useful in situations where the user is not interested in cross-node effects or node asymmetry. This option may also be required if large pages are desired on GNU/Linux systems due to lack of NUMA support in current versions of hugetlbfs. See the large_pages option." },
+        { NUMA_DISABLE, 0, "u", "ignore_numa", Arg::None, "    -u, --ignore_numa    \tForce uniform memory access (UMA) mode. This only has an effect in non-uniform memory access (NUMA) systems. Limits benchmarking to CPU and memory NUMA node 0 instead of all intra-node and inter-node combinations. This mode can be useful in situations where the user is not interested in cross-node effects or node asymmetry. This option is the same as independently setting CPU and memory node affinities to 0 using the \"-C\" and \"-M\" options, but this cannot be used in tandem with those options. This option may also be required if large pages are desired on GNU/Linux systems due to lack of NUMA support in current versions of hugetlbfs. See the large_pages option." },
         { VERBOSE, 0, "v", "verbose", Arg::None, "    -v, --verbose    \tVerbose mode increases the level of detail in X-Mem console reporting." },
         { WORKING_SET_SIZE_PER_THREAD, 0, "w", "working_set_size", MyArg::PositiveInteger, "    -w, --working_set_size    \tWorking set size per worker thread in KB. This must be a multiple of 4KB. In all benchmarks, each worker thread works on its own \"private\" region of memory. For example, 4-thread throughput benchmarking with a working set size of 4 KB might result in measuring the aggregate throughput of four L1 caches corresponding to four physical cores, with no data sharing between threads. Similarly, an 8-thread loaded latency benchmark with a working set size of 64 MB would use 512 MB of memory in total for benchmarking, with no data sharing between threads. This would result in performance measurement of the shared DRAM physical interface, the shared L3 cache, etc." },
+        { CPU_NUMA_NODE_AFFINITY, 0, "C", "cpu_numa_node_affinity", MyArg::NonnegativeInteger, "    -C, --cpu_numa_node_affinity    \tInclude the specified NUMA node in all selected benchmark experiments. This does not specify logical/physical CPU core affinity, just the NUMA node (socket). Setting core affinities is not supported at this time. This option may be specified multiple times with multiple nodes. Note that all possible combinations of selected CPU and memory NUMA node affinities will be used. If left unspecified, then all available nodes will be used." },
         { USE_LARGE_PAGES, 1, "L", "large_pages", Arg::None, "    -L, --large_pages    \tUse large pages. This might enable better memory performance by reducing the translation-lookaside buffer (TLB) bottleneck. However, this is not supported on all systems. On GNU/Linux, you need hugetlbfs support with pre-reserved huge pages prior to running X-Mem. On GNU/Linux, you also must use the ignore_numa option, as hugetlbfs is not NUMA-aware at this time." },
+        { MEMORY_NUMA_NODE_AFFINITY, 0, "M", "memory_numa_node_affinity", MyArg::NonnegativeInteger, "    -M, --memory_numa_node_affinity    \tInclude the specified NUMA node in all selected benchmark experiments for placement of memory regions under test. This does not specify thread placement for the experiments (CPU affinity). This option may be specified multiple times with multiple nodes. Note that all possible combinations of selected CPU and memory NUMA node affinities will be used. If left unspecified, then all available nodes will be used." },
         { USE_READS, 0, "R", "reads", Arg::None, "    -R, --reads    \tUse memory read-based patterns in load traffic-generating threads." },
         { USE_WRITES, 0, "W", "writes", Arg::None, "    -W, --writes    \tUse memory write-based patterns in load traffic-generating threads." },
         { STRIDE_SIZE, 0, "S", "stride_size", MyArg::Integer, "    -S, --stride_size    \tA stride size to use for load traffic-generating threads, specified in powers-of-two multiples of the chunk size(s). Allowed values: 1, -1, 2, -2, 4, -4, 8, -8, 16, -16. Positive indicates the forward direction (increasing addresses), while negative indicates the reverse direction." },
@@ -224,6 +229,18 @@ namespace xmem {
          * @returns True if all NUMA nodes should be tested.
          */
         bool isNUMAEnabled() const { return __numa_enabled; }
+
+        /**
+         * @brief Gets a list of CPU NUMA nodes to affinitize for all benchmark experiments.
+         * @returns The list of NUMA node indices.
+         */
+        std::list<uint32_t> getCpuNumaNodeAffinities() const { return __cpu_numa_node_affinities; }
+
+        /**
+         * @brief Gets a list of memory NUMA nodes to affinitize for all benchmark experiments.
+         * @returns The list of NUMA node indices.
+         */
+        std::list<uint32_t> getMemoryNumaNodeAffinities() const { return __memory_numa_node_affinities; }
 
         /**
          * @brief Gets the number of iterations that should be run of each benchmark.
@@ -389,7 +406,9 @@ namespace xmem {
 #ifdef HAS_WORD_256
         bool __use_chunk_256b; /**< If true, use chunk sizes of 256-bits where applicable. */
 #endif
-        bool __numa_enabled; /**< If true, test all combinations of CPU/memory NUMA nodes. Otherwise, just use node 0. */
+        bool __numa_enabled; /**< If false, only CPU/memory NUMA nodes 0 may be used. */
+        std::list<uint32_t> __cpu_numa_node_affinities; /**< List of CPU NUMA nodes to affinitize on all benchmark experiments. */
+        std::list<uint32_t> __memory_numa_node_affinities; /**< List of memory NUMA nodes to affinitize on all benchmark experiments. */
         uint32_t __iterations; /**< Number of iterations to run for each benchmark test. */
         bool __use_random_access_pattern; /**< If true, run throughput benchmarks with random access pattern. */
         bool __use_sequential_access_pattern; /**< If true, run throughput benchmarks with sequential access pattern. */

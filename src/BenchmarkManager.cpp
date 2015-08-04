@@ -77,8 +77,8 @@ BenchmarkManager::BenchmarkManager(
         Configurator &config
     ) :
         __config(config),
-        __num_numa_nodes(g_num_nodes),
-        __benchmark_num_numa_nodes(g_num_nodes),
+        __cpu_numa_node_affinities(),
+        __memory_numa_node_affinities(),
         __mem_arrays(),
 #ifndef HAS_NUMA
         __orig_malloc_addr(NULL),
@@ -97,7 +97,7 @@ BenchmarkManager::BenchmarkManager(
 #ifdef _WIN32
 #ifndef ARCH_ARM //lacking library support for Windows on ARM
         //Put the thread on the last logical CPU in each NUMA node.
-        __dram_power_readers.push_back(new WindowsDRAMPowerReader(cpu_id_in_numa_node(i,g_num_logical_cpus / g_num_nodes - 1), POWER_SAMPLING_PERIOD_MS, 1, power_obj_name, cpu_id_in_numa_node(i,g_num_logical_cpus / g_num_nodes - 1))); 
+        __dram_power_readers.push_back(new WindowsDRAMPowerReader(cpu_id_in_numa_node(i,g_num_logical_cpus / g_num_numa_nodes - 1), POWER_SAMPLING_PERIOD_MS, 1, power_obj_name, cpu_id_in_numa_node(i,g_num_logical_cpus / g_num_numa_nodes - 1))); 
 #else
         __dram_power_readers.push_back(NULL);
 #endif
@@ -107,6 +107,10 @@ BenchmarkManager::BenchmarkManager(
         __dram_power_readers.push_back(NULL);
 #endif
     }
+
+    //Set up NUMA stuff
+    __cpu_numa_node_affinities = __config.getCpuNumaNodeAffinities();
+    __memory_numa_node_affinities = __config.getMemoryNumaNodeAffinities();
 
     //Build working memory regions
     __setupWorkingSets(__config.getWorkingSetSizePerThread());
@@ -376,14 +380,14 @@ bool BenchmarkManager::runLatencyBenchmarks() {
 
 void BenchmarkManager::__setupWorkingSets(size_t working_set_size) {
     //Allocate memory in each NUMA node to be tested
-    if (!__config.isNUMAEnabled())
-        __benchmark_num_numa_nodes = 1;
 
-    __mem_arrays.resize(__benchmark_num_numa_nodes);
-    __mem_array_lens.resize(__benchmark_num_numa_nodes);
+    //We reserve the space for these, but that doesn't mean they will all be used.
+    __mem_arrays.resize(g_num_numa_nodes); 
+    __mem_array_lens.resize(g_num_numa_nodes);
 
-    for (uint32_t numa_node = 0; numa_node < __benchmark_num_numa_nodes; numa_node++) {
+    for (auto it = __memory_numa_node_affinities.cbegin(); it != __memory_numa_node_affinities.cend(); it++) {
         size_t allocation_size = 0;
+        uint32_t numa_node = *it;
 
 #ifdef HAS_LARGE_PAGES
         if (__config.useLargePages()) {
@@ -523,11 +527,13 @@ bool BenchmarkManager::__buildBenchmarks() {
     std::string benchmark_name;
 
     //Build throughput benchmarks. This is a humongous nest of for loops, but rest assured, the range of each loop should be small enough. The problem is we have many combinations to test.
-    for (uint32_t mem_node = 0; mem_node < __benchmark_num_numa_nodes; mem_node++) { //iterate each memory NUMA node
+    for (auto mem_node_it = __memory_numa_node_affinities.cbegin(); mem_node_it != __memory_numa_node_affinities.cend(); mem_node_it++) { //iterate each memory NUMA node
+        uint32_t mem_node = *mem_node_it;
         void* mem_array = __mem_arrays[mem_node];           
         size_t mem_array_len = __mem_array_lens[mem_node];
 
-        for (uint32_t cpu_node = 0; cpu_node < __benchmark_num_numa_nodes; cpu_node++) { //iterate each CPU node
+        for (auto cpu_node_it = __cpu_numa_node_affinities.cbegin(); cpu_node_it != __cpu_numa_node_affinities.cend(); cpu_node_it++) { //iterate each cpu NUMA node
+            uint32_t cpu_node = *cpu_node_it;
             bool buildLatBench = true; //Want to get at least one latency benchmark for all NUMA node combos
 
             //DO SEQUENTIAL/STRIDED TESTS
@@ -678,11 +684,14 @@ bool BenchmarkManager::runExtDelayInjectedLoadedLatencyBenchmark() {
 #endif
 
     //Build benchmarks
-    for (uint32_t mem_node = 0; mem_node < __benchmark_num_numa_nodes; mem_node++) { //iterate each memory NUMA node
+    for (auto mem_node_it = __memory_numa_node_affinities.cbegin(); mem_node_it != __memory_numa_node_affinities.cend(); mem_node_it++) { //iterate each memory NUMA node
+        uint32_t mem_node = *mem_node_it;
+        
         void* mem_array = __mem_arrays[mem_node];           
         size_t mem_array_len = __mem_array_lens[mem_node];
 
-        for (uint32_t cpu_node = 0; cpu_node < __benchmark_num_numa_nodes; cpu_node++) { //iterate each CPU node
+        for (auto cpu_node_it = __cpu_numa_node_affinities.cbegin(); cpu_node_it != __cpu_numa_node_affinities.cend(); cpu_node_it++) { //iterate each cpuory NUMA node
+            uint32_t cpu_node = *cpu_node_it;
 
             for (uint32_t chunk_index = 0; chunk_index < chunks.size(); chunk_index++) { //iterate different chunk sizes
                 chunk_size_t chunk = chunks[chunk_index];
