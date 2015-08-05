@@ -124,13 +124,13 @@ BenchmarkManager::BenchmarkManager(
         }
 
         //Generate file headers
-        __results_file << "Test Name,Iterations,Working Set Size Per Thread (KB),Total Number of Threads,Number of Load Generating Threads,NUMA Memory Node,NUMA CPU Node,Load Access Pattern,Load Read/Write Mix,Load Chunk Size (bits),Load Stride Size (chunks),Average Load Throughput,Throughput Units,Average Latency,Latency Units,";
+        __results_file << "Test Name,Iterations,Working Set Size Per Thread (KB),Total Number of Threads,Number of Load Generating Threads,NUMA Memory Node,NUMA CPU Node,Load Access Pattern,Load Read/Write Mix,Load Chunk Size (bits),Load Stride Size (chunks),Mean Load Throughput,Min Load Throughput,25th Percentile Load Throughput,Median Load Throughput,75th Percentile Load Throughput,95th Percentile Load Throughput,99th Percentile Load Throughput,Max Load Throughput,Mode Load Throughput,Throughput Units,Mean Latency,Min Latency,25th Percentile Latency,Median Latency,75th Percentile Latency,95th Percentile Latency,99th Percentile Latency,Max Latency,Mode Latency,Latency Units,";
         for (uint32_t i = 0; i < __dram_power_readers.size(); i++)  {
             if (__dram_power_readers[i] != NULL) {
-                __results_file << __dram_power_readers[i]->name() << " Average Power (W),";
+                __results_file << __dram_power_readers[i]->name() << " Mean Power (W),";
                 __results_file << __dram_power_readers[i]->name() << " Peak Power (W),";
             } else {
-                __results_file << "NAME? Average Power (W),";
+                __results_file << "NAME? Mean Power (W),";
                 __results_file << "NAME? Peak Power (W),";
             }
         }
@@ -257,12 +257,28 @@ bool BenchmarkManager::runThroughputBenchmarks() {
             }
 
             __results_file << __tp_benchmarks[i]->getStrideSize() << ",";
-            __results_file << __tp_benchmarks[i]->getAverageMetric() << ",";
+            __results_file << __tp_benchmarks[i]->getMeanMetric() << ",";
+            __results_file << __tp_benchmarks[i]->getMinMetric() << ",";
+            __results_file << __tp_benchmarks[i]->get25PercentileMetric() << ",";
+            __results_file << __tp_benchmarks[i]->getMedianMetric() << ",";
+            __results_file << __tp_benchmarks[i]->get75PercentileMetric() << ",";
+            __results_file << __tp_benchmarks[i]->get95PercentileMetric() << ",";
+            __results_file << __tp_benchmarks[i]->get99PercentileMetric() << ",";
+            __results_file << __tp_benchmarks[i]->getMaxMetric() << ",";
+            __results_file << __tp_benchmarks[i]->getModeMetric() << ",";
             __results_file << __tp_benchmarks[i]->getMetricUnits() << ",";
             __results_file << "N/A" << ",";
             __results_file << "N/A" << ",";
+            __results_file << "N/A" << ",";
+            __results_file << "N/A" << ",";
+            __results_file << "N/A" << ",";
+            __results_file << "N/A" << ",";
+            __results_file << "N/A" << ",";
+            __results_file << "N/A" << ",";
+            __results_file << "N/A" << ",";
+            __results_file << "N/A" << ",";
             for (uint32_t j = 0; j < g_num_physical_packages; j++) {
-                __results_file << __tp_benchmarks[i]->getAverageDRAMPower(j) << ",";
+                __results_file << __tp_benchmarks[i]->getMeanDRAMPower(j) << ",";
                 __results_file << __tp_benchmarks[i]->getPeakDRAMPower(j) << ",";
             }
             __results_file << "N/A" << ",";
@@ -358,12 +374,28 @@ bool BenchmarkManager::runLatencyBenchmarks() {
                 __results_file << __lat_benchmarks[i]->getStrideSize() << ",";
             }
 
-            __results_file << __lat_benchmarks[i]->getAvgLoadMetric() << ",";
+            __results_file << __lat_benchmarks[i]->getMeanLoadMetric() << ",";
+            __results_file << "N/A" << ",";
+            __results_file << "N/A" << ",";
+            __results_file << "N/A" << ",";
+            __results_file << "N/A" << ",";
+            __results_file << "N/A" << ",";
+            __results_file << "N/A" << ",";
+            __results_file << "N/A" << ",";
+            __results_file << "N/A" << ",";
             __results_file << "MB/s" << ",";
-            __results_file << __lat_benchmarks[i]->getAverageMetric() << ",";
+            __results_file << __lat_benchmarks[i]->getMeanMetric() << ",";
+            __results_file << __lat_benchmarks[i]->getMinMetric() << ",";
+            __results_file << __lat_benchmarks[i]->get25PercentileMetric() << ",";
+            __results_file << __lat_benchmarks[i]->getMedianMetric() << ",";
+            __results_file << __lat_benchmarks[i]->get75PercentileMetric() << ",";
+            __results_file << __lat_benchmarks[i]->get95PercentileMetric() << ",";
+            __results_file << __lat_benchmarks[i]->get99PercentileMetric() << ",";
+            __results_file << __lat_benchmarks[i]->getMaxMetric() << ",";
+            __results_file << __lat_benchmarks[i]->getModeMetric() << ",";
             __results_file << __lat_benchmarks[i]->getMetricUnits() << ",";
             for (uint32_t j = 0; j < g_num_physical_packages; j++) {
-                __results_file << __lat_benchmarks[i]->getAverageDRAMPower(j) << ",";
+                __results_file << __lat_benchmarks[i]->getMeanDRAMPower(j) << ",";
                 __results_file << __lat_benchmarks[i]->getPeakDRAMPower(j) << ",";
             }
             __results_file << "N/A" << ",";
@@ -799,12 +831,28 @@ bool BenchmarkManager::runExtDelayInjectedLoadedLatencyBenchmark() {
                 __results_file << del_lat_benchmarks[i]->getStrideSize() << ",";
             }
 
-            __results_file << del_lat_benchmarks[i]->getAvgLoadMetric() << ",";
+            __results_file << del_lat_benchmarks[i]->getMeanLoadMetric() << ",";
+            __results_file << "N/A" << ",";
+            __results_file << "N/A" << ",";
+            __results_file << "N/A" << ",";
+            __results_file << "N/A" << ",";
+            __results_file << "N/A" << ",";
+            __results_file << "N/A" << ",";
+            __results_file << "N/A" << ",";
+            __results_file << "N/A" << ",";
             __results_file << "MB/s" << ",";
-            __results_file << del_lat_benchmarks[i]->getAverageMetric() << ",";
+            __results_file << del_lat_benchmarks[i]->getMeanMetric() << ",";
+            __results_file << del_lat_benchmarks[i]->getMinMetric() << ",";
+            __results_file << del_lat_benchmarks[i]->get25PercentileMetric() << ",";
+            __results_file << del_lat_benchmarks[i]->getMedianMetric() << ",";
+            __results_file << del_lat_benchmarks[i]->get75PercentileMetric() << ",";
+            __results_file << del_lat_benchmarks[i]->get95PercentileMetric() << ",";
+            __results_file << del_lat_benchmarks[i]->get99PercentileMetric() << ",";
+            __results_file << del_lat_benchmarks[i]->getMaxMetric() << ",";
+            __results_file << del_lat_benchmarks[i]->getModeMetric() << ",";
             __results_file << del_lat_benchmarks[i]->getMetricUnits() << ",";
             for (uint32_t j = 0; j < g_num_physical_packages; j++) {
-                __results_file << del_lat_benchmarks[i]->getAverageDRAMPower(j) << ",";
+                __results_file << del_lat_benchmarks[i]->getMeanDRAMPower(j) << ",";
                 __results_file << del_lat_benchmarks[i]->getPeakDRAMPower(j) << ",";
             }
             __results_file << del_lat_benchmarks[i]->getDelay() << ",";

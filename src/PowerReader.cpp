@@ -46,7 +46,7 @@ PowerReader::PowerReader(uint32_t sampling_period, double power_units, std::stri
     _name(name),
     _cpu_affinity(cpu_affinity),
     _power_trace(),
-    _average_power(0),
+    _mean_power(0),
     _peak_power(0),
     _num_samples(0),
     _sampling_period(sampling_period)
@@ -70,16 +70,16 @@ bool PowerReader::stop() {
 
 bool PowerReader::calculateMetrics() {
     if (_acquireLock(-1)) { //Wait indefinitely for the lock
-        _average_power = 0;
+        _mean_power = 0;
         _peak_power = 0;
         _num_samples = _power_trace.size();
         for (uint32_t i = 0; i < _num_samples; i++) {
-            _average_power += _power_trace[i];
+            _mean_power += _power_trace[i];
             if (_power_trace[i] > _peak_power)
                 _peak_power = _power_trace[i];
         }
         if (_num_samples > 0)
-            _average_power /= _num_samples;
+            _mean_power /= _num_samples;
 
         return _releaseLock();
     } else
@@ -89,7 +89,7 @@ bool PowerReader::calculateMetrics() {
 bool PowerReader::clear() {
     if (_acquireLock(-1)) { //Wait indefinitely for the lock
         _power_trace.clear();
-        _average_power = 0;
+        _mean_power = 0;
         _peak_power = 0;
         _num_samples = 0;
         return _releaseLock();
@@ -117,10 +117,10 @@ std::vector<double> PowerReader::getPowerTrace() {
     return retval;
 }
 
-double PowerReader::getAveragePower() {
+double PowerReader::getMeanPower() {
     double retval = 0;
     if (_acquireLock(-1)) { //Wait indefinitely for the lock
-        retval = _average_power;
+        retval = _mean_power;
         _releaseLock();
     }
     return retval;

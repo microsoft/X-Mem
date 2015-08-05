@@ -480,8 +480,6 @@ bool DelayInjectedLoadedLatencyBenchmark::_run_core() {
         
         //Compute overall metrics for this iteration
         _metricOnIter[i] = static_cast<double>(lat_adjusted_ticks * g_ns_per_tick)  /  static_cast<double>(lat_accesses_per_pass * lat_passes);
-        _averageMetric += _metricOnIter[i];
-        _averageLoadMetric += _loadMetricOnIter[i];
         
         //Clean up workers and threads for this iteration
         for (uint32_t t = 0; t < _num_worker_threads; t++) {
@@ -506,9 +504,13 @@ bool DelayInjectedLoadedLatencyBenchmark::_run_core() {
         std::cout << "done" << std::endl;
     
     //Run metadata
-    _averageMetric /= static_cast<double>(_iterations);
-    _averageLoadMetric /= static_cast<double>(_iterations);
     _hasRun = true;
+    
+    //Get mean load metrics -- these aren't part of Benchmark class thus not covered by _computeMetrics()
+    _computeMetrics();
+    for (uint32_t i = 0; i < _iterations; i++)
+        _meanLoadMetric += _loadMetricOnIter[i];
+    _meanLoadMetric /= static_cast<double>(_iterations);
 
     return true;
 }

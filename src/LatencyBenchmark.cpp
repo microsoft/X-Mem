@@ -80,7 +80,7 @@ LatencyBenchmark::LatencyBenchmark(
             name
         ),
         _loadMetricOnIter(),
-        _averageLoadMetric(0)
+        _meanLoadMetric(0)
     { 
 
     for (uint32_t i = 0; i < _iterations; i++) 
@@ -176,20 +176,67 @@ void LatencyBenchmark::report_results() const {
  
     if (_hasRun) {
         for (uint32_t i = 0; i < _iterations; i++) {
-            std::cout << "Iter #" << i + 1 << ": " << _metricOnIter[i] << " " << _metricUnits << " @ " << _loadMetricOnIter[i] << " MB/s average imposed load";
+            std::cout << "Iter #" << i << ": " << _metricOnIter[i] << " " << _metricUnits << " @ " << _loadMetricOnIter[i] << " MB/s mean imposed load";
             if (_warning)
                 std::cout << " (WARNING)";
             std::cout << std::endl;
         }
-        std::cout << "Average: " << _averageMetric << " " << _metricUnits << " @ " << _averageLoadMetric << " MB/s average imposed load";
+
+        std::cout << std::endl;
+        std::cout << std::endl;
+
+        std::cout << "Mean: " << _meanMetric << " " << _metricUnits << " and " << _meanLoadMetric << " MB/s mean imposed load (not necessarily matched)";
         if (_warning)
             std::cout << " (WARNING)";
+        std::cout << std::endl;
+
+        std::cout << "Min: " << _minMetric << " " << _metricUnits;
+        if (_warning)
+            std::cout << " (WARNING)";
+        std::cout << std::endl;
+        
+        std::cout << "25th Percentile: " << _25PercentileMetric << " " << _metricUnits;
+        if (_warning)
+            std::cout << " (WARNING)";
+        std::cout << std::endl;
+        
+        std::cout << "Median: " << _medianMetric << " " << _metricUnits;
+        if (_warning)
+            std::cout << " (WARNING)";
+        std::cout << std::endl;
+        
+        std::cout << "75th Percentile: " << _75PercentileMetric << " " << _metricUnits;
+        if (_warning)
+            std::cout << " (WARNING)";
+        std::cout << std::endl;
+        
+        std::cout << "95th Percentile: " << _95PercentileMetric << " " << _metricUnits;
+        if (_warning)
+            std::cout << " (WARNING)";
+        std::cout << std::endl;
+        
+        std::cout << "99th Percentile: " << _99PercentileMetric << " " << _metricUnits;
+        if (_warning)
+            std::cout << " (WARNING)";
+        std::cout << std::endl;
+        
+        std::cout << "Max: " << _maxMetric << " " << _metricUnits;
+        if (_warning)
+            std::cout << " (WARNING)";
+        std::cout << std::endl;
+         
+        std::cout << "Mode: " << _modeMetric << " " << _metricUnits;
+        if (_warning)
+            std::cout << " (WARNING)";
+        std::cout << std::endl;
+        
+        std::cout << std::endl;
         std::cout << std::endl;
         
         for (uint32_t i = 0; i < _dram_power_readers.size(); i++) {
             if (_dram_power_readers[i] != NULL) {
                 std::cout << _dram_power_readers[i]->name() << " Power Statistics..." << std::endl;
-                std::cout << "...Average Power: " << _dram_power_readers[i]->getAveragePower() * _dram_power_readers[i]->getPowerUnits() << " W" << std::endl;
+                std::cout << "...Mean Power: " << _dram_power_readers[i]->getMeanPower() * _dram_power_readers[i]->getPowerUnits() << " W" << std::endl;
                 std::cout << "...Peak Power: " << _dram_power_readers[i]->getPeakPower() * _dram_power_readers[i]->getPowerUnits() << " W" << std::endl;
             }
         }
@@ -205,9 +252,9 @@ double LatencyBenchmark::getLoadMetricOnIter(uint32_t iter) const {
         return -1;
 }
 
-double LatencyBenchmark::getAvgLoadMetric() const {     
+double LatencyBenchmark::getMeanLoadMetric() const {     
     if (_hasRun)
-        return _averageLoadMetric;
+        return _meanLoadMetric;
     else //bad call
         return -1;
 }
@@ -404,8 +451,6 @@ bool LatencyBenchmark::_run_core() {
         
         //Compute overall metrics for this iteration
         _metricOnIter[i] = static_cast<double>(lat_adjusted_ticks * g_ns_per_tick)  /  static_cast<double>(lat_accesses_per_pass * lat_passes);
-        _averageMetric += _metricOnIter[i];
-        _averageLoadMetric += _loadMetricOnIter[i];
         
         //Clean up workers and threads for this iteration
         for (uint32_t t = 0; t < _num_worker_threads; t++) {
@@ -430,9 +475,13 @@ bool LatencyBenchmark::_run_core() {
         std::cout << "done" << std::endl;
     
     //Run metadata
-    _averageMetric /= static_cast<double>(_iterations);
-    _averageLoadMetric /= static_cast<double>(_iterations);
     _hasRun = true;
+    _computeMetrics();
+
+    //Get mean load metrics -- these aren't part of Benchmark class thus not covered by _computeMetrics()
+    for (uint32_t i = 0; i < _iterations; i++)
+        _meanLoadMetric += _loadMetricOnIter[i];
+    _meanLoadMetric /= static_cast<double>(_iterations);
 
     return true;
 }

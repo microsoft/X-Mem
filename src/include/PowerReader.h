@@ -100,10 +100,10 @@ namespace xmem {
         std::vector<double> getPowerTrace();
 
         /**
-         * @brief Gets the average power.
-         * @returns The average power from the measurements. If no data was collected, returns 0.
+         * @brief Gets the mean power.
+         * @returns The mean power from the measurements. If no data was collected, returns 0.
          */
-        double getAveragePower();
+        double getMeanPower();
 
         /**
          * @brief Gets the peak power.
@@ -149,7 +149,7 @@ namespace xmem {
         std::string _name; /**< Name of this object. */
         int32_t _cpu_affinity; /**< CPU affinity for any thread using this object's run() method. If negative, no affinity preference. */
         std::vector<double> _power_trace; /**< The time-ordered list of power samples. The first index is the oldest measurement. */
-        double _average_power; /**< The average power. */
+        double _mean_power; /**< The mean power. */
         double _peak_power; /**< The peak power observed. */
         size_t _num_samples; /**< The number of samples collected. */
         uint32_t _sampling_period; /**< Power sampling period in milliseconds. */

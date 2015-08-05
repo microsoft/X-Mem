@@ -79,10 +79,10 @@ namespace xmem {
         double getLoadMetricOnIter(uint32_t iter) const;        
         
         /**
-         * @brief Get the overall average load throughput in MB/sec that was imposed on the latency measurement.
-         * @returns The average throughput in MB/sec.
+         * @brief Get the overall arithmetic mean load throughput in MB/sec that was imposed on the latency measurement.
+         * @returns The mean throughput in MB/sec.
          */
-        double getAvgLoadMetric() const;        
+        double getMeanLoadMetric() const;        
         
         /**
          * @brief Reports benchmark configuration details to the console.
@@ -98,7 +98,7 @@ namespace xmem {
         virtual bool _run_core();
         
         std::vector<double> _loadMetricOnIter; /**< Load metrics for each iteration of the benchmark. This is in MB/s. */
-        double _averageLoadMetric; /**< The average load throughput in MB/sec that was imposed on the latency measurement. */   
+        double _meanLoadMetric; /**< The average load throughput in MB/sec that was imposed on the latency measurement. */   
     };
 };
 

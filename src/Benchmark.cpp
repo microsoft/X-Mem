@@ -39,6 +39,8 @@
 #include <cstdint>
 #include <iostream>
 #include <vector>
+#include <map>
+#include <algorithm>
 #include <time.h>
 
 using namespace xmem;
@@ -71,9 +73,17 @@ Benchmark::Benchmark(
         _dram_power_readers(dram_power_readers),
         _dram_power_threads(),
         _metricOnIter(),
-        _averageMetric(0),
+        _meanMetric(0),
+        _minMetric(0),
+        _25PercentileMetric(0),
+        _medianMetric(0),
+        _75PercentileMetric(0),
+        _95PercentileMetric(0),
+        _99PercentileMetric(0),
+        _maxMetric(0),
+        _modeMetric(0),
         _metricUnits(metricUnits),
-        _average_dram_power_socket(),
+        _mean_dram_power_socket(),
         _peak_dram_power_socket(),
         _name(name),
         _obj_valid(false),
@@ -207,15 +217,62 @@ void Benchmark::report_results() const {
                 std::cout << " (WARNING)";
             std::cout << std::endl;
         }
-        std::cout << "Average: " << _averageMetric << " " << _metricUnits;
+        
+        std::cout << std::endl;
+        std::cout << std::endl;
+
+        std::cout << "Mean: " << _meanMetric << " " << _metricUnits;
         if (_warning)
             std::cout << " (WARNING)";
+        std::cout << std::endl;
+
+        std::cout << "Min: " << _minMetric << " " << _metricUnits;
+        if (_warning)
+            std::cout << " (WARNING)";
+        std::cout << std::endl;
+        
+        std::cout << "25th Percentile: " << _25PercentileMetric << " " << _metricUnits;
+        if (_warning)
+            std::cout << " (WARNING)";
+        std::cout << std::endl;
+        
+        std::cout << "Median: " << _medianMetric << " " << _metricUnits;
+        if (_warning)
+            std::cout << " (WARNING)";
+        std::cout << std::endl;
+        
+        std::cout << "75th Percentile: " << _75PercentileMetric << " " << _metricUnits;
+        if (_warning)
+            std::cout << " (WARNING)";
+        std::cout << std::endl;
+        
+        std::cout << "95th Percentile: " << _95PercentileMetric << " " << _metricUnits;
+        if (_warning)
+            std::cout << " (WARNING)";
+        std::cout << std::endl;
+        
+        std::cout << "99th Percentile: " << _99PercentileMetric << " " << _metricUnits;
+        if (_warning)
+            std::cout << " (WARNING)";
+        std::cout << std::endl;
+        
+        std::cout << "Max: " << _maxMetric << " " << _metricUnits;
+        if (_warning)
+            std::cout << " (WARNING)";
+        std::cout << std::endl;
+         
+        std::cout << "Mode: " << _modeMetric << " " << _metricUnits;
+        if (_warning)
+            std::cout << " (WARNING)";
+        std::cout << std::endl;
+       
+        std::cout << std::endl;
         std::cout << std::endl;
         
         for (uint32_t i = 0; i < _dram_power_readers.size(); i++) {
             if (_dram_power_readers[i] != NULL) {
                 std::cout << _dram_power_readers[i]->name() << " Power Statistics..." << std::endl;
-                std::cout << "...Average Power: " << _dram_power_readers[i]->getAveragePower() * _dram_power_readers[i]->getPowerUnits() << " W" << std::endl;
+                std::cout << "...Mean Power: " << _dram_power_readers[i]->getMeanPower() * _dram_power_readers[i]->getPowerUnits() << " W" << std::endl;
                 std::cout << "...Peak Power: " << _dram_power_readers[i]->getPeakPower() * _dram_power_readers[i]->getPowerUnits() << " W" << std::endl;
             }
         }
@@ -235,9 +292,65 @@ double Benchmark::getMetricOnIter(uint32_t iter) const {
         return -1;
 }
 
-double Benchmark::getAverageMetric() const {
+double Benchmark::getMeanMetric() const {
     if (_hasRun)
-        return _averageMetric;
+        return _meanMetric;
+    else //bad call
+        return -1;
+}
+
+double Benchmark::getMinMetric() const {
+    if (_hasRun)
+        return _minMetric;
+    else //bad call
+        return -1;
+}
+
+double Benchmark::get25PercentileMetric() const {
+    if (_hasRun)
+        return _25PercentileMetric;
+    else //bad call
+        return -1;
+}
+
+double Benchmark::getMedianMetric() const {
+    if (_hasRun)
+        return _medianMetric;
+    else //bad call
+        return -1;
+}
+
+double Benchmark::get75PercentileMetric() const {
+    if (_hasRun)
+        return _75PercentileMetric;
+    else //bad call
+        return -1;
+}
+
+double Benchmark::get95PercentileMetric() const {
+    if (_hasRun)
+        return _95PercentileMetric;
+    else //bad call
+        return -1;
+}
+
+double Benchmark::get99PercentileMetric() const {
+    if (_hasRun)
+        return _99PercentileMetric;
+    else //bad call
+        return -1;
+}
+
+double Benchmark::getMaxMetric() const {
+    if (_hasRun)
+        return _maxMetric;
+    else //bad call
+        return -1;
+}
+
+double Benchmark::getModeMetric() const {
+    if (_hasRun)
+        return _modeMetric;
     else //bad call
         return -1;
 }
@@ -246,9 +359,9 @@ std::string Benchmark::getMetricUnits() const {
     return _metricUnits;
 }
             
-double Benchmark::getAverageDRAMPower(uint32_t socket_id) const {
-    if (_average_dram_power_socket.size() > socket_id)
-        return _average_dram_power_socket[socket_id];
+double Benchmark::getMeanDRAMPower(uint32_t socket_id) const {
+    if (_mean_dram_power_socket.size() > socket_id)
+        return _mean_dram_power_socket[socket_id];
     else
         return 0;
 }
@@ -298,6 +411,40 @@ pattern_mode_t Benchmark::getPatternMode() const {
 
 rw_mode_t Benchmark::getRWMode() const {
     return _rw_mode;
+}
+
+void Benchmark::_computeMetrics() {
+    if (_hasRun) {
+        //Compute mean
+        _meanMetric = 0;
+        for (uint32_t i = 0; i < _iterations; i++)
+            _meanMetric += _metricOnIter[i]; 
+        _meanMetric /= _iterations;
+
+        //Build sorted array of metrics from each iteration
+        std::vector<double> sortedMetrics = _metricOnIter;;
+        std::sort(sortedMetrics.begin(), sortedMetrics.end());
+
+        //Compute percentiles
+        _minMetric = sortedMetrics.front();
+        _25PercentileMetric = sortedMetrics[sortedMetrics.size()/4];
+        _75PercentileMetric = sortedMetrics[sortedMetrics.size()*3/4];
+        _medianMetric = sortedMetrics[sortedMetrics.size()/2];
+        _95PercentileMetric = sortedMetrics[sortedMetrics.size()*95/100];
+        _99PercentileMetric = sortedMetrics[sortedMetrics.size()*99/100];
+        _maxMetric = sortedMetrics.back();
+
+        //Compute mode
+        std::map<double,uint32_t> metricCounts;
+        for (uint32_t i = 0; i < _iterations; i++)
+            metricCounts[_metricOnIter[i]]++;
+        _modeMetric = 0;
+        uint32_t greatest_count = 0;
+        for (auto it = metricCounts.cbegin(); it != metricCounts.cend(); it++) {
+            if (it->second > greatest_count)
+                _modeMetric = it->first;
+        }
+    }
 }
 
 bool Benchmark::_start_power_threads() {
@@ -352,7 +499,7 @@ bool Benchmark::_stop_power_threads() {
         //Collect power data
         for (uint32_t i = 0; i < _dram_power_readers.size(); i++) {
             if (_dram_power_readers[i] != NULL) {
-                _average_dram_power_socket.push_back(_dram_power_readers[i]->getAveragePower() * _dram_power_readers[i]->getPowerUnits());
+                _mean_dram_power_socket.push_back(_dram_power_readers[i]->getMeanPower() * _dram_power_readers[i]->getPowerUnits());
                 _peak_dram_power_socket.push_back(_dram_power_readers[i]->getPeakPower() * _dram_power_readers[i]->getPowerUnits());
             }
         }

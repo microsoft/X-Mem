@@ -135,10 +135,58 @@ namespace xmem {
         double getMetricOnIter(uint32_t iter) const;
 
         /**
-         * @brief Gets the average benchmark metric across all iterations.
-         * @returns The average metric.
+         * @brief Gets the arithmetic mean benchmark metric across all iterations.
+         * @returns The mean metric.
          */
-        double getAverageMetric() const;
+        double getMeanMetric() const;
+
+        /**
+         * @brief Gets the minimum benchmark metric across all iterations.
+         * @returns The minimum metric.
+         */
+        double getMinMetric() const;
+
+        /**
+         * @brief Gets the 25th percentile benchmark metric across all iterations.
+         * @returns The 25th percentile metric.
+         */
+        double get25PercentileMetric() const;
+        
+        /**
+         * @brief Gets the median benchmark metric across all iterations.
+         * @returns The median metric.
+         */
+        double getMedianMetric() const;
+       
+        /**
+         * @brief Gets the 75th percentile benchmark metric across all iterations.
+         * @returns The 75th percentile metric.
+         */
+        double get75PercentileMetric() const;
+        
+        /**
+         * @brief Gets the 95th percentile benchmark metric across all iterations.
+         * @returns The 95th percentile metric.
+         */
+        double get95PercentileMetric() const;
+        
+        /**
+         * @brief Gets the 99th percentile benchmark metric across all iterations.
+         * @returns The 99th percentile metric.
+         */
+        double get99PercentileMetric() const;
+
+        /**
+         * @brief Gets the maximum benchmark metric across all iterations.
+         * @returns The maximum metric.
+         */
+        double getMaxMetric() const;
+
+        /**
+         * @brief Gets the mode benchmark metric across all iterations.
+         * @returns The mode metric.
+         */
+        double getModeMetric() const;
 
         /**
          * @brief Gets the units of the metric for this benchmark.
@@ -147,10 +195,10 @@ namespace xmem {
         std::string getMetricUnits() const;
 
         /**
-         * @brief Gets the average DRAM power over the benchmark.
-         * @returns The average DRAM power for a given socket in watts, or 0 if the data does not exist (power was unable to be collected or the benchmark has not run).
+         * @brief Gets the arithmetic mean DRAM power over the benchmark.
+         * @returns The mean DRAM power for a given socket in watts, or 0 if the data does not exist (power was unable to be collected or the benchmark has not run).
          */
-        double getAverageDRAMPower(uint32_t socket_id) const;
+        double getMeanDRAMPower(uint32_t socket_id) const;
         
         /**
          * @brief Gets the peak DRAM power over the benchmark.
@@ -227,6 +275,11 @@ namespace xmem {
         virtual bool _run_core() = 0;
 
         /**
+         * @brief Computes the metrics across iterations.
+         */
+        void _computeMetrics();
+
+        /**
          * @brief Starts the DRAM power measurement threads.
          * @returns True on success.
          */
@@ -264,9 +317,17 @@ namespace xmem {
         
         //Benchmark results
         std::vector<double> _metricOnIter; /**< Metrics for each iteration of the benchmark. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
-        double _averageMetric; /**< Average metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
+        double _meanMetric; /**< Average metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
+        double _minMetric; /**< Minimum metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
+        double _25PercentileMetric; /**< 25th percentile metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
+        double _medianMetric; /**< Median metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
+        double _75PercentileMetric; /**< 75th percentile metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
+        double _95PercentileMetric; /**< 95th percentile metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
+        double _99PercentileMetric; /**< 99th percentile metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
+        double _maxMetric; /**< Maximum metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
+        double _modeMetric; /**< Mode metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
         std::string _metricUnits; /**< String representing the units of measurement for the metric. */
-        std::vector<double> _average_dram_power_socket; /**< The average DRAM power in this benchmark, per socket. */
+        std::vector<double> _mean_dram_power_socket; /**< The mean DRAM power in this benchmark, per socket. */
         std::vector<double> _peak_dram_power_socket; /**< The peak DRAM power in this benchmark, per socket. */
 
         //Metadata

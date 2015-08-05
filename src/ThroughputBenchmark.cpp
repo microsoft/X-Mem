@@ -199,8 +199,6 @@ bool ThroughputBenchmark::_run_core() {
         
         //Compute metric for this iteration
         _metricOnIter[i] = ((static_cast<double>(total_passes) * static_cast<double>(bytes_per_pass)) / static_cast<double>(MB))   /   ((static_cast<double>(avg_adjusted_ticks) * g_ns_per_tick) / 1e9);
-        _averageMetric += _metricOnIter[i];
-
 
         //Clean up workers and threads for this iteration
         for (uint32_t t = 0; t < _num_worker_threads; t++) {
@@ -222,8 +220,8 @@ bool ThroughputBenchmark::_run_core() {
         std::cout << "done" << std::endl;
     
     //Run metadata
-    _averageMetric /= static_cast<double>(_iterations);
     _hasRun = true;
+    _computeMetrics();
 
     return true;
 }
