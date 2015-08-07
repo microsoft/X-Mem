@@ -447,9 +447,8 @@ namespace xmem {
     void test_thread_affinities();
 
     /**
-     * @brief Sets the affinity of the calling thread to the lowest numbered logical CPU in the given NUMA node.
-     * TODO: Improve this functionality, it is quite limiting.
-     * @param numa_node The NUMA node number to select a CPU from.
+     * @brief Sets the affinity of the calling thread to any of the CPUs in the NUMA node.
+     * @param numa_node The NUMA node number.
      * @returns True on success.
      */
     bool lock_thread_to_numa_node(uint32_t numa_node);

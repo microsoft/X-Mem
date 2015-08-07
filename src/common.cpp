@@ -35,6 +35,7 @@
 
 //Libraries
 #include <iostream>
+#include <vector> //for std::vector
 
 #ifdef _WIN32
 #include <windows.h>
@@ -48,7 +49,6 @@
 #include <numa.h>
 #endif
 #include <fstream> //for std::ifstream
-#include <vector> //for std::vector
 #include <algorithm> //for std::find
 
 #ifdef ARCH_INTEL
@@ -280,7 +280,42 @@ void xmem::test_thread_affinities() {
 }
 
 bool xmem::lock_thread_to_numa_node(uint32_t numa_node) {
-    return lock_thread_to_cpu(cpu_id_in_numa_node(numa_node, 0)); //get the first CPU in the node if of interest
+    std::vector<uint32_t> cpus_in_node;
+    for (uint32_t c = 0; c < g_num_logical_cpus; c++) {
+        int32_t cpu = cpu_id_in_numa_node(numa_node, c);
+        if (cpu >= 0) //valid
+            cpus_in_node.push_back(static_cast<uint32_t>(cpu));
+    }
+
+    if (cpus_in_node.size() < 1) //Check to see that there was something to lock to
+        return false;
+
+#ifdef _WIN32
+    HANDLE tid = GetCurrentThread();
+    if (tid == 0)
+        return false;
+    else {
+        //Set thread affinity mask to include all CPUs in the NUMA node of interest
+        DWORD_PTR threadAffinityMask = 0;
+        for (auto it = cpus_in_node.cbegin(); it != cpus_in_node.cend(); it++)
+            threadAffinityMask |= static_cast<DWORD_PTR>((1 << *it));
+
+        DWORD_PTR prev_mask = SetThreadAffinityMask(tid, threadAffinityMask); //enable the CPUs
+        if (prev_mask == 0)
+            return false;
+    }
+    return true;
+#endif
+
+#ifdef __gnu_linux__
+    cpu_set_t cpus;
+    CPU_ZERO(&cpus);
+    for (auto it = cpus_in_node.cbegin(); it != cpus_in_node.cend(); it++)
+        CPU_SET(static_cast<int32_t>(*it), &cpus);
+
+    pthread_t tid = pthread_self();
+    return (!pthread_setaffinity_np(tid, sizeof(cpu_set_t), &cpus));
+#endif
 }
 
 bool xmem::unlock_thread_to_numa_node() {
