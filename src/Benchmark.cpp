@@ -212,7 +212,8 @@ void Benchmark::report_results() const {
  
     if (_hasRun) {
         for (uint32_t i = 0; i < _iterations; i++) {
-            std::cout << "Iter #" << i + 1 << ": " << _metricOnIter[i] << " " << _metricUnits;
+            std::printf("Iter #%4d:    %0.3f    %s", i, _metricOnIter[i], _metricUnits);
+            //std::cout << "Iter #" << i << ": " << _metricOnIter[i] << " " << _metricUnits;
             if (_warning)
                 std::cout << " (WARNING)";
             std::cout << std::endl;

@@ -176,7 +176,8 @@ void LatencyBenchmark::report_results() const {
  
     if (_hasRun) {
         for (uint32_t i = 0; i < _iterations; i++) {
-            std::cout << "Iter #" << i << ": " << _metricOnIter[i] << " " << _metricUnits << " @ " << _loadMetricOnIter[i] << " MB/s mean imposed load";
+            std::printf("Iter #%4d:    %0.3f %s @    %0.3f MB/s mean self-imposed load", i, _metricOnIter[i], _metricUnits, _loadMetricOnIter[i]);
+            //std::cout << "Iter #" << i << ": " << _metricOnIter[i] << " " << _metricUnits << " @ " << _loadMetricOnIter[i] << " MB/s mean imposed load";
             if (_warning)
                 std::cout << " (WARNING)";
             std::cout << std::endl;
