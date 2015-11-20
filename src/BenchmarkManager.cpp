@@ -192,6 +192,8 @@ bool BenchmarkManager::runThroughputBenchmarks() {
         }
     }
 
+    std::cout << __tp_benchmarks.size() << std::endl;//tmp
+
     for (uint32_t i = 0; i < __tp_benchmarks.size(); i++) {
         __tp_benchmarks[i]->run(); 
         __tp_benchmarks[i]->report_results(); //to console

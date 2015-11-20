@@ -67,6 +67,9 @@ void xmem::print_welcome_message() {
 #ifdef ARCH_INTEL_X86
     std::cout << " Intel x86 (32-bit)";
 #endif
+#ifdef ARCH_INTEL_MIC
+    std::cout << " Intel Xeon Phi MIC (64-bit)";
+#endif
 #ifdef ARCH_ARM
     std::cout << " ARM (32-bit)";
 #endif
@@ -78,6 +81,20 @@ void xmem::print_welcome_message() {
 #endif
     std::cout << std::endl;
     std::cout << "Build date: " << BUILD_DATETIME << std::endl;
+    std::cout << "Indicated compiler(s): ";
+#ifdef COMPILER_MS_VS
+    std::cout << "Microsoft Visual C++ ";
+#endif
+#ifdef COMPILER_GCC_GXX
+    std::cout << "GNU C/C++ (gcc/g++) ";
+#endif
+#ifdef COMPILER_ICC
+    std::cout << "Intel C/C++ (icc) ";
+#endif
+#ifdef COMPILER_CLANG_LLVM
+    std::cout << "Clang/LLVM (llvm) ";
+#endif
+    std::cout << std::endl;
     std::cout << "(C) Microsoft Corporation 2015" << std::endl;
     std::cout << "Originally authored by Mark Gottscho <mgottscho@ucla.edu>" << std::endl;
     std::cout << "------------------------------------------------------------------------------------------" << std::endl;

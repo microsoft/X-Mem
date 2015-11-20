@@ -216,12 +216,19 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
     }
     
     //Check NUMA selection
+#ifndef HAS_NUMA
+    __numa_enabled = false;
+    __cpu_numa_node_affinities.push_back(0);
+    __memory_numa_node_affinities.push_back(0);
+#endif
+
     if (options[NUMA_DISABLE]) {
+#ifndef HAS_NUMA
+        std::cerr << "WARNING: NUMA is not supported on this build, so the NUMA-disable option has no effect." << std::endl;
+#else
         __numa_enabled = false;
         __cpu_numa_node_affinities.push_back(0);
         __memory_numa_node_affinities.push_back(0);
-#ifndef HAS_NUMA
-        std::cerr << "WARNING: NUMA is not supported on this build, so the NUMA-disable option has no effect." << std::endl;
 #endif
     }
   

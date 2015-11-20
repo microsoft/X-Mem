@@ -118,6 +118,10 @@ namespace xmem {
 #endif
 #endif
 
+#ifdef _MSC_VER //Visual Studio compiler
+#define COMPILER_MS_VS
+#endif
+
 #endif
 
 //Linux: convert platform-specific preprocessor flags for architecture to xmem-specific constants
@@ -128,12 +132,20 @@ namespace xmem {
 #define ARCH_INTEL_X86
 #endif
 
+#ifdef __MIC__ //Intel Xeon Phi many-core is NOT the same as x86-64
+#define ARCH_INTEL
+#define ARCH_64BIT
+#define ARCH_INTEL_MIC
+#else
+
 #ifdef __x86_64__ //Intel x86-64
 #define ARCH_INTEL
 #define ARCH_INTEL_X86_64
 #define ARCH_64BIT
 #define HAS_NUMA
 #define HAS_LARGE_PAGES
+#endif
+
 #endif
 
 #ifdef __SSE__ //Intel SSE extensions
@@ -196,6 +208,18 @@ namespace xmem {
 #define ARCH_ARM
 #define ARCH_ARM_NEON
 #define ARCH_ARM_VFP_V4 //FIXME: this is assumed, as I don't know how to check directly
+#endif
+
+#if defined(__GNUC__) || defined(__GNUG__) //GNU C/C++ compiler (gcc or g++)
+#define COMPILER_GCC_GXX
+#endif
+
+#ifdef __ICC //Intel C/C++ compiler (icc or icpc)
+#define COMPILER_ICC
+#endif
+
+#ifdef __clang__ //Clang/LLVM compiler
+#define COMPILER_CLANG_LLVM
 #endif
 
 #endif

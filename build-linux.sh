@@ -26,14 +26,15 @@
 
 ARGC=$# # Get number of arguments, not including script name
 
-if [[ "$ARGC" != 1 ]]; then # Bad number of arguments
-    echo "Usage: build-linux.sh <ARCH>"
-    echo "<ARCH> can be x64_avx (RECOMMENDED), x64, x86, or ARM."
+if [[ "$ARGC" != 2 ]]; then # Bad number of arguments
+    echo "Usage: build-linux.sh <ARCH> <NUM_THREADS>"
+    echo "<ARCH> can be x64_avx (RECOMMENDED), x64, x86, mic, or ARM."
     exit 1
 fi
 
 ARCH=$1
-echo Building X-Mem for GNU/Linux on $ARCH\...
+NUM_THREADS=$2
+echo Building X-Mem for GNU/Linux on $ARCH using $NUM_THREADS threads...
 
 # Do a little trick to ensure build datetime are correct
 # DO NOT remove this code -- otherwise X-Mem will fail to build.
@@ -44,7 +45,7 @@ echo "#define BUILD_DATETIME \"$build_datetime\"" >> src/include/build_datetime.
 echo "#endif" >> src/include/build_datetime.h
 
 # Build
-scons -f SConstruct_linux_$ARCH
+scons -f SConstruct_linux_$ARCH -j$NUM_THREADS
 
 # Check if build was successful
 if [[ $? -eq 0 ]]; then
