@@ -69,6 +69,9 @@ Configurator::Configurator(
 #ifdef HAS_WORD_256
     __use_chunk_256b(false),
 #endif
+#ifdef HAS_WORD_512
+    __use_chunk_512b(false),
+#endif
 #ifdef HAS_NUMA
     __numa_enabled(true),
 #else
@@ -339,6 +342,9 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 #ifdef HAS_WORD_256
         __use_chunk_256b = false;
 #endif
+#ifdef HAS_WORD_512
+        __use_chunk_512b = false;
+#endif
         
         Option* curr = options[CHUNK_SIZE];
         while (curr) { //CHUNK_SIZE may occur more than once, this is perfectly OK.
@@ -363,6 +369,11 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
                     __use_chunk_256b = true;
                     break;
 #endif
+#ifdef HAS_WORD_512
+                case 512:
+                    __use_chunk_512b = true;
+                    break;
+#endif
                 default:
                     std::cerr << "ERROR: Invalid chunk size " << chunk_size << ". Chunk sizes can be 32 "
 #ifdef HAS_WORD_64
@@ -373,6 +384,9 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 #endif
 #ifdef HAS_WORD_256
                     << "256 "
+#endif
+#ifdef HAS_WORD_512
+                    << "512 "
 #endif
                     << "bits on this system." << std::endl;
                     goto error;
@@ -530,6 +544,9 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 #ifdef HAS_WORD_256
         __use_chunk_256b = true;
 #endif
+#ifdef HAS_WORD_512
+        __use_chunk_512b = true;
+#endif
         __use_random_access_pattern = true; 
         __use_sequential_access_pattern = true;
         __use_reads = true;
@@ -615,6 +632,10 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 #ifdef HAS_WORD_256
         if (__use_chunk_256b)
             std::cout << "256 ";
+#endif
+#ifdef HAS_WORD_512
+        if (__use_chunk_512b)
+            std::cout << "512 ";
 #endif
         std::cout << std::endl;
         std::cout << "---> Stride sizes:                    ";

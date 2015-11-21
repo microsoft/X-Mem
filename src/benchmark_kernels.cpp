@@ -79,6 +79,7 @@ using namespace xmem;
 #define my_64b_extractLSB_128b(w) vget_low_u64(w) //NEON intrinsic, corresponds to "vmov" instruction. Header: arm_neon.h
 #endif
 
+
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 /* Hand-coded assembly functions for the 128-bit and 256-bit benchmark kernels on Windows x86-64 where applicable.
  * These are needed because the VC++ compiler, like gcc, optimizes away the vector instructions unless I use the volatile keyword.

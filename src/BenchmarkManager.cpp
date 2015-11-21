@@ -192,8 +192,6 @@ bool BenchmarkManager::runThroughputBenchmarks() {
         }
     }
 
-    std::cout << __tp_benchmarks.size() << std::endl;//tmp
-
     for (uint32_t i = 0; i < __tp_benchmarks.size(); i++) {
         __tp_benchmarks[i]->run(); 
         __tp_benchmarks[i]->report_results(); //to console
@@ -251,6 +249,11 @@ bool BenchmarkManager::runThroughputBenchmarks() {
 #ifdef HAS_WORD_256
                 case CHUNK_256b:
                     __results_file << "256" << ",";
+                    break;
+#endif
+#ifdef HAS_WORD_512
+                case CHUNK_512b:
+                    __results_file << "512" << ",";
                     break;
 #endif
                 default:
@@ -366,6 +369,11 @@ bool BenchmarkManager::runLatencyBenchmarks() {
 #ifdef HAS_WORD_256
                     case CHUNK_256b:
                         __results_file << "256" << ",";
+                        break;
+#endif
+#ifdef HAS_WORD_512
+                    case CHUNK_512b:
+                        __results_file << "512" << ",";
                         break;
 #endif
                     default:
@@ -525,6 +533,10 @@ bool BenchmarkManager::__buildBenchmarks() {
 #ifdef HAS_WORD_256
     if (__config.useChunk256b())
         chunks.push_back(CHUNK_256b); 
+#endif
+#ifdef HAS_WORD_512
+    if (__config.useChunk512b())
+        chunks.push_back(CHUNK_512b); 
 #endif
 
     std::vector<rw_mode_t> rws;
@@ -716,6 +728,9 @@ bool BenchmarkManager::runExtDelayInjectedLoadedLatencyBenchmark() {
 #ifdef HAS_WORD_256
     chunks.push_back(CHUNK_256b); 
 #endif
+#ifdef HAS_WORD_512
+    chunks.push_back(CHUNK_512b); 
+#endif
 
     //Build benchmarks
     for (auto mem_node_it = __memory_numa_node_affinities.cbegin(); mem_node_it != __memory_numa_node_affinities.cend(); mem_node_it++) { //iterate each memory NUMA node
@@ -823,6 +838,11 @@ bool BenchmarkManager::runExtDelayInjectedLoadedLatencyBenchmark() {
 #ifdef HAS_WORD_256
                     case CHUNK_256b:
                         __results_file << "256" << ",";
+                        break;
+#endif
+#ifdef HAS_WORD_512
+                    case CHUNK_512b:
+                        __results_file << "512" << ",";
                         break;
 #endif
                     default:

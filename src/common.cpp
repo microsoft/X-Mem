@@ -124,6 +124,9 @@ void xmem::print_types_report() {
 #ifdef HAS_WORD_256
     std::cout << "Word256_t:               " << sizeof(Word256_t) << std::endl;
 #endif
+#ifdef HAS_WORD_512
+    std::cout << "Word512_t:               " << sizeof(Word512_t) << std::endl;
+#endif
     std::cout << std::endl;
     std::cout << "void*:                   " << sizeof(void*) << std::endl;
     std::cout << "uintptr_t:               " << sizeof(uintptr_t) << std::endl;
@@ -151,6 +154,9 @@ void xmem::print_compile_time_options() {
 #ifdef ARCH_INTEL_X86_64
     std::cout << "ARCH_INTEL_X86_64" << std::endl;
 #endif
+#ifdef ARCH_INTEL_MIC
+    std::cout << "ARCH_INTEL_MIC" << std::endl;
+#endif
 #ifdef ARCH_INTEL_SSE
     std::cout << "ARCH_INTEL_SSE" << std::endl;
 #endif
@@ -165,6 +171,9 @@ void xmem::print_compile_time_options() {
 #endif
 #ifdef ARCH_INTEL_AVX2
     std::cout << "ARCH_INTEL_AVX2" << std::endl;
+#endif
+#ifdef ARCH_INTEL_AVX512
+    std::cout << "ARCH_INTEL_AVX512" << std::endl;
 #endif
 #ifdef ARCH_AMD64
     std::cout << "ARCH_AMD64" << std::endl;
@@ -207,6 +216,9 @@ void xmem::print_compile_time_options() {
 #endif
 #ifdef HAS_WORD_256
     std::cout << "HAS_WORD_256" << std::endl;
+#endif
+#ifdef HAS_WORD_512
+    std::cout << "HAS_WORD_512" << std::endl;
 #endif
     std::cout << std::endl;
     std::cout << "This binary was built with the following compile-time options:" << std::endl;

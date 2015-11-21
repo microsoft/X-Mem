@@ -78,7 +78,7 @@ namespace xmem {
         { UNKNOWN, 0, "", "", Arg::None, "\nUSAGE: xmem [options]\n\n"
         "Options:" },
         { ALL, 0, "a", "all", Arg::None, "    -a, --all    \tRun all possible benchmark modes and settings supported by X-Mem. This will override any other relevant user inputs. Note that X-Mem may run for a long time. This does not run extension modes and does not specify the large page option." },
-        { CHUNK_SIZE, 0, "c", "chunk_size", MyArg::PositiveInteger, "    -c, --chunk_size    \tA chunk size in bits to use for load traffic-generating threads used in throughput and loaded latency benchmarks. A chunk is the size of each memory access in a benchmark. Allowed values: 32 64 128 and 256 (platform dependent). Note that some chunk sizes may not be supported on all hardware. 32-bit chunks are not compatible with random-access patterns on 64-bit machines; these combinations of settings will be skipped if they occur. DEFAULT: 64 on 64-bit systems, 32 on 32-bit systems."},
+        { CHUNK_SIZE, 0, "c", "chunk_size", MyArg::PositiveInteger, "    -c, --chunk_size    \tA chunk size in bits to use for load traffic-generating threads used in throughput and loaded latency benchmarks. A chunk is the size of each memory access in a benchmark. Allowed values: 32 64 128 256 and 512 (platform dependent). Note that some chunk sizes may not be supported on all hardware. 32-bit chunks are not compatible with random-access patterns on 64-bit machines; these combinations of settings will be skipped if they occur. DEFAULT: 64 on 64-bit systems, 32 on 32-bit systems."},
         { EXTENSION, 0, "e", "extension", MyArg::NonnegativeInteger, "    -e, --extension    \tRun an X-Mem extension defined by the user at build time. The integer argument specifies a single unique extension. This option may be included multiple times. Note that the extension behavior may or may not depend on the other X-Mem options as its semantics are defined by the extension author." },
         { OUTPUT_FILE, 0, "f", "output_file", MyArg::Required, "    -f, --output_file    \tGenerate an output file in CSV format using the given filename." },
         { HELP, 0, "h", "help", Arg::None, "    -h, --help    \tPrint X-Mem usage and exit." },
@@ -227,6 +227,14 @@ namespace xmem {
          * @returns True if 256-bit chunks should be used.
          */
         bool useChunk256b() const { return __use_chunk_256b; }
+#endif
+
+#ifdef HAS_WORD_512
+        /**
+         * @brief Determines if chunk size of 512 bits should be used in relevant benchmarks.
+         * @returns True if 512-bit chunks should be used.
+         */
+        bool useChunk512b() const { return __use_chunk_512b; }
 #endif
 
         /**
@@ -410,6 +418,9 @@ namespace xmem {
 #endif
 #ifdef HAS_WORD_256
         bool __use_chunk_256b; /**< If true, use chunk sizes of 256-bits where applicable. */
+#endif
+#ifdef HAS_WORD_512
+        bool __use_chunk_512b; /**< If true, use chunk sizes of 512-bits where applicable. */
 #endif
         bool __numa_enabled; /**< If false, only CPU/memory NUMA nodes 0 may be used. */
         std::list<uint32_t> __cpu_numa_node_affinities; /**< List of CPU NUMA nodes to affinitize on all benchmark experiments. */

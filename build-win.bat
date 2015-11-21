@@ -25,7 +25,8 @@
 @echo off
 
 set ARCH=%1
-echo Building X-Mem for Windows on %ARCH%...
+set NUM_THREADS=%2
+echo Building X-Mem for Windows on %ARCH% using %NUM_THREADS%...
 
 :: Do a little trick to ensure build datetime are correct
 :: DO NOT remove this code -- otherwise X-Mem will fail to build.
@@ -36,7 +37,7 @@ echo #define BUILD_DATETIME "%build_datetime%">>src\include\build_datetime.h
 echo #endif>>src\include\build_datetime.h
 
 :: Build
-call scons -f SConstruct_win_%ARCH%
+call scons -f SConstruct_win_%ARCH% -j%NUM_THREADS%
 
 :: Check if build was successful
 if ERRORLEVEL 1 goto buildFailure

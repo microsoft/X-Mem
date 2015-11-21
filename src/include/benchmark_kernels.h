@@ -40,6 +40,7 @@
 #include <cstddef>
 
 namespace xmem {
+
     
     typedef int32_t(*SequentialFunction)(void*, void*);
     typedef int32_t(*RandomFunction)(uintptr_t*, uintptr_t**, size_t); 

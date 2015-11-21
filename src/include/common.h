@@ -173,6 +173,11 @@ namespace xmem {
 #define ARCH_INTEL_AVX2
 #endif
 
+#ifdef __AVX512__ //Intel AVX-512 extensions
+#define ARCH_INTEL
+#define ARCH_INTEL_AVX512
+#endif
+
 #ifdef __amd64__ //AMD64
 #define ARCH_INTEL
 #define ARCH_AMD64
@@ -373,6 +378,9 @@ namespace xmem {
 #ifdef ARCH_INTEL_AVX
 #define HAS_WORD_256
 #endif
+#if defined(ARCH_INTEL_MIC) || defined(ARCH_INTEL_AVX512)
+#define HAS_WORD_512
+#endif
 
     typedef uint32_t Word32_t; 
 #ifdef HAS_WORD_64
@@ -392,6 +400,14 @@ namespace xmem {
 #endif
 #ifdef ARCH_ARM
     #error ARM does not support 256-bit memory operations, this should not have happened.
+#endif
+#endif
+#ifdef HAS_WORD_512
+#ifdef ARCH_INTEL
+    typedef __m512i Word512_t; //Not possible on current ARM systems.
+#endif
+#ifdef ARCH_ARM
+    #error ARM does not support 512-bit memory operations, this should not have happened.
 #endif
 #endif
 
@@ -426,6 +442,9 @@ namespace xmem {
 #endif
 #ifdef HAS_WORD_256
         CHUNK_256b,
+#endif
+#ifdef HAS_WORD_512
+        CHUNK_512b,
 #endif
         NUM_CHUNK_SIZES
     } chunk_size_t;
