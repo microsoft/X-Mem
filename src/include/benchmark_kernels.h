@@ -159,6 +159,16 @@ namespace xmem {
     int32_t dummy_forwSequentialLoop_Word256(void* start_address, void* end_address);
 #endif
 
+#ifdef HAS_WORD_512
+    /**
+     * @brief Used for measuring the time spent doing everything in forward sequential Word 512 loops except for the memory access itself.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwSequentialLoop_Word512(void* start_address, void* end_address);
+#endif
+
     /**
      * @brief Used for measuring the time spent doing everything in reverse sequential Word 32 loops except for the memory access itself.
      * @param start_address The beginning of the memory region of interest.
@@ -195,6 +205,16 @@ namespace xmem {
      * @returns Undefined.
      */
     int32_t dummy_revSequentialLoop_Word256(void* start_address, void* end_address);
+#endif
+
+#ifdef HAS_WORD_512
+    /**
+     * @brief Used for measuring the time spent doing everything in reverse sequential Word 512 loops except for the memory access itself.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_revSequentialLoop_Word512(void* start_address, void* end_address);
 #endif
 
     /* ------------ STRIDE 2 LOOP --------------*/
@@ -237,6 +257,16 @@ namespace xmem {
     int32_t dummy_forwStride2Loop_Word256(void* start_address, void* end_address);
 #endif
 
+#ifdef HAS_WORD_512
+    /**
+     * @brief Used for measuring the time spent doing everything in forward 2-strided Word 512 loops except for the memory access itself.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwStride2Loop_Word512(void* start_address, void* end_address);
+#endif
+
     /**
      * @brief Used for measuring the time spent doing everything in reverse 2-strided Word 32 loops except for the memory access itself.
      * @param start_address The beginning of the memory region of interest.
@@ -273,6 +303,16 @@ namespace xmem {
      * @returns Undefined.
      */
     int32_t dummy_revStride2Loop_Word256(void* start_address, void* end_address);
+#endif
+
+#ifdef HAS_WORD_512
+    /**
+     * @brief Used for measuring the time spent doing everything in reverse 2-strided Word 512 loops except for the memory access itself.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_revStride2Loop_Word512(void* start_address, void* end_address);
 #endif
 
     /* ------------ STRIDE 4 LOOP --------------*/
@@ -315,6 +355,16 @@ namespace xmem {
     int32_t dummy_forwStride4Loop_Word256(void* start_address, void* end_address);
 #endif
 
+#ifdef HAS_WORD_512
+    /**
+     * @brief Used for measuring the time spent doing everything in forward 4-strided Word 512 loops except for the memory access itself.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwStride4Loop_Word512(void* start_address, void* end_address);
+#endif
+
     /**
      * @brief Used for measuring the time spent doing everything in reverse 4-strided Word 32 loops except for the memory access itself.
      * @param start_address The beginning of the memory region of interest.
@@ -351,6 +401,16 @@ namespace xmem {
      * @returns Undefined.
      */
     int32_t dummy_revStride4Loop_Word256(void* start_address, void* end_address);
+#endif
+
+#ifdef HAS_WORD_512
+    /**
+     * @brief Used for measuring the time spent doing everything in reverse 4-strided Word 512 loops except for the memory access itself.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_revStride4Loop_Word512(void* start_address, void* end_address);
 #endif
 
     /* ------------ STRIDE 8 LOOP --------------*/
@@ -393,6 +453,16 @@ namespace xmem {
     int32_t dummy_forwStride8Loop_Word256(void* start_address, void* end_address);
 #endif
 
+#ifdef HAS_WORD_512
+    /**
+     * @brief Used for measuring the time spent doing everything in forward 8-strided Word 512 loops except for the memory access itself.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwStride8Loop_Word512(void* start_address, void* end_address);
+#endif
+
     /**
      * @brief Used for measuring the time spent doing everything in reverse 8-strided Word 32 loops except for the memory access itself.
      * @param start_address The beginning of the memory region of interest.
@@ -429,6 +499,16 @@ namespace xmem {
      * @returns Undefined.
      */
     int32_t dummy_revStride8Loop_Word256(void* start_address, void* end_address);
+#endif
+
+#ifdef HAS_WORD_512
+    /**
+     * @brief Used for measuring the time spent doing everything in reverse 8-strided Word 512 loops except for the memory access itself.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_revStride8Loop_Word512(void* start_address, void* end_address);
 #endif
 
     /* ------------ STRIDE 16 LOOP --------------*/
@@ -471,6 +551,16 @@ namespace xmem {
     int32_t dummy_forwStride16Loop_Word256(void* start_address, void* end_address);
 #endif
 
+#ifdef HAS_WORD_512
+    /**
+     * @brief Used for measuring the time spent doing everything in forward 16-strided Word 512 loops except for the memory access itself.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_forwStride16Loop_Word512(void* start_address, void* end_address);
+#endif
+
     /**
      * @brief Used for measuring the time spent doing everything in reverse 16-strided Word 32 loops except for the memory access itself.
      * @param start_address The beginning of the memory region of interest.
@@ -507,6 +597,16 @@ namespace xmem {
      * @returns Undefined.
      */
     int32_t dummy_revStride16Loop_Word256(void* start_address, void* end_address);
+#endif
+
+#ifdef HAS_WORD_512
+    /**
+     * @brief Used for measuring the time spent doing everything in reverse 16-strided Word 512 loops except for the memory access itself.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t dummy_revStride16Loop_Word512(void* start_address, void* end_address);
 #endif
 
     /* ------------ RANDOM LOOP --------------*/
@@ -546,6 +646,15 @@ namespace xmem {
      * @returns Undefined.
      */
     int32_t dummy_randomLoop_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
+#endif
+
+#ifdef HAS_WORD_512
+    /**
+     * @brief Mimics the randomRead_Word512 and randomWrite_Word512 functions except for the memory accesses.
+     * @param len The number of pointers to deference in a chain-like fashion.
+     * @returns Undefined.
+     */
+    int32_t dummy_randomLoop_Word512(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 #endif
 
     /* ------------------------------------------------------------------------- */
@@ -592,6 +701,16 @@ namespace xmem {
     int32_t forwSequentialRead_Word256(void* start_address, void* end_address);
 #endif
 
+#ifdef HAS_WORD_512
+    /**
+     * @brief Walks over the allocated memory forward sequentially, reading in 512-bit chunks.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialRead_Word512(void* start_address, void* end_address);
+#endif
+
     /**
      * @brief Walks over the allocated memory reverse sequentially, reading in 32-bit chunks.
      * @param start_address The beginning of the memory region of interest.
@@ -628,6 +747,16 @@ namespace xmem {
      * @returns Undefined.
      */
     int32_t revSequentialRead_Word256(void* start_address, void* end_address);
+#endif
+
+#ifdef HAS_WORD_512
+    /**
+     * @brief Walks over the allocated memory reverse sequentially, reading in 512-bit chunks.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t revSequentialRead_Word512(void* start_address, void* end_address);
 #endif
 
     /* ------------ SEQUENTIAL WRITE --------------*/
@@ -670,6 +799,16 @@ namespace xmem {
     int32_t forwSequentialWrite_Word256(void* start_address, void* end_address);
 #endif
 
+#ifdef HAS_WORD_512
+    /**
+     * @brief Walks over the allocated memory forward sequentially, writing in 512-bit chunks.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwSequentialWrite_Word512(void* start_address, void* end_address);
+#endif
+
     /**
      * @brief Walks over the allocated memory reverse sequentially, writing in 32-bit chunks.
      * @param start_address The beginning of the memory region of interest.
@@ -708,6 +847,16 @@ namespace xmem {
     int32_t revSequentialWrite_Word256(void* start_address, void* end_address);
 #endif
 
+#ifdef HAS_WORD_512
+    /**
+     * @brief Walks over the allocated memory reverse sequentially, writing in 512-bit chunks.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t revSequentialWrite_Word512(void* start_address, void* end_address);
+#endif
+    
     /* ------------ STRIDE 2 READ --------------*/
 
     /**
@@ -748,6 +897,16 @@ namespace xmem {
     int32_t forwStride2Read_Word256(void* start_address, void* end_address);
 #endif
 
+#ifdef HAS_WORD_512
+    /**
+     * @brief Walks over the allocated memory in forward strides of size 2, reading in 512-bit chunks.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwStride2Read_Word512(void* start_address, void* end_address);
+#endif
+
     /**
      * @brief Walks over the allocated memory in reverse strides of size 2, reading in 32-bit chunks.
      * @param start_address The beginning of the memory region of interest.
@@ -784,6 +943,16 @@ namespace xmem {
      * @returns Undefined.
      */
     int32_t revStride2Read_Word256(void* start_address, void* end_address);
+#endif
+
+#ifdef HAS_WORD_512
+    /**
+     * @brief Walks over the allocated memory in reverse strides of size 2, reading in 512-bit chunks.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t revStride2Read_Word512(void* start_address, void* end_address);
 #endif
 
     /* ------------ STRIDE 2 WRITE --------------*/
@@ -826,6 +995,16 @@ namespace xmem {
     int32_t forwStride2Write_Word256(void* start_address, void* end_address);
 #endif
 
+#ifdef HAS_WORD_512
+    /**
+     * @brief Walks over the allocated memory in forward strides of size 2, writing in 512-bit chunks.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwStride2Write_Word512(void* start_address, void* end_address);
+#endif
+
     /**
      * @brief Walks over the allocated memory in reverse strides of size 2, writing in 32-bit chunks.
      * @param start_address The beginning of the memory region of interest.
@@ -862,6 +1041,16 @@ namespace xmem {
      * @returns Undefined.
      */
     int32_t revStride2Write_Word256(void* start_address, void* end_address);
+#endif
+
+#ifdef HAS_WORD_512
+    /**
+     * @brief Walks over the allocated memory in reverse strides of size 2, writing in 512-bit chunks.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t revStride2Write_Word512(void* start_address, void* end_address);
 #endif
 
     /* ------------ STRIDE 4 READ --------------*/
@@ -904,6 +1093,16 @@ namespace xmem {
     int32_t forwStride4Read_Word256(void* start_address, void* end_address);
 #endif
 
+#ifdef HAS_WORD_512
+    /**
+     * @brief Walks over the allocated memory in forward strides of size 4, reading in 512-bit chunks.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwStride4Read_Word512(void* start_address, void* end_address);
+#endif
+
     /**
      * @brief Walks over the allocated memory in reverse strides of size 4, reading in 32-bit chunks.
      * @param start_address The beginning of the memory region of interest.
@@ -940,6 +1139,16 @@ namespace xmem {
      * @returns Undefined.
      */
     int32_t revStride4Read_Word256(void* start_address, void* end_address);
+#endif
+
+#ifdef HAS_WORD_512
+    /**
+     * @brief Walks over the allocated memory in reverse strides of size 4, reading in 512-bit chunks.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t revStride4Read_Word512(void* start_address, void* end_address);
 #endif
 
     /* ------------ STRIDE 4 WRITE --------------*/
@@ -982,6 +1191,16 @@ namespace xmem {
     int32_t forwStride4Write_Word256(void* start_address, void* end_address);
 #endif
 
+#ifdef HAS_WORD_512
+    /**
+     * @brief Walks over the allocated memory in forward strides of size 4, writing in 512-bit chunks.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwStride4Write_Word512(void* start_address, void* end_address);
+#endif
+
     /**
      * @brief Walks over the allocated memory in reverse strides of size 4, writing in 32-bit chunks.
      * @param start_address The beginning of the memory region of interest.
@@ -1018,6 +1237,16 @@ namespace xmem {
      * @returns Undefined.
      */
     int32_t revStride4Write_Word256(void* start_address, void* end_address);
+#endif
+
+#ifdef HAS_WORD_512
+    /**
+     * @brief Walks over the allocated memory in reverse strides of size 4, writing in 512-bit chunks.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t revStride4Write_Word512(void* start_address, void* end_address);
 #endif
 
     /* ------------ STRIDE 8 READ --------------*/
@@ -1060,6 +1289,16 @@ namespace xmem {
     int32_t forwStride8Read_Word256(void* start_address, void* end_address);
 #endif
 
+#ifdef HAS_WORD_512
+    /**
+     * @brief Walks over the allocated memory in forward strides of size 8, reading in 512-bit chunks.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwStride8Read_Word512(void* start_address, void* end_address);
+#endif
+
     /**
      * @brief Walks over the allocated memory in reverse strides of size 8, reading in 32-bit chunks.
      * @param start_address The beginning of the memory region of interest.
@@ -1096,6 +1335,16 @@ namespace xmem {
      * @returns Undefined.
      */
     int32_t revStride8Read_Word256(void* start_address, void* end_address);
+#endif
+
+#ifdef HAS_WORD_512
+    /**
+     * @brief Walks over the allocated memory in reverse strides of size 8, reading in 512-bit chunks.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t revStride8Read_Word512(void* start_address, void* end_address);
 #endif
 
     /* ------------ STRIDE 8 WRITE --------------*/
@@ -1137,6 +1386,16 @@ namespace xmem {
     int32_t forwStride8Write_Word256(void* start_address, void* end_address);
 #endif
 
+#ifdef HAS_WORD_512
+    /**
+     * @brief Walks over the allocated memory in forward strides of size 8, writing in 512-bit chunks.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwStride8Write_Word512(void* start_address, void* end_address);
+#endif
+
     /**
      * @brief Walks over the allocated memory in reverse strides of size 8, writing in 32-bit chunks.
      * @param start_address The beginning of the memory region of interest.
@@ -1173,6 +1432,16 @@ namespace xmem {
      * @returns Undefined.
      */
     int32_t revStride8Write_Word256(void* start_address, void* end_address);
+#endif
+
+#ifdef HAS_WORD_512
+    /**
+     * @brief Walks over the allocated memory in reverse strides of size 8, writing in 512-bit chunks.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t revStride8Write_Word512(void* start_address, void* end_address);
 #endif
 
     /* ------------ STRIDE 16 READ --------------*/
@@ -1215,6 +1484,16 @@ namespace xmem {
     int32_t forwStride16Read_Word256(void* start_address, void* end_address);
 #endif
 
+#ifdef HAS_WORD_512
+    /**
+     * @brief Walks over the allocated memory in forward strides of size 16, reading in 512-bit chunks.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwStride16Read_Word512(void* start_address, void* end_address);
+#endif
+
     /**
      * @brief Walks over the allocated memory in reverse strides of size 16, reading in 32-bit chunks.
      * @param start_address The beginning of the memory region of interest.
@@ -1251,6 +1530,16 @@ namespace xmem {
      * @returns Undefined.
      */
     int32_t revStride16Read_Word256(void* start_address, void* end_address);
+#endif
+
+#ifdef HAS_WORD_512
+    /**
+     * @brief Walks over the allocated memory in reverse strides of size 16, reading in 512-bit chunks.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t revStride16Read_Word512(void* start_address, void* end_address);
 #endif
 
     /* ------------ STRIDE 16 WRITE --------------*/
@@ -1293,6 +1582,16 @@ namespace xmem {
     int32_t forwStride16Write_Word256(void* start_address, void* end_address);
 #endif
 
+#ifdef HAS_WORD_512
+    /**
+     * @brief Walks over the allocated memory in forward strides of size 16, writing in 512-bit chunks.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t forwStride16Write_Word512(void* start_address, void* end_address);
+#endif
+
     /**
      * @brief Walks over the allocated memory in reverse strides of size 16, writing in 32-bit chunks.
      * @param start_address The beginning of the memory region of interest.
@@ -1328,6 +1627,16 @@ namespace xmem {
      * @returns Undefined.
      */
     int32_t revStride16Write_Word256(void* start_address, void* end_address);
+#endif
+
+#ifdef HAS_WORD_512
+    /**
+     * @brief Walks over the allocated memory in reverse strides of size 16, writing in 512-bit chunks.
+     * @param start_address The beginning of the memory region of interest.
+     * @param end_address The end of the memory region of interest.
+     * @returns Undefined.
+     */
+    int32_t revStride16Write_Word512(void* start_address, void* end_address);
 #endif
 
     /* ------------ RANDOM READ --------------*/
@@ -1377,6 +1686,17 @@ namespace xmem {
     int32_t randomRead_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 #endif
 
+#ifdef HAS_WORD_512
+    /**
+     * @brief Walks over the allocated memory in random order by chasing 64-bit pointers embedded in 512-bit memory words.
+     * @param first_address Starting address to deference.
+     * @param last_touched_address The last visited address.
+     * @param len The number of pointers to deference in a chain-like fashion.
+     * @returns Undefined.
+     */
+    int32_t randomRead_Word512(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
+#endif
+
     /* ------------ RANDOM WRITE --------------*/
 
     //32-bit machines only
@@ -1422,6 +1742,17 @@ namespace xmem {
      * @returns Undefined.
      */
     int32_t randomWrite_Word256(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
+#endif
+
+#ifdef HAS_WORD_512
+    /**
+     * @brief Walks over the allocated memory in random order by chasing 64-bit pointers embedded within 512-bit words. A 512-bit word is read and written back with the same value before chasing to the next location extracted as a 64-bit address in the 512-bit word. Thus, each memory address is a read followed by immediate write operation as well as a vector word extraction. 
+     * @param first_address Starting address to deference.
+     * @param last_touched_address The last visited address.
+     * @param len The number of pointers to deference in a chain-like fashion.
+     * @returns Undefined.
+     */
+    int32_t randomWrite_Word512(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len);
 #endif
 };
 

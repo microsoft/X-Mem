@@ -149,6 +149,11 @@ void Benchmark::report_benchmark_info() const {
             std::cout << "256-bit";
             break;
 #endif
+#ifdef HAS_WORD_512
+        case CHUNK_512b:
+            std::cout << "512-bit";
+            break;
+#endif
         default:
             std::cout << "UNKNOWN";
             break;

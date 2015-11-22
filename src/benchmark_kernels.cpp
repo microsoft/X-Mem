@@ -46,7 +46,7 @@
 #include <random>
 #include <algorithm>
 #include <time.h>
-#if defined(ARCH_INTEL_X86_64) && (defined(HAS_WORD_128) || defined(HAS_WORD_256))
+#if defined(ARCH_INTEL) && (defined(HAS_WORD_128) || defined(HAS_WORD_256) || defined(HAS_WORD_512)) 
 //Intel intrinsics
 #include <emmintrin.h>
 #include <immintrin.h>
@@ -59,16 +59,33 @@
 
 using namespace xmem;
 
-#if defined(__gnu_linux__) && defined(ARCH_INTEL_X86_64) && (defined(HAS_WORD_128) || defined(HAS_WORD_256))
-#define my_32b_set_128b_word(a, b, c, d) _mm_set_epi32(a, b, c, d) //SSE2 intrinsic, corresponds to ??? instruction. Header: emmintrin.h
-#define my_32b_set_256b_word(a, b, c, d, e, f, g, h) _mm256_set_epi32(a, b, c, d, e, f, g, h) //AVX intrinsic, corresponds to ??? instruction. Header: immintrin.h
-#define my_64b_set_128b_word(a, b) _mm_set_epi64x(a, b) //SSE2 intrinsic, corresponds to ??? instruction. Header: emmintrin.h
-#define my_64b_set_256b_word(a, b, c, d) _mm256_set_epi64x(a, b, c, d) //AVX intrinsic, corresponds to ??? instruction. Header: immintrin.h
+#if defined(__gnu_linux__) && defined(ARCH_INTEL)
 
+#ifdef HAS_WORD_128
+#define my_32b_set_128b_word(a, b, c, d) _mm_set_epi32(a, b, c, d) //SSE2 intrinsic, corresponds to ??? instruction. Header: emmintrin.h
+#define my_64b_set_128b_word(a, b) _mm_set_epi64x(a, b) //SSE2 intrinsic, corresponds to ??? instruction. Header: emmintrin.h
 #define my_32b_extractLSB_128b(w) _mm_extract_epi32(w, 0) //SSE 4.1 intrinsic, corresponds to "pextrd" instruction. Header: smmintrin.h
-#define my_32b_extractLSB_256b(w) _mm256_extract_epi32(w, 0) //AVX intrinsic, corresponds to ??? instruction. Header: immintrin.h
 #define my_64b_extractLSB_128b(w) _mm_extract_epi64(w, 0) //SSE 4.1 intrinsic, corresponds to "pextrq" instruction. Header: smmintrin.h
-#define my_64b_extractLSB_256b(w) _mm256_extract_epi64(w, 0) //AVX intrinsic, corresponds to ??? instruction. Header: immintrin.h
+#endif
+
+#ifdef HAS_WORD_256
+#define my_32b_set_256b_word(a, b, c, d, e, f, g, h) _mm256_set_epi32(a, b, c, d, e, f, g, h) //AVX intrinsic, corresponds to ??? (pseudo?) instruction. Header: immintrin.h
+#define my_64b_set_256b_word(a, b, c, d) _mm256_set_epi64x(a, b, c, d) //AVX intrinsic, corresponds to ??? (pseudo?) instruction. Header: immintrin.h
+#define my_32b_extractLSB_256b(w) _mm256_extract_epi32(w, 0) //AVX intrinsic, corresponds to ??? (pseudo?) instruction. Header: immintrin.h
+#define my_64b_extractLSB_256b(w) _mm256_extract_epi64(w, 0) //AVX intrinsic, corresponds to ??? (pseudo?) instruction. Header: immintrin.h
+#endif
+
+
+#if defined(HAS_WORD_512) && !defined(ARCH_INTEL_MIC) //MIC (Knight's Corner) has partial ISA overlap with AVX-512. Neither are subsets of the other. What a headache.
+#define my_32b_set_512b_word(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p) _mm512_set_epi32(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p) //AVX-512 intrinsic, corresponds to ??? (pseudo?) instruction. Header: immintrin.h
+#define my_64b_set_512b_word(a, b, c, d, e, f, g, h) _mm512_set_epi64x(a, b, c, d, e, f, g, h) //AVX-512 intrinsic, corresponds to ??? (pseudo?) instruction. Header: immintrin.h
+
+#ifdef HAS_WORD_128 //Two-step extraction required for AVX-512. First to either 128 or 256-bit word, then down to 32/64 native words. We chose 128-bit words mid-step here.
+#define my_32b_extractLSB_512b(w) _mm_extract_epi32(_mm512_extracti32x4_epi32(w, 0),0) //AVX-512 intrinsic, corresponds to ??? (pseudo?) instruction. Header: immintrin.h
+#define my_64b_extractLSB_512b(w) _mm_extract_epi32(_mm512_extracti64x2_epi64(w, 0),0) //AVX-512 intrinsic, corresponds to ??? (pseudo?) instruction. Header: immintrin.h
+#endif
+#endif
+
 #endif
 
 #if defined(ARCH_ARM) && (defined(ARCH_ARM_NEON) || defined(HAS_WORD_128))
@@ -216,7 +233,6 @@ bool xmem::determineSequentialKernel(rw_mode_t rw_mode, chunk_size_t chunk_size,
                             return true;
                         default:
                             return false;
-                            return true;
                     }
                     return true;
 #ifdef HAS_WORD_64
@@ -675,6 +691,11 @@ bool xmem::buildRandomPointerPermutation(void* start_address, void* end_address,
             num_pointers = length / sizeof(Word256_t);
             break;
 #endif
+#ifdef HAS_WORD_512
+        case CHUNK_512b:
+            num_pointers = length / sizeof(Word512_t);
+            break;
+#endif
         default:
             std::cerr << "ERROR: Chunk size must be at least "
             //special case for 32-bit architectures
@@ -747,9 +768,43 @@ bool xmem::buildRandomPointerPermutation(void* start_address, void* end_address,
                 mem_region_base[(i*8)+5] = 0xFFFFFFFF;
                 mem_region_base[(i*8)+6] = 0xFFFFFFFF;
                 mem_region_base[(i*8)+7] = 0xFFFFFFFF;
-#endif
             }
             std::shuffle(reinterpret_cast<Word256_t*>(mem_region_base), reinterpret_cast<Word256_t*>(mem_region_base) + num_pointers, gen);
+            break;
+#endif
+#endif
+#ifdef HAS_WORD_512
+        case CHUNK_512b:
+            for (size_t i = 0; i < num_pointers; i++) { //Initialize pointers to point at themselves (identity mapping)
+#ifdef HAS_WORD_64
+                mem_region_base[i*4] = reinterpret_cast<Word64_t>(mem_region_base+(i*4));
+                mem_region_base[(i*4)+1] = 0xFFFFFFFFFFFFFFFF; //1-fill upper 448 bits
+                mem_region_base[(i*4)+2] = 0xFFFFFFFFFFFFFFFF; 
+                mem_region_base[(i*4)+3] = 0xFFFFFFFFFFFFFFFF;
+                mem_region_base[(i*4)+4] = 0xFFFFFFFFFFFFFFFF;
+                mem_region_base[(i*4)+5] = 0xFFFFFFFFFFFFFFFF;
+                mem_region_base[(i*4)+6] = 0xFFFFFFFFFFFFFFFF;
+                mem_region_base[(i*4)+7] = 0xFFFFFFFFFFFFFFFF;
+#else //special case for 32-bit architectures
+                mem_region_base[i*8] = reinterpret_cast<Word32_t>(mem_region_base+(i*8));
+                mem_region_base[(i*8)+1] = 0xFFFFFFFF; //1-fill upper 480 bits
+                mem_region_base[(i*8)+2] = 0xFFFFFFFF;
+                mem_region_base[(i*8)+3] = 0xFFFFFFFF;
+                mem_region_base[(i*8)+4] = 0xFFFFFFFF;
+                mem_region_base[(i*8)+5] = 0xFFFFFFFF;
+                mem_region_base[(i*8)+6] = 0xFFFFFFFF;
+                mem_region_base[(i*8)+7] = 0xFFFFFFFF;
+                mem_region_base[(i*8)+8] = 0xFFFFFFFF;
+                mem_region_base[(i*8)+9] = 0xFFFFFFFF;
+                mem_region_base[(i*8)+10] = 0xFFFFFFFF;
+                mem_region_base[(i*8)+11] = 0xFFFFFFFF;
+                mem_region_base[(i*8)+12] = 0xFFFFFFFF;
+                mem_region_base[(i*8)+13] = 0xFFFFFFFF;
+                mem_region_base[(i*8)+14] = 0xFFFFFFFF;
+                mem_region_base[(i*8)+15] = 0xFFFFFFFF;
+#endif
+            }
+            std::shuffle(reinterpret_cast<Word512_t*>(mem_region_base), reinterpret_cast<Word512_t*>(mem_region_base) + num_pointers, gen);
             break;
 #endif
         default:
@@ -853,6 +908,23 @@ int32_t xmem::dummy_forwSequentialLoop_Word256(void* start_address, void* end_ad
 }
 #endif
 
+#ifdef HAS_WORD_512
+int32_t xmem::dummy_forwSequentialLoop_Word512(void* start_address, void* end_address) {
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_dummy_forwSequentialLoop_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
+    #error 512-bit words on Windows are not currently supported.
+#endif
+#ifdef __gnu_linux__
+    volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(start_address), *endptr = static_cast<Word512_t*>(end_address); wordptr < endptr;) {
+        UNROLL64(wordptr++;) 
+        placeholder = 0;
+    }
+    return placeholder;
+#endif
+}
+#endif
+
 int32_t xmem::dummy_revSequentialLoop_Word32(void* start_address, void* end_address) { 
     volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
     for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address), *begptr = static_cast<Word32_t*>(start_address); wordptr > begptr;) {
@@ -902,6 +974,25 @@ int32_t xmem::dummy_revSequentialLoop_Word256(void* start_address, void* end_add
 #endif
 }
 #endif
+
+#ifdef HAS_WORD_512
+int32_t xmem::dummy_revSequentialLoop_Word512(void* start_address, void* end_address) {
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_dummy_revSequentialLoop_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
+    #error 512-bit words are not currently supported on Windows.
+#endif
+#ifdef __gnu_linux__
+    volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address), *begptr = static_cast<Word512_t*>(start_address); wordptr > begptr;) {
+        UNROLL64(wordptr--;) 
+        placeholder = 0;
+    }
+    return placeholder;
+#endif
+}
+#endif
+
+//MWG TODO PICKUP HERE
         
 /* ------------ STRIDE 2 LOOP --------------*/
 
