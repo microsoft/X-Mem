@@ -76,7 +76,7 @@ using namespace xmem;
 #endif
 
 
-#if defined(HAS_WORD_512) && !defined(ARCH_INTEL_MIC) //MIC (Knight's Corner) has partial ISA overlap with AVX-512. Neither are subsets of the other. What a headache.
+#if defined(HAS_WORD_512) && !defined(ARCH_INTEL_MIC) //MIC (Knight's Corner) has partial ISA overlap with AVX-512. Neither are subsets of the other. What a headache. Knight's Corner also doesn't support legacy SSE stuff... agh
 #define my_32b_set_512b_word(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p) _mm512_set_epi32(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p) //AVX-512 intrinsic, corresponds to ??? (pseudo?) instruction. Header: immintrin.h
 #define my_64b_set_512b_word(a, b, c, d, e, f, g, h) _mm512_set_epi64x(a, b, c, d, e, f, g, h) //AVX-512 intrinsic, corresponds to ??? (pseudo?) instruction. Header: immintrin.h
 
@@ -992,8 +992,6 @@ int32_t xmem::dummy_revSequentialLoop_Word512(void* start_address, void* end_add
 }
 #endif
 
-//MWG TODO PICKUP HERE
-        
 /* ------------ STRIDE 2 LOOP --------------*/
 
 int32_t xmem::dummy_forwStride2Loop_Word32(void* start_address, void* end_address) {
@@ -1058,6 +1056,25 @@ int32_t xmem::dummy_forwStride2Loop_Word256(void* start_address, void* end_addre
 }
 #endif
 
+#ifdef HAS_WORD_512
+int32_t xmem::dummy_forwStride2Loop_Word512(void* start_address, void* end_address) {
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+//    return win_x86_64_asm_dummy_forwStride2Loop_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
+    #error 512-bit words are not currently supported on Windows.
+#else
+    register Word512_t val; 
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 32) {
+        UNROLL32(wordptr += 2;)
+        if (wordptr >= static_cast<Word512_t*>(end_address)) //end, modulo
+            wordptr -= len;
+    }
+    return 0;
+#endif
+}
+#endif
+
 int32_t xmem::dummy_revStride2Loop_Word32(void* start_address, void* end_address) {
     register Word32_t val; 
     register uint32_t i = 0;
@@ -1113,6 +1130,25 @@ int32_t xmem::dummy_revStride2Loop_Word256(void* start_address, void* end_addres
     for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 64) {
         UNROLL64(wordptr -= 2;)
         if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
+            wordptr += len;
+    }
+    return 0;
+#endif
+}
+#endif
+
+#ifdef HAS_WORD_512
+int32_t xmem::dummy_revStride2Loop_Word512(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_dummy_revStride2Loop_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
+#error 512-bit words are not currently supported on Windows.
+#else
+    register Word512_t val; 
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 32) {
+        UNROLL32(wordptr -= 2;)
+        if (wordptr <= static_cast<Word512_t*>(start_address)) //end, modulo
             wordptr += len;
     }
     return 0;
@@ -1184,6 +1220,25 @@ int32_t xmem::dummy_forwStride4Loop_Word256(void* start_address, void* end_addre
 }
 #endif
 
+#ifdef HAS_WORD_512
+int32_t xmem::dummy_forwStride4Loop_Word512(void* start_address, void* end_address) {
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_dummy_forwStride4Loop_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
+#error 512-bit words are not currently supported on Windows.
+#else
+    register Word512_t val; 
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 16) {
+        UNROLL16(wordptr += 4;)
+        if (wordptr >= static_cast<Word512_t*>(end_address)) //end, modulo
+            wordptr -= len;
+    }
+    return 0;
+#endif
+}
+#endif
+
 int32_t xmem::dummy_revStride4Loop_Word32(void* start_address, void* end_address) {
     register Word32_t val; 
     register uint32_t i = 0;
@@ -1239,6 +1294,25 @@ int32_t xmem::dummy_revStride4Loop_Word256(void* start_address, void* end_addres
     for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 32) {
         UNROLL32(wordptr -= 4;)
         if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
+            wordptr += len;
+    }
+    return 0;
+#endif
+}
+#endif
+
+#ifdef HAS_WORD_512
+int32_t xmem::dummy_revStride4Loop_Word512(void* start_address, void* end_address) {
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_dummy_revStride4Loop_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
+    #error 512-bit words are not currently supported on Windows.
+#else
+    register Word512_t val; 
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 16) {
+        UNROLL16(wordptr -= 4;)
+        if (wordptr <= static_cast<Word512_t*>(start_address)) //end, modulo
             wordptr += len;
     }
     return 0;
@@ -1310,6 +1384,25 @@ int32_t xmem::dummy_forwStride8Loop_Word256(void* start_address, void* end_addre
 }
 #endif
 
+#ifdef HAS_WORD_512
+int32_t xmem::dummy_forwStride8Loop_Word512(void* start_address, void* end_address) {
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_dummy_forwStride8Loop_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
+    #error 512-bit words are not currently supported on Windows.
+#else
+    register Word512_t val; 
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 8) {
+        UNROLL8(wordptr += 8;)
+        if (wordptr >= static_cast<Word512_t*>(end_address)) //end, modulo
+            wordptr -= len;
+    }
+    return 0;
+#endif
+}
+#endif
+
 int32_t xmem::dummy_revStride8Loop_Word32(void* start_address, void* end_address) { 
     register Word32_t val; 
     register uint32_t i = 0;
@@ -1372,6 +1465,25 @@ int32_t xmem::dummy_revStride8Loop_Word256(void* start_address, void* end_addres
 }
 #endif
 
+#ifdef HAS_WORD_512
+int32_t xmem::dummy_revStride8Loop_Word512(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_dummy_revStride8Loop_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
+    #error 512-bit words are not currently supported on Windows.
+#else
+    register Word512_t val; 
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 8) {
+        UNROLL8(wordptr -= 8;)
+        if (wordptr <= static_cast<Word512_t*>(start_address)) //end, modulo
+            wordptr += len;
+    }
+    return 0;
+#endif
+}
+#endif
+
 /* ------------ STRIDE 16 LOOP --------------*/
 
 int32_t xmem::dummy_forwStride16Loop_Word32(void* start_address, void* end_address) { 
@@ -1426,9 +1538,28 @@ int32_t xmem::dummy_forwStride16Loop_Word256(void* start_address, void* end_addr
     register Word256_t val; 
     register uint32_t i = 0;
     register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
-    for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 32) {
+    for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 8) {
         UNROLL8(wordptr += 16;)
         if (wordptr >= static_cast<Word256_t*>(end_address)) //end, modulo
+            wordptr -= len;
+    }
+    return 0;
+#endif
+}
+#endif
+
+#ifdef HAS_WORD_512
+int32_t xmem::dummy_forwStride16Loop_Word512(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_dummy_forwStride16Loop_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
+    #error 512-bit words are not currently supported on Windows.
+#else
+    register Word512_t val; 
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 4) {
+        UNROLL4(wordptr += 16;)
+        if (wordptr >= static_cast<Word512_t*>(end_address)) //end, modulo
             wordptr -= len;
     }
     return 0;
@@ -1498,6 +1629,25 @@ int32_t xmem::dummy_revStride16Loop_Word256(void* start_address, void* end_addre
 }
 #endif
 
+#ifdef HAS_WORD_512
+int32_t xmem::dummy_revStride16Loop_Word512(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_dummy_revStride16Loop_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
+    #error 512-bit words are not supported on Windows.
+#else
+    register Word512_t val; 
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 4) {
+        UNROLL4(wordptr -= 16;)
+        if (wordptr <= static_cast<Word512_t*>(start_address)) //end, modulo
+            wordptr += len;
+    }
+    return 0;
+#endif
+}
+#endif
+
 /* ------------ RANDOM LOOP --------------*/
 
 #ifndef HAS_WORD_64 //special case: 32-bit architectures
@@ -1558,6 +1708,28 @@ int32_t xmem::dummy_randomLoop_Word256(uintptr_t* first_address, uintptr_t** las
 }
 #endif
 
+#if defined(HAS_WORD_512) && !defined(ARCH_INTEL_MIC) //Total headache.. Knight's Corner (MIC) does not have complete AVX-512 support, and no legacy support of SSE, etc. Not sure we can pointer chase through 512-bit words at all. TODO investigate this further.
+int32_t xmem::dummy_randomLoop_Word512(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    return 0; //TODO: Implement for Windows.
+#else
+    //TODO: check that the compiler generates this code correctly
+    volatile Word512_t* placeholder = reinterpret_cast<Word512_t*>(first_address);
+    register Word512_t val;
+    volatile uintptr_t val_extract;
+    val = my_64b_set_512b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
+
+#ifdef HAS_WORD_64
+        UNROLL64(val_extract = my_64b_extractLSB_512b(val);) //Extract 64 LSB.
+#else //special case: 32-bit machines
+        UNROLL64(val_extract = my_32b_extractLSB_512b(val);) //Extract 32 LSB.
+#endif
+
+    return 0;
+#endif
+}
+#endif
+
 /* -------------------- CORE BENCHMARK ROUTINES -------------------------- 
  *
  * These routines access the memory in different ways for each benchmark type.
@@ -1572,6 +1744,8 @@ int32_t xmem::dummy_randomLoop_Word256(uintptr_t* first_address, uintptr_t** las
  *
  * ----------------------------------------------------------------------- */
 
+//MWG PICK UP EDITS HERE
+//
 /* ------------ SEQUENTIAL READ --------------*/
 
 int32_t xmem::forwSequentialRead_Word32(void* start_address, void* end_address) {
