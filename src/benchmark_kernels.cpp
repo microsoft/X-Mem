@@ -815,10 +815,10 @@ bool xmem::buildRandomPointerPermutation(void* start_address, void* end_address,
                 mem_region_base[(i*8)+5] = 0xFFFFFFFF;
                 mem_region_base[(i*8)+6] = 0xFFFFFFFF;
                 mem_region_base[(i*8)+7] = 0xFFFFFFFF;
+#endif
             }
             std::shuffle(reinterpret_cast<Word256_t*>(mem_region_base), reinterpret_cast<Word256_t*>(mem_region_base) + num_pointers, gen);
             break;
-#endif
 #endif
 #ifdef HAS_WORD_512
         case CHUNK_512b:
