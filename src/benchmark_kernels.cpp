@@ -1744,8 +1744,6 @@ int32_t xmem::dummy_randomLoop_Word512(uintptr_t* first_address, uintptr_t** las
  *
  * ----------------------------------------------------------------------- */
 
-//MWG PICK UP EDITS HERE
-//
 /* ------------ SEQUENTIAL READ --------------*/
 
 int32_t xmem::forwSequentialRead_Word32(void* start_address, void* end_address) {
@@ -1794,6 +1792,23 @@ int32_t xmem::forwSequentialRead_Word256(void* start_address, void* end_address)
 }
 #endif
 
+//TODO FIXME MWG PICK UP HERE
+#ifdef HAS_WORD_512
+int32_t xmem::forwSequentialRead_Word512(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+//    return win_x86_64_asm_forwSequentialRead_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
+    #error 512-bit words are not supported on Windows.
+#else
+    register Word512_t val;
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(start_address), *endptr = static_cast<Word512_t*>(end_address); wordptr < endptr;) {
+        //UNROLL64(val = *wordptr++;)
+        UNROLL64(val = _mm512_load_si512(reinterpret_cast<volatile void*>(wordptr++));)
+    }
+    return 0;
+#endif
+}
+#endif
+
 int32_t xmem::revSequentialRead_Word32(void* start_address, void* end_address) { 
     register Word32_t val;
     for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address), *begptr = static_cast<Word32_t*>(start_address); wordptr > begptr;) {
@@ -1834,6 +1849,21 @@ int32_t xmem::revSequentialRead_Word256(void* start_address, void* end_address) 
     register Word256_t val;
     for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address), *begptr = static_cast<Word256_t*>(start_address); wordptr > begptr;) {
         UNROLL128(val = *wordptr--;)
+    }
+    return 0;
+#endif
+}
+#endif
+
+#ifdef HAS_WORD_512
+int32_t xmem::revSequentialRead_Word512(void* start_address, void* end_address) {
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_revSequentialRead_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
+    #error 512-bit words are not supported on Windows.
+#else
+    register Word512_t val;
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address), *begptr = static_cast<Word512_t*>(start_address); wordptr > begptr;) {
+        UNROLL64(val = *wordptr--;)
     }
     return 0;
 #endif
@@ -1890,6 +1920,22 @@ int32_t xmem::forwSequentialWrite_Word256(void* start_address, void* end_address
 }
 #endif
 
+#if defined(HAS_WORD_512) && !defined(ARCH_INTEL_MIC)
+int32_t xmem::forwSequentialWrite_Word512(void* start_address, void* end_address) {
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_forwSequentialWrite_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
+    #error 512-bit words are not supported on Windows.
+#else
+    register Word512_t val;
+    val = my_64b_set_512b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(start_address), *endptr = static_cast<Word512_t*>(end_address); wordptr < endptr;) {
+        UNROLL64(*wordptr++ = val;) 
+    }
+    return 0;
+#endif
+}
+#endif
+
 int32_t xmem::revSequentialWrite_Word32(void* start_address, void* end_address) {
     register Word32_t val = 0xFFFFFFFF;
     for (volatile Word32_t* wordptr = static_cast<Word32_t*>(end_address), *begptr = static_cast<Word32_t*>(start_address); wordptr > begptr;) {
@@ -1932,6 +1978,22 @@ int32_t xmem::revSequentialWrite_Word256(void* start_address, void* end_address)
     val = my_64b_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
     for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address), *begptr = static_cast<Word256_t*>(start_address); wordptr > begptr;) {
         UNROLL128(*wordptr-- = val;)
+    }
+    return 0;
+#endif
+}
+#endif
+
+#ifdef HAS_WORD_512
+int32_t xmem::revSequentialWrite_Word512(void* start_address, void* end_address) {
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_revSequentialWrite_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
+    #error 512-bit words are not supported on Windows.
+#else
+    register Word512_t val;
+    val = my_64b_set_512b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address), *begptr = static_cast<Word512_t*>(start_address); wordptr > begptr;) {
+        UNROLL64(*wordptr-- = val;)
     }
     return 0;
 #endif
@@ -2002,6 +2064,25 @@ int32_t xmem::forwStride2Read_Word256(void* start_address, void* end_address) {
 }
 #endif
 
+#ifdef HAS_WORD_512
+int32_t xmem::forwStride2Read_Word512(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_forwStride2Read_Word512(static_cast<Word256_t*>(start_address), static_cast<Word256_t*>(end_address));
+    #error 512-bit words are not supported on Windows.
+#else
+    register Word512_t val; 
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 32) {
+        UNROLL32(val = *wordptr; wordptr += 2;) 
+        if (wordptr >= static_cast<Word512_t*>(end_address)) //end, modulo
+            wordptr -= len;
+    }
+    return 0;
+#endif
+}
+#endif
+
 int32_t xmem::revStride2Read_Word32(void* start_address, void* end_address) {
     register Word32_t val; 
     register uint32_t i = 0;
@@ -2057,6 +2138,25 @@ int32_t xmem::revStride2Read_Word256(void* start_address, void* end_address) {
     for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 64) {
         UNROLL64(val = *wordptr; wordptr -= 2;)
         if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
+            wordptr += len;
+    }
+    return 0;
+#endif
+}
+#endif
+
+#ifdef HAS_WORD_512
+int32_t xmem::revStride2Read_Word512(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_revStride2Read_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
+    #error 512-bit words are not supported on Windows.
+#else
+    register Word512_t val; 
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 32) {
+        UNROLL32(val = *wordptr; wordptr -= 2;)
+        if (wordptr <= static_cast<Word512_t*>(start_address)) //end, modulo
             wordptr += len;
     }
     return 0;
@@ -2130,6 +2230,26 @@ int32_t xmem::forwStride2Write_Word256(void* start_address, void* end_address) {
 }
 #endif
 
+#ifdef HAS_WORD_512
+int32_t xmem::forwStride2Write_Word512(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_forwStride2Write_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
+    #error 512-bit words are not supported on Windows.
+#else
+    register Word512_t val;
+    val = my_64b_set_512b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 32) {
+        UNROLL32(*wordptr = val; wordptr += 2;)
+        if (wordptr >= static_cast<Word512_t*>(end_address)) //end, modulo
+            wordptr -= len;
+    }
+    return 0;
+#endif
+}
+#endif
+
 int32_t xmem::revStride2Write_Word32(void* start_address, void* end_address) { 
     register Word32_t val = 0xFFFFFFFF; 
     register uint32_t i = 0;
@@ -2187,6 +2307,26 @@ int32_t xmem::revStride2Write_Word256(void* start_address, void* end_address) {
     for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 64) {
         UNROLL64(*wordptr = val; wordptr -= 2;)
         if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
+            wordptr += len;
+    }
+    return 0;
+#endif
+}
+#endif
+
+#ifdef HAS_WORD_512
+int32_t xmem::revStride2Write_Word512(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_revStride2Write_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
+    #error 512-bit words are not supported on Windows.
+#else
+    register Word512_t val;
+    val = my_64b_set_512b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 32) {
+        UNROLL32(*wordptr = val; wordptr -= 2;)
+        if (wordptr <= static_cast<Word512_t*>(start_address)) //end, modulo
             wordptr += len;
     }
     return 0;
@@ -2258,6 +2398,25 @@ int32_t xmem::forwStride4Read_Word256(void* start_address, void* end_address) {
 }
 #endif
 
+#ifdef HAS_WORD_512
+int32_t xmem::forwStride4Read_Word512(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_forwStride4Read_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
+    #error 512-bit words are not supported on Windows.
+#else
+    register Word512_t val; 
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 16) {
+        UNROLL16(val = *wordptr; wordptr += 4;) 
+        if (wordptr >= static_cast<Word512_t*>(end_address)) //end, modulo
+            wordptr -= len;
+    }
+    return 0;
+#endif
+}
+#endif
+
 int32_t xmem::revStride4Read_Word32(void* start_address, void* end_address) {
     register Word32_t val; 
     register uint32_t i = 0;
@@ -2313,6 +2472,25 @@ int32_t xmem::revStride4Read_Word256(void* start_address, void* end_address) {
     for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 32) {
         UNROLL32(val = *wordptr; wordptr -= 4;)
         if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
+            wordptr += len;
+    }
+    return 0;
+#endif
+}
+#endif
+
+#ifdef HAS_WORD_512
+int32_t xmem::revStride4Read_Word512(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_revStride4Read_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
+    #error 512-bit words are not supported on Windows.
+#else
+    register Word512_t val; 
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 16) {
+        UNROLL16(val = *wordptr; wordptr -= 4;)
+        if (wordptr <= static_cast<Word512_t*>(start_address)) //end, modulo
             wordptr += len;
     }
     return 0;
@@ -2386,6 +2564,26 @@ int32_t xmem::forwStride4Write_Word256(void* start_address, void* end_address) {
 }
 #endif
 
+#ifdef HAS_WORD_512
+int32_t xmem::forwStride4Write_Word512(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_forwStride4Write_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
+    #error 512-bit words are not supported on Windows.
+#else
+    register Word512_t val;
+    val = my_64b_set_512b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 16) {
+        UNROLL16(*wordptr = val; wordptr += 4;)
+        if (wordptr >= static_cast<Word512_t*>(end_address)) //end, modulo
+            wordptr -= len;
+    }
+    return 0;
+#endif
+}
+#endif
+
 int32_t xmem::revStride4Write_Word32(void* start_address, void* end_address) { 
     register Word32_t val = 0xFFFFFFFF; 
     register uint32_t i = 0;
@@ -2443,6 +2641,26 @@ int32_t xmem::revStride4Write_Word256(void* start_address, void* end_address) {
     for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 32) {
         UNROLL32(*wordptr = val; wordptr -= 4;)
         if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
+            wordptr += len;
+    }
+    return 0;
+#endif
+}
+#endif
+
+#ifdef HAS_WORD_512
+int32_t xmem::revStride4Write_Word512(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_revStride4Write_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
+    #error 512-bit words are not supported on Windows.
+#else
+    register Word512_t val;
+    val = my_64b_set_512b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 16) {
+        UNROLL16(*wordptr = val; wordptr -= 4;)
+        if (wordptr <= static_cast<Word512_t*>(start_address)) //end, modulo
             wordptr += len;
     }
     return 0;
@@ -2514,6 +2732,25 @@ int32_t xmem::forwStride8Read_Word256(void* start_address, void* end_address) {
 }
 #endif
 
+#ifdef HAS_WORD_512
+int32_t xmem::forwStride8Read_Word512(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_forwStride8Read_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
+    #error 512-bit words are not supported on Windows.
+#else
+    register Word512_t val; 
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 8) {
+        UNROLL8(val = *wordptr; wordptr += 8;) 
+        if (wordptr >= static_cast<Word512_t*>(end_address)) //end, modulo
+            wordptr -= len;
+    }
+    return 0;
+#endif
+}
+#endif
+
 int32_t xmem::revStride8Read_Word32(void* start_address, void* end_address) {
     register Word32_t val; 
     register uint32_t i = 0;
@@ -2569,6 +2806,25 @@ int32_t xmem::revStride8Read_Word256(void* start_address, void* end_address) {
     for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 16) {
         UNROLL16(val = *wordptr; wordptr -= 8;)
         if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
+            wordptr += len;
+    }
+    return 0;
+#endif
+}
+#endif
+
+#ifdef HAS_WORD_512
+int32_t xmem::revStride8Read_Word512(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_revStride8Read_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
+    #error 512-bit words are not supported on Windows.
+#else
+    register Word512_t val; 
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 8) {
+        UNROLL8(val = *wordptr; wordptr -= 8;)
+        if (wordptr <= static_cast<Word512_t*>(start_address)) //end, modulo
             wordptr += len;
     }
     return 0;
@@ -2642,6 +2898,26 @@ int32_t xmem::forwStride8Write_Word256(void* start_address, void* end_address) {
 }
 #endif
 
+#ifdef HAS_WORD_512
+int32_t xmem::forwStride8Write_Word512(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_forwStride8Write_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
+    #error 512-bit words are not supported on Windows.
+#else
+    register Word512_t val;
+    val = my_64b_set_512b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 8) {
+        UNROLL8(*wordptr = val; wordptr += 8;)
+        if (wordptr >= static_cast<Word512_t*>(end_address)) //end, modulo
+            wordptr -= len;
+    }
+    return 0;
+#endif
+}
+#endif
+
 int32_t xmem::revStride8Write_Word32(void* start_address, void* end_address) { 
     register Word32_t val = 0xFFFFFFFF; 
     register uint32_t i = 0;
@@ -2699,6 +2975,26 @@ int32_t xmem::revStride8Write_Word256(void* start_address, void* end_address) {
     for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 16) {
         UNROLL16(*wordptr = val; wordptr -= 8;)
         if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
+            wordptr += len;
+    }
+    return 0;
+#endif
+}
+#endif
+
+#ifdef HAS_WORD_512
+int32_t xmem::revStride8Write_Word512(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_revStride8Write_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
+    #error 512-bit words are not supported on Windows.
+#else
+    register Word512_t val;
+    val = my_64b_set_512b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 8) {
+        UNROLL8(*wordptr = val; wordptr -= 8;)
+        if (wordptr <= static_cast<Word512_t*>(start_address)) //end, modulo
             wordptr += len;
     }
     return 0;
@@ -2770,6 +3066,25 @@ int32_t xmem::forwStride16Read_Word256(void* start_address, void* end_address) {
 }
 #endif
 
+#ifdef HAS_WORD_512
+int32_t xmem::forwStride16Read_Word512(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_forwStride16Read_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
+    #error 512-bit words are not supported on Windows.
+#else
+    register Word512_t val; 
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 4) {
+        UNROLL4(val = *wordptr; wordptr += 16;) 
+        if (wordptr >= static_cast<Word512_t*>(end_address)) //end, modulo
+            wordptr -= len;
+    }
+    return 0;
+#endif
+}
+#endif
+
 int32_t xmem::revStride16Read_Word32(void* start_address, void* end_address) {
     register Word32_t val; 
     register uint32_t i = 0;
@@ -2825,6 +3140,25 @@ int32_t xmem::revStride16Read_Word256(void* start_address, void* end_address) {
     for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 8) {
         UNROLL8(val = *wordptr; wordptr -= 16;)
         if (wordptr <= static_cast<Word256_t*>(start_address)) //end, modulo
+            wordptr += len;
+    }
+    return 0;
+#endif
+}
+#endif
+
+#ifdef HAS_WORD_512
+int32_t xmem::revStride16Read_Word512(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_revStride16Read_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
+    #error 512-bit words are not supported on Windows.
+#else
+    register Word512_t val; 
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 4) {
+        UNROLL4(val = *wordptr; wordptr -= 16;)
+        if (wordptr <= static_cast<Word512_t*>(start_address)) //end, modulo
             wordptr += len;
     }
     return 0;
@@ -2891,6 +3225,26 @@ int32_t xmem::forwStride16Write_Word256(void* start_address, void* end_address) 
     for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 8) {
         UNROLL8(*wordptr = val; wordptr += 16;)
         if (wordptr >= static_cast<Word256_t*>(end_address)) //end, modulo
+            wordptr -= len;
+    }
+    return 0;
+#endif
+}
+#endif
+
+#ifdef HAS_WORD_512
+int32_t xmem::forwStride16Write_Word512(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_forwStride16Write_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
+    #error 512-bit words are not supported on Windows.
+#else
+    register Word512_t val;
+    val = my_64b_set_512b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 4) {
+        UNROLL4(*wordptr = val; wordptr += 16;)
+        if (wordptr >= static_cast<Word512_t*>(end_address)) //end, modulo
             wordptr -= len;
     }
     return 0;
@@ -2966,6 +3320,27 @@ int32_t xmem::revStride16Write_Word256(void* start_address, void* end_address) {
 }
 #endif
 
+#ifdef HAS_WORD_512
+int32_t xmem::revStride16Write_Word512(void* start_address, void* end_address) { 
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    //return win_x86_64_asm_revStride16Write_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
+    #error 512-bit words are not supported on Windows.
+#else
+    register Word512_t val;
+    val = my_64b_set_512b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
+    register uint32_t i = 0;
+    register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
+    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 4) {
+        UNROLL4(*wordptr = val; wordptr -= 16;)
+        if (wordptr <= static_cast<Word512_t*>(start_address)) //end, modulo
+            wordptr += len;
+    }
+
+    return 0;
+#endif
+}
+#endif
+
 /* ------------ RANDOM READ --------------*/
 
 #ifndef HAS_WORD_64 //special case: 32-bit machine
@@ -3023,6 +3398,26 @@ int32_t xmem::randomRead_Word256(uintptr_t* first_address, uintptr_t** last_touc
 #endif
 
     *last_touched_address = reinterpret_cast<uintptr_t*>(const_cast<Word256_t*>(p)); //Trick compiler. First get rid of volatile qualifier, and then reinterpret pointer
+    return 0;
+#endif
+}
+#endif
+
+#ifdef HAS_WORD_512
+int32_t xmem::randomRead_Word512(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+    #error 512-bit words are not supported on Windows.
+#else
+    volatile Word512_t* p = reinterpret_cast<Word512_t*>(first_address);
+    register Word512_t val;
+
+#ifdef HAS_WORD_64
+    UNROLL64(val = *p; p = reinterpret_cast<Word512_t*>(my_64b_extractLSB_512b(val));) //Do 512-bit load. Then extract 64 LSB to use as next load address.
+#else //special case: 32-bit machine
+    UNROLL64(val = *p; p = reinterpret_cast<Word512_t*>(my_32b_extractLSB_512b(val));) //Do 512-bit load. Then extract 32 LSB to use as next load address.
+#endif
+
+    *last_touched_address = reinterpret_cast<uintptr_t*>(const_cast<Word512_t*>(p)); //Trick compiler. First get rid of volatile qualifier, and then reinterpret pointer
     return 0;
 #endif
 }
@@ -3087,6 +3482,26 @@ int32_t xmem::randomWrite_Word256(uintptr_t* first_address, uintptr_t** last_tou
 #endif
 
     *last_touched_address = reinterpret_cast<uintptr_t*>(const_cast<Word256_t*>(p)); //Trick compiler. First get rid of volatile qualifier, and then reinterpret pointer
+    return 0;
+#endif
+}
+#endif
+
+#ifdef HAS_WORD_512
+int32_t xmem::randomWrite_Word512(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
+#if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
+#error 512-bit words are not supported on Windows.
+#else
+    volatile Word512_t* p = reinterpret_cast<Word512_t*>(first_address);
+    register Word512_t val;
+
+#ifdef HAS_WORD_64
+    UNROLL64(val = *p; *p = val; p = reinterpret_cast<Word512_t*>(my_64b_extractLSB_512b(val));) //Do 512-bit load. Then do 512-bit store. Then extract 64 LSB to use as next load address.
+#else //special case: 32-bit machine
+    UNROLL64(val = *p; *p = val; p = reinterpret_cast<Word512_t*>(my_32b_extractLSB_512b(val));) //Do 512-bit load. Then do 512-bit store. Then extract 32 LSB to use as next load address.
+#endif
+
+    *last_touched_address = reinterpret_cast<uintptr_t*>(const_cast<Word512_t*>(p)); //Trick compiler. First get rid of volatile qualifier, and then reinterpret pointer
     return 0;
 #endif
 }
