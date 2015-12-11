@@ -379,7 +379,7 @@ bool xmem::determineSequentialKernel(rw_mode_t rw_mode, chunk_size_t chunk_size,
                     return true;
 #endif
 #ifdef HAS_WORD_256
-                case CHUNK_512b:
+                case CHUNK_256b:
                     switch (stride_size) {
                         case 1:
                             *kernel_function = &forwSequentialRead_Word256;
@@ -1222,7 +1222,12 @@ int32_t xmem::dummy_forwStride2Loop_Word256(void* start_address, void* end_addre
 #endif
 
 #ifdef HAS_WORD_512
+#ifdef _WIN32
 int32_t xmem::dummy_forwStride2Loop_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::dummy_forwStride2Loop_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 //    return win_x86_64_asm_dummy_forwStride2Loop_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
     #error 512-bit words are not currently supported on Windows.
@@ -1230,7 +1235,7 @@ int32_t xmem::dummy_forwStride2Loop_Word512(void* start_address, void* end_addre
     register Word512_t val; 
     register uint32_t i = 0;
     register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
-    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 32) {
+    for (Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 32) {
         UNROLL32(wordptr += 2;)
         if (wordptr >= static_cast<Word512_t*>(end_address)) //end, modulo
             wordptr -= len;
@@ -1303,7 +1308,12 @@ int32_t xmem::dummy_revStride2Loop_Word256(void* start_address, void* end_addres
 #endif
 
 #ifdef HAS_WORD_512
-int32_t xmem::dummy_revStride2Loop_Word512(void* start_address, void* end_address) { 
+#ifdef _WIN32
+int32_t xmem::dummy_revStride2Loop_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::dummy_revStride2Loop_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_dummy_revStride2Loop_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
 #error 512-bit words are not currently supported on Windows.
@@ -1311,7 +1321,7 @@ int32_t xmem::dummy_revStride2Loop_Word512(void* start_address, void* end_addres
     register Word512_t val; 
     register uint32_t i = 0;
     register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
-    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 32) {
+    for (Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 32) {
         UNROLL32(wordptr -= 2;)
         if (wordptr <= static_cast<Word512_t*>(start_address)) //end, modulo
             wordptr += len;
@@ -1386,7 +1396,12 @@ int32_t xmem::dummy_forwStride4Loop_Word256(void* start_address, void* end_addre
 #endif
 
 #ifdef HAS_WORD_512
+#ifdef _WIN32
 int32_t xmem::dummy_forwStride4Loop_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::dummy_forwStride4Loop_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_dummy_forwStride4Loop_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
 #error 512-bit words are not currently supported on Windows.
@@ -1394,7 +1409,7 @@ int32_t xmem::dummy_forwStride4Loop_Word512(void* start_address, void* end_addre
     register Word512_t val; 
     register uint32_t i = 0;
     register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
-    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 16) {
+    for (Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 16) {
         UNROLL16(wordptr += 4;)
         if (wordptr >= static_cast<Word512_t*>(end_address)) //end, modulo
             wordptr -= len;
@@ -1467,7 +1482,12 @@ int32_t xmem::dummy_revStride4Loop_Word256(void* start_address, void* end_addres
 #endif
 
 #ifdef HAS_WORD_512
+#ifdef _WIN32
 int32_t xmem::dummy_revStride4Loop_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::dummy_revStride4Loop_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_dummy_revStride4Loop_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
     #error 512-bit words are not currently supported on Windows.
@@ -1475,7 +1495,7 @@ int32_t xmem::dummy_revStride4Loop_Word512(void* start_address, void* end_addres
     register Word512_t val; 
     register uint32_t i = 0;
     register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
-    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 16) {
+    for (Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 16) {
         UNROLL16(wordptr -= 4;)
         if (wordptr <= static_cast<Word512_t*>(start_address)) //end, modulo
             wordptr += len;
@@ -1550,7 +1570,12 @@ int32_t xmem::dummy_forwStride8Loop_Word256(void* start_address, void* end_addre
 #endif
 
 #ifdef HAS_WORD_512
+#ifdef _WIN32
 int32_t xmem::dummy_forwStride8Loop_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::dummy_forwStride8Loop_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_dummy_forwStride8Loop_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
     #error 512-bit words are not currently supported on Windows.
@@ -1558,7 +1583,7 @@ int32_t xmem::dummy_forwStride8Loop_Word512(void* start_address, void* end_addre
     register Word512_t val; 
     register uint32_t i = 0;
     register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
-    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 8) {
+    for (Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 8) {
         UNROLL8(wordptr += 8;)
         if (wordptr >= static_cast<Word512_t*>(end_address)) //end, modulo
             wordptr -= len;
@@ -1631,7 +1656,12 @@ int32_t xmem::dummy_revStride8Loop_Word256(void* start_address, void* end_addres
 #endif
 
 #ifdef HAS_WORD_512
-int32_t xmem::dummy_revStride8Loop_Word512(void* start_address, void* end_address) { 
+#ifdef _WIN32
+int32_t xmem::dummy_revStride8Loop_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::dummy_revStride8Loop_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_dummy_revStride8Loop_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
     #error 512-bit words are not currently supported on Windows.
@@ -1714,7 +1744,12 @@ int32_t xmem::dummy_forwStride16Loop_Word256(void* start_address, void* end_addr
 #endif
 
 #ifdef HAS_WORD_512
-int32_t xmem::dummy_forwStride16Loop_Word512(void* start_address, void* end_address) { 
+#ifdef _WIN32
+int32_t xmem::dummy_forwStride16Loop_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::dummy_forwStride16Loop_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_dummy_forwStride16Loop_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
     #error 512-bit words are not currently supported on Windows.
@@ -1795,7 +1830,12 @@ int32_t xmem::dummy_revStride16Loop_Word256(void* start_address, void* end_addre
 #endif
 
 #ifdef HAS_WORD_512
-int32_t xmem::dummy_revStride16Loop_Word512(void* start_address, void* end_address) { 
+#ifdef _WIN32
+int32_t xmem::dummy_revStride16Loop_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::dummy_revStride16Loop_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_dummy_revStride16Loop_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
     #error 512-bit words are not supported on Windows.
@@ -1873,8 +1913,13 @@ int32_t xmem::dummy_randomLoop_Word256(uintptr_t* first_address, uintptr_t** las
 }
 #endif
 
-#if defined(HAS_WORD_512)
+#ifdef HAS_WORD_512
+#ifdef _WIN32
 int32_t xmem::dummy_randomLoop_Word512(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::dummy_randomLoop_Word512(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     return 0; //TODO: Implement for Windows.
 #else
@@ -2094,16 +2139,21 @@ int32_t xmem::forwSequentialWrite_Word256(void* start_address, void* end_address
 }
 #endif
 
-#if defined(HAS_WORD_512)
+#ifdef HAS_WORD_512
+#ifdef _WIN32
 int32_t xmem::forwSequentialWrite_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::forwSequentialWrite_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_forwSequentialWrite_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
     #error 512-bit words are not supported on Windows.
 #else
     register Word512_t val;
-    uint64_t scratchptr[8];
+    uint64_t scratchptr[8] __attribute__ ((aligned(512)));
     my_64b_set_512b_word(val, scratchptr, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
-    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(start_address), *endptr = static_cast<Word512_t*>(end_address); wordptr < endptr;) {
+    for (Word512_t* wordptr = static_cast<Word512_t*>(start_address), *endptr = static_cast<Word512_t*>(end_address); wordptr < endptr;) {
         UNROLL64(*wordptr++ = val;) 
     }
     return 0;
@@ -2160,15 +2210,20 @@ int32_t xmem::revSequentialWrite_Word256(void* start_address, void* end_address)
 #endif
 
 #ifdef HAS_WORD_512
+#ifdef _WIN32
 int32_t xmem::revSequentialWrite_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::revSequentialWrite_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_revSequentialWrite_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
     #error 512-bit words are not supported on Windows.
 #else
     register Word512_t val;
-    uint64_t scratchptr[8];
+    uint64_t scratchptr[8] __attribute__ ((aligned(512)));
     my_64b_set_512b_word(val, scratchptr, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
-    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address), *begptr = static_cast<Word512_t*>(start_address); wordptr > begptr;) {
+    for (Word512_t* wordptr = static_cast<Word512_t*>(end_address), *begptr = static_cast<Word512_t*>(start_address); wordptr > begptr;) {
         UNROLL64(*wordptr-- = val;)
     }
     return 0;
@@ -2241,7 +2296,12 @@ int32_t xmem::forwStride2Read_Word256(void* start_address, void* end_address) {
 #endif
 
 #ifdef HAS_WORD_512
-int32_t xmem::forwStride2Read_Word512(void* start_address, void* end_address) { 
+#ifdef _WIN32
+int32_t xmem::forwStride2Read_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::forwStride2Read_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_forwStride2Read_Word512(static_cast<Word256_t*>(start_address), static_cast<Word256_t*>(end_address));
     #error 512-bit words are not supported on Windows.
@@ -2324,7 +2384,12 @@ int32_t xmem::revStride2Read_Word256(void* start_address, void* end_address) {
 #endif
 
 #ifdef HAS_WORD_512
-int32_t xmem::revStride2Read_Word512(void* start_address, void* end_address) { 
+#ifdef _WIN32
+int32_t xmem::revStride2Read_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::revStride2Read_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_revStride2Read_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
     #error 512-bit words are not supported on Windows.
@@ -2411,17 +2476,22 @@ int32_t xmem::forwStride2Write_Word256(void* start_address, void* end_address) {
 #endif
 
 #ifdef HAS_WORD_512
-int32_t xmem::forwStride2Write_Word512(void* start_address, void* end_address) { 
+#ifdef _WIN32
+int32_t xmem::forwStride2Write_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::forwStride2Write_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_forwStride2Write_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
     #error 512-bit words are not supported on Windows.
 #else
     register Word512_t val;
-    uint64_t scratchptr[8];
+    uint64_t scratchptr[8] __attribute__ ((aligned(512)));
     my_64b_set_512b_word(val, scratchptr, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
     register uint32_t i = 0;
     register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
-    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 32) {
+    for (Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 32) {
         UNROLL32(*wordptr = val; wordptr += 2;)
         if (wordptr >= static_cast<Word512_t*>(end_address)) //end, modulo
             wordptr -= len;
@@ -2496,20 +2566,25 @@ int32_t xmem::revStride2Write_Word256(void* start_address, void* end_address) {
 #endif
 
 #ifdef HAS_WORD_512
-int32_t xmem::revStride2Write_Word512(void* start_address, void* end_address) { 
+#ifdef _WIN32
+int32_t xmem::revStride2Write_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::revStride2Write_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
-    //return win_x86_64_asm_revStride2Write_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
+    //return win_x86_64_asm_forwStride2Write_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
     #error 512-bit words are not supported on Windows.
 #else
     register Word512_t val;
-    uint64_t scratchptr[8];
-    my_64b_set_512b_word(val, scratchptr, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
+    uint64_t scratchptr[8] __attribute__ ((aligned(512)));
+    my_64b_set_512b_word(val, scratchptr, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
     register uint32_t i = 0;
     register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
-    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 32) {
-        UNROLL32(*wordptr = val; wordptr -= 2;)
-        if (wordptr <= static_cast<Word512_t*>(start_address)) //end, modulo
-            wordptr += len;
+    for (Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 32) {
+        UNROLL32(*wordptr = val; wordptr += 2;)
+        if (wordptr >= static_cast<Word512_t*>(end_address)) //end, modulo
+            wordptr -= len;
     }
     return 0;
 #endif
@@ -2581,7 +2656,12 @@ int32_t xmem::forwStride4Read_Word256(void* start_address, void* end_address) {
 #endif
 
 #ifdef HAS_WORD_512
-int32_t xmem::forwStride4Read_Word512(void* start_address, void* end_address) { 
+#ifdef _WIN32
+int32_t xmem::forwStride4Read_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::forwStride4Read_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_forwStride4Read_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
     #error 512-bit words are not supported on Windows.
@@ -2664,7 +2744,12 @@ int32_t xmem::revStride4Read_Word256(void* start_address, void* end_address) {
 #endif
 
 #ifdef HAS_WORD_512
-int32_t xmem::revStride4Read_Word512(void* start_address, void* end_address) { 
+#ifdef _WIN32
+int32_t xmem::revStride4Read_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::revStride4Read_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_revStride4Read_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
     #error 512-bit words are not supported on Windows.
@@ -2703,7 +2788,7 @@ int32_t xmem::forwStride4Write_Word64(void* start_address, void* end_address) {
     register Word64_t val = 0xFFFFFFFFFFFFFFFF; 
     register uint32_t i = 0;
     register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word64_t);
-    for (volatile Word64_t* wordptr = static_cast<Word64_t*>(end_address); i < len; i += 128) {
+    for (volatile Word64_t* wordptr = static_cast<Word64_t*>(start_address); i < len; i += 128) {
         UNROLL128(*wordptr = val; wordptr += 4;)
         if (wordptr >= static_cast<Word64_t*>(end_address)) //end, modulo
             wordptr -= len;
@@ -2721,7 +2806,7 @@ int32_t xmem::forwStride4Write_Word128(void* start_address, void* end_address) {
     val = my_64b_set_128b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
     register uint32_t i = 0;
     register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word128_t);
-    for (volatile Word128_t* wordptr = static_cast<Word128_t*>(end_address); i < len; i += 64) {
+    for (volatile Word128_t* wordptr = static_cast<Word128_t*>(start_address); i < len; i += 64) {
         UNROLL64(*wordptr = val; wordptr += 4;)
         if (wordptr >= static_cast<Word128_t*>(end_address)) //end, modulo
             wordptr -= len;
@@ -2740,7 +2825,7 @@ int32_t xmem::forwStride4Write_Word256(void* start_address, void* end_address) {
     val = my_64b_set_256b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
     register uint32_t i = 0;
     register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word256_t);
-    for (volatile Word256_t* wordptr = static_cast<Word256_t*>(end_address); i < len; i += 32) {
+    for (volatile Word256_t* wordptr = static_cast<Word256_t*>(start_address); i < len; i += 32) {
         UNROLL32(*wordptr = val; wordptr += 4;)
         if (wordptr >= static_cast<Word256_t*>(end_address)) //end, modulo
             wordptr -= len;
@@ -2751,17 +2836,22 @@ int32_t xmem::forwStride4Write_Word256(void* start_address, void* end_address) {
 #endif
 
 #ifdef HAS_WORD_512
-int32_t xmem::forwStride4Write_Word512(void* start_address, void* end_address) { 
+#ifdef _WIN32
+int32_t xmem::forwStride4Write_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::forwStride4Write_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_forwStride4Write_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
     #error 512-bit words are not supported on Windows.
 #else
     register Word512_t val;
-    uint64_t scratchptr[8];
+    uint64_t scratchptr[8] __attribute__ ((aligned(512)));
     my_64b_set_512b_word(val, scratchptr, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
     register uint32_t i = 0;
     register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
-    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 16) {
+    for (Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 16) {
         UNROLL16(*wordptr = val; wordptr += 4;)
         if (wordptr >= static_cast<Word512_t*>(end_address)) //end, modulo
             wordptr -= len;
@@ -2836,17 +2926,22 @@ int32_t xmem::revStride4Write_Word256(void* start_address, void* end_address) {
 #endif
 
 #ifdef HAS_WORD_512
-int32_t xmem::revStride4Write_Word512(void* start_address, void* end_address) { 
+#ifdef _WIN32
+int32_t xmem::revStride4Write_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::revStride4Write_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_revStride4Write_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
     #error 512-bit words are not supported on Windows.
 #else
     register Word512_t val;
-    uint64_t scratchptr[8];
+    uint64_t scratchptr[8] __attribute__ ((aligned(512)));
     my_64b_set_512b_word(val, scratchptr, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
     register uint32_t i = 0;
     register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
-    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 16) {
+    for (Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 16) {
         UNROLL16(*wordptr = val; wordptr -= 4;)
         if (wordptr <= static_cast<Word512_t*>(start_address)) //end, modulo
             wordptr += len;
@@ -2921,7 +3016,12 @@ int32_t xmem::forwStride8Read_Word256(void* start_address, void* end_address) {
 #endif
 
 #ifdef HAS_WORD_512
-int32_t xmem::forwStride8Read_Word512(void* start_address, void* end_address) { 
+#ifdef _WIN32
+int32_t xmem::forwStride8Read_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::forwStride8Read_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_forwStride8Read_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
     #error 512-bit words are not supported on Windows.
@@ -3004,7 +3104,12 @@ int32_t xmem::revStride8Read_Word256(void* start_address, void* end_address) {
 #endif
 
 #ifdef HAS_WORD_512
-int32_t xmem::revStride8Read_Word512(void* start_address, void* end_address) { 
+#ifdef _WIN32
+int32_t xmem::revStride8Read_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::revStride8Read_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_revStride8Read_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
     #error 512-bit words are not supported on Windows.
@@ -3091,17 +3196,22 @@ int32_t xmem::forwStride8Write_Word256(void* start_address, void* end_address) {
 #endif
 
 #ifdef HAS_WORD_512
-int32_t xmem::forwStride8Write_Word512(void* start_address, void* end_address) { 
+#ifdef _WIN32
+int32_t xmem::forwStride8Write_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::forwStride8Write_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_forwStride8Write_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
     #error 512-bit words are not supported on Windows.
 #else
     register Word512_t val;
-    uint64_t scratchptr[8];
+    uint64_t scratchptr[8] __attribute__ ((aligned(512)));
     my_64b_set_512b_word(val, scratchptr, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
     register uint32_t i = 0;
     register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
-    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 8) {
+    for (Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 8) {
         UNROLL8(*wordptr = val; wordptr += 8;)
         if (wordptr >= static_cast<Word512_t*>(end_address)) //end, modulo
             wordptr -= len;
@@ -3176,17 +3286,22 @@ int32_t xmem::revStride8Write_Word256(void* start_address, void* end_address) {
 #endif
 
 #ifdef HAS_WORD_512
-int32_t xmem::revStride8Write_Word512(void* start_address, void* end_address) { 
+#ifdef _WIN32
+int32_t xmem::revStride8Write_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::revStride8Write_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_revStride8Write_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
     #error 512-bit words are not supported on Windows.
 #else
     register Word512_t val;
-    uint64_t scratchptr[8];
+    uint64_t scratchptr[8] __attribute__ ((aligned(512)));
     my_64b_set_512b_word(val, scratchptr, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
     register uint32_t i = 0;
     register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
-    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 8) {
+    for (Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 8) {
         UNROLL8(*wordptr = val; wordptr -= 8;)
         if (wordptr <= static_cast<Word512_t*>(start_address)) //end, modulo
             wordptr += len;
@@ -3261,7 +3376,12 @@ int32_t xmem::forwStride16Read_Word256(void* start_address, void* end_address) {
 #endif
 
 #ifdef HAS_WORD_512
-int32_t xmem::forwStride16Read_Word512(void* start_address, void* end_address) { 
+#ifdef _WIN32
+int32_t xmem::forwStride16Read_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::forwStride16Read_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_forwStride16Read_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
     #error 512-bit words are not supported on Windows.
@@ -3344,7 +3464,12 @@ int32_t xmem::revStride16Read_Word256(void* start_address, void* end_address) {
 #endif
 
 #ifdef HAS_WORD_512
-int32_t xmem::revStride16Read_Word512(void* start_address, void* end_address) { 
+#ifdef _WIN32
+int32_t xmem::revStride16Read_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::revStride16Read_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_revStride16Read_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
     #error 512-bit words are not supported on Windows.
@@ -3431,17 +3556,22 @@ int32_t xmem::forwStride16Write_Word256(void* start_address, void* end_address) 
 #endif
 
 #ifdef HAS_WORD_512
-int32_t xmem::forwStride16Write_Word512(void* start_address, void* end_address) { 
+#ifdef _WIN32
+int32_t xmem::forwStride16Write_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::forwStride16Write_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_forwStride16Write_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
     #error 512-bit words are not supported on Windows.
 #else
     register Word512_t val;
-    uint64_t scratchptr[8];
+    uint64_t scratchptr[8] __attribute__ ((aligned(512)));
     my_64b_set_512b_word(val, scratchptr, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
     register uint32_t i = 0;
     register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
-    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 4) {
+    for (Word512_t* wordptr = static_cast<Word512_t*>(start_address); i < len; i += 4) {
         UNROLL4(*wordptr = val; wordptr += 16;)
         if (wordptr >= static_cast<Word512_t*>(end_address)) //end, modulo
             wordptr -= len;
@@ -3520,17 +3650,22 @@ int32_t xmem::revStride16Write_Word256(void* start_address, void* end_address) {
 #endif
 
 #ifdef HAS_WORD_512
-int32_t xmem::revStride16Write_Word512(void* start_address, void* end_address) { 
+#ifdef _WIN32
+int32_t xmem::revStride16Write_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::revStride16Write_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_revStride16Write_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
     #error 512-bit words are not supported on Windows.
 #else
     register Word512_t val;
-    uint64_t scratchptr[8];
+    uint64_t scratchptr[8] __attribute__ ((aligned(512)));
     my_64b_set_512b_word(val, scratchptr, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF); 
     register uint32_t i = 0;
     register uint32_t len = static_cast<uint32_t>(reinterpret_cast<uintptr_t>(end_address)-reinterpret_cast<uintptr_t>(start_address)) / sizeof(Word512_t);
-    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 4) {
+    for (Word512_t* wordptr = static_cast<Word512_t*>(end_address); i < len; i += 4) {
         UNROLL4(*wordptr = val; wordptr -= 16;)
         if (wordptr <= static_cast<Word512_t*>(start_address)) //end, modulo
             wordptr += len;
@@ -3604,7 +3739,12 @@ int32_t xmem::randomRead_Word256(uintptr_t* first_address, uintptr_t** last_touc
 #endif
 
 #ifdef HAS_WORD_512
+#ifdef _WIN32
 int32_t xmem::randomRead_Word512(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::randomRead_Word512(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     #error 512-bit words are not supported on Windows.
 #else
@@ -3613,7 +3753,7 @@ int32_t xmem::randomRead_Word512(uintptr_t* first_address, uintptr_t** last_touc
     register Word512_t val;
 
     //UNROLL64(val = *p; p = reinterpret_cast<Word512_t*>(my_64b_extractLSB_512b(val));) //Do 512-bit load. Then extract 64 LSB to use as next load address.
-    uint64_t scratchptr[8];
+    uint64_t scratchptr[8] __attribute__ ((aligned(512)));
     uint64_t tmp;
     UNROLL64(val = my_512b_load(p); my_64b_extractLSB_512b(tmp, scratchptr, val); p = reinterpret_cast<Word512_t*>(tmp);) //Do 512-bit load. Then extract 64 LSB to use as next load address.
 
@@ -3688,7 +3828,12 @@ int32_t xmem::randomWrite_Word256(uintptr_t* first_address, uintptr_t** last_tou
 #endif
 
 #ifdef HAS_WORD_512
+#ifdef _WIN32
 int32_t xmem::randomWrite_Word512(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::randomWrite_Word512(uintptr_t* first_address, uintptr_t** last_touched_address, size_t len) {
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 #error 512-bit words are not supported on Windows.
 #else
@@ -3697,7 +3842,7 @@ int32_t xmem::randomWrite_Word512(uintptr_t* first_address, uintptr_t** last_tou
     register Word512_t val;
 
     //UNROLL64(val = *p; *p = val; p = reinterpret_cast<Word512_t*>(my_64b_extractLSB_512b(val));) //Do 512-bit load. Then do 512-bit store. Then extract 64 LSB to use as next load address.
-    uint64_t scratchptr[8];
+    uint64_t scratchptr[8] __attribute__ ((aligned(512)));
     uint64_t tmp;
     UNROLL64(val = my_512b_load(p); *p = val; my_64b_extractLSB_512b(tmp, scratchptr, val); p = reinterpret_cast<Word512_t*>(tmp);) //Do 512-bit load. Then do 512-bit store. Then extract 64 LSB to use as next load address.
 
