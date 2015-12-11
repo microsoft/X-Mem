@@ -379,7 +379,7 @@ bool xmem::determineSequentialKernel(rw_mode_t rw_mode, chunk_size_t chunk_size,
                     return true;
 #endif
 #ifdef HAS_WORD_256
-                case CHUNK_256b:
+                case CHUNK_512b:
                     switch (stride_size) {
                         case 1:
                             *kernel_function = &forwSequentialRead_Word256;
@@ -420,6 +420,54 @@ bool xmem::determineSequentialKernel(rw_mode_t rw_mode, chunk_size_t chunk_size,
                         case -16:
                             *kernel_function = &revStride16Read_Word256;
                             *dummy_kernel_function = &dummy_revStride16Loop_Word256;
+                            return true;
+                        default:
+                            return false;
+                    }
+                    return true;
+#endif
+#ifdef HAS_WORD_512
+                case CHUNK_512b:
+                    switch (stride_size) {
+                        case 1:
+                            *kernel_function = &forwSequentialRead_Word512;
+                            *dummy_kernel_function = &dummy_forwSequentialLoop_Word512;
+                            return true;
+                        case -1:
+                            *kernel_function = &revSequentialRead_Word512;
+                            *dummy_kernel_function = &dummy_revSequentialLoop_Word512;
+                            return true;
+                        case 2:
+                            *kernel_function = &forwStride2Read_Word512;
+                            *dummy_kernel_function = &dummy_forwStride2Loop_Word512;
+                            return true;
+                        case -2:
+                            *kernel_function = &revStride2Read_Word512;
+                            *dummy_kernel_function = &dummy_revStride2Loop_Word512;
+                            return true;
+                        case 4:
+                            *kernel_function = &forwStride4Read_Word512;
+                            *dummy_kernel_function = &dummy_forwStride4Loop_Word512;
+                            return true;
+                        case -4:
+                            *kernel_function = &revStride4Read_Word512;
+                            *dummy_kernel_function = &dummy_revStride4Loop_Word512;
+                            return true;
+                        case 8:
+                            *kernel_function = &forwStride8Read_Word512;
+                            *dummy_kernel_function = &dummy_forwStride8Loop_Word512;
+                            return true;
+                        case -8:
+                            *kernel_function = &revStride8Read_Word512;
+                            *dummy_kernel_function = &dummy_revStride8Loop_Word512;
+                            return true;
+                        case 16:
+                            *kernel_function = &forwStride16Read_Word512;
+                            *dummy_kernel_function = &dummy_forwStride16Loop_Word512;
+                            return true;
+                        case -16:
+                            *kernel_function = &revStride16Read_Word512;
+                            *dummy_kernel_function = &dummy_revStride16Loop_Word512;
                             return true;
                         default:
                             return false;
@@ -624,6 +672,54 @@ bool xmem::determineSequentialKernel(rw_mode_t rw_mode, chunk_size_t chunk_size,
                     }
                     return true;
 #endif
+#ifdef HAS_WORD_512
+                case CHUNK_512b:
+                    switch (stride_size) {
+                        case 1:
+                            *kernel_function = &forwSequentialWrite_Word512;
+                            *dummy_kernel_function = &dummy_forwSequentialLoop_Word512;
+                            return true;
+                        case -1:
+                            *kernel_function = &revSequentialWrite_Word512;
+                            *dummy_kernel_function = &dummy_revSequentialLoop_Word512;
+                            return true;
+                        case 2:
+                            *kernel_function = &forwStride2Write_Word512;
+                            *dummy_kernel_function = &dummy_forwStride2Loop_Word512;
+                            return true;
+                        case -2:
+                            *kernel_function = &revStride2Write_Word512;
+                            *dummy_kernel_function = &dummy_revStride2Loop_Word512;
+                            return true;
+                        case 4:
+                            *kernel_function = &forwStride4Write_Word512;
+                            *dummy_kernel_function = &dummy_forwStride4Loop_Word512;
+                            return true;
+                        case -4:
+                            *kernel_function = &revStride4Write_Word512;
+                            *dummy_kernel_function = &dummy_revStride4Loop_Word512;
+                            return true;
+                        case 8:
+                            *kernel_function = &forwStride8Write_Word512;
+                            *dummy_kernel_function = &dummy_forwStride8Loop_Word512;
+                            return true;
+                        case -8:
+                            *kernel_function = &revStride8Write_Word512;
+                            *dummy_kernel_function = &dummy_revStride8Loop_Word512;
+                            return true;
+                        case 16:
+                            *kernel_function = &forwStride16Write_Word512;
+                            *dummy_kernel_function = &dummy_forwStride16Loop_Word512;
+                            return true;
+                        case -16:
+                            *kernel_function = &revStride16Write_Word512;
+                            *dummy_kernel_function = &dummy_revStride16Loop_Word512;
+                            return true;
+                        default:
+                            return false;
+                    }
+                    return true;
+#endif
 
                 default:
                     return false;
@@ -666,6 +762,12 @@ bool xmem::determineRandomKernel(rw_mode_t rw_mode, chunk_size_t chunk_size, Ran
                     *dummy_kernel_function = &dummy_randomLoop_Word256;
                     return true;
 #endif
+#ifdef HAS_WORD_512
+                case CHUNK_512b:
+                    *kernel_function = &randomRead_Word512;
+                    *dummy_kernel_function = &dummy_randomLoop_Word512;
+                    return true;
+#endif
                 default:
                     return false;
             }
@@ -696,6 +798,12 @@ bool xmem::determineRandomKernel(rw_mode_t rw_mode, chunk_size_t chunk_size, Ran
                 case CHUNK_256b:
                     *kernel_function = &randomWrite_Word256;
                     *dummy_kernel_function = &dummy_randomLoop_Word256;
+                    return true;
+#endif
+#ifdef HAS_WORD_512
+                case CHUNK_512b:
+                    *kernel_function = &randomWrite_Word512;
+                    *dummy_kernel_function = &dummy_randomLoop_Word512;
                     return true;
 #endif
                 default:
@@ -956,14 +1064,19 @@ int32_t xmem::dummy_forwSequentialLoop_Word256(void* start_address, void* end_ad
 #endif
 
 #ifdef HAS_WORD_512
+#ifdef _WIN32
 int32_t xmem::dummy_forwSequentialLoop_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::dummy_forwSequentialLoop_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_dummy_forwSequentialLoop_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
     #error 512-bit words on Windows are not currently supported.
 #endif
 #ifdef __gnu_linux__
     volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
-    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(start_address), *endptr = static_cast<Word512_t*>(end_address); wordptr < endptr;) {
+    for (Word512_t* wordptr = static_cast<Word512_t*>(start_address), *endptr = static_cast<Word512_t*>(end_address); wordptr < endptr;) {
         UNROLL64(wordptr++;) 
         placeholder = 0;
     }
@@ -1023,14 +1136,19 @@ int32_t xmem::dummy_revSequentialLoop_Word256(void* start_address, void* end_add
 #endif
 
 #ifdef HAS_WORD_512
+#ifdef _WIN32
 int32_t xmem::dummy_revSequentialLoop_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::dummy_revSequentialLoop_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_dummy_revSequentialLoop_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
     #error 512-bit words are not currently supported on Windows.
 #endif
 #ifdef __gnu_linux__
     volatile int32_t placeholder = 0; //Try our best to defeat compiler optimizations
-    for (volatile Word512_t* wordptr = static_cast<Word512_t*>(end_address), *begptr = static_cast<Word512_t*>(start_address); wordptr > begptr;) {
+    for (Word512_t* wordptr = static_cast<Word512_t*>(end_address), *begptr = static_cast<Word512_t*>(start_address); wordptr > begptr;) {
         UNROLL64(wordptr--;) 
         placeholder = 0;
     }
@@ -1837,7 +1955,12 @@ int32_t xmem::forwSequentialRead_Word256(void* start_address, void* end_address)
 #endif
 
 #ifdef HAS_WORD_512
-int32_t xmem::forwSequentialRead_Word512(void* start_address, void* end_address) { 
+#ifdef _WIN32
+int32_t xmem::forwSequentialRead_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::forwSequentialRead_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
 //    return win_x86_64_asm_forwSequentialRead_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
     #error 512-bit words are not supported on Windows.
@@ -1900,7 +2023,12 @@ int32_t xmem::revSequentialRead_Word256(void* start_address, void* end_address) 
 #endif
 
 #ifdef HAS_WORD_512
+#ifdef _WIN32
 int32_t xmem::revSequentialRead_Word512(void* start_address, void* end_address) {
+#else
+//FIXME: We flag GCC/ICC not to optimize this function. The problem is that my_512b_load() -- which maps to _mm512_load_epi64 Intel AVX-512/KNC intrinsic -- cannot accept volatile* arguments. The only way to prevent the entire benchmark loop from being optimized away is to force the compiler not to optimize the function at all. Unfortunately, this will cause extra unwanted code to be included. The only solution seems to be to write inline assembly or allow eventual support for assignment of __m512i variables, e.g., val = *wordptr++; which is how the code for the other word sizes is written.
+int32_t __attribute__((optimize("O0"))) xmem::revSequentialRead_Word512(void* start_address, void* end_address) { 
+#endif
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_revSequentialRead_Word512(static_cast<Word512_t*>(end_address), static_cast<Word512_t*>(start_address));
     #error 512-bit words are not supported on Windows.
@@ -1966,14 +2094,15 @@ int32_t xmem::forwSequentialWrite_Word256(void* start_address, void* end_address
 }
 #endif
 
-#if defined(HAS_WORD_512) && !defined(ARCH_INTEL_MIC)
+#if defined(HAS_WORD_512)
 int32_t xmem::forwSequentialWrite_Word512(void* start_address, void* end_address) {
 #if defined(_WIN32) && defined(ARCH_INTEL_X86_64)
     //return win_x86_64_asm_forwSequentialWrite_Word512(static_cast<Word512_t*>(start_address), static_cast<Word512_t*>(end_address));
     #error 512-bit words are not supported on Windows.
 #else
     register Word512_t val;
-    val = my_64b_set_512b_word(0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
+    uint64_t scratchptr[8];
+    my_64b_set_512b_word(val, scratchptr, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF);
     for (volatile Word512_t* wordptr = static_cast<Word512_t*>(start_address), *endptr = static_cast<Word512_t*>(end_address); wordptr < endptr;) {
         UNROLL64(*wordptr++ = val;) 
     }

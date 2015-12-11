@@ -295,7 +295,7 @@ namespace xmem {
 #define USE_OS_TIMER /**< RECOMMENDED ENABLED. If enabled, uses the QPC timer on Windows and the POSIX clock_gettime() on GNU/Linux for all timing purposes. */
 //#define USE_HW_TIMER /**< RECOMMENDED DISABLED. If enabled, uses the platform-specific hardware timer (e.g., TSC on Intel x86-64). This may be less portable or have other implementation-specific quirks but for most purposes should work fine. */
 
-#define BENCHMARK_DURATION_MS 250 /**< RECOMMENDED VALUE: At least 250. Number of milliseconds to run in each benchmark. */
+#define BENCHMARK_DURATION_MS 5000 /**< RECOMMENDED VALUE: At least 250. Number of milliseconds to run in each benchmark. */
 #define THROUGHPUT_BENCHMARK_BYTES_PER_PASS 4096 /**< RECOMMENDED VALUE: 4096. Number of bytes read or written per pass of any ThroughputBenchmark. This must be less than or equal to the minimum working set size, which is currently 4 KB. */
 
 #define POWER_SAMPLING_PERIOD_MS 1000 /**< RECOMMENDED VALUE: 1000. Sampling period in milliseconds for all power measurement mechanisms. */

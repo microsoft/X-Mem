@@ -61,8 +61,8 @@ Timer::Timer() :
 #endif
 #ifdef __gnu_linux__
     struct timespec duration, remainder;
-    duration.tv_sec = 0;
-    duration.tv_nsec = BENCHMARK_DURATION_MS * 1e6; 
+    duration.tv_sec = BENCHMARK_DURATION_MS / 1000;
+    duration.tv_nsec = (BENCHMARK_DURATION_MS % 1000) * 1e6; 
     nanosleep(&duration, &remainder);
 #endif
     stop_tick = stop_timer();
