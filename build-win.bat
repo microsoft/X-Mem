@@ -26,7 +26,7 @@
 
 set ARCH=%1
 set NUM_THREADS=%2
-echo Building X-Mem for Windows on %ARCH% using %NUM_THREADS%...
+echo Building X-Mem for Windows on %ARCH% using %NUM_THREADS% threads...
 
 :: Do a little trick to ensure build datetime are correct
 :: DO NOT remove this code -- otherwise X-Mem will fail to build.

@@ -25,7 +25,9 @@
 import os
 
 # Initialize build environment for Windows x86-64, using Visual Studio 2013
-env = Environment(MSVC_USE_SCRIPT = 'C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\VC\\bin\\x86_amd64\\vcvarsx86_amd64.bat', AS = 'ml64', MSVC_BATCH = 1)
+#env = Environment(MSVC_USE_SCRIPT = 'C:\\Program Files (x86)\\Microsoft Visual Studio 12.0\\VC\\bin\\x86_amd64\\vcvarsx86_amd64.bat', AS = 'ml64', MSVC_BATCH = 1)
+# Initialize build environment for Windows x86-64, using Visual Studio 2015
+env = Environment(MSVC_USE_SCRIPT = 'C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\bin\\amd64\\vcvars64.bat', AS = 'ml64', MSVC_BATCH = 1)
 
 # Copy OS environment path to scons environment. TODO: Is this needed?
 #env['ENV']['PATH'] = os.environ['PATH']

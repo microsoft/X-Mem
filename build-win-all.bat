@@ -24,6 +24,6 @@
 
 @echo off
 
-call build-win.bat x64
-call build-win.bat x64_avx
-call build-win.bat x86
+call build-win.bat x64 1
+call build-win.bat x64_avx 1
+call build-win.bat x86 1
