@@ -24,14 +24,24 @@
 #
 # Author: Mark Gottscho <mgottscho@ucla.edu>
 
-./build-linux.sh x64 &
+ARGC=$# # Get number of arguments, not including script name
+
+if [[ "$ARGC" != 1 ]]; then # Bad number of arguments
+    echo "Usage: build-linux-all.sh <NUM_THREADS>"
+    exit 1
+fi
+
+NUM_THREADS=$1
+echo Building X-Mem for GNU/Linux on all supported architectures in parallel using $NUM_THREADS threads for each job...
+
+./build-linux.sh x64 $NUM_THREADS &
 sleep 1
-./build-linux.sh x64_avx &
+./build-linux.sh x64_avx $NUM_THREADS &
 sleep 1
-./build-linux.sh x86 &
+./build-linux.sh x86 $NUM_THREADS &
 sleep 1
-./build-linux.sh arm &
+./build-linux.sh arm $NUM_THREADS &
 sleep 1
-./build-linux.sh arm_neon &
+./build-linux.sh arm_neon $NUM_THREADS &
 sleep 1
-./build-linux.sh arm64 &
+./build-linux.sh arm64 $NUM_THREADS &
