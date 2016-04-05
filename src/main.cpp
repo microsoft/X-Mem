@@ -105,70 +105,76 @@ void xmem::print_welcome_message() {
  *  @brief The main entry point to the program.
  */
 int main(int argc, char* argv[]) {
-    init_globals();
-    print_welcome_message();
-    
-    //Get info about the runtime system
-    if (query_sys_info()) {
-        std::cerr << "ERROR occurred while querying CPU information." << std::endl;
-        return -1;
-    }
-    
-    //Configure runtime based on user inputs
-    Configurator config;
-    bool configSuccess = !config.configureFromInput(argc, argv);
+    try {
+        init_globals();
+        print_welcome_message();
         
-    if (configSuccess) {
-        if (g_verbose) {
-            print_compile_time_options();
-            print_types_report();
-            report_sys_info();
-            test_thread_affinities();
+        //Get info about the runtime system
+        if (query_sys_info()) {
+            std::cerr << "ERROR occurred while querying CPU information." << std::endl;
+            return -1;
         }
         
-        setup_timer();
-        if (g_verbose)
-            report_timer();
-
-        BenchmarkManager benchmgr(config);
-        if (config.throughputTestSelected()) {
-            benchmgr.runThroughputBenchmarks();
-        }
-
-        if (config.latencyTestSelected()) {
-            benchmgr.runLatencyBenchmarks();
-        }
-
-        if (config.extensionsEnabled()) {
-            std::cout << std::endl;
-            std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-            std::cout << "++++++++++++ Starting custom X-Mem extensions ++++++++++++" << std::endl;
-            std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-            std::cout << std::endl;
-
-            /***** USER-DEFINED FUNCTIONAL EXTENSIONS ******/
-#ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
-            if (config.runExtDelayInjectedLoadedLatencyBenchmark()) {
-                std::cout << "EXTENSION " << EXT_NUM_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK << ": Loaded latency benchmarks with delay injected kernels on load threads." << std::endl;
-                benchmgr.runExtDelayInjectedLoadedLatencyBenchmark();   
+        //Configure runtime based on user inputs
+        Configurator config;
+        bool configSuccess = !config.configureFromInput(argc, argv);
+            
+        if (configSuccess) {
+            if (g_verbose) {
+                print_compile_time_options();
+                print_types_report();
+                report_sys_info();
+                test_thread_affinities();
             }
+            
+            setup_timer();
+            if (g_verbose)
+                report_timer();
+
+            BenchmarkManager benchmgr(config);
+            if (config.throughputTestSelected()) {
+                benchmgr.runThroughputBenchmarks();
+            }
+
+            if (config.latencyTestSelected()) {
+                benchmgr.runLatencyBenchmarks();
+            }
+
+            if (config.extensionsEnabled()) {
+                std::cout << std::endl;
+                std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+                std::cout << "++++++++++++ Starting custom X-Mem extensions ++++++++++++" << std::endl;
+                std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+                std::cout << std::endl;
+
+                /***** USER-DEFINED FUNCTIONAL EXTENSIONS ******/
+#ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
+                if (config.runExtDelayInjectedLoadedLatencyBenchmark()) {
+                    std::cout << "EXTENSION " << EXT_NUM_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK << ": Loaded latency benchmarks with delay injected kernels on load threads." << std::endl;
+                    benchmgr.runExtDelayInjectedLoadedLatencyBenchmark();   
+                }
 #endif
 
 #ifdef EXT_STREAM_BENCHMARK
-            if (config.runExtStreamBenchmark()) {
-                std::cout << "EXTENSION " << EXT_NUM_STREAM_BENCHMARK << ": STREAM-like throughput benchmark using stream copy, add, and triad kernels." << std::endl;
-                benchmgr.runExtStreamBenchmark();
-            }
+                if (config.runExtStreamBenchmark()) {
+                    std::cout << "EXTENSION " << EXT_NUM_STREAM_BENCHMARK << ": STREAM-like throughput benchmark using stream copy, add, and triad kernels." << std::endl;
+                    benchmgr.runExtStreamBenchmark();
+                }
 #endif
-            /***********************************************/
+                /***********************************************/
 
-            std::cout << std::endl;
-            std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-            std::cout << "++++++++++++ Finished custom X-Mem extensions ++++++++++++" << std::endl;
-            std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-            std::cout << std::endl;
+                std::cout << std::endl;
+                std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+                std::cout << "++++++++++++ Finished custom X-Mem extensions ++++++++++++" << std::endl;
+                std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+                std::cout << std::endl;
+            }
         }
     }
+    catch (...) {
+        std::cerr << "Uncaught exception in main(), terminating." << std::endl;
+        return EXIT_FAILURE;
+    }
 
-    return !configSuccess;
+    (configSuccess) ? return EXIT_SUCCESS : return EXIT_FAILURE;
 }
