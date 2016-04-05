@@ -29,8 +29,8 @@
  * @brief Header file for the Configurator class and some helper data structures.
  */
 
-#ifndef __CONFIGURATOR_H
-#define __CONFIGURATOR_H
+#ifndef CONFIGURATOR_H
+#define CONFIGURATOR_H
 
 //Headers
 #include <common.h>
@@ -163,14 +163,14 @@ namespace xmem {
          * @brief Determines whether user extensions are enabled.
          * @returns True if extensions are enabled.
          */
-        bool extensionsEnabled() const { return __runExtensions; }
+        bool extensionsEnabled() const { return run_extensions_; }
 
 #ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
         /**
          * @brief If included at compile-time, determines whether the delay-injected loaded latency benchmark extension should be run.
          * @returns True if it should be run.
          */
-        bool runExtDelayInjectedLoadedLatencyBenchmark() const { return __run_ext_delay_injected_loaded_latency_benchmark; }
+        bool runExtDelayInjectedLoadedLatencyBenchmark() const { return run_ext_delay_injected_loaded_latency_benchmark_; }
 #endif
 
 #ifdef EXT_STREAM_BENCHMARK
@@ -178,39 +178,39 @@ namespace xmem {
          * @brief If included at compile-time, determines whether the STREAM-like benchmark extension should be run.
          * @returns True if it should be run.
          */
-        bool runExtStreamBenchmark() const { return __run_ext_stream_benchmark; }
+        bool runExtStreamBenchmark() const { return run_ext_stream_benchmark_; }
 #endif
 
         /**
          * @brief Indicates if the latency test has been selected.
          * @returns True if the latency test has been selected to run.
          */
-        bool latencyTestSelected() const { return __runLatency; }
+        bool latencyTestSelected() const { return run_latency_; }
 
         /**
          * @brief Indicates if the throughput test has been selected.
          * @returns True if the throughput test has been selected to run.
          */
-        bool throughputTestSelected() const { return __runThroughput; }
+        bool throughputTestSelected() const { return run_throughput_; }
 
         /**
          * @brief Gets the working set size in bytes for each worker thread, if applicable.
          * @returns The working set size in bytes.
          */
-        size_t getWorkingSetSizePerThread() const { return __working_set_size_per_thread; }
+        size_t getWorkingSetSizePerThread() const { return working_set_size_per_thread_; }
 
         /**
          * @brief Determines if chunk size of 32 bits should be used in relevant benchmarks.
          * @returns True if 32-bit chunks should be used.
          */
-        bool useChunk32b() const { return __use_chunk_32b; }
+        bool useChunk32b() const { return use_chunk_32b_; }
 
 #ifdef HAS_WORD_64
         /**
          * @brief Determines if chunk size of 64 bits should be used in relevant benchmarks.
          * @returns True if 64-bit chunks should be used.
          */
-        bool useChunk64b() const { return __use_chunk_64b; }
+        bool useChunk64b() const { return use_chunk_64b_; }
 #endif
 
 #ifdef HAS_WORD_128
@@ -218,7 +218,7 @@ namespace xmem {
          * @brief Determines if chunk size of 128 bits should be used in relevant benchmarks.
          * @returns True if 128-bit chunks should be used.
          */
-        bool useChunk128b() const { return __use_chunk_128b; }
+        bool useChunk128b() const { return use_chunk_128b_; }
 #endif
 
 #ifdef HAS_WORD_256
@@ -226,7 +226,7 @@ namespace xmem {
          * @brief Determines if chunk size of 256 bits should be used in relevant benchmarks.
          * @returns True if 256-bit chunks should be used.
          */
-        bool useChunk256b() const { return __use_chunk_256b; }
+        bool useChunk256b() const { return use_chunk_256b_; }
 #endif
 
 #ifdef HAS_WORD_512
@@ -234,158 +234,158 @@ namespace xmem {
          * @brief Determines if chunk size of 512 bits should be used in relevant benchmarks.
          * @returns True if 512-bit chunks should be used.
          */
-        bool useChunk512b() const { return __use_chunk_512b; }
+        bool useChunk512b() const { return use_chunk_512b_; }
 #endif
 
         /**
          * @brief Determines if the benchmarks should test for all CPU/memory NUMA combinations.
          * @returns True if all NUMA nodes should be tested.
          */
-        bool isNUMAEnabled() const { return __numa_enabled; }
+        bool isNUMAEnabled() const { return numa_enabled_; }
 
         /**
          * @brief Gets a list of CPU NUMA nodes to affinitize for all benchmark experiments.
          * @returns The list of NUMA node indices.
          */
-        std::list<uint32_t> getCpuNumaNodeAffinities() const { return __cpu_numa_node_affinities; }
+        std::list<uint32_t> getCpuNumaNodeAffinities() const { return cpu_numa_node_affinities_; }
 
         /**
          * @brief Gets a list of memory NUMA nodes to affinitize for all benchmark experiments.
          * @returns The list of NUMA node indices.
          */
-        std::list<uint32_t> getMemoryNumaNodeAffinities() const { return __memory_numa_node_affinities; }
+        std::list<uint32_t> getMemoryNumaNodeAffinities() const { return memory_numa_node_affinities_; }
 
         /**
          * @brief Gets the number of iterations that should be run of each benchmark.
          * @returns The iterations for each test.
          */
-        uint32_t getIterationsPerTest() const { return __iterations; }
+        uint32_t getIterationsPerTest() const { return iterations_; }
 
         /**
          * @brief Determines if throughput benchmarks should use a random access pattern.
          * @returns True if random access should be used.
          */
-        bool useRandomAccessPattern() const { return __use_random_access_pattern; }
+        bool useRandomAccessPattern() const { return use_random_access_pattern_; }
         
         /**
          * @brief Determines if throughput benchmarks should use a sequential access pattern.
          * @returns True if sequential access should be used.
          */
-        bool useSequentialAccessPattern() const { return __use_sequential_access_pattern; }
+        bool useSequentialAccessPattern() const { return use_sequential_access_pattern_; }
 
         /** 
          * @brief Gets the number of worker threads to use.
          * @returns The number of worker threads.
          */
-        uint32_t getNumWorkerThreads() const { return __num_worker_threads; }
+        uint32_t getNumWorkerThreads() const { return num_worker_threads_; }
 
         /** 
          * @brief Gets the numerical index of the first benchmark for CSV output purposes.
          * @returns The starting benchmark index.
          */
-        uint32_t getStartingTestIndex() const { return __starting_test_index; }
+        uint32_t getStartingTestIndex() const { return starting_test_index_; }
 
         /**
          * @brief Gets the output filename to use, if applicable.
          * @returns The output filename to use if useOutputFile() returns true. Otherwise return value is "".
          */
-        std::string getOutputFilename() const { return __filename; }
+        std::string getOutputFilename() const { return filename_; }
 
         /**
          * @brief Determines whether to generate an output CSV file.
          * @returns True if an output file should be used.
          */
-        bool useOutputFile() const { return __use_output_file; }
+        bool useOutputFile() const { return use_output_file_; }
 
         /**
          * @brief Changes whether an output file should be used.
          * @param use If true, then use the output file.
          */
-        void setUseOutputFile(bool use) { __use_output_file = use; }
+        void setUseOutputFile(bool use) { use_output_file_ = use; }
 
         /** 
          * @brief Determines whether X-Mem is in verbose mode.
          * @returns True if verbose mode is enabled.
          */
-        bool verboseMode() const { return __verbose; }
+        bool verboseMode() const { return verbose_; }
 
         /**
          * @brief Determines whether X-Mem should use large pages.
          * @param True if large pages should be used.
          */
-        bool useLargePages() const { return __use_large_pages; }
+        bool useLargePages() const { return use_large_pages_; }
 
         /**
          * @brief Determines whether reads should be used in throughput benchmarks.
          * @returns True if reads should be used.
          */
-        bool useReads() const { return __use_reads; }
+        bool useReads() const { return use_reads_; }
         
         /**
          * @brief Determines whether writes should be used in throughput benchmarks.
          * @returns True if writes should be used.
          */
-        bool useWrites() const { return __use_writes; }
+        bool useWrites() const { return use_writes_; }
 
         /**
          * @brief Determines if a stride of +1 should be used in relevant benchmarks.
          * @returns True if a stride of +1 should be used.
          */
-        bool useStrideP1() const { return __use_stride_p1; }
+        bool useStrideP1() const { return use_stride_p1_; }
         
         /**
          * @brief Determines if a stride of -1 should be used in relevant benchmarks.
          * @returns True if a stride of -1 should be used.
          */
-        bool useStrideN1() const { return __use_stride_n1; }
+        bool useStrideN1() const { return use_stride_n1_; }
         
         /**
          * @brief Determines if a stride of +2 should be used in relevant benchmarks.
          * @returns True if a stride of +2 should be used.
          */
-        bool useStrideP2() const { return __use_stride_p2; }
+        bool useStrideP2() const { return use_stride_p2_; }
         
         /**
          * @brief Determines if a stride of -2 should be used in relevant benchmarks.
          * @returns True if a stride of -2 should be used.
          */
-        bool useStrideN2() const { return __use_stride_n2; }
+        bool useStrideN2() const { return use_stride_n2_; }
         
         /**
          * @brief Determines if a stride of +4 should be used in relevant benchmarks.
          * @returns True if a stride of +4 should be used.
          */
-        bool useStrideP4() const { return __use_stride_p4; }
+        bool useStrideP4() const { return use_stride_p4_; }
         
         /**
          * @brief Determines if a stride of -4 should be used in relevant benchmarks.
          * @returns True if a stride of -4 should be used.
          */
-        bool useStrideN4() const { return __use_stride_n4; }
+        bool useStrideN4() const { return use_stride_n4_; }
         
         /**
          * @brief Determines if a stride of +8 should be used in relevant benchmarks.
          * @returns True if a stride of +8 should be used.
          */
-        bool useStrideP8() const { return __use_stride_p8; }
+        bool useStrideP8() const { return use_stride_p8_; }
         
         /**
          * @brief Determines if a stride of -8 should be used in relevant benchmarks.
          * @returns True if a stride of -8 should be used.
          */
-        bool useStrideN8() const { return __use_stride_n8; }
+        bool useStrideN8() const { return use_stride_n8_; }
         
         /**
          * @brief Determines if a stride of +16 should be used in relevant benchmarks.
          * @returns True if a stride of +16 should be used.
          */
-        bool useStrideP16() const { return __use_stride_p16; }
+        bool useStrideP16() const { return use_stride_p16_; }
         
         /**
          * @brief Determines if a stride of -16 should be used in relevant benchmarks.
          * @returns True if a stride of -16 should be used.
          */
-        bool useStrideN16() const { return __use_stride_n16; }
+        bool useStrideN16() const { return use_stride_n16_; }
 
     private:
         /**
@@ -393,58 +393,58 @@ namespace xmem {
          * @param opt The option to inspect.
          * @returns True if the option only occurred once.
          */
-        bool __checkSingleOptionOccurrence(Option* opt) const;
+        bool check_single_option_occurrence(Option* opt) const;
 
-        bool __configured; /**< If true, this object has been configured. configureFromInput() will only work if this is false. */
+        bool configured_; /**< If true, this object has been configured. configureFromInput() will only work if this is false. */
 
-        bool __runExtensions; /**< If true, run extensions. */
+        bool run_extensions_; /**< If true, run extensions. */
 #ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
-        bool __run_ext_delay_injected_loaded_latency_benchmark; /**< If true, then run the delay-injected loaded latency benchmark extension. */
+        bool run_ext_delay_injected_loaded_latency_benchmark_; /**< If true, then run the delay-injected loaded latency benchmark extension. */
 #endif
 #ifdef EXT_STREAM_BENCHMARK
-        bool __run_ext_stream_benchmark; /**< If true, then run the STREAM-like benchmark extension. */
+        bool run_ext_stream_benchmark_; /**< If true, then run the STREAM-like benchmark extension. */
 #endif
 
-        bool __runLatency; /**< True if latency tests should be run. */
-        bool __runThroughput; /**< True if throughput tests should be run. */
-        size_t __working_set_size_per_thread; /**< Working set size in bytes for each thread, if applicable. */
-        uint32_t __num_worker_threads; /**< Number of load threads to use for throughput benchmarks, loaded latency benchmarks, and stress tests. */
-        bool __use_chunk_32b; /**< If true, use chunk sizes of 32-bits where applicable. */
+        bool run_latency_; /**< True if latency tests should be run. */
+        bool run_throughput_; /**< True if throughput tests should be run. */
+        size_t working_set_size_per_thread_; /**< Working set size in bytes for each thread, if applicable. */
+        uint32_t num_worker_threads_; /**< Number of load threads to use for throughput benchmarks, loaded latency benchmarks, and stress tests. */
+        bool use_chunk_32b_; /**< If true, use chunk sizes of 32-bits where applicable. */
 #ifdef HAS_WORD_64
-        bool __use_chunk_64b; /**< If true, use chunk sizes of 64-bits where applicable. */
+        bool use_chunk_64b_; /**< If true, use chunk sizes of 64-bits where applicable. */
 #endif
 #ifdef HAS_WORD_128
-        bool __use_chunk_128b; /**< If true, use chunk sizes of 128-bits where applicable. */
+        bool use_chunk_128b_; /**< If true, use chunk sizes of 128-bits where applicable. */
 #endif
 #ifdef HAS_WORD_256
-        bool __use_chunk_256b; /**< If true, use chunk sizes of 256-bits where applicable. */
+        bool use_chunk_256b_; /**< If true, use chunk sizes of 256-bits where applicable. */
 #endif
 #ifdef HAS_WORD_512
-        bool __use_chunk_512b; /**< If true, use chunk sizes of 512-bits where applicable. */
+        bool use_chunk_512b_; /**< If true, use chunk sizes of 512-bits where applicable. */
 #endif
-        bool __numa_enabled; /**< If false, only CPU/memory NUMA nodes 0 may be used. */
-        std::list<uint32_t> __cpu_numa_node_affinities; /**< List of CPU NUMA nodes to affinitize on all benchmark experiments. */
-        std::list<uint32_t> __memory_numa_node_affinities; /**< List of memory NUMA nodes to affinitize on all benchmark experiments. */
-        uint32_t __iterations; /**< Number of iterations to run for each benchmark test. */
-        bool __use_random_access_pattern; /**< If true, run throughput benchmarks with random access pattern. */
-        bool __use_sequential_access_pattern; /**< If true, run throughput benchmarks with sequential access pattern. */
-        uint32_t __starting_test_index; /**< Numerical index to use for the first test. This is an aid for end-user interpreting and post-processing of result CSV file, if relevant. */
-        std::string __filename; /**< The output filename if applicable. */
-        bool __use_output_file; /**< If true, generate a CSV output file for results. */
-        bool __verbose; /**< If true, then console reporting should be more detailed. */
-        bool __use_large_pages; /**< If true, then large pages should be used. */
-        bool __use_reads; /**< If true, throughput benchmarks should use reads. */
-        bool __use_writes; /**< If true, throughput benchmarks should use writes. */
-        bool __use_stride_p1; /**< If true, use a stride of +1 in relevant benchmarks. */
-        bool __use_stride_n1; /**< If true, use a stride of -1 in relevant benchmarks. */
-        bool __use_stride_p2; /**< If true, use a stride of +2 in relevant benchmarks. */
-        bool __use_stride_n2; /**< If true, use a stride of -2 in relevant benchmarks. */
-        bool __use_stride_p4; /**< If true, use a stride of +4 in relevant benchmarks. */
-        bool __use_stride_n4; /**< If true, use a stride of -4 in relevant benchmarks. */
-        bool __use_stride_p8; /**< If true, use a stride of +8 in relevant benchmarks. */
-        bool __use_stride_n8; /**< If true, use a stride of -8 in relevant benchmarks. */
-        bool __use_stride_p16; /**< If true, use a stride of +16 in relevant benchmarks. */
-        bool __use_stride_n16; /**< If true, use a stride of -16 in relevant benchmarks. */
+        bool numa_enabled_; /**< If false, only CPU/memory NUMA nodes 0 may be used. */
+        std::list<uint32_t> cpu_numa_node_affinities_; /**< List of CPU NUMA nodes to affinitize on all benchmark experiments. */
+        std::list<uint32_t> memory_numa_node_affinities_; /**< List of memory NUMA nodes to affinitize on all benchmark experiments. */
+        uint32_t iterations_; /**< Number of iterations to run for each benchmark test. */
+        bool use_random_access_pattern_; /**< If true, run throughput benchmarks with random access pattern. */
+        bool use_sequential_access_pattern_; /**< If true, run throughput benchmarks with sequential access pattern. */
+        uint32_t starting_test_index_; /**< Numerical index to use for the first test. This is an aid for end-user interpreting and post-processing of result CSV file, if relevant. */
+        std::string filename_; /**< The output filename if applicable. */
+        bool use_output_file_; /**< If true, generate a CSV output file for results. */
+        bool verbose_; /**< If true, then console reporting should be more detailed. */
+        bool use_large_pages_; /**< If true, then large pages should be used. */
+        bool use_reads_; /**< If true, throughput benchmarks should use reads. */
+        bool use_writes_; /**< If true, throughput benchmarks should use writes. */
+        bool use_stride_p1_; /**< If true, use a stride of +1 in relevant benchmarks. */
+        bool use_stride_n1_; /**< If true, use a stride of -1 in relevant benchmarks. */
+        bool use_stride_p2_; /**< If true, use a stride of +2 in relevant benchmarks. */
+        bool use_stride_n2_; /**< If true, use a stride of -2 in relevant benchmarks. */
+        bool use_stride_p4_; /**< If true, use a stride of +4 in relevant benchmarks. */
+        bool use_stride_n4_; /**< If true, use a stride of -4 in relevant benchmarks. */
+        bool use_stride_p8_; /**< If true, use a stride of +8 in relevant benchmarks. */
+        bool use_stride_n8_; /**< If true, use a stride of -8 in relevant benchmarks. */
+        bool use_stride_p16_; /**< If true, use a stride of +16 in relevant benchmarks. */
+        bool use_stride_n16_; /**< If true, use a stride of -16 in relevant benchmarks. */
     };
 };
 

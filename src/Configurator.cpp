@@ -45,65 +45,65 @@ using namespace xmem;
 
 Configurator::Configurator(
     ) :
-    __configured(false),
-    __runExtensions(false),
+    configured_(false),
+    run_extensions_(false),
 #ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
-    __run_ext_delay_injected_loaded_latency_benchmark(false),
+    run_ext_delay_injected_loaded_latency_benchmark_(false),
 #endif
 #ifdef EXT_STREAM_BENCHMARK
-    __run_ext_stream_benchmark(false),
+    run_ext_stream_benchmark_(false),
 #endif
-    __runLatency(true),
-    __runThroughput(true),
-    __working_set_size_per_thread(DEFAULT_WORKING_SET_SIZE_PER_THREAD),
-    __num_worker_threads(DEFAULT_NUM_WORKER_THREADS),
+    run_latency_(true),
+    run_throughput_(true),
+    working_set_size_per_thread_(DEFAULT_WORKING_SET_SIZE_PER_THREAD),
+    num_worker_threads_(DEFAULT_NUM_WORKER_THREADS),
 #ifdef HAS_WORD_64
-    __use_chunk_32b(false),
-    __use_chunk_64b(true),
+    use_chunk_32b_(false),
+    use_chunk_64b_(true),
 #else
-    __use_chunk_32b(true),
+    use_chunk_32b_(true),
 #endif
 #ifdef HAS_WORD_128
-    __use_chunk_128b(false),
+    use_chunk_128b_(false),
 #endif
 #ifdef HAS_WORD_256
-    __use_chunk_256b(false),
+    use_chunk_256b_(false),
 #endif
 #ifdef HAS_WORD_512
-    __use_chunk_512b(false),
+    use_chunk_512b(false),
 #endif
 #ifdef HAS_NUMA
-    __numa_enabled(true),
+    numa_enabled_(true),
 #else
-    __numa_enabled(false),
+    numa_enabled_(false),
 #endif
-    __cpu_numa_node_affinities(),
-    __memory_numa_node_affinities(),
-    __iterations(1),
-    __use_random_access_pattern(false),
-    __use_sequential_access_pattern(true),
-    __starting_test_index(1),
-    __filename(),
-    __use_output_file(false),
-    __verbose(false),
-    __use_large_pages(false),
-    __use_reads(true),
-    __use_writes(true),
-    __use_stride_p1(true),
-    __use_stride_n1(false),
-    __use_stride_p2(false),
-    __use_stride_n2(false),
-    __use_stride_p4(false),
-    __use_stride_n4(false),
-    __use_stride_p8(false),
-    __use_stride_n8(false),
-    __use_stride_p16(false),
-    __use_stride_n16(false)
+    cpu_numa_node_affinities_(),
+    memory_numa_node_affinities_(),
+    iterations_(1),
+    use_random_access_pattern_(false),
+    use_sequential_access_pattern_(true),
+    starting_test_index_(1),
+    filename_(),
+    use_output_file_(false),
+    verbose_(false),
+    use_large_pages_(false),
+    use_reads_(true),
+    use_writes_(true),
+    use_stride_p1_(true),
+    use_stride_n1_(false),
+    use_stride_p2_(false),
+    use_stride_n2_(false),
+    use_stride_p4_(false),
+    use_stride_n4_(false),
+    use_stride_p8_(false),
+    use_stride_n8_(false),
+    use_stride_p16_(false),
+    use_stride_n16_(false)
     {
 }
 
 int32_t Configurator::configureFromInput(int argc, char* argv[]) {
-    if (__configured) { //If this object was already configured, cannot override from user inputs. This is to prevent an invalid state.
+    if (configured_) { //If this object was already configured, cannot override from user inputs. This is to prevent an invalid state.
         std::cerr << "WARNING: Something bad happened when configuring X-Mem. This is probably not your fault." << std::endl;
         return -2;
     }
@@ -138,22 +138,22 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
     
     //Verbosity
     if (options[VERBOSE]) {
-        __verbose = true; //What the user configuration is.
+        verbose_ = true; //What the user configuration is.
         g_verbose = true; //What rest of X-Mem actually uses.
     }
 
     //Check runtime modes
     if (options[MEAS_LATENCY] || options[MEAS_THROUGHPUT] || options[EXTENSION]) { //User explicitly picked at least one mode, so override default selection
-        __runLatency = false;
-        __runThroughput = false;
-        __runExtensions = false;
+        run_latency_ = false;
+        run_throughput_ = false;
+        run_extensions_ = false;
     }
     
     if (options[MEAS_LATENCY])
-        __runLatency = true;
+        run_latency_ = true;
 
     if (options[MEAS_THROUGHPUT])
-        __runThroughput = true;
+        run_throughput_ = true;
 
     //Check extensions
     if (options[EXTENSION]) {
@@ -162,14 +162,14 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
             goto error;
         }
 
-        __runExtensions = true;
+        run_extensions_ = true;
         
         //Init... override default values
 #ifdef EXT_DELAY_INJECTED_LATENCY_BENCHMARK
-        __run_ext_delay_injected_loaded_latency_benchmark = false;
+        run_ext_delay_injected_loaded_latency_benchmark_ = false;
 #endif
 #ifdef EXT_STREAM_BENCHMARK
-        __run_ext_stream_benchmark = false;
+        run_ext_stream_benchmark_ = false;
 #endif
         
         Option* curr = options[EXTENSION];
@@ -179,12 +179,12 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
             switch (ext_num) {
 #ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
                 case EXT_NUM_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK:
-                    __run_ext_delay_injected_loaded_latency_benchmark = true;
+                    run_ext_delay_injected_loaded_latency_benchmark_ = true;
                     break;
 #endif
 #ifdef EXT_STREAM_BENCHMARK
                 case EXT_NUM_STREAM_BENCHMARK:
-                    __run_ext_stream_benchmark = true;
+                    run_ext_stream_benchmark_ = true;
                     break;
 #endif
                 default:
@@ -205,7 +205,7 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
     
     //Check working set size
     if (options[WORKING_SET_SIZE_PER_THREAD]) { //Override default value with user-specified value
-        if (!__checkSingleOptionOccurrence(&options[WORKING_SET_SIZE_PER_THREAD]))
+        if (!check_single_option_occurrence(&options[WORKING_SET_SIZE_PER_THREAD]))
             goto error;
 
         char* endptr = NULL;
@@ -215,28 +215,28 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
             goto error;
         }
 
-        __working_set_size_per_thread = working_set_size_KB * KB; //convert to bytes
+        working_set_size_per_thread_ = working_set_size_KB * KB; //convert to bytes
     }
     
     //Check NUMA selection
 #ifndef HAS_NUMA
-    __numa_enabled = false;
-    __cpu_numa_node_affinities.push_back(0);
-    __memory_numa_node_affinities.push_back(0);
+    numa_enabled_ = false;
+    cpu_numa_node_affinities_.push_back(0);
+    memory_numa_node_affinities_.push_back(0);
 #endif
 
     if (options[NUMA_DISABLE]) {
 #ifndef HAS_NUMA
         std::cerr << "WARNING: NUMA is not supported on this build, so the NUMA-disable option has no effect." << std::endl;
 #else
-        __numa_enabled = false;
-        __cpu_numa_node_affinities.push_back(0);
-        __memory_numa_node_affinities.push_back(0);
+        numa_enabled_ = false;
+        cpu_numa_node_affinities_.push_back(0);
+        memory_numa_node_affinities_.push_back(0);
 #endif
     }
   
     if (options[CPU_NUMA_NODE_AFFINITY]) {
-        if (!__numa_enabled)
+        if (!numa_enabled_)
             std::cerr << "WARNING: NUMA is disabled, so you cannot specify CPU NUMA node affinity directly. Overriding to only use node 0 for CPU affinity." << std::endl;
         else {
             Option* curr = options[CPU_NUMA_NODE_AFFINITY];
@@ -249,27 +249,27 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
                 }
                 
                 bool found = false;
-                for (auto it = __cpu_numa_node_affinities.cbegin(); it != __cpu_numa_node_affinities.cend(); it++) {
+                for (auto it = cpu_numa_node_affinities_.cbegin(); it != cpu_numa_node_affinities_.cend(); it++) {
                     if (*it == cpu_numa_node_affinity)
                         found = true;
                 }
 
                 if (!found)
-                    __cpu_numa_node_affinities.push_back(cpu_numa_node_affinity);
+                    cpu_numa_node_affinities_.push_back(cpu_numa_node_affinity);
 
                 curr = curr->next();
             }
 
-            __cpu_numa_node_affinities.sort();
+            cpu_numa_node_affinities_.sort();
         }
     }
-    else if (__numa_enabled) { //Default: use all CPU NUMA nodes
+    else if (numa_enabled_) { //Default: use all CPU NUMA nodes
         for (uint32_t i = 0; i < g_num_numa_nodes; i++)
-            __cpu_numa_node_affinities.push_back(i);
+            cpu_numa_node_affinities_.push_back(i);
     }
     
     if (options[MEMORY_NUMA_NODE_AFFINITY]) {
-        if (!__numa_enabled)
+        if (!numa_enabled_)
             std::cerr << "WARNING: NUMA is disabled, so you cannot specify memory NUMA node affinity directly. Overriding to only use node 0 for memory affinity." << std::endl;
         else {
             Option* curr = options[MEMORY_NUMA_NODE_AFFINITY];
@@ -282,29 +282,29 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
                 }
                 
                 bool found = false;
-                for (auto it = __memory_numa_node_affinities.cbegin(); it != __memory_numa_node_affinities.cend(); it++) {
+                for (auto it = memory_numa_node_affinities_.cbegin(); it != memory_numa_node_affinities_.cend(); it++) {
                     if (*it == memory_numa_node_affinity)
                         found = true;
                 }
 
                 if (!found)
-                    __memory_numa_node_affinities.push_back(memory_numa_node_affinity);
+                    memory_numa_node_affinities_.push_back(memory_numa_node_affinity);
 
                 curr = curr->next();
             }
 
-            __memory_numa_node_affinities.sort();
+            memory_numa_node_affinities_.sort();
         }
     }
-    else if (__numa_enabled) { //Default: use all memory NUMA nodes
+    else if (numa_enabled_) { //Default: use all memory NUMA nodes
         for (uint32_t i = 0; i < g_num_numa_nodes; i++)
-            __memory_numa_node_affinities.push_back(i);
+            memory_numa_node_affinities_.push_back(i);
     }
     
     //Check if large pages should be used for allocation of memory under test.
     if (options[USE_LARGE_PAGES]) {
 #if defined(__gnu_linux__) && defined(ARCH_INTEL)
-        if (__numa_enabled) { //For now, large pages are not --simultaneously-- supported alongside NUMA. This is due to lack of NUMA support in hugetlbfs on GNU/Linux.
+        if (numa_enabled_) { //For now, large pages are not --simultaneously-- supported alongside NUMA. This is due to lack of NUMA support in hugetlbfs on GNU/Linux.
             std::cerr << "ERROR: On GNU/Linux version of X-Mem for Intel architectures, large pages are not simultaneously supported alongside NUMA due to reasons outside our control. If you want large pages, then force UMA using the \"-u\" option explicitly." << std::endl;
             goto error;
         }
@@ -312,18 +312,18 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 #ifndef HAS_LARGE_PAGES
         std::cerr << "WARNING: Huge pages are not supported on this build. Regular-sized pages will be used." << std::endl;
 #else
-        __use_large_pages = true;
+        use_large_pages_ = true;
 #endif
     }
 
     //Check number of worker threads
     if (options[NUM_WORKER_THREADS]) { //Override default value
-        if (!__checkSingleOptionOccurrence(&options[NUM_WORKER_THREADS]))
+        if (!check_single_option_occurrence(&options[NUM_WORKER_THREADS]))
             goto error;
 
         char* endptr = NULL;
-        __num_worker_threads = static_cast<uint32_t>(strtoul(options[NUM_WORKER_THREADS].arg, &endptr, 10));
-        if (__num_worker_threads > g_num_logical_cpus) {
+        num_worker_threads_ = static_cast<uint32_t>(strtoul(options[NUM_WORKER_THREADS].arg, &endptr, 10));
+        if (num_worker_threads_ > g_num_logical_cpus) {
             std::cerr << "ERROR: Number of worker threads may not exceed the number of logical CPUs (" << g_num_logical_cpus << ")" << std::endl;
             goto error;
         }
@@ -332,18 +332,18 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
     //Check chunk sizes
     if (options[CHUNK_SIZE]) {
         //Init... override default values
-        __use_chunk_32b = false;
+        use_chunk_32b_ = false;
 #ifdef HAS_WORD_64
-        __use_chunk_64b = false;
+        use_chunk_64b_ = false;
 #endif
 #ifdef HAS_WORD_128
-        __use_chunk_128b = false;
+        use_chunk_128b_ = false;
 #endif
 #ifdef HAS_WORD_256
-        __use_chunk_256b = false;
+        use_chunk_256b_ = false;
 #endif
 #ifdef HAS_WORD_512
-        __use_chunk_512b = false;
+        use_chunk_512b = false;
 #endif
         
         Option* curr = options[CHUNK_SIZE];
@@ -352,26 +352,26 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
             uint32_t chunk_size = static_cast<uint32_t>(strtoul(curr->arg, &endptr, 10));
             switch (chunk_size) {
                 case 32:
-                    __use_chunk_32b = true;
+                    use_chunk_32b_ = true;
                     break;
 #ifdef HAS_WORD_64
                 case 64:
-                    __use_chunk_64b = true;
+                    use_chunk_64b_ = true;
                     break;
 #endif
 #ifdef HAS_WORD_128
                 case 128: 
-                    __use_chunk_128b = true;
+                    use_chunk_128b_ = true;
                     break;
 #endif
 #ifdef HAS_WORD_256
                 case 256:
-                    __use_chunk_256b = true;
+                    use_chunk_256b_ = true;
                     break;
 #endif
 #ifdef HAS_WORD_512
                 case 512:
-                    __use_chunk_512b = true;
+                    use_chunk_512b = true;
                     break;
 #endif
                 default:
@@ -397,69 +397,69 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 
     //Check iterations
     if (options[ITERATIONS]) { //Override default value
-        if (!__checkSingleOptionOccurrence(&options[ITERATIONS]))
+        if (!check_single_option_occurrence(&options[ITERATIONS]))
             goto error;
 
         char *endptr = NULL;
-        __iterations = static_cast<uint32_t>(strtoul(options[ITERATIONS].arg, &endptr, 10));
+        iterations_ = static_cast<uint32_t>(strtoul(options[ITERATIONS].arg, &endptr, 10));
     }
 
     //Check throughput/loaded latency benchmark access patterns
     if (options[RANDOM_ACCESS_PATTERN] || options[SEQUENTIAL_ACCESS_PATTERN]) { //override defaults
-        __use_random_access_pattern = false;
-        __use_sequential_access_pattern = false;
+        use_random_access_pattern_ = false;
+        use_sequential_access_pattern_ = false;
     }
 
     if (options[RANDOM_ACCESS_PATTERN])
-        __use_random_access_pattern = true;
+        use_random_access_pattern_ = true;
     
     if (options[SEQUENTIAL_ACCESS_PATTERN])
-        __use_sequential_access_pattern = true;
+        use_sequential_access_pattern_ = true;
 
     //Check starting test index
     if (options[BASE_TEST_INDEX]) { //override defaults
-        if (!__checkSingleOptionOccurrence(&options[BASE_TEST_INDEX]))
+        if (!check_single_option_occurrence(&options[BASE_TEST_INDEX]))
             goto error;
 
         char *endptr = NULL;
-        __starting_test_index = static_cast<uint32_t>(strtoul(options[BASE_TEST_INDEX].arg, &endptr, 10)); //What the user specified
+        starting_test_index_ = static_cast<uint32_t>(strtoul(options[BASE_TEST_INDEX].arg, &endptr, 10)); //What the user specified
     }
-    g_starting_test_index = __starting_test_index; //What rest of X-Mem uses
+    g_starting_test_index = starting_test_index_; //What rest of X-Mem uses
     g_test_index = g_starting_test_index; //What rest of X-Mem uses. The current test index.
 
     //Check filename
     if (options[OUTPUT_FILE]) { //override defaults
-        if (!__checkSingleOptionOccurrence(&options[OUTPUT_FILE]))
+        if (!check_single_option_occurrence(&options[OUTPUT_FILE]))
             goto error;
 
-        __filename = options[OUTPUT_FILE].arg;
-        __use_output_file = true;
+        filename_ = options[OUTPUT_FILE].arg;
+        use_output_file_ = true;
     }
 
     //Check if reads and/or writes should be used in throughput and loaded latency benchmarks
     if (options[USE_READS] || options[USE_WRITES]) { //override defaults
-        __use_reads = false;
-        __use_writes = false;
+        use_reads_ = false;
+        use_writes_ = false;
     }
 
     if (options[USE_READS])
-        __use_reads = true;
+        use_reads_ = true;
 
     if (options[USE_WRITES])
-        __use_writes = true;
+        use_writes_ = true;
 
     //Check stride sizes
     if (options[STRIDE_SIZE]) { //override defaults
-        __use_stride_p1 = false;
-        __use_stride_n1 = false;
-        __use_stride_p2 = false;
-        __use_stride_n2 = false;
-        __use_stride_p4 = false;
-        __use_stride_n4 = false;
-        __use_stride_p8 = false;
-        __use_stride_n8 = false;
-        __use_stride_p16 = false;
-        __use_stride_n16 = false;
+        use_stride_p1_ = false;
+        use_stride_n1_ = false;
+        use_stride_p2_ = false;
+        use_stride_n2_ = false;
+        use_stride_p4_ = false;
+        use_stride_n4_ = false;
+        use_stride_p8_ = false;
+        use_stride_n8_ = false;
+        use_stride_p16_ = false;
+        use_stride_n16_ = false;
         
         Option* curr = options[STRIDE_SIZE];
         while (curr) { //STRIDE_SIZE may occur more than once, this is perfectly OK.
@@ -467,34 +467,34 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
             int32_t stride_size = static_cast<int32_t>(strtoul(curr->arg, &endptr, 10));
             switch (stride_size) {
                 case 1:
-                    __use_stride_p1 = true;
+                    use_stride_p1_ = true;
                     break;
                 case -1:
-                    __use_stride_n1 = true;
+                    use_stride_n1_ = true;
                     break;
                 case 2:
-                    __use_stride_p2 = true;
+                    use_stride_p2_ = true;
                     break;
                 case -2:
-                    __use_stride_n2 = true;
+                    use_stride_n2_ = true;
                     break;
                 case 4:
-                    __use_stride_p4 = true;
+                    use_stride_p4_ = true;
                     break;
                 case -4:
-                    __use_stride_n4 = true;
+                    use_stride_n4_ = true;
                     break;
                 case 8:
-                    __use_stride_p8 = true;
+                    use_stride_p8_ = true;
                     break;
                 case -8:
-                    __use_stride_n8 = true;
+                    use_stride_n8_ = true;
                     break;
                 case 16:
-                    __use_stride_p16 = true;
+                    use_stride_p16_ = true;
                     break;
                 case -16:
-                    __use_stride_n16 = true;
+                    use_stride_n16_ = true;
                     break;
 
                 default:
@@ -506,66 +506,66 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
     }
 
     //Make sure at least one mode is available
-    if (!__runLatency && !__runThroughput && !__runExtensions) {
+    if (!run_latency_ && !run_throughput_ && !run_extensions_) {
         std::cerr << "ERROR: At least one benchmark type must be selected." << std::endl;
         goto error;
     }
 
     //Make sure at least one access pattern is selectee
-    if (!__use_random_access_pattern && !__use_sequential_access_pattern) {
+    if (!use_random_access_pattern_ && !use_sequential_access_pattern_) {
         std::cerr << "ERROR: No access pattern was specified!" << std::endl;    
         goto error;
     }
     
     //Make sure at least one read/write pattern is selected
-    if (!__use_reads && !__use_writes) {
+    if (!use_reads_ && !use_writes_) {
         std::cerr << "ERROR: Throughput benchmark was selected, but no read/write pattern was specified!" << std::endl; 
         goto error;
     }
 
     //If the user picked "all" option, override anything else they put in that is relevant.
     if (options[ALL]) {
-        __runLatency = true;
-        __runThroughput = true;
-        __runExtensions = true;
+        run_latency_ = true;
+        run_throughput_ = true;
+        run_extensions_ = true;
 #ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
-        __run_ext_delay_injected_loaded_latency_benchmark = true;
+        run_ext_delay_injected_loaded_latency_benchmark_ = true;
 #endif
 #ifdef EXT_STREAM_BENCHMARK
-        __run_ext_stream_benchmark = true;
+        run_ext_stream_benchmark_ = true;
 #endif
-        __use_chunk_32b = true;
+        use_chunk_32b_ = true;
 #ifdef HAS_WORD_64
-        __use_chunk_64b = true;
+        use_chunk_64b_ = true;
 #endif
 #ifdef HAS_WORD_128
-        __use_chunk_128b = true;
+        use_chunk_128b_ = true;
 #endif
 #ifdef HAS_WORD_256
-        __use_chunk_256b = true;
+        use_chunk_256b_ = true;
 #endif
 #ifdef HAS_WORD_512
-        __use_chunk_512b = true;
+        use_chunk_512b = true;
 #endif
-        __use_random_access_pattern = true; 
-        __use_sequential_access_pattern = true;
-        __use_reads = true;
-        __use_writes = true;
-        __use_stride_p1 = true;
-        __use_stride_n1 = true;
-        __use_stride_p2 = true;
-        __use_stride_n2 = true;
-        __use_stride_p4 = true;
-        __use_stride_n4 = true;
-        __use_stride_p8 = true;
-        __use_stride_n8 = true;
-        __use_stride_p16 = true;
-        __use_stride_n16 = true;
+        use_random_access_pattern_ = true; 
+        use_sequential_access_pattern_ = true;
+        use_reads_ = true;
+        use_writes_ = true;
+        use_stride_p1_ = true;
+        use_stride_n1_ = true;
+        use_stride_p2_ = true;
+        use_stride_n2_ = true;
+        use_stride_p4_ = true;
+        use_stride_n4_ = true;
+        use_stride_p8_ = true;
+        use_stride_n8_ = true;
+        use_stride_p16_ = true;
+        use_stride_n16_ = true;
     }
     
 #ifdef HAS_WORD_64
     //Notify that 32-bit chunks are not used on random throughput benchmarks on 64-bit machines
-    if (__use_random_access_pattern && __use_chunk_32b) 
+    if (use_random_access_pattern_ && use_chunk_32b_) 
         std::cerr << "NOTE: Random-access load kernels used in throughput and loaded latency benchmarks do not support 32-bit chunk sizes on 64-bit machines. These particular combinations will be omitted." << std::endl;
 #endif
 
@@ -575,105 +575,105 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
     
     //Report final runtime configuration based on user inputs
     std::cout << std::endl;
-    if (__verbose) {
+    if (verbose_) {
         std::cout << "Verbose output enabled!" << std::endl;
 
         std::cout << "Benchmarking modes:" << std::endl;
-        if (__runThroughput)
+        if (run_throughput_)
             std::cout << "---> Throughput" << std::endl;
-        if (__runLatency) {
+        if (run_latency_) {
             std::cout << "---> ";
-            if (__num_worker_threads > 1)
+            if (num_worker_threads_ > 1)
                 std::cout << "Loaded ";
             else
                 std::cout << "Unloaded ";
             std::cout << "latency" << std::endl;
         }
-        if (__runExtensions)
+        if (run_extensions_)
             std::cout << "---> Extensions" << std::endl;
         std::cout << std::endl;
         
         std::cout << "Benchmark settings:" << std::endl;
         std::cout << "---> Random access:                   ";
-        if (__use_random_access_pattern)
+        if (use_random_access_pattern_)
             std::cout << "yes";
         else
             std::cout << "no";
         std::cout << std::endl;
         std::cout << "---> Sequential access:               ";
-        if (__use_sequential_access_pattern)
+        if (use_sequential_access_pattern_)
             std::cout << "yes";
         else
             std::cout << "no";
         std::cout << std::endl;
         std::cout << "---> Use memory reads:                ";
-        if (__use_reads)
+        if (use_reads_)
             std::cout << "yes";
         else
             std::cout << "no";
         std::cout << std::endl;
         std::cout << "---> Use memory writes:               ";
-        if (__use_writes)
+        if (use_writes_)
             std::cout << "yes";
         else
             std::cout << "no";
         std::cout << std::endl;
         std::cout << "---> Chunk sizes:                     ";
-        if (__use_chunk_32b)
+        if (use_chunk_32b_)
             std::cout << "32 ";
 #ifdef HAS_WORD_64
-        if (__use_chunk_64b)
+        if (use_chunk_64b_)
             std::cout << "64 ";
 #endif
 #ifdef HAS_WORD_128
-        if (__use_chunk_128b)
+        if (use_chunk_128b_)
             std::cout << "128 ";
 #endif
 #ifdef HAS_WORD_256
-        if (__use_chunk_256b)
+        if (use_chunk_256b_)
             std::cout << "256 ";
 #endif
 #ifdef HAS_WORD_512
-        if (__use_chunk_512b)
+        if (use_chunk_512b)
             std::cout << "512 ";
 #endif
         std::cout << std::endl;
         std::cout << "---> Stride sizes:                    ";
-        if (__use_stride_p1)
+        if (use_stride_p1_)
             std::cout << "1 ";
-        if (__use_stride_n1)
+        if (use_stride_n1_)
             std::cout << "-1 ";
-        if (__use_stride_p2)
+        if (use_stride_p2_)
             std::cout << "2 ";
-        if (__use_stride_n2)
+        if (use_stride_n2_)
             std::cout << "-2 ";
-        if (__use_stride_p4)
+        if (use_stride_p4_)
             std::cout << "4 ";
-        if (__use_stride_n4)
+        if (use_stride_n4_)
             std::cout << "-4 ";
-        if (__use_stride_p8)
+        if (use_stride_p8_)
             std::cout << "8 ";
-        if (__use_stride_n8)
+        if (use_stride_n8_)
             std::cout << "-8 ";
-        if (__use_stride_p16)
+        if (use_stride_p16_)
             std::cout << "16 ";
-        if (__use_stride_n16)
+        if (use_stride_n16_)
             std::cout << "-16 ";
         std::cout << std::endl;
         std::cout << "---> Number of worker threads:        ";
-        std::cout << __num_worker_threads << std::endl;
+        std::cout << num_worker_threads_ << std::endl;
         std::cout << "---> NUMA enabled:                    ";
 #ifdef HAS_NUMA
-        if (__numa_enabled)
+        if (numa_enabled_)
             std::cout << "yes" << std::endl;
         else
             std::cout << "no" << std::endl;
         std::cout << "------> CPU NUMA node affinities:     ";
-        for (auto it = __cpu_numa_node_affinities.cbegin(); it != __cpu_numa_node_affinities.cend(); it++)
+        for (auto it = cpu_numa_node_affinities_.cbegin(); it != cpu_numa_node_affinities_.cend(); it++)
             std::cout << *it << " ";
         std::cout << std::endl;
         std::cout << "------> Memory NUMA node affinities:  ";
-        for (auto it = __memory_numa_node_affinities.cbegin(); it != __memory_numa_node_affinities.cend(); it++)
+        for (auto it = memory_numa_node_affinities_.cbegin(); it != memory_numa_node_affinities_.cend(); it++)
             std::cout << *it << " ";
         std::cout << std::endl;
 #else
@@ -681,7 +681,7 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
 #endif
         std::cout << "---> Large pages:                     ";
 #ifdef HAS_LARGE_PAGES
-        if (__use_large_pages)
+        if (use_large_pages_)
             std::cout << "yes" << std::endl;
         else
             std::cout << "no" << std::endl;
@@ -689,24 +689,24 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
         std::cout << "not supported" << std::endl;
 #endif
         std::cout << "---> Iterations:                      ";
-        std::cout << __iterations << std::endl;
+        std::cout << iterations_ << std::endl;
         std::cout << "---> Starting test index:             ";
-        std::cout << __starting_test_index << std::endl;
+        std::cout << starting_test_index_ << std::endl;
         std::cout << std::endl;
     }
 
         std::cout << "Working set per thread:               ";
-    if (__use_large_pages) {
+    if (use_large_pages_) {
         size_t num_large_pages = 0;
-        if (__working_set_size_per_thread <= g_large_page_size) //sub one large page, round up to one
+        if (working_set_size_per_thread_ <= g_large_page_size) //sub one large page, round up to one
             num_large_pages = 1;
-        else if (__working_set_size_per_thread % g_large_page_size == 0) //multiple of large page
-            num_large_pages = __working_set_size_per_thread / g_large_page_size;
+        else if (working_set_size_per_thread_ % g_large_page_size == 0) //multiple of large page
+            num_large_pages = working_set_size_per_thread_ / g_large_page_size;
         else //larger than one large page but not a multiple of large page
-            num_large_pages = __working_set_size_per_thread / g_large_page_size + 1;
-        std::cout << __working_set_size_per_thread << " B == " << __working_set_size_per_thread / KB  << " KB == " << __working_set_size_per_thread / MB << " MB (fits in " << num_large_pages << " large pages)" << std::endl; 
+            num_large_pages = working_set_size_per_thread_ / g_large_page_size + 1;
+        std::cout << working_set_size_per_thread_ << " B == " << working_set_size_per_thread_ / KB  << " KB == " << working_set_size_per_thread_ / MB << " MB (fits in " << num_large_pages << " large pages)" << std::endl; 
     } else { 
-        std::cout << __working_set_size_per_thread << " B == " << __working_set_size_per_thread / KB  << " KB == " << __working_set_size_per_thread / MB << " MB (" << __working_set_size_per_thread/(g_page_size) << " pages)" << std::endl;   
+        std::cout << working_set_size_per_thread_ << " B == " << working_set_size_per_thread_ / KB  << " KB == " << working_set_size_per_thread_ / MB << " MB (" << working_set_size_per_thread_/(g_page_size) << " pages)" << std::endl;   
     }
 
     //Free up options memory
@@ -727,7 +727,7 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
         return -1;
 }
 
-bool Configurator::__checkSingleOptionOccurrence(Option* opt) const {
+bool Configurator::check_single_option_occurrence(Option* opt) const {
     if (opt->count() > 1) {
         std::cerr << "ERROR: " << opt->name << " option can only be specified once." << std::endl;
         return false;
