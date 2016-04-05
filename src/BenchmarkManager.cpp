@@ -76,19 +76,19 @@ using namespace xmem;
 BenchmarkManager::BenchmarkManager(
         Configurator &config
     ) :
-        __config(config),
-        __cpu_numa_node_affinities(),
-        __memory_numa_node_affinities(),
-        __mem_arrays(),
+        config_(config),
+        cpu_numa_node_affinities_(),
+        memory_numa_node_affinities_(),
+        mem_arrays_(),
 #ifndef HAS_NUMA
-        __orig_malloc_addr(NULL),
+        orig_malloc_addr_(NULL),
 #endif
-        __mem_array_lens(),
-        __tp_benchmarks(),
-        __lat_benchmarks(),
-        __dram_power_readers(),
-        __results_file(),
-        __built_benchmarks(false)
+        mem_array_lens_(),
+        tp_benchmarks_(),
+        lat_benchmarks_(),
+        dram_power_readers_(),
+        results_file_(),
+        built_benchmarks_(false)
     {
     //Set up DRAM power measurement
     for (uint32_t i = 0; i < g_num_physical_packages; i++) { //FIXME: this assumes that each physical package has a DRAM power measurement capability
@@ -97,196 +97,196 @@ BenchmarkManager::BenchmarkManager(
 #ifdef _WIN32
 #ifndef ARCH_ARM //lacking library support for Windows on ARM
         //Put the thread on the last logical CPU in each NUMA node.
-        __dram_power_readers.push_back(new WindowsDRAMPowerReader(cpu_id_in_numa_node(i,g_num_logical_cpus / g_num_numa_nodes - 1), POWER_SAMPLING_PERIOD_MS, 1, power_obj_name, cpu_id_in_numa_node(i,g_num_logical_cpus / g_num_numa_nodes - 1))); 
+        dram_power_readers_.push_back(new WindowsDRAMPowerReader(cpu_id_in_numa_node(i,g_num_logical_cpus / g_num_numa_nodes - 1), POWER_SAMPLING_PERIOD_MS, 1, power_obj_name, cpu_id_in_numa_node(i,g_num_logical_cpus / g_num_numa_nodes - 1))); 
 #else
-        __dram_power_readers.push_back(NULL);
+        dram_power_readers_.push_back(NULL);
 #endif
 #endif
 #ifdef __gnu_linux__
         //TODO: Implement derived PowerReaders for Linux systems.
-        __dram_power_readers.push_back(NULL);
+        dram_power_readers_.push_back(NULL);
 #endif
     }
 
     //Set up NUMA stuff
-    __cpu_numa_node_affinities = __config.getCpuNumaNodeAffinities();
-    __memory_numa_node_affinities = __config.getMemoryNumaNodeAffinities();
+    cpu_numa_node_affinities_ = config_.getCpuNumaNodeAffinities();
+    memory_numa_node_affinities_ = config_.getMemoryNumaNodeAffinities();
 
     //Build working memory regions
-    __setupWorkingSets(__config.getWorkingSetSizePerThread());
+    setupWorkingSets(config_.getWorkingSetSizePerThread());
 
     //Open results file
-    if (__config.useOutputFile()) {
-        __results_file.open(__config.getOutputFilename().c_str(), std::fstream::out);
-        if (!__results_file.is_open()) {
-            __config.setUseOutputFile(false);
-            std::cerr << "WARNING: Failed to open " << __config.getOutputFilename() << " for writing! No results file will be generated." << std::endl;
+    if (config_.useOutputFile()) {
+        results_file_.open(config_.getOutputFilename().c_str(), std::fstream::out);
+        if (!results_file_.is_open()) {
+            config_.setUseOutputFile(false);
+            std::cerr << "WARNING: Failed to open " << config_.getOutputFilename() << " for writing! No results file will be generated." << std::endl;
         }
 
         //Generate file headers
-        __results_file << "Test Name,Iterations,Working Set Size Per Thread (KB),Total Number of Threads,Number of Load Generating Threads,NUMA Memory Node,NUMA CPU Node,Load Access Pattern,Load Read/Write Mix,Load Chunk Size (bits),Load Stride Size (chunks),Mean Load Throughput,Min Load Throughput,25th Percentile Load Throughput,Median Load Throughput,75th Percentile Load Throughput,95th Percentile Load Throughput,99th Percentile Load Throughput,Max Load Throughput,Mode Load Throughput,Throughput Units,Mean Latency,Min Latency,25th Percentile Latency,Median Latency,75th Percentile Latency,95th Percentile Latency,99th Percentile Latency,Max Latency,Mode Latency,Latency Units,";
-        for (uint32_t i = 0; i < __dram_power_readers.size(); i++)  {
-            if (__dram_power_readers[i] != NULL) {
-                __results_file << __dram_power_readers[i]->name() << " Mean Power (W),";
-                __results_file << __dram_power_readers[i]->name() << " Peak Power (W),";
+        results_file_ << "Test Name,Iterations,Working Set Size Per Thread (KB),Total Number of Threads,Number of Load Generating Threads,NUMA Memory Node,NUMA CPU Node,Load Access Pattern,Load Read/Write Mix,Load Chunk Size (bits),Load Stride Size (chunks),Mean Load Throughput,Min Load Throughput,25th Percentile Load Throughput,Median Load Throughput,75th Percentile Load Throughput,95th Percentile Load Throughput,99th Percentile Load Throughput,Max Load Throughput,Mode Load Throughput,Throughput Units,Mean Latency,Min Latency,25th Percentile Latency,Median Latency,75th Percentile Latency,95th Percentile Latency,99th Percentile Latency,Max Latency,Mode Latency,Latency Units,";
+        for (uint32_t i = 0; i < dram_power_readers_.size(); i++)  {
+            if (dram_power_readers_[i] != NULL) {
+                results_file_ << dram_power_readers_[i]->name() << " Mean Power (W),";
+                results_file_ << dram_power_readers_[i]->name() << " Peak Power (W),";
             } else {
-                __results_file << "NAME? Mean Power (W),";
-                __results_file << "NAME? Peak Power (W),";
+                results_file_ << "NAME? Mean Power (W),";
+                results_file_ << "NAME? Peak Power (W),";
             }
         }
-        __results_file << "Extension Info,";
-        __results_file << "Notes,";
-        __results_file << std::endl;
+        results_file_ << "Extension Info,";
+        results_file_ << "Notes,";
+        results_file_ << std::endl;
     }
 }
 
 BenchmarkManager::~BenchmarkManager() {
     //Free throughput benchmarks
-    for (uint32_t i = 0; i < __tp_benchmarks.size(); i++)
-        delete __tp_benchmarks[i];
+    for (uint32_t i = 0; i < tp_benchmarks_.size(); i++)
+        delete tp_benchmarks_[i];
     //Free latency benchmarks
-    for (uint32_t i = 0; i < __lat_benchmarks.size(); i++)
-        delete __lat_benchmarks[i];
+    for (uint32_t i = 0; i < lat_benchmarks_.size(); i++)
+        delete lat_benchmarks_[i];
     //Free memory arrays
-    for (uint32_t i = 0; i < __mem_arrays.size(); i++)
-        if (__mem_arrays[i] != nullptr) {
+    for (uint32_t i = 0; i < mem_arrays_.size(); i++)
+        if (mem_arrays_[i] != nullptr) {
 #ifdef _WIN32
-            VirtualFreeEx(GetCurrentProcess(), __mem_arrays[i], 0, MEM_RELEASE);
+            VirtualFreeEx(GetCurrentProcess(), mem_arrays_[i], 0, MEM_RELEASE);
 #endif
 #ifdef __gnu_linux__
 #ifdef HAS_LARGE_PAGES
-            if (__config.useLargePages())
-                free_huge_pages(__mem_arrays[i]);
+            if (config_.useLargePages())
+                free_huge_pages(mem_arrays_[i]);
             else
 #endif
 #ifdef HAS_NUMA
-                numa_free(__mem_arrays[i], __mem_array_lens[i]); 
+                numa_free(mem_arrays_[i], mem_array_lens_[i]); 
 #else
-                free(__orig_malloc_addr); //this is somewhat of a band-aid
+                free(orig_malloc_addr_); //this is somewhat of a band-aid
 #endif
 #endif
         }
     //Close results file
-    if (__results_file.is_open())
-        __results_file.close();
+    if (results_file_.is_open())
+        results_file_.close();
 }
 
 bool BenchmarkManager::runAll() {
     bool success = true;
 
-    if (__config.throughputTestSelected())
+    if (config_.throughputTestSelected())
         success = success && runThroughputBenchmarks();
-    if (__config.latencyTestSelected())
+    if (config_.latencyTestSelected())
         success = success && runLatencyBenchmarks();
 
     return success;
 }
 
 bool BenchmarkManager::runThroughputBenchmarks() {
-    if (!__built_benchmarks) {
-        if (!__buildBenchmarks()) {
+    if (!built_benchmarks_) {
+        if (!buildBenchmarks()) {
             std::cerr << "ERROR: Failed to build benchmarks." << std::endl;
             return false;
         }
     }
 
-    for (uint32_t i = 0; i < __tp_benchmarks.size(); i++) {
-        __tp_benchmarks[i]->run(); 
-        __tp_benchmarks[i]->reportResults(); //to console
+    for (uint32_t i = 0; i < tp_benchmarks_.size(); i++) {
+        tp_benchmarks_[i]->run(); 
+        tp_benchmarks_[i]->reportResults(); //to console
         
         //Write to results file if necessary
-        if (__config.useOutputFile()) {
-            __results_file << __tp_benchmarks[i]->getName() << ",";
-            __results_file << __tp_benchmarks[i]->getIterations() << ",";
-            __results_file << static_cast<size_t>(__tp_benchmarks[i]->getLen() / __tp_benchmarks[i]->getNumThreads() / KB) << ",";
-            __results_file << __tp_benchmarks[i]->getNumThreads() << ",";
-            __results_file << __tp_benchmarks[i]->getNumThreads() << ",";
-            __results_file << __tp_benchmarks[i]->getMemNode() << ",";
-            __results_file << __tp_benchmarks[i]->getCPUNode() << ",";
-            pattern_mode_t pattern = __tp_benchmarks[i]->getPatternMode();
+        if (config_.useOutputFile()) {
+            results_file_ << tp_benchmarks_[i]->getName() << ",";
+            results_file_ << tp_benchmarks_[i]->getIterations() << ",";
+            results_file_ << static_cast<size_t>(tp_benchmarks_[i]->getLen() / tp_benchmarks_[i]->getNumThreads() / KB) << ",";
+            results_file_ << tp_benchmarks_[i]->getNumThreads() << ",";
+            results_file_ << tp_benchmarks_[i]->getNumThreads() << ",";
+            results_file_ << tp_benchmarks_[i]->getMemNode() << ",";
+            results_file_ << tp_benchmarks_[i]->getCPUNode() << ",";
+            pattern_mode_t pattern = tp_benchmarks_[i]->getPatternMode();
             switch (pattern) {
                 case SEQUENTIAL:
-                    __results_file << "SEQUENTIAL" << ",";
+                    results_file_ << "SEQUENTIAL" << ",";
                     break;
                 case RANDOM:
-                    __results_file << "RANDOM" << ",";
+                    results_file_ << "RANDOM" << ",";
                     break;
                 default:
-                    __results_file << "UNKNOWN" << ",";
+                    results_file_ << "UNKNOWN" << ",";
                     break;
             }
 
-            rw_mode_t rw_mode = __tp_benchmarks[i]->getRWMode();
+            rw_mode_t rw_mode = tp_benchmarks_[i]->getRWMode();
             switch (rw_mode) {
                 case READ:
-                    __results_file << "READ" << ",";
+                    results_file_ << "READ" << ",";
                     break;
                 case WRITE:
-                    __results_file << "WRITE" << ",";
+                    results_file_ << "WRITE" << ",";
                     break;
                 default:
-                    __results_file << "UNKNOWN" << ",";
+                    results_file_ << "UNKNOWN" << ",";
                     break;
             }
 
-            chunk_size_t chunk_size = __tp_benchmarks[i]->getChunkSize();
+            chunk_size_t chunk_size = tp_benchmarks_[i]->getChunkSize();
             switch (chunk_size) {
                 case CHUNK_32b:
-                    __results_file << "32" << ",";
+                    results_file_ << "32" << ",";
                     break;
 #ifdef HAS_WORD_64
                 case CHUNK_64b:
-                    __results_file << "64" << ",";
+                    results_file_ << "64" << ",";
                     break;
 #endif
 #ifdef HAS_WORD_128
                 case CHUNK_128b:
-                    __results_file << "128" << ",";
+                    results_file_ << "128" << ",";
                     break;
 #endif
 #ifdef HAS_WORD_256
                 case CHUNK_256b:
-                    __results_file << "256" << ",";
+                    results_file_ << "256" << ",";
                     break;
 #endif
 #ifdef HAS_WORD_512
                 case CHUNK_512b:
-                    __results_file << "512" << ",";
+                    results_file_ << "512" << ",";
                     break;
 #endif
                 default:
-                    __results_file << "UNKNOWN" << ",";
+                    results_file_ << "UNKNOWN" << ",";
                     break;
             }
 
-            __results_file << __tp_benchmarks[i]->getStrideSize() << ",";
-            __results_file << __tp_benchmarks[i]->getMeanMetric() << ",";
-            __results_file << __tp_benchmarks[i]->getMinMetric() << ",";
-            __results_file << __tp_benchmarks[i]->get25PercentileMetric() << ",";
-            __results_file << __tp_benchmarks[i]->getMedianMetric() << ",";
-            __results_file << __tp_benchmarks[i]->get75PercentileMetric() << ",";
-            __results_file << __tp_benchmarks[i]->get95PercentileMetric() << ",";
-            __results_file << __tp_benchmarks[i]->get99PercentileMetric() << ",";
-            __results_file << __tp_benchmarks[i]->getMaxMetric() << ",";
-            __results_file << __tp_benchmarks[i]->getModeMetric() << ",";
-            __results_file << __tp_benchmarks[i]->getMetricUnits() << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
+            results_file_ << tp_benchmarks_[i]->getStrideSize() << ",";
+            results_file_ << tp_benchmarks_[i]->getMeanMetric() << ",";
+            results_file_ << tp_benchmarks_[i]->getMinMetric() << ",";
+            results_file_ << tp_benchmarks_[i]->get25PercentileMetric() << ",";
+            results_file_ << tp_benchmarks_[i]->getMedianMetric() << ",";
+            results_file_ << tp_benchmarks_[i]->get75PercentileMetric() << ",";
+            results_file_ << tp_benchmarks_[i]->get95PercentileMetric() << ",";
+            results_file_ << tp_benchmarks_[i]->get99PercentileMetric() << ",";
+            results_file_ << tp_benchmarks_[i]->getMaxMetric() << ",";
+            results_file_ << tp_benchmarks_[i]->getModeMetric() << ",";
+            results_file_ << tp_benchmarks_[i]->getMetricUnits() << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
             for (uint32_t j = 0; j < g_num_physical_packages; j++) {
-                __results_file << __tp_benchmarks[i]->getMeanDRAMPower(j) << ",";
-                __results_file << __tp_benchmarks[i]->getPeakDRAMPower(j) << ",";
+                results_file_ << tp_benchmarks_[i]->getMeanDRAMPower(j) << ",";
+                results_file_ << tp_benchmarks_[i]->getPeakDRAMPower(j) << ",";
             }
-            __results_file << "N/A" << ",";
-            __results_file << "" << ",";
-            __results_file << std::endl;
+            results_file_ << "N/A" << ",";
+            results_file_ << "" << ",";
+            results_file_ << std::endl;
         }
     }
 
@@ -297,118 +297,118 @@ bool BenchmarkManager::runThroughputBenchmarks() {
 }
 
 bool BenchmarkManager::runLatencyBenchmarks() {
-    if (!__built_benchmarks) {
-        if (!__buildBenchmarks()) {
+    if (!built_benchmarks_) {
+        if (!buildBenchmarks()) {
             std::cerr << "ERROR: Failed to build benchmarks." << std::endl;
             return false;
         }
     }
 
-    for (uint32_t i = 0; i < __lat_benchmarks.size(); i++) {
-        __lat_benchmarks[i]->run(); 
-        __lat_benchmarks[i]->reportResults(); //to console
+    for (uint32_t i = 0; i < lat_benchmarks_.size(); i++) {
+        lat_benchmarks_[i]->run(); 
+        lat_benchmarks_[i]->reportResults(); //to console
         
         //Write to results file if necessary
-        if (__config.useOutputFile()) {
-            __results_file << __lat_benchmarks[i]->getName() << ",";
-            __results_file << __lat_benchmarks[i]->getIterations() << ",";
-            __results_file << static_cast<size_t>(__lat_benchmarks[i]->getLen() / __lat_benchmarks[i]->getNumThreads() / KB) << ",";
-            __results_file << __lat_benchmarks[i]->getNumThreads() << ",";
-            __results_file << __lat_benchmarks[i]->getNumThreads()-1 << ",";
-            __results_file << __lat_benchmarks[i]->getMemNode() << ",";
-            __results_file << __lat_benchmarks[i]->getCPUNode() << ",";
-            if (__lat_benchmarks[i]->getNumThreads() < 2) {
-                __results_file << "N/A" << ",";
-                __results_file << "N/A" << ",";
-                __results_file << "N/A" << ",";
-                __results_file << "N/A" << ",";
+        if (config_.useOutputFile()) {
+            results_file_ << lat_benchmarks_[i]->getName() << ",";
+            results_file_ << lat_benchmarks_[i]->getIterations() << ",";
+            results_file_ << static_cast<size_t>(lat_benchmarks_[i]->getLen() / lat_benchmarks_[i]->getNumThreads() / KB) << ",";
+            results_file_ << lat_benchmarks_[i]->getNumThreads() << ",";
+            results_file_ << lat_benchmarks_[i]->getNumThreads()-1 << ",";
+            results_file_ << lat_benchmarks_[i]->getMemNode() << ",";
+            results_file_ << lat_benchmarks_[i]->getCPUNode() << ",";
+            if (lat_benchmarks_[i]->getNumThreads() < 2) {
+                results_file_ << "N/A" << ",";
+                results_file_ << "N/A" << ",";
+                results_file_ << "N/A" << ",";
+                results_file_ << "N/A" << ",";
             } else {
-                pattern_mode_t pattern = __lat_benchmarks[i]->getPatternMode();
+                pattern_mode_t pattern = lat_benchmarks_[i]->getPatternMode();
                 switch (pattern) {
                     case SEQUENTIAL:
-                        __results_file << "SEQUENTIAL" << ",";
+                        results_file_ << "SEQUENTIAL" << ",";
                         break;
                     case RANDOM:
-                        __results_file << "RANDOM" << ",";
+                        results_file_ << "RANDOM" << ",";
                         break;
                     default:
-                        __results_file << "UNKNOWN" << ",";
+                        results_file_ << "UNKNOWN" << ",";
                         break;
                 }
 
-                rw_mode_t rw_mode = __lat_benchmarks[i]->getRWMode();
+                rw_mode_t rw_mode = lat_benchmarks_[i]->getRWMode();
                 switch (rw_mode) {
                     case READ:
-                        __results_file << "READ" << ",";
+                        results_file_ << "READ" << ",";
                         break;
                     case WRITE:
-                        __results_file << "WRITE" << ",";
+                        results_file_ << "WRITE" << ",";
                         break;
                     default:
-                        __results_file << "UNKNOWN" << ",";
+                        results_file_ << "UNKNOWN" << ",";
                         break;
                 }
 
-                chunk_size_t chunk_size = __lat_benchmarks[i]->getChunkSize();
+                chunk_size_t chunk_size = lat_benchmarks_[i]->getChunkSize();
                 switch (chunk_size) {
                     case CHUNK_32b:
-                        __results_file << "32" << ",";
+                        results_file_ << "32" << ",";
                         break;
 #ifdef HAS_WORD_64
                     case CHUNK_64b:
-                        __results_file << "64" << ",";
+                        results_file_ << "64" << ",";
                         break;
 #endif
 #ifdef HAS_WORD_128
                     case CHUNK_128b:
-                        __results_file << "128" << ",";
+                        results_file_ << "128" << ",";
                         break;
 #endif
 #ifdef HAS_WORD_256
                     case CHUNK_256b:
-                        __results_file << "256" << ",";
+                        results_file_ << "256" << ",";
                         break;
 #endif
 #ifdef HAS_WORD_512
                     case CHUNK_512b:
-                        __results_file << "512" << ",";
+                        results_file_ << "512" << ",";
                         break;
 #endif
                     default:
-                        __results_file << "UNKNOWN" << ",";
+                        results_file_ << "UNKNOWN" << ",";
                         break;
                 }
             
-                __results_file << __lat_benchmarks[i]->getStrideSize() << ",";
+                results_file_ << lat_benchmarks_[i]->getStrideSize() << ",";
             }
 
-            __results_file << __lat_benchmarks[i]->getMeanLoadMetric() << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "MB/s" << ",";
-            __results_file << __lat_benchmarks[i]->getMeanMetric() << ",";
-            __results_file << __lat_benchmarks[i]->getMinMetric() << ",";
-            __results_file << __lat_benchmarks[i]->get25PercentileMetric() << ",";
-            __results_file << __lat_benchmarks[i]->getMedianMetric() << ",";
-            __results_file << __lat_benchmarks[i]->get75PercentileMetric() << ",";
-            __results_file << __lat_benchmarks[i]->get95PercentileMetric() << ",";
-            __results_file << __lat_benchmarks[i]->get99PercentileMetric() << ",";
-            __results_file << __lat_benchmarks[i]->getMaxMetric() << ",";
-            __results_file << __lat_benchmarks[i]->getModeMetric() << ",";
-            __results_file << __lat_benchmarks[i]->getMetricUnits() << ",";
+            results_file_ << lat_benchmarks_[i]->getMeanLoadMetric() << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "MB/s" << ",";
+            results_file_ << lat_benchmarks_[i]->getMeanMetric() << ",";
+            results_file_ << lat_benchmarks_[i]->getMinMetric() << ",";
+            results_file_ << lat_benchmarks_[i]->get25PercentileMetric() << ",";
+            results_file_ << lat_benchmarks_[i]->getMedianMetric() << ",";
+            results_file_ << lat_benchmarks_[i]->get75PercentileMetric() << ",";
+            results_file_ << lat_benchmarks_[i]->get95PercentileMetric() << ",";
+            results_file_ << lat_benchmarks_[i]->get99PercentileMetric() << ",";
+            results_file_ << lat_benchmarks_[i]->getMaxMetric() << ",";
+            results_file_ << lat_benchmarks_[i]->getModeMetric() << ",";
+            results_file_ << lat_benchmarks_[i]->getMetricUnits() << ",";
             for (uint32_t j = 0; j < g_num_physical_packages; j++) {
-                __results_file << __lat_benchmarks[i]->getMeanDRAMPower(j) << ",";
-                __results_file << __lat_benchmarks[i]->getPeakDRAMPower(j) << ",";
+                results_file_ << lat_benchmarks_[i]->getMeanDRAMPower(j) << ",";
+                results_file_ << lat_benchmarks_[i]->getPeakDRAMPower(j) << ",";
             }
-            __results_file << "N/A" << ",";
-            __results_file << "" << ",";
-            __results_file << std::endl;
+            results_file_ << "N/A" << ",";
+            results_file_ << "" << ",";
+            results_file_ << std::endl;
         }
     }
 
@@ -418,26 +418,26 @@ bool BenchmarkManager::runLatencyBenchmarks() {
     return true;
 }
 
-void BenchmarkManager::__setupWorkingSets(size_t working_set_size) {
+void BenchmarkManager::setupWorkingSets(size_t working_set_size) {
     //Allocate memory in each NUMA node to be tested
 
     //We reserve the space for these, but that doesn't mean they will all be used.
-    __mem_arrays.resize(g_num_numa_nodes); 
-    __mem_array_lens.resize(g_num_numa_nodes);
+    mem_arrays_.resize(g_num_numa_nodes); 
+    mem_array_lens_.resize(g_num_numa_nodes);
 
-    for (auto it = __memory_numa_node_affinities.cbegin(); it != __memory_numa_node_affinities.cend(); it++) {
+    for (auto it = memory_numa_node_affinities_.cbegin(); it != memory_numa_node_affinities_.cend(); it++) {
         size_t allocation_size = 0;
         uint32_t numa_node = *it;
 
 #ifdef HAS_LARGE_PAGES
-        if (__config.useLargePages()) {
+        if (config_.useLargePages()) {
             size_t remainder = 0;
             //For large pages, working set size could be less than a single large page. So let's allocate the right amount of memory, which is the working set size rounded up to nearest large page, which could be more than we actually use.
-            if (__config.getNumWorkerThreads() * working_set_size < g_large_page_size)
+            if (config_.getNumWorkerThreads() * working_set_size < g_large_page_size)
                 allocation_size = g_large_page_size;
             else { 
-                remainder = (__config.getNumWorkerThreads() * working_set_size) % g_large_page_size;
-                allocation_size = (__config.getNumWorkerThreads() * working_set_size) + remainder;
+                remainder = (config_.getNumWorkerThreads() * working_set_size) % g_large_page_size;
+                allocation_size = (config_.getNumWorkerThreads() * working_set_size) + remainder;
             }
             
 #ifdef _WIN32
@@ -453,64 +453,64 @@ void BenchmarkManager::__setupWorkingSets(size_t working_set_size) {
             }
             CloseHandle(hToken);
             
-            __mem_arrays[numa_node] = VirtualAllocExNuma(GetCurrentProcess(), NULL, allocation_size, MEM_COMMIT | MEM_RESERVE | MEM_LARGE_PAGES, PAGE_READWRITE, numa_node); //Windows NUMA allocation. Make the allocation one page bigger than necessary so that we can do alignment.
+            mem_arrays_[numa_node] = VirtualAllocExNuma(GetCurrentProcess(), NULL, allocation_size, MEM_COMMIT | MEM_RESERVE | MEM_LARGE_PAGES, PAGE_READWRITE, numa_node); //Windows NUMA allocation. Make the allocation one page bigger than necessary so that we can do alignment.
 #endif
 #ifdef __gnu_linux__
-            __mem_arrays[numa_node] = get_huge_pages(allocation_size, GHP_DEFAULT); 
+            mem_arrays_[numa_node] = get_huge_pages(allocation_size, GHP_DEFAULT); 
 #endif
         } else { //Non-large pages (nominal case)
 #endif
             //Under normal (not large-page) operation, working set size is a multiple of regular pages.
-            allocation_size = __config.getNumWorkerThreads() * working_set_size + g_page_size; 
+            allocation_size = config_.getNumWorkerThreads() * working_set_size + g_page_size; 
 #ifdef _WIN32
-            __mem_arrays[numa_node] = VirtualAllocExNuma(GetCurrentProcess(), NULL, allocation_size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE, numa_node); //Windows NUMA allocation. Make the allocation one page bigger than necessary so that we can do alignment.
+            mem_arrays_[numa_node] = VirtualAllocExNuma(GetCurrentProcess(), NULL, allocation_size, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE, numa_node); //Windows NUMA allocation. Make the allocation one page bigger than necessary so that we can do alignment.
 #endif
 #ifdef __gnu_linux__
 #ifdef HAS_NUMA
             numa_set_strict(1); //Enforce NUMA memory allocation to land on specified node or fail otherwise. Alternative node fallback is forbidden.
-            __mem_arrays[numa_node] = numa_alloc_onnode(allocation_size, numa_node);
+            mem_arrays_[numa_node] = numa_alloc_onnode(allocation_size, numa_node);
 #endif
 #ifndef HAS_NUMA //special case
-            __mem_arrays[numa_node] = malloc(allocation_size);
-            __orig_malloc_addr = __mem_arrays[numa_node];
+            mem_arrays_[numa_node] = malloc(allocation_size);
+            orig_malloc_addr_ = mem_arrays_[numa_node];
 #endif
 #endif
 #ifdef HAS_LARGE_PAGES
         }
 #endif
         
-        if (__mem_arrays[numa_node] != nullptr)
-            __mem_array_lens[numa_node] = __config.getNumWorkerThreads() * working_set_size;
+        if (mem_arrays_[numa_node] != nullptr)
+            mem_array_lens_[numa_node] = config_.getNumWorkerThreads() * working_set_size;
         else {
-            std::cerr << "ERROR: Failed to allocate " << allocation_size << " B on NUMA node " << numa_node << " for " << __config.getNumWorkerThreads() << " worker threads." << std::endl;
+            std::cerr << "ERROR: Failed to allocate " << allocation_size << " B on NUMA node " << numa_node << " for " << config_.getNumWorkerThreads() << " worker threads." << std::endl;
             exit(-1);
         }
 
         if (g_verbose) {
             std::cout << std::endl;
             std::cout << "Virtual address for memory on NUMA node " << numa_node << ":" << std::endl;
-            std::printf("0x%.16llX", reinterpret_cast<long long unsigned int>(__mem_arrays[numa_node]));
+            std::printf("0x%.16llX", reinterpret_cast<long long unsigned int>(mem_arrays_[numa_node]));
         }
 
         //upwards alignment to page boundary
         uintptr_t mask;
-        if (__config.useLargePages())
+        if (config_.useLargePages())
             mask = static_cast<uintptr_t>(g_large_page_size)-1;
         else
             mask = static_cast<uintptr_t>(g_page_size)-1; //e.g. 4095 bytes
-        uintptr_t tmp_ptr = reinterpret_cast<uintptr_t>(__mem_arrays[numa_node]);
+        uintptr_t tmp_ptr = reinterpret_cast<uintptr_t>(mem_arrays_[numa_node]);
         uintptr_t aligned_addr = (tmp_ptr + mask) & ~mask; //add one page to the address, then truncate least significant bits of address to be page aligned.
-        __mem_arrays[numa_node] = reinterpret_cast<void*>(aligned_addr); 
+        mem_arrays_[numa_node] = reinterpret_cast<void*>(aligned_addr); 
 
         if (g_verbose) {
             std::cout << " --- ALIGNED --> ";
-            std::printf("0x%.16llX", reinterpret_cast<long long unsigned int>(__mem_arrays[numa_node]));
+            std::printf("0x%.16llX", reinterpret_cast<long long unsigned int>(mem_arrays_[numa_node]));
             std::cout << std::endl;
         }
     }
 }
 
-bool BenchmarkManager::__buildBenchmarks() {
+bool BenchmarkManager::buildBenchmarks() {
     if (g_verbose)  {
         std::cout << std::endl;
         std::cout << "Generating benchmarks." << std::endl;
@@ -518,51 +518,51 @@ bool BenchmarkManager::__buildBenchmarks() {
 
     //Put the enumerations into vectors to make constructing benchmarks more loopable
     std::vector<chunk_size_t> chunks;
-    if (__config.useChunk32b())
+    if (config_.useChunk32b())
         chunks.push_back(CHUNK_32b); 
 #ifdef HAS_WORD_64
-    if (__config.useChunk64b())
+    if (config_.useChunk64b())
         chunks.push_back(CHUNK_64b); 
 #endif
 #ifdef HAS_WORD_128
-    if (__config.useChunk128b())
+    if (config_.useChunk128b())
         chunks.push_back(CHUNK_128b); 
 #endif
 #ifdef HAS_WORD_256
-    if (__config.useChunk256b())
+    if (config_.useChunk256b())
         chunks.push_back(CHUNK_256b); 
 #endif
 #ifdef HAS_WORD_512
-    if (__config.useChunk512b())
+    if (config_.useChunk512b())
         chunks.push_back(CHUNK_512b); 
 #endif
 
     std::vector<rw_mode_t> rws;
-    if (__config.useReads())
+    if (config_.useReads())
         rws.push_back(READ);
-    if (__config.useWrites())
+    if (config_.useWrites())
         rws.push_back(WRITE);
     
     std::vector<int32_t> strides;
-    if (__config.useStrideP1())
+    if (config_.useStrideP1())
         strides.push_back(1);
-    if (__config.useStrideN1())
+    if (config_.useStrideN1())
         strides.push_back(-1);
-    if (__config.useStrideP2())
+    if (config_.useStrideP2())
         strides.push_back(2);
-    if (__config.useStrideN2())
+    if (config_.useStrideN2())
         strides.push_back(-2);
-    if (__config.useStrideP4())
+    if (config_.useStrideP4())
         strides.push_back(4);
-    if (__config.useStrideN4())
+    if (config_.useStrideN4())
         strides.push_back(-4);
-    if (__config.useStrideP8())
+    if (config_.useStrideP8())
         strides.push_back(8);
-    if (__config.useStrideN8())
+    if (config_.useStrideN8())
         strides.push_back(-8);
-    if (__config.useStrideP16())
+    if (config_.useStrideP16())
         strides.push_back(16);
-    if (__config.useStrideN16())
+    if (config_.useStrideN16())
         strides.push_back(-16);
 
     if (g_verbose)
@@ -571,17 +571,17 @@ bool BenchmarkManager::__buildBenchmarks() {
     std::string benchmark_name;
 
     //Build throughput benchmarks. This is a humongous nest of for loops, but rest assured, the range of each loop should be small enough. The problem is we have many combinations to test.
-    for (auto mem_node_it = __memory_numa_node_affinities.cbegin(); mem_node_it != __memory_numa_node_affinities.cend(); mem_node_it++) { //iterate each memory NUMA node
+    for (auto mem_node_it = memory_numa_node_affinities_.cbegin(); mem_node_it != memory_numa_node_affinities_.cend(); mem_node_it++) { //iterate each memory NUMA node
         uint32_t mem_node = *mem_node_it;
-        void* mem_array = __mem_arrays[mem_node];           
-        size_t mem_array_len = __mem_array_lens[mem_node];
+        void* mem_array = mem_arrays_[mem_node];           
+        size_t mem_array_len = mem_array_lens_[mem_node];
 
-        for (auto cpu_node_it = __cpu_numa_node_affinities.cbegin(); cpu_node_it != __cpu_numa_node_affinities.cend(); cpu_node_it++) { //iterate each cpu NUMA node
+        for (auto cpu_node_it = cpu_numa_node_affinities_.cbegin(); cpu_node_it != cpu_numa_node_affinities_.cend(); cpu_node_it++) { //iterate each cpu NUMA node
             uint32_t cpu_node = *cpu_node_it;
             bool buildLatBench = true; //Want to get at least one latency benchmark for all NUMA node combos
 
             //DO SEQUENTIAL/STRIDED TESTS
-            if (__config.useSequentialAccessPattern()) {
+            if (config_.useSequentialAccessPattern()) {
                 for (uint32_t rw_index = 0; rw_index < rws.size(); rw_index++) { //iterate read/write access types
                     rw_mode_t rw = rws[rw_index];
 
@@ -593,19 +593,19 @@ bool BenchmarkManager::__buildBenchmarks() {
                             
                             //Add the throughput benchmark
                             benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index << "T (Throughput)"))->str();
-                            __tp_benchmarks.push_back(new ThroughputBenchmark(mem_array,
+                            tp_benchmarks_.push_back(new ThroughputBenchmark(mem_array,
                                                                          mem_array_len,
-                                                                         __config.getIterationsPerTest(),
-                                                                         __config.getNumWorkerThreads(),
+                                                                         config_.getIterationsPerTest(),
+                                                                         config_.getNumWorkerThreads(),
                                                                          mem_node,
                                                                          cpu_node,
                                                                          SEQUENTIAL,
                                                                          rw,
                                                                          chunk,
                                                                          stride,
-                                                                         __dram_power_readers,
+                                                                         dram_power_readers_,
                                                                          benchmark_name));
-                            if (__tp_benchmarks[__tp_benchmarks.size()-1] == NULL) {
+                            if (tp_benchmarks_[tp_benchmarks_.size()-1] == NULL) {
                                 std::cerr << "ERROR: Failed to build a ThroughputBenchmark!" << std::endl;
                                 return false;
                             }
@@ -613,21 +613,21 @@ bool BenchmarkManager::__buildBenchmarks() {
                             //Add the latency benchmark
 
                             //Special case: number of worker threads is 1, only need 1 latency thread in general to do unloaded latency tests.
-                            if (__config.getNumWorkerThreads() > 1 || buildLatBench) {
+                            if (config_.getNumWorkerThreads() > 1 || buildLatBench) {
                                 benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index << "L (Latency)"))->str();
-                                __lat_benchmarks.push_back(new LatencyBenchmark(mem_array,
+                                lat_benchmarks_.push_back(new LatencyBenchmark(mem_array,
                                                                                 mem_array_len,
-                                                                                __config.getIterationsPerTest(),
-                                                                                __config.getNumWorkerThreads(),
+                                                                                config_.getIterationsPerTest(),
+                                                                                config_.getNumWorkerThreads(),
                                                                                 mem_node,
                                                                                 cpu_node,
                                                                                 SEQUENTIAL,
                                                                                 rw,
                                                                                 chunk,
                                                                                 stride,
-                                                                                __dram_power_readers,
+                                                                                dram_power_readers_,
                                                                                 benchmark_name));
-                                if (__lat_benchmarks[__lat_benchmarks.size()-1] == NULL) {
+                                if (lat_benchmarks_[lat_benchmarks_.size()-1] == NULL) {
                                     std::cerr << "ERROR: Failed to build a LatencyBenchmark!" << std::endl;
                                     return false;
                                 }
@@ -640,7 +640,7 @@ bool BenchmarkManager::__buildBenchmarks() {
                 }
             }
             
-            if (__config.useRandomAccessPattern()) {
+            if (config_.useRandomAccessPattern()) {
                 //DO RANDOM TESTS
                 for (uint32_t rw_index = 0; rw_index < rws.size(); rw_index++) { //iterate read/write access types
                     rw_mode_t rw = rws[rw_index];
@@ -653,40 +653,40 @@ bool BenchmarkManager::__buildBenchmarks() {
                         
                         //Add the throughput benchmark
                         benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index << "T (Throughput)"))->str();
-                        __tp_benchmarks.push_back(new ThroughputBenchmark(mem_array,
+                        tp_benchmarks_.push_back(new ThroughputBenchmark(mem_array,
                                                                           mem_array_len,
-                                                                          __config.getIterationsPerTest(),
-                                                                          __config.getNumWorkerThreads(),
+                                                                          config_.getIterationsPerTest(),
+                                                                          config_.getNumWorkerThreads(),
                                                                           mem_node,
                                                                           cpu_node,
                                                                           RANDOM,
                                                                           rw,
                                                                           chunk,
                                                                           0,
-                                                                          __dram_power_readers,
+                                                                          dram_power_readers_,
                                                                           benchmark_name));
-                        if (__tp_benchmarks[__tp_benchmarks.size()-1] == NULL) {
+                        if (tp_benchmarks_[tp_benchmarks_.size()-1] == NULL) {
                             std::cerr << "ERROR: Failed to build a ThroughputBenchmark!" << std::endl;
                             return false;
                         }
                             
                         //Add the latency benchmark
                         //Special case: number of worker threads is 1, only need 1 latency thread in general to do unloaded latency tests.
-                        if (__config.getNumWorkerThreads() > 1 || buildLatBench) {
+                        if (config_.getNumWorkerThreads() > 1 || buildLatBench) {
                             benchmark_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "Test #" << g_test_index << "L (Latency)"))->str();
-                            __lat_benchmarks.push_back(new LatencyBenchmark(mem_array,
+                            lat_benchmarks_.push_back(new LatencyBenchmark(mem_array,
                                                                             mem_array_len,
-                                                                            __config.getIterationsPerTest(),
-                                                                            __config.getNumWorkerThreads(),
+                                                                            config_.getIterationsPerTest(),
+                                                                            config_.getNumWorkerThreads(),
                                                                             mem_node,
                                                                             cpu_node,
                                                                             RANDOM,
                                                                             rw,
                                                                             chunk,
                                                                             0,
-                                                                            __dram_power_readers,
+                                                                            dram_power_readers_,
                                                                             benchmark_name));
-                            if (__lat_benchmarks[__lat_benchmarks.size()-1] == NULL) {
+                            if (lat_benchmarks_[lat_benchmarks_.size()-1] == NULL) {
                                 std::cerr << "ERROR: Failed to build a LatencyBenchmark!" << std::endl;
                                 return false;
                             }
@@ -701,13 +701,13 @@ bool BenchmarkManager::__buildBenchmarks() {
         }
     }
     
-    __built_benchmarks = true;
+    built_benchmarks_ = true;
     return true;
 }
 
 #ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
 bool BenchmarkManager::runExtDelayInjectedLoadedLatencyBenchmark() {
-    if (__config.getNumWorkerThreads() < 2) {   
+    if (config_.getNumWorkerThreads() < 2) {   
         std::cerr << "ERROR: Number of worker threads must be at least 1." << std::endl;
         return false;
     }
@@ -731,13 +731,13 @@ bool BenchmarkManager::runExtDelayInjectedLoadedLatencyBenchmark() {
 #endif
 
     //Build benchmarks
-    for (auto mem_node_it = __memory_numa_node_affinities.cbegin(); mem_node_it != __memory_numa_node_affinities.cend(); mem_node_it++) { //iterate each memory NUMA node
+    for (auto mem_node_it = memory_numa_node_affinities_.cbegin(); mem_node_it != memory_numa_node_affinities_.cend(); mem_node_it++) { //iterate each memory NUMA node
         uint32_t mem_node = *mem_node_it;
         
-        void* mem_array = __mem_arrays[mem_node];           
-        size_t mem_array_len = __mem_array_lens[mem_node];
+        void* mem_array = mem_arrays_[mem_node];           
+        size_t mem_array_len = mem_array_lens_[mem_node];
 
-        for (auto cpu_node_it = __cpu_numa_node_affinities.cbegin(); cpu_node_it != __cpu_numa_node_affinities.cend(); cpu_node_it++) { //iterate each cpuory NUMA node
+        for (auto cpu_node_it = cpu_numa_node_affinities_.cbegin(); cpu_node_it != cpu_numa_node_affinities_.cend(); cpu_node_it++) { //iterate each cpuory NUMA node
             uint32_t cpu_node = *cpu_node_it;
 
             for (uint32_t chunk_index = 0; chunk_index < chunks.size(); chunk_index++) { //iterate different chunk sizes
@@ -750,12 +750,12 @@ bool BenchmarkManager::runExtDelayInjectedLoadedLatencyBenchmark() {
                     
                     del_lat_benchmarks.push_back(new DelayInjectedLoadedLatencyBenchmark(mem_array,
                                                                              mem_array_len,
-                                                                             __config.getIterationsPerTest(),
-                                                                             __config.getNumWorkerThreads(),
+                                                                             config_.getIterationsPerTest(),
+                                                                             config_.getNumWorkerThreads(),
                                                                              mem_node,
                                                                              cpu_node,
                                                                              chunk,
-                                                                             __dram_power_readers,
+                                                                             dram_power_readers_,
                                                                              benchmark_name,
                                                                              d));
                     if (del_lat_benchmarks[del_lat_benchmarks.size()-1] == NULL) {
@@ -778,106 +778,106 @@ bool BenchmarkManager::runExtDelayInjectedLoadedLatencyBenchmark() {
         del_lat_benchmarks[i]->reportResults(); //to console
         
         //Write to results file if necessary
-        if (__config.useOutputFile()) {
-            __results_file << del_lat_benchmarks[i]->getName() << ",";
-            __results_file << del_lat_benchmarks[i]->getIterations() << ",";
-            __results_file << static_cast<size_t>(del_lat_benchmarks[i]->getLen() / del_lat_benchmarks[i]->getNumThreads() / KB) << ",";
-            __results_file << del_lat_benchmarks[i]->getNumThreads() << ",";
-            __results_file << del_lat_benchmarks[i]->getNumThreads()-1 << ",";
-            __results_file << del_lat_benchmarks[i]->getMemNode() << ",";
-            __results_file << del_lat_benchmarks[i]->getCPUNode() << ",";
+        if (config_.useOutputFile()) {
+            results_file_ << del_lat_benchmarks[i]->getName() << ",";
+            results_file_ << del_lat_benchmarks[i]->getIterations() << ",";
+            results_file_ << static_cast<size_t>(del_lat_benchmarks[i]->getLen() / del_lat_benchmarks[i]->getNumThreads() / KB) << ",";
+            results_file_ << del_lat_benchmarks[i]->getNumThreads() << ",";
+            results_file_ << del_lat_benchmarks[i]->getNumThreads()-1 << ",";
+            results_file_ << del_lat_benchmarks[i]->getMemNode() << ",";
+            results_file_ << del_lat_benchmarks[i]->getCPUNode() << ",";
             if (del_lat_benchmarks[i]->getNumThreads() < 2) {
-                __results_file << "N/A" << ",";
-                __results_file << "N/A" << ",";
-                __results_file << "N/A" << ",";
-                __results_file << "N/A" << ",";
+                results_file_ << "N/A" << ",";
+                results_file_ << "N/A" << ",";
+                results_file_ << "N/A" << ",";
+                results_file_ << "N/A" << ",";
             } else {
                 pattern_mode_t pattern = del_lat_benchmarks[i]->getPatternMode();
                 switch (pattern) {
                     case SEQUENTIAL:
-                        __results_file << "SEQUENTIAL" << ",";
+                        results_file_ << "SEQUENTIAL" << ",";
                         break;
                     case RANDOM:
-                        __results_file << "RANDOM" << ",";
+                        results_file_ << "RANDOM" << ",";
                         break;
                     default:
-                        __results_file << "UNKNOWN" << ",";
+                        results_file_ << "UNKNOWN" << ",";
                         break;
                 }
 
                 rw_mode_t rw_mode = del_lat_benchmarks[i]->getRWMode();
                 switch (rw_mode) {
                     case READ:
-                        __results_file << "READ" << ",";
+                        results_file_ << "READ" << ",";
                         break;
                     case WRITE:
-                        __results_file << "WRITE" << ",";
+                        results_file_ << "WRITE" << ",";
                         break;
                     default:
-                        __results_file << "UNKNOWN" << ",";
+                        results_file_ << "UNKNOWN" << ",";
                         break;
                 }
 
                 chunk_size_t chunk_size = del_lat_benchmarks[i]->getChunkSize();
                 switch (chunk_size) {
                     case CHUNK_32b:
-                        __results_file << "32" << ",";
+                        results_file_ << "32" << ",";
                         break;
 #ifdef HAS_WORD_64
                     case CHUNK_64b:
-                        __results_file << "64" << ",";
+                        results_file_ << "64" << ",";
                         break;
 #endif
 #ifdef HAS_WORD_128
                     case CHUNK_128b:
-                        __results_file << "128" << ",";
+                        results_file_ << "128" << ",";
                         break;
 #endif
 #ifdef HAS_WORD_256
                     case CHUNK_256b:
-                        __results_file << "256" << ",";
+                        results_file_ << "256" << ",";
                         break;
 #endif
 #ifdef HAS_WORD_512
                     case CHUNK_512b:
-                        __results_file << "512" << ",";
+                        results_file_ << "512" << ",";
                         break;
 #endif
                     default:
-                        __results_file << "UNKNOWN" << ",";
+                        results_file_ << "UNKNOWN" << ",";
                         break;
                 }
             
-                __results_file << del_lat_benchmarks[i]->getStrideSize() << ",";
+                results_file_ << del_lat_benchmarks[i]->getStrideSize() << ",";
             }
 
-            __results_file << del_lat_benchmarks[i]->getMeanLoadMetric() << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "N/A" << ",";
-            __results_file << "MB/s" << ",";
-            __results_file << del_lat_benchmarks[i]->getMeanMetric() << ",";
-            __results_file << del_lat_benchmarks[i]->getMinMetric() << ",";
-            __results_file << del_lat_benchmarks[i]->get25PercentileMetric() << ",";
-            __results_file << del_lat_benchmarks[i]->getMedianMetric() << ",";
-            __results_file << del_lat_benchmarks[i]->get75PercentileMetric() << ",";
-            __results_file << del_lat_benchmarks[i]->get95PercentileMetric() << ",";
-            __results_file << del_lat_benchmarks[i]->get99PercentileMetric() << ",";
-            __results_file << del_lat_benchmarks[i]->getMaxMetric() << ",";
-            __results_file << del_lat_benchmarks[i]->getModeMetric() << ",";
-            __results_file << del_lat_benchmarks[i]->getMetricUnits() << ",";
+            results_file_ << del_lat_benchmarks[i]->getMeanLoadMetric() << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "N/A" << ",";
+            results_file_ << "MB/s" << ",";
+            results_file_ << del_lat_benchmarks[i]->getMeanMetric() << ",";
+            results_file_ << del_lat_benchmarks[i]->getMinMetric() << ",";
+            results_file_ << del_lat_benchmarks[i]->get25PercentileMetric() << ",";
+            results_file_ << del_lat_benchmarks[i]->getMedianMetric() << ",";
+            results_file_ << del_lat_benchmarks[i]->get75PercentileMetric() << ",";
+            results_file_ << del_lat_benchmarks[i]->get95PercentileMetric() << ",";
+            results_file_ << del_lat_benchmarks[i]->get99PercentileMetric() << ",";
+            results_file_ << del_lat_benchmarks[i]->getMaxMetric() << ",";
+            results_file_ << del_lat_benchmarks[i]->getModeMetric() << ",";
+            results_file_ << del_lat_benchmarks[i]->getMetricUnits() << ",";
             for (uint32_t j = 0; j < g_num_physical_packages; j++) {
-                __results_file << del_lat_benchmarks[i]->getMeanDRAMPower(j) << ",";
-                __results_file << del_lat_benchmarks[i]->getPeakDRAMPower(j) << ",";
+                results_file_ << del_lat_benchmarks[i]->getMeanDRAMPower(j) << ",";
+                results_file_ << del_lat_benchmarks[i]->getPeakDRAMPower(j) << ",";
             }
-            __results_file << del_lat_benchmarks[i]->getDelay() << ",";
-            __results_file << "<-- load threads' memory access delay value in nops" << ",";
-            __results_file << std::endl;
+            results_file_ << del_lat_benchmarks[i]->getDelay() << ",";
+            results_file_ << "<-- load threads' memory access delay value in nops" << ",";
+            results_file_ << std::endl;
         }
     }
 

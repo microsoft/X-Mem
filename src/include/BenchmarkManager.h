@@ -29,8 +29,8 @@
  * @brief Header file for the BenchmarkManager class.
  */
 
-#ifndef __BENCHMARK_MANAGER_H
-#define __BENCHMARK_MANAGER_H
+#ifndef BENCHMARK_MANAGER_H
+#define BENCHMARK_MANAGER_H
 
 //Headers
 #include <common.h>
@@ -102,28 +102,28 @@ namespace xmem {
          * @brief Allocates memory for all working sets.
          * @param working_set_size Memory size in bytes, per enabled NUMA node.
          */
-        void __setupWorkingSets(size_t working_set_size);
+        void setupWorkingSets(size_t working_set_size);
 
         /**
          * @brief Constructs and initializes all configured benchmarks.
          * @returns True on success.
          */
-        bool __buildBenchmarks();
+        bool buildBenchmarks();
 
-        Configurator __config;
+        Configurator config_;
 
-        std::list<uint32_t> __cpu_numa_node_affinities; /**< List of CPU nodes to affinitize for benchmark experiments. */
-        std::list<uint32_t> __memory_numa_node_affinities; /**< List of memory nodes to affinitize for benchmark experiments. */
-        std::vector<void*> __mem_arrays; /**< Memory regions to use in benchmarks. One for each benchmarked NUMA node. */
+        std::list<uint32_t> cpu_numa_node_affinities_; /**< List of CPU nodes to affinitize for benchmark experiments. */
+        std::list<uint32_t> memory_numa_node_affinities_; /**< List of memory nodes to affinitize for benchmark experiments. */
+        std::vector<void*> mem_arrays_; /**< Memory regions to use in benchmarks. One for each benchmarked NUMA node. */
 #ifndef HAS_NUMA
-        void* __orig_malloc_addr; /**< Points to the original address returned by the malloc() for __mem_arrays on non-NUMA machines. Special case. FIXME: do we need this? seems awkward */
+        void* orig_malloc_addr_; /**< Points to the original address returned by the malloc() for __mem_arrays on non-NUMA machines. Special case. FIXME: do we need this? seems awkward */
 #endif
-        std::vector<size_t> __mem_array_lens; /**< Length of each memory region to use in benchmarks. */
-        std::vector<ThroughputBenchmark*> __tp_benchmarks; /**< Set of throughput benchmarks. */
-        std::vector<LatencyBenchmark*> __lat_benchmarks; /**< Set of latency benchmarks. */
-        std::vector<PowerReader*> __dram_power_readers; /**< Set of power measurement objects for DRAM on each NUMA node. */
-        std::fstream __results_file; /**< The results CSV file. */
-        bool __built_benchmarks; /**< If true, finished building all benchmarks. */
+        std::vector<size_t> mem_array_lens_; /**< Length of each memory region to use in benchmarks. */
+        std::vector<ThroughputBenchmark*> tp_benchmarks_; /**< Set of throughput benchmarks. */
+        std::vector<LatencyBenchmark*> lat_benchmarks_; /**< Set of latency benchmarks. */
+        std::vector<PowerReader*> dram_power_readers_; /**< Set of power measurement objects for DRAM on each NUMA node. */
+        std::fstream results_file_; /**< The results CSV file. */
+        bool built_benchmarks_; /**< If true, finished building all benchmarks. */
     };
 };
 

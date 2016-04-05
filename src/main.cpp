@@ -105,7 +105,7 @@ void xmem::print_welcome_message() {
  *  @brief The main entry point to the program.
  */
 int main(int argc, char* argv[]) {
-    bool configSuccess = false;
+    bool config_success = false;
     try {
         init_globals();
         print_welcome_message();
@@ -118,9 +118,9 @@ int main(int argc, char* argv[]) {
         
         //Configure runtime based on user inputs
         Configurator config;
-        configSuccess = !config.configureFromInput(argc, argv);
+        config_success = !config.configureFromInput(argc, argv);
             
-        if (configSuccess) {
+        if (config_success) {
             if (g_verbose) {
                 print_compile_time_options();
                 print_types_report();
@@ -177,7 +177,7 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    if (configSuccess)
+    if (config_success)
         return EXIT_SUCCESS;
     else
         return EXIT_FAILURE;
