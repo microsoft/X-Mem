@@ -8,8 +8,8 @@
  * @brief Extensions to third-party optionparser-related code.
  */
 
-#ifndef __MY_ARG_H
-#define __MY_ARG_H
+#ifndef MY_ARG_H
+#define MY_ARG_H
 
 //Headers
 #include <ExampleArg.h>

@@ -29,8 +29,8 @@
  * @brief Header file for the Thread class.
  */
 
-#ifndef __THREAD_H
-#define __THREAD_H
+#ifndef THREAD_H
+#define THREAD_H
 
 //Headers
 #include <Runnable.h>
@@ -126,7 +126,7 @@ namespace xmem {
              * Creates the thread if the target Runnable is valid, but does not start running it.
              * @returns true if the thread was successfully created.
              */
-            bool __create();
+            bool create();
 #endif
 
 #ifdef _WIN32
@@ -134,39 +134,39 @@ namespace xmem {
              * Starts the thread immediately if the thread has been created. This invokes the run() method in the Runnable target that was passed in the constructor.
              * @returns true if the thread was successfully started.
              */
-            bool __start();
+            bool start();
 #endif
             
 
             /**
-             * Invokes the run() method on the __target Runnable object.
+             * Invokes the run() method on the target Runnable object.
              * @param target_runnable_object pointer to the target Runnable object. This needs to be a generic pointer to keep APIs happy.
              */
 #ifdef _WIN32
-            static DWORD WINAPI __run_launchpad(void* target_runnable_object);
+            static DWORD WINAPI run_launchpad(void* target_runnable_object);
 #endif
 #ifdef __gnu_linux__
-            static void* __run_launchpad(void* target_runnable_object);
+            static void* run_launchpad(void* target_runnable_object);
 #endif
 
-            Runnable* __target; /**< The object connecting a run() method which operates in a thread-safe manner. */
-            bool __created; /**< If true, the OS thread has been created at some point, but does not indicate its current state. */
-            bool __started; /**< If true, the OS thread has been started at some point, but does not indicate its current state. */
-            bool __completed; /**< If true, the OS thread completed. */
-            bool __suspended; /**< If true, the OS thread is suspended. */
-            bool __running; /**< If true, the OS thread is running. */
-            int32_t __thread_exit_code; /**< Contains the thread's exit status code. If it has not yet exited, this should be 0 (normal condition). */
+            Runnable* target_; /**< The object connecting a run() method which operates in a thread-safe manner. */
+            bool created_; /**< If true, the OS thread has been created at some point, but does not indicate its current state. */
+            bool started_; /**< If true, the OS thread has been started at some point, but does not indicate its current state. */
+            bool completed_; /**< If true, the OS thread completed. */
+            bool suspended_; /**< If true, the OS thread is suspended. */
+            bool running_; /**< If true, the OS thread is running. */
+            int32_t thread_exit_code_; /**< Contains the thread's exit status code. If it has not yet exited, this should be 0 (normal condition). */
 
 #ifdef _WIN32
-            uint32_t __thread_id; /**< The OS thread ID. */
+            uint32_t thread_id_; /**< The OS thread ID. */
 #endif
 
             /** A handle to the OS thread. */
 #ifdef _WIN32
-            HANDLE __thread_handle;
+            HANDLE thread_handle_;
 #endif
 #ifdef __gnu_linux__
-            pthread_t __thread_handle;
+            pthread_t thread_handle_;
 #endif
     };
 };
