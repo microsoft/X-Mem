@@ -1,0 +1,24 @@
+----------------
+ATTRIBUTION
+----------------
+
+April 4, 2016
+
+We have a research tool paper describing the motivation, design, and implementation of X-Mem, as well as three experimental case studies using tools to deliver insights useful to both cloud providers and subscribers. If you use our tool and publish or otherwise publicly report results, we ask that you please cite the following paper as well as provide a link to our tool homepage (https://nanocad-lab.github.io/X-Mem).
+
+Download the pre-print of our paper here: http://nanocad.ee.ucla.edu/pub/Main/Publications/C91_paper.pdf.
+
+Citation:
+
+Mark Gottscho, Sriram Govindan, Bikash Sharma, Mohammed Shoaib, and Puneet Gupta. X-Mem: A Cross-Platform and Extensible Memory Characterization Tool for the Cloud. In Proceedings of the IEEE International Symposium on Performance Analysis of Systems and Software (ISPASS). Uppsala, Sweden, April 17-19, 2016.
+
+BiBTeX:
+
+@inproceedings{GottschoISPASS2016,
+    author = {Gottscho, Mark and Govindan, Sriram and Sharma, Bikash and Shoaib, Mohammed and Gupta, Puneet},
+    booktitle = {Proceedings of the IEEE International Symposium on Performance Analysis of Systems and Software (ISPASS)},
+    title = {{X-Mem}: A Cross-Platform and Extensible Memory Characterization Tool for the Cloud},
+    month = {April},
+    year = {2016}
+}
+

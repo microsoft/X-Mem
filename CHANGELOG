@@ -1,0 +1,8 @@
+------------
+CHANGELOG
+------------
+
+v2.4.0 | April 4, 2016
+    * Added support for Intel Xeon Phi (Knight's Corner) many-core accelerator (MIC). It can execute many 512-bit vector instructions but is not fully ISA-compatible with conventional x86-64 processors. This has been partially tested on a Linux box, but not Windows. If you can test X-Mem for Xeon Phi, we would greatly appreciate any feedback or results!
+    * Added support for 512-bit chunk sizes where applicable.
+    * Started maintaining a CHANGELOG file.
