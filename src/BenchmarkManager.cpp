@@ -143,12 +143,10 @@ BenchmarkManager::BenchmarkManager(
 BenchmarkManager::~BenchmarkManager() {
     //Free throughput benchmarks
     for (uint32_t i = 0; i < __tp_benchmarks.size(); i++)
-        if (__tp_benchmarks[i] != nullptr)
-            delete __tp_benchmarks[i];
+        delete __tp_benchmarks[i];
     //Free latency benchmarks
     for (uint32_t i = 0; i < __lat_benchmarks.size(); i++)
-        if (__lat_benchmarks[i] != nullptr)
-            delete __lat_benchmarks[i];
+        delete __lat_benchmarks[i];
     //Free memory arrays
     for (uint32_t i = 0; i < __mem_arrays.size(); i++)
         if (__mem_arrays[i] != nullptr) {

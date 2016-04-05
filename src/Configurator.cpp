@@ -710,10 +710,8 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
     }
 
     //Free up options memory
-    if (options)
-        delete[] options;
-    if (buffer)
-        delete[] buffer;
+    delete[] options;
+    delete[] buffer;
 
     return 0;
 
@@ -723,10 +721,8 @@ int32_t Configurator::configureFromInput(int argc, char* argv[]) {
     error:
 
         //Free up options memory
-        if (options)
-            delete[] options;
-        if (buffer)
-            delete[] buffer;
+        delete[] options;
+        delete[] buffer;
 
         return -1;
 }

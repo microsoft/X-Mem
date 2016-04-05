@@ -62,8 +62,7 @@ WindowsDRAMPowerReader::WindowsDRAMPowerReader(uint32_t counter_cpu_index, uint3
 }
 
 WindowsDRAMPowerReader::~WindowsDRAMPowerReader() {
-    if (__pdhQuery != NULL)
-        delete __pdhQuery;
+    delete __pdhQuery;
 }
 
 void WindowsDRAMPowerReader::run() {
