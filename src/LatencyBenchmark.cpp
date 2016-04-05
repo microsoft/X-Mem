@@ -87,7 +87,7 @@ LatencyBenchmark::LatencyBenchmark(
         load_metric_on_iter_.push_back(0);
 }
 
-void LatencyBenchmark::report_benchmark_info() const {
+void LatencyBenchmark::reportBenchmarkInfo() const {
     std::cout << "CPU NUMA Node: " << cpu_node_ << std::endl;
     std::cout << "Memory NUMA Node: " << mem_node_ << std::endl;
     std::cout << "Latency measurement chunk size: ";
@@ -168,7 +168,7 @@ void LatencyBenchmark::report_benchmark_info() const {
 }
 
 
-void LatencyBenchmark::report_results() const {
+void LatencyBenchmark::reportResults() const {
     std::cout << std::endl;
     std::cout << "*** RESULTS";
     std::cout << "***" << std::endl;
@@ -196,7 +196,7 @@ void LatencyBenchmark::report_results() const {
             std::cout << " (WARNING)";
         std::cout << std::endl;
         
-        std::cout << "25th Percentile: " << 25_percentile_metric_ << " " << metric_units_;
+        std::cout << "25th Percentile: " << percentile_25_metric_ << " " << metric_units_;
         if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
@@ -206,17 +206,17 @@ void LatencyBenchmark::report_results() const {
             std::cout << " (WARNING)";
         std::cout << std::endl;
         
-        std::cout << "75th Percentile: " << 75_percentile_metric_ << " " << metric_units_;
+        std::cout << "75th Percentile: " << percentile_75_metric_ << " " << metric_units_;
         if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
         
-        std::cout << "95th Percentile: " << 95_percentile_metric_ << " " << metric_units_;
+        std::cout << "95th Percentile: " << percentile_95_metric_ << " " << metric_units_;
         if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
         
-        std::cout << "99th Percentile: " << 99_percentile_metric_ << " " << metric_units_;
+        std::cout << "99th Percentile: " << percentile_99_metric_ << " " << metric_units_;
         if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
@@ -260,8 +260,8 @@ double LatencyBenchmark::getMeanLoadMetric() const {
         return -1;
 }
 
-bool LatencyBenchmark::_run_core() {
-    size_t len_per_thread = len_ / _num_worker_threads; //Carve up memory space so each worker has its own area to play in
+bool LatencyBenchmark::runCore() {
+    size_t len_per_thread = len_ / num_worker_threads_; //Carve up memory space so each worker has its own area to play in
 
     //Set up latency measurement kernel function pointers
     RandomFunction lat_kernel_fptr = &chasePointers;
@@ -295,7 +295,7 @@ bool LatencyBenchmark::_run_core() {
                 std::cerr << "ERROR: Failed to find appropriate benchmark kernel." << std::endl;
                 return false;
             }
-        } else if (_pattern_mode == RANDOM) {
+        } else if (pattern_mode_ == RANDOM) {
             if (!determineRandomKernel(rw_mode_, chunk_size_, &load_kernel_fptr_ran, &load_kernel_dummy_fptr_ran)) {
                 std::cerr << "ERROR: Failed to find appropriate benchmark kernel." << std::endl;
                 return false;
@@ -395,7 +395,7 @@ bool LatencyBenchmark::_run_core() {
         tick_t load_total_elapsed_dummy_ticks = 0;
         uint32_t load_bytes_per_pass = 0;
         double load_avg_adjusted_ticks = 0;
-        for (uint32_t t = 1; t < _num_worker_threads; t++) {
+        for (uint32_t t = 1; t < num_worker_threads_; t++) {
             load_total_passes += workers[t]->getPasses();
             load_total_adjusted_ticks += workers[t]->getAdjustedTicks();
             load_total_elapsed_dummy_ticks += workers[t]->getElapsedDummyTicks();
@@ -405,7 +405,7 @@ bool LatencyBenchmark::_run_core() {
 
         //Compute load metrics for this iteration
         load_avg_adjusted_ticks = static_cast<double>(load_total_adjusted_ticks) / (num_worker_threads_-1);
-        if (_num_worker_threads > 1)
+        if (num_worker_threads_ > 1)
             load_metric_on_iter_[i] = (((static_cast<double>(load_total_passes) * static_cast<double>(load_bytes_per_pass)) / static_cast<double>(MB)))   /  ((load_avg_adjusted_ticks * g_ns_per_tick) / 1e9);
 
         if (iterwarning)

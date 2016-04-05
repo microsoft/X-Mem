@@ -31,8 +31,8 @@
 
 #ifdef EXT_DELAY_INJECTED_LOADED_LATENCY_BENCHMARK
 
-#ifndef __DELAY_INJECTED_LOADED_LATENCY_BENCHMARK_H
-#define __DELAY_INJECTED_LOADED_LATENCY_BENCHMARK_H
+#ifndef DELAY_INJECTED_LOADED_LATENCY_BENCHMARK_H
+#define DELAY_INJECTED_LOADED_LATENCY_BENCHMARK_H
 
 //Headers
 #include <LatencyBenchmark.h>
@@ -74,7 +74,7 @@ namespace xmem {
         /**
          * @brief Reports benchmark configuration details to the console.
          */
-        virtual void report_benchmark_info() const;
+        virtual void reportBenchmarkInfo() const;
 
         /**
          * @brief Gets the delay injection used in load thread kernels. A delay of 5 corresponds to 5 nop instructions.
@@ -83,10 +83,10 @@ namespace xmem {
         uint32_t getDelay() const;
 
     protected:
-        virtual bool _run_core();
+        virtual bool runCore();
 
     private:
-        uint32_t __delay; /**< Number of nops to insert between load thread memory instructions. This is a form of delay injection to reduce memory loading. */
+        uint32_t delay_; /**< Number of nops to insert between load thread memory instructions. This is a form of delay injection to reduce memory loading. */
     };
 };
 

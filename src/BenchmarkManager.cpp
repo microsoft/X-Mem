@@ -192,7 +192,7 @@ bool BenchmarkManager::runThroughputBenchmarks() {
 
     for (uint32_t i = 0; i < __tp_benchmarks.size(); i++) {
         __tp_benchmarks[i]->run(); 
-        __tp_benchmarks[i]->report_results(); //to console
+        __tp_benchmarks[i]->reportResults(); //to console
         
         //Write to results file if necessary
         if (__config.useOutputFile()) {
@@ -306,7 +306,7 @@ bool BenchmarkManager::runLatencyBenchmarks() {
 
     for (uint32_t i = 0; i < __lat_benchmarks.size(); i++) {
         __lat_benchmarks[i]->run(); 
-        __lat_benchmarks[i]->report_results(); //to console
+        __lat_benchmarks[i]->reportResults(); //to console
         
         //Write to results file if necessary
         if (__config.useOutputFile()) {
@@ -775,7 +775,7 @@ bool BenchmarkManager::runExtDelayInjectedLoadedLatencyBenchmark() {
     //Run benchmarks
     for (uint32_t i = 0; i < del_lat_benchmarks.size(); i++) {
         del_lat_benchmarks[i]->run(); 
-        del_lat_benchmarks[i]->report_results(); //to console
+        del_lat_benchmarks[i]->reportResults(); //to console
         
         //Write to results file if necessary
         if (__config.useOutputFile()) {

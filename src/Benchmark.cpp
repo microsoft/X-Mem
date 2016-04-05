@@ -75,11 +75,11 @@ Benchmark::Benchmark(
         metric_on_iter_(),
         mean_metric_(0),
         min_metric_(0),
-        25_percentile_metric_(0),
+        percentile_25_metric_(0),
         median_metric_(0),
-        75_percentile_metric_(0),
-        95_percentile_metric_(0),
-        99_percentile_metric_(0),
+        percentile_75_metric_(0),
+        percentile_95_metric_(0),
+        percentile_99_metric_(0),
         max_metric_(0),
         mode_metric_(0),
         metric_units_(metric_units),
@@ -87,7 +87,7 @@ Benchmark::Benchmark(
         peak_dram_power_socket_(),
         name_(name),
         obj_valid_(false),
-        hasRun_(false),
+        has_run_(false),
         warning_(false)
     {
     
@@ -107,7 +107,7 @@ bool Benchmark::run() {
 
     //Write to all of the memory region of interest to make sure
     //pages are resident in physical memory and are not shared
-    forwSequentialWrite_Word32(_mem_array,
+    forwSequentialWrite_Word32(mem_array_,
                                reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array_) + len_));
 
     bool success = runCore();
@@ -191,7 +191,7 @@ void Benchmark::reportBenchmarkInfo() const {
             std::cout << "read";
             break;
         case WRITE:
-            if (_pattern_mode == RANDOM) //special case
+            if (pattern_mode_ == RANDOM) //special case
                 std::cout << "read+write";
             else
                 std::cout << "write";
@@ -215,7 +215,7 @@ void Benchmark::reportResults() const {
     std::cout << "***" << std::endl;
     std::cout << std::endl;
  
-    if (hasRun_) {
+    if (has_run_) {
         for (uint32_t i = 0; i < iterations_; i++) {
             std::printf("Iter #%4d:    %0.3f    %s", i, metric_on_iter_[i], metric_units_.c_str());
             //std::cout << "Iter #" << i << ": " << metric_on_iter_[i] << " " << metric_units_;
@@ -237,7 +237,7 @@ void Benchmark::reportResults() const {
             std::cout << " (WARNING)";
         std::cout << std::endl;
         
-        std::cout << "25th Percentile: " << 25_percentile_metric_ << " " << metric_units_;
+        std::cout << "25th Percentile: " << percentile_25_metric_ << " " << metric_units_;
         if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
@@ -247,17 +247,17 @@ void Benchmark::reportResults() const {
             std::cout << " (WARNING)";
         std::cout << std::endl;
         
-        std::cout << "75th Percentile: " << 75_percentile_metric_ << " " << metric_units_;
+        std::cout << "75th Percentile: " << percentile_75_metric_ << " " << metric_units_;
         if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
         
-        std::cout << "95th Percentile: " << 95_percentile_metric_ << " " << metric_units_;
+        std::cout << "95th Percentile: " << percentile_95_metric_ << " " << metric_units_;
         if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
         
-        std::cout << "99th Percentile: " << 99_percentile_metric_ << " " << metric_units_;
+        std::cout << "99th Percentile: " << percentile_99_metric_ << " " << metric_units_;
         if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
@@ -314,7 +314,7 @@ double Benchmark::getMinMetric() const {
 
 double Benchmark::get25PercentileMetric() const {
     if (has_run_)
-        return 25_percentile_metric_;
+        return percentile_25_metric_;
     else //bad call
         return -1;
 }
@@ -328,21 +328,21 @@ double Benchmark::getMedianMetric() const {
 
 double Benchmark::get75PercentileMetric() const {
     if (has_run_)
-        return 75_percentile_metric_;
+        return percentile_75_metric_;
     else //bad call
         return -1;
 }
 
 double Benchmark::get95PercentileMetric() const {
     if (has_run_)
-        return 95_percentile_metric_;
+        return percentile_95_metric_;
     else //bad call
         return -1;
 }
 
 double Benchmark::get99PercentileMetric() const {
     if (has_run_)
-        return 99_percentile_metric_;
+        return percentile_99_metric_;
     else //bad call
         return -1;
 }
@@ -433,11 +433,11 @@ void Benchmark::computeMetrics() {
 
         //Compute percentiles
         min_metric_ = sortedMetrics.front();
-        25_percentile_metric_ = sortedMetrics[sortedMetrics.size()/4];
-        75_percentile_metric_ = sortedMetrics[sortedMetrics.size()*3/4];
+        percentile_25_metric_ = sortedMetrics[sortedMetrics.size()/4];
+        percentile_75_metric_ = sortedMetrics[sortedMetrics.size()*3/4];
         median_metric_ = sortedMetrics[sortedMetrics.size()/2];
-        95_percentile_metric_ = sortedMetrics[sortedMetrics.size()*95/100];
-        99_percentile_metric_ = sortedMetrics[sortedMetrics.size()*99/100];
+        percentile_95_metric_ = sortedMetrics[sortedMetrics.size()*95/100];
+        percentile_99_metric_ = sortedMetrics[sortedMetrics.size()*99/100];
         max_metric_ = sortedMetrics.back();
 
         //Compute mode

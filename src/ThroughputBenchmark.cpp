@@ -96,8 +96,8 @@ bool ThroughputBenchmark::runCore() {
             
         //Build pointer indices. Note that the pointers for each thread must stay within its respective region, otherwise sharing may occur. 
         for (uint32_t i = 0; i < num_worker_threads_; i++) {
-            if (!buildRandomPointerPermutation(reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + i*len_per_thread), //casts to silence compiler warnings
-                                               reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + (i+1)*len_per_thread), //casts to silence compiler warnings
+            if (!buildRandomPointerPermutation(reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array_) + i*len_per_thread), //casts to silence compiler warnings
+                                               reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array_) + (i+1)*len_per_thread), //casts to silence compiler warnings
                                                chunk_size_)) {
                 std::cerr << "ERROR: Failed to build a random pointer permutation for a worker thread!" << std::endl;
                 return false;
@@ -115,7 +115,7 @@ bool ThroughputBenchmark::runCore() {
     //Start power measurement
     if (g_verbose) 
         std::cout << "Starting power measurement threads...";
-    if (!_start_power_threads()) {
+    if (!startPowerThreads()) {
         if (g_verbose)
             std::cout << "FAIL" << std::endl;
         std::cerr << "WARNING: Failed to start power measurement threads." << std::endl;
@@ -127,21 +127,21 @@ bool ThroughputBenchmark::runCore() {
         std::cout << "Running benchmark." << std::endl << std::endl;
 
     //Do a bunch of iterations of the core benchmark routines
-    for (uint32_t i = 0; i < _iterations; i++) {
+    for (uint32_t i = 0; i < iterations_; i++) {
         //Create workers and worker threads
         for (uint32_t t = 0; t < num_worker_threads_; t++) {
-            void* thread_mem_array = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + t * len_per_thread);
-            int32_t cpu_id = cpu_id_in_numa_node(_cpu_node, t);
+            void* threadmem_array_ = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array_) + t * len_per_thread);
+            int32_t cpu_id = cpu_id_in_numa_node(cpu_node_, t);
             if (cpu_id < 0)
-                std::cerr << "WARNING: Failed to find logical CPU " << t << " in NUMA node " << _cpu_node << std::endl;
+                std::cerr << "WARNING: Failed to find logical CPU " << t << " in NUMA node " << cpu_node_ << std::endl;
             if (pattern_mode_ == SEQUENTIAL)
-                workers.push_back(new LoadWorker(thread_mem_array,
+                workers.push_back(new LoadWorker(threadmem_array_,
                                                  len_per_thread,
                                                  kernel_fptr_seq,
                                                  kernel_dummy_fptr_seq,
                                                  cpu_id));
             else if (pattern_mode_ == RANDOM)
-                workers.push_back(new LoadWorker(thread_mem_array,
+                workers.push_back(new LoadWorker(threadmem_array_,
                                                  len_per_thread,
                                                  kernel_fptr_ran,
                                                  kernel_dummy_fptr_ran,
@@ -177,7 +177,7 @@ bool ThroughputBenchmark::runCore() {
         avg_adjusted_ticks = total_adjusted_ticks / num_worker_threads_;
 
         if (iter_warning)
-            _warning = true;
+            warning_ = true;
             
         if (g_verbose ) { //Report duration for this iteration
             std::cout << "Iter " << i+1 << " had " << total_passes << " passes in total across " << num_worker_threads_ << " threads, with " << bytes_per_pass << " bytes touched per pass:";
