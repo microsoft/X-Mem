@@ -29,8 +29,8 @@
  * @brief Header file for the ThroughputBenchmark class.
  */
 
-#ifndef __THROUGHPUT_BENCHMARK_H
-#define __THROUGHPUT_BENCHMARK_H
+#ifndef THROUGHPUT_BENCHMARK_H
+#define THROUGHPUT_BENCHMARK_H
 
 //Headers
 #include <Benchmark.h>
@@ -71,7 +71,7 @@ namespace xmem {
         virtual ~ThroughputBenchmark() {}
 
     protected:
-        virtual bool _run_core();
+        virtual bool runCore();
     };
 };
 

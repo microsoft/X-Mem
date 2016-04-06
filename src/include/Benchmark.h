@@ -29,8 +29,8 @@
  * @brief Header file for the Benchmark class.
  */
 
-#ifndef __BENCHMARK_H
-#define __BENCHMARK_H
+#ifndef BENCHMARK_H
+#define BENCHMARK_H
 
 //Headers
 #include <common.h>
@@ -85,7 +85,7 @@ namespace xmem {
             chunk_size_t chunk_size,
             int32_t stride_size,
             std::vector<PowerReader*> dram_power_readers,
-            std::string metricUnits,
+            std::string metric_units,
             std::string name
         );
 
@@ -103,17 +103,17 @@ namespace xmem {
         /** 
          * @brief Prints a header piece of information describing the benchmark to the console.
          */
-        void print_benchmark_header() const;
+        void printBenchmarkHeader() const;
 
         /**
          * @brief Reports benchmark configuration details to the console.
          */
-        virtual void report_benchmark_info() const;
+        virtual void reportBenchmarkInfo() const;
 
         /**
          * @brief Reports results to the console.
          */
-        virtual void report_results() const;
+        virtual void reportResults() const;
 
         /**
          * @brief Checks to see that the object is in a valid state.
@@ -272,69 +272,69 @@ namespace xmem {
          * @brief The core benchmark function. 
          * @returns True on success.
          */
-        virtual bool _run_core() = 0;
+        virtual bool runCore() = 0;
 
         /**
          * @brief Computes the metrics across iterations.
          */
-        void _computeMetrics();
+        void computeMetrics();
 
         /**
          * @brief Starts the DRAM power measurement threads.
          * @returns True on success.
          */
-        bool _start_power_threads();
+        bool startPowerThreads();
 
         /**
          * @brief Stops the DRAM power measurement threads.
          * This is a blocking call.
          * @returns True on success.
          */
-        bool _stop_power_threads();
+        bool stopPowerThreads();
 
 
         //Memory region under test
-        void* _mem_array; /**< Pointer to the memory region to use in this benchmark. */
-        size_t _len; /**< Length of the memory region in bytes. This is not the working set size per thread! */
+        void* mem_array_; /**< Pointer to the memory region to use in this benchmark. */
+        size_t len_; /**< Length of the memory region in bytes. This is not the working set size per thread! */
 
         //Benchmark repetition
-        uint32_t _iterations; /**< Number of iterations used in this benchmark. */
+        uint32_t iterations_; /**< Number of iterations used in this benchmark. */
     
         //Threading and affinity
-        uint32_t _num_worker_threads; /**< The number of worker threads used in this benchmark. */
-        uint32_t _mem_node; /**< The memory NUMA node used in this benchmark. */
-        uint32_t _cpu_node; /**< The CPU NUMA node used in this benchmark. */
+        uint32_t num_worker_threads_; /**< The number of worker threads used in this benchmark. */
+        uint32_t mem_node_; /**< The memory NUMA node used in this benchmark. */
+        uint32_t cpu_node_; /**< The CPU NUMA node used in this benchmark. */
         
         //Benchmarking settings
-        pattern_mode_t _pattern_mode; /**< Access pattern mode. */
-        rw_mode_t _rw_mode; /**< Read/write mode. */
-        chunk_size_t _chunk_size; /**< Chunk size of memory accesses in this benchmark. */
-        int32_t _stride_size; /**< Stride size in chunks for sequential pattern mode only. */
+        pattern_mode_t pattern_mode_; /**< Access pattern mode. */
+        rw_mode_t rw_mode_; /**< Read/write mode. */
+        chunk_size_t chunk_size_; /**< Chunk size of memory accesses in this benchmark. */
+        int32_t stride_size_; /**< Stride size in chunks for sequential pattern mode only. */
         
         //Power measurement
-        std::vector<PowerReader*> _dram_power_readers; /**< The power reading objects for measuring DRAM power on a per-socket basis during the benchmark. */
-        std::vector<Thread*> _dram_power_threads; /**< The power reading threads for measuring DRAM power on a per-socket basis during the benchmark. These work with the DRAM power readers. Although they are worker threads, they are not counted as the "official" benchmarking worker threads. */
+        std::vector<PowerReader*> dram_power_readers_; /**< The power reading objects for measuring DRAM power on a per-socket basis during the benchmark. */
+        std::vector<Thread*> dram_power_threads_; /**< The power reading threads for measuring DRAM power on a per-socket basis during the benchmark. These work with the DRAM power readers. Although they are worker threads, they are not counted as the "official" benchmarking worker threads. */
         
         //Benchmark results
-        std::vector<double> _metricOnIter; /**< Metrics for each iteration of the benchmark. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
-        double _meanMetric; /**< Average metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
-        double _minMetric; /**< Minimum metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
-        double _25PercentileMetric; /**< 25th percentile metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
-        double _medianMetric; /**< Median metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
-        double _75PercentileMetric; /**< 75th percentile metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
-        double _95PercentileMetric; /**< 95th percentile metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
-        double _99PercentileMetric; /**< 99th percentile metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
-        double _maxMetric; /**< Maximum metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
-        double _modeMetric; /**< Mode metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
-        std::string _metricUnits; /**< String representing the units of measurement for the metric. */
-        std::vector<double> _mean_dram_power_socket; /**< The mean DRAM power in this benchmark, per socket. */
-        std::vector<double> _peak_dram_power_socket; /**< The peak DRAM power in this benchmark, per socket. */
+        std::vector<double> metric_on_iter_; /**< Metrics for each iteration of the benchmark. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
+        double mean_metric_; /**< Average metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
+        double min_metric_; /**< Minimum metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
+        double 25_percentile_metric_; /**< 25th percentile metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
+        double median_metric_; /**< Median metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
+        double 75_percentile_metric_; /**< 75th percentile metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
+        double 95_percentile_metric_; /**< 95th percentile metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
+        double 99_percentile_metric_; /**< 99th percentile metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
+        double max_metric_; /**< Maximum metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
+        double mode_metric_; /**< Mode metric over all iterations. Unit-less because any benchmark can set this metric as needed. It is up to the descendant class to interpret units. */
+        std::string metric_units_; /**< String representing the units of measurement for the metric. */
+        std::vector<double> mean_dram_power_socket_; /**< The mean DRAM power in this benchmark, per socket. */
+        std::vector<double> peak_dram_power_socket_; /**< The peak DRAM power in this benchmark, per socket. */
 
         //Metadata
-        std::string _name; /**< Name of this benchmark. */
-        bool _obj_valid; /**< Indicates whether this benchmark object is valid. */
-        bool _hasRun; /**< Indicates whether the benchmark has run. */
-        bool _warning; /**< Indicates whether the benchmarks results might be clearly questionable/inaccurate/incorrect due to a variety of factors. */
+        std::string name_; /**< Name of this benchmark. */
+        bool obj_valid_; /**< Indicates whether this benchmark object is valid. */
+        bool has_run_; /**< Indicates whether the benchmark has run. */
+        bool warning_; /**< Indicates whether the benchmarks results might be clearly questionable/inaccurate/incorrect due to a variety of factors. */
     };
 };
 

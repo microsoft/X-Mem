@@ -29,8 +29,8 @@
  * @brief Header file for the LatencyBenchmark class.
  */
 
-#ifndef __LATENCY_BENCHMARK_H
-#define __LATENCY_BENCHMARK_H
+#ifndef LATENCY_BENCHMARK_H
+#define LATENCY_BENCHMARK_H
 
 //Headers
 #include <Benchmark.h>
@@ -87,18 +87,18 @@ namespace xmem {
         /**
          * @brief Reports benchmark configuration details to the console.
          */
-        virtual void report_benchmark_info() const;
+        virtual void reportBenchmarkInfo() const;
 
         /**
          * @brief Reports results to the console.
          */
-        virtual void report_results() const;
+        virtual void reportResults() const;
 
     protected:
-        virtual bool _run_core();
+        virtual bool runCore();
         
-        std::vector<double> _loadMetricOnIter; /**< Load metrics for each iteration of the benchmark. This is in MB/s. */
-        double _meanLoadMetric; /**< The average load throughput in MB/sec that was imposed on the latency measurement. */   
+        std::vector<double> load_metric_on_iter_; /**< Load metrics for each iteration of the benchmark. This is in MB/s. */
+        double mean_load_metric_; /**< The average load throughput in MB/sec that was imposed on the latency measurement. */   
     };
 };
 

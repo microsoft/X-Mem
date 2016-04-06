@@ -57,80 +57,80 @@ Benchmark::Benchmark(
         chunk_size_t chunk_size,
         int32_t stride_size,
         std::vector<PowerReader*> dram_power_readers,
-        std::string metricUnits,
+        std::string metric_units,
         std::string name
     ) :
-        _mem_array(mem_array),
-        _len(len),
-        _iterations(iterations),
-        _num_worker_threads(num_worker_threads),
-        _mem_node(mem_node),
-        _cpu_node(cpu_node),
-        _pattern_mode(pattern_mode),
-        _rw_mode(rw_mode),
-        _chunk_size(chunk_size),
-        _stride_size(stride_size),
-        _dram_power_readers(dram_power_readers),
-        _dram_power_threads(),
-        _metricOnIter(),
-        _meanMetric(0),
-        _minMetric(0),
-        _25PercentileMetric(0),
-        _medianMetric(0),
-        _75PercentileMetric(0),
-        _95PercentileMetric(0),
-        _99PercentileMetric(0),
-        _maxMetric(0),
-        _modeMetric(0),
-        _metricUnits(metricUnits),
-        _mean_dram_power_socket(),
-        _peak_dram_power_socket(),
-        _name(name),
-        _obj_valid(false),
-        _hasRun(false),
-        _warning(false)
+        mem_array_(mem_array),
+        len_(len),
+        iterations_(iterations),
+        num_worker_threads_(num_worker_threads),
+        mem_node_(mem_node),
+        cpu_node_(cpu_node),
+        pattern_mode_(pattern_mode),
+        rw_mode_(rw_mode),
+        chunk_size_(chunk_size),
+        stride_size_(stride_size),
+        dram_power_readers_(dram_power_readers),
+        dram_power_threads_(),
+        metric_on_iter_(),
+        mean_metric_(0),
+        min_metric_(0),
+        25_percentile_metric_(0),
+        median_metric_(0),
+        75_percentile_metric_(0),
+        95_percentile_metric_(0),
+        99_percentile_metric_(0),
+        max_metric_(0),
+        mode_metric_(0),
+        metric_units_(metric_units),
+        mean_dram_power_socket_(),
+        peak_dram_power_socket_(),
+        name_(name),
+        obj_valid_(false),
+        hasRun_(false),
+        warning_(false)
     {
     
-    for (uint32_t i = 0; i < _iterations; i++) 
-        _metricOnIter.push_back(-1);
+    for (uint32_t i = 0; i < iterations_; i++) 
+        metric_on_iter_.push_back(-1);
 }
 
 Benchmark::~Benchmark() {
 }
 
 bool Benchmark::run() {
-    if (_hasRun) //A benchmark should only be run once per object
+    if (has_run_) //A benchmark should only be run once per object
         return false;
 
-    print_benchmark_header();
-    report_benchmark_info(); 
+    printBenchmarkHeader();
+    reportBenchmarkInfo(); 
 
     //Write to all of the memory region of interest to make sure
     //pages are resident in physical memory and are not shared
     forwSequentialWrite_Word32(_mem_array,
-                               reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + _len));
+                               reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array_) + len_));
 
-    bool success = _run_core();
+    bool success = runCore();
     if (success) {
         return true;
     } else {
-        std::cerr << "WARNING: Benchmark " << _name << " failed!" << std::endl;
+        std::cerr << "WARNING: Benchmark " << name_ << " failed!" << std::endl;
         return false;
     }
 }
 
-void Benchmark::print_benchmark_header() const {
+void Benchmark::printBenchmarkHeader() const {
     //Spit out useful info
     std::cout << std::endl;
-    std::cout << "-------- Running Benchmark: " << _name;
+    std::cout << "-------- Running Benchmark: " << name_;
     std::cout << " ----------" << std::endl;
 }
 
-void Benchmark::report_benchmark_info() const {
-    std::cout << "CPU NUMA Node: " << _cpu_node << std::endl;
-    std::cout << "Memory NUMA Node: " << _mem_node << std::endl;
+void Benchmark::reportBenchmarkInfo() const {
+    std::cout << "CPU NUMA Node: " << cpu_node_ << std::endl;
+    std::cout << "Memory NUMA Node: " << mem_node_ << std::endl;
     std::cout << "Chunk Size: ";
-    switch (_chunk_size) {
+    switch (chunk_size_) {
         case CHUNK_32b:
             std::cout << "32-bit";
             break;
@@ -161,19 +161,19 @@ void Benchmark::report_benchmark_info() const {
     std::cout << std::endl;
 
     std::cout << "Access Pattern: ";
-    switch (_pattern_mode) {
+    switch (pattern_mode_) {
         case SEQUENTIAL:
-            if (_stride_size > 0)
+            if (stride_size_ > 0)
                 std::cout << "forward ";
-            else if (_stride_size < 0)
+            else if (stride_size_ < 0)
                 std::cout << "reverse ";
             else 
                 std::cout << "UNKNOWN ";
 
-            if (_stride_size == 1 || _stride_size == -1)
+            if (stride_size_ == 1 || stride_size_ == -1)
                 std::cout << "sequential";
             else 
-                std::cout << "strides of " << _stride_size << " chunks";
+                std::cout << "strides of " << stride_size_ << " chunks";
             break;
         case RANDOM:
             std::cout << "random";
@@ -186,7 +186,7 @@ void Benchmark::report_benchmark_info() const {
 
 
     std::cout << "Read/Write Mode: ";
-    switch (_rw_mode) {
+    switch (rw_mode_) {
         case READ:
             std::cout << "read";
             break;
@@ -202,24 +202,24 @@ void Benchmark::report_benchmark_info() const {
     }
     std::cout << std::endl;
 
-    std::cout << "Number of worker threads: " << _num_worker_threads;
+    std::cout << "Number of worker threads: " << num_worker_threads_;
     std::cout << std::endl;
 
     std::cout << std::endl;
 }
 
 
-void Benchmark::report_results() const {
+void Benchmark::reportResults() const {
     std::cout << std::endl;
     std::cout << "*** RESULTS";
     std::cout << "***" << std::endl;
     std::cout << std::endl;
  
-    if (_hasRun) {
-        for (uint32_t i = 0; i < _iterations; i++) {
-            std::printf("Iter #%4d:    %0.3f    %s", i, _metricOnIter[i], _metricUnits.c_str());
-            //std::cout << "Iter #" << i << ": " << _metricOnIter[i] << " " << _metricUnits;
-            if (_warning)
+    if (hasRun_) {
+        for (uint32_t i = 0; i < iterations_; i++) {
+            std::printf("Iter #%4d:    %0.3f    %s", i, metric_on_iter_[i], metric_units_.c_str());
+            //std::cout << "Iter #" << i << ": " << metric_on_iter_[i] << " " << metric_units_;
+            if (warning_)
                 std::cout << " (WARNING)";
             std::cout << std::endl;
         }
@@ -227,59 +227,59 @@ void Benchmark::report_results() const {
         std::cout << std::endl;
         std::cout << std::endl;
 
-        std::cout << "Mean: " << _meanMetric << " " << _metricUnits;
-        if (_warning)
+        std::cout << "Mean: " << mean_metric_ << " " << metric_units_;
+        if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
 
-        std::cout << "Min: " << _minMetric << " " << _metricUnits;
-        if (_warning)
+        std::cout << "Min: " << min_metric_ << " " << metric_units_;
+        if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
         
-        std::cout << "25th Percentile: " << _25PercentileMetric << " " << _metricUnits;
-        if (_warning)
+        std::cout << "25th Percentile: " << 25_percentile_metric_ << " " << metric_units_;
+        if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
         
-        std::cout << "Median: " << _medianMetric << " " << _metricUnits;
-        if (_warning)
+        std::cout << "Median: " << median_metric_ << " " << metric_units_;
+        if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
         
-        std::cout << "75th Percentile: " << _75PercentileMetric << " " << _metricUnits;
-        if (_warning)
+        std::cout << "75th Percentile: " << 75_percentile_metric_ << " " << metric_units_;
+        if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
         
-        std::cout << "95th Percentile: " << _95PercentileMetric << " " << _metricUnits;
-        if (_warning)
+        std::cout << "95th Percentile: " << 95_percentile_metric_ << " " << metric_units_;
+        if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
         
-        std::cout << "99th Percentile: " << _99PercentileMetric << " " << _metricUnits;
-        if (_warning)
+        std::cout << "99th Percentile: " << 99_percentile_metric_ << " " << metric_units_;
+        if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
         
-        std::cout << "Max: " << _maxMetric << " " << _metricUnits;
-        if (_warning)
+        std::cout << "Max: " << max_metric_ << " " << metric_units_;
+        if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
          
-        std::cout << "Mode: " << _modeMetric << " " << _metricUnits;
-        if (_warning)
+        std::cout << "Mode: " << mode_metric_ << " " << metric_units_;
+        if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
        
         std::cout << std::endl;
         std::cout << std::endl;
         
-        for (uint32_t i = 0; i < _dram_power_readers.size(); i++) {
-            if (_dram_power_readers[i] != NULL) {
-                std::cout << _dram_power_readers[i]->name() << " Power Statistics..." << std::endl;
-                std::cout << "...Mean Power: " << _dram_power_readers[i]->getMeanPower() * _dram_power_readers[i]->getPowerUnits() << " W" << std::endl;
-                std::cout << "...Peak Power: " << _dram_power_readers[i]->getPeakPower() * _dram_power_readers[i]->getPowerUnits() << " W" << std::endl;
+        for (uint32_t i = 0; i < dram_power_readers_.size(); i++) {
+            if (dram_power_readers_[i] != NULL) {
+                std::cout << dram_power_readers_[i]->name() << " Power Statistics..." << std::endl;
+                std::cout << "...Mean Power: " << dram_power_readers_[i]->getMeanPower() * dram_power_readers_[i]->getPowerUnits() << " W" << std::endl;
+                std::cout << "...Peak Power: " << dram_power_readers_[i]->getPeakPower() * dram_power_readers_[i]->getPowerUnits() << " W" << std::endl;
             }
         }
     }
@@ -287,188 +287,188 @@ void Benchmark::report_results() const {
         std::cerr << "WARNING: Benchmark has not run yet. No reported results." << std::endl;
 }
 
-bool Benchmark::isValid() const { return _obj_valid; }
+bool Benchmark::isValid() const { return obj_valid_; }
 
-bool Benchmark::hasRun() const { return _hasRun; }
+bool Benchmark::hasRun() const { return has_run_; }
 
 double Benchmark::getMetricOnIter(uint32_t iter) const {
-    if (_hasRun && iter - 1 <= _iterations)
-        return _metricOnIter[iter - 1];
+    if (has_run_ && iter - 1 <= iterations_)
+        return metric_on_iter_[iter - 1];
     else //bad call
         return -1;
 }
 
 double Benchmark::getMeanMetric() const {
-    if (_hasRun)
-        return _meanMetric;
+    if (has_run_)
+        return mean_metric_;
     else //bad call
         return -1;
 }
 
 double Benchmark::getMinMetric() const {
-    if (_hasRun)
-        return _minMetric;
+    if (has_run_)
+        return min_metric_;
     else //bad call
         return -1;
 }
 
 double Benchmark::get25PercentileMetric() const {
-    if (_hasRun)
-        return _25PercentileMetric;
+    if (has_run_)
+        return 25_percentile_metric_;
     else //bad call
         return -1;
 }
 
 double Benchmark::getMedianMetric() const {
-    if (_hasRun)
-        return _medianMetric;
+    if (has_run_)
+        return median_metric_;
     else //bad call
         return -1;
 }
 
 double Benchmark::get75PercentileMetric() const {
-    if (_hasRun)
-        return _75PercentileMetric;
+    if (has_run_)
+        return 75_percentile_metric_;
     else //bad call
         return -1;
 }
 
 double Benchmark::get95PercentileMetric() const {
-    if (_hasRun)
-        return _95PercentileMetric;
+    if (has_run_)
+        return 95_percentile_metric_;
     else //bad call
         return -1;
 }
 
 double Benchmark::get99PercentileMetric() const {
-    if (_hasRun)
-        return _99PercentileMetric;
+    if (has_run_)
+        return 99_percentile_metric_;
     else //bad call
         return -1;
 }
 
 double Benchmark::getMaxMetric() const {
-    if (_hasRun)
-        return _maxMetric;
+    if (has_run_)
+        return max_metric_;
     else //bad call
         return -1;
 }
 
 double Benchmark::getModeMetric() const {
-    if (_hasRun)
-        return _modeMetric;
+    if (has_run_)
+        return mode_metric_;
     else //bad call
         return -1;
 }
 
 std::string Benchmark::getMetricUnits() const {
-    return _metricUnits;
+    return metric_units_;
 }
             
 double Benchmark::getMeanDRAMPower(uint32_t socket_id) const {
-    if (_mean_dram_power_socket.size() > socket_id)
-        return _mean_dram_power_socket[socket_id];
+    if (mean_dram_power_socket_.size() > socket_id)
+        return mean_dram_power_socket_[socket_id];
     else
         return 0;
 }
 
 double Benchmark::getPeakDRAMPower(uint32_t socket_id) const {
-    if (_peak_dram_power_socket.size() > socket_id)
-        return _peak_dram_power_socket[socket_id];
+    if (peak_dram_power_socket_.size() > socket_id)
+        return peak_dram_power_socket_[socket_id];
     else
         return 0;
 }
 
 size_t Benchmark::getLen() const {
-    return _len;
+    return len_;
 }
 
 uint32_t Benchmark::getIterations() const {
-    return _iterations;
+    return iterations_;
 }
 
 chunk_size_t Benchmark::getChunkSize() const {
-    return _chunk_size;
+    return chunk_size_;
 }
 
 int32_t Benchmark::getStrideSize() const {
-    return _stride_size;
+    return stride_size_;
 }
 
 uint32_t Benchmark::getCPUNode() const {
-    return _cpu_node;
+    return cpu_node_;
 }
 
 uint32_t Benchmark::getMemNode() const {
-    return _mem_node;
+    return mem_node_;
 }
 
 uint32_t Benchmark::getNumThreads() const {
-    return _num_worker_threads;
+    return num_worker_threads_;
 }
 
 std::string Benchmark::getName() const {
-    return _name;
+    return name_;
 }
 
 pattern_mode_t Benchmark::getPatternMode() const {
-    return _pattern_mode;
+    return pattern_mode_;
 }
 
 rw_mode_t Benchmark::getRWMode() const {
-    return _rw_mode;
+    return rw_mode_;
 }
 
-void Benchmark::_computeMetrics() {
-    if (_hasRun) {
+void Benchmark::computeMetrics() {
+    if (has_run_) {
         //Compute mean
-        _meanMetric = 0;
-        for (uint32_t i = 0; i < _iterations; i++)
-            _meanMetric += _metricOnIter[i]; 
-        _meanMetric /= _iterations;
+        mean_metric_ = 0;
+        for (uint32_t i = 0; i < iterations_; i++)
+            mean_metric_ += metric_on_iter_[i]; 
+        mean_metric_ /= iterations_;
 
         //Build sorted array of metrics from each iteration
-        std::vector<double> sortedMetrics = _metricOnIter;;
+        std::vector<double> sortedMetrics = metric_on_iter_;;
         std::sort(sortedMetrics.begin(), sortedMetrics.end());
 
         //Compute percentiles
-        _minMetric = sortedMetrics.front();
-        _25PercentileMetric = sortedMetrics[sortedMetrics.size()/4];
-        _75PercentileMetric = sortedMetrics[sortedMetrics.size()*3/4];
-        _medianMetric = sortedMetrics[sortedMetrics.size()/2];
-        _95PercentileMetric = sortedMetrics[sortedMetrics.size()*95/100];
-        _99PercentileMetric = sortedMetrics[sortedMetrics.size()*99/100];
-        _maxMetric = sortedMetrics.back();
+        min_metric_ = sortedMetrics.front();
+        25_percentile_metric_ = sortedMetrics[sortedMetrics.size()/4];
+        75_percentile_metric_ = sortedMetrics[sortedMetrics.size()*3/4];
+        median_metric_ = sortedMetrics[sortedMetrics.size()/2];
+        95_percentile_metric_ = sortedMetrics[sortedMetrics.size()*95/100];
+        99_percentile_metric_ = sortedMetrics[sortedMetrics.size()*99/100];
+        max_metric_ = sortedMetrics.back();
 
         //Compute mode
         std::map<double,uint32_t> metricCounts;
-        for (uint32_t i = 0; i < _iterations; i++)
-            metricCounts[_metricOnIter[i]]++;
-        _modeMetric = 0;
+        for (uint32_t i = 0; i < iterations_; i++)
+            metricCounts[metric_on_iter_[i]]++;
+        mode_metric_ = 0;
         uint32_t greatest_count = 0;
         for (auto it = metricCounts.cbegin(); it != metricCounts.cend(); it++) {
             if (it->second > greatest_count)
-                _modeMetric = it->first;
+                mode_metric_ = it->first;
         }
     }
 }
 
-bool Benchmark::_start_power_threads() {
+bool Benchmark::startPowerThreads() {
     bool success = true;
 
     //Create all power threads
-    for (uint32_t i = 0; i < _dram_power_readers.size(); i++) {
+    for (uint32_t i = 0; i < dram_power_readers_.size(); i++) {
         Thread* mythread = NULL;
-        if (_dram_power_readers[i] != NULL)  {
-            _dram_power_readers[i]->clear_and_reset(); //clear the state of the reader
-            mythread = new Thread(_dram_power_readers[i]);
+        if (dram_power_readers_[i] != NULL)  {
+            dram_power_readers_[i]->clear_and_reset(); //clear the state of the reader
+            mythread = new Thread(dram_power_readers_[i]);
             if (mythread == NULL) {
                 std::cerr << "WARNING: Failed to allocate a DRAM power measurement thread." << std::endl;
                 success = false;
             }
             else {
-                _dram_power_threads.push_back(mythread);
-                if (!_dram_power_threads[i]->create_and_start()) { //Create and start the power threads
+                dram_power_threads_.push_back(mythread);
+                if (!dram_power_threads_[i]->create_and_start()) { //Create and start the power threads
                     std::cerr << "WARNING: Failed to create and start a DRAM power measurement thread." << std::endl;
                     success = false;
                 }
@@ -479,13 +479,13 @@ bool Benchmark::_start_power_threads() {
     return success;
 }
 
-bool Benchmark::_stop_power_threads() {
+bool Benchmark::stopPowerThreads() {
     bool success = true;
 
     //Indicate end to the power threads politely
-    for (uint32_t i = 0; i < _dram_power_threads.size(); i++) {
-        if (_dram_power_threads[i] != NULL) {
-            if (_dram_power_threads[i]->started() && !_dram_power_readers[i]->stop()) {
+    for (uint32_t i = 0; i < dram_power_threads_.size(); i++) {
+        if (dram_power_threads_[i] != NULL) {
+            if (dram_power_threads_[i]->started() && !dram_power_readers_[i]->stop()) {
                 std::cerr << "WARNING: Failed to indicate end of power measurement to a power measurement object. The corresponding worker thread might not terminate." << std::endl;
                 success = false;
             }
@@ -493,20 +493,20 @@ bool Benchmark::_stop_power_threads() {
     }
 
     //Wait for all worker threads to complete now that they were signaled to stop
-    for (uint32_t i = 0; i < _dram_power_threads.size(); i++) {
-        if (_dram_power_threads[i] != NULL) {
-            if (!_dram_power_threads[i]->join()) { 
+    for (uint32_t i = 0; i < dram_power_threads_.size(); i++) {
+        if (dram_power_threads_[i] != NULL) {
+            if (!dram_power_threads_[i]->join()) { 
                 std::cerr << "WARNING: A power measurement thread failed to join! Forcing the thread to stop." << std::endl;
-                if (!_dram_power_threads[i]->cancel())
+                if (!dram_power_threads_[i]->cancel())
                     std::cerr << "WARNING: Failed to force stop a power measurement thread. Its behavior may be unpredictable." << std::endl;
             }
         }
 
         //Collect power data
-        for (uint32_t i = 0; i < _dram_power_readers.size(); i++) {
-            if (_dram_power_readers[i] != NULL) {
-                _mean_dram_power_socket.push_back(_dram_power_readers[i]->getMeanPower() * _dram_power_readers[i]->getPowerUnits());
-                _peak_dram_power_socket.push_back(_dram_power_readers[i]->getPeakPower() * _dram_power_readers[i]->getPowerUnits());
+        for (uint32_t i = 0; i < dram_power_readers_.size(); i++) {
+            if (dram_power_readers_[i] != NULL) {
+                mean_dram_power_socket_.push_back(dram_power_readers_[i]->getMeanPower() * dram_power_readers_[i]->getPowerUnits());
+                peak_dram_power_socket_.push_back(dram_power_readers_[i]->getPeakPower() * dram_power_readers_[i]->getPowerUnits());
             }
         }
     }

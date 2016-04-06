@@ -79,24 +79,24 @@ LatencyBenchmark::LatencyBenchmark(
             "ns/access",
             name
         ),
-        _loadMetricOnIter(),
-        _meanLoadMetric(0)
+        load_metric_on_iter_(),
+        mean_load_metric_(0)
     { 
 
-    for (uint32_t i = 0; i < _iterations; i++) 
-        _loadMetricOnIter.push_back(0);
+    for (uint32_t i = 0; i < iterations_; i++) 
+        load_metric_on_iter_.push_back(0);
 }
 
 void LatencyBenchmark::report_benchmark_info() const {
-    std::cout << "CPU NUMA Node: " << _cpu_node << std::endl;
-    std::cout << "Memory NUMA Node: " << _mem_node << std::endl;
+    std::cout << "CPU NUMA Node: " << cpu_node_ << std::endl;
+    std::cout << "Memory NUMA Node: " << mem_node_ << std::endl;
     std::cout << "Latency measurement chunk size: ";
     std::cout << sizeof(uintptr_t)*8 << "-bit" << std::endl;
     std::cout << "Latency measurement access pattern: random read (pointer-chasing)" << std::endl;
 
-    if (_num_worker_threads > 1) {
+    if (num_worker_threads_ > 1) {
         std::cout << "Load Chunk Size: ";
-        switch (_chunk_size) {
+        switch (chunk_size_) {
             case CHUNK_32b:
                 std::cout << "32-bit";
                 break;
@@ -122,19 +122,19 @@ void LatencyBenchmark::report_benchmark_info() const {
         std::cout << std::endl;
 
         std::cout << "Load Access Pattern: ";
-        switch (_pattern_mode) {
+        switch (pattern_mode_) {
             case SEQUENTIAL:
-                if (_stride_size > 0)
+                if (stride_size_ > 0)
                     std::cout << "forward ";
-                else if (_stride_size < 0)
+                else if (stride_size_ < 0)
                     std::cout << "reverse ";
                 else 
                     std::cout << "UNKNOWN ";
 
-                if (_stride_size == 1 || _stride_size == -1)
+                if (stride_size_ == 1 || stride_size_ == -1)
                     std::cout << "sequential";
                 else 
-                    std::cout << "strides of " << _stride_size << " chunks";
+                    std::cout << "strides of " << stride_size_ << " chunks";
                 break;
             case RANDOM:
                 std::cout << "random";
@@ -147,7 +147,7 @@ void LatencyBenchmark::report_benchmark_info() const {
 
 
         std::cout << "Load Read/Write Mode: ";
-        switch (_rw_mode) {
+        switch (rw_mode_) {
             case READ:
                 std::cout << "read";
                 break;
@@ -160,7 +160,7 @@ void LatencyBenchmark::report_benchmark_info() const {
         }
         std::cout << std::endl;
 
-        std::cout << "Load number of worker threads: " << _num_worker_threads-1;
+        std::cout << "Load number of worker threads: " << num_worker_threads_-1;
         std::cout << std::endl;
     }
 
@@ -174,11 +174,11 @@ void LatencyBenchmark::report_results() const {
     std::cout << "***" << std::endl;
     std::cout << std::endl;
  
-    if (_hasRun) {
-        for (uint32_t i = 0; i < _iterations; i++) {
-            std::printf("Iter #%4d:    %0.3f %s @    %0.3f MB/s mean self-imposed load", i, _metricOnIter[i], _metricUnits.c_str(), _loadMetricOnIter[i]);
-            //std::cout << "Iter #" << i << ": " << _metricOnIter[i] << " " << _metricUnits << " @ " << _loadMetricOnIter[i] << " MB/s mean imposed load";
-            if (_warning)
+    if (has_run_) {
+        for (uint32_t i = 0; i < iterations_; i++) {
+            std::printf("Iter #%4d:    %0.3f %s @    %0.3f MB/s mean self-imposed load", i, metric_on_iter_[i], metric_units_.c_str(), load_metric_on_iter_[i]);
+            //std::cout << "Iter #" << i << ": " << metric_on_iter_[i] << " " << metric_units_ << " @ " << load_metric_on_iter_[i] << " MB/s mean imposed load";
+            if (warning_)
                 std::cout << " (WARNING)";
             std::cout << std::endl;
         }
@@ -186,59 +186,59 @@ void LatencyBenchmark::report_results() const {
         std::cout << std::endl;
         std::cout << std::endl;
 
-        std::cout << "Mean: " << _meanMetric << " " << _metricUnits << " and " << _meanLoadMetric << " MB/s mean imposed load (not necessarily matched)";
-        if (_warning)
+        std::cout << "Mean: " << mean_metric_ << " " << metric_units_ << " and " << mean_load_metric_ << " MB/s mean imposed load (not necessarily matched)";
+        if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
 
-        std::cout << "Min: " << _minMetric << " " << _metricUnits;
-        if (_warning)
+        std::cout << "Min: " << min_metric_ << " " << metric_units_;
+        if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
         
-        std::cout << "25th Percentile: " << _25PercentileMetric << " " << _metricUnits;
-        if (_warning)
+        std::cout << "25th Percentile: " << 25_percentile_metric_ << " " << metric_units_;
+        if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
         
-        std::cout << "Median: " << _medianMetric << " " << _metricUnits;
-        if (_warning)
+        std::cout << "Median: " << median_metric_ << " " << metric_units_;
+        if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
         
-        std::cout << "75th Percentile: " << _75PercentileMetric << " " << _metricUnits;
-        if (_warning)
+        std::cout << "75th Percentile: " << 75_percentile_metric_ << " " << metric_units_;
+        if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
         
-        std::cout << "95th Percentile: " << _95PercentileMetric << " " << _metricUnits;
-        if (_warning)
+        std::cout << "95th Percentile: " << 95_percentile_metric_ << " " << metric_units_;
+        if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
         
-        std::cout << "99th Percentile: " << _99PercentileMetric << " " << _metricUnits;
-        if (_warning)
+        std::cout << "99th Percentile: " << 99_percentile_metric_ << " " << metric_units_;
+        if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
         
-        std::cout << "Max: " << _maxMetric << " " << _metricUnits;
-        if (_warning)
+        std::cout << "Max: " << max_metric_ << " " << metric_units_;
+        if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
          
-        std::cout << "Mode: " << _modeMetric << " " << _metricUnits;
-        if (_warning)
+        std::cout << "Mode: " << mode_metric_ << " " << metric_units_;
+        if (warning_)
             std::cout << " (WARNING)";
         std::cout << std::endl;
         
         std::cout << std::endl;
         std::cout << std::endl;
         
-        for (uint32_t i = 0; i < _dram_power_readers.size(); i++) {
-            if (_dram_power_readers[i] != NULL) {
-                std::cout << _dram_power_readers[i]->name() << " Power Statistics..." << std::endl;
-                std::cout << "...Mean Power: " << _dram_power_readers[i]->getMeanPower() * _dram_power_readers[i]->getPowerUnits() << " W" << std::endl;
-                std::cout << "...Peak Power: " << _dram_power_readers[i]->getPeakPower() * _dram_power_readers[i]->getPowerUnits() << " W" << std::endl;
+        for (uint32_t i = 0; i < dram_power_readers_.size(); i++) {
+            if (dram_power_readers_[i] != NULL) {
+                std::cout << dram_power_readers_[i]->name() << " Power Statistics..." << std::endl;
+                std::cout << "...Mean Power: " << dram_power_readers_[i]->getMeanPower() * dram_power_readers_[i]->getPowerUnits() << " W" << std::endl;
+                std::cout << "...Peak Power: " << dram_power_readers_[i]->getPeakPower() * dram_power_readers_[i]->getPowerUnits() << " W" << std::endl;
             }
         }
     }
@@ -247,33 +247,33 @@ void LatencyBenchmark::report_results() const {
 }
 
 double LatencyBenchmark::getLoadMetricOnIter(uint32_t iter) const {
-    if (_hasRun && iter - 1 <= _iterations)
-        return _loadMetricOnIter[iter - 1];
+    if (has_run_ && iter - 1 <= iterations_)
+        return load_metric_on_iter_[iter - 1];
     else //bad call
         return -1;
 }
 
 double LatencyBenchmark::getMeanLoadMetric() const {     
-    if (_hasRun)
-        return _meanLoadMetric;
+    if (has_run_)
+        return mean_load_metric_;
     else //bad call
         return -1;
 }
 
 bool LatencyBenchmark::_run_core() {
-    size_t len_per_thread = _len / _num_worker_threads; //Carve up memory space so each worker has its own area to play in
+    size_t len_per_thread = len_ / _num_worker_threads; //Carve up memory space so each worker has its own area to play in
 
     //Set up latency measurement kernel function pointers
     RandomFunction lat_kernel_fptr = &chasePointers;
     RandomFunction lat_kernel_dummy_fptr = &dummy_chasePointers;
 
     //Initialize memory regions for all threads by writing to them, causing the memory to be physically resident.
-    forwSequentialWrite_Word32(_mem_array,
-                               reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array)+_len)); //static casts to silence compiler warnings
+    forwSequentialWrite_Word32(mem_array_,
+                               reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array_)+len_)); //static casts to silence compiler warnings
 
     //Build pointer indices for random-access latency thread. We assume that latency thread is the first one, so we use beginning of memory region.
-    if (!buildRandomPointerPermutation(_mem_array,
-                                       reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array)+len_per_thread), //static casts to silence compiler warnings
+    if (!buildRandomPointerPermutation(mem_array_,
+                                       reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array_)+len_per_thread), //static casts to silence compiler warnings
 #ifndef HAS_WORD_64 //special case: 32-bit architectures
                                        CHUNK_32b)) { 
 #endif
@@ -289,23 +289,23 @@ bool LatencyBenchmark::_run_core() {
     SequentialFunction load_kernel_dummy_fptr_seq = NULL; 
     RandomFunction load_kernel_fptr_ran = NULL;
     RandomFunction load_kernel_dummy_fptr_ran = NULL; 
-    if (_num_worker_threads > 1) { //If we only have one worker thread, it is used for latency measurement only, and no load threads will be used.
-        if (_pattern_mode == SEQUENTIAL) {
-            if (!determineSequentialKernel(_rw_mode, _chunk_size, _stride_size, &load_kernel_fptr_seq, &load_kernel_dummy_fptr_seq)) {
+    if (num_worker_threads_ > 1) { //If we only have one worker thread, it is used for latency measurement only, and no load threads will be used.
+        if (pattern_mode_ == SEQUENTIAL) {
+            if (!determineSequentialKernel(rw_mode_, chunk_size_, stride_size_, &load_kernel_fptr_seq, &load_kernel_dummy_fptr_seq)) {
                 std::cerr << "ERROR: Failed to find appropriate benchmark kernel." << std::endl;
                 return false;
             }
         } else if (_pattern_mode == RANDOM) {
-            if (!determineRandomKernel(_rw_mode, _chunk_size, &load_kernel_fptr_ran, &load_kernel_dummy_fptr_ran)) {
+            if (!determineRandomKernel(rw_mode_, chunk_size_, &load_kernel_fptr_ran, &load_kernel_dummy_fptr_ran)) {
                 std::cerr << "ERROR: Failed to find appropriate benchmark kernel." << std::endl;
                 return false;
             }
 
             //Build pointer indices for random-access load threads. Note that the pointers for each load thread must stay within its respective region, otherwise sharing may occur. 
-            for (uint32_t i = 1; i < _num_worker_threads; i++) {
-                if (!buildRandomPointerPermutation(reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + i*len_per_thread), //static casts to silence compiler warnings
-                                                   reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + (i+1)*len_per_thread), //static casts to silence compiler warnings
-                                                   _chunk_size)) {
+            for (uint32_t i = 1; i < num_worker_threads_; i++) {
+                if (!buildRandomPointerPermutation(reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array_) + i*len_per_thread), //static casts to silence compiler warnings
+                                                   reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array_) + (i+1)*len_per_thread), //static casts to silence compiler warnings
+                                                   chunk_size_)) {
                     std::cerr << "ERROR: Failed to build a random pointer permutation for a load generation thread!" << std::endl;
                     return false;
                 }
@@ -324,7 +324,7 @@ bool LatencyBenchmark::_run_core() {
     if (g_verbose)
         std::cout << "Starting power measurement threads...";
     
-    if (!_start_power_threads()) {
+    if (!startPowerThreads()) {
         if (g_verbose)
             std::cout << "FAIL" << std::endl;
         std::cerr << "WARNING: Failed to start power threads." << std::endl;
@@ -336,14 +336,14 @@ bool LatencyBenchmark::_run_core() {
         std::cout << "Running benchmark." << std::endl << std::endl;
 
     //Do a bunch of iterations of the core benchmark routine
-    for (uint32_t i = 0; i < _iterations; i++) {
+    for (uint32_t i = 0; i < iterations_; i++) {
 
         //Create load workers and load worker threads
-        for (uint32_t t = 0; t < _num_worker_threads; t++) {
-            void* thread_mem_array = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + t*len_per_thread);
-            int32_t cpu_id = cpu_id_in_numa_node(_cpu_node, t);
+        for (uint32_t t = 0; t < num_worker_threads_; t++) {
+            void* thread_mem_array = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array_) + t*len_per_thread);
+            int32_t cpu_id = cpu_id_in_numa_node(cpu_node_, t);
             if (cpu_id < 0)
-                std::cerr << "WARNING: Failed to find logical CPU " << t << " in NUMA node " << _cpu_node << std::endl;
+                std::cerr << "WARNING: Failed to find logical CPU " << t << " in NUMA node " << cpu_node_ << std::endl;
             if (t == 0) { //special case: thread 0 is always latency thread
                 workers.push_back(new LatencyWorker(thread_mem_array,
                                                     len_per_thread,
@@ -351,13 +351,13 @@ bool LatencyBenchmark::_run_core() {
                                                     lat_kernel_dummy_fptr,
                                                     cpu_id));
             } else {
-                if (_pattern_mode == SEQUENTIAL)
+                if (pattern_mode_ == SEQUENTIAL)
                     workers.push_back(new LoadWorker(thread_mem_array,
                                                      len_per_thread,
                                                      load_kernel_fptr_seq,
                                                      load_kernel_dummy_fptr_seq,
                                                      cpu_id));
-                else if (_pattern_mode == RANDOM)
+                else if (pattern_mode_ == RANDOM)
                     workers.push_back(new LoadWorker(thread_mem_array,
                                                      len_per_thread,
                                                      load_kernel_fptr_ran,
@@ -370,16 +370,16 @@ bool LatencyBenchmark::_run_core() {
         }
 
         //Start worker threads! gogogo
-        for (uint32_t t = 0; t < _num_worker_threads; t++)
+        for (uint32_t t = 0; t < num_worker_threads_; t++)
             worker_threads[t]->create_and_start();
 
         //Wait for all threads to complete
-        for (uint32_t t = 0; t < _num_worker_threads; t++)
+        for (uint32_t t = 0; t < num_worker_threads_; t++)
             if (!worker_threads[t]->join())
                 std::cerr << "WARNING: A worker thread failed to complete correctly!" << std::endl;
         
         //Compute metrics for this iteration
-        bool iter_warning = false;
+        bool iterwarning = false;
 
         //Compute latency metric
         uint32_t lat_passes = workers[0]->getPasses();  
@@ -387,7 +387,7 @@ bool LatencyBenchmark::_run_core() {
         tick_t lat_elapsed_dummy_ticks = workers[0]->getElapsedDummyTicks();
         uint32_t lat_bytes_per_pass = workers[0]->getBytesPerPass();
         uint32_t lat_accesses_per_pass = lat_bytes_per_pass / 8;
-        iter_warning |= workers[0]->hadWarning();
+        iterwarning |= workers[0]->hadWarning();
         
         //Compute throughput generated by load threads
         uint32_t load_total_passes = 0;
@@ -400,61 +400,61 @@ bool LatencyBenchmark::_run_core() {
             load_total_adjusted_ticks += workers[t]->getAdjustedTicks();
             load_total_elapsed_dummy_ticks += workers[t]->getElapsedDummyTicks();
             load_bytes_per_pass = workers[t]->getBytesPerPass(); //all should be the same.
-            iter_warning |= workers[t]->hadWarning();
+            iterwarning |= workers[t]->hadWarning();
         }
 
         //Compute load metrics for this iteration
-        load_avg_adjusted_ticks = static_cast<double>(load_total_adjusted_ticks) / (_num_worker_threads-1);
+        load_avg_adjusted_ticks = static_cast<double>(load_total_adjusted_ticks) / (num_worker_threads_-1);
         if (_num_worker_threads > 1)
-            _loadMetricOnIter[i] = (((static_cast<double>(load_total_passes) * static_cast<double>(load_bytes_per_pass)) / static_cast<double>(MB)))   /  ((load_avg_adjusted_ticks * g_ns_per_tick) / 1e9);
+            load_metric_on_iter_[i] = (((static_cast<double>(load_total_passes) * static_cast<double>(load_bytes_per_pass)) / static_cast<double>(MB)))   /  ((load_avg_adjusted_ticks * g_ns_per_tick) / 1e9);
 
-        if (iter_warning)
-            _warning = true;
+        if (iterwarning)
+            warning_ = true;
     
         if (g_verbose) { //Report metrics for this iteration
             //Latency thread
             std::cout << "Iter " << i+1 << " had " << lat_passes << " latency measurement passes, with " << lat_accesses_per_pass << " accesses per pass:";
-            if (iter_warning) std::cout << " -- WARNING";
+            if (iterwarning) std::cout << " -- WARNING";
             std::cout << std::endl;
 
             std::cout << "...lat clock ticks == " << lat_adjusted_ticks << " (adjusted by -" << lat_elapsed_dummy_ticks << ")";
-            if (iter_warning) std::cout << " -- WARNING";
+            if (iterwarning) std::cout << " -- WARNING";
             std::cout << std::endl;
 
             std::cout << "...lat ns == " << lat_adjusted_ticks * g_ns_per_tick << " (adjusted by -" << lat_elapsed_dummy_ticks * g_ns_per_tick << ")";
-            if (iter_warning) std::cout << " -- WARNING";
+            if (iterwarning) std::cout << " -- WARNING";
             std::cout << std::endl;
 
             std::cout << "...lat sec == " << lat_adjusted_ticks * g_ns_per_tick / 1e9 << " (adjusted by -" << lat_elapsed_dummy_ticks * g_ns_per_tick / 1e9 << ")";
-            if (iter_warning) std::cout << " -- WARNING";
+            if (iterwarning) std::cout << " -- WARNING";
             std::cout << std::endl;
 
             //Load threads
-            if (_num_worker_threads > 1) {
+            if (num_worker_threads_ > 1) {
                 std::cout << "Iter " << i+1 << " had " << load_total_passes << " total load generation passes, with " << load_bytes_per_pass << " bytes per pass:";
-                if (iter_warning) std::cout << " -- WARNING";
+                if (iterwarning) std::cout << " -- WARNING";
                 std::cout << std::endl;
 
-                std::cout << "...load total clock ticks across " << _num_worker_threads-1 << " threads == " << load_total_adjusted_ticks << " (adjusted by -" << load_total_elapsed_dummy_ticks << ")";
-                if (iter_warning) std::cout << " -- WARNING";
+                std::cout << "...load total clock ticks across " << num_worker_threads_-1 << " threads == " << load_total_adjusted_ticks << " (adjusted by -" << load_total_elapsed_dummy_ticks << ")";
+                if (iterwarning) std::cout << " -- WARNING";
                 std::cout << std::endl;
 
-                std::cout << "...load total ns across " << _num_worker_threads-1 << " threads == " << load_total_adjusted_ticks * g_ns_per_tick << " (adjusted by -" << load_total_elapsed_dummy_ticks * g_ns_per_tick << ")";
-                if (iter_warning) std::cout << " -- WARNING";
+                std::cout << "...load total ns across " << num_worker_threads_-1 << " threads == " << load_total_adjusted_ticks * g_ns_per_tick << " (adjusted by -" << load_total_elapsed_dummy_ticks * g_ns_per_tick << ")";
+                if (iterwarning) std::cout << " -- WARNING";
                 std::cout << std::endl;
 
-                std::cout << "...load total sec across " << _num_worker_threads-1 << " threads == " << load_total_adjusted_ticks * g_ns_per_tick / 1e9 << " (adjusted by -" << load_total_elapsed_dummy_ticks * g_ns_per_tick / 1e9 << ")";
-                if (iter_warning) std::cout << " -- WARNING";
+                std::cout << "...load total sec across " << num_worker_threads_-1 << " threads == " << load_total_adjusted_ticks * g_ns_per_tick / 1e9 << " (adjusted by -" << load_total_elapsed_dummy_ticks * g_ns_per_tick / 1e9 << ")";
+                if (iterwarning) std::cout << " -- WARNING";
                 std::cout << std::endl;
             }
 
         }
         
         //Compute overall metrics for this iteration
-        _metricOnIter[i] = static_cast<double>(lat_adjusted_ticks * g_ns_per_tick)  /  static_cast<double>(lat_accesses_per_pass * lat_passes);
+        metric_on_iter_[i] = static_cast<double>(lat_adjusted_ticks * g_ns_per_tick)  /  static_cast<double>(lat_accesses_per_pass * lat_passes);
         
         //Clean up workers and threads for this iteration
-        for (uint32_t t = 0; t < _num_worker_threads; t++) {
+        for (uint32_t t = 0; t < num_worker_threads_; t++) {
             delete worker_threads[t];
             delete workers[t];
         }
@@ -468,7 +468,7 @@ bool LatencyBenchmark::_run_core() {
         std::cout << "Stopping power measurement threads...";
     }
     
-    if (!_stop_power_threads()) {
+    if (!stopPowerThreads()) {
         if (g_verbose)
             std::cout << "FAIL" << std::endl;
         std::cerr << "WARNING: Failed to stop power measurement threads." << std::endl;
@@ -476,13 +476,13 @@ bool LatencyBenchmark::_run_core() {
         std::cout << "done" << std::endl;
     
     //Run metadata
-    _hasRun = true;
-    _computeMetrics();
+    has_run_ = true;
+    computeMetrics();
 
-    //Get mean load metrics -- these aren't part of Benchmark class thus not covered by _computeMetrics()
-    for (uint32_t i = 0; i < _iterations; i++)
-        _meanLoadMetric += _loadMetricOnIter[i];
-    _meanLoadMetric /= static_cast<double>(_iterations);
+    //Get mean load metrics -- these aren't part of Benchmark class thus not covered by computeMetrics()
+    for (uint32_t i = 0; i < iterations_; i++)
+        mean_load_metric_ += load_metric_on_iter_[i];
+    mean_load_metric_ /= static_cast<double>(iterations_);
 
     return true;
 }
