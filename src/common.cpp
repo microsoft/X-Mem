@@ -793,9 +793,9 @@ tick_t xmem::stop_timer() {
 }
 
 #ifdef _WIN32
-bool xmem::boostSchedulingPriority(DWORD& originalPriorityClass, DWORD& originalPriority) {
-    originalPriorityClass = GetPriorityClass(GetCurrentProcess());  
-    originalPriority = GetThreadPriority(GetCurrentThread());
+bool xmem::boost_scheduling_priority(DWORD& original_priority_class, DWORD& original_priority) {
+    original_priority_class = GetPriorityClass(GetCurrentProcess());  
+    original_priority = GetThreadPriority(GetCurrentThread());
     SetPriorityClass(GetCurrentProcess(), 0x80); //HIGH_PRIORITY_CLASS
     SetThreadPriority(GetCurrentThread(), 15); //THREAD_PRIORITY_TIME_CRITICAL
 
@@ -804,7 +804,7 @@ bool xmem::boostSchedulingPriority(DWORD& originalPriorityClass, DWORD& original
 #endif
 
 #ifdef __gnu_linux__
-bool xmem::boostSchedulingPriority() {
+bool xmem::boost_scheduling_priority() {
     if (nice(-20) == EPERM)
         return false;
     return true;
@@ -812,15 +812,15 @@ bool xmem::boostSchedulingPriority() {
 #endif
 
 #ifdef _WIN32
-bool xmem::revertSchedulingPriority(DWORD originalPriorityClass, DWORD originalPriority) {
-    SetPriorityClass(GetCurrentProcess(), originalPriorityClass);
-    SetThreadPriority(GetCurrentThread(), originalPriority);
+bool xmem::revert_scheduling_priority(DWORD original_priority_class, DWORD original_priority) {
+    SetPriorityClass(GetCurrentProcess(), original_priority_class);
+    SetThreadPriority(GetCurrentThread(), original_priority);
     return true;
 }
 #endif
 
 #ifdef __gnu_linux__
-bool xmem::revertSchedulingPriority() {
+bool xmem::revert_scheduling_priority() {
     if (nice(0) == EPERM)
         return false;
     return true;

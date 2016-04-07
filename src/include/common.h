@@ -29,8 +29,8 @@
  * @brief Header file for common preprocessor definitions, macros, functions, and global constants.
  */
 
-#ifndef __COMMON_H
-#define __COMMON_H
+#ifndef COMMON_H
+#define COMMON_H
 
 //Libraries
 #include <cstdint>
@@ -573,7 +573,7 @@ namespace xmem {
      * @param originalPriority The Windows priority before priority was increased.
      * @returns True on success.
      */
-    bool boostSchedulingPriority(DWORD& originalPriorityClass, DWORD& originalPriority);
+    bool boost_scheduling_priority(DWORD& original_priority_class, DWORD& original_priority);
 #endif
 
 #ifdef __gnu_linux__
@@ -581,7 +581,7 @@ namespace xmem {
      * @brief Increases the scheduling priority of the calling thread.
      * @returns True on success.
      */
-    bool boostSchedulingPriority();
+    bool boost_scheduling_priority();
 #endif
 
 #ifdef _WIN32
@@ -591,7 +591,7 @@ namespace xmem {
      * @param originalPriority The Windows priority before priority was increased.
      * @returns True on success.
      */
-    bool revertSchedulingPriority(DWORD originalPriorityClass, DWORD originalPriority);
+    bool revert_scheduling_priority(DWORD original_priority_class, DWORD original_priority);
 #endif
 
 #ifdef __gnu_linux__
@@ -599,7 +599,7 @@ namespace xmem {
      * @brief Reverts the scheduling priority of the calling thread.
      * @returns True on success.
      */
-    bool revertSchedulingPriority();
+    bool revert_scheduling_priority();
 #endif
 };
 

@@ -141,12 +141,12 @@ void LoadWorker::run() {
 
     //Increase scheduling priority
 #ifdef _WIN32
-    DWORD originalPriorityClass;
-    DWORD originalPriority;
-    if (!boostSchedulingPriority(originalPriorityClass, originalPriority))
+    DWORD original_priority_class;
+    DWORD original_priority;
+    if (!boost_scheduling_priority(original_priority_class, original_priority))
 #endif
 #ifdef __gnu_linux__
-    if (!boostSchedulingPriority())
+    if (!boost_scheduling_priority())
 #endif
         std::cerr << "WARNING: Failed to boost scheduling priority. Perhaps running in Administrator mode would help." << std::endl;
 
@@ -208,10 +208,10 @@ void LoadWorker::run() {
 
     //Revert thread priority
 #ifdef _WIN32
-    if (!revertSchedulingPriority(originalPriorityClass, originalPriority))
+    if (!revert_scheduling_priority(original_priority_class, original_priority))
 #endif
 #ifdef __gnu_linux__
-    if (!revertSchedulingPriority())
+    if (!revert_scheduling_priority())
 #endif
         std::cerr << "WARNING: Failed to revert scheduling priority. Perhaps running in Administrator mode would help." << std::endl;
 
