@@ -8,8 +8,8 @@
  * @brief Header and implementation file for some third-party code for measuring Windows OS-exposed performance counters.
  */
 
-#ifndef __WIN_CPDHQUERY_H
-#define __WIN_CPDHQUERY_H
+#ifndef WIN_CPDHQUERY_H
+#define WIN_CPDHQUERY_H
 
 #ifdef _WIN32
 

@@ -84,19 +84,19 @@ bool ThroughputBenchmark::runCore() {
     RandomFunction kernel_dummy_fptr_ran = NULL; 
 
     if (pattern_mode_ == SEQUENTIAL) {
-        if (!determineSequentialKernel(rw_mode_, chunk_size_, stride_size_, &kernel_fptr_seq, &kernel_dummy_fptr_seq)) {
+        if (!determine_sequential_kernel(rw_mode_, chunk_size_, stride_size_, &kernel_fptr_seq, &kernel_dummy_fptr_seq)) {
             std::cerr << "ERROR: Failed to find appropriate benchmark kernel." << std::endl;
             return false;
         }
     } else if (pattern_mode_ == RANDOM) {
-        if (!determineRandomKernel(rw_mode_, chunk_size_, &kernel_fptr_ran, &kernel_dummy_fptr_ran)) {
+        if (!determine_random_kernel(rw_mode_, chunk_size_, &kernel_fptr_ran, &kernel_dummy_fptr_ran)) {
             std::cerr << "ERROR: Failed to find appropriate benchmark kernel." << std::endl;
             return false;
         }
             
         //Build pointer indices. Note that the pointers for each thread must stay within its respective region, otherwise sharing may occur. 
         for (uint32_t i = 0; i < num_worker_threads_; i++) {
-            if (!buildRandomPointerPermutation(reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array_) + i*len_per_thread), //casts to silence compiler warnings
+            if (!build_random_pointer_permutation(reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array_) + i*len_per_thread), //casts to silence compiler warnings
                                                reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array_) + (i+1)*len_per_thread), //casts to silence compiler warnings
                                                chunk_size_)) {
                 std::cerr << "ERROR: Failed to build a random pointer permutation for a worker thread!" << std::endl;

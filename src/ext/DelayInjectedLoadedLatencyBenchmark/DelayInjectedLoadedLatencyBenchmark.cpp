@@ -105,7 +105,7 @@ bool DelayInjectedLoadedLatencyBenchmark::runCore() {
                                reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array_)+len_)); //static casts to silence compiler warnings
 
     //Build pointer indices for random-access latency thread. We assume that latency thread is the first one, so we use beginning of memory region.
-    if (!buildRandomPointerPermutation(mem_array_,
+    if (!build_random_pointer_permutation(mem_array_,
                                        reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array_)+len_per_thread), //static casts to silence compiler warnings
 #ifndef HAS_WORD_64 //special case: 32-bit architectures
                                        CHUNK_32b)) { 

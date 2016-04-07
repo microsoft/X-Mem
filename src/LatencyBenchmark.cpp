@@ -272,7 +272,7 @@ bool LatencyBenchmark::runCore() {
                                reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array_)+len_)); //static casts to silence compiler warnings
 
     //Build pointer indices for random-access latency thread. We assume that latency thread is the first one, so we use beginning of memory region.
-    if (!buildRandomPointerPermutation(mem_array_,
+    if (!build_random_pointer_permutation(mem_array_,
                                        reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array_)+len_per_thread), //static casts to silence compiler warnings
 #ifndef HAS_WORD_64 //special case: 32-bit architectures
                                        CHUNK_32b)) { 
@@ -291,19 +291,19 @@ bool LatencyBenchmark::runCore() {
     RandomFunction load_kernel_dummy_fptr_ran = NULL; 
     if (num_worker_threads_ > 1) { //If we only have one worker thread, it is used for latency measurement only, and no load threads will be used.
         if (pattern_mode_ == SEQUENTIAL) {
-            if (!determineSequentialKernel(rw_mode_, chunk_size_, stride_size_, &load_kernel_fptr_seq, &load_kernel_dummy_fptr_seq)) {
+            if (!determine_sequential_kernel(rw_mode_, chunk_size_, stride_size_, &load_kernel_fptr_seq, &load_kernel_dummy_fptr_seq)) {
                 std::cerr << "ERROR: Failed to find appropriate benchmark kernel." << std::endl;
                 return false;
             }
         } else if (pattern_mode_ == RANDOM) {
-            if (!determineRandomKernel(rw_mode_, chunk_size_, &load_kernel_fptr_ran, &load_kernel_dummy_fptr_ran)) {
+            if (!determine_random_kernel(rw_mode_, chunk_size_, &load_kernel_fptr_ran, &load_kernel_dummy_fptr_ran)) {
                 std::cerr << "ERROR: Failed to find appropriate benchmark kernel." << std::endl;
                 return false;
             }
 
             //Build pointer indices for random-access load threads. Note that the pointers for each load thread must stay within its respective region, otherwise sharing may occur. 
             for (uint32_t i = 1; i < num_worker_threads_; i++) {
-                if (!buildRandomPointerPermutation(reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array_) + i*len_per_thread), //static casts to silence compiler warnings
+                if (!build_random_pointer_permutation(reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array_) + i*len_per_thread), //static casts to silence compiler warnings
                                                    reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array_) + (i+1)*len_per_thread), //static casts to silence compiler warnings
                                                    chunk_size_)) {
                     std::cerr << "ERROR: Failed to build a random pointer permutation for a load generation thread!" << std::endl;

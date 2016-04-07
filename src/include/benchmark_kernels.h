@@ -29,8 +29,8 @@
  * @brief Header file for benchmark kernel functions for doing the actual work we care about. :)
  */
 
-#ifndef __BENCHMARK_KERNELS_H
-#define __BENCHMARK_KERNELS_H
+#ifndef BENCHMARK_KERNELS_H
+#define BENCHMARK_KERNELS_H
 
 //Headers
 #include <common.h>
@@ -54,7 +54,7 @@ namespace xmem {
      * @param dummy_kernel_function Function pointer that will be set to the matching dummy kernel function.
      * @returns True on success.
      */
-    bool determineSequentialKernel(rw_mode_t rw_mode, chunk_size_t chunk_size, int32_t stride_size, SequentialFunction* kernel_function, SequentialFunction* dummy_kernel_function);
+    bool determine_sequential_kernel(rw_mode_t rw_mode, chunk_size_t chunk_size, int32_t stride_size, SequentialFunction* kernel_function, SequentialFunction* dummy_kernel_function);
     
     /**
      * @brief Determines which random memory access kernel to use based on the read/write mode, chunk size, and stride size.
@@ -64,7 +64,7 @@ namespace xmem {
      * @param dummy_kernel_function Function pointer that will be set to the matching dummy kernel function.
      * @returns True on success.
      */
-    bool determineRandomKernel(rw_mode_t rw_mode, chunk_size_t chunk_size, RandomFunction* kernel_function, RandomFunction* dummy_kernel_function);
+    bool determine_random_kernel(rw_mode_t rw_mode, chunk_size_t chunk_size, RandomFunction* kernel_function, RandomFunction* dummy_kernel_function);
 
     /**
      * @brief Builds a random chain of pointers within the specified memory region.
@@ -73,7 +73,7 @@ namespace xmem {
      * @param chunk_size Granularity of words to read, dereference, and jump by. This must be at least the minimum pointer size on the system (typically 32 or 64-bit). If the chunk size is more than 64 bits, when chasing pointers, only the first pointer-sized bits of the referenced word are used to make the next hop.
      * @returns True on success.
      */
-    bool buildRandomPointerPermutation(void* start_address, void* end_address, chunk_size_t chunk_size);
+    bool build_random_pointer_permutation(void* start_address, void* end_address, chunk_size_t chunk_size);
 
     /***********************************************************************
      ***********************************************************************

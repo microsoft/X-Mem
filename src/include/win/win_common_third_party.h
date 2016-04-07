@@ -8,8 +8,8 @@
  * @brief Header file for some third-party helper code for working with Windows APIs.
  */
 
-#ifndef __WIN_THIRD_PARTY
-#define __WIN_THIRD_PARTY
+#ifndef WIN_THIRD_PARTY
+#define WIN_THIRD_PARTY
 
 #ifdef _WIN32
 

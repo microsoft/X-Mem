@@ -232,7 +232,7 @@ extern "C" int32_t win_x86_64_asm_dummy_revStride16Loop_Word256(Word256_t* first
 #endif
 
 
-bool xmem::determineSequentialKernel(rw_mode_t rw_mode, chunk_size_t chunk_size, int32_t stride_size, SequentialFunction* kernel_function, SequentialFunction* dummy_kernel_function) {
+bool xmem::determine_sequential_kernel(rw_mode_t rw_mode, chunk_size_t chunk_size, int32_t stride_size, SequentialFunction* kernel_function, SequentialFunction* dummy_kernel_function) {
     switch (rw_mode) {
         case READ:
             switch (chunk_size) {
@@ -733,7 +733,7 @@ bool xmem::determineSequentialKernel(rw_mode_t rw_mode, chunk_size_t chunk_size,
     return false; //shouldn't reach this point
 }
     
-bool xmem::determineRandomKernel(rw_mode_t rw_mode, chunk_size_t chunk_size, RandomFunction* kernel_function, RandomFunction* dummy_kernel_function) {
+bool xmem::determine_random_kernel(rw_mode_t rw_mode, chunk_size_t chunk_size, RandomFunction* kernel_function, RandomFunction* dummy_kernel_function) {
     switch (rw_mode) {
         case READ:
             switch (chunk_size) {
@@ -818,7 +818,7 @@ bool xmem::determineRandomKernel(rw_mode_t rw_mode, chunk_size_t chunk_size, Ran
     return false;
 }
 
-bool xmem::buildRandomPointerPermutation(void* start_address, void* end_address, chunk_size_t chunk_size) {
+bool xmem::build_random_pointer_permutation(void* start_address, void* end_address, chunk_size_t chunk_size) {
     if (g_verbose)
         std::cout << "Preparing a memory region under test. This might take a while...";
 
