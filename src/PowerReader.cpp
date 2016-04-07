@@ -60,16 +60,16 @@ PowerReader::~PowerReader() {
 bool PowerReader::stop() {
     bool success = false;
 
-    if (_acquireLock(-1)) { //Wait indefinitely for the lock
+    if (acquireLock(-1)) { //Wait indefinitely for the lock
         _stop_signal = true;
-        success = _releaseLock();
+        success = releaseLock();
     }
     
     return success;
 }
 
 bool PowerReader::calculateMetrics() {
-    if (_acquireLock(-1)) { //Wait indefinitely for the lock
+    if (acquireLock(-1)) { //Wait indefinitely for the lock
         _mean_power = 0;
         _peak_power = 0;
         _num_samples = _power_trace.size();
@@ -81,27 +81,27 @@ bool PowerReader::calculateMetrics() {
         if (_num_samples > 0)
             _mean_power /= _num_samples;
 
-        return _releaseLock();
+        return releaseLock();
     } else
         return false;
 }
 
 bool PowerReader::clear() {
-    if (_acquireLock(-1)) { //Wait indefinitely for the lock
+    if (acquireLock(-1)) { //Wait indefinitely for the lock
         _power_trace.clear();
         _mean_power = 0;
         _peak_power = 0;
         _num_samples = 0;
-        return _releaseLock();
+        return releaseLock();
     } else
         return false;
 }
 
 bool PowerReader::clear_and_reset() {
     if (stop() && clear()) {
-        if (_acquireLock(-1)) { //Wait indefinitely for the lock
+        if (acquireLock(-1)) { //Wait indefinitely for the lock
             _stop_signal = false;
-            return _releaseLock();
+            return releaseLock();
         }
     }
 
@@ -110,72 +110,72 @@ bool PowerReader::clear_and_reset() {
 
 std::vector<double> PowerReader::getPowerTrace() {
     std::vector<double> retval;
-    if (_acquireLock(-1)) { //Wait indefinitely for the lock
+    if (acquireLock(-1)) { //Wait indefinitely for the lock
         retval = _power_trace;
-        _releaseLock();
+        releaseLock();
     }
     return retval;
 }
 
 double PowerReader::getMeanPower() {
     double retval = 0;
-    if (_acquireLock(-1)) { //Wait indefinitely for the lock
+    if (acquireLock(-1)) { //Wait indefinitely for the lock
         retval = _mean_power;
-        _releaseLock();
+        releaseLock();
     }
     return retval;
 }
 
 double PowerReader::getPeakPower() {
     double retval = 0;
-    if (_acquireLock(-1)) { //Wait indefinitely for the lock
+    if (acquireLock(-1)) { //Wait indefinitely for the lock
         retval = _peak_power;
-        _releaseLock();
+        releaseLock();
     }
     return retval;
 }
 
 double PowerReader::getLastSample() {
     double retval = 0;
-    if (_acquireLock(-1)) { //Wait indefinitely for the lock
+    if (acquireLock(-1)) { //Wait indefinitely for the lock
         retval = _power_trace[_power_trace.size() - 1];
-        _releaseLock();
+        releaseLock();
     }
     return retval;
 }
 
 uint32_t PowerReader::getSamplingPeriod() {
     uint32_t retval = 0;
-    if (_acquireLock(-1)) { //Wait indefinitely for the lock
+    if (acquireLock(-1)) { //Wait indefinitely for the lock
         retval = _sampling_period;
-        _releaseLock();
+        releaseLock();
     }
     return retval;
 }
 
 double PowerReader::getPowerUnits() {
     double retval = 0;
-    if (_acquireLock(-1)) { //Wait indefinitely for the lock
+    if (acquireLock(-1)) { //Wait indefinitely for the lock
         retval = _power_units;
-        _releaseLock();
+        releaseLock();
     }
     return retval;
 }
 
 size_t PowerReader::getNumSamples() {
     size_t retval = 0;
-    if (_acquireLock(-1)) { //Wait indefinitely for the lock
+    if (acquireLock(-1)) { //Wait indefinitely for the lock
         retval = _num_samples;
-        _releaseLock();
+        releaseLock();
     }
     return retval;
 }
 
 std::string PowerReader::name() {
     std::string retval;
-    if (_acquireLock(-1)) { //Wait indefinitely for the lock
+    if (acquireLock(-1)) { //Wait indefinitely for the lock
         retval = _name;
-        _releaseLock();
+        releaseLock();
     }
     return retval;
 }

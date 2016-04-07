@@ -118,7 +118,7 @@ void LoadWorker::run() {
     bytes_per_pass = THROUGHPUT_BENCHMARK_BYTES_PER_PASS;
     
     //Grab relevant setup state thread-safely and keep it local
-    if (_acquireLock(-1)) {
+    if (acquireLock(-1)) {
         mem_array = _mem_array;
         len = _len;
         cpu_affinity = _cpu_affinity;
@@ -131,7 +131,7 @@ void LoadWorker::run() {
         end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array)+bytes_per_pass);
         prime_start_address = _mem_array; 
         prime_end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + _len);
-        _releaseLock();
+        releaseLock();
     }
     
     //Set processor affinity
@@ -222,7 +222,7 @@ void LoadWorker::run() {
         warning = true;
 
     //Update the object state thread-safely
-    if (_acquireLock(-1)) {
+    if (acquireLock(-1)) {
         _adjusted_ticks = adjusted_ticks;
         _elapsed_ticks = elapsed_ticks;
         _elapsed_dummy_ticks = elapsed_dummy_ticks;
@@ -230,6 +230,6 @@ void LoadWorker::run() {
         _bytes_per_pass = bytes_per_pass;
         _completed = true;
         _passes = passes;
-        _releaseLock();
+        releaseLock();
     }
 }

@@ -48,26 +48,26 @@ using namespace xmem;
 
 Runnable::Runnable() :
 #ifdef _WIN32
-    _mutex(0) 
+    mutex(0) 
 #endif
 #ifdef __gnu_linux__
-    _mutex(PTHREAD_MUTEX_INITIALIZER)
+    mutex_(PTHREAD_MUTEX_INITIALIZER)
 #endif
     {
 #ifdef _WIN32
-    if ((_mutex = CreateMutex(NULL, false, NULL)) == NULL)
+    if ((mutex = CreateMutex(NULL, false, NULL)) == NULL)
         std::cerr << "WARNING: Failed to create mutex for a Runnable object! Thread-safe operation may not be possible." << std::endl;
 #endif
 }
 
 Runnable::~Runnable() {
 #ifdef _WIN32
-    if (_mutex != NULL)
-        ReleaseMutex(_mutex); //Don't need to check return code. If it fails, the lock might not have been held anyway.
+    if (mutex != NULL)
+        ReleaseMutex(mutex); //Don't need to check return code. If it fails, the lock might not have been held anyway.
 #endif
 
 #ifdef __gnu_linux__
-    int32_t retval = pthread_mutex_destroy(&_mutex); 
+    int32_t retval = pthread_mutex_destroy(&mutex_); 
     if (retval) {
         if (retval == EBUSY)
             std::cerr << "WARNING: Failed to destroy a mutex, as it was busy!" << std::endl;
@@ -79,9 +79,9 @@ Runnable::~Runnable() {
 #endif
 }
 
-bool Runnable::_acquireLock(int32_t timeout) {
+bool Runnable::acquireLock(int32_t timeout) {
 #ifdef _WIN32
-    if (_mutex == NULL)
+    if (mutex == NULL)
         return false;
 #endif
 
@@ -95,11 +95,11 @@ bool Runnable::_acquireLock(int32_t timeout) {
 
     if (timeout < 0) {
 #ifdef _WIN32
-        reason = WaitForSingleObject(_mutex, INFINITE);
+        reason = WaitForSingleObject(mutex, INFINITE);
         if (reason == WAIT_OBJECT_0) //success
 #endif
 #ifdef __gnu_linux__
-        reason = pthread_mutex_lock(&_mutex);
+        reason = pthread_mutex_lock(&mutex_);
         if (!reason) //success
 #endif
             return true;
@@ -116,14 +116,14 @@ bool Runnable::_acquireLock(int32_t timeout) {
         }
     } else {
 #ifdef _WIN32
-        reason = WaitForSingleObject(_mutex, timeout);
+        reason = WaitForSingleObject(mutex, timeout);
         if (reason == WAIT_OBJECT_0) //success
 #endif
 #ifdef __gnu_linux__
         struct timespec t;
         t.tv_sec = static_cast<time_t>(timeout/1000);
         t.tv_nsec = static_cast<time_t>((timeout % 1000) * 1e6);
-        reason = pthread_mutex_timedlock(&_mutex, &t);
+        reason = pthread_mutex_timedlock(&mutex_, &t);
         if (!reason) //success
 #endif
             return true;
@@ -148,12 +148,12 @@ bool Runnable::_acquireLock(int32_t timeout) {
     return false;
 }
 
-bool Runnable::_releaseLock() {
+bool Runnable::releaseLock() {
 #ifdef _WIN32
-    if (ReleaseMutex(_mutex))
+    if (ReleaseMutex(mutex))
 #endif
 #ifdef __gnu_linux__
-    int32_t retval = pthread_mutex_unlock(&_mutex);
+    int32_t retval = pthread_mutex_unlock(&mutex_);
     if (!retval)
 #endif
         return true;

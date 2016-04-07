@@ -29,8 +29,8 @@
  * @brief Header file for the Runnable class.
  */
 
-#ifndef __RUNNABLE_H
-#define __RUNNABLE_H
+#ifndef RUNNABLE_H
+#define RUNNABLE_H
 
 //Libraries
 #include <cstdint>
@@ -71,22 +71,22 @@ namespace xmem {
              * @param timeout timeout in milliseconds to acquire the lock. If 0, does not wait at all. If negative, waits indefinitely.
              * @returns true on success. If not successful, the lock was not acquired, possibly due to a timeout, or the lock might already be held.
              */
-            bool _acquireLock(int32_t timeout);
+            bool acquireLock(int32_t timeout);
 
             /** 
              * @brief Releases the object lock to access all object state in thread-safe manner.
              * @returns true on success. If not successful, the lock is either still held or the call was illegal (e.g., releasing a lock that was never acquired).
              */
-            bool _releaseLock();
+            bool releaseLock();
             
             /** A handle to the OS native Windows mutex, i.e., the locking mechanism. Outside the constructor, this should only be accessed via _acquireLock() and _releaseLock(). */
 #ifdef _WIN32
-            HANDLE _mutex; 
+            HANDLE mutex_; 
 #endif
 
 #ifdef __gnu_linux__
             /** A handle to the OS pthreads mutex, i.e., the locking mechanism. Outside the constructor, this should only be accessed via _acquireLock() and _releaseLock(). */
-            pthread_mutex_t _mutex; 
+            pthread_mutex_t mutex_; 
 #endif
     };
 };

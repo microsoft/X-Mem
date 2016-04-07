@@ -58,9 +58,9 @@ MemoryWorker::~MemoryWorker() {
 
 size_t MemoryWorker::getLen() {
     size_t retval = 0;
-    if (_acquireLock(-1)) {
+    if (acquireLock(-1)) {
         retval = _len;
-        _releaseLock();
+        releaseLock();
     }
 
     return retval;
@@ -68,9 +68,9 @@ size_t MemoryWorker::getLen() {
 
 uint32_t MemoryWorker::getBytesPerPass() {
     uint32_t retval = 0;
-    if (_acquireLock(-1)) {
+    if (acquireLock(-1)) {
         retval = _bytes_per_pass;
-        _releaseLock();
+        releaseLock();
     }
 
     return retval;
@@ -78,9 +78,9 @@ uint32_t MemoryWorker::getBytesPerPass() {
 
 uint32_t MemoryWorker::getPasses() {
     uint32_t retval = 0;
-    if (_acquireLock(-1)) {
+    if (acquireLock(-1)) {
         retval = _passes;
-        _releaseLock();
+        releaseLock();
     }
 
     return retval;
@@ -88,9 +88,9 @@ uint32_t MemoryWorker::getPasses() {
                 
 tick_t MemoryWorker::getElapsedTicks() {
     tick_t retval = 0;
-    if (_acquireLock(-1)) {
+    if (acquireLock(-1)) {
         retval = _elapsed_ticks;
-        _releaseLock();
+        releaseLock();
     }
 
     return retval;
@@ -98,9 +98,9 @@ tick_t MemoryWorker::getElapsedTicks() {
 
 tick_t MemoryWorker::getElapsedDummyTicks() {
     tick_t retval = 0;
-    if (_acquireLock(-1)) {
+    if (acquireLock(-1)) {
         retval = _elapsed_dummy_ticks;
-        _releaseLock();
+        releaseLock();
     }
 
     return retval;
@@ -108,9 +108,9 @@ tick_t MemoryWorker::getElapsedDummyTicks() {
 
 tick_t MemoryWorker::getAdjustedTicks() {
     tick_t retval = 0;
-    if (_acquireLock(-1)) {
+    if (acquireLock(-1)) {
         retval = _adjusted_ticks;
-        _releaseLock();
+        releaseLock();
     }
 
     return retval;
@@ -118,9 +118,9 @@ tick_t MemoryWorker::getAdjustedTicks() {
 
 bool MemoryWorker::hadWarning() {
     bool retval = true;
-    if (_acquireLock(-1)) {
+    if (acquireLock(-1)) {
         retval = _warning;
-        _releaseLock();
+        releaseLock();
     }
 
     return retval;

@@ -88,14 +88,14 @@ void LatencyWorker::run() {
     tick_t target_ticks = g_ticks_per_ms * BENCHMARK_DURATION_MS; //Rough target run duration in ticks
     
     //Grab relevant setup state thread-safely and keep it local
-    if (_acquireLock(-1)) {
+    if (acquireLock(-1)) {
         mem_array = _mem_array;
         len = _len;
         bytes_per_pass = LATENCY_BENCHMARK_UNROLL_LENGTH * 8;
         cpu_affinity = _cpu_affinity;
         kernel_fptr = __kernel_fptr;
         kernel_dummy_fptr = __kernel_dummy_fptr;
-        _releaseLock();
+        releaseLock();
     }
     
     //Set processor affinity
@@ -162,7 +162,7 @@ void LatencyWorker::run() {
         std::cerr << "WARNING: Failed to revert scheduling priority. Perhaps running in Administrator mode would help." << std::endl;
 
     //Update the object state thread-safely
-    if (_acquireLock(-1)) {
+    if (acquireLock(-1)) {
         _adjusted_ticks = adjusted_ticks;
         _elapsed_ticks = elapsed_ticks;
         _elapsed_dummy_ticks = elapsed_dummy_ticks;
@@ -170,6 +170,6 @@ void LatencyWorker::run() {
         _bytes_per_pass = bytes_per_pass;
         _completed = true;
         _passes = passes;
-        _releaseLock();
+        releaseLock();
     }
 }
