@@ -40,16 +40,16 @@ MemoryWorker::MemoryWorker(
         size_t len,
         int32_t cpu_affinity
     ) :
-        _mem_array(mem_array),
-        _len(len),
-        _cpu_affinity(cpu_affinity),
-        _bytes_per_pass(0),
-        _passes(0),
-        _elapsed_ticks(0),
-        _elapsed_dummy_ticks(0),
-        _adjusted_ticks(0),
-        _warning(false),
-        _completed(false)
+        mem_array_(mem_array),
+        len_(len),
+        cpu_affinity_(cpu_affinity),
+        bytes_per_pass_(0),
+        passes_(0),
+        elapsed_ticks_(0),
+        elapsed_dummy_ticks_(0),
+        adjusted_ticks_(0),
+        warning_(false),
+        completed_(false)
     {
 }
 
@@ -59,7 +59,7 @@ MemoryWorker::~MemoryWorker() {
 size_t MemoryWorker::getLen() {
     size_t retval = 0;
     if (acquireLock(-1)) {
-        retval = _len;
+        retval = len_;
         releaseLock();
     }
 
@@ -69,7 +69,7 @@ size_t MemoryWorker::getLen() {
 uint32_t MemoryWorker::getBytesPerPass() {
     uint32_t retval = 0;
     if (acquireLock(-1)) {
-        retval = _bytes_per_pass;
+        retval = bytes_per_pass_;
         releaseLock();
     }
 
@@ -79,7 +79,7 @@ uint32_t MemoryWorker::getBytesPerPass() {
 uint32_t MemoryWorker::getPasses() {
     uint32_t retval = 0;
     if (acquireLock(-1)) {
-        retval = _passes;
+        retval = passes_;
         releaseLock();
     }
 
@@ -89,7 +89,7 @@ uint32_t MemoryWorker::getPasses() {
 tick_t MemoryWorker::getElapsedTicks() {
     tick_t retval = 0;
     if (acquireLock(-1)) {
-        retval = _elapsed_ticks;
+        retval = elapsed_ticks_;
         releaseLock();
     }
 
@@ -99,7 +99,7 @@ tick_t MemoryWorker::getElapsedTicks() {
 tick_t MemoryWorker::getElapsedDummyTicks() {
     tick_t retval = 0;
     if (acquireLock(-1)) {
-        retval = _elapsed_dummy_ticks;
+        retval = elapsed_dummy_ticks_;
         releaseLock();
     }
 
@@ -109,7 +109,7 @@ tick_t MemoryWorker::getElapsedDummyTicks() {
 tick_t MemoryWorker::getAdjustedTicks() {
     tick_t retval = 0;
     if (acquireLock(-1)) {
-        retval = _adjusted_ticks;
+        retval = adjusted_ticks_;
         releaseLock();
     }
 
@@ -119,7 +119,7 @@ tick_t MemoryWorker::getAdjustedTicks() {
 bool MemoryWorker::hadWarning() {
     bool retval = true;
     if (acquireLock(-1)) {
-        retval = _warning;
+        retval = warning_;
         releaseLock();
     }
 

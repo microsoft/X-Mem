@@ -29,8 +29,8 @@
  * @brief Header file for the LatencyWorker class.
  */
 
-#ifndef __LATENCY_WORKER_H
-#define __LATENCY_WORKER_H
+#ifndef LATENCY_WORKER_H
+#define LATENCY_WORKER_H
 
 //Headers
 #include <MemoryWorker.h>
@@ -72,8 +72,8 @@ namespace xmem {
 
         private:
             // ONLY ACCESS OBJECT VARIABLES UNDER THE RUNNABLE OBJECT LOCK!!!!
-            RandomFunction __kernel_fptr; /**< Points to the memory test core routine to use. */
-            RandomFunction __kernel_dummy_fptr; /**< Points to a dummy version of the memory test core routine to use. */
+            RandomFunction kernel_fptr_; /**< Points to the memory test core routine to use. */
+            RandomFunction kernel_dummy_fptr_; /**< Points to a dummy version of the memory test core routine to use. */
     };
 };
 

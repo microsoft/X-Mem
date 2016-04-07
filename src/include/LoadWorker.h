@@ -29,8 +29,8 @@
  * @brief Header file for the LoadWorker class.
  */
 
-#ifndef __LOAD_WORKER_H
-#define __LOAD_WORKER_H
+#ifndef LOAD_WORKER_H
+#define LOAD_WORKER_H
 
 //Headers
 #include <MemoryWorker.h>
@@ -87,11 +87,11 @@ namespace xmem {
         
         private:
             // ONLY ACCESS OBJECT VARIABLES UNDER THE RUNNABLE OBJECT LOCK!!!!
-            bool __use_sequential_kernel_fptr; /**< If true, use the SequentialFunction, otherwise use the RandomFunction. */
-            SequentialFunction __kernel_fptr_seq; /**< Points to the memory test core routine to use of the "sequential" type. */
-            SequentialFunction __kernel_dummy_fptr_seq; /**< Points to a dummy version of the memory test core routine to use of the "sequential" type. */
-            RandomFunction __kernel_fptr_ran; /**< Points to the memory test core routine to use of the "random" type. */
-            RandomFunction __kernel_dummy_fptr_ran; /**< Points to a dummy version of the memory test core routine to use of the "random" type. */
+            bool use_sequential_kernel_fptr_; /**< If true, use the SequentialFunction, otherwise use the RandomFunction. */
+            SequentialFunction kernel_fptr_seq_; /**< Points to the memory test core routine to use of the "sequential" type. */
+            SequentialFunction kernel_dummy_fptr_seq_; /**< Points to a dummy version of the memory test core routine to use of the "sequential" type. */
+            RandomFunction kernel_fptr_ran_; /**< Points to the memory test core routine to use of the "random" type. */
+            RandomFunction kernel_dummy_fptr_ran_; /**< Points to a dummy version of the memory test core routine to use of the "random" type. */
     };
 };
 

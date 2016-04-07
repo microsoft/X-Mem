@@ -60,11 +60,11 @@ LoadWorker::LoadWorker(
             len,
             cpu_affinity
         ),
-        __use_sequential_kernel_fptr(true),
-        __kernel_fptr_seq(kernel_fptr),
-        __kernel_dummy_fptr_seq(kernel_dummy_fptr),
-        __kernel_fptr_ran(NULL),
-        __kernel_dummy_fptr_ran(NULL)
+        use_sequential_kernel_fptr_(true),
+        kernel_fptr_seq_(kernel_fptr),
+        kernel_dummy_fptr_seq_(kernel_dummy_fptr),
+        kernel_fptr_ran_(NULL),
+        kernel_dummy_fptr_ran_(NULL)
     {
 }
 
@@ -80,11 +80,11 @@ LoadWorker::LoadWorker(
             len,
             cpu_affinity
         ),
-        __use_sequential_kernel_fptr(false),
-        __kernel_fptr_seq(NULL),
-        __kernel_dummy_fptr_seq(NULL),
-        __kernel_fptr_ran(kernel_fptr),
-        __kernel_dummy_fptr_ran(kernel_dummy_fptr)
+        use_sequential_kernel_fptr_(false),
+        kernel_fptr_seq_(NULL),
+        kernel_dummy_fptr_seq_(NULL),
+        kernel_fptr_ran_(kernel_fptr),
+        kernel_dummy_fptr_ran_(kernel_dummy_fptr)
     {
 }
 
@@ -119,18 +119,18 @@ void LoadWorker::run() {
     
     //Grab relevant setup state thread-safely and keep it local
     if (acquireLock(-1)) {
-        mem_array = _mem_array;
-        len = _len;
-        cpu_affinity = _cpu_affinity;
-        use_sequential_kernel_fptr = __use_sequential_kernel_fptr;
-        kernel_fptr_seq = __kernel_fptr_seq;
-        kernel_dummy_fptr_seq = __kernel_dummy_fptr_seq;
-        kernel_fptr_ran = __kernel_fptr_ran;
-        kernel_dummy_fptr_ran = __kernel_dummy_fptr_ran;
-        start_address = _mem_array;
-        end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array)+bytes_per_pass);
-        prime_start_address = _mem_array; 
-        prime_end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(_mem_array) + _len);
+        mem_array = mem_array_;
+        len = len_;
+        cpu_affinity = cpu_affinity_;
+        use_sequential_kernel_fptr = use_sequential_kernel_fptr_;
+        kernel_fptr_seq = kernel_fptr_seq_;
+        kernel_dummy_fptr_seq = kernel_dummy_fptr_seq_;
+        kernel_fptr_ran = kernel_fptr_ran_;
+        kernel_dummy_fptr_ran = kernel_dummy_fptr_ran_;
+        start_address = mem_array_;
+        end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array_)+bytes_per_pass);
+        prime_start_address = mem_array_; 
+        prime_end_address = reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(mem_array_) + len_);
         releaseLock();
     }
     
@@ -223,13 +223,13 @@ void LoadWorker::run() {
 
     //Update the object state thread-safely
     if (acquireLock(-1)) {
-        _adjusted_ticks = adjusted_ticks;
-        _elapsed_ticks = elapsed_ticks;
-        _elapsed_dummy_ticks = elapsed_dummy_ticks;
-        _warning = warning;
-        _bytes_per_pass = bytes_per_pass;
-        _completed = true;
-        _passes = passes;
+        adjusted_ticks_ = adjusted_ticks;
+        elapsed_ticks_ = elapsed_ticks;
+        elapsed_dummy_ticks_ = elapsed_dummy_ticks;
+        warning_ = warning;
+        bytes_per_pass_ = bytes_per_pass;
+        completed_ = true;
+        passes_ = passes;
         releaseLock();
     }
 }

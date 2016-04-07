@@ -29,8 +29,8 @@
  * @brief Header file for the MemoryWorker class.
  */
 
-#ifndef __MEMORY_WORKER_H
-#define __MEMORY_WORKER_H
+#ifndef MEMORY_WORKER_H
+#define MEMORY_WORKER_H
 
 //Headers
 #include <common.h>
@@ -112,16 +112,16 @@ namespace xmem {
 
         protected:
             // ONLY ACCESS OBJECT VARIABLES UNDER THE RUNNABLE OBJECT LOCK!!!!
-            void* _mem_array; /**< The memory region for this worker. */
-            size_t _len; /**< The length of the memory region for this worker. */
-            int32_t _cpu_affinity; /**< The logical CPU affinity for this worker. */
-            uint32_t _bytes_per_pass; /**< Number of bytes accessed in each kernel pass. */
-            uint32_t _passes; /**< Number of passes. */
-            tick_t _elapsed_ticks; /**< Total elapsed ticks on the kernel routine. */
-            tick_t _elapsed_dummy_ticks; /**< Total elapsed ticks on the dummy kernel routine. */
-            tick_t _adjusted_ticks; /**< Elapsed ticks minus dummy elapsed ticks. */
-            bool _warning; /**< If true, results may be suspect. */
-            bool _completed; /**< If true, worker completed. */
+            void* mem_array_; /**< The memory region for this worker. */
+            size_t len_; /**< The length of the memory region for this worker. */
+            int32_t cpu_affinity_; /**< The logical CPU affinity for this worker. */
+            uint32_t bytes_per_pass_; /**< Number of bytes accessed in each kernel pass. */
+            uint32_t passes_; /**< Number of passes. */
+            tick_t elapsed_ticks_; /**< Total elapsed ticks on the kernel routine. */
+            tick_t elapsed_dummy_ticks_; /**< Total elapsed ticks on the dummy kernel routine. */
+            tick_t adjusted_ticks_; /**< Elapsed ticks minus dummy elapsed ticks. */
+            bool warning_; /**< If true, results may be suspect. */
+            bool completed_; /**< If true, worker completed. */
     };
 };
 

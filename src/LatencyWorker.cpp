@@ -60,8 +60,8 @@ LatencyWorker::LatencyWorker(
             len,
             cpu_affinity
         ),
-        __kernel_fptr(kernel_fptr),
-        __kernel_dummy_fptr(kernel_dummy_fptr)
+        kernel_fptr_(kernel_fptr),
+        kernel_dummy_fptr_(kernel_dummy_fptr)
     {
 }
 
@@ -89,12 +89,12 @@ void LatencyWorker::run() {
     
     //Grab relevant setup state thread-safely and keep it local
     if (acquireLock(-1)) {
-        mem_array = _mem_array;
-        len = _len;
+        mem_array = mem_array_;
+        len = len_;
         bytes_per_pass = LATENCY_BENCHMARK_UNROLL_LENGTH * 8;
-        cpu_affinity = _cpu_affinity;
-        kernel_fptr = __kernel_fptr;
-        kernel_dummy_fptr = __kernel_dummy_fptr;
+        cpu_affinity = cpu_affinity_;
+        kernel_fptr = kernel_fptr_;
+        kernel_dummy_fptr = kernel_dummy_fptr_;
         releaseLock();
     }
     
@@ -163,13 +163,13 @@ void LatencyWorker::run() {
 
     //Update the object state thread-safely
     if (acquireLock(-1)) {
-        _adjusted_ticks = adjusted_ticks;
-        _elapsed_ticks = elapsed_ticks;
-        _elapsed_dummy_ticks = elapsed_dummy_ticks;
-        _warning = warning;
-        _bytes_per_pass = bytes_per_pass;
-        _completed = true;
-        _passes = passes;
+        adjusted_ticks_ = adjusted_ticks;
+        elapsed_ticks_ = elapsed_ticks;
+        elapsed_dummy_ticks_ = elapsed_dummy_ticks;
+        warning_ = warning;
+        bytes_per_pass_ = bytes_per_pass;
+        completed_ = true;
+        passes_ = passes;
         releaseLock();
     }
 }
