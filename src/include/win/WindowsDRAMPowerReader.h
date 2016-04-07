@@ -29,8 +29,8 @@
  * @brief Header file for the WindowsDRAMPowerReader class.
  */
 
-#ifndef __WINDOWS_DRAM_POWER_READER_H
-#define __WINDOWS_DRAM_POWER_READER_H
+#ifndef WINDOWS_DRAM_POWER_READER_H
+#define WINDOWS_DRAM_POWER_READER_H
 
 #ifdef _WIN32
 
@@ -71,9 +71,9 @@ namespace xmem {
         virtual void run();
 
     private:
-        uint32_t __counter_cpu_index; /**< The CPU index to use when measuring performance counters. */
-        std::string __perf_counter_name; /**< The performance counter name exposed by the OS. */
-        CPdhQuery* __pdhQuery; /**< Pointer to the object used to query OS for the performance counter. If this is NULL, it means we cannot access it for some reason, perhaps permissions. This is not fatal and should be handled gracefully. */
+        uint32_t counter_cpu_index_; /**< The CPU index to use when measuring performance counters. */
+        std::string perf_counter_name_; /**< The performance counter name exposed by the OS. */
+        CPdhQuery* pdhQuery_; /**< Pointer to the object used to query OS for the performance counter. If this is NULL, it means we cannot access it for some reason, perhaps permissions. This is not fatal and should be handled gracefully. */
     };
 };
 

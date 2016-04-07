@@ -45,24 +45,24 @@ using namespace xmem;
 
 WindowsDRAMPowerReader::WindowsDRAMPowerReader(uint32_t counter_cpu_index, uint32_t sampling_period, double power_units, std::string name, int32_t cpu_affinity) :
     PowerReader(sampling_period, power_units, name, cpu_affinity),
-    __counter_cpu_index(counter_cpu_index),
-    __perf_counter_name(""),
-    __pdhQuery(NULL)
+    counter_cpu_index_(counter_cpu_index),
+    perf_counter_name_(""),
+    pdhQuery_(NULL)
 {
-    __perf_counter_name = static_cast<std::ostringstream*>(&(std::ostringstream() << "\\CPU Power Counters(" << __counter_cpu_index << ")\\DRAM Power"))->str();
+    perf_counter_name_ = static_cast<std::ostringstream*>(&(std::ostringstream() << "\\CPU Power Counters(" << counter_cpu_index_ << ")\\DRAM Power"))->str();
     try {
-        __pdhQuery = new CPdhQuery(__perf_counter_name);
+        pdhQuery_ = new CPdhQuery(perf_counter_name_);
     }
     catch (CPdhQuery::CException const &e) {
         //tcout << e.What() << std::endl;
     }
-    if (__pdhQuery == NULL) {
+    if (pdhQuery_ == NULL) {
         std::cerr << "WARNING: Unable to collect DRAM power." << std::endl;
     }
 }
 
 WindowsDRAMPowerReader::~WindowsDRAMPowerReader() {
-    delete __pdhQuery;
+    delete pdhQuery_;
 }
 
 void WindowsDRAMPowerReader::run() {
@@ -70,20 +70,20 @@ void WindowsDRAMPowerReader::run() {
 
     while (!done) {
         tick_t start_tick = start_timer();
-        if (_acquireLock(-1)) { //Wait indefinitely for the lock
-            if (_stop_signal) //we're done here, let's wrap up
+        if (acquireLock(-1)) { //Wait indefinitely for the lock
+            if (stop_signal_) //we're done here, let's wrap up
                 done = true;
-            _releaseLock();
+            releaseLock();
         }
 
         if (!done) {
             //Read power from performance counter
             double result = 0;
 
-            if (__pdhQuery != NULL) { //It might be NULL for different reasons, like the required performance counter is not present on the system. This is not fatal.
+            if (pdhQuery_ != NULL) { //It might be NULL for different reasons, like the required performance counter is not present on the system. This is not fatal.
                 try {
                     std::map<std::tstring, double> querydata;
-                    querydata = __pdhQuery->CollectQueryData();
+                    querydata = pdhQuery_->CollectQueryData();
                     result = DumpMapValue(querydata);
                 }
                 catch (CPdhQuery::CException const &e) {
@@ -92,18 +92,18 @@ void WindowsDRAMPowerReader::run() {
             }
 
             //Thread-safe update of power trace
-            if (_acquireLock(-1)) { //Wait indefinitely for the lock
-                if (_num_samples >= _power_trace.capacity())
-                    _power_trace.reserve(_power_trace.capacity() + 256); //add more space
-                _power_trace.push_back(static_cast<double>(result));
-                _num_samples++;
-                _releaseLock();
+            if (acquireLock(-1)) { //Wait indefinitely for the lock
+                if (num_samples_ >= power_trace_.capacity())
+                    power_trace_.reserve(power_trace_.capacity() + 256); //add more space
+                power_trace_.push_back(static_cast<double>(result));
+                num_samples_++;
+                releaseLock();
             }
 
             calculateMetrics();
             tick_t stop_tick = stop_timer();
             tick_t elapsed_ticks = stop_tick - start_tick;
-            Sleep(static_cast<DWORD>(_sampling_period - elapsed_ticks*g_ns_per_tick*1e-9*1000)); //Account for any loop overhead
+            Sleep(static_cast<DWORD>(sampling_period_ - elapsed_ticks*g_ns_per_tick*1e-9*1000)); //Account for any loop overhead
         }
     }
 }
