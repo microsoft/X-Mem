@@ -460,7 +460,7 @@ bool Benchmark::startPowerThreads() {
     for (uint32_t i = 0; i < dram_power_readers_.size(); i++) {
         Thread* mythread = NULL;
         if (dram_power_readers_[i] != NULL)  {
-            dram_power_readers_[i]->clear_and_reset(); //clear the state of the reader
+            dram_power_readers_[i]->clearAndReset(); //clear the state of the reader
             mythread = new Thread(dram_power_readers_[i]);
             if (mythread == NULL) {
                 std::cerr << "WARNING: Failed to allocate a DRAM power measurement thread." << std::endl;

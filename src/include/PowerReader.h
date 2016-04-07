@@ -29,8 +29,8 @@
  * @brief Header file for the PowerReader class.
  */
 
-#ifndef __POWER_READER_H
-#define __POWER_READER_H
+#ifndef POWER_READER_H
+#define POWER_READER_H
 
 //Headers
 #include <common.h>
@@ -91,7 +91,7 @@ namespace xmem {
          * @brief Clears the stored power data and resets state so that a new thread can be used with this object.
          * @returns True on success.
          */
-        bool clear_and_reset();
+        bool clearAndReset();
 
         /**
          * @brief Gets the power trace.
@@ -144,15 +144,15 @@ namespace xmem {
     protected:
         /////
         //ONLY ACCESS THESE WHILE HOLDING THIS OBJECT'S LOCK FOR THREAD SAFETY
-        bool _stop_signal; /**< When true, the run() function should finish after the current sample iteration it is working on. */
-        double _power_units; /**< Power units in watts. */
-        std::string _name; /**< Name of this object. */
-        int32_t _cpu_affinity; /**< CPU affinity for any thread using this object's run() method. If negative, no affinity preference. */
-        std::vector<double> _power_trace; /**< The time-ordered list of power samples. The first index is the oldest measurement. */
-        double _mean_power; /**< The mean power. */
-        double _peak_power; /**< The peak power observed. */
-        size_t _num_samples; /**< The number of samples collected. */
-        uint32_t _sampling_period; /**< Power sampling period in milliseconds. */
+        bool stop_signal_; /**< When true, the run() function should finish after the current sample iteration it is working on. */
+        double power_units_; /**< Power units in watts. */
+        std::string name_; /**< Name of this object. */
+        int32_t cpu_affinity_; /**< CPU affinity for any thread using this object's run() method. If negative, no affinity preference. */
+        std::vector<double> power_trace_; /**< The time-ordered list of power samples. The first index is the oldest measurement. */
+        double mean_power_; /**< The mean power. */
+        double peak_power_; /**< The peak power observed. */
+        size_t num_samples_; /**< The number of samples collected. */
+        uint32_t sampling_period_; /**< Power sampling period in milliseconds. */
         //
         /////
     };
