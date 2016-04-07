@@ -143,10 +143,10 @@ namespace xmem {
              * @param target_runnable_object pointer to the target Runnable object. This needs to be a generic pointer to keep APIs happy.
              */
 #ifdef _WIN32
-            static DWORD WINAPI run_launchpad(void* target_runnable_object);
+            static DWORD WINAPI runlaunchpad(void* target_runnable_object);
 #endif
 #ifdef __gnu_linux__
-            static void* run_launchpad(void* target_runnable_object);
+            static void* runLaunchpad(void* target_runnable_object);
 #endif
 
             Runnable* target_; /**< The object connecting a run() method which operates in a thread-safe manner. */

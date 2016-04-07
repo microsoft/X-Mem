@@ -47,17 +47,17 @@
 using namespace xmem;
 
 Thread::Thread(Runnable* target) :
-    __target(target),
-    __created(false),
-    __started(false),
-    __completed(false),
-    __suspended(false),
-    __running(false),
-    __thread_exit_code(0),
+    target_(target),
+    created_(false),
+    started_(false),
+    completed_(false),
+    suspended_(false),
+    running_(false),
+    thread_exit_code_(0),
 #ifdef _WIN32
-    __thread_id(0),
+    thread_id_(0),
 #endif
-    __thread_handle(0)
+    thread_handle_(0)
 {
 }
 
@@ -69,24 +69,24 @@ Thread::~Thread() {
 
 bool Thread::create_and_start() {
 #ifdef _WIN32
-    if (__create())
-        return __start();
+    if (create())
+        return start();
     else
         return false;
 #endif
 
 #ifdef __gnu_linux__
     //We cannot use create() and start() on Linux because pthreads API does not allow for a thread created in the suspended state. So we just do it in one shot.
-    if (__target != NULL) {
+    if (target_ != NULL) {
         pthread_attr_t attr;
         if (pthread_attr_init(&attr)) //Currently using just default flags. This may not be the optimal choice in general.
             return false;
-        if (pthread_create(&__thread_handle, &attr, &Thread::__run_launchpad, __target))
+        if (pthread_create(&thread_handle_, &attr, &Thread::runLaunchpad, target_))
             return false;
-        __created = true;
-        __started = true;
-        __suspended = false;
-        __running = true;
+        created_ = true;
+        started_ = true;
+        suspended_ = false;
+        running_ = true;
 
         return true;
     }
@@ -95,16 +95,16 @@ bool Thread::create_and_start() {
 }
 
 bool Thread::join() {
-    if (!__created || !__started)
+    if (!created_ || !started_)
         return false;
 
 #ifdef _WIN32
-    DWORD reason = WaitForSingleObject(__thread_handle, INFINITE);
+    DWORD reason = WaitForSingleObject(thread_handle_, INFINITE);
 
     if (reason == WAIT_OBJECT_0) { //only succeed if the object was signaled. If timeout elapsed, or some error occurred, we will consider that a failure.
-        __running = false;
-        __suspended = false;
-        __completed = true;
+        running_ = false;
+        suspended_ = false;
+        completed_ = true;
         return true;
     }
 
@@ -113,14 +113,14 @@ bool Thread::join() {
 
 #ifdef __gnu_linux__
     void* exit_pointer = NULL;
-    int32_t failure = pthread_join(__thread_handle, &exit_pointer);
+    int32_t failure = pthread_join(thread_handle_, &exit_pointer);
     if (exit_pointer)
-        __thread_exit_code = *(static_cast<int32_t*>(exit_pointer));
+        thread_exit_code_ = *(static_cast<int32_t*>(exit_pointer));
 
     if (!failure) {
-        __running = false;
-        __suspended = false;
-        __completed = true;
+        running_ = false;
+        suspended_ = false;
+        completed_ = true;
         return true;
     }
     return false;
@@ -129,16 +129,16 @@ bool Thread::join() {
 
 bool Thread::cancel() {
 #ifdef _WIN32
-    if (__created) {
-        if (TerminateThread(__thread_handle, -1)) { //This can be unsafe! Use with caution.
+    if (created_) {
+        if (TerminateThread(thread_handle_, -1)) { //This can be unsafe! Use with caution.
 #endif
 #ifdef __gnu_linux__
-    if (__created && !__completed) {
-        if (pthread_cancel(__thread_handle)) {
+    if (created_ && !completed_) {
+        if (pthread_cancel(thread_handle_)) {
 #endif
-            __suspended = false;
-            __running = false;
-            __completed = true;
+            suspended_ = false;
+            running_ = false;
+            completed_ = true;
             return true;
         }
         return false;
@@ -147,47 +147,47 @@ bool Thread::cancel() {
 }
 
 int32_t Thread::getExitCode() {
-    return __thread_exit_code;
+    return thread_exit_code_;
 }
 
 bool Thread::started() {
-    return __started;
+    return started_;
 }
 
 bool Thread::completed() {
-    return __completed;
+    return completed_;
 }
 
 bool Thread::validTarget() {
-    return (__target != NULL);
+    return (target_ != NULL);
 }
 
 bool Thread::created() {
-    return __created;
+    return created_;
 }
 
 bool Thread::isThreadSuspended() {
-    return __suspended;
+    return suspended_;
 }
 
 bool Thread::isThreadRunning() {
-    return __running;
+    return running_;
 }
 
 Runnable* Thread::getTarget() {
-    return __target;
+    return target_;
 }
 
 #ifdef _WIN32
-bool Thread::__create() {
-    if (__target != NULL) {
+bool Thread::create() {
+    if (target_ != NULL) {
         DWORD temp;
-        __thread_handle = CreateThread(NULL, 0, &Thread::__run_launchpad, __target, CREATE_SUSPENDED, &temp);
-        if (__thread_handle == NULL)
+        thread_handle_ = CreateThread(NULL, 0, &Thread::runLaunchpad, target_, CREATE_SUSPENDED, &temp);
+        if (thread_handle_ == NULL)
             return false;
-        __thread_id = static_cast<uint32_t>(temp);
-        __created = true;
-        __suspended = true;
+        thread_id_ = static_cast<uint32_t>(temp);
+        created_ = true;
+        suspended_ = true;
 
         return true;
     }
@@ -196,14 +196,14 @@ bool Thread::__create() {
 #endif
 
 #ifdef _WIN32
-bool Thread::__start() {
-    if (__created) {
-        if (ResumeThread(__thread_handle) == (DWORD)-1) //error condition check
+bool Thread::start() {
+    if (created_) {
+        if (ResumeThread(thread_handle_) == (DWORD)-1) //error condition check
             return false;
 
-        __started = true;
-        __running = true;
-        __suspended = false;
+        started_ = true;
+        running_ = true;
+        suspended_ = false;
         return true;
     }
     return false;
@@ -211,7 +211,7 @@ bool Thread::__start() {
 #endif
 
 #ifdef _WIN32
-DWORD Thread::__run_launchpad(void* target_runnable_object) {
+DWORD Thread::runLaunchpad(void* target_runnable_object) {
     if (target_runnable_object != NULL) {
         Runnable* target = static_cast<Runnable*>(target_runnable_object);
         target->run();
@@ -222,7 +222,7 @@ DWORD Thread::__run_launchpad(void* target_runnable_object) {
 #endif
 
 #ifdef __gnu_linux__
-void* Thread::__run_launchpad(void* target_runnable_object) {
+void* Thread::runLaunchpad(void* target_runnable_object) {
     int32_t* thread_retval = new int32_t;
     *thread_retval = 1;
     if (target_runnable_object != NULL) {
