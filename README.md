@@ -6,7 +6,7 @@ X-Mem: A Cross-Platform and Extensible Memory Characterization Tool for the Clou
 
 X-Mem is a flexible open-source research tool for characterizing memory hierarchy throughput, latency, power, and more. The tool was developed jointly by Microsoft and the UCLA NanoCAD Lab. This project was started by Mark Gottscho (Email: mgottscho@ucla.edu) as a Summer 2014 PhD intern at Microsoft Research. X-Mem is released freely and open-source under the MIT License. The project is under active development.
 
-PROJECT REVISION DATE: April 5, 2016
+PROJECT REVISION DATE: April 7, 2016
 
 ------------------------------------------------------------------------------------------------------------
 RESEARCH PAPER & ATTRIBUTION

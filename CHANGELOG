@@ -2,6 +2,12 @@
 CHANGELOG
 ------------
 
+v2.4.1 | April 7, 2016
+    * Removed unnecessary null pointer checks.
+    * Added global exception catching in main().
+    * Overhauled naming conventions of object variables and functions. Previously, they were in violation of C++ guidelines through the inappropriate use of leading underscores. The naming style is now (for the most part) as follows: (1) global variables are of the form g_my_fancy_variable, (2) global functions are of the form my_fancy_function, (3) classes are of the form MyFancyClass, (4) class functions are of the form myFancyClassFunction, and (5) class variables are of the form my_fancy_class_variable_.
+    
+
 v2.4.0 | April 4, 2016
     * Added support for Intel Xeon Phi (Knight's Corner) many-core accelerator (MIC). It can execute many 512-bit vector instructions but is not fully ISA-compatible with conventional x86-64 processors. This has been partially tested on a Linux box, but not Windows. If you can test X-Mem for Xeon Phi, we would greatly appreciate any feedback or results!
     * Added support for 512-bit chunk sizes where applicable.
