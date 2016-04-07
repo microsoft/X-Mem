@@ -264,8 +264,8 @@ void xmem::setup_timer() {
         std::cout << "\nInitializing timer...";
 
     Timer timer;
-    g_ticks_per_ms = timer.get_ticks_per_ms();
-    g_ns_per_tick = timer.get_ns_per_tick();
+    g_ticks_per_ms = timer.getTicksPerMs();
+    g_ns_per_tick = timer.getNsPerTick();
 
     if (g_verbose)
         std::cout << "done" << std::endl;

@@ -29,8 +29,8 @@
  * @brief Header file for the Timer class.
  */
 
-#ifndef __TIMER_H
-#define __TIMER_H
+#ifndef TIMER_H
+#define TIMER_H
 
 //Headers
 #include <common.h>
@@ -55,17 +55,17 @@ namespace xmem {
          * @brief Gets ticks per ms for this timer.
          * @returns The reported number of ticks per ms.
          */
-        tick_t get_ticks_per_ms();
+        tick_t getTicksPerMs();
 
         /**
          * @brief Gets nanoseconds per tick for this timer.
          * @returns the number of nanoseconds per tick
          */
-        float get_ns_per_tick();
+        float getNsPerTick();
 
     protected:
-        tick_t _ticks_per_ms; /**< Ticks per ms for this timer. */
-        float _ns_per_tick; /**< Nanoseconds per tick for this timer. */
+        tick_t ticks_per_ms_; /**< Ticks per ms for this timer. */
+        float ns_per_tick_; /**< Nanoseconds per tick for this timer. */
     };
 };
 

@@ -45,14 +45,14 @@
 using namespace xmem;
 
 Timer::Timer() :
-    _ticks_per_ms(0),
-    _ns_per_tick(0)
+    ticks_per_ms_(0),
+    ns_per_tick_(0)
 {   
 
 #if defined(_WIN32) && defined(USE_QPC_TIMER) //special case
     LARGE_INTEGER freq;
     BOOL success = QueryPerformanceFrequency(&freq);
-    _ticks_per_ms = static_cast<tick_t>(freq.QuadPart)/1000;
+    ticks_per_ms_ = static_cast<tick_t>(freq.QuadPart)/1000;
 #else
     tick_t start_tick, stop_tick;
     start_tick = start_timer();
@@ -66,15 +66,15 @@ Timer::Timer() :
     nanosleep(&duration, &remainder);
 #endif
     stop_tick = stop_timer();
-    _ticks_per_ms = static_cast<tick_t>((stop_tick - start_tick) / BENCHMARK_DURATION_MS);
+    ticks_per_ms_ = static_cast<tick_t>((stop_tick - start_tick) / BENCHMARK_DURATION_MS);
 #endif
-    _ns_per_tick = 1/(static_cast<float>(_ticks_per_ms)) * static_cast<float>(1e6);
+    ns_per_tick_ = 1/(static_cast<float>(ticks_per_ms_)) * static_cast<float>(1e6);
 }
 
-tick_t Timer::get_ticks_per_ms() {
-    return _ticks_per_ms;
+tick_t Timer::getTicksPerMs() {
+    return ticks_per_ms_;
 }
 
-float Timer::get_ns_per_tick() {
-    return _ns_per_tick;
+float Timer::getNsPerTick() {
+    return ns_per_tick_;
 }
