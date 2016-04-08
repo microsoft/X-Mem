@@ -48,22 +48,22 @@ using namespace xmem;
 
 Runnable::Runnable() :
 #ifdef _WIN32
-    mutex(0) 
+    mutex_(0) 
 #endif
 #ifdef __gnu_linux__
     mutex_(PTHREAD_MUTEX_INITIALIZER)
 #endif
     {
 #ifdef _WIN32
-    if ((mutex = CreateMutex(NULL, false, NULL)) == NULL)
+    if ((mutex_ = CreateMutex(NULL, false, NULL)) == NULL)
         std::cerr << "WARNING: Failed to create mutex for a Runnable object! Thread-safe operation may not be possible." << std::endl;
 #endif
 }
 
 Runnable::~Runnable() {
 #ifdef _WIN32
-    if (mutex != NULL)
-        ReleaseMutex(mutex); //Don't need to check return code. If it fails, the lock might not have been held anyway.
+    if (mutex_ != NULL)
+        ReleaseMutex(mutex_); //Don't need to check return code. If it fails, the lock might not have been held anyway.
 #endif
 
 #ifdef __gnu_linux__
@@ -81,7 +81,7 @@ Runnable::~Runnable() {
 
 bool Runnable::acquireLock(int32_t timeout) {
 #ifdef _WIN32
-    if (mutex == NULL)
+    if (mutex_ == NULL)
         return false;
 #endif
 
@@ -95,7 +95,7 @@ bool Runnable::acquireLock(int32_t timeout) {
 
     if (timeout < 0) {
 #ifdef _WIN32
-        reason = WaitForSingleObject(mutex, INFINITE);
+        reason = WaitForSingleObject(mutex_, INFINITE);
         if (reason == WAIT_OBJECT_0) //success
 #endif
 #ifdef __gnu_linux__
@@ -116,7 +116,7 @@ bool Runnable::acquireLock(int32_t timeout) {
         }
     } else {
 #ifdef _WIN32
-        reason = WaitForSingleObject(mutex, timeout);
+        reason = WaitForSingleObject(mutex_, timeout);
         if (reason == WAIT_OBJECT_0) //success
 #endif
 #ifdef __gnu_linux__
@@ -150,7 +150,7 @@ bool Runnable::acquireLock(int32_t timeout) {
 
 bool Runnable::releaseLock() {
 #ifdef _WIN32
-    if (ReleaseMutex(mutex))
+    if (ReleaseMutex(mutex_))
 #endif
 #ifdef __gnu_linux__
     int32_t retval = pthread_mutex_unlock(&mutex_);
