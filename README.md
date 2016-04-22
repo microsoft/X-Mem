@@ -146,7 +146,7 @@ WINDOWS:
 GNU/LINUX:
 
 - GNU utilities with support for C++11. Tested with gcc 4.8.2 on Ubuntu 14.04 LTS for x86 (32-bit), x86-64, x86-64+AVX, and MIC on Intel Sandy Bridge, Ivy Bridge, Haswell, and Knights Corner families.
-- libhugetlbfs. You can obtain it at <http://libhugetlbfs.sourceforge.net>. On Ubuntu systems, you can install using "sudo apt-get install libhugetlbfs0". If you don't have this or cannot install it, this should be fine but you will not be able to use large pages.
+- libhugetlbfs. You can obtain it at <https://github.com/libhugetlbfs/libhugetlbfs>. On Ubuntu systems, you can install using "sudo apt-get install libhugetlbfs0". If you don't have this or cannot install it, this should be fine but you will not be able to use large pages. Note that this package requires Linux kernel 2.6.16 or later. This should not be an issue on most modern Linux systems.
 - Potentially, administrator privileges, if you plan to use the --large_pages option.
     - During runtime, if the --large_pages option is selected, you may need to first manually ensure that large pages are available from the OS. This can be done by running "hugeadm --pool-list". It is recommended to set minimum pool to 1GB (in order to measure DRAM effectively). If needed, this can be done by running "hugeadm --pool-pages-min 2MB:512". Alternatively, run the linux_setup_runtime_hugetlbfs.sh script that is provided with X-Mem. 
 
@@ -190,7 +190,7 @@ GNU/LINUX:
 - Python 2.7. You can obtain it at <http://www.python.org>. On Ubuntu systems, you can install using "sudo apt-get install python2.7". You may need some other Python 2.7 packages as well.
 - SCons build system. You can obtain it at <http://www.scons.org>. On Ubuntu systems, you can install using "sudo apt-get install scons". Build tested with SCons 2.3.4.
 - Kernel support for large (huge) pages. This support can be verified on your Linux installation by running "grep hugetlbfs /proc/filesystems". If you do not have huge page support in your kernel, you can build a kernel with the appropriate options switched on: "CONFIG_HUGETLB_PAGE" and "CONFIG_HUGETLBFS".
-- libhugetlbfs. This is used for allocating large (huge) pages if the --large_pages runtime option is selected. You can obtain it at <http://libhugetlbfs.sourceforge.net>. On Ubuntu systems, you can install using "sudo apt-get install libhugetlbfs-dev".
+- libhugetlbfs. This is used for allocating large (huge) pages if the --large_pages runtime option is selected. You can obtain it at <https://github.com/libhugetlbfs/libhugetlbfs>. On Ubuntu systems, you can install using "sudo apt-get install libhugetlbfs-dev".
 
 ------------------------------------------------------------------------------------------------------------
 DOCUMENTATION BUILD PREREQUISITES
