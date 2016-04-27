@@ -34,31 +34,44 @@ MAINTAINER "Mark Gottscho, Email: mgottscho@ucla.edu"
 
 # IMPORTANT: set X-Mem version information
 ENV xmem_version 2.4.1
+LABEL version=${xmem_version}
+LABEL description="X-Mem: The E>X<tensible >Mem<ory Characterization Tool"
 
 # Update repository information
 RUN apt-get update
 
-# Install runtime library to support huge/large pages.
-RUN apt-get install -y libhugetlbfs0
+# Install development library to support huge/large pages.
+RUN apt-get install -y libhugetlbfs-dev
 
-# Install runtime library to support NUMA.
-RUN apt-get install -y libnuma1
+# Install development library to support NUMA.
+RUN apt-get install -y libnuma-dev
 
-# Temporarily add X-Mem Linux binaries to /xmem_v2.4.1/ in the container
-#RUN mkdir /xmem_v${xmem_version}
-ADD releases/tarball/xmem_v${xmem_version}.tar.gz /
+# Install Python 2.7
+RUN apt-get install -y python2.7
 
-# Set up only what is needed for x86-64 AVX at /xmem
-RUN mkdir /xmem
-RUN mv /xmem_v${xmem_version}/xmem-linux-x64_avx /xmem/xmem
-RUN mv /xmem_v${xmem_version}/ATTRIBUTION /xmem/
-RUN mv /xmem_v${xmem_version}/CHANGELOG /xmem/
-RUN mv /xmem_v${xmem_version}/LICENSE /xmem/
-RUN mv /xmem_v${xmem_version}/README.md /xmem/
-RUN rm -rf /xmem_v${xmem_version}
+# Install SCons
+RUN apt-get install -y scons
+
+# Install gcc cross-compiler for ARM targets
+RUN apt-get install -y g++-4.8-arm-linux-gnueabihf
+
+# Install doxygen for generating documentation on Linux
+RUN apt-get install -y doxygen doxygen-latex
+
+# Install g++ compiler
+RUN apt-get install -y g++
+
+# Install vim text editor
+RUN apt-get install -y vim
+
+# Make top-level directory in container for X-Mem source tree
+RUN mkdir /X-Mem
+
+# Add X-Mem source tree to container
+ADD . /X-Mem/
+
+# Set working directory for container
+WORKDIR /X-Mem
 
 # Entrypoint
-ENTRYPOINT ["/xmem/xmem"]
-
-# Set default argument to X-Mem
-CMD ["--help"]
+ENTRYPOINT ["/bin/bash"]

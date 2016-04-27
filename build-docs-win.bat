@@ -24,7 +24,7 @@
 
 @echo off
 
-echo Building X-Mem documentation via WINDOWS...
+echo Building X-Mem documentation on Windows...
 
 set starting_dir=%CD%
 copy README.md src\README.md

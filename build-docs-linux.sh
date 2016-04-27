@@ -24,7 +24,7 @@
 #
 # Author: Mark Gottscho <mgottscho@ucla.edu>
 
-echo Building X-Mem documentation via LINUX...
+echo Building X-Mem documentation on Linux...
 
 orig_dir=`pwd`
 cp README.md src/README.md
