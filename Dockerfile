@@ -1,5 +1,3 @@
-#!/bin/bash
-#
 # The MIT License (MIT)
 # 
 # Copyright (c) 2014 Microsoft
@@ -24,37 +22,43 @@
 #
 # Author: Mark Gottscho <mgottscho@ucla.edu>
 
-ARGC=$# # Get number of arguments, not including script name
 
-if [[ "$ARGC" != 2 ]]; then # Bad number of arguments
-    echo "Usage: build-linux.sh <ARCH> <NUM_THREADS>"
-    echo "<ARCH> can be x64_avx (RECOMMENDED), x64, x86, mic, or ARM."
-    exit 1
-fi
 
-ARCH=$1
-NUM_THREADS=$2
-echo Building X-Mem for GNU/Linux on $ARCH using $NUM_THREADS threads...
+# Dockerfile to containerize the ability to run (but not build) X-Mem on Linux
 
-# Do a little trick to ensure build datetime are correct
-# DO NOT remove this code -- otherwise X-Mem will fail to build.
-build_datetime=`date`
-echo "#ifndef __BUILD_DATETIME_H" > src/include/build_datetime.h
-echo "#define __BUILD_DATETIME_H" >> src/include/build_datetime.h
-echo "#define BUILD_DATETIME \"$build_datetime\"" >> src/include/build_datetime.h
-echo "#endif" >> src/include/build_datetime.h
+# We prefer to base X-Mem on Ubuntu distribution
+FROM ubuntu:14.04
 
-# Build
-scons arch=$ARCH -j$NUM_THREADS
+# Set maintainer
+MAINTAINER "Mark Gottscho, Email: mgottscho@ucla.edu"
 
-# Check if build was successful
-if [[ $? -eq 0 ]]; then
-    # Copy executable
-    mkdir bin
-    cp build/linux/$ARCH/release/xmem bin/xmem-linux-$ARCH
-    echo Done! The executable xmem is at bin/xmem-linux-$ARCH
-    exit 0
-else
-    echo X-Mem for GNU/Linux on $ARCH build FAILED.
-    exit 1
-fi
+# IMPORTANT: set X-Mem version information
+ENV xmem_version 2.4.1
+
+# Update repository information
+RUN apt-get update
+
+# Install runtime library to support huge/large pages.
+RUN apt-get install -y libhugetlbfs0
+
+# Install runtime library to support NUMA.
+RUN apt-get install -y libnuma1
+
+# Temporarily add X-Mem Linux binaries to /xmem_v2.4.1/ in the container
+#RUN mkdir /xmem_v${xmem_version}
+ADD releases/tarball/xmem_v${xmem_version}.tar.gz /
+
+# Set up only what is needed for x86-64 AVX at /xmem
+RUN mkdir /xmem
+RUN mv /xmem_v${xmem_version}/xmem-linux-x64_avx /xmem/xmem
+RUN mv /xmem_v${xmem_version}/ATTRIBUTION /xmem/
+RUN mv /xmem_v${xmem_version}/CHANGELOG /xmem/
+RUN mv /xmem_v${xmem_version}/LICENSE /xmem/
+RUN mv /xmem_v${xmem_version}/README.md /xmem/
+RUN rm -rf /xmem_v${xmem_version}
+
+# Entrypoint
+ENTRYPOINT ["/xmem/xmem"]
+
+# Set default argument to X-Mem
+CMD ["--help"]
