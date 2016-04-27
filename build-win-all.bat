@@ -27,3 +27,5 @@
 call build-win.bat x64 1
 call build-win.bat x64_avx 1
 call build-win.bat x86 1
+call build-win.bat arm 1
+call build-win.bat arm_neon 1
