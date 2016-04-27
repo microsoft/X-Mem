@@ -37,7 +37,7 @@ echo #define BUILD_DATETIME "%build_datetime%">>src\include\build_datetime.h
 echo #endif>>src\include\build_datetime.h
 
 :: Build
-call scons -f SConstruct_win_%ARCH% -j%NUM_THREADS%
+call scons arch=%ARCH% -j%NUM_THREADS%
 
 :: Check if build was successful
 if ERRORLEVEL 1 goto buildFailure

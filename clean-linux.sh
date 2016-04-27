@@ -29,14 +29,16 @@ ARGC=$# # Get number of arguments, not including script name
 if [[ "$ARGC" != 1 ]]; then # Bad number of arguments
     echo "Usage: clean-linux.sh <ARCH>"
     echo "<ARCH> can be x64_avx (RECOMMENDED), x64, x86, or ARM."
+    exit 1
 fi
+
+ARCH=$1
 
 # Clean build
 echo Cleaning build of X-Mem for GNU/Linux on $ARCH\...
 
-scons -c -f SConstruct_linux_$ARCH
+scons -c arch=$ARCH
 rm -rf build/linux/$ARCH
-rm xmem
-rm bin/xmem-linux*
+rm bin/xmem-linux-$ARCH
 
 echo Done!

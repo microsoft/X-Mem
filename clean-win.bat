@@ -24,12 +24,13 @@
 
 @echo off
 
+set ARCH=%1
+
 :: Clean build
-echo Cleaning build of X-Mem for Windows x86-64...
-call scons -c -f SConstruct_win_x64
+echo Cleaning build of X-Mem for Windows on %ARCH%...
+call scons -c arch=%ARCH%
 ::MSBuild /t:Clean
-rmdir /S /Q build\win
-del bin\xmem-win*.exe
-del xmem.exe
+rmdir /S /Q build\win\%ARCH%
+del bin\xmem-win-%ARCH%.*
 
 echo Done!

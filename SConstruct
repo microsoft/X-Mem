@@ -23,6 +23,12 @@
 # Author: Mark Gottscho <mgottscho@ucla.edu>
 
 # This is a wrapper to a subscript so that we can put build output separate from src/
-env = Environment()
-arch = ARGUMENTS.get('arch', 'x64_avx') # Default arch is x64_avx
-SConscript('SConscript.py', variant_dir = 'build/linux/'+arch+'/release', duplicate = 0, exports = {'MODE':'release'}, arch = arch)
+
+import platform
+
+hostos = platform.system()
+arch = ARGUMENTS.get('arch', 'x64') # Default arch is x64 (x86-64 a.k.a. AMD64) but lacking AVX extensions
+
+#env = Environment()
+
+SConscript('SConscript.py', variant_dir = 'build/'+hostos.lower()+'/'+arch+'/release', duplicate = 0, exports = {'MODE':'release'}, arch = arch, hostos = hostos)
