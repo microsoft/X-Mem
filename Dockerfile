@@ -40,6 +40,12 @@ LABEL description="X-Mem: The E>X<tensible >Mem<ory Characterization Tool"
 # Update repository information
 RUN apt-get update
 
+# Install vim text editor
+RUN apt-get install -y vim
+
+# Install doxygen for generating documentation on Linux
+RUN apt-get install -y doxygen doxygen-latex
+
 # Install development library to support huge/large pages.
 RUN apt-get install -y libhugetlbfs-dev
 
@@ -52,17 +58,17 @@ RUN apt-get install -y python2.7
 # Install SCons
 RUN apt-get install -y scons
 
-# Install gcc cross-compiler for ARM targets
-RUN apt-get install -y g++-4.8-arm-linux-gnueabihf
-
-# Install doxygen for generating documentation on Linux
-RUN apt-get install -y doxygen doxygen-latex
-
 # Install g++ compiler
 RUN apt-get install -y g++
 
-# Install vim text editor
-RUN apt-get install -y vim
+# Install g++ 4.7 and multilibs to build for 32-bit x86 on 64-bit x86-64 host. We cannot use same g++ version as above because the ARM cross-compiler stuff is incompatible while supporting 32-bit x86 for some reason. Ubuntu package managers will only allow one or the other.
+RUN apt-get install -y g++-4.7 g++-4.7-multilib gcc-4.7 gcc-4.7-multilib
+
+# Install gcc cross-compiler for ARM targets
+RUN apt-get install -y g++-4.8-arm-linux-gnueabihf gcc-4.8-arm-linux-gnueabihf
+
+# For some reason when cross-compiling on x86-64 host for 32-bit x86, /usr/include/asm/errno.h does not exist. There is, however, /usr/include/asm-generic/errno.h. The following band-aid fix works.
+RUN cp /usr/include/asm-generic/errno.h /usr/include/asm/
 
 # Make top-level directory in container for X-Mem source tree
 RUN mkdir /X-Mem

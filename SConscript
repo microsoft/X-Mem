@@ -58,9 +58,10 @@ if hostos == 'linux': # gcc
         #env.Append(LIBPATH = '/opt/mpss/3.6/sysroots/x86_64-mpsssdk-linux/lib')
         #env.Append(LIBPATH = '/opt/mpss/3.6/sysroots/k1om-mpss-linux/lib64')
     elif arch == 'x86': # Cross-compile for 32-bit x86 on 64-bit x86-64 platform
+        env.Replace(CXX = 'g++-4.7') # Cannot use same g++ version for both x86 and ARM cross-compiles. So we use g++-4.7 for x86, 4.8 for all else.
         env.Append(CPPFLAGS = ' -m32') # GNU binutils support x86 cross-compile using this flag
         env.Append(LIBPATH = ['/usr/lib32'])
-        env.Append(LINKFLAGS = ['-m32'])
+        env.Append(LINKFLAGS = ' -m32')
     elif arch == 'arm': # Cross-compile for 32-bit ARM on 64-bit x86-64 platform
         env.Replace(CXX = 'arm-linux-gnueabihf-g++-4.8') # Cross-compiler
         env.Append(CPPFLAGS = ' -mfloat-abi=hard')
