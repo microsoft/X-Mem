@@ -26,10 +26,8 @@ import os
 
 # Initialize build environment
 env = Environment()
-
-# Get arguments
-arch = ARGUMENTS.get('arch', 'x64')
-hostos = ARGUMENTS.get('hostos', 'linux')
+Import('arch')
+Import('hostos')
 
 # Architecture and OS-independent settings
 env.Append(CPPPATH = ['src/include'])
@@ -82,7 +80,7 @@ if hostos == 'linux': # gcc
         Glob('src/ext/*/*.cpp'), # All extensions
     ]
 
-elif hostos == 'win': # Windows OS
+elif hostos == 'windows': # Windows OS
     # We use Visual C++ compiler
     env.Replace(MSVC_USE_SCRIPT = 'C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\bin\\amd64\\vcvars64.bat') # Path to the VC++ setup script. Assumes VS 2015
     env.Replace(AS = 'ml64') # 64-bit Visual Studio assembler
@@ -147,6 +145,9 @@ elif hostos == 'win': # Windows OS
     else:
         print 'Error: architecture ' + arch + ' not supported on ' + hostos + ', cannot build.'
         exit(1)
+else:
+    print 'Error: host OS ' + hostos + ' not supported, cannot build.'
+    exit(1)
 
 # Do the build!
 defaultBuild = env.Program(target = 'xmem', source = sources)

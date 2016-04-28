@@ -31,4 +31,4 @@ arch = ARGUMENTS.get('arch', 'x64') # Default arch is x64 (x86-64 a.k.a. AMD64) 
 
 #env = Environment()
 
-SConscript('SConscript', variant_dir = 'build/'+hostos.lower()+'/'+arch+'/release', duplicate = 0, exports = {'MODE':'release'}, arch = arch, hostos = hostos)
+SConscript('SConscript', variant_dir = 'build/'+hostos.lower()+'/'+arch+'/release', duplicate = 0, exports = {'MODE':'release','arch':arch,'hostos':hostos.lower()})
