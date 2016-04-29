@@ -32,15 +32,11 @@ FROM ubuntu:14.04
 # Set maintainer
 MAINTAINER "Mark Gottscho, Email: mgottscho@ucla.edu"
 
-# IMPORTANT: set X-Mem version information
-ENV xmem_version 2.4.1
-LABEL version=${xmem_version}
-LABEL description="X-Mem: The E>X<tensible >Mem<ory Characterization Tool"
-
 # Update repository information
 RUN apt-get update
 
-# Install vim text editor
+# Install vim text editor. Useful if you want to modify X-Mem code inside the container or inspect output files. However,
+# the recommend way to hack X-Mem code is to do it outside the container and then rebuild the container to compile and run using modified source files.
 RUN apt-get install -y vim
 
 # Install doxygen for generating documentation on Linux
@@ -67,8 +63,14 @@ RUN apt-get install -y g++-4.7 g++-4.7-multilib gcc-4.7 gcc-4.7-multilib
 # Install gcc cross-compiler for ARM targets
 RUN apt-get install -y g++-4.8-arm-linux-gnueabihf gcc-4.8-arm-linux-gnueabihf
 
+# IMPORTANT: set X-Mem version information
+ENV xmem_version 2.4.2
+LABEL version=${xmem_version}
+LABEL description="X-Mem: The E>X<tensible >Mem<ory Characterization Tool"
+
 # For some reason when cross-compiling on x86-64 host for 32-bit x86, /usr/include/asm/errno.h does not exist. There is, however, /usr/include/asm-generic/errno.h. The following band-aid fix works.
-RUN cp /usr/include/asm-generic/errno.h /usr/include/asm/
+RUN mkdir /usr/include/asm
+RUN cp /usr/include/asm-generic/errno.h /usr/include/asm/errno.h
 
 # Make top-level directory in container for X-Mem source tree
 RUN mkdir /X-Mem

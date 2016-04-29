@@ -2,13 +2,19 @@
 CHANGELOG
 ------------
 
-v2.4.1 | April 7, 2016
+v2.4.2 | April 29, 2016 by Mark Gottscho <mgottscho@ucla.edu>
+    * Refactored SCons build scripts to be much simpler and more straightforward.
+    * Renaming of post-processing and run automation script directories.
+    * Added Docker support to build and run X-Mem! Now all you need to build and test a custom version of X-Mem on your favorite Linux machine is a text editor and Docker. The repository can be found at: https://hub.docker.com/r/mgottscho/x-mem-build-env
+    * Docker support is also now available if you simply want to run pre-compiled X-Mem binaries on Linux but cannot or don't want to install its runtime dependences. These images can be found at this repository: https://hub.docker.com/r/mgottscho/x-mem
+
+v2.4.1 | April 7, 2016 by Mark Gottscho <mgottscho@ucla.edu>
     * Removed unnecessary null pointer checks.
     * Added global exception catching in main().
     * Overhauled naming conventions of object variables and functions. Previously, they were in violation of C++ guidelines through the inappropriate use of leading underscores. The naming style is now (for the most part) as follows: (1) global variables are of the form g_my_fancy_variable, (2) global functions are of the form my_fancy_function, (3) classes are of the form MyFancyClass, (4) class functions are of the form myFancyClassFunction, and (5) class variables are of the form my_fancy_class_variable_.
     
 
-v2.4.0 | April 4, 2016
+v2.4.0 | April 4, 2016 by Mark Gottscho <mgottscho@ucla.edu>
     * Added support for Intel Xeon Phi (Knight's Corner) many-core accelerator (MIC). It can execute many 512-bit vector instructions but is not fully ISA-compatible with conventional x86-64 processors. This has been partially tested on a Linux box, but not Windows. If you can test X-Mem for Xeon Phi, we would greatly appreciate any feedback or results!
     * Added support for 512-bit chunk sizes where applicable.
     * Started maintaining a CHANGELOG file.

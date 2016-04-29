@@ -1,12 +1,12 @@
 README
 ------------------------------------------------------------------------------------------------------------
 
-X-Mem: A Cross-Platform and Extensible Memory Characterization Tool for the Cloud v2.4.1
+X-Mem: A Cross-Platform and Extensible Memory Characterization Tool for the Cloud v2.4.2
 ------------------------------------------------------------------------------------------------------------
 
 X-Mem is a flexible open-source research tool for characterizing memory hierarchy throughput, latency, power, and more. The tool was developed jointly by Microsoft and the UCLA NanoCAD Lab. This project was started by Mark Gottscho (Email: mgottscho@ucla.edu) as a Summer 2014 PhD intern at Microsoft Research. X-Mem is released freely and open-source under the MIT License. The project is under active development.
 
-PROJECT REVISION DATE: April 7, 2016
+PROJECT REVISION DATE: April 29, 2016
 
 ------------------------------------------------------------------------------------------------------------
 RESEARCH PAPER & ATTRIBUTION
@@ -217,10 +217,67 @@ SOURCE CODE DOCUMENTATION
 The tool comes with built-in Doxygen comments in the source code, which can be used to generate both HTML and LaTeX --> PDF documentation. Documentation is maintained under the doc/ subdirectory. To build documentation after modifying the source, run build-docs-win.bat on Windows, or build-docs-linux.sh on GNU/Linux systems. Note that Doxygen and a LaTeX distribution must be installed on the system.
 
 ------------------------------------------------------------------------------------------------------------
+BUILDING AND RUNNING IN CONTAINERS USING DOCKER
+------------------------------------------------------------------------------------------------------------
+
+We have two Docker repositories to make it much easier to get started using X-Mem on any flavor of Linux.
+
+If you wish to simply run pre-built X-Mem binaries, but cannot or don't want to install the pre-requisite libraries, you can use images from the following Docker repository:
+
+<https://hub.docker.com/r/mgottscho/x-mem>
+
+Once you have pulled the image, run as follows:
+
+docker run -t x-mem:VERSION_NUMBER_HERE STANDARD_X-MEM_OPTIONS HERE
+
+This image assumes you have an Intel x86-64 system with support for the AVX instruction set extensions. If you don't have AVX, it may crash if it executes an illegal instruction.
+
+
+If you want to quickly get to modifying X-Mem and build your own custom binaries with minimal hassle, you can use images from the following Docker repository:
+
+<https://hub.docker.com/r/mgottscho/x-mem-build-env>
+
+Once you have pulled the image, run as follows:
+
+docker run -i -t x-mem-build-env:VERSION_NUMBER_HERE
+
+You will enter the container in the /X-Mem directory interactively using the bash shell. Everything in the X-Mem source tree will be inside the container, ready to compile and run. Of course, if you modify any files inside the container they will not necessarily stick or be visible outside without using volumes, etc. See Docker documentation for more information.
+
+Perhaps the best way to quickly modify, build, and run X-Mem would be the following series of steps:
+
+1) Clone the X-Mem git repository to your Linux machine that has Docker installed:
+
+git clone github.com/Microsoft/X-Mem /PATH/TO/LOCAL/WORKING/DIRECTORY/X-Mem
+
+2) Change into X-Mem directory:
+
+cd X-Mem
+
+3) Make your required source changes by directly editing files in the source tree.
+
+4) If you have the required dependencies (described in this README), then you can build binaries using the build-linux.sh script. If you don't, but you do have Docker installed, build a Docker image for the X-Mem build environment:
+
+docker build -t x-mem-build-env:VERSION_NUMBER_HERE .
+
+5) Run the Docker image to enter the container:
+
+docker run -i -t x-mem-build-env:VERSION_NUMBER_HERE
+
+6) Once inside the container, you will be running bash at at the /X-Mem directory. Now build from within the container:
+
+./build-linux.sh YOUR_TARGET_ARCHITECTURE NUMBER_OF_THREADS
+
+7) If the build is successful, run your new X-Mem binary, still inside the container (or export it to your host through a volume):
+
+bin/xmem-linux-YOUR_TARGET_ARCHITECTURE --help
+
+That's it!
+
+------------------------------------------------------------------------------------------------------------
 CONTACT, FEEDBACK, AND BUG REPORTS
 ------------------------------------------------------------------------------------------------------------
 
-For questions, comments, criticism, bug reports, and other feedback for this software, please contact Mark Gottscho via email at <mgottscho@ucla.edu> or via web at <http://www.seas.ucla.edu/~gottscho>.
+For questions, comments, criticism, bug reports, and other feedback for this software, please contact Mark Gottscho via email at <mgottscho@ucla.edu> or via web at <http://seas.ucla.edu/~gottscho>.
 
 ------------------------------------------------------------------------------------------------------------
 ACKNOWLEDGMENT
