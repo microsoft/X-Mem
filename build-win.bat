@@ -45,6 +45,7 @@ if ERRORLEVEL 1 goto buildFailure
 :: Copy executable
 mkdir bin
 copy build\windows\%ARCH%\release\xmem.exe bin\xmem-win-%ARCH%.exe
+copy build\windows\%ARCH%\release\xmem.pdb bin\xmem-win-%ARCH%.pdb
 echo Done! The executable xmem is at bin\xmem-win-%ARCH%
 exit /B 0
 

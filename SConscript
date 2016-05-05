@@ -83,7 +83,6 @@ if hostos == 'linux': # gcc
 
 elif hostos == 'windows': # Windows OS
     # We use Visual C++ compiler
-    env.Replace(MSVC_USE_SCRIPT = 'C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\bin\\amd64\\vcvars64.bat') # Path to the VC++ setup script. Assumes VS 2015
     env.Replace(AS = 'ml64') # 64-bit Visual Studio assembler
     env.Replace(MSVC_BATCH = 1) # Enable batch compilation mode (multithreaded)
     env['PDB'] = 'xmem.pdb' # Instruct Visual Studio to give us a debug/symbols file for this build of X-Mem
@@ -94,6 +93,7 @@ elif hostos == 'windows': # Windows OS
     env.Append(CPPFLAGS = ' /MD') # Dynamic link. Use /MT for static link
 
     if arch == 'x64_avx':
+        env.Replace(MSVC_USE_SCRIPT = 'C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\bin\\amd64\\vcvars64.bat') # Path to the VC++ setup script. Assumes VS 2015
         env.Append(CPPFLAGS = ' /arch:AVX')
         # List all C++ source files
         sources = [
@@ -104,6 +104,7 @@ elif hostos == 'windows': # Windows OS
         ]
 
     elif arch == 'x64':
+        env.Replace(MSVC_USE_SCRIPT = 'C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\bin\\amd64\\vcvars64.bat') # Path to the VC++ setup script. Assumes VS 2015
         # List all C++ source files
         sources = [
             Glob('src/*.cpp'), 
@@ -112,6 +113,7 @@ elif hostos == 'windows': # Windows OS
         ]
 
     elif arch == 'x86':
+        env.Replace(MSVC_USE_SCRIPT = 'C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\bin\\amd64_x86\\vcvarsamd64_x86.bat') # Path to the VC++ setup script. Assumes VS 2015
         env.Append(CPPFLAGS = ' /arch:IA32')
         # List all C++ source files
         sources = [
@@ -121,6 +123,7 @@ elif hostos == 'windows': # Windows OS
         ]
 
     elif arch == 'arm':
+        env.Replace(MSVC_USE_SCRIPT = 'C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\bin\\amd64_arm\\vcvarsamd64_arm.bat') # Path to the VC++ setup script. Assumes VS 2015
         env.Append(CPPFLAGS = ' /D _ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE=1')
         env.Append(CPPFLAGS = ' /arch:VFPv4')
         env.Append(CPPFLAGS = ' /Gy')
@@ -132,6 +135,7 @@ elif hostos == 'windows': # Windows OS
         ]
 
     elif arch == 'arm_neon':
+        env.Replace(MSVC_USE_SCRIPT = 'C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\bin\\amd64_arm\\vcvarsamd64_arm.bat') # Path to the VC++ setup script. Assumes VS 2015
         env.Append(CPPFLAGS = ' /D _ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE=1')
         env.Append(CPPFLAGS = ' /D __ARM_NEON')
         env.Append(CPPFLAGS = ' /arch:VFPv4')
