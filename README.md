@@ -15,19 +15,22 @@ RESEARCH PAPER & ATTRIBUTION
 We have a research tool paper describing the motivation, design, and implementation of X-Mem, as well as three experimental case studies using tools to deliver insights useful to both cloud providers and subscribers. If you use our tool and publish or otherwise publicly report results, we ask that you please cite the following paper as well as provide a link to our tool homepage (<https://nanocad-lab.github.io/X-Mem>).
 
 Download the pre-print of our paper here: <http://nanocad.ee.ucla.edu/pub/Main/Publications/C91_paper.pdf>.
+Published paper on IEEE Xplore: <http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=7482101>
 
 Citation:
 
-Mark Gottscho, Sriram Govindan, Bikash Sharma, Mohammed Shoaib, and Puneet Gupta. X-Mem: A Cross-Platform and Extensible Memory Characterization Tool for the Cloud. In Proceedings of the IEEE International Symposium on Performance Analysis of Systems and Software (ISPASS). Uppsala, Sweden, April 17-19, 2016.
+Mark Gottscho, Sriram Govindan, Bikash Sharma, Mohammed Shoaib, and Puneet Gupta. X-Mem: A Cross-Platform and Extensible Memory Characterization Tool for the Cloud. In Proceedings of the IEEE International Symposium on Performance Analysis of Systems and Software (ISPASS), pp. 263-273. Uppsala, Sweden. April 17-19, 2016. DOI: <http://dx.doi.org/10.1109/ISPASS.2016.7482101>
 
 BiBTeX:
 
 @inproceedings{GottschoISPASS2016,
     author = {Gottscho, Mark and Govindan, Sriram and Sharma, Bikash and Shoaib, Mohammed and Gupta, Puneet},
     booktitle = {Proceedings of the IEEE International Symposium on Performance Analysis of Systems and Software (ISPASS)},
-    title = {{X-Mem}: A Cross-Platform and Extensible Memory Characterization Tool for the Cloud},
+    title = {{X-Mem: A Cross-Platform and Extensible Memory Characterization Tool for the Cloud}},
     month = {April},
-    year = {2016}
+    year = {2016},
+    doi = {10.1109/ISPASS.2016.7482101},
+    pages = {263--273}
 }
 
 ------------------------------------------------------------------------------------------------------------
