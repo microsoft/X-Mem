@@ -866,9 +866,28 @@ bool xmem::build_random_pointer_permutation(void* start_address, void* end_addre
             
     std::mt19937_64 gen(time(NULL)); //Mersenne Twister random number generator, seeded at current time
     
-    //Do a random shuffle of memory pointers. 
-    //I had originally used a random Hamiltonian Cycle generator, but this was much slower and aside from
-    //rare instances, did not make any difference in random-access performance measurement.
+    //Do a random shuffle of memory pointers. Make sure that the result
+    //is a hamiltonian cycle so that pointer chasing will touch the full
+    //working set.
+
+    //Represent traversal order of pointers in an array external to the
+    //pointers
+    int * traversal_order = new int[num_pointers + 1];
+
+    //start with sequential order 0, 1, 2, ...., num_pointers-1
+    for(size_t i = 0; i < num_pointers; i++)
+	traversal_order[i] = i;
+    //...and back to 0
+    traversal_order[num_pointers] = 0;
+
+    //shuffle the elements 1,2,...,num-pointers-1,
+    //thereby preserving the property of a hamiltonian cycle starting
+    //and ending at 0
+    std::shuffle(traversal_order + 1,
+	traversal_order + (num_pointers - 1), gen);
+
+    //finally, impose the traversal order within the pointer array
+
 #ifdef HAS_WORD_64
     Word64_t* mem_region_base = reinterpret_cast<Word64_t*>(start_address);
 #else //special case for 32-bit architectures
@@ -877,45 +896,48 @@ bool xmem::build_random_pointer_permutation(void* start_address, void* end_addre
     switch (chunk_size) {
 #ifdef HAS_WORD_64
         case CHUNK_64b:
-            for (size_t i = 0; i < num_pointers; i++) { //Initialize pointers to point at themselves (identity mapping)
-                mem_region_base[i] = reinterpret_cast<Word64_t>(mem_region_base+i);
+            for (size_t i = 0; i < num_pointers; i++) {
+                mem_region_base[traversal_order[i]] = reinterpret_cast<Word64_t>(
+		    mem_region_base+traversal_order[i+1]);
             }
-            std::shuffle(mem_region_base, mem_region_base + num_pointers, gen);
             break;
 #else //special case for 32-bit architectures
         case CHUNK_32b:
-            for (size_t i = 0; i < num_pointers; i++) { //Initialize pointers to point at themselves (identity mapping)
-                mem_region_base[i] = reinterpret_cast<Word32_t>(mem_region_base+i);
+            for (size_t i = 0; i < num_pointers; i++) {
+                mem_region_base[traversal_order[i]] = reinterpret_cast<Word32_t>(
+		    mem_region_base+traversal_order[i+1]);
             }
-            std::shuffle(mem_region_base, mem_region_base + num_pointers, gen);
             break;
 #endif
 #ifdef HAS_WORD_128
         case CHUNK_128b:
-            for (size_t i = 0; i < num_pointers; i++) { //Initialize pointers to point at themselves (identity mapping)
+            for (size_t i = 0; i < num_pointers; i++) {
 #ifdef HAS_WORD_64
-                mem_region_base[i*2] = reinterpret_cast<Word64_t>(mem_region_base+(i*2));
+                mem_region_base[traversal_order[i]*2] = reinterpret_cast<Word64_t>(
+		    mem_region_base+(traversal_order[i+1]*2));
                 mem_region_base[(i*2)+1] = 0xFFFFFFFFFFFFFFFF; //1-fill upper 64 bits
 #else //special case for 32-bit architectures
-                mem_region_base[i*4] = reinterpret_cast<Word32_t>(mem_region_base+(i*4));
+                mem_region_base[traversal_order[i]*4] = reinterpret_cast<Word32_t>(
+		    mem_region_base+(traversal_order[i+1]*4));
                 mem_region_base[(i*4)+1] = 0xFFFFFFFF; //1-fill upper 96 bits
                 mem_region_base[(i*4)+2] = 0xFFFFFFFF; 
                 mem_region_base[(i*4)+3] = 0xFFFFFFFF; 
 #endif
             }
-            std::shuffle(reinterpret_cast<Word128_t*>(mem_region_base), reinterpret_cast<Word128_t*>(mem_region_base) + num_pointers, gen);
             break;
 #endif
 #ifdef HAS_WORD_256
         case CHUNK_256b:
-            for (size_t i = 0; i < num_pointers; i++) { //Initialize pointers to point at themselves (identity mapping)
+            for (size_t i = 0; i < num_pointers; i++) {
 #ifdef HAS_WORD_64
-                mem_region_base[i*4] = reinterpret_cast<Word64_t>(mem_region_base+(i*4));
+                mem_region_base[traversal_order[i]*4] = reinterpret_cast<Word64_t>(
+		    mem_region_base+(traversal_order[i+1]*4));
                 mem_region_base[(i*4)+1] = 0xFFFFFFFFFFFFFFFF; //1-fill upper 192 bits
                 mem_region_base[(i*4)+2] = 0xFFFFFFFFFFFFFFFF; 
                 mem_region_base[(i*4)+3] = 0xFFFFFFFFFFFFFFFF;
 #else //special case for 32-bit architectures
-                mem_region_base[i*8] = reinterpret_cast<Word32_t>(mem_region_base+(i*8));
+                mem_region_base[traversal_order[i]*8] = reinterpret_cast<Word32_t>(
+		    mem_region_base+(traversal_order[i+1]*8));
                 mem_region_base[(i*8)+1] = 0xFFFFFFFF; //1-fill upper 224 bits
                 mem_region_base[(i*8)+2] = 0xFFFFFFFF;
                 mem_region_base[(i*8)+3] = 0xFFFFFFFF;
@@ -925,14 +947,14 @@ bool xmem::build_random_pointer_permutation(void* start_address, void* end_addre
                 mem_region_base[(i*8)+7] = 0xFFFFFFFF;
 #endif
             }
-            std::shuffle(reinterpret_cast<Word256_t*>(mem_region_base), reinterpret_cast<Word256_t*>(mem_region_base) + num_pointers, gen);
             break;
 #endif
 #ifdef HAS_WORD_512
         case CHUNK_512b:
-            for (size_t i = 0; i < num_pointers; i++) { //Initialize pointers to point at themselves (identity mapping)
+            for (size_t i = 0; i < num_pointers; i++) {
 #ifdef HAS_WORD_64
-                mem_region_base[i*4] = reinterpret_cast<Word64_t>(mem_region_base+(i*4));
+                mem_region_base[traversal_order[i]*4] = reinterpret_cast<Word64_t>(
+		    mem_region_base+(traversal_order[i+1]*4));
                 mem_region_base[(i*4)+1] = 0xFFFFFFFFFFFFFFFF; //1-fill upper 448 bits
                 mem_region_base[(i*4)+2] = 0xFFFFFFFFFFFFFFFF; 
                 mem_region_base[(i*4)+3] = 0xFFFFFFFFFFFFFFFF;
@@ -941,7 +963,8 @@ bool xmem::build_random_pointer_permutation(void* start_address, void* end_addre
                 mem_region_base[(i*4)+6] = 0xFFFFFFFFFFFFFFFF;
                 mem_region_base[(i*4)+7] = 0xFFFFFFFFFFFFFFFF;
 #else //special case for 32-bit architectures
-                mem_region_base[i*8] = reinterpret_cast<Word32_t>(mem_region_base+(i*8));
+                mem_region_base[traversal_order[i]*8] = reinterpret_cast<Word32_t>(
+		    mem_region_base+(traversal_order[i+1]*8));
                 mem_region_base[(i*8)+1] = 0xFFFFFFFF; //1-fill upper 480 bits
                 mem_region_base[(i*8)+2] = 0xFFFFFFFF;
                 mem_region_base[(i*8)+3] = 0xFFFFFFFF;
@@ -959,13 +982,14 @@ bool xmem::build_random_pointer_permutation(void* start_address, void* end_addre
                 mem_region_base[(i*8)+15] = 0xFFFFFFFF;
 #endif
             }
-            std::shuffle(reinterpret_cast<Word512_t*>(mem_region_base), reinterpret_cast<Word512_t*>(mem_region_base) + num_pointers, gen);
             break;
 #endif
         default:
             std::cerr << "ERROR: Got an invalid chunk size. This should not have happened." << std::endl;
             return false;
     }
+
+    delete traversal_order;
 
     if (g_verbose) {
         std::cout << "done" << std::endl;
