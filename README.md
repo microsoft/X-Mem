@@ -7,6 +7,7 @@ X-Mem: A Cross-Platform and Extensible Memory Characterization Tool for the Clou
 X-Mem is a flexible open-source research tool for characterizing memory hierarchy throughput, latency, power, and more. The tool was developed jointly by Microsoft and the UCLA NanoCAD Lab. This project was started by Mark Gottscho (Email: mgottscho@ucla.edu) as a Summer 2014 PhD intern at Microsoft Research. X-Mem is released freely and open-source under the MIT License. The project is under active development.
 
 PROJECT REVISION DATE: April 29, 2016
+README UPDATED: July 20, 2016
 
 ------------------------------------------------------------------------------------------------------------
 RESEARCH PAPER & ATTRIBUTION
@@ -128,7 +129,7 @@ Feel free to contact us for any other feature requests.
 RUNTIME PREREQUISITES
 ------------------------------------------------------------------------------------------------------------
 
-There are a few runtime prerequisites in order for the software to run correctly.
+There are a few runtime prerequisites in order for the software to run correctly. Note that these requirements are for the pre-compiled binaries that are available on the project homepage at <https://nanocad-lab.github.io/X-Mem>. If you compile X-Mem yourself, then the runtime requirements may vary.
 
 HARDWARE:
 
@@ -138,8 +139,8 @@ HARDWARE:
 WINDOWS:
 
 - Microsoft Windows 8.1 64-bit or later, Server 2012 R2 or later.
-- Microsoft Visual C++ 2013 Redistributables (32-bit) -- for x86 (32-bit) builds
-- Microsoft Visual C++ 2013 Redistributables (64-bit) -- for x86-64 and x86-64 with AVX builds
+- Microsoft Visual C++ 2015 Redistributables (32-bit) -- for x86 (32-bit) builds.
+- Microsoft Visual C++ 2015 Redistributables (64-bit) -- for x86-64 and x86-64 with AVX builds
 - You MAY need Administrator privileges, in order to:
     - Use large pages, if the --large_pages option is selected (see USAGE, below)
     - The first time you use --large_pages on a given Windows machine, you may need to ensure that your Windows user account has the necessary rights to allow lockable memory pages. To do this on Windows 8, run gpedit.msc --> Local Computer Policy --> Computer Configuration --> Windows Settings --> Security Settings --> Local Policies --> User Rights Assignment --> Add your username to "Lock pages in memory". Then log out and then log back in.
@@ -181,7 +182,7 @@ There are a few software build prerequisites, depending on your platform.
 
 WINDOWS:
 
-- Any version of Visual Studio 2013 64-bit (version 12.0) on Windows 8.1 or 2015 (version 14.0) on Windows 10. 
+- Any version of Visual Studio 2013 64-bit (version 12.0) on Windows 8.1 or 2015 (version 14.0) on Windows 10. Note that if you build using VS 2013, then to run the binary on another machine it will need the Visual C++ 2013 Redistributables installed. Likewise for VS 2015.
 - Python 2.7. You can obtain it at <http://www.python.org>.
 - SCons build system. You can obtain it at <http://www.scons.org>. Build tested with SCons 2.3.4.
 
